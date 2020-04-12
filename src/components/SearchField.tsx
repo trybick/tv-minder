@@ -6,7 +6,7 @@ const SearchField = (): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void =>
     setValue(event.target.value);
 
-  const handleClick = (): void => {
+  const handleSearch = (): void => {
     console.log('Current text is:', value);
   };
 
@@ -19,7 +19,7 @@ const SearchField = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <Button onClick={handleClick} variant="outline" variantColor="teal">
+      <Button onClick={handleSearch} variant="outline" variantColor="teal">
         Go
       </Button>
     </Grid>
