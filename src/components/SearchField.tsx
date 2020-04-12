@@ -1,24 +1,28 @@
 import React from 'react';
-import { Box, Button, Input } from '@chakra-ui/core';
+import { Grid, Button, Input } from '@chakra-ui/core';
 
 const SearchField = (): JSX.Element => {
   const [value, setValue] = React.useState('');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void =>
     setValue(event.target.value);
 
+  const handleClick = (): void => {
+    console.log('Current text is:', value);
+  };
+
   return (
-    <Box w="md" m="100px auto">
+    <Grid templateColumns="5fr 1fr" gap={6} w="sm" m="100px auto">
       <Input
         value={value}
         onChange={handleChange}
-        placeholder="Enter a show name"
+        placeholder="Enter show name"
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <Button variant="outline" variantColor="teal">
+      <Button onClick={handleClick} variant="outline" variantColor="teal">
         Go
       </Button>
-    </Box>
+    </Grid>
   );
 };
 
