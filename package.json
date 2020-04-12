@@ -2,11 +2,12 @@
   "name": "tv-minder",
   "version": "0.1.0",
   "private": false,
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "author": "Tim Rybicki",
+  "license": "MIT",
+  "homepage": "https://github.com/trybick/tv-minder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trybick/tv-minder"
   },
   "browserslist": {
     "production": [
@@ -19,6 +20,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@chakra-ui/core": "^0.7.0",
