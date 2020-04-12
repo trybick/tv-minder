@@ -1,0 +1,22 @@
+{
+  "name": "tv-minder",
+  "version": "0.0.1",
+  "description": "TV redminer app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trybick/tv-minder.git"
+  },
+  "keywords": [
+    "tv"
+  ],
+  "author": "Tim Rybicki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trybick/tv-minder/issues"
+  },
+  "homepage": "https://github.com/trybick/tv-minder#readme",
+  "scripts": {
+    "api": "npm start --prefix api",
+    "front": "npm start --prefix front"
+  }
+}

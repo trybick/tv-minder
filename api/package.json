@@ -1,14 +1,13 @@
 {
-  "name": "my-favorites-api",
+  "name": "tv-minder-api",
   "version": "0.1.0",
-  "private": true,
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "clean": "rm -rf /nodemodules package-lock.json"
+    "clean": "rm -rf /nodemodules"
   },
   "author": "Tim Rybicki",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "dotenv": "^8.1.0",

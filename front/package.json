@@ -1,7 +1,6 @@
 {
-  "name": "tv-minder",
+  "name": "tv-minder-front",
   "version": "0.1.0",
-  "private": false,
   "author": "Tim Rybicki",
   "license": "MIT",
   "repository": {
@@ -21,7 +20,7 @@
     ]
   },
   "scripts": {
-    "start": "cross-env PORT=3003 react-scripts start",
+    "start": "cross-env PORT=6000 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
