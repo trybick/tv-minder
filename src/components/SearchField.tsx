@@ -1,12 +1,12 @@
 import React from 'react';
-import { Grid, Button, Input } from '@chakra-ui/core';
+import { Grid, IconButton, Input } from '@chakra-ui/core';
 
 const SearchField = (): JSX.Element => {
   const [value, setValue] = React.useState('');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void =>
     setValue(event.target.value);
 
-  const handleSearch = (): void => {
+  const handleSubmit = (): void => {
     console.log('Current text is:', value);
   };
 
@@ -19,9 +19,15 @@ const SearchField = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <Button onClick={handleSearch} variant="outline" variantColor="teal">
+      <IconButton
+        onClick={handleSubmit}
+        icon="search"
+        variant="outline"
+        variantColor="teal"
+        aria-label="search"
+      >
         Go
-      </Button>
+      </IconButton>
     </Grid>
   );
 };
