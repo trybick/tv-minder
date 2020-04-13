@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const checkToken = require('../middleware/checkToken');
-const findOne = require('../middleware/findOne');
-const AlbumsController = require('../controllers/album.controller');
+const checkToken = require('../../middleware/checkToken');
+const findOne = require('../../middleware/findOne');
+const AlbumsController = require('../controllers/album');
 
 router.get('/', AlbumsController.getAllAlbums);
 

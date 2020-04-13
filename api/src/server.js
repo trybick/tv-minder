@@ -1,7 +1,7 @@
 const express = require('express');
 const database = require('./config/database');
-const albumRoutes = require('./routes/album.route');
-const userRoutes = require('./routes/user.route');
+const albumRoutes = require('./entities/routes/album');
+const userRoutes = require('./entities/routes/user');
 
 const app = express();
 const port = 5000;

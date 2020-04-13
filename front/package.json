@@ -20,7 +20,7 @@
     ]
   },
   "scripts": {
-    "start": "cross-env PORT=6000 react-scripts start",
+    "start": "cross-env PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },

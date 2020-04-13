@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon src/server.js",
     "clean": "rm -rf /nodemodules"
   },
   "author": "Tim Rybicki",

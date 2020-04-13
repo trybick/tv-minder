@@ -1,4 +1,4 @@
-const Album = require('../models/album.model');
+const Album = require('../entities/models/album');
 
 async function findOne(req, res, next) {
   let album;

@@ -1,7 +1,7 @@
-const User = require('../models/user.model');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const env = require('../config/env');
+const env = require('../../config/env');
 
 const registerUser = (req, res) => {
   User.find({ email: req.body.email })
