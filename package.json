@@ -16,7 +16,8 @@
   },
   "homepage": "https://github.com/trybick/tv-minder#readme",
   "scripts": {
-    "api": "npm start --prefix api",
-    "front": "npm start --prefix front"
+    "front": "yarn --cwd front start",
+    "serve": "cd api && docker-compose up -d",
+    "serve-stop": "cd api && docker-compose stop"
   }
 }

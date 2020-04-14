@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api:
+    container_name: tv-minder-api
+    build: .
+    command: npm run start
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    ports:
+      - '5000:5000'

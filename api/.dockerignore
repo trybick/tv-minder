@@ -2,6 +2,6 @@
 *Dockerfile*
 *docker-compose*
 node_modules
-.yarn-lock
+yarn.lock
 .prettierrc
 .eslintrc
