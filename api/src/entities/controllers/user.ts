@@ -1,15 +1,16 @@
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const env = require('../../config/env');
+import { Request, Response } from 'express';
+import User from 'models/album';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import envConfig from 'config/env';
 
-const registerUser = (req, res) => {
+export const registerUser = (req: Request, res: Response) => {
   User.find({ email: req.body.email })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (user.length >= 1) {
         return res.status(409).json({
-          message: 'Email already registered'
+          message: 'Email already registered',
         });
       }
     })
@@ -17,62 +18,59 @@ const registerUser = (req, res) => {
       bcrypt.hash(req.body.password, 10, (err, hash) => {
         if (err) {
           return res.status(500).json({
-            error: err
+            error: err,
           });
         }
         const newUser = new User({
           email: req.body.email,
-          password: hash
+          password: hash,
         });
         newUser
           .save()
           .then(() => {
             res.status(201).json({
-              message: 'User created'
+              message: 'User created',
             });
           })
-          .catch(err => {
+          .catch((err) => {
             res.status(500).json({
-              error: err
+              error: err,
             });
           });
       });
     });
 };
 
-const loginUser = (req, res) => {
+export const loginUser = (req: Request, res: Response) => {
   User.findOne({ email: req.body.email })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.status(401).json({
-          message: 'Auth failed on user verify'
+          message: 'Auth failed on user verify',
         });
       }
+      // @ts-ignore
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (!result || err) {
           return res.status(401).json({
-            message: 'Auth failed on password validation'
+            message: 'Auth failed on password validation',
           });
         }
-        const token = jwt.sign({ email: user.email }, env.JWT_KEY, {
-          expiresIn: '5d'
+        // @ts-ignore
+        const token = jwt.sign({ email: user.email }, envConfig.JWT_KEY, {
+          expiresIn: '5d',
         });
 
         return res.status(200).json({
           message: 'Auth successful',
-          token
+          token,
         });
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
-        error: err
+        error: err,
       });
     });
-};
-
-module.exports = {
-  registerUser,
-  loginUser
 };

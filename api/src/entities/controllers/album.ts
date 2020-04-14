@@ -1,68 +1,63 @@
-const Album = require('../models/album');
+import { Request, Response } from 'express';
+import Album from 'models/album';
 
-const getAllAlbums = async (req, res) => {
+export const getAllAlbums = async (req: Request, res: Response) => {
   await Album.find()
-    .then(albums => {
+    .then((albums) => {
       res.json(albums);
     })
-    .catch(err => {
+    .catch((err: Error) => {
       res.status(500).json({ message: err.message });
     });
 };
 
-const getAlbum = (req, res) => {
+export const getAlbum = (req: Request, res: Response) => {
+  // @ts-ignore
   res.json(res.album);
 };
 
-const createAlbum = async (req, res) => {
+export const createAlbum = async (req: Request, res: Response) => {
   const album = new Album({
     name: req.body.name,
     artist: req.body.artist,
-    notes: req.body.notes
+    notes: req.body.notes,
   });
 
   await album
     .save()
-    .then(album => {
+    .then((album) => {
       res.status(201).json(album);
     })
-    .catch(err => {
+    .catch((err: Error) => {
       res.status(400).json({ message: err.message });
     });
 };
 
-const updateAlbum = async (req, res) => {
+export const updateAlbum = async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedAlbum = {
     name: req.body.name,
-    artist: req.body.artist
+    artist: req.body.artist,
   };
 
-  Album.findOneAndUpdate({ _id: id }, { $set: updatedAlbum }, err => {
+  Album.findOneAndUpdate({ _id: id }, { $set: updatedAlbum }, (err: Error) => {
     if (err) {
       res.status(500).json({
-        error: err
+        error: err,
       });
     }
     res.status(200).json({ message: 'Product updated' });
   });
 };
 
-const deleteAlbum = async (req, res) => {
+export const deleteAlbum = async (req: Request, res: Response) => {
+  // @ts-ignore
   await res.album
     .remove()
     .then(() => {
       res.json({ message: 'Deleted Album' });
     })
-    .catch(err => {
+    .catch((err: Error) => {
       res.status(500).json({ message: err.message });
     });
-};
-
-module.exports = {
-  getAllAlbums,
-  getAlbum,
-  createAlbum,
-  updateAlbum,
-  deleteAlbum
 };

@@ -1,6 +1,7 @@
-const Album = require('../entities/models/album');
+import { NextFunction, Request, Response } from 'express';
+import Album from 'entities/models/album';
 
-async function findOne(req, res, next) {
+export default async function findOne(req: Request, res: Response, next: NextFunction) {
   let album;
   try {
     album = await Album.findById(req.params.id);
@@ -10,8 +11,7 @@ async function findOne(req, res, next) {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
+  // @ts-ignore
   res.album = album;
   next();
 }
-
-module.exports = findOne;
