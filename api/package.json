@@ -1,16 +1,17 @@
 {
   "name": "tv-minder-api",
   "version": "0.1.0",
-  "main": "server.js",
-  "scripts": {
-    "build": "tsc",
-    "prestart": "yarn build",
-    "start": "nodemon dist/server.js",
-    "docker:build": "docker-compose build",
-    "docker:up": "docker-compose up -d"
-  },
+  "main": "./dist/server.js",
   "author": "Tim Rybicki",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
+    "serve": "docker-compose up",
+    "serve-build": "docker-compose build",
+    "serve-logs": "docker-compose up -d",
+    "serve-stop": "docker-compose down"
+  },
   "_moduleAliases": {
     "config": "dist/config",
     "entities": "dist/entities",
@@ -25,8 +26,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.2",
-    "mongoose": "^5.7.1",
-    "nodemon": "^1.19.1"
+    "mongoose": "^5.7.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
@@ -36,6 +36,8 @@
     "@typescript-eslint/parser": "^2.28.0",
     "eslint": "^6.8.0",
     "module-alias": "^2.2.2",
+    "nodemon": "^2.0.3",
+    "tsc-watch": "^4.2.3",
     "typescript": "^3.8.3"
   }
 }

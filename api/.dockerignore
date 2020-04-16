@@ -1,6 +1,4 @@
 .git
-*Dockerfile*
-*docker-compose*
 node_modules
 yarn.lock
 .prettierrc

@@ -32,7 +32,7 @@ export const registerUser = (req: Request, res: Response) => {
               message: 'User created',
             });
           })
-          .catch((err) => {
+          .catch((err: Error) => {
             res.status(500).json({
               error: err,
             });
@@ -68,7 +68,7 @@ export const loginUser = (req: Request, res: Response) => {
         });
       });
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       res.status(500).json({
         error: err,
       });
