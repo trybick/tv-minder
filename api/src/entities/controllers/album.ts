@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Album from 'models/album';
+import Album, { AlbumDoc }from 'models/album';
 
 export const getAllAlbums = async (req: Request, res: Response) => {
   await Album.find()
@@ -35,7 +35,7 @@ export const createAlbum = async (req: Request, res: Response) => {
 
 export const updateAlbum = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const updatedAlbum = {
+  const updatedAlbum: Partial<AlbumDoc> = {
     name: req.body.name,
     artist: req.body.artist,
   };

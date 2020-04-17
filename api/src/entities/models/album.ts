@@ -1,14 +1,17 @@
-import mongoose from 'mongoose';
+import { createSchema, ExtractDoc, ExtractProps, Type, typedModel } from 'ts-mongoose';
 
-let AlbumSchema = new mongoose.Schema(
+const AlbumSchema = createSchema(
   {
-    name: { type: String, required: true },
-    artist: { type: String, required: true },
-    notes: { type: String, required: false, default: null },
+    name: Type.string({ required: true }),
+    artist: Type.string({ required: true }),
+    notes: Type.string({ required: false, default: null }),
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-export default mongoose.model('Album', AlbumSchema);
+const Album = typedModel('Album', AlbumSchema);
+
+export type AlbumDoc = ExtractDoc<typeof AlbumSchema>;
+export type AlbumProps = ExtractProps<typeof AlbumSchema>;
+
+export default Album;

@@ -19,9 +19,5 @@
     "front": "yarn --cwd front start",
     "serve": "cd api && docker-compose up -d",
     "serve-stop": "cd api && docker-compose stop"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
-    "@types/jsonwebtoken": "^8.3.9"
   }
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from 'models/album';
+import User from 'models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import envConfig from 'config/env';
@@ -50,17 +50,17 @@ export const loginUser = (req: Request, res: Response) => {
           message: 'Auth failed on user verify',
         });
       }
-      // @ts-ignore
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (!result || err) {
           return res.status(401).json({
             message: 'Auth failed on password validation',
           });
         }
-        // @ts-ignore
-        const token = jwt.sign({ email: user.email }, envConfig.JWT_KEY, {
-          expiresIn: '5d',
-        });
+        const token =
+          envConfig?.JWT_KEY &&
+          jwt.sign({ email: user.email }, envConfig.JWT_KEY, {
+            expiresIn: '5d',
+          });
 
         return res.status(200).json({
           message: 'Auth successful',

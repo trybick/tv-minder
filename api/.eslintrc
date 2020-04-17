@@ -16,7 +16,8 @@
     "document": true
   },
   "rules": {
-    "no-unused-vars": 1
+    "no-unused-vars": 1,
+    "@typescript-eslint/no-explicit-any": 1
   },
   "exclude": ["node_modules", "dist"]
 }

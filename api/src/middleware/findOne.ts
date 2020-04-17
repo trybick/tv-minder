@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import Album from 'entities/models/album';
+import Album, { AlbumDoc } from 'entities/models/album';
 
 export default async function findOne(req: Request, res: Response, next: NextFunction) {
-  let album;
+  let album: AlbumDoc;
   try {
     album = await Album.findById(req.params.id);
     if (album === null) {
@@ -11,7 +11,8 @@ export default async function findOne(req: Request, res: Response, next: NextFun
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-  // @ts-ignore
-  res.album = album;
+
+  // res.album = album; // old version in case it needs to be reverted to
+  res.send(album);
   next();
 }

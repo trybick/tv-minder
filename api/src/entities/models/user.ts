@@ -1,18 +1,16 @@
-import mongoose from 'mongoose';
+import { createSchema, ExtractDoc, ExtractProps, Type, typedModel } from 'ts-mongoose';
 
-let UserSchema = new mongoose.Schema(
+const UserSchema = createSchema(
   {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      match: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-    },
-    password: { type: String, required: false, default: null },
+    email: Type.string({ required: true, unique: true }),
+    password: Type.string({ required: true }),
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-export default mongoose.model('User', UserSchema);
+const User = typedModel('User', UserSchema);
+
+export type UserDoc = ExtractDoc<typeof UserSchema>;
+export type UserProps = ExtractProps<typeof UserSchema>;
+
+export default User;
