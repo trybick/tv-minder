@@ -1,47 +1,17 @@
 import React from 'react';
-import axios, { CancelTokenSource } from 'axios';
 import { Box, Grid, Input } from '@chakra-ui/core';
-
-const baseUrl = 'https://api.themoviedb.org/3/search/tv';
-const cachedResults: any = {};
-
-const makeRequestCreator = () => {
-  let cancelToken: CancelTokenSource;
-
-  return (url: string, requestConfig: any) => {
-    if (cancelToken) {
-      cancelToken.cancel();
-    }
-    cancelToken = axios.CancelToken.source();
-
-    return cachedResults[requestConfig.query]
-      ? cachedResults[requestConfig.query]
-      : axios
-          .get(url, {
-            cancelToken: cancelToken.token,
-            params: requestConfig,
-          })
-          .then((res) => {
-            cachedResults[requestConfig.query] = res.data.results;
-
-            return res.data.results;
-          })
-          .catch((err: Error) => {
-            console.log('Axios error:', err.message);
-          });
-  };
-};
-
-const makeRequest = makeRequestCreator();
+import { makeRequest } from '../utils/searchUtils';
+import { baseUrl } from '../utils/constants';
 
 const SearchField = (): JSX.Element => {
-  const [value, setValue] = React.useState('');
   const [shows, setShows] = React.useState<any[]>([]);
+  const [inputValue, setInputValue] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
-    setValue(searchValue);
+
+    setInputValue(searchValue);
     handleSearch(searchValue);
   };
 
@@ -61,7 +31,7 @@ const SearchField = (): JSX.Element => {
   return (
     <Grid w="sm" m="100px auto">
       <Input
-        value={value}
+        value={inputValue}
         onChange={handleChange}
         placeholder="Enter show name"
         variant="flushed"
