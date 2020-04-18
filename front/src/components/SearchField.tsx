@@ -2,9 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Box, Grid, Input } from '@chakra-ui/core';
 
-// SearchField will be broken up into smaller components once the basics are set up
 const SearchField = (): JSX.Element => {
-  // Input handlers
   const [value, setValue] = React.useState('');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
@@ -13,7 +11,6 @@ const SearchField = (): JSX.Element => {
     search(searchValue);
   };
 
-  // Instant search
   const [shows, setShows] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -38,11 +35,10 @@ const SearchField = (): JSX.Element => {
         focusBorderColor="teal.500"
       />
 
-      {/* Instant Search */}
       {shows ? (
         <Box>
           {shows.map((show) => (
-            <Box>{show.name}</Box>
+            <Box key={show.id}>{show.name}</Box>
           ))}
         </Box>
       ) : (
