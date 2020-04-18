@@ -2,6 +2,30 @@ import React from 'react';
 import axios from 'axios';
 import { Box, Grid, Input } from '@chakra-ui/core';
 
+const searchCreator = async (query: string) => {
+  let token: any;
+  let results: any;
+  results = await search(query);
+
+  async function search(query: string) {
+    if (token) {
+      token.cancel();
+    }
+
+    token = axios.CancelToken.source();
+    try {
+      const res = await axios(query, { cancelToken: token.token });
+      results = res.data;
+
+      return results;
+    } catch (error) {
+      console.log('Something went wrong: ', error.message);
+    }
+  }
+
+  return results;
+};
+
 const SearchField = (): JSX.Element => {
   const [value, setValue] = React.useState('');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -16,10 +40,10 @@ const SearchField = (): JSX.Element => {
 
   const search = async (val: string) => {
     setIsLoading(true);
-    const res = await axios(
+    const res = await searchCreator(
       `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${val}`
     );
-    const fetchedShows = await res.data.results;
+    const fetchedShows = await res?.results;
 
     setShows(fetchedShows);
     setIsLoading(false);
@@ -35,7 +59,7 @@ const SearchField = (): JSX.Element => {
         focusBorderColor="teal.500"
       />
 
-      {shows ? (
+      {shows?.length ? (
         <Box>
           {shows.map((show) => (
             <Box key={show.id}>{show.name}</Box>

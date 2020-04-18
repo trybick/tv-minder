@@ -11,6 +11,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "@typescript-eslint/ban-ts-ignore": 0
+    "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/no-implicit-any": 1
   }
 }
