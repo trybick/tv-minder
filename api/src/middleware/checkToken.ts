@@ -3,8 +3,7 @@ import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonw
 import envConfig from 'config/env';
 
 export default function (req: Request, res: Response, next: NextFunction) {
-  const decoded =
-    envConfig?.JWT_KEY &&
+  envConfig?.JWT_KEY &&
     jwt.verify(req.body.token, envConfig?.JWT_KEY, function (
       err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null,
       decoded: any
@@ -13,7 +12,6 @@ export default function (req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ message: 'Check auth failed' });
       }
     });
-  // @ts-ignore
-  req.userData = decoded;
+
   next();
 }
