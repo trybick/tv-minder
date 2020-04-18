@@ -3,6 +3,7 @@ import Album, { AlbumDoc } from 'entities/models/album';
 
 export default async function findOne(req: Request, res: Response, next: NextFunction) {
   let album: AlbumDoc;
+
   try {
     album = await Album.findById(req.params.id);
     if (album === null) {
@@ -12,7 +13,6 @@ export default async function findOne(req: Request, res: Response, next: NextFun
     return res.status(500).json({ message: err.message });
   }
 
-  // res.album = album; // old version in case it needs to be reverted to
-  res.send(album);
+  res.locals.album = album;
   next();
 }

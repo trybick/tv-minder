@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Album, { AlbumDoc }from 'models/album';
+import Album, { AlbumDoc } from 'models/album';
 
 export const getAllAlbums = async (req: Request, res: Response) => {
   await Album.find()
@@ -12,8 +12,7 @@ export const getAllAlbums = async (req: Request, res: Response) => {
 };
 
 export const getAlbum = (req: Request, res: Response) => {
-  // @ts-ignore
-  res.json(res.album);
+  res.json(res.locals.album);
 };
 
 export const createAlbum = async (req: Request, res: Response) => {
@@ -51,8 +50,7 @@ export const updateAlbum = async (req: Request, res: Response) => {
 };
 
 export const deleteAlbum = async (req: Request, res: Response) => {
-  // @ts-ignore
-  await res.album
+  await res.locals.album
     .remove()
     .then(() => {
       res.json({ message: 'Deleted Album' });
