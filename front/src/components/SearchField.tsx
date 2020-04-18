@@ -2,23 +2,28 @@ import React from 'react';
 import axios, { CancelTokenSource } from 'axios';
 import { Box, Grid, Input } from '@chakra-ui/core';
 
+const baseUrl = 'https://api.themoviedb.org/3/search/tv';
 const cachedResults: any = {};
 
 const makeRequestCreator = () => {
   let cancelToken: CancelTokenSource;
 
-  return (url: string) => {
+  return (url: string, requestConfig: any) => {
     if (cancelToken) {
       cancelToken.cancel();
     }
     cancelToken = axios.CancelToken.source();
 
-    return cachedResults[url]
-      ? cachedResults[url]
+    return cachedResults[requestConfig.query]
+      ? cachedResults[requestConfig.query]
       : axios
-          .get(url, { cancelToken: cancelToken.token })
+          .get(url, {
+            cancelToken: cancelToken.token,
+            params: requestConfig,
+          })
           .then((res) => {
-            cachedResults[url] = res.data.results;
+            cachedResults[requestConfig.query] = res.data.results;
+
             return res.data.results;
           })
           .catch((err: Error) => {
@@ -27,26 +32,27 @@ const makeRequestCreator = () => {
   };
 };
 
+const makeRequest = makeRequestCreator();
+
 const SearchField = (): JSX.Element => {
   const [value, setValue] = React.useState('');
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const searchValue = event.target.value;
-
-    setValue(searchValue);
-    search(searchValue);
-  };
-
   const [shows, setShows] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const search = async (val: string) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const searchValue = event.target.value;
+    setValue(searchValue);
+    handleSearch(searchValue);
+  };
+
+  const handleSearch = async (val: string) => {
     setIsLoading(true);
 
-    const get = makeRequestCreator();
-
-    const apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${val}`;
-    const res = await get(apiUrl);
-    const fetchedShows = await res;
+    const requestConfig = {
+      api_key: process.env.REACT_APP_API_KEY,
+      query: val,
+    };
+    const fetchedShows = await makeRequest(baseUrl, requestConfig);
 
     setShows(fetchedShows);
     setIsLoading(false);
