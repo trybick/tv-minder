@@ -1,11 +1,13 @@
 import axios, { CancelTokenSource } from 'axios';
 
+type RequestConfig = { api_key: string | undefined; query: string };
+
 const cachedResults: any = {};
 
 const makeRequestCreator = () => {
   let cancelToken: CancelTokenSource;
 
-  return (url: string, requestConfig: any) => {
+  return (url: string, requestConfig: RequestConfig) => {
     if (cancelToken) {
       cancelToken.cancel();
     }
