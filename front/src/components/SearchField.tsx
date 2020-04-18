@@ -1,17 +1,35 @@
 import React from 'react';
-import { Grid, IconButton, Input } from '@chakra-ui/core';
+import axios from 'axios';
+import { Box, Grid, Input } from '@chakra-ui/core';
 
+// SearchField will be broken up into smaller components once the basics are set up
 const SearchField = (): JSX.Element => {
+  // Input handlers
   const [value, setValue] = React.useState('');
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void =>
-    setValue(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const searchValue = event.target.value;
 
-  const handleSubmit = (): void => {
-    console.log('Current text is:', value);
+    setValue(searchValue);
+    search(searchValue);
+  };
+
+  // Instant search
+  const [shows, setShows] = React.useState<any[]>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const search = async (val: string) => {
+    setIsLoading(true);
+    const res = await axios(
+      `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${val}`
+    );
+    const fetchedShows = await res.data.results;
+
+    setShows(fetchedShows);
+    setIsLoading(false);
   };
 
   return (
-    <Grid templateColumns="5fr 1fr" gap={6} w="sm" m="100px auto">
+    <Grid w="sm" m="100px auto">
       <Input
         value={value}
         onChange={handleChange}
@@ -19,15 +37,17 @@ const SearchField = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <IconButton
-        onClick={handleSubmit}
-        icon="search"
-        variant="outline"
-        variantColor="teal"
-        aria-label="search"
-      >
-        Go
-      </IconButton>
+
+      {/* Instant Search */}
+      {shows ? (
+        <Box>
+          {shows.map((show) => (
+            <Box>{show.name}</Box>
+          ))}
+        </Box>
+      ) : (
+        <Box>There are no shows</Box>
+      )}
     </Grid>
   );
 };
