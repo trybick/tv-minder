@@ -1,36 +1,30 @@
 import React from 'react';
-import axios from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import { Box, Grid, Input } from '@chakra-ui/core';
 
-const resources: any = {};
+const cachedResults: any = {};
 
-const searchCreator = async (query: string) => {
-  let token: any;
-  let results: any;
-  results = await search(query);
+const makeRequestCreator = () => {
+  let cancelToken: CancelTokenSource;
 
-  async function search(query: string) {
-    if (token) {
-      token.cancel();
+  return (url: string) => {
+    if (cancelToken) {
+      cancelToken.cancel();
     }
+    cancelToken = axios.CancelToken.source();
 
-    token = axios.CancelToken.source();
-    try {
-      if (resources[query]) {
-        return resources[query];
-      }
-
-      const res = await axios(query, { cancelToken: token.token });
-      results = res.data.results;
-      resources[query] = results;
-
-      return results;
-    } catch (error) {
-      console.log('Something went wrong: ', error.message);
-    }
-  }
-
-  return results;
+    return cachedResults[url]
+      ? cachedResults[url]
+      : axios
+          .get(url, { cancelToken: cancelToken.token })
+          .then((res) => {
+            cachedResults[url] = res.data.results;
+            return res.data.results;
+          })
+          .catch((err: Error) => {
+            console.log('Axios error:', err.message);
+          });
+  };
 };
 
 const SearchField = (): JSX.Element => {
@@ -48,8 +42,10 @@ const SearchField = (): JSX.Element => {
   const search = async (val: string) => {
     setIsLoading(true);
 
+    const get = makeRequestCreator();
+
     const apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${val}`;
-    const res = await searchCreator(apiUrl);
+    const res = await get(apiUrl);
     const fetchedShows = await res;
 
     setShows(fetchedShows);
