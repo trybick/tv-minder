@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import Album, { AlbumDoc } from 'entities/models/album';
 
 export default async function findOne(req: Request, res: Response, next: NextFunction) {
-  let album: AlbumDoc;
+  let album: AlbumDoc | null;
 
   try {
     album = await Album.findById(req.params.id);
