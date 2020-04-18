@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { Box, Grid, Input } from '@chakra-ui/core';
 
+const resources: any = {};
+
 const searchCreator = async (query: string) => {
   let token: any;
   let results: any;
@@ -14,8 +16,13 @@ const searchCreator = async (query: string) => {
 
     token = axios.CancelToken.source();
     try {
+      if (resources[query]) {
+        return resources[query];
+      }
+
       const res = await axios(query, { cancelToken: token.token });
-      results = res.data;
+      results = res.data.results;
+      resources[query] = results;
 
       return results;
     } catch (error) {
@@ -40,10 +47,10 @@ const SearchField = (): JSX.Element => {
 
   const search = async (val: string) => {
     setIsLoading(true);
-    const res = await searchCreator(
-      `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${val}`
-    );
-    const fetchedShows = await res?.results;
+
+    const apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${val}`;
+    const res = await searchCreator(apiUrl);
+    const fetchedShows = await res;
 
     setShows(fetchedShows);
     setIsLoading(false);
