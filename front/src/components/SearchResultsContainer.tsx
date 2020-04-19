@@ -19,6 +19,12 @@ const EmptyListMessage = () => (
   </Flex>
 );
 
+const WelcomeMessage = () => (
+  <Flex mt="8" justifyContent="center">
+    <Text>Welcome, search for a show</Text>
+  </Flex>
+);
+
 const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   <Box>
     {shows.map((show: any) => (
@@ -32,8 +38,10 @@ const SearchResultsContainer = ({ isInputDirty, isLoading, shows }: Props) =>
     <LoadingSpinner />
   ) : shows?.length ? (
     <SearchResults shows={shows} />
+  ) : isInputDirty ? (
+    <EmptyListMessage />
   ) : (
-    <>{isInputDirty && <EmptyListMessage />}</>
+    <WelcomeMessage />
   );
 
 export default SearchResultsContainer;

@@ -44,6 +44,7 @@ const SearchContainer = (): JSX.Element => {
         placeholder="Enter show name"
         variant="flushed"
         focusBorderColor="teal.500"
+        autoFocus
       />
       <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
     </Grid>
