@@ -6,14 +6,21 @@ import SearchResultsContainer from './SearchResultsContainer';
 
 const SearchContainer = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');
+  const [isInputDirty, setIsInputDirty] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [shows, setShows] = React.useState<any[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
+    setIsInputDirty(true);
     setInputValue(searchValue);
 
-    searchValue ? handleSearch(searchValue) : setShows([]);
+    if (searchValue) {
+      handleSearch(searchValue);
+    } else {
+      setShows([]);
+      setIsInputDirty(false);
+    }
   };
 
   const handleSearch = async (query: string) => {
@@ -38,7 +45,7 @@ const SearchContainer = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <SearchResultsContainer isLoading={isLoading} shows={shows} />
+      <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
     </Grid>
   );
 };

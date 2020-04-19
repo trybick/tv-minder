@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
 
 interface Props {
+  isInputDirty: boolean;
   isLoading: boolean;
   shows: any[];
 }
@@ -26,14 +27,13 @@ const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   </Box>
 );
 
-const SearchResultsContainer = ({ isLoading, shows }: Props) => (
-  // isLoading ? (
-  //   <LoadingSpinner />
-  // ) : shows?.length ? (
-  //   <SearchResults shows={shows} />
-  // ) : (
-  <EmptyListMessage />
-);
-// );
+const SearchResultsContainer = ({ isInputDirty, isLoading, shows }: Props) =>
+  isLoading ? (
+    <LoadingSpinner />
+  ) : shows?.length ? (
+    <SearchResults shows={shows} />
+  ) : (
+    <>{isInputDirty && <EmptyListMessage />}</>
+  );
 
 export default SearchResultsContainer;
