@@ -38,7 +38,7 @@ const SearchContainer = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <SearchResults shows={shows} />
+      <SearchResults isLoading={isLoading} shows={shows} />
     </Grid>
   );
 };
