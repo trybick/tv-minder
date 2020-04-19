@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Input } from '@chakra-ui/core';
 import { makeRequest } from '../utils/searchUtils';
 import { baseUrl } from '../utils/constants';
-import SearchResultsContainer from './SearchResults';
+import SearchResultsContainer from './SearchResultsContainer';
 
 const SearchContainer = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');

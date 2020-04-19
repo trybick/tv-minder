@@ -6,15 +6,15 @@ interface Props {
   shows: any[];
 }
 
-const loadingSpinner = () => (
+const LoadingSpinner = () => (
   <Flex mt="8" justifyContent="center">
     <Spinner />
   </Flex>
 );
 
-const emptyListMessage = () => <Box>There are no shows</Box>;
+const EmptyListMessage = () => <Box>There are no shows</Box>;
 
-const searchResults = (shows: Props['shows']) => (
+const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   <Box>
     {shows.map((show: any) => (
       <Box key={show.id}>{show.name}</Box>
@@ -23,6 +23,12 @@ const searchResults = (shows: Props['shows']) => (
 );
 
 const SearchResultsContainer = ({ isLoading, shows }: Props) =>
-  isLoading ? loadingSpinner() : shows?.length ? searchResults(shows) : emptyListMessage();
+  isLoading ? (
+    <LoadingSpinner />
+  ) : shows?.length ? (
+    <SearchResults shows={shows} />
+  ) : (
+    <EmptyListMessage />
+  );
 
 export default SearchResultsContainer;
