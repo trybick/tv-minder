@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Spinner } from '@chakra-ui/core';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
 
 interface Props {
   isLoading: boolean;
@@ -12,7 +12,11 @@ const LoadingSpinner = () => (
   </Flex>
 );
 
-const EmptyListMessage = () => <Box>There are no shows</Box>;
+const EmptyListMessage = () => (
+  <Flex mt="8" justifyContent="center">
+    <Text>There are no shows to display</Text>
+  </Flex>
+);
 
 const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   <Box>
@@ -22,13 +26,14 @@ const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   </Box>
 );
 
-const SearchResultsContainer = ({ isLoading, shows }: Props) =>
-  isLoading ? (
-    <LoadingSpinner />
-  ) : shows?.length ? (
-    <SearchResults shows={shows} />
-  ) : (
-    <EmptyListMessage />
-  );
+const SearchResultsContainer = ({ isLoading, shows }: Props) => (
+  // isLoading ? (
+  //   <LoadingSpinner />
+  // ) : shows?.length ? (
+  //   <SearchResults shows={shows} />
+  // ) : (
+  <EmptyListMessage />
+);
+// );
 
 export default SearchResultsContainer;
