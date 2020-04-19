@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Input } from '@chakra-ui/core';
+import { Box, Input } from '@chakra-ui/core';
 import { makeRequest } from '../utils/searchUtils';
 import { baseUrl } from '../utils/constants';
 import SearchResultsContainer from './SearchResultsContainer';
@@ -37,7 +37,7 @@ const SearchContainer = (): JSX.Element => {
   };
 
   return (
-    <Grid w="sm" m="100px auto">
+    <Box w="sm" m="100px auto">
       <Input
         value={inputValue}
         onChange={handleChange}
@@ -47,7 +47,7 @@ const SearchContainer = (): JSX.Element => {
         autoFocus
       />
       <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
-    </Grid>
+    </Box>
   );
 };
 
