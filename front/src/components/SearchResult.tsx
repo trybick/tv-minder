@@ -12,17 +12,18 @@ const SearchResult = ({ show }: { show: any }) => {
           <Heading size="sm" isTruncated>
             {name}
           </Heading>
-          <Text ml={1}>({year})</Text>
+          {!!voteAverage && (
+            <Flex ml="6px" align="center">
+              <Badge>{voteAverage}</Badge>
+            </Flex>
+          )}
         </Flex>
-        <Tag size="md" variantColor="teal">
+        <Tag size="sm" variantColor="teal">
           <TagIcon icon="add" size="12px" />
           <TagLabel>Follow</TagLabel>
         </Tag>
       </Flex>
-      <Flex>
-        {year && <Text>{year}</Text>}
-        {voteAverage ? <Badge>{voteAverage}</Badge> : ''}
-      </Flex>
+      <Text fontSize="12px">{year}</Text>
     </Box>
   );
 };
