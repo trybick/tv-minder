@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Input } from '@chakra-ui/core';
 import { makeRequest } from '../utils/searchUtils';
 import { baseUrl } from '../utils/constants';
-import SearchResults from './SearchResults';
+import SearchResultsContainer from './SearchResults';
 
 const SearchContainer = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');
@@ -38,7 +38,7 @@ const SearchContainer = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-      <SearchResults isLoading={isLoading} shows={shows} />
+      <SearchResultsContainer isLoading={isLoading} shows={shows} />
     </Grid>
   );
 };
