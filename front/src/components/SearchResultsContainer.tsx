@@ -9,25 +9,25 @@ interface Props {
 }
 
 const LoadingSpinner = () => (
-  <Flex mt="8" justifyContent="center">
+  <Flex justifyContent="center">
     <Spinner />
   </Flex>
 );
 
 const EmptyListMessage = () => (
-  <Flex mt="8" justifyContent="center">
+  <Flex justifyContent="center">
     <Text>There are no shows to display</Text>
   </Flex>
 );
 
 const WelcomeMessage = () => (
-  <Flex mt="8" justifyContent="center">
+  <Flex justifyContent="center">
     <Text>Welcome, search for a show</Text>
   </Flex>
 );
 
 const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
-  <Stack mt="8" spacing={4}>
+  <Stack minW="lg" spacing={4}>
     {shows.map((show) => (
       <SearchResult key={show.id} show={show} />
     ))}

@@ -37,8 +37,8 @@ const SearchContainer = (): JSX.Element => {
   };
 
   return (
-    <>
-      <Flex direction="column" justify="center" w="xs" m="100px auto">
+    <Box>
+      <Flex w="xs" direction="column" justify="center" m="100px auto 75px">
         <Input
           value={inputValue}
           onChange={handleChange}
@@ -50,10 +50,10 @@ const SearchContainer = (): JSX.Element => {
           autoFocus
         />
       </Flex>
-      <Flex justify="center" w="md" m="100px auto">
+      <Flex justify="center" m="0 auto">
         <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
       </Flex>
-    </>
+    </Box>
   );
 };
 
