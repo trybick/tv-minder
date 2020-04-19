@@ -27,7 +27,7 @@ const WelcomeMessage = () => (
 );
 
 const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
-  <Stack minW="lg" spacing={4}>
+  <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
     {shows.map((show) => (
       <SearchResult key={show.id} show={show} />
     ))}
