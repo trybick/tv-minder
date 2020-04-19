@@ -1,26 +1,27 @@
 import React from 'react';
-import { Box, Grid, Input } from '@chakra-ui/core';
+import { Grid, Input } from '@chakra-ui/core';
 import { makeRequest } from '../utils/searchUtils';
 import { baseUrl } from '../utils/constants';
+import SearchResults from './SearchResults';
 
-const SearchField = (): JSX.Element => {
-  const [shows, setShows] = React.useState<any[]>([]);
+const SearchContainer = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const [shows, setShows] = React.useState<any[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
-
     setInputValue(searchValue);
-    handleSearch(searchValue);
+
+    searchValue ? handleSearch(searchValue) : setShows([]);
   };
 
-  const handleSearch = async (val: string) => {
+  const handleSearch = async (query: string) => {
     setIsLoading(true);
 
     const requestConfig = {
       api_key: process.env.REACT_APP_API_KEY,
-      query: val,
+      query,
     };
     const fetchedShows = await makeRequest(baseUrl, requestConfig);
 
@@ -37,18 +38,9 @@ const SearchField = (): JSX.Element => {
         variant="flushed"
         focusBorderColor="teal.500"
       />
-
-      {shows?.length ? (
-        <Box>
-          {shows.map((show) => (
-            <Box key={show.id}>{show.name}</Box>
-          ))}
-        </Box>
-      ) : (
-        <Box>There are no shows</Box>
-      )}
+      <SearchResults shows={shows} />
     </Grid>
   );
 };
 
-export default SearchField;
+export default SearchContainer;
