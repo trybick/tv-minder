@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Input } from '@chakra-ui/core';
+import { Box, Flex, Input } from '@chakra-ui/core';
 import { makeRequest } from '../utils/searchUtils';
 import { baseUrl } from '../utils/constants';
 import SearchResultsContainer from './SearchResultsContainer';
@@ -37,17 +37,23 @@ const SearchContainer = (): JSX.Element => {
   };
 
   return (
-    <Box w="sm" m="100px auto">
-      <Input
-        value={inputValue}
-        onChange={handleChange}
-        placeholder="Enter show name"
-        variant="flushed"
-        focusBorderColor="teal.500"
-        autoFocus
-      />
-      <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
-    </Box>
+    <>
+      <Flex direction="column" justify="center" w="xs" m="100px auto">
+        <Input
+          value={inputValue}
+          onChange={handleChange}
+          placeholder="Enter show name"
+          variant="flushed"
+          focusBorderColor="teal.500"
+          size="md"
+          isFullWidth={false}
+          autoFocus
+        />
+      </Flex>
+      <Flex justify="center" w="md" m="100px auto">
+        <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
+      </Flex>
+    </>
   );
 };
 
