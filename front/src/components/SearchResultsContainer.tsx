@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Heading, Flex, Spinner, Stack, Text } from '@chakra-ui/core';
+import { Flex, Spinner, Stack, Text } from '@chakra-ui/core';
 import SearchResult from './SearchResult';
 
 interface Props {
@@ -34,15 +34,18 @@ const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   </Stack>
 );
 
-const SearchResultsContainer = ({ isInputDirty, isLoading, shows }: Props) =>
-  isLoading ? (
-    <LoadingSpinner />
-  ) : shows?.length ? (
-    <SearchResults shows={shows} />
-  ) : isInputDirty ? (
-    <EmptyListMessage />
-  ) : (
-    <WelcomeMessage />
-  );
+const SearchResultsContainer = ({ isInputDirty, isLoading, shows }: Props) => (
+  <Flex justify="center" m="0 auto">
+    {isLoading ? (
+      <LoadingSpinner />
+    ) : shows?.length ? (
+      <SearchResults shows={shows} />
+    ) : isInputDirty ? (
+      <EmptyListMessage />
+    ) : (
+      <WelcomeMessage />
+    )}
+  </Flex>
+);
 
 export default SearchResultsContainer;

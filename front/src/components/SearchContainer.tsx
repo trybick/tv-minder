@@ -1,8 +1,9 @@
-import React from 'react';
-import { Box, Flex, Input } from '@chakra-ui/core';
+import React, { ChangeEvent } from 'react';
+import { Box } from '@chakra-ui/core';
 import { makeRequest } from '../utils/searchUtils';
 import { baseUrl } from '../utils/constants';
 import SearchResultsContainer from './SearchResultsContainer';
+import SearchInput from './SearchInput';
 
 const SearchContainer = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');
@@ -10,7 +11,7 @@ const SearchContainer = (): JSX.Element => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [shows, setShows] = React.useState<any[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
     setIsInputDirty(true);
     setInputValue(searchValue);
@@ -38,21 +39,8 @@ const SearchContainer = (): JSX.Element => {
 
   return (
     <Box>
-      <Flex w="xs" direction="column" justify="center" m="100px auto 75px">
-        <Input
-          value={inputValue}
-          onChange={handleChange}
-          placeholder="Enter show name"
-          variant="flushed"
-          focusBorderColor="teal.500"
-          size="md"
-          isFullWidth={false}
-          autoFocus
-        />
-      </Flex>
-      <Flex justify="center" m="0 auto">
-        <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
-      </Flex>
+      <SearchInput handleChange={handleChange} inputValue={inputValue} />
+      <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
     </Box>
   );
 };
