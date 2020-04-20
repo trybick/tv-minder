@@ -6,6 +6,7 @@ interface Props {
   isInputDirty: boolean;
   isLoading: boolean;
   shows: any[];
+  totalResults: number;
 }
 
 const LoadingSpinner = () => (
@@ -26,10 +27,10 @@ const WelcomeMessage = () => (
   </Flex>
 );
 
-const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
+const SearchResults = ({ shows, totalResults }: Pick<Props, 'shows' | 'totalResults'>) => (
   <Box>
-    <Text mb="14px" fontSize="sm" textAlign="right">
-      2,344 results
+    <Text mb="24px" fontSize="0.84rem" textAlign="right">
+      {totalResults} matches found
     </Text>
     <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
       {shows.map((show) => (
@@ -39,12 +40,12 @@ const SearchResults = ({ shows }: { shows: Props['shows'] }) => (
   </Box>
 );
 
-const SearchResultsContainer = ({ isInputDirty, isLoading, shows }: Props) => (
+const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
     ) : shows?.length ? (
-      <SearchResults shows={shows} />
+      <SearchResults shows={shows} totalResults={totalResults} />
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (

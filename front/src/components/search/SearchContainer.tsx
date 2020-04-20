@@ -10,6 +10,7 @@ const SearchContainer = (): JSX.Element => {
   const [isInputDirty, setIsInputDirty] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [shows, setShows] = React.useState<any[]>([]);
+  const [totalResults, setTotalResults] = React.useState<number>(0);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
@@ -31,16 +32,22 @@ const SearchContainer = (): JSX.Element => {
       api_key: process.env.REACT_APP_API_KEY,
       query,
     };
-    const fetchedShows = await makeRequest(baseUrl, requestConfig);
+    const { results, totalResults } = await makeRequest(baseUrl, requestConfig);
 
-    setShows(fetchedShows);
+    setShows(results);
+    setTotalResults(totalResults);
     setIsLoading(false);
   };
 
   return (
     <Box>
       <SearchInput handleChange={handleChange} inputValue={inputValue} />
-      <SearchResultsContainer isInputDirty={isInputDirty} isLoading={isLoading} shows={shows} />
+      <SearchResultsContainer
+        isInputDirty={isInputDirty}
+        isLoading={isLoading}
+        shows={shows}
+        totalResults={totalResults}
+      />
     </Box>
   );
 };

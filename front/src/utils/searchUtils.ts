@@ -21,9 +21,12 @@ const makeRequestCreator = () => {
             params: requestConfig,
           })
           .then((res) => {
-            cachedResults[requestConfig.query] = res.data.results;
+            const {
+              data: { results, total_results: totalResults },
+            } = res;
+            cachedResults[requestConfig.query] = results;
 
-            return res.data.results;
+            return { results, totalResults };
           })
           .catch((err: Error) => {
             if (axios.isCancel(err)) {
