@@ -1,4 +1,4 @@
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 
 const MenuItem = ({ text }: { text: string }) => (
@@ -8,8 +8,8 @@ const MenuItem = ({ text }: { text: string }) => (
 );
 
 const Header = () => {
-  const [show, setShow] = React.useState(false);
-  const handleToggle = () => setShow(!show);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleToggle = () => setIsOpen(!isOpen);
 
   return (
     <Flex
@@ -35,8 +35,8 @@ const Header = () => {
       </Box>
 
       <Box
-        display={{ xs: 'none', sm: show ? 'block' : 'none', md: 'flex' }}
-        width={{ sm: 'full', md: 'auto' }}
+        display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
+        width={{ xs: 'full', md: 'auto' }}
         alignItems="center"
         flexGrow={1}
       >
@@ -44,10 +44,7 @@ const Header = () => {
         <MenuItem text="Calendar" />
       </Box>
 
-      <Box
-        display={{ xs: 'none', sm: show ? 'block' : 'none', md: 'block' }}
-        mt={{ base: 4, md: 0 }}
-      >
+      <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
         <Button bg="transparent" border="1px">
           Create account
         </Button>
