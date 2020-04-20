@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/core';
 import Header from './Header';
-import SearchContainer from './SearchContainer';
+import SearchContainer from './search/SearchContainer';
 
 const App = (): JSX.Element => (
   <Box bg="white">

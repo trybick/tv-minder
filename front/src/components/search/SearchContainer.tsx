@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Box } from '@chakra-ui/core';
-import { makeRequest } from '../utils/searchUtils';
-import { baseUrl } from '../utils/constants';
+import { makeRequest } from '../../utils/searchUtils';
+import { baseUrl } from '../../utils/constants';
 import SearchResultsContainer from './SearchResultsContainer';
 import SearchInput from './SearchInput';
 
