@@ -32,7 +32,7 @@ const SearchContainer = (): JSX.Element => {
       api_key: process.env.REACT_APP_API_KEY,
       query,
     };
-    const { results, totalResults } = await makeRequest(baseUrl, requestConfig);
+    const { results, total_results: totalResults } = await makeRequest(baseUrl, requestConfig);
 
     setShows(results);
     setTotalResults(totalResults);
