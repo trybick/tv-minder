@@ -7,7 +7,7 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, inputValue }: Props) => (
-  <Flex w="xs" direction="column" justify="center" m="100px auto 75px">
+  <Flex w="xs" direction="column" justify="center" m="100px auto 25px">
     <Input
       value={inputValue}
       onChange={handleChange}
