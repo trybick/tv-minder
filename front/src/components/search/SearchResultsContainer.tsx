@@ -27,18 +27,23 @@ const WelcomeMessage = () => (
   </Flex>
 );
 
-const SearchResults = ({ shows, totalResults }: Pick<Props, 'shows' | 'totalResults'>) => (
-  <Box>
-    <Text mb="24px" fontSize="0.84rem" textAlign="right">
-      {totalResults} matches found
-    </Text>
-    <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
-      {shows.map((show) => (
-        <SearchResult key={show.id} show={show} />
-      ))}
-    </Stack>
-  </Box>
-);
+const SearchResults = ({ shows, totalResults }: Pick<Props, 'shows' | 'totalResults'>) => {
+  const casedMatches = totalResults === 1 ? 'match' : 'matches';
+  const totalMatchesText = `${totalResults} ${casedMatches} found`;
+
+  return (
+    <Box>
+      <Text mb="24px" fontSize="0.84rem" textAlign="right">
+        {totalMatchesText}
+      </Text>
+      <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
+        {shows.map((show) => (
+          <SearchResult key={show.id} show={show} />
+        ))}
+      </Stack>
+    </Box>
+  );
+};
 
 const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" m="0 auto">
