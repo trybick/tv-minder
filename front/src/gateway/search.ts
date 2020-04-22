@@ -1,5 +1,5 @@
-import { baseUrl } from '../utils/constants';
-import { makeRequest } from '../utils/searchUtils';
+import { baseUrl } from 'utils/constants';
+import { makeRequest } from 'utils/searchUtils';
 
 export const search = async (query: string) => {
   const requestConfig = {

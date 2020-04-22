@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Box } from '@chakra-ui/core';
-import { search } from '../../gateway/search';
+import { search } from 'gateway/search';
 import SearchResultsContainer from './SearchResultsContainer';
 import SearchInput from './SearchInput';
 
