@@ -5,6 +5,5 @@ export default {
   colors: {
     ...defaultTheme.colors,
     black: '#333333',
-    // white: '#efefef',
   },
 };

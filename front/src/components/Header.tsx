@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 
 const MenuItem = ({ text }: { text: string }) => (
-  <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
+  <Text cursor="pointer" mt={{ base: 4, md: 0 }} mr={6} display="block">
     {text}
   </Text>
 );
@@ -22,7 +22,7 @@ const Header = () => {
       color="white"
     >
       <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+        <Heading cursor="pointer" as="h1" size="lg" letterSpacing={'-.1rem'}>
           TV Minder
         </Heading>
       </Flex>
@@ -45,7 +45,8 @@ const Header = () => {
       </Box>
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        <Button bg="transparent" border="1px">
+        <Button variant="outline">Login</Button>
+        <Button ml="12px" variant="outline">
           Create account
         </Button>
       </Box>

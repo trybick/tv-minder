@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Spinner, Stack, Text } from '@chakra-ui/core';
+import { Box, Flex, Spinner, Stack, Tag, Text } from '@chakra-ui/core';
 import SearchResult from './SearchResult';
 
 interface Props {
@@ -33,9 +33,11 @@ const SearchResults = ({ shows, totalResults }: Pick<Props, 'shows' | 'totalResu
 
   return (
     <Box>
-      <Text mb="24px" fontSize="0.84rem" textAlign="right">
-        {totalMatchesText}
-      </Text>
+      <Box textAlign="right">
+        <Tag size="sm" mb="24px" fontSize="0.84rem">
+          {totalMatchesText}
+        </Tag>
+      </Box>
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
         {shows.map((show) => (
           <SearchResult key={show.id} show={show} />

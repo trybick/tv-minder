@@ -4,7 +4,8 @@ import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 const SearchResult = ({ show }: { show: any }) => {
   const { first_air_date: firstAirDate, name, popularity } = show;
   const yearForDisplay = firstAirDate?.substr(0, 4);
-  const popularityForDisplay = String(popularity)?.substr(0, 2).replace(/\.$/, '');
+  const popularityForDisplay =
+    popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
 
   return (
     <Box p={3} mb={4} shadow="md" borderWidth="1px">
@@ -18,9 +19,9 @@ const SearchResult = ({ show }: { show: any }) => {
           Follow
         </Button>
       </Flex>
-      <Flex mt="4px">
-        <Badge variant="subtle">{yearForDisplay}</Badge>
-        {!!popularity && (
+      <Flex mt="6px">
+        <Text fontSize=".83rem">{yearForDisplay}</Text>
+        {popularityForDisplay && (
           <Flex ml="6px" align="center">
             <Badge variant="subtle" color="green.400">
               {popularityForDisplay}% watching now
