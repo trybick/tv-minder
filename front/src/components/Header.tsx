@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
+import { Box, Button, Flex, Heading, Text, useDisclosure } from '@chakra-ui/core';
+import LoginDrawer from './LoginDrawer';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>
@@ -13,6 +14,10 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
+
+  // Login/Signup in progress
+  const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
+  const disclosureProps = { isDrawerOpen, onDrawerOpen, onDrawerClose };
 
   return (
     <Flex
@@ -49,9 +54,10 @@ const Header = () => {
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
         <Button variant="outline">Login</Button>
-        <Button ml="12px" variant="outline">
+        <Button ml="12px" variant="outline" onClick={onDrawerOpen}>
           Create account
         </Button>
+        <LoginDrawer disclosureProps={disclosureProps} />
       </Box>
     </Flex>
   );
