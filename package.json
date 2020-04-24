@@ -19,5 +19,11 @@
     "front": "yarn --cwd front start",
     "serve": "cd api && docker-compose up -d",
     "serve-stop": "cd api && docker-compose stop"
+  },
+  "dependencies": {
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.4"
   }
 }

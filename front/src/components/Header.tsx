@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 
-const MenuItem = ({ text }: { text: string }) => (
-  <Text cursor="pointer" mt={{ base: 4, md: 0 }} mr={6} display="block">
-    {text}
-  </Text>
+const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
+  <Link to={linkTo}>
+    <Text cursor="pointer" mt={{ base: 4, md: 0 }} mr={6} display="block">
+      {text}
+    </Text>
+  </Link>
 );
 
 const Header = () => {
@@ -40,8 +43,8 @@ const Header = () => {
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItem text="Search" />
-        <MenuItem text="Calendar" />
+        <MenuItem text="Search" linkTo="/" />
+        <MenuItem text="Calendar" linkTo="/calendar" />
       </Box>
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
