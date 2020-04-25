@@ -28,19 +28,10 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   function onSubmit(values: any) {
     console.log('values:', values);
   }
-
-  function validateEmail(email: any) {
-    let error;
-    const isCorrectFormat = emailRegex.test(String(email).toLowerCase());
-
-    if (!email) {
-      error = 'Email is required';
-    } else if (!isCorrectFormat) {
-      error = 'Please enter a valid email address';
-    }
-
-    return error || true;
-  }
+  const emailValidation = {
+    required: { value: true, message: 'Email is required' },
+    pattern: { value: emailRegex, message: 'Please enter a valid email' },
+  };
 
   return (
     <>
@@ -53,11 +44,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
             <ModalBody pb={6}>
               <FormControl isInvalid={errors.email}>
                 <FormLabel htmlFor="email">Email</FormLabel>
-                <Input
-                  name="email"
-                  placeholder="Email"
-                  ref={register({ validate: validateEmail })}
-                />
+                <Input name="email" placeholder="Email" ref={register(emailValidation)} />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
 
