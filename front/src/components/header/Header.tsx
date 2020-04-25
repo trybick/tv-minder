@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Text, useDisclosure } from '@chakra-ui/core';
-import SignUpModal from './SignUpModal';
+import LoginButton from './LoginButton';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>
@@ -14,10 +14,6 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
-
-  // Login/Signup in progress
-  const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
-  const disclosureProps = { isDrawerOpen, onDrawerOpen, onDrawerClose };
 
   return (
     <Flex
@@ -53,11 +49,10 @@ const Header = () => {
       </Box>
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        <Button onClick={onDrawerOpen} variant="outline">
-          Login
-        </Button>
-        <SignUpModal disclosureProps={disclosureProps} />
-        <Button ml="12px" variant="outline" onClick={onDrawerOpen}>
+        <LoginButton />
+
+        {/* Make Button component for Sign up button */}
+        <Button ml="12px" variant="outline">
           Create account
         </Button>
       </Box>

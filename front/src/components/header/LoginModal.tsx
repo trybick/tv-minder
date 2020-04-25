@@ -17,12 +17,12 @@ interface Props {
   disclosureProps: any;
 }
 
-const LoginDrawer = ({ disclosureProps }: Props) => {
-  const { isDrawerOpen, onDrawerOpen, onDrawerClose } = disclosureProps;
+const LoginModal = ({ disclosureProps }: Props) => {
+  const { isOpen, onOpen, onClose } = disclosureProps;
 
   return (
     <>
-      <Modal isOpen={isDrawerOpen} onClose={onDrawerClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create your account</ModalHeader>
@@ -43,7 +43,7 @@ const LoginDrawer = ({ disclosureProps }: Props) => {
             <Button variantColor="blue" mr={3}>
               Save
             </Button>
-            <Button onClick={onDrawerClose}>Cancel</Button>
+            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -51,4 +51,4 @@ const LoginDrawer = ({ disclosureProps }: Props) => {
   );
 };
 
-export default LoginDrawer;
+export default LoginModal;
