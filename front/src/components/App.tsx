@@ -6,12 +6,10 @@ import SearchContainer from 'components/search/SearchContainer';
 
 const App = (): JSX.Element => (
   <Router>
+    <Header />
     <Switch>
       <Route exact path="/">
-        <Box bg="white">
-          <Header />
-          <SearchContainer />
-        </Box>
+        <SearchContainer />
       </Route>
       <Route path="/calendar">
         <Box>Calendar</Box>
