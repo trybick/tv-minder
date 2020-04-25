@@ -22,9 +22,14 @@ interface Props {
   disclosureProps: DisclosureProps;
 }
 
+type FormData = {
+  email: string;
+  password: string;
+};
+
 const LoginModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const { handleSubmit, errors, register, formState } = useForm();
+  const { handleSubmit, errors, register, formState } = useForm<FormData>();
 
   const inputValidations = {
     email: {
@@ -36,26 +41,26 @@ const LoginModal = ({ disclosureProps }: Props) => {
     },
   };
 
-  function onSubmit(values: any) {
-    console.log('values:', values);
-  }
+  const onSubmit = handleSubmit(({ email, password }) => {
+    console.log(email, password);
+  });
 
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
-          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+          <Box as="form" onSubmit={onSubmit}>
             <ModalHeader>Login</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl isInvalid={errors.email}>
+              <FormControl isInvalid={Boolean(errors.email)}>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={errors.password}>
+              <FormControl mt={4} isInvalid={Boolean(errors.password)}>
                 <FormLabel>Password</FormLabel>
                 <Input
                   name="password"
