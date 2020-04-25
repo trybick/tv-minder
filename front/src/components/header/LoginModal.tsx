@@ -16,9 +16,10 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/core';
 import { emailRegex } from 'utils/constants';
+import { DisclosureProps } from 'utils/commonTypes';
 
 interface Props {
-  disclosureProps: any;
+  disclosureProps: DisclosureProps;
 }
 
 const LoginModal = ({ disclosureProps }: Props) => {
