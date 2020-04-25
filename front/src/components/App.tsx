@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
-import Header from 'components/Header';
+import Header from 'components/header/Header';
 import SearchContainer from 'components/search/SearchContainer';
 
 const App = (): JSX.Element => (
