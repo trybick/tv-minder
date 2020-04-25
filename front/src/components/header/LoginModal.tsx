@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -14,8 +15,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  useToast,
 } from '@chakra-ui/core';
-import { emailRegex } from 'utils/constants';
+import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 
 interface Props {
@@ -40,9 +42,27 @@ const inputValidations = {
 const LoginModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const { handleSubmit, errors, register, formState } = useForm<FormData>();
+  const toast = useToast();
 
   const onSubmit = handleSubmit(({ email, password }) => {
-    console.log(email, password);
+    axios
+      .post(`${baseUrl}/login`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        console.log('res', res);
+        onClose();
+        toast({
+          title: 'Login Successful',
+          description: 'You are now logged in.',
+          status: 'success',
+          isClosable: true,
+        });
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
   });
 
   return (
