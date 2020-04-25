@@ -15,6 +15,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  useToast,
 } from '@chakra-ui/core';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
@@ -34,6 +35,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   const { handleSubmit, errors, register, formState, watch } = useForm<FormData>();
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
+  const toast = useToast();
 
   const inputValidations = {
     email: {
@@ -62,6 +64,12 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       .then((res) => {
         console.log('res', res);
         onClose();
+        toast({
+          title: 'Account created',
+          description: "We've created your account for you.",
+          status: 'success',
+          isClosable: true,
+        });
       })
       .catch((err) => {
         console.log('err', err);
