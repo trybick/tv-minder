@@ -50,7 +50,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
