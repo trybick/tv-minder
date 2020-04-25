@@ -15,6 +15,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/core';
+import { emailRegex } from 'utils/constants';
 
 interface Props {
   disclosureProps: any;
@@ -24,18 +25,21 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const { handleSubmit, errors, register, formState } = useForm();
 
-  function validateEmail(value: any) {
-    let error;
-    if (!value) {
-      error = 'Name is required';
-    } else if (value !== 'Naruto') {
-      error = "Jeez! You're not a fan 😱";
-    }
-    return error || true;
-  }
-
   function onSubmit(values: any) {
     console.log('values:', values);
+  }
+
+  function validateEmail(email: any) {
+    let error;
+    const isCorrectFormat = emailRegex.test(String(email).toLowerCase());
+
+    if (!email) {
+      error = 'Email is required';
+    } else if (!isCorrectFormat) {
+      error = 'Please enter a valid email address';
+    }
+
+    return error || true;
   }
 
   return (
@@ -54,7 +58,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                   placeholder="Email"
                   ref={register({ validate: validateEmail })}
                 />
-                <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl mt={4}>
