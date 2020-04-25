@@ -24,17 +24,29 @@ interface Props {
 const SignUpModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const { handleSubmit, errors, register, formState, watch } = useForm();
+  const watchedPassword = useRef({});
+  watchedPassword.current = watch('password', '');
 
-  const password = useRef({});
-  password.current = watch('password', '');
+  const inputValidations = {
+    email: {
+      required: { value: true, message: 'Email is required' },
+      pattern: { value: emailRegex, message: 'Please enter a valid email' },
+    },
+    password: {
+      required: 'Password is required',
+      minLength: {
+        value: 6,
+        message: 'Password must have at least 6 characters',
+      },
+    },
+    confirmPassword: {
+      validate: (value: any) => value === watchedPassword.current || 'The passwords do not match',
+    },
+  };
 
   function onSubmit(values: any) {
     console.log('values:', values);
   }
-  const emailValidation = {
-    required: { value: true, message: 'Email is required' },
-    pattern: { value: emailRegex, message: 'Please enter a valid email' },
-  };
 
   return (
     <>
@@ -47,7 +59,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
             <ModalBody pb={6}>
               <FormControl isInvalid={errors.email}>
                 <FormLabel htmlFor="email">Email</FormLabel>
-                <Input name="email" placeholder="Email" ref={register(emailValidation)} />
+                <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
 
@@ -57,28 +69,20 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                   name="password"
                   type="password"
                   placeholder="Password"
-                  ref={register({
-                    required: 'Please specify a password',
-                    minLength: {
-                      value: 6,
-                      message: 'Password must have at least 6 characters',
-                    },
-                  })}
+                  ref={register(inputValidations.password)}
                 />
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={errors.passwordRepeat}>
+              <FormControl mt={4} isInvalid={errors.confirmPassword}>
                 <FormLabel>Confirm Password</FormLabel>
                 <Input
-                  name="passwordRepeat"
+                  name="confirmPassword"
                   type="password"
                   placeholder="Confirm Password"
-                  ref={register({
-                    validate: (value) => value === password.current || 'The passwords do not match',
-                  })}
+                  ref={register(inputValidations.confirmPassword)}
                 />
-                <FormErrorMessage>{errors.passwordRepeat?.message}</FormErrorMessage>
+                <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
               </FormControl>
             </ModalBody>
 
