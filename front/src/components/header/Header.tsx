@@ -26,9 +26,11 @@ const Header = () => {
       color="white"
     >
       <Flex align="center" mr={5}>
-        <Heading cursor="pointer" as="h1" size="lg" letterSpacing={'-.1rem'}>
-          TV Minder
-        </Heading>
+        <Link to="/">
+          <Heading cursor="pointer" as="h1" size="lg" letterSpacing={'-.1rem'}>
+            TV Minder
+          </Heading>
+        </Link>
       </Flex>
 
       <Box display={{ sm: 'block', md: 'none' }} onClick={handleToggle}>
