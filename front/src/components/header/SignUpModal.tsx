@@ -22,9 +22,15 @@ interface Props {
   disclosureProps: DisclosureProps;
 }
 
+type FormData = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 const SignUpModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const { handleSubmit, errors, register, formState, watch } = useForm();
+  const { handleSubmit, errors, register, formState, watch } = useForm<FormData>();
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
 
@@ -45,26 +51,26 @@ const SignUpModal = ({ disclosureProps }: Props) => {
     },
   };
 
-  function onSubmit(values: any) {
-    console.log('values:', values);
-  }
+  const onSubmit = handleSubmit(({ email, password }) => {
+    console.log(email, password);
+  });
 
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
-          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+          <Box as="form" onSubmit={onSubmit}>
             <ModalHeader>Create your account</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl isInvalid={errors.email}>
+              <FormControl isInvalid={Boolean(errors.email)}>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={errors.password}>
+              <FormControl mt={4} isInvalid={Boolean(errors.password)}>
                 <FormLabel>Password</FormLabel>
                 <Input
                   name="password"
@@ -75,7 +81,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={errors.confirmPassword}>
+              <FormControl mt={4} isInvalid={Boolean(errors.confirmPassword)}>
                 <FormLabel>Confirm Password</FormLabel>
                 <Input
                   name="confirmPassword"

@@ -27,19 +27,19 @@ type FormData = {
   password: string;
 };
 
+const inputValidations = {
+  email: {
+    required: { value: true, message: 'Email is required' },
+    pattern: { value: emailRegex, message: 'Please enter a valid email' },
+  },
+  password: {
+    required: 'Password is required',
+  },
+};
+
 const LoginModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const { handleSubmit, errors, register, formState } = useForm<FormData>();
-
-  const inputValidations = {
-    email: {
-      required: { value: true, message: 'Email is required' },
-      pattern: { value: emailRegex, message: 'Please enter a valid email' },
-    },
-    password: {
-      required: 'Password is required',
-    },
-  };
 
   const onSubmit = handleSubmit(({ email, password }) => {
     console.log(email, password);
