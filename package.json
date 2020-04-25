@@ -21,6 +21,7 @@
     "serve-stop": "cd api && docker-compose stop"
   },
   "dependencies": {
+    "react-hook-form": "^5.5.3",
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {

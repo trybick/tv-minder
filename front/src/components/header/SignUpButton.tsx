@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, useDisclosure } from '@chakra-ui/core';
+import { Button, useDisclosure } from '@chakra-ui/core';
 import SignUpModal from './SignUpModal';
 
 const SignUpButton = () => {

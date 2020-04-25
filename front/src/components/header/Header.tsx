@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Flex, Heading, Text, useDisclosure } from '@chakra-ui/core';
+import { Box, Flex, Heading, Text } from '@chakra-ui/core';
 import LoginButton from './LoginButton';
 import SignUpButton from './SignUpButton';
 
