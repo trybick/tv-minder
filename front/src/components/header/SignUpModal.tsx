@@ -18,7 +18,7 @@ interface Props {
 }
 
 const SignUpModal = ({ disclosureProps }: Props) => {
-  const { isOpen, onOpen, onClose } = disclosureProps;
+  const { isOpen, onClose } = disclosureProps;
 
   return (
     <>
@@ -29,19 +29,24 @@ const SignUpModal = ({ disclosureProps }: Props) => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>First name</FormLabel>
-              <Input placeholder="First name" />
+              <FormLabel>Email</FormLabel>
+              <Input placeholder="Email" />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Last name</FormLabel>
-              <Input placeholder="Last name" />
+              <FormLabel>Password</FormLabel>
+              <Input placeholder="Password" />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input placeholder="Confirm Password" />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button variantColor="blue" mr={3}>
-              Save
+              Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>

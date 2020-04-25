@@ -9,7 +9,7 @@ const SignUpButton = () => {
   return (
     <>
       <Button ml=" 12px" onClick={onOpen} variant="outline">
-        Create Account
+        Sign Up
       </Button>
       <SignUpModal disclosureProps={disclosureProps} />
     </>
