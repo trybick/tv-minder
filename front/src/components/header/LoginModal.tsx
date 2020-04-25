@@ -46,42 +46,40 @@ const LoginModal = ({ disclosureProps }: Props) => {
   });
 
   return (
-    <>
-      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
-        <ModalOverlay />
-        <ModalContent>
-          <Box as="form" onSubmit={onSubmit}>
-            <ModalHeader>Login</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              <FormControl isInvalid={Boolean(errors.email)}>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
-                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-              </FormControl>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <Box as="form" onSubmit={onSubmit}>
+          <ModalHeader>Login</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl isInvalid={Boolean(errors.email)}>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+            </FormControl>
 
-              <FormControl mt={4} isInvalid={Boolean(errors.password)}>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  ref={register(inputValidations.password)}
-                />
-                <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-              </FormControl>
-            </ModalBody>
+            <FormControl mt={4} isInvalid={Boolean(errors.password)}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                name="password"
+                type="password"
+                placeholder="Password"
+                ref={register(inputValidations.password)}
+              />
+              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+            </FormControl>
+          </ModalBody>
 
-            <ModalFooter>
-              <Button variantColor="teal" mr={3} isLoading={formState.isSubmitting} type="submit">
-                Login
-              </Button>
-              <Button onClick={onClose}>Cancel</Button>
-            </ModalFooter>
-          </Box>
-        </ModalContent>
-      </Modal>
-    </>
+          <ModalFooter>
+            <Button variantColor="teal" mr={3} isLoading={formState.isSubmitting} type="submit">
+              Login
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </Box>
+      </ModalContent>
+    </Modal>
   );
 };
 
