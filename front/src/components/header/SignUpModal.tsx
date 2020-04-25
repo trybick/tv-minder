@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -15,7 +16,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/core';
-import { emailRegex } from 'utils/constants';
+import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 
 interface Props {
@@ -53,7 +54,18 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   };
 
   const onSubmit = handleSubmit(({ email, password }) => {
-    console.log(email, password);
+    axios
+      .post(`${baseUrl}/register`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        console.log('res', res);
+        onClose();
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
   });
 
   return (

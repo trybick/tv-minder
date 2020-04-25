@@ -1,4 +1,4 @@
-import { baseUrl } from 'utils/constants';
+import { MOVIE_DB_URL } from 'utils/constants';
 import { makeRequest } from 'utils/searchUtils';
 
 export const search = async (query: string) => {
@@ -8,7 +8,7 @@ export const search = async (query: string) => {
   };
 
   const { results, total_results: totalResults } =
-    (await makeRequest(baseUrl, requestConfig)) || {};
+    (await makeRequest(MOVIE_DB_URL, requestConfig)) || {};
 
   return results ? { results, totalResults } : { results: null };
 };
