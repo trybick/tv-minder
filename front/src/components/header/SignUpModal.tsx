@@ -35,8 +35,8 @@ const SignUpModal = ({ disclosureProps }: Props) => {
     password: {
       required: 'Password is required',
       minLength: {
-        value: 6,
-        message: 'Password must have at least 6 characters',
+        value: 1,
+        message: 'Password must have at least 1 characters',
       },
     },
     confirmPassword: {
