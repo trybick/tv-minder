@@ -17,7 +17,7 @@ interface Props {
   disclosureProps: any;
 }
 
-const LoginModal = ({ disclosureProps }: Props) => {
+const SignUpModal = ({ disclosureProps }: Props) => {
   const { isOpen, onOpen, onClose } = disclosureProps;
 
   return (
@@ -25,7 +25,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Login</ModalHeader>
+          <ModalHeader>Create your account</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -51,4 +51,4 @@ const LoginModal = ({ disclosureProps }: Props) => {
   );
 };
 
-export default LoginModal;
+export default SignUpModal;

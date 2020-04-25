@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Text, useDisclosure } from '@chakra-ui/core';
 import LoginButton from './LoginButton';
+import SignUpButton from './SignUpButton';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>
@@ -52,11 +53,7 @@ const Header = () => {
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
         <LoginButton />
-
-        {/* Make Button component for Sign up button */}
-        <Button ml="12px" variant="outline">
-          Create account
-        </Button>
+        <SignUpButton />
       </Box>
     </Flex>
   );
