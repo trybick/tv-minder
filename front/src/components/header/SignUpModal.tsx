@@ -47,7 +47,8 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       },
     },
     confirmPassword: {
-      validate: (value: any) => value === watchedPassword.current || 'The passwords do not match',
+      validate: (value: FormData['confirmPassword']) =>
+        value === watchedPassword.current || 'The passwords do not match',
     },
   };
 
