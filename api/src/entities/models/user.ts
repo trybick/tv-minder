@@ -2,8 +2,9 @@ import { createSchema, ExtractDoc, ExtractProps, Type, typedModel } from 'ts-mon
 
 const UserSchema = createSchema(
   {
-    email: Type.string({ required: true, unique: true }),
+    email: Type.string({ required: true, unique: true, trim: true }),
     password: Type.string({ required: true }),
+    followedShows: Type.array,
   },
   { timestamps: true }
 );
