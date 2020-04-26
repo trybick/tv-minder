@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from '@chakra-ui/core';
 import LoginButton from './LoginButton';
 import SignUpButton from './SignUpButton';
+import LogoutButton from './LogoutButton';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>
@@ -15,6 +16,7 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
+  const isLoggedIn = !!localStorage.getItem('jwt');
 
   return (
     <Flex
@@ -52,8 +54,16 @@ const Header = () => {
       </Box>
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        <LoginButton />
-        <SignUpButton />
+        {isLoggedIn ? (
+          <>
+            <LogoutButton />
+          </>
+        ) : (
+          <>
+            <LoginButton />
+            <SignUpButton />
+          </>
+        )}
       </Box>
     </Flex>
   );
