@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import Album, { AlbumDoc } from 'entities/models/album';
+import Show, { ShowDoc } from 'entities/models/show';
 
 export default async function findOne(req: Request, res: Response, next: NextFunction) {
-  let album: AlbumDoc | null;
+  let show: ShowDoc | null;
 
   try {
-    album = await Album.findById(req.params.id);
-    if (album === null) {
-      return res.status(404).json({ message: 'Cannot find album' });
+    show = await Show.findById(req.params.id);
+    if (show === null) {
+      return res.status(404).json({ message: 'Cannot find show' });
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
 
-  res.locals.album = album;
+  res.locals.show = show;
   next();
 }

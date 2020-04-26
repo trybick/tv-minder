@@ -2,7 +2,7 @@ import 'module-alias/register';
 import express from 'express';
 import connectToDatabase from 'config/database';
 import { configureCors } from './config/cors';
-import { albumRoutes } from 'entities/routes/album';
+import { showRoutes } from 'entities/routes/show';
 import { userRoutes } from 'entities/routes/user';
 
 const app = express();
@@ -13,7 +13,7 @@ connectToDatabase();
 app.use(express.json());
 app.use(configureCors);
 
-app.use('/albums', albumRoutes);
+app.use('/shows', showRoutes);
 app.use(userRoutes);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
