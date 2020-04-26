@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Box } from '@chakra-ui/core';
-import { search } from 'gateway/search';
+import { searchShows } from 'gateway/searchShows';
 import SearchResultsContainer from './SearchResultsContainer';
 import SearchInput from './SearchInput';
 
@@ -27,7 +27,7 @@ const SearchContainer = (): JSX.Element => {
   const handleSearch = async (query: string) => {
     setIsLoading(true);
 
-    const { results, totalResults } = await search(query);
+    const { results, totalResults } = await searchShows(query);
     if (!results) return;
 
     setShows(results);

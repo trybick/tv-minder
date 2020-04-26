@@ -4,7 +4,7 @@ type RequestConfig = { api_key: string | undefined; query: string };
 
 const cachedResults: any = {};
 
-const makeRequestCreator = () => {
+const makeCachedRequestCreator = () => {
   let cancelToken: CancelTokenSource;
 
   return (url: string, requestConfig: RequestConfig) => {
@@ -36,4 +36,4 @@ const makeRequestCreator = () => {
   };
 };
 
-export const makeRequest = makeRequestCreator();
+export const makeCachedRequest = makeCachedRequestCreator();
