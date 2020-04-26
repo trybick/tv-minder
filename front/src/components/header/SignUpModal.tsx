@@ -61,11 +61,20 @@ const SignUpModal = ({ disclosureProps }: Props) => {
         email,
         password,
       })
+      .then(() => {
+        return axios.post(`${baseUrl}/login`, {
+          email,
+          password,
+        });
+      })
       .then((res) => {
-        console.log('res', res);
+        localStorage.setItem('jwt', res.data.token);
+        window.location.reload();
+      })
+      .then(() => {
         onClose();
         toast({
-          title: 'Account created',
+          title: 'Logged in',
           description: "We've created your account for you.",
           status: 'success',
           isClosable: true,
