@@ -54,6 +54,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
         localStorage.setItem('jwt', res.data.token);
       }).then(() => {
         onClose();
+        window.location.reload();
         toast({
           title: 'Login Successful',
           description: 'You are now logged in.',
