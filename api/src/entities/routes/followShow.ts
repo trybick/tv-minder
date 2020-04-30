@@ -7,3 +7,5 @@ export const followShowRoutes = express.Router();
 followShowRoutes.post('/follow', checkToken, FollowShowController.createFollow);
 
 followShowRoutes.get('/follow', checkToken, FollowShowController.getFollows);
+
+followShowRoutes.post('/unfollow', checkToken, FollowShowController.removeFollow);

@@ -31,7 +31,27 @@ export const getFollows = async (req: Request, res: Response) => {
           error: err,
         });
       } else {
-        res.status(200).json({ followedShows: user?.followedShows });
+        res.status(200).json({ message: 'Follow added', followedShows: user?.followedShows });
       }
     });
+};
+
+export const removeFollow = async (req: Request, res: Response) => {
+  const requestingUserId = res.locals.userId;
+  const showData = { name: req.body.name, externalId: req.body.externalId };
+
+  User.findOneAndUpdate(
+    { _id: requestingUserId },
+    { $pull: { followedShows: showData } },
+    (err, user) => {
+      if (err) {
+        res.status(500).json({
+          error: err,
+        });
+      } else {
+        console.log('user:', user);
+        res.status(200).json({ message: 'Follow removed.' });
+      }
+    }
+  );
 };
