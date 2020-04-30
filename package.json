@@ -16,9 +16,10 @@
   },
   "homepage": "https://github.com/trybick/tv-minder#readme",
   "scripts": {
-    "front": "yarn --cwd front start",
-    "serve": "cd api && docker-compose up -d",
-    "serve-stop": "cd api && docker-compose stop"
+    "start": "yarn --cwd front start",
+    "serve": "yarn --cwd api serve",
+    "serve-logs": "yarn --cwd api serve-logs",
+    "serve-stop": "yarn --cwd api serve-stop"
   },
   "dependencies": {
     "react-hook-form": "^5.5.3",
