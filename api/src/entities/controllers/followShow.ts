@@ -8,25 +8,30 @@ export const createFollow = async (req: Request, res: Response) => {
   User.findOneAndUpdate(
     { _id: requestingUserId },
     { $push: { followedShows: showData } },
-    (err, success) => {
+    (err, user) => {
       if (err) {
         res.status(500).json({
           error: err,
         });
       } else {
-        console.log(success);
-        res.status(200).json({ message: 'Follow added.' });
+        res.status(201).json({ message: 'Follow added.' });
       }
     }
   );
 };
 
-// export const getFollows = async (req: Request, res: Response) => {
-//   await Show.find()
-//     .then((shows) => {
-//       res.json(shows);
-//     })
-//     .catch((err: Error) => {
-//       res.status(500).json({ message: err.message });
-//     });
-// };
+export const getFollows = async (req: Request, res: Response) => {
+  const requestingUserId = res.locals.userId;
+
+  User.findOne({ _id: requestingUserId })
+    .select('followedShows')
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).json({
+          error: err,
+        });
+      } else {
+        res.status(200).json({ followedShows: user?.followedShows });
+      }
+    });
+};

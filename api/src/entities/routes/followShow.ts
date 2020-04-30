@@ -6,4 +6,4 @@ export const followShowRoutes = express.Router();
 
 followShowRoutes.post('/follow', checkToken, FollowShowController.createFollow);
 
-// followShowRoutes.get('/follow', checkToken, FollowShowController.getFollows);
+followShowRoutes.get('/follow', checkToken, FollowShowController.getFollows);
