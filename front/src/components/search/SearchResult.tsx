@@ -1,5 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
+import { baseUrl } from 'utils/constants';
 
 const SearchResult = ({ show }: { show: any }) => {
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = show;
@@ -9,6 +11,19 @@ const SearchResult = ({ show }: { show: any }) => {
 
   function onFollowShow() {
     console.log('id', externalId, 'name', name);
+
+    axios
+      .post(`${baseUrl}/follow`, {
+        name,
+        externalId,
+        token: localStorage.getItem('jwt'),
+      }).then(res => {
+        console.log('res:', res)
+
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
   }
 
   return (
