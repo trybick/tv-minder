@@ -30,8 +30,8 @@ const App = ({ getFollows }: Props): JSX.Element => {
   );
 };
 
-const mapDispatchToProps = () => ({
-  getFollows: fetchUserFollows,
+const mapDispatchToProps = (dispatch: any) => ({
+  getFollows: dispatch(fetchUserFollows),
 });
 
 export default connect(null, mapDispatchToProps)(App);

@@ -10,7 +10,7 @@ export const createFollow = async (req: Request, res: Response) => {
     { $push: { followedShows: showData } },
     (err, user) => {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: err,
         });
       } else {
@@ -27,7 +27,7 @@ export const getFollows = async (req: Request, res: Response) => {
     .select('followedShows')
     .exec((err, user) => {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: err,
         });
       } else {
@@ -45,7 +45,7 @@ export const removeFollow = async (req: Request, res: Response) => {
     { $pull: { followedShows: showData } },
     (err, user) => {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: err,
         });
       } else {

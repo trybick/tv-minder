@@ -52,7 +52,8 @@ const LoginModal = ({ disclosureProps }: Props) => {
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
-      }).then(() => {
+      })
+      .then(() => {
         onClose();
         window.location.reload();
         toast({

@@ -3,8 +3,10 @@ import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonw
 import envConfig from 'config/env';
 
 export default function (req: Request, res: Response, next: NextFunction) {
+  const tokenSource = req.body.token || req.query.token;
+
   envConfig?.JWT_KEY &&
-    jwt.verify(req.body.token, envConfig?.JWT_KEY, function (
+    jwt.verify(tokenSource, envConfig?.JWT_KEY, function (
       err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null,
       decoded: any
     ) {
