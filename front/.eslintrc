@@ -10,8 +10,13 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     "@typescript-eslint/ban-ts-ignore": 0,
-    "@typescript-eslint/no-implicit-any": 1
+    "@typescript-eslint/no-explicit-any": 0
   }
 }

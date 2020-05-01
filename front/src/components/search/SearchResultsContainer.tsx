@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Box, Flex, Spinner, Stack, Tag, Text } from '@chakra-ui/core';
 import SearchResult from './SearchResult';
 
@@ -7,6 +8,7 @@ interface Props {
   isLoading: boolean;
   shows: any[];
   totalResults: number;
+  userFollows?: any[];
 }
 
 const LoadingSpinner = () => (
@@ -27,9 +29,15 @@ const WelcomeMessage = () => (
   </Flex>
 );
 
-const SearchResults = ({ shows, totalResults }: Pick<Props, 'shows' | 'totalResults'>) => {
+const SearchResults = ({
+  shows,
+  totalResults,
+  userFollows,
+}: Pick<Props, 'shows' | 'totalResults' | 'userFollows'>) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
+
+  console.log('userFollows:', userFollows);
 
   return (
     <Box>
@@ -47,12 +55,18 @@ const SearchResults = ({ shows, totalResults }: Pick<Props, 'shows' | 'totalResu
   );
 };
 
-const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
+const SearchResultsContainer = ({
+  isInputDirty,
+  isLoading,
+  shows,
+  totalResults,
+  userFollows,
+}: Props) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
     ) : shows?.length ? (
-      <SearchResults shows={shows} totalResults={totalResults} />
+      <SearchResults shows={shows} totalResults={totalResults} userFollows={userFollows} />
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (
@@ -61,4 +75,8 @@ const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }
   </Flex>
 );
 
-export default SearchResultsContainer;
+const mapStateToProps = (state: any) => ({
+  userFollows: state.userFollows,
+});
+
+export default connect(mapStateToProps, null)(SearchResultsContainer);

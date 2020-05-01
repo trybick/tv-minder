@@ -31,7 +31,7 @@ export const getFollows = async (req: Request, res: Response) => {
           error: err,
         });
       } else {
-        res.status(200).json({ message: 'Follow added', followedShows: user?.followedShows });
+        res.status(200).json({ message: 'Success', followedShows: user?.followedShows });
       }
     });
 };
