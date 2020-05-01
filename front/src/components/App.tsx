@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
 import { fetchUserFollows } from '../store/actions/getFollows';
@@ -13,7 +14,7 @@ interface Props {
 const App = ({ getFollows }: Props): JSX.Element => {
   useEffect(() => {
     getFollows();
-  }, [getFollows]);
+  }, []);
 
   return (
     <Router>
@@ -30,8 +31,12 @@ const App = ({ getFollows }: Props): JSX.Element => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  getFollows: dispatch(fetchUserFollows),
-});
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      getFollows: fetchUserFollows,
+    },
+    dispatch
+  );
 
 export default connect(null, mapDispatchToProps)(App);
