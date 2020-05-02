@@ -1,5 +1,5 @@
 import express from 'express';
-import checkToken from 'middleware/checkToken';
+import verifyToken from 'middleware/verifyToken';
 import findOne from 'middleware/findOne';
 import * as ShowsController from 'controllers/show';
 
@@ -9,8 +9,8 @@ showRoutes.get('/', ShowsController.getAllShows);
 
 showRoutes.get('/:id', findOne, ShowsController.getShow);
 
-showRoutes.post('/', checkToken, ShowsController.createShow);
+showRoutes.post('/', verifyToken, ShowsController.createShow);
 
-showRoutes.patch('/:id', checkToken, ShowsController.updateShow);
+showRoutes.patch('/:id', verifyToken, ShowsController.updateShow);
 
 showRoutes.delete('/:id', findOne, ShowsController.deleteShow);

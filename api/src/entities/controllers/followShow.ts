@@ -49,7 +49,6 @@ export const removeFollow = async (req: Request, res: Response) => {
           error: err,
         });
       } else {
-        console.log('user:', user);
         res.status(200).json({ message: 'Follow removed.' });
       }
     }

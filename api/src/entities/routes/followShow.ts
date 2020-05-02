@@ -1,11 +1,11 @@
 import express from 'express';
-import checkToken from 'middleware/checkToken';
+import verifyToken from 'middleware/verifyToken';
 import * as FollowShowController from 'controllers/followShow';
 
 export const followShowRoutes = express.Router();
 
-followShowRoutes.post('/follow', checkToken, FollowShowController.createFollow);
+followShowRoutes.post('/follow', verifyToken, FollowShowController.createFollow);
 
-followShowRoutes.get('/follow', checkToken, FollowShowController.getFollows);
+followShowRoutes.get('/follow', verifyToken, FollowShowController.getFollows);
 
-followShowRoutes.post('/unfollow', checkToken, FollowShowController.removeFollow);
+followShowRoutes.post('/unfollow', verifyToken, FollowShowController.removeFollow);
