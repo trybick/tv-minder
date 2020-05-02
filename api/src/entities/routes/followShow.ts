@@ -8,4 +8,4 @@ followShowRoutes.post('/follow', verifyToken, FollowShowController.createFollow)
 
 followShowRoutes.get('/follow', verifyToken, FollowShowController.getFollows);
 
-followShowRoutes.post('/unfollow', verifyToken, FollowShowController.removeFollow);
+followShowRoutes.delete('/follow', verifyToken, FollowShowController.deleteFollow);

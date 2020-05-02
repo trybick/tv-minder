@@ -38,7 +38,7 @@ export const getFollows = async (req: Request, res: Response) => {
     });
 };
 
-export const removeFollow = async (req: Request, res: Response) => {
+export const deleteFollow = async (req: Request, res: Response) => {
   const requestingUserId = res.locals.userId;
   const showData = { name: req.body.name, externalId: req.body.externalId };
 
