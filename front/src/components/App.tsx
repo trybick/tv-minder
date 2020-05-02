@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
-import { fetchUserFollows } from '../store/actions/getFollows';
+import { fetchUserFollows } from '../store/follows/actions';
 import Header from 'components/header/Header';
 import SearchContainer from 'components/search/SearchContainer';
 
@@ -14,7 +13,7 @@ interface Props {
 const App = ({ getFollows }: Props): JSX.Element => {
   useEffect(() => {
     getFollows();
-  }, []);
+  }, [getFollows]);
 
   return (
     <Router>
@@ -31,12 +30,8 @@ const App = ({ getFollows }: Props): JSX.Element => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(
-    {
-      getFollows: fetchUserFollows,
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch: any) => ({
+  getFollows: () => dispatch(fetchUserFollows()),
+});
 
 export default connect(null, mapDispatchToProps)(App);

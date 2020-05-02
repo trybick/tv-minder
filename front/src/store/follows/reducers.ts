@@ -1,10 +1,10 @@
-import { FETCH_USER_FOLLOWS } from '../actions/getFollows';
+import { FETCH_USER_FOLLOWS } from './actions';
 
 const initialState = {
   userFollows: [],
 };
 
-export function userFollowsReducer(state = initialState, action) {
+export function userFollowsReducer(state = initialState, action: any) {
   switch (action.type) {
     case FETCH_USER_FOLLOWS: {
       return {

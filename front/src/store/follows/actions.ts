@@ -4,7 +4,7 @@ import { baseUrl } from 'utils/constants';
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
 
 export function fetchUserFollows() {
-  return (dispatch) => {
+  return (dispatch: any) => {
     const token = localStorage.getItem('jwt');
 
     return axios
