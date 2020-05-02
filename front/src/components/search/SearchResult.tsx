@@ -11,8 +11,10 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
 
   const isInitiallyFollowed = userFollows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   function onFollowShow() {
+    setIsLoading(true);
     axios
       .post(`${baseUrl}/follow`, {
         name,
@@ -20,6 +22,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
         token: localStorage.getItem('jwt'),
       })
       .then(() => {
+        setIsLoading(false);
         setIsFollowed(true);
       })
       .catch((err) => {
@@ -28,6 +31,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
   }
 
   function onUnFollowShow() {
+    setIsLoading(true);
     axios({
       method: 'delete',
       url: `${baseUrl}/follow`,
@@ -38,6 +42,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
       },
     })
       .then(() => {
+        setIsLoading(false);
         setIsFollowed(false);
       })
       .catch((err) => {
@@ -60,6 +65,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
             variantColor="teal"
             variant="solid"
             onClick={onUnFollowShow}
+            isLoading={isLoading}
           >
             Followed
           </Button>
@@ -70,6 +76,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
             variantColor="teal"
             variant="outline"
             onClick={onFollowShow}
+            isLoading={isLoading}
           >
             Follow
           </Button>
