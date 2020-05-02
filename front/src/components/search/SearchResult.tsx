@@ -9,6 +9,8 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
 
+  const isShowFollowed = userFollows.includes(String(show.id));
+
   function onFollowShow() {
     axios
       .post(`${baseUrl}/follow`, {
@@ -24,9 +26,9 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
       });
   }
 
-  // Change how data is getting here to avoid this
-  const realUserFollows = userFollows['userFollows'];
-  const isShowFollowed = realUserFollows.includes(String(show.id));
+  function onUnFollowShow() {
+    return;
+  }
 
   return (
     <Box p={3} mb={4} shadow="md" borderWidth="1px">
@@ -42,7 +44,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
             leftIcon="check"
             variantColor="teal"
             variant="solid"
-            onClick={onFollowShow}
+            onClick={onUnFollowShow}
           >
             Followed
           </Button>

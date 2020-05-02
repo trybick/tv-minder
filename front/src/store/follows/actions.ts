@@ -14,8 +14,7 @@ export function fetchUserFollows() {
       .then(({ data }) => {
         dispatch({
           type: FETCH_USER_FOLLOWS,
-          // If I keep this, make the API return just the Ids instead
-          payload: data.followedShows.map((show: any) => show.externalId),
+          payload: data,
         });
       });
   };

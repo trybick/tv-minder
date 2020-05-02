@@ -74,7 +74,8 @@ const SearchResultsContainer = ({
 );
 
 const mapStateToProps = (state: any) => ({
-  userFollows: state.userFollows,
+  // Why is this necessary
+  userFollows: state.userFollows['userFollows'],
 });
 
 export default connect(mapStateToProps, null)(SearchResultsContainer);
