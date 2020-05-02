@@ -37,8 +37,6 @@ const SearchResults = ({
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
 
-  console.log('userFollows:', userFollows);
-
   return (
     <Box>
       <Box textAlign="right">
@@ -48,7 +46,7 @@ const SearchResults = ({
       </Box>
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
         {shows.map((show) => (
-          <SearchResult key={show.id} show={show} />
+          <SearchResult key={show.id} show={show} userFollows={userFollows} />
         ))}
       </Stack>
     </Box>
