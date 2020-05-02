@@ -11,9 +11,13 @@ interface Props {
 }
 
 const App = ({ preloadUserFollows }: Props): JSX.Element => {
+  const isLoggedIn = !!localStorage.getItem('jwt');
+
   useEffect(() => {
-    preloadUserFollows();
-  }, [preloadUserFollows]);
+    if (isLoggedIn) {
+      preloadUserFollows();
+    }
+  }, [isLoggedIn, preloadUserFollows]);
 
   return (
     <Router>
