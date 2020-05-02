@@ -7,13 +7,7 @@ const rootReducer = combineReducers({
   userFollows: userFollowsReducer,
 });
 
-function configureStore() {
-  const middlewares = [thunk];
-  const appliedMiddleware = applyMiddleware(...middlewares);
+const middlewares = [thunk];
+const appliedMiddleware = applyMiddleware(...middlewares);
 
-  const store = createStore(rootReducer, composeWithDevTools(appliedMiddleware));
-
-  return store;
-}
-
-export default configureStore();
+export default createStore(rootReducer, composeWithDevTools(appliedMiddleware));
