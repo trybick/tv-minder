@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/core';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
+import handleErrors from 'utils/handleErrors';
 
 interface Props {
   disclosureProps: DisclosureProps;
@@ -80,9 +81,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
           isClosable: true,
         });
       })
-      .catch((err) => {
-        console.log('err', err);
-      });
+      .catch(handleErrors);
   });
 
   return (

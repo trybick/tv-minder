@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrl } from 'utils/constants';
+import handleErrors from 'utils/handleErrors';
 
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
 
@@ -17,8 +18,6 @@ export function fetchUserFollows() {
           payload: data,
         });
       })
-      .catch((err: Error) => {
-        console.log(err);
-      });
+      .catch(handleErrors);
   };
 }
