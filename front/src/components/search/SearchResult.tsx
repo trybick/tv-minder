@@ -27,7 +27,15 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
   }
 
   function onUnFollowShow() {
-    return;
+    axios({
+      method: 'delete',
+      url: `${baseUrl}/follow`,
+      data: {
+        name,
+        externalId,
+        token: localStorage.getItem('jwt'),
+      },
+    });
   }
 
   return (
