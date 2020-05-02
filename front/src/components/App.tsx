@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
-import { fetchUserFollows } from '../store/follows/actions';
+import { fetchUserFollows as fetchUserFollowsAction } from '../store/follows/actions';
 import Header from 'components/header/Header';
 import SearchContainer from 'components/search/SearchContainer';
 
 interface Props {
-  getFollows: typeof fetchUserFollows;
+  fetchUserFollows: typeof fetchUserFollowsAction;
 }
 
-const App = ({ getFollows }: Props): JSX.Element => {
+const App = ({ fetchUserFollows }: Props): JSX.Element => {
   useEffect(() => {
-    getFollows();
-  }, [getFollows]);
+    fetchUserFollows();
+  }, [fetchUserFollows]);
 
   return (
     <Router>
@@ -31,7 +31,7 @@ const App = ({ getFollows }: Props): JSX.Element => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getFollows: () => dispatch(fetchUserFollows()),
+  fetchUserFollows: () => dispatch(fetchUserFollowsAction()),
 });
 
 export default connect(null, mapDispatchToProps)(App);
