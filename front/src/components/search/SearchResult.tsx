@@ -38,21 +38,22 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
 
   function onUnFollowShow() {
     setIsLoading(true);
-    axios({
-      method: 'delete',
-      url: `${baseUrl}/follow`,
-      data: {
-        name,
-        externalId,
-        token: localStorage.getItem('jwt'),
-      },
-    })
+    axios
+      .delete(`${baseUrl}/follow`, {
+        data: {
+          name,
+          externalId,
+          token: localStorage.getItem('jwt'),
+        },
+        timeout: 8000,
+      })
       .then(() => {
         setIsLoading(false);
         setIsFollowed(false);
       })
-      .catch((err) => {
-        console.log('err', err);
+      .catch((error) => {
+        handleErrors(error);
+        setIsLoading(false);
       });
   }
 
