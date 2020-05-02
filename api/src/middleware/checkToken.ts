@@ -11,7 +11,8 @@ export default function (req: Request, res: Response, next: NextFunction) {
       decoded: any
     ) {
       if (!decoded || err) {
-        return res.status(401).json({ message: 'Check auth failed' });
+        res.status(401).json({ message: 'Check auth failed' });
+        return next('Invalid user');
       }
 
       res.locals.userId = decoded?.id;
