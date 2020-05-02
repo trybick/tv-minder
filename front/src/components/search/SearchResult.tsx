@@ -60,6 +60,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
         </Flex>
         {isFollowed ? (
           <Button
+            minW="88px"
             size="sm"
             leftIcon="check"
             variantColor="teal"
@@ -71,6 +72,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
           </Button>
         ) : (
           <Button
+            minW="88px"
             size="sm"
             leftIcon="small-add"
             variantColor="teal"
