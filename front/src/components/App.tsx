@@ -5,19 +5,18 @@ import { Box } from '@chakra-ui/core';
 import { fetchUserFollows } from 'store/follows/actions';
 import Header from 'components/header/Header';
 import SearchContainer from 'components/search/SearchContainer';
+import { isLoggedIn } from 'utils/auth';
 
 interface Props {
   preloadUserFollows: typeof fetchUserFollows;
 }
 
 const App = ({ preloadUserFollows }: Props): JSX.Element => {
-  const isLoggedIn = !!localStorage.getItem('jwt');
-
   useEffect(() => {
     if (isLoggedIn) {
       preloadUserFollows();
     }
-  }, [isLoggedIn, preloadUserFollows]);
+  }, [preloadUserFollows]);
 
   return (
     <Router>

@@ -16,6 +16,9 @@ export function fetchUserFollows() {
           type: FETCH_USER_FOLLOWS,
           payload: data,
         });
+      })
+      .catch((err: Error) => {
+        console.log(err);
       });
   };
 }

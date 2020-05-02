@@ -4,6 +4,7 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/core';
 import LoginButton from './LoginButton';
 import SignUpButton from './SignUpButton';
 import LogoutButton from './LogoutButton';
+import { isLoggedIn } from 'utils/auth';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>
@@ -16,7 +17,6 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
-  const isLoggedIn = !!localStorage.getItem('jwt');
 
   return (
     <Flex
