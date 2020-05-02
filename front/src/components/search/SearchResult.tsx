@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 import { baseUrl } from 'utils/constants';
+import handleErrors from 'utils/handleErrors';
 
 const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) => {
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = show;
@@ -16,17 +17,22 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
   function onFollowShow() {
     setIsLoading(true);
     axios
-      .post(`${baseUrl}/follow`, {
-        name,
-        externalId,
-        token: localStorage.getItem('jwt'),
-      })
+      .post(
+        `${baseUrl}/follow`,
+        {
+          name,
+          externalId,
+          token: localStorage.getItem('jwt'),
+        },
+        { timeout: 8000 }
+      )
       .then(() => {
         setIsLoading(false);
         setIsFollowed(true);
       })
-      .catch((err) => {
-        console.log('err', err);
+      .catch((error) => {
+        handleErrors(error);
+        setIsLoading(false);
       });
   }
 
