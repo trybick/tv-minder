@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 import { baseUrl } from 'utils/constants';
@@ -9,7 +9,8 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
 
-  const isShowFollowed = userFollows.includes(String(show.id));
+  const isInitiallyFollowed = userFollows.includes(String(show.id));
+  const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
 
   function onFollowShow() {
     axios
@@ -18,8 +19,8 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
         externalId,
         token: localStorage.getItem('jwt'),
       })
-      .then((res) => {
-        console.log('res:', res);
+      .then(() => {
+        setIsFollowed(true);
       })
       .catch((err) => {
         console.log('err', err);
@@ -35,7 +36,13 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
         externalId,
         token: localStorage.getItem('jwt'),
       },
-    });
+    })
+      .then(() => {
+        setIsFollowed(false);
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
   }
 
   return (
@@ -46,7 +53,7 @@ const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) =>
             {name}
           </Heading>
         </Flex>
-        {isShowFollowed ? (
+        {isFollowed ? (
           <Button
             size="sm"
             leftIcon="check"
