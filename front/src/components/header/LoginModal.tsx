@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import {
@@ -46,6 +46,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
   const toast = useToast();
+  const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
@@ -77,7 +78,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} initialFocusRef={emailRef}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
@@ -91,7 +92,14 @@ const LoginModal = ({ disclosureProps }: Props) => {
           <ModalBody pb={6}>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
-              <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
+              <Input
+                name="email"
+                placeholder="Email"
+                ref={(emailInput: HTMLInputElement) => {
+                  register(emailInput, inputValidations.email);
+                  emailRef.current = emailInput;
+                }}
+              />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 

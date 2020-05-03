@@ -129,10 +129,9 @@ const SignUpModal = ({ disclosureProps }: Props) => {
               <Input
                 name="email"
                 placeholder="Email"
-                ref={(e: HTMLInputElement) => {
-                  // This extra work is needed to manually focus the ref after sign up failures
-                  register(e);
-                  emailRef.current = e;
+                ref={(emailInput: HTMLInputElement) => {
+                  register(emailInput, inputValidations.email);
+                  emailRef.current = emailInput;
                 }}
               />
 
