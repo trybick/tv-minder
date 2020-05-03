@@ -43,7 +43,9 @@ const inputValidations = {
 
 const LoginModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const { handleSubmit, errors, register, formState, setError, setValue } = useForm<FormData>();
+  const { clearError, handleSubmit, errors, register, formState, setError, setValue } = useForm<
+    FormData
+  >();
   const toast = useToast();
 
   const onSubmit = handleSubmit(({ email, password }) => {
@@ -74,12 +76,17 @@ const LoginModal = ({ disclosureProps }: Props) => {
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
           <ModalHeader>Login</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton
+            onClick={() => {
+              clearError();
+              onClose();
+            }}
+          />
           <ModalBody pb={6}>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
