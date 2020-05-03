@@ -63,15 +63,16 @@ const SearchResult = ({ show, userFollows }: Props) => {
       });
   }
 
+  // If a user is not signed in, we allow them to click Follow show and we save the shows locally
+  // which are later retrieved during the sign up process
   function onLocalSaveShow() {
     saveShowToLocalStorage(externalId);
     setIsFollowed(true);
   }
 
   function onLocalUnsaveShow() {
-    setIsLoading(true);
-
-    setIsLoading(false);
+    saveShowToLocalStorage(externalId, 'unsave');
+    setIsFollowed(false);
   }
 
   return (
@@ -126,11 +127,19 @@ const SearchResult = ({ show, userFollows }: Props) => {
 
 export default SearchResult;
 
-function saveShowToLocalStorage(showId: any) {
+function saveShowToLocalStorage(showId: any, method: 'save' | 'unsave' = 'save') {
   const key = 'savedShows';
   const existingShows = localStorage.getItem(key);
   const arrayToSave = existingShows ? JSON.parse(existingShows) : [];
 
-  arrayToSave.push(showId);
+  if (method === 'unsave') {
+    const location = arrayToSave.indexOf(showId);
+    if (location > -1) {
+      arrayToSave.splice(location, 1);
+    }
+  } else {
+    arrayToSave.push(showId);
+  }
+
   localStorage.setItem(key, JSON.stringify(arrayToSave));
 }
