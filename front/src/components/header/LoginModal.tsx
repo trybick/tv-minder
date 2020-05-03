@@ -28,6 +28,7 @@ interface Props {
 type FormData = {
   email: string;
   password: string;
+  login?: string;
 };
 
 const inputValidations = {
@@ -42,7 +43,7 @@ const inputValidations = {
 
 const LoginModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const { handleSubmit, errors, register, formState } = useForm<FormData>();
+  const { handleSubmit, errors, register, formState, setError, setValue } = useForm<FormData>();
   const toast = useToast();
 
   const onSubmit = handleSubmit(({ email, password }) => {
@@ -64,7 +65,12 @@ const LoginModal = ({ disclosureProps }: Props) => {
           isClosable: true,
         });
       })
-      .catch(handleErrors);
+      .catch((err) => {
+        handleErrors(err);
+
+        setError('login', 'generic', 'Invalid login. Please try again.');
+        setValue('password', '');
+      });
   });
 
   return (
@@ -90,6 +96,10 @@ const LoginModal = ({ disclosureProps }: Props) => {
                 ref={register(inputValidations.password)}
               />
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl mt={4} isInvalid={Boolean(errors.login)}>
+              <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 

@@ -29,11 +29,13 @@ type FormData = {
   email: string;
   password: string;
   confirmPassword: string;
+  signUp?: string;
 };
 
 const SignUpModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const { handleSubmit, errors, register, formState, watch } = useForm<FormData>();
+  const { errors, formState, handleSubmit, reset, setError, register, watch } = useForm<FormData>();
+  const emailRef = useRef<HTMLInputElement>();
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
   const toast = useToast();
@@ -81,7 +83,22 @@ const SignUpModal = ({ disclosureProps }: Props) => {
           isClosable: true,
         });
       })
-      .catch(handleErrors);
+      .catch((err) => {
+        handleErrors(err);
+
+        setError('signUp', 'generic', 'Could not sign up. Please try again.');
+        emailRef.current?.focus();
+        reset(
+          {
+            email: '',
+            password: '',
+            confirmPassword: '',
+          },
+          {
+            errors: true,
+          }
+        );
+      });
   });
 
   return (
@@ -94,7 +111,16 @@ const SignUpModal = ({ disclosureProps }: Props) => {
           <ModalBody pb={6}>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
-              <Input name="email" placeholder="Email" ref={register(inputValidations.email)} />
+              <Input
+                name="email"
+                placeholder="Email"
+                ref={(e: HTMLInputElement) => {
+                  // This extra work is needed to manually focus the ref after sign up failures
+                  register(e);
+                  emailRef.current = e;
+                }}
+              />
+
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
@@ -118,6 +144,10 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                 ref={register(inputValidations.confirmPassword)}
               />
               <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl mt={4} isInvalid={Boolean(errors.signUp)}>
+              <FormErrorMessage>{errors.signUp?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 
