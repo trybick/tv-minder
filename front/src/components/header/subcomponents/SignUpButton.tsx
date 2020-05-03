@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, useDisclosure } from '@chakra-ui/core';
 import SignUpModal from './SignUpModal';
 
-
 const SignUpButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const disclosureProps = { isOpen, onOpen, onClose };

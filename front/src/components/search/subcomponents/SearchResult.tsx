@@ -70,6 +70,7 @@ const SearchResult = ({ show, userFollows }: Props) => {
             {name}
           </Heading>
         </Flex>
+
         {isFollowed ? (
           <Button
             minW="88px"
@@ -96,6 +97,7 @@ const SearchResult = ({ show, userFollows }: Props) => {
           </Button>
         )}
       </Flex>
+
       <Flex mt="6px">
         <Text fontSize=".83rem">{yearForDisplay}</Text>
         {popularityForDisplay && (

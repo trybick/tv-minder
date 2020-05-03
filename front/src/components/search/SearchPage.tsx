@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
 import { Box } from '@chakra-ui/core';
 import { searchShows } from 'gateway/searchShows';
-import SearchResultsContainer from './SearchResultsContainer';
-import SearchInput from './SearchInput';
+import SearchResultsContainer from './subcomponents/SearchResultsContainer';
+import SearchInput from './subcomponents/SearchInput';
 
-const SearchContainer = (): JSX.Element => {
+const SearchPage = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');
   const [isInputDirty, setIsInputDirty] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -48,4 +48,4 @@ const SearchContainer = (): JSX.Element => {
   );
 };
 
-export default SearchContainer;
+export default SearchPage;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from '@chakra-ui/core';
-import LoginButton from './LoginButton';
-import SignUpButton from './SignUpButton';
-import LogoutButton from './LogoutButton';
+import LoginButton from './subcomponents/LoginButton';
+import SignUpButton from './subcomponents/SignUpButton';
+import LogoutButton from './subcomponents/LogoutButton';
 import { isLoggedIn } from 'utils/auth';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (

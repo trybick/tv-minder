@@ -112,6 +112,7 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
               onClose();
             }}
           />
+
           <ModalBody pb={6}>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>

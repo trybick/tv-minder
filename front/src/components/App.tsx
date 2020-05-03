@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
 import { fetchUserFollows } from 'store/follows/actions';
 import Header from 'components/header/Header';
-import SearchContainer from 'components/search/SearchContainer';
+import SearchPage from 'components/search/SearchPage';
 import { isLoggedIn } from 'utils/auth';
 
 interface Props {
@@ -23,7 +23,7 @@ const App = ({ preloadUserFollows }: Props): JSX.Element => {
       <Header />
       <Switch>
         <Route exact path="/">
-          <SearchContainer />
+          <SearchPage />
         </Route>
         <Route path="/calendar">
           <Box>Calendar</Box>
