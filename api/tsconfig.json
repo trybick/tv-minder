@@ -16,7 +16,8 @@
       "controllers/*": ["entities/controllers/*"],
       "models/*": ["entities/models/*"],
       "routes/*": ["entities/routes/*"],
-      "middleware/*": ["middleware/*"]
+      "middleware/*": ["middleware/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*"],

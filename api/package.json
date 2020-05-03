@@ -19,7 +19,8 @@
     "controllers": "dist/entities/controllers",
     "models": "dist/entities/models",
     "routes": "dist/entities/routes",
-    "middleware": "dist/middleware"
+    "middleware": "dist/middleware",
+    "utils": "dist/utils"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",

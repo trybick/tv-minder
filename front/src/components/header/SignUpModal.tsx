@@ -119,7 +119,7 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
                 name="email"
                 placeholder="Email"
                 ref={(emailInput: HTMLInputElement) => {
-                  register(emailInput, formSchema.email);
+                  register(emailInput);
                   emailRef.current = emailInput;
                 }}
               />

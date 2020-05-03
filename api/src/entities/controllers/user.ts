@@ -3,15 +3,25 @@ import User from 'models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import envConfig from 'config/env';
+import { emailRegex } from 'utils/constants';
 
 export const registerUser = (req: Request, res: Response) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
       if (user.length >= 1) {
-        return res.status(409).json({
+        res.status(409).json({
           message: 'Email already registered',
         });
+        throw 'Email already registered';
+      }
+    })
+    .then(() => {
+      if (!emailRegex.test(req.body.email)) {
+        res.status(422).json({
+          message: 'Email invalid',
+        });
+        throw 'Email invalid';
       }
     })
     .then(() => {
@@ -38,6 +48,9 @@ export const registerUser = (req: Request, res: Response) => {
             });
           });
       });
+    })
+    .catch((err: Error) => {
+      console.log('Register general error:', err);
     });
 };
 
