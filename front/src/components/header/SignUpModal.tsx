@@ -86,7 +86,12 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       .catch((err) => {
         handleErrors(err);
 
-        setError('signUp', 'generic', 'Could not sign up. Please try again.');
+        if (err.response.status === 409) {
+          setError('signUp', 'emailTaken', 'Email already registered. Please try again.');
+        } else {
+          setError('signUp', 'generic', 'Could not sign up. Please try again.');
+        }
+
         emailRef.current?.focus();
         reset(
           {
