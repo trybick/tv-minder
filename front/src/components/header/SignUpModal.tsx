@@ -38,7 +38,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<
     FormData
   >();
-  const emailRef = useRef<HTMLInputElement>();
+  const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
   const toast = useToast();
@@ -112,7 +112,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} initialFocusRef={emailRef}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
