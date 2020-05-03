@@ -21,17 +21,13 @@ import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
 
-interface Props {
-  disclosureProps: DisclosureProps;
-}
-
 type FormData = {
   email: string;
   password: string;
   login?: string;
 };
 
-const inputValidations = {
+const formSchema = {
   email: {
     required: { value: true, message: 'Email is required' },
     pattern: { value: emailRegex, message: 'Please enter a valid email' },
@@ -41,11 +37,14 @@ const inputValidations = {
   },
 };
 
-const LoginModal = ({ disclosureProps }: Props) => {
+const LoginModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) => {
+  // Modal
   const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
-  const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
   const toast = useToast();
+
+  // Form
+  const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
   const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   const onSubmit = handleSubmit(({ email, password }) => {
@@ -71,7 +70,6 @@ const LoginModal = ({ disclosureProps }: Props) => {
       .catch((err) => {
         handleErrors(err);
         setIsLoading(false);
-
         setError('login', 'generic', 'Invalid login. Please try again.');
         setValue('password', '');
       });
@@ -96,7 +94,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
                 name="email"
                 placeholder="Email"
                 ref={(emailInput: HTMLInputElement) => {
-                  register(emailInput, inputValidations.email);
+                  register(emailInput, formSchema.email);
                   emailRef.current = emailInput;
                 }}
               />
@@ -109,7 +107,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
                 name="password"
                 type="password"
                 placeholder="Password"
-                ref={register(inputValidations.password)}
+                ref={register(formSchema.password)}
               />
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>

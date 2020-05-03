@@ -21,10 +21,6 @@ import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
 
-interface Props {
-  disclosureProps: DisclosureProps;
-}
-
 type FormData = {
   email: string;
   password: string;
@@ -32,18 +28,21 @@ type FormData = {
   signUp?: string;
 };
 
-const SignUpModal = ({ disclosureProps }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(false);
+const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) => {
+  // Modal
   const { isOpen, onClose } = disclosureProps;
+  const [isLoading, setIsLoading] = React.useState(false);
+  const toast = useToast();
+
+  // Form
   const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<
     FormData
   >();
   const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
-  const toast = useToast();
 
-  const inputValidations = {
+  const formSchema = {
     email: {
       required: { value: true, message: 'Email is required' },
       pattern: { value: emailRegex, message: 'Please enter a valid email' },
@@ -90,24 +89,14 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       .catch((err) => {
         handleErrors(err);
         setIsLoading(false);
+        reset({}, { errors: true });
+        emailRef.current?.focus();
 
         if (err.response.status === 409) {
           setError('signUp', 'emailTaken', 'Email already registered. Please try again.');
         } else {
           setError('signUp', 'generic', 'Could not sign up. Please try again.');
         }
-
-        emailRef.current?.focus();
-        reset(
-          {
-            email: '',
-            password: '',
-            confirmPassword: '',
-          },
-          {
-            errors: true,
-          }
-        );
       });
   });
 
@@ -130,11 +119,10 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                 name="email"
                 placeholder="Email"
                 ref={(emailInput: HTMLInputElement) => {
-                  register(emailInput, inputValidations.email);
+                  register(emailInput, formSchema.email);
                   emailRef.current = emailInput;
                 }}
               />
-
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
@@ -144,7 +132,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                 name="password"
                 type="password"
                 placeholder="Password"
-                ref={register(inputValidations.password)}
+                ref={register(formSchema.password)}
               />
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
@@ -155,7 +143,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                 name="confirmPassword"
                 type="password"
                 placeholder="Confirm Password"
-                ref={register(inputValidations.confirmPassword)}
+                ref={register(formSchema.confirmPassword)}
               />
               <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
             </FormControl>
