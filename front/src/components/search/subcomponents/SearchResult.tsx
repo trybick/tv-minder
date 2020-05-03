@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
+import { isLoggedIn } from 'utils/auth';
 
 interface Props {
   show: any;
@@ -15,7 +16,7 @@ const SearchResult = ({ show, userFollows }: Props) => {
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
 
-  const isInitiallyFollowed = userFollows.includes(String(show.id));
+  const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -62,6 +63,17 @@ const SearchResult = ({ show, userFollows }: Props) => {
       });
   }
 
+  function onLocalSaveShow() {
+    saveShowToLocalStorage(externalId);
+    setIsFollowed(true);
+  }
+
+  function onLocalUnsaveShow() {
+    setIsLoading(true);
+
+    setIsLoading(false);
+  }
+
   return (
     <Box p={3} mb={4} shadow="md" borderWidth="1px">
       <Flex justify="space-between">
@@ -78,7 +90,7 @@ const SearchResult = ({ show, userFollows }: Props) => {
             leftIcon="check"
             variantColor="teal"
             variant="solid"
-            onClick={onUnFollowShow}
+            onClick={isLoggedIn ? onUnFollowShow : onLocalUnsaveShow}
             isLoading={isLoading}
           >
             Followed
@@ -90,7 +102,7 @@ const SearchResult = ({ show, userFollows }: Props) => {
             leftIcon="small-add"
             variantColor="teal"
             variant="outline"
-            onClick={onFollowShow}
+            onClick={isLoggedIn ? onFollowShow : onLocalSaveShow}
             isLoading={isLoading}
           >
             Follow
@@ -113,3 +125,12 @@ const SearchResult = ({ show, userFollows }: Props) => {
 };
 
 export default SearchResult;
+
+function saveShowToLocalStorage(showId: any) {
+  const key = 'savedShows';
+  const existingShows = localStorage.getItem(key);
+  const arrayToSave = existingShows ? JSON.parse(existingShows) : [];
+
+  arrayToSave.push(showId);
+  localStorage.setItem(key, JSON.stringify(arrayToSave));
+}
