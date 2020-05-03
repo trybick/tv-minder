@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Box, Flex, Spinner, Stack, Tag, Text } from '@chakra-ui/core';
-import SearchResult from './SearchResult';
+import { Flex, Spinner, Text } from '@chakra-ui/core';
+import SearchResults from './SearchResults';
 
 interface Props {
   isInputDirty: boolean;
@@ -28,30 +28,6 @@ const WelcomeMessage = () => (
     <Text>Welcome, search for a show</Text>
   </Flex>
 );
-
-const SearchResults = ({
-  shows,
-  totalResults,
-  userFollows,
-}: Pick<Props, 'shows' | 'totalResults' | 'userFollows'>) => {
-  const casedMatches = totalResults === 1 ? 'match' : 'matches';
-  const totalMatchesText = `${totalResults} ${casedMatches} found`;
-
-  return (
-    <Box>
-      <Box textAlign="right">
-        <Tag size="sm" mb="24px" fontSize="0.84rem">
-          {totalMatchesText}
-        </Tag>
-      </Box>
-      <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
-        {shows.map((show) => (
-          <SearchResult key={show.id} show={show} userFollows={userFollows} />
-        ))}
-      </Stack>
-    </Box>
-  );
-};
 
 const SearchResultsContainer = ({
   isInputDirty,

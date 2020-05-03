@@ -4,7 +4,12 @@ import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
-const SearchResult = ({ show, userFollows }: { show: any; userFollows: any }) => {
+interface Props {
+  show: any;
+  userFollows: any;
+}
+
+const SearchResult = ({ show, userFollows }: Props) => {
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = show;
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
