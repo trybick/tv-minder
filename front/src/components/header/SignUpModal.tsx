@@ -33,8 +33,9 @@ type FormData = {
 };
 
 const SignUpModal = ({ disclosureProps }: Props) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
-  const { clearError, errors, formState, handleSubmit, reset, setError, register, watch } = useForm<
+  const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<
     FormData
   >();
   const emailRef = useRef<HTMLInputElement>();
@@ -61,6 +62,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   };
 
   const onSubmit = handleSubmit(({ email, password }) => {
+    setIsLoading(true);
     axios
       .post(`${baseUrl}/register`, {
         email,
@@ -87,6 +89,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       })
       .catch((err) => {
         handleErrors(err);
+        setIsLoading(false);
 
         if (err.response.status === 409) {
           setError('signUp', 'emailTaken', 'Email already registered. Please try again.');
@@ -164,7 +167,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="teal" mr={3} isLoading={formState.isSubmitting} type="submit">
+            <Button variantColor="teal" mr={3} type="submit" isLoading={isLoading}>
               Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>

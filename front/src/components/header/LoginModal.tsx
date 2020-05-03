@@ -42,13 +42,13 @@ const inputValidations = {
 };
 
 const LoginModal = ({ disclosureProps }: Props) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
-  const { clearError, handleSubmit, errors, register, formState, setError, setValue } = useForm<
-    FormData
-  >();
+  const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
   const toast = useToast();
 
   const onSubmit = handleSubmit(({ email, password }) => {
+    setIsLoading(true);
     axios
       .post(`${baseUrl}/login`, {
         email,
@@ -69,6 +69,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
       })
       .catch((err) => {
         handleErrors(err);
+        setIsLoading(false);
 
         setError('login', 'generic', 'Invalid login. Please try again.');
         setValue('password', '');
@@ -111,7 +112,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="teal" mr={3} isLoading={formState.isSubmitting} type="submit">
+            <Button variantColor="teal" mr={3} isLoading={isLoading} type="submit">
               Login
             </Button>
             <Button onClick={onClose}>Cancel</Button>
