@@ -62,10 +62,16 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
 
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
+
+    // Retrieve shows that user followed before signing up
+    const existingShows = localStorage.getItem('savedShows');
+    const locallySavedShows = existingShows ? JSON.parse(existingShows) : [];
+
     axios
       .post(`${baseUrl}/register`, {
         email,
         password,
+        locallySavedShows,
       })
       .then(() => {
         return axios.post(`${baseUrl}/login`, {
