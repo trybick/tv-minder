@@ -108,7 +108,7 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} initialFocusRef={emailRef}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
@@ -127,9 +127,10 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
                 name="email"
                 placeholder="Email"
                 ref={(emailInput: HTMLInputElement) => {
-                  register(emailInput);
+                  register(emailInput, formSchema.email);
                   emailRef.current = emailInput;
                 }}
+                autoFocus
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
