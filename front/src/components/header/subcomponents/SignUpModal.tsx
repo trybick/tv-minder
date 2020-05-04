@@ -85,6 +85,7 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
       })
       .then(() => {
         onClose();
+        localStorage.removeItem('savedShows');
         toast({
           title: 'Logged in',
           description: "We've created your account for you.",
