@@ -26,7 +26,6 @@ const SearchResult = ({ show, userFollows }: Props) => {
       .post(
         `${baseUrl}/follow`,
         {
-          name,
           externalId,
           token: localStorage.getItem('jwt'),
         },
@@ -47,7 +46,6 @@ const SearchResult = ({ show, userFollows }: Props) => {
     axios
       .delete(`${baseUrl}/follow`, {
         data: {
-          name,
           externalId,
           token: localStorage.getItem('jwt'),
         },
