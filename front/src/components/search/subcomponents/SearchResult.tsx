@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/core';
+import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { isLoggedIn } from 'utils/auth';
@@ -11,14 +11,15 @@ interface Props {
 }
 
 const SearchResult = ({ show, userFollows }: Props) => {
+  const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
+  const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const toast = useToast();
+
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = show;
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
-
-  const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
-  const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
-  const [isLoading, setIsLoading] = React.useState(false);
 
   function onFollowShow() {
     setIsLoading(true);
@@ -66,6 +67,16 @@ const SearchResult = ({ show, userFollows }: Props) => {
   function onLocalSaveShow() {
     saveShowToLocalStorage(externalId);
     setIsFollowed(true);
+
+    // If this has not been shown before
+    toast({
+      title: `We'll keep track for now.`,
+      description: `Be sure to login to save permenantly.`,
+      status: 'warning',
+      duration: 8000,
+      isClosable: true,
+      position: 'bottom-right',
+    });
   }
 
   function onLocalUnsaveShow() {
