@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
-import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
 import SearchResults from './SearchResults';
 
 interface OwnProps {
   isInputDirty: boolean;
   isLoading: boolean;
-  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
   shows: any[];
   totalResults: number;
 }
@@ -18,7 +16,6 @@ interface OwnProps {
 
 interface StateProps {
   userFollows?: any[];
-  hasLocalWarningToastBeenShown?: boolean;
 }
 
 const LoadingSpinner = () => (
@@ -40,10 +37,9 @@ const WelcomeMessage = () => (
 );
 
 const SearchResultsContainer = ({
-  hasLocalWarningToastBeenShown,
   isInputDirty,
   isLoading,
-  setHasLocalWarningToastBeenShown,
+
   shows,
   totalResults,
   userFollows,
@@ -52,13 +48,7 @@ const SearchResultsContainer = ({
     {isLoading ? (
       <LoadingSpinner />
     ) : shows?.length ? (
-      <SearchResults
-        setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
-        shows={shows}
-        totalResults={totalResults}
-        userFollows={userFollows}
-        hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
-      />
+      <SearchResults shows={shows} totalResults={totalResults} userFollows={userFollows} />
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (
@@ -69,15 +59,6 @@ const SearchResultsContainer = ({
 
 const mapStateToProps = (state: any) => ({
   userFollows: state.followReducer.userFollows,
-  hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
-});
-
-export default connect<StateProps, null, OwnProps>(
-  mapStateToProps,
-  // @ts-ignore
-  mapDispatchToProps
-)(SearchResultsContainer);
+export default connect<StateProps, null, OwnProps>(mapStateToProps, null)(SearchResultsContainer);

@@ -3,20 +3,12 @@ import { Box, Stack, Tag } from '@chakra-ui/core';
 import SearchResult from './SearchResult';
 
 interface Props {
-  hasLocalWarningToastBeenShown?: boolean;
-  setHasLocalWarningToastBeenShown: any;
   shows: any[];
   totalResults: number;
   userFollows?: any[];
 }
 
-const SearchResults = ({
-  hasLocalWarningToastBeenShown,
-  setHasLocalWarningToastBeenShown,
-  shows,
-  totalResults,
-  userFollows,
-}: Props) => {
+const SearchResults = ({ shows, totalResults, userFollows }: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
 
@@ -30,13 +22,7 @@ const SearchResults = ({
 
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
         {shows.map((show) => (
-          <SearchResult
-            hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
-            key={show.id}
-            setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
-            show={show}
-            userFollows={userFollows}
-          />
+          <SearchResult key={show.id} show={show} userFollows={userFollows} />
         ))}
       </Stack>
     </Box>

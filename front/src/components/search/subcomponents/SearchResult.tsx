@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
+import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { isLoggedIn } from 'utils/auth';
@@ -24,7 +26,7 @@ function saveShowToLocalStorage(showId: any, method: 'save' | 'unsave' = 'save')
 
 interface Props {
   hasLocalWarningToastBeenShown?: boolean;
-  setHasLocalWarningToastBeenShown: any;
+  setHasLocalWarningToastBeenShown?: any;
   show: any;
   userFollows: any;
 }
@@ -97,7 +99,7 @@ const SearchResult = ({
 
       toast({
         title: `We'll keep track for now.`,
-        description: `Be sure to login to save permenantly.`,
+        description: `Be sure to login to save permanently.`,
         status: 'warning',
         duration: 8000,
         isClosable: true,
@@ -105,6 +107,7 @@ const SearchResult = ({
       });
     }
   }
+
   function onLocalUnsaveShow() {
     saveShowToLocalStorage(externalId, 'unsave');
     setIsFollowed(false);
@@ -160,4 +163,12 @@ const SearchResult = ({
   );
 };
 
-export default SearchResult;
+const mapStateToProps = (state: any) => ({
+  hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResult);
