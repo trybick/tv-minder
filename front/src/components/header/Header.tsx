@@ -4,7 +4,7 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/core';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
-import { isLoggedIn } from 'utils/auth';
+import { isLoggedIn } from 'utils/localStorage';
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>

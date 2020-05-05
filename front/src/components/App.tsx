@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/core';
 import { fetchUserFollows } from 'store/follows/actions';
 import Header from 'components/header/Header';
 import SearchPage from 'components/search/SearchPage';
-import { isLoggedIn } from 'utils/auth';
+import { isLoggedIn } from 'utils/localStorage';
 
 interface Props {
   preloadUserFollows: typeof fetchUserFollows;
