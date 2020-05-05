@@ -24,11 +24,17 @@ function saveShowToLocalStorage(showId: any, method: 'save' | 'unsave' = 'save')
 
 interface Props {
   hasLocalWarningToastBeenShown?: boolean;
+  setHasLocalWarningToastBeenShown: any;
   show: any;
   userFollows: any;
 }
 
-const SearchResult = ({ hasLocalWarningToastBeenShown, show, userFollows }: Props) => {
+const SearchResult = ({
+  hasLocalWarningToastBeenShown,
+  setHasLocalWarningToastBeenShown,
+  show,
+  userFollows,
+}: Props) => {
   const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -86,18 +92,19 @@ const SearchResult = ({ hasLocalWarningToastBeenShown, show, userFollows }: Prop
     saveShowToLocalStorage(externalId);
     setIsFollowed(true);
 
-    console.log('hasLocalWarningToastBeenShown', hasLocalWarningToastBeenShown);
-    // If this has not been shown before
-    toast({
-      title: `We'll keep track for now.`,
-      description: `Be sure to login to save permenantly.`,
-      status: 'warning',
-      duration: 8000,
-      isClosable: true,
-      position: 'bottom-right',
-    });
-  }
+    if (!hasLocalWarningToastBeenShown) {
+      setHasLocalWarningToastBeenShown();
 
+      toast({
+        title: `We'll keep track for now.`,
+        description: `Be sure to login to save permenantly.`,
+        status: 'warning',
+        duration: 8000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
+    }
+  }
   function onLocalUnsaveShow() {
     saveShowToLocalStorage(externalId, 'unsave');
     setIsFollowed(false);

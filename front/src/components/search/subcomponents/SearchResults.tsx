@@ -4,6 +4,7 @@ import SearchResult from './SearchResult';
 
 interface Props {
   hasLocalWarningToastBeenShown?: boolean;
+  setHasLocalWarningToastBeenShown: any;
   shows: any[];
   totalResults: number;
   userFollows?: any[];
@@ -11,6 +12,7 @@ interface Props {
 
 const SearchResults = ({
   hasLocalWarningToastBeenShown,
+  setHasLocalWarningToastBeenShown,
   shows,
   totalResults,
   userFollows,
@@ -31,6 +33,7 @@ const SearchResults = ({
           <SearchResult
             hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
             key={show.id}
+            setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
             show={show}
             userFollows={userFollows}
           />

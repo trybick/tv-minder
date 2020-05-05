@@ -23,7 +23,7 @@ export function fetchUserFollows() {
   };
 }
 
-export function setHasLocalWarningToastBeenShown() {
+export function setHasLocalWarningToastBeenShownAction() {
   return (dispatch: any) => {
     dispatch({
       type: SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,

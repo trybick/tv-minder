@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
+import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
 import SearchResults from './SearchResults';
 
 interface OwnProps {
   isInputDirty: boolean;
   isLoading: boolean;
+  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
   shows: any[];
   totalResults: number;
 }
@@ -41,6 +43,7 @@ const SearchResultsContainer = ({
   hasLocalWarningToastBeenShown,
   isInputDirty,
   isLoading,
+  setHasLocalWarningToastBeenShown,
   shows,
   totalResults,
   userFollows,
@@ -50,6 +53,7 @@ const SearchResultsContainer = ({
       <LoadingSpinner />
     ) : shows?.length ? (
       <SearchResults
+        setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
         shows={shows}
         totalResults={totalResults}
         userFollows={userFollows}
@@ -68,4 +72,12 @@ const mapStateToProps = (state: any) => ({
   hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
-export default connect<StateProps, null, OwnProps>(mapStateToProps, null)(SearchResultsContainer);
+const mapDispatchToProps = (dispatch: any) => ({
+  setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
+});
+
+export default connect<StateProps, null, OwnProps>(
+  mapStateToProps,
+  // @ts-ignore
+  mapDispatchToProps
+)(SearchResultsContainer);
