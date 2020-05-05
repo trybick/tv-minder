@@ -1,10 +1,10 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { userFollowsReducer } from './follows/reducers';
+import { followReducer } from './follows/reducers';
 
 const rootReducer = combineReducers({
-  userFollows: userFollowsReducer,
+  followReducer,
 });
 
 const middlewares = [thunk];

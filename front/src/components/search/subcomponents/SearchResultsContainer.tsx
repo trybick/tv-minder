@@ -3,12 +3,20 @@ import { connect } from 'react-redux';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
 import SearchResults from './SearchResults';
 
-interface Props {
+interface OwnProps {
   isInputDirty: boolean;
   isLoading: boolean;
   shows: any[];
   totalResults: number;
+}
+
+// interface ComponentDispatchProps {
+//   doSomeAction: typeof someAction;
+// }
+
+interface StateProps {
   userFollows?: any[];
+  hasLocalWarningToastBeenShown?: boolean;
 }
 
 const LoadingSpinner = () => (
@@ -30,17 +38,23 @@ const WelcomeMessage = () => (
 );
 
 const SearchResultsContainer = ({
+  hasLocalWarningToastBeenShown,
   isInputDirty,
   isLoading,
   shows,
   totalResults,
   userFollows,
-}: Props) => (
+}: OwnProps & StateProps) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
     ) : shows?.length ? (
-      <SearchResults shows={shows} totalResults={totalResults} userFollows={userFollows} />
+      <SearchResults
+        shows={shows}
+        totalResults={totalResults}
+        userFollows={userFollows}
+        hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
+      />
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (
@@ -50,8 +64,8 @@ const SearchResultsContainer = ({
 );
 
 const mapStateToProps = (state: any) => ({
-  // Why is this necessary
-  userFollows: state.userFollows['userFollows'],
+  userFollows: state.followReducer.userFollows,
+  hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
-export default connect(mapStateToProps, null)(SearchResultsContainer);
+export default connect<StateProps, null, OwnProps>(mapStateToProps, null)(SearchResultsContainer);

@@ -5,12 +5,30 @@ import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { isLoggedIn } from 'utils/auth';
 
+function saveShowToLocalStorage(showId: any, method: 'save' | 'unsave' = 'save') {
+  const key = 'savedShows';
+  const existingShows = localStorage.getItem(key);
+  const arrayToSave = existingShows ? JSON.parse(existingShows) : [];
+
+  if (method === 'unsave') {
+    const location = arrayToSave.indexOf(showId);
+    if (location > -1) {
+      arrayToSave.splice(location, 1);
+    }
+  } else {
+    arrayToSave.push(showId);
+  }
+
+  localStorage.setItem(key, JSON.stringify(arrayToSave));
+}
+
 interface Props {
+  hasLocalWarningToastBeenShown?: boolean;
   show: any;
   userFollows: any;
 }
 
-const SearchResult = ({ show, userFollows }: Props) => {
+const SearchResult = ({ hasLocalWarningToastBeenShown, show, userFollows }: Props) => {
   const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -68,6 +86,7 @@ const SearchResult = ({ show, userFollows }: Props) => {
     saveShowToLocalStorage(externalId);
     setIsFollowed(true);
 
+    console.log('hasLocalWarningToastBeenShown', hasLocalWarningToastBeenShown);
     // If this has not been shown before
     toast({
       title: `We'll keep track for now.`,
@@ -135,20 +154,3 @@ const SearchResult = ({ show, userFollows }: Props) => {
 };
 
 export default SearchResult;
-
-function saveShowToLocalStorage(showId: any, method: 'save' | 'unsave' = 'save') {
-  const key = 'savedShows';
-  const existingShows = localStorage.getItem(key);
-  const arrayToSave = existingShows ? JSON.parse(existingShows) : [];
-
-  if (method === 'unsave') {
-    const location = arrayToSave.indexOf(showId);
-    if (location > -1) {
-      arrayToSave.splice(location, 1);
-    }
-  } else {
-    arrayToSave.push(showId);
-  }
-
-  localStorage.setItem(key, JSON.stringify(arrayToSave));
-}

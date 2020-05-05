@@ -3,6 +3,7 @@ import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
+export const SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN = 'SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN';
 
 export function fetchUserFollows() {
   return (dispatch: any) => {
@@ -19,5 +20,13 @@ export function fetchUserFollows() {
         });
       })
       .catch(handleErrors);
+  };
+}
+
+export function setHasLocalWarningToastBeenShown() {
+  return (dispatch: any) => {
+    dispatch({
+      type: SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
+    });
   };
 }
