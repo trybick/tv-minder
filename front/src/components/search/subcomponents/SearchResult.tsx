@@ -9,17 +9,16 @@ import handleErrors from 'utils/handleErrors';
 import { isLoggedIn, saveShowToLocalStorage } from 'utils/localStorage';
 
 interface OwnProps {
-  setHasLocalWarningToastBeenShown?: any;
   show: any;
   userFollows: any;
 }
 
 interface StateProps {
-  hasLocalWarningToastBeenShown?: boolean;
+  hasLocalWarningToastBeenShown: boolean;
 }
 
 interface DispatchProps {
-  doSomeAction: typeof setHasLocalWarningToastBeenShownAction;
+  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
 }
 
 type Props = StateProps & DispatchProps & OwnProps;
