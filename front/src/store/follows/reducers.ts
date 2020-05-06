@@ -5,12 +5,10 @@ const initialState = {
   userFollows: [],
 };
 
-export interface FollowReducerState {
-  followReducer: {
-    hasLocalWarningToastBeenShown: false;
-    userFollows: [];
-  };
-}
+export type FollowReducerState = {
+  hasLocalWarningToastBeenShown: false;
+  userFollows: [];
+};
 
 export function followReducer(state = initialState, action: any) {
   switch (action.type) {

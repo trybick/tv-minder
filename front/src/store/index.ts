@@ -1,7 +1,11 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { followReducer } from './follows/reducers';
+import { followReducer, FollowReducerState } from './follows/reducers';
+
+export type AppState = {
+  followReduer: FollowReducerState;
+};
 
 const rootReducer = combineReducers({
   followReducer,

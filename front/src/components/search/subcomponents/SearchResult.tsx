@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
+import { AppState } from 'store';
 import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
-import { FollowReducerState } from 'store/follows/reducers';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { isLoggedIn, saveShowToLocalStorage } from 'utils/localStorage';
@@ -155,17 +156,15 @@ const SearchResult = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, FollowReducerState> = (
-  state: any
-): StateProps => ({
+const mapStateToProps: MapStateToProps<StateProps, OwnProps> = (state: any): StateProps => ({
   hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
 });
 
-export default connect<StateProps, DispatchProps, OwnProps, FollowReducerState>(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(SearchResult);
