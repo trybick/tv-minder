@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
+import { FollowReducerState } from 'store/follows/reducers';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { isLoggedIn, saveShowToLocalStorage } from 'utils/localStorage';
 
-interface Props {
-  hasLocalWarningToastBeenShown?: boolean;
+interface OwnProps {
   setHasLocalWarningToastBeenShown?: any;
   show: any;
   userFollows: any;
 }
+
+interface StateProps {
+  hasLocalWarningToastBeenShown?: boolean;
+}
+
+interface DispatchProps {
+  doSomeAction: typeof setHasLocalWarningToastBeenShownAction;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
 
 const SearchResult = ({
   hasLocalWarningToastBeenShown,
@@ -146,7 +156,9 @@ const SearchResult = ({
   );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, FollowReducerState> = (
+  state: any
+): StateProps => ({
   hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
@@ -154,4 +166,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResult);
+export default connect<StateProps, DispatchProps, OwnProps, FollowReducerState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchResult);

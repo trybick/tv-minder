@@ -10,10 +10,6 @@ interface OwnProps {
   totalResults: number;
 }
 
-// interface ComponentDispatchProps {
-//   doSomeAction: typeof someAction;
-// }
-
 interface StateProps {
   userFollows?: any[];
 }

@@ -1,9 +1,16 @@
 import { FETCH_USER_FOLLOWS, SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN } from './actions';
 
 const initialState = {
-  userFollows: [],
   hasLocalWarningToastBeenShown: false,
+  userFollows: [],
 };
+
+export interface FollowReducerState {
+  followReducer: {
+    hasLocalWarningToastBeenShown: false;
+    userFollows: [];
+  };
+}
 
 export function followReducer(state = initialState, action: any) {
   switch (action.type) {
