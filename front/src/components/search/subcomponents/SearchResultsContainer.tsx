@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
+import { AppState } from 'store';
 import SearchResults from './SearchResults';
 
 interface OwnProps {
@@ -35,7 +36,6 @@ const WelcomeMessage = () => (
 const SearchResultsContainer = ({
   isInputDirty,
   isLoading,
-
   shows,
   totalResults,
   userFollows,
@@ -53,8 +53,11 @@ const SearchResultsContainer = ({
   </Flex>
 );
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
   userFollows: state.followReducer.userFollows,
 });
 
-export default connect<StateProps, null, OwnProps>(mapStateToProps, null)(SearchResultsContainer);
+export default connect<StateProps, null, OwnProps, AppState>(
+  mapStateToProps,
+  null
+)(SearchResultsContainer);
