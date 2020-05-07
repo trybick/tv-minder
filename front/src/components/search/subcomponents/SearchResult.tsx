@@ -156,7 +156,9 @@ const SearchResult = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps> = (state: any): StateProps => ({
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
+  state: AppState
+): StateProps => ({
   hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
@@ -164,7 +166,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
 });
 
-export default connect<StateProps, DispatchProps, OwnProps>(
+export default connect<StateProps, DispatchProps, OwnProps, AppState>(
   mapStateToProps,
   mapDispatchToProps
 )(SearchResult);

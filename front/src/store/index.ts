@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { followReducer, FollowReducerState } from './follows/reducers';
 
 export type AppState = {
-  followReduer: FollowReducerState;
+  followReducer: FollowReducerState;
 };
 
 const rootReducer = combineReducers({

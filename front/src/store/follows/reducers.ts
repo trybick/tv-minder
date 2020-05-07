@@ -1,16 +1,20 @@
+import { Action, Reducer } from 'redux';
 import { FETCH_USER_FOLLOWS, SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN } from './actions';
+import { AppState } from 'store';
 
 const initialState = {
-  hasLocalWarningToastBeenShown: false,
-  userFollows: [],
+  followReducer: {
+    hasLocalWarningToastBeenShown: false,
+    userFollows: [],
+  },
 };
 
-export type FollowReducerState = {
-  hasLocalWarningToastBeenShown: false;
-  userFollows: [];
-};
+export interface FollowReducerState {
+  hasLocalWarningToastBeenShown: boolean;
+  userFollows: any[];
+}
 
-export function followReducer(state = initialState, action: any) {
+export const followReducer: Reducer<AppState, Action> = (state = initialState, action: any) => {
   switch (action.type) {
     case FETCH_USER_FOLLOWS: {
       return {
@@ -27,4 +31,4 @@ export function followReducer(state = initialState, action: any) {
     default:
       return state;
   }
-}
+};
