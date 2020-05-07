@@ -162,7 +162,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
 });
 
