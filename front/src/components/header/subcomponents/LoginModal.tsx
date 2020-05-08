@@ -19,6 +19,7 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { fetchUserFollows } from 'store/follows/actions';
+import { setIsLoggedInAction } from 'store/user/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
@@ -29,6 +30,7 @@ interface OwnProps {
 
 interface DispatchProps {
   loadUserFollows: typeof fetchUserFollows;
+  setIsLoggedIn: typeof setIsLoggedInAction;
 }
 
 type Props = DispatchProps & OwnProps;
@@ -49,7 +51,7 @@ const formSchema = {
   },
 };
 
-const LoginModal = ({ disclosureProps, loadUserFollows }: Props) => {
+const LoginModal = ({ disclosureProps, loadUserFollows, setIsLoggedIn }: Props) => {
   // Modal
   const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
@@ -70,6 +72,7 @@ const LoginModal = ({ disclosureProps, loadUserFollows }: Props) => {
       })
       .then(() => {
         onClose();
+        setIsLoggedIn();
         loadUserFollows();
         toast({
           title: 'Login Successful',
@@ -136,6 +139,7 @@ const LoginModal = ({ disclosureProps, loadUserFollows }: Props) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadUserFollows: () => dispatch(fetchUserFollows()),
+  setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
 });
 
 export default connect(null, mapDispatchToProps)(LoginModal);

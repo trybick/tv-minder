@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect, MapStateToProps } from 'react-redux';
 import { Box, Flex, Heading, Text } from '@chakra-ui/core';
+import { AppState } from 'store';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
-import { isLoggedIn } from 'utils/localStorage';
+
+interface StateProps {
+  isLoggedIn: boolean;
+}
 
 const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   <Link to={linkTo}>
@@ -14,7 +19,7 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   </Link>
 );
 
-const Header = () => {
+const Header = ({ isLoggedIn }: StateProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
 
@@ -54,7 +59,7 @@ const Header = () => {
       </Box>
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        {isLoggedIn() ? (
+        {isLoggedIn ? (
           <>
             <LogoutButton />
           </>
@@ -69,4 +74,9 @@ const Header = () => {
   );
 };
 
-export default Header;
+const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
+  state: AppState
+): StateProps => ({
+  isLoggedIn: state.userReducer.isLoggedIn,
+});
+export default connect(mapStateToProps, {})(Header);
