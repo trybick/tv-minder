@@ -23,7 +23,6 @@ export const getFollows = async (req: Request, res: Response) => {
   const requestingUserId = res.locals.userId;
 
   User.findOne({ _id: requestingUserId })
-    .select('followedShows')
     .exec((err, user) => {
       if (user && !err) {
         res.status(200).json(user.followedShows);
