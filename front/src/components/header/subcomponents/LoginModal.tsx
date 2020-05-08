@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import {
@@ -17,9 +18,20 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
+import { fetchUserFollows } from 'store/follows/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
+
+interface OwnProps {
+  disclosureProps: DisclosureProps;
+}
+
+interface DispatchProps {
+  loadUserFollows: typeof fetchUserFollows;
+}
+
+type Props = DispatchProps & OwnProps;
 
 type FormData = {
   email: string;
@@ -37,7 +49,7 @@ const formSchema = {
   },
 };
 
-const LoginModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) => {
+const LoginModal = ({ disclosureProps, loadUserFollows }: Props) => {
   // Modal
   const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
@@ -58,7 +70,7 @@ const LoginModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) =
       })
       .then(() => {
         onClose();
-        window.location.reload();
+        loadUserFollows();
         toast({
           title: 'Login Successful',
           description: 'You are now logged in.',
@@ -122,4 +134,8 @@ const LoginModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) =
   );
 };
 
-export default LoginModal;
+const mapDispatchToProps = (dispatch: any) => ({
+  loadUserFollows: () => dispatch(fetchUserFollows()),
+});
+
+export default connect(null, mapDispatchToProps)(LoginModal);

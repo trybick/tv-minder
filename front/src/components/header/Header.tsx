@@ -54,7 +54,7 @@ const Header = () => {
       </Box>
 
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        {isLoggedIn ? (
+        {isLoggedIn() ? (
           <>
             <LogoutButton />
           </>

@@ -79,7 +79,7 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
-        window.location.reload();
+        // window.location.reload();
       })
       .then(() => {
         onClose();

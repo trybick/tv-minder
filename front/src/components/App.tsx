@@ -13,7 +13,7 @@ interface Props {
 
 const App = ({ preloadUserFollows }: Props): JSX.Element => {
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn()) {
       preloadUserFollows();
     }
   }, [preloadUserFollows]);

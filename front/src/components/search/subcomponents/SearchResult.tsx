@@ -30,11 +30,10 @@ const SearchResult = ({
   show,
   userFollows,
 }: Props) => {
-  const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
+  const isInitiallyFollowed = isLoggedIn() && userFollows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
-
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = show;
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
@@ -81,18 +80,15 @@ const SearchResult = ({
       });
   }
 
-  // If a user is not signed in, we allow them to click Follow show and we save the shows locally
-  // which are later retrieved during the sign up process
   function onLocalSaveShow() {
     saveShowToLocalStorage(externalId);
     setIsFollowed(true);
 
     if (!hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
-
       toast({
-        title: `We'll keep track for now.`,
-        description: `Be sure to login to save permanently.`,
+        title: `Saving followed shows`,
+        description: `Be sure to login to save permanently`,
         status: 'warning',
         duration: 8000,
         isClosable: true,
@@ -122,7 +118,7 @@ const SearchResult = ({
             leftIcon="check"
             variantColor="teal"
             variant="solid"
-            onClick={isLoggedIn ? onUnFollowShow : onLocalUnsaveShow}
+            onClick={isLoggedIn() ? onUnFollowShow : onLocalUnsaveShow}
             isLoading={isLoading}
           >
             Followed
@@ -134,7 +130,7 @@ const SearchResult = ({
             leftIcon="small-add"
             variantColor="teal"
             variant="outline"
-            onClick={isLoggedIn ? onFollowShow : onLocalSaveShow}
+            onClick={isLoggedIn() ? onFollowShow : onLocalSaveShow}
             isLoading={isLoading}
           >
             Follow
