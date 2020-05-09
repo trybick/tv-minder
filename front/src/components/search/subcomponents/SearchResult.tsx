@@ -9,7 +9,7 @@ import { saveShowToLocalStorage } from 'utils/localStorage';
 interface Props {
   isLoggedIn: boolean;
   hasLocalWarningToastBeenShown: boolean;
-  userFollows: any;
+  followedShows: any;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
   show: any;
 }
@@ -19,9 +19,9 @@ const SearchResult = ({
   isLoggedIn,
   setHasLocalWarningToastBeenShown,
   show,
-  userFollows,
+  followedShows,
 }: Props) => {
-  const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
+  const isInitiallyFollowed = isLoggedIn && followedShows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();

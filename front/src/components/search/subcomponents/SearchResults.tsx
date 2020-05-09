@@ -14,7 +14,7 @@ interface OwnProps {
 interface StateProps {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  userFollows?: any[];
+  followedShows?: any[];
 }
 
 interface DispatchProps {
@@ -29,7 +29,7 @@ const SearchResults = ({
   setHasLocalWarningToastBeenShown,
   shows,
   totalResults,
-  userFollows,
+  followedShows,
 }: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
@@ -50,7 +50,7 @@ const SearchResults = ({
             key={show.id}
             setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
             show={show}
-            userFollows={userFollows}
+            followedShows={followedShows}
           />
         ))}
       </Stack>
@@ -61,7 +61,7 @@ const SearchResults = ({
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
   hasLocalWarningToastBeenShown: state.user.hasLocalWarningToastBeenShown,
   isLoggedIn: state.user.isLoggedIn,
-  userFollows: state.user.userFollows,
+  followedShows: state.user.followedShows,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({

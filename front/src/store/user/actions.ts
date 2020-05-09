@@ -25,7 +25,7 @@ export const setHasLocalWarningToastBeenShownAction = () => (dispatch: any) => {
   });
 };
 
-export const fetchUserFollowsAction = () => (dispatch: any) =>
+export const fetchfollowedShowsAction = () => (dispatch: any) =>
   axios
     .get(`${baseUrl}/follow`, {
       params: { token: localStorage.getItem('jwt') },

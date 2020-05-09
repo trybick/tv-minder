@@ -9,13 +9,13 @@ import {
 export interface UserReducerState {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  userFollows: any[];
+  followedShows: any[];
 }
 
 const initialState = {
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
-  userFollows: [],
+  followedShows: [],
 };
 
 export const userReducer: Reducer<UserReducerState, Action> = (
@@ -26,7 +26,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
     case FETCH_USER_FOLLOWS: {
       return {
         ...state,
-        userFollows: action.payload,
+        followedShows: action.payload,
       };
     }
     case SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN: {
@@ -45,7 +45,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
       return {
         ...state,
         isLoggedIn: false,
-        userFollows: [],
+        followedShows: [],
       };
     }
     default:
