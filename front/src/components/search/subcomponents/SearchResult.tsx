@@ -1,29 +1,18 @@
 import React, { useState } from 'react';
-import { connect, MapStateToProps } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
-import { AppState } from 'store';
 import { setHasLocalWarningToastBeenShownAction } from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { saveShowToLocalStorage } from 'utils/localStorage';
 
-interface OwnProps {
-  show: any;
-  userFollows: any;
-}
-
-interface StateProps {
-  hasLocalWarningToastBeenShown: boolean;
+interface Props {
   isLoggedIn: boolean;
-}
-
-interface DispatchProps {
+  hasLocalWarningToastBeenShown: boolean;
+  userFollows: any;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
+  show: any;
 }
-
-type Props = StateProps & DispatchProps & OwnProps;
 
 const SearchResult = ({
   hasLocalWarningToastBeenShown,
@@ -154,18 +143,4 @@ const SearchResult = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
-  state: AppState
-): StateProps => ({
-  hasLocalWarningToastBeenShown: state.user.hasLocalWarningToastBeenShown,
-  isLoggedIn: state.user.isLoggedIn,
-});
-
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
-  setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
-});
-
-export default connect<StateProps, DispatchProps, OwnProps, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchResult);
+export default SearchResult;

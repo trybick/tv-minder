@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box, Stack, Tag } from '@chakra-ui/core';
 import { connect, MapStateToProps } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'store';
+import { setHasLocalWarningToastBeenShownAction } from 'store/user/actions';
 import SearchResult from './SearchResult';
 
 interface OwnProps {
@@ -10,12 +12,25 @@ interface OwnProps {
 }
 
 interface StateProps {
+  hasLocalWarningToastBeenShown: boolean;
+  isLoggedIn: boolean;
   userFollows?: any[];
 }
 
-type Props = OwnProps & StateProps;
+interface DispatchProps {
+  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
+}
 
-const SearchResults = ({ shows, totalResults, userFollows }: Props) => {
+type Props = OwnProps & StateProps & DispatchProps;
+
+const SearchResults = ({
+  hasLocalWarningToastBeenShown,
+  isLoggedIn,
+  setHasLocalWarningToastBeenShown,
+  shows,
+  totalResults,
+  userFollows,
+}: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
 
@@ -29,7 +44,14 @@ const SearchResults = ({ shows, totalResults, userFollows }: Props) => {
 
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
         {shows.map((show) => (
-          <SearchResult key={show.id} show={show} userFollows={userFollows} />
+          <SearchResult
+            hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
+            isLoggedIn={isLoggedIn}
+            key={show.id}
+            setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
+            show={show}
+            userFollows={userFollows}
+          />
         ))}
       </Stack>
     </Box>
@@ -37,7 +59,16 @@ const SearchResults = ({ shows, totalResults, userFollows }: Props) => {
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
+  hasLocalWarningToastBeenShown: state.user.hasLocalWarningToastBeenShown,
+  isLoggedIn: state.user.isLoggedIn,
   userFollows: state.user.userFollows,
 });
 
-export default connect<StateProps, null, OwnProps, AppState>(mapStateToProps, null)(SearchResults);
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
+  setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
+});
+
+export default connect<StateProps, DispatchProps, OwnProps, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchResults);
