@@ -6,6 +6,8 @@ import {
   SET_IS_LOGGED_IN_FALSE,
   SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
   UNFOLLOW_SHOW_FOR_UNREGISTERED_USER,
+  FOLLOW_SHOW,
+  UNFOLLOW_SHOW,
 } from './actions';
 
 export interface UserReducerState {
@@ -32,6 +34,14 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         ...state,
         followedShows: action.payload,
       };
+    }
+    case FOLLOW_SHOW: {
+      if (!state.followedShows.includes(action.payload)) {
+        return {
+          ...state,
+          followedShows: [...state.followedShows, action.payload],
+        };
+      }
     }
     case FOLLOW_SHOW_FOR_UNREGISTERED_USER: {
       if (!state.followedShowsForUnregisteredUser.includes(action.payload)) {
@@ -61,6 +71,12 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         ...state,
         isLoggedIn: false,
         followedShows: [],
+      };
+    }
+    case UNFOLLOW_SHOW: {
+      return {
+        ...state,
+        followedShows: state.followedShows.filter((showId) => showId !== action.payload),
       };
     }
     case UNFOLLOW_SHOW_FOR_UNREGISTERED_USER: {

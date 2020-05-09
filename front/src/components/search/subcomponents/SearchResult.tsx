@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import {
+  followShowAction,
   followShowForUnregisteredUserAction,
   setHasLocalWarningToastBeenShownAction,
+  unFollowShowAction,
   unFollowShowForUnregisteredUserAction,
 } from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
@@ -15,12 +17,15 @@ interface Props {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: any;
+  followShow: typeof followShowAction;
   followShowForUnregisteredUser: typeof followShowForUnregisteredUserAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
+  unFollowShow: typeof unFollowShowAction;
   unFollowShowForUnregisteredUser: typeof unFollowShowForUnregisteredUserAction;
 }
 
 const SearchResult = ({
+  followShow,
   followedShows,
   followedShowsForUnregisteredUser,
   followShowForUnregisteredUser,
@@ -28,6 +33,7 @@ const SearchResult = ({
   isLoggedIn,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
+  unFollowShow,
   unFollowShowForUnregisteredUser,
 }: Props) => {
   useEffect(() => {
@@ -39,7 +45,7 @@ const SearchResult = ({
     } else {
       unregisteredIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     }
-  }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser]);
+  }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser, showToDisplay.id]);
 
   const [isFollowed, setIsFollowed] = useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -62,7 +68,7 @@ const SearchResult = ({
       )
       .then(() => {
         setIsLoading(false);
-        setIsFollowed(true);
+        followShow(externalId);
       })
       .catch((error) => {
         handleErrors(error);
@@ -82,7 +88,7 @@ const SearchResult = ({
       })
       .then(() => {
         setIsLoading(false);
-        setIsFollowed(false);
+        unFollowShow(externalId);
       })
       .catch((error) => {
         handleErrors(error);

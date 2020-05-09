@@ -8,6 +8,8 @@ export const SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN = 'SET_HAS_LOCAL_WARNING_TOA
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
 export const FOLLOW_SHOW_FOR_UNREGISTERED_USER = 'FOLLOW_SHOW_FOR_UNREGISTERED_USER';
 export const UNFOLLOW_SHOW_FOR_UNREGISTERED_USER = 'UNFOLLOW_SHOW_FOR_UNREGISTERED_USER';
+export const FOLLOW_SHOW = 'FOLLOW_SHOW';
+export const UNFOLLOW_SHOW = 'UNFOLLOW_SHOW';
 
 export const setIsLoggedInAction = () => (dispatch: any) => {
   dispatch({
@@ -50,6 +52,20 @@ export const followShowForUnregisteredUserAction = (showId: number) => (dispatch
 export const unFollowShowForUnregisteredUserAction = (showId: number) => (dispatch: any) => {
   dispatch({
     type: UNFOLLOW_SHOW_FOR_UNREGISTERED_USER,
+    payload: showId,
+  });
+};
+
+export const followShowAction = (showId: number) => (dispatch: any) => {
+  dispatch({
+    type: FOLLOW_SHOW,
+    payload: showId,
+  });
+};
+
+export const unFollowShowAction = (showId: number) => (dispatch: any) => {
+  dispatch({
+    type: UNFOLLOW_SHOW,
     payload: showId,
   });
 };
