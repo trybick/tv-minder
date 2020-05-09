@@ -11,7 +11,7 @@ import {
   UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
 } from './actions';
 
-export interface UserReducerState {
+export interface UserState {
   followedShows: any[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
@@ -25,10 +25,7 @@ const initialState = {
   unregisteredFollowedShows: [],
 };
 
-export const userReducer: Reducer<UserReducerState, Action> = (
-  state = initialState,
-  action: any
-) => {
+export const userReducer: Reducer<UserState, Action> = (state = initialState, action: any) => {
   switch (action.type) {
     case FETCH_USER_FOLLOWS: {
       return {

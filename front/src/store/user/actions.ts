@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AppThunk } from 'store';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
@@ -12,7 +13,7 @@ export const UNREGISTERED_CLEAR_FOLLOWED_SHOWS = 'UNREGISTERED_CLEAR_FOLLOWED_SH
 export const UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS = 'UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS';
 export const UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS = 'UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS';
 
-export const fetchfollowedShowsAction = () => (dispatch: any) =>
+export const fetchfollowedShowsAction = (): AppThunk => (dispatch) =>
   axios
     .get(`${baseUrl}/follow`, {
       params: { token: localStorage.getItem('jwt') },
@@ -25,52 +26,54 @@ export const fetchfollowedShowsAction = () => (dispatch: any) =>
     })
     .catch(handleErrors);
 
-export const setHasLocalWarningToastBeenShownAction = () => (dispatch: any) => {
+export const setHasLocalWarningToastBeenShownAction = (): AppThunk => (dispatch) => {
   dispatch({
     type: SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
   });
 };
 
-export const setIsLoggedOutAction = () => (dispatch: any) => {
+export const setIsLoggedOutAction = (): AppThunk => (dispatch) => {
   dispatch({
     type: SET_IS_LOGGED_IN_FALSE,
   });
 };
 
-export const setIsLoggedInAction = () => (dispatch: any) => {
+export const setIsLoggedInAction = (): AppThunk => (dispatch) => {
   dispatch({
     type: SET_IS_LOGGED_IN_TRUE,
   });
 };
 
-export const removeFromFollowedShowsAction = (showId: string) => (dispatch: any) => {
+export const removeFromFollowedShowsAction = (showId: string): AppThunk => (dispatch) => {
   dispatch({
     type: REMOVE_FROM_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
 
-export const saveToFollowedShowsAction = (showId: string) => (dispatch: any) => {
+export const saveToFollowedShowsAction = (showId: string): AppThunk => (dispatch) => {
   dispatch({
     type: SAVE_TO_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
 
-export const unregisteredClearFollowedShowsAction = () => (dispatch: any) => {
+export const unregisteredClearFollowedShowsAction = (): AppThunk => (dispatch) => {
   dispatch({
     type: UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
   });
 };
 
-export const unregisteredSaveToFollowedShowsAction = (showId: string) => (dispatch: any) => {
+export const unregisteredSaveToFollowedShowsAction = (showId: string): AppThunk => (dispatch) => {
   dispatch({
     type: UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
 
-export const unregisteredRemoveFromFollowedShowsAction = (showId: string) => (dispatch: any) => {
+export const unregisteredRemoveFromFollowedShowsAction = (showId: string): AppThunk => (
+  dispatch
+) => {
   dispatch({
     type: UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
     payload: showId,
