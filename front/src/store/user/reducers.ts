@@ -1,4 +1,4 @@
-import { Action, Reducer } from 'redux';
+import { Action, Reducer, AnyAction } from 'redux';
 import {
   FETCH_USER_FOLLOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,
@@ -25,7 +25,10 @@ const initialState = {
   unregisteredFollowedShows: [],
 };
 
-export const userReducer: Reducer<UserState, Action> = (state = initialState, action: any) => {
+export const userReducer: Reducer<UserState, Action> = (
+  state = initialState,
+  action: AnyAction
+) => {
   switch (action.type) {
     case FETCH_USER_FOLLOWS: {
       return {
