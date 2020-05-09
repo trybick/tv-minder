@@ -68,9 +68,9 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
+        onClose();
         setIsLoggedIn();
         unregisteredClearFollowedShows();
-        onClose();
 
         toast({
           title: 'Login Successful',

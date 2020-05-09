@@ -92,9 +92,9 @@ const SignUpModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowed
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
+        onClose();
         setIsLoggedIn();
         unregisteredClearFollowedShows();
-        onClose();
 
         toast({
           title: 'Logged in',
