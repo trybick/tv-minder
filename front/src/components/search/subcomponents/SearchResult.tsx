@@ -36,26 +36,28 @@ const SearchResult = ({
   unFollowShow,
   unFollowShowForUnregisteredUser,
 }: Props) => {
+  // State
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const toast = useToast();
+
+  // Display
+  const { first_air_date: firstAirDate, id, name, popularity } = showToDisplay;
+  const showId = String(id);
+  const yearForDisplay = firstAirDate?.substr(0, 4);
+  const popularityForDisplay =
+    popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
+
   useEffect(() => {
-    const loggedInIsFollowed = followedShows.includes(String(showToDisplay.id));
-    const unregisteredIsFollowed = followedShowsForUnregisteredUser.includes(
-      String(showToDisplay.id)
-    );
+    const loggedInIsFollowed = followedShows.includes(showId);
+    const unregisteredIsFollowed = followedShowsForUnregisteredUser.includes(showId);
 
     if (isLoggedIn) {
       loggedInIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     } else {
       unregisteredIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     }
-  }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser, showToDisplay.id]);
-
-  const [isFollowed, setIsFollowed] = useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const toast = useToast();
-  const { first_air_date: firstAirDate, id: externalId, name, popularity } = showToDisplay;
-  const yearForDisplay = firstAirDate?.substr(0, 4);
-  const popularityForDisplay =
-    popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
+  }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser, showId]);
 
   function onFollowShow() {
     setIsLoading(true);
@@ -63,14 +65,14 @@ const SearchResult = ({
       .post(
         `${baseUrl}/follow`,
         {
-          externalId,
+          showId,
           token: localStorage.getItem('jwt'),
         },
         { timeout: 8000 }
       )
       .then(() => {
         setIsLoading(false);
-        followShow(String(externalId));
+        followShow(showId);
       })
       .catch((error) => {
         handleErrors(error);
@@ -83,14 +85,14 @@ const SearchResult = ({
     axios
       .delete(`${baseUrl}/follow`, {
         data: {
-          externalId,
+          showId,
           token: localStorage.getItem('jwt'),
         },
         timeout: 8000,
       })
       .then(() => {
         setIsLoading(false);
-        unFollowShow(String(externalId));
+        unFollowShow(showId);
       })
       .catch((error) => {
         handleErrors(error);
@@ -99,7 +101,7 @@ const SearchResult = ({
   }
 
   function onLocalSaveShow() {
-    followShowForUnregisteredUser(String(externalId));
+    followShowForUnregisteredUser(showId);
 
     if (!hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
@@ -115,7 +117,7 @@ const SearchResult = ({
   }
 
   function onLocalUnsaveShow() {
-    unFollowShowForUnregisteredUser(String(externalId));
+    unFollowShowForUnregisteredUser(showId);
   }
 
   return (
