@@ -11,7 +11,7 @@ export const createFollow = async (req: Request, res: Response) => {
     });
   }
 
-  User.findOneAndUpdate({ _id: userId }, { $push: { followedShows: showId } }, (err) => {
+  User.findOneAndUpdate({ _id: userId }, { $addToSet: { followedShows: showId } }, (err) => {
     if (err) {
       return res.status(500).json({
         error: err,
