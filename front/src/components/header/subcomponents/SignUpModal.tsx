@@ -29,7 +29,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-  unregisteredFollowedShows?: any[];
+  unregisteredFollowedShows: any[];
 }
 
 interface DispatchProps {

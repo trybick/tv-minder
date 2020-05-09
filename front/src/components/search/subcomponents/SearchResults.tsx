@@ -18,10 +18,10 @@ interface OwnProps {
 }
 
 interface StateProps {
-  followedShows?: any[];
+  followedShows: any[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  unregisteredFollowedShows?: any[];
+  unregisteredFollowedShows: any[];
 }
 
 interface DispatchProps {
