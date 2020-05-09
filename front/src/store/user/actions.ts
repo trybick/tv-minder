@@ -8,8 +8,8 @@ export const SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN = 'SET_HAS_LOCAL_WARNING_TOA
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
 export const UNREGISTERED_FOLLOW_SHOW = 'UNREGISTERED_FOLLOW_SHOW';
 export const UNREGISTERED_UNFOLLOW_SHOW = 'UNREGISTERED_UNFOLLOW_SHOW';
-export const FOLLOW_SHOW = 'FOLLOW_SHOW';
-export const UNFOLLOW_SHOW = 'UNFOLLOW_SHOW';
+export const SAVE_TO_FOLLOWED_SHOWS = 'SAVE_TO_FOLLOWED_SHOWS';
+export const REMOVE_FROM_FOLLOWED_SHOWS = 'REMOVE_FROM_FOLLOWED_SHOWS';
 export const UNREGISTERED_CLEAR_FOLLOWED_SHOWS = 'UNREGISTERED_CLEAR_FOLLOWED_SHOWS';
 
 export const setIsLoggedInAction = () => (dispatch: any) => {
@@ -63,16 +63,16 @@ export const unregisteredClearFollowedShowsAction = () => (dispatch: any) => {
   });
 };
 
-export const followShowAction = (showId: string) => (dispatch: any) => {
+export const saveToFollowedShowsAction = (showId: string) => (dispatch: any) => {
   dispatch({
-    type: FOLLOW_SHOW,
+    type: SAVE_TO_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
 
-export const unFollowShowAction = (showId: string) => (dispatch: any) => {
+export const removeFromFollowedShowsAction = (showId: string) => (dispatch: any) => {
   dispatch({
-    type: UNFOLLOW_SHOW,
+    type: REMOVE_FROM_FOLLOWED_SHOWS,
     payload: showId,
   });
 };

@@ -4,10 +4,10 @@ import { connect, MapStateToProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'store';
 import {
-  followShowAction,
+  saveToFollowedShowsAction,
   unregisteredFollowShowAction,
   setHasLocalWarningToastBeenShownAction,
-  unFollowShowAction,
+  removeFromFollowedShowsAction,
   unregisteredUnFollowShowAction,
 } from 'store/user/actions';
 import SearchResult from './SearchResult';
@@ -25,17 +25,17 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  followShow: typeof followShowAction;
+  saveToFollowedShows: typeof saveToFollowedShowsAction;
   unregisteredFollowShow: typeof unregisteredFollowShowAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
-  unFollowShow: typeof unFollowShowAction;
+  removeFromFollowedShows: typeof removeFromFollowedShowsAction;
   unregisteredUnFollowShow: typeof unregisteredUnFollowShowAction;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 const SearchResults = ({
-  followShow,
+  saveToFollowedShows,
   unregisteredFollowedShows,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
@@ -44,7 +44,7 @@ const SearchResults = ({
   totalResults,
   followedShows,
   unregisteredFollowShow,
-  unFollowShow,
+  removeFromFollowedShows,
   unregisteredUnFollowShow,
 }: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
@@ -61,7 +61,7 @@ const SearchResults = ({
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
         {shows.map((show) => (
           <SearchResult
-            followShow={followShow}
+            saveToFollowedShows={saveToFollowedShows}
             unregisteredFollowedShows={unregisteredFollowedShows}
             unregisteredFollowShow={unregisteredFollowShow}
             hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
@@ -70,7 +70,7 @@ const SearchResults = ({
             setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
             showToDisplay={show}
             followedShows={followedShows}
-            unFollowShow={unFollowShow}
+            removeFromFollowedShows={removeFromFollowedShows}
             unregisteredUnFollowShow={unregisteredUnFollowShow}
           />
         ))}
@@ -87,11 +87,11 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
-  followShow: (showId: string) => dispatch(followShowAction(showId)),
+  saveToFollowedShows: (showId: string) => dispatch(saveToFollowedShowsAction(showId)),
   unregisteredFollowShow: (showId: string) => dispatch(unregisteredFollowShowAction(showId)),
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
   unregisteredUnFollowShow: (showId: string) => dispatch(unregisteredUnFollowShowAction(showId)),
-  unFollowShow: (showId: string) => dispatch(unFollowShowAction(showId)),
+  removeFromFollowedShows: (showId: string) => dispatch(removeFromFollowedShowsAction(showId)),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, AppState>(

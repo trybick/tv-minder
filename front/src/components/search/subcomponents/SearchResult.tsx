@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import {
-  followShowAction,
+  saveToFollowedShowsAction,
   unregisteredFollowShowAction,
   setHasLocalWarningToastBeenShownAction,
-  unFollowShowAction,
+  removeFromFollowedShowsAction,
   unregisteredUnFollowShowAction,
 } from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
@@ -17,15 +17,15 @@ interface Props {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: any;
-  followShow: typeof followShowAction;
+  saveToFollowedShows: typeof saveToFollowedShowsAction;
   unregisteredFollowShow: typeof unregisteredFollowShowAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
-  unFollowShow: typeof unFollowShowAction;
+  removeFromFollowedShows: typeof removeFromFollowedShowsAction;
   unregisteredUnFollowShow: typeof unregisteredUnFollowShowAction;
 }
 
 const SearchResult = ({
-  followShow,
+  saveToFollowedShows,
   followedShows,
   unregisteredFollowedShows,
   unregisteredFollowShow,
@@ -33,7 +33,7 @@ const SearchResult = ({
   isLoggedIn,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
-  unFollowShow,
+  removeFromFollowedShows,
   unregisteredUnFollowShow,
 }: Props) => {
   // State
@@ -72,7 +72,7 @@ const SearchResult = ({
       )
       .then(() => {
         setIsLoading(false);
-        followShow(showId);
+        saveToFollowedShows(showId);
       })
       .catch((error) => {
         handleErrors(error);
@@ -92,7 +92,7 @@ const SearchResult = ({
       })
       .then(() => {
         setIsLoading(false);
-        unFollowShow(showId);
+        removeFromFollowedShows(showId);
       })
       .catch((error) => {
         handleErrors(error);

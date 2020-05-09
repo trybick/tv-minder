@@ -6,8 +6,8 @@ import {
   SET_IS_LOGGED_IN_FALSE,
   SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
   UNREGISTERED_UNFOLLOW_SHOW,
-  FOLLOW_SHOW,
-  UNFOLLOW_SHOW,
+  SAVE_TO_FOLLOWED_SHOWS,
+  REMOVE_FROM_FOLLOWED_SHOWS,
   UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
 } from './actions';
 
@@ -36,7 +36,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         followedShows: action.payload,
       };
     }
-    case FOLLOW_SHOW: {
+    case SAVE_TO_FOLLOWED_SHOWS: {
       if (!state.followedShows.includes(action.payload)) {
         return {
           ...state,
@@ -71,7 +71,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         followedShows: [],
       };
     }
-    case UNFOLLOW_SHOW: {
+    case REMOVE_FROM_FOLLOWED_SHOWS: {
       return {
         ...state,
         followedShows: state.followedShows.filter((showId) => showId !== action.payload),
