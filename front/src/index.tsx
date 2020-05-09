@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react';
 import { Provider } from 'react-redux';
-import ReactDOM from 'react-dom';
 import { PersistGate } from 'redux-persist/integration/react';
+import ReactDOM from 'react-dom';
 import configureStore from 'store';
 import { CSSReset, ThemeProvider } from '@chakra-ui/core';
 import App from 'components/App';
