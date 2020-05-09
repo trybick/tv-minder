@@ -67,7 +67,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn }: Props) => {
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
-        localStorage.removeItem('savedShows');
       })
       .then(() => {
         onClose();
