@@ -157,8 +157,8 @@ const SearchResult = ({
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   state: AppState
 ): StateProps => ({
-  hasLocalWarningToastBeenShown: state.userReducer.hasLocalWarningToastBeenShown,
-  isLoggedIn: state.userReducer.isLoggedIn,
+  hasLocalWarningToastBeenShown: state.user.hasLocalWarningToastBeenShown,
+  isLoggedIn: state.user.isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({

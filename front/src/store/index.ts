@@ -6,19 +6,26 @@ import storage from 'redux-persist/lib/storage';
 import { userReducer, UserReducerState } from './user/reducers';
 
 export type AppState = {
-  userReducer: UserReducerState;
+  user: UserReducerState;
+};
+
+const rootPersistConfig = {
+  key: 'root',
+  storage,
+  blacklist: ['user'],
+};
+
+const userPersistConfig = {
+  key: 'user',
+  storage: storage,
+  blacklist: ['hasLocalWarningToastBeenShown'],
 };
 
 const rootReducer = combineReducers({
-  userReducer,
+  user: persistReducer(userPersistConfig, userReducer),
 });
 
-const persistConfig = {
-  key: 'root',
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 const middlewares = [thunk];
 const appliedMiddleware = applyMiddleware(...middlewares);

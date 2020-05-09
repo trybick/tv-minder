@@ -42,7 +42,7 @@ const App = ({ isLoggedIn, fetchUserFollows }: Props): JSX.Element => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
-  isLoggedIn: state.userReducer.isLoggedIn,
+  isLoggedIn: state.user.isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

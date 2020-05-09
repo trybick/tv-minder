@@ -77,7 +77,7 @@ const Header = ({ isLoggedIn }: StateProps) => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
-  isLoggedIn: state.userReducer.isLoggedIn,
+  isLoggedIn: state.user.isLoggedIn,
 });
 
 export default connect(mapStateToProps, {})(Header);

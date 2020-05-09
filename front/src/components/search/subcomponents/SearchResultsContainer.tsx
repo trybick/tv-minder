@@ -54,7 +54,7 @@ const SearchResultsContainer = ({
 );
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
-  userFollows: state.userReducer.userFollows,
+  userFollows: state.user.userFollows,
 });
 
 export default connect<StateProps, null, OwnProps, AppState>(

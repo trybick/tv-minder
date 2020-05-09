@@ -45,6 +45,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
       return {
         ...state,
         isLoggedIn: false,
+        userFollows: [],
       };
     }
     default:
