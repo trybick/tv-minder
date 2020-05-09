@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { connect } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import {
@@ -18,6 +18,7 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
+import { AppState } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
@@ -27,12 +28,16 @@ interface OwnProps {
   disclosureProps: DisclosureProps;
 }
 
+interface StateProps {
+  followedShowsForUnregisteredUser?: any[];
+}
+
 interface DispatchProps {
   setIsLoggedIn: typeof setIsLoggedInAction;
   unregisteredClearFollowedShows: typeof unregisteredClearFollowedShowsAction;
 }
 
-type Props = DispatchProps & OwnProps;
+type Props = DispatchProps & StateProps & OwnProps;
 
 type FormData = {
   email: string;
@@ -41,7 +46,12 @@ type FormData = {
   signUp?: string;
 };
 
-const SignUpModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
+const SignUpModal = ({
+  disclosureProps,
+  followedShowsForUnregisteredUser,
+  setIsLoggedIn,
+  unregisteredClearFollowedShows,
+}: Props) => {
   // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = React.useState(false);
@@ -75,14 +85,11 @@ const SignUpModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowed
 
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
-    const existingShows = localStorage.getItem('savedShows');
-    const locallySavedShows = existingShows ? JSON.parse(existingShows) : [];
-
     axios
       .post(`${baseUrl}/register`, {
         email,
         password,
-        locallySavedShows,
+        unregisteredFollowedShows: followedShowsForUnregisteredUser,
       })
       .then(() => {
         return axios.post(`${baseUrl}/login`, {
@@ -184,9 +191,13 @@ const SignUpModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowed
   );
 };
 
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
+  followedShowsForUnregisteredUser: state.user.followedShowsForUnregisteredUser,
+});
+
 const mapDispatchToProps = (dispatch: any) => ({
   setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 
-export default connect(null, mapDispatchToProps)(SignUpModal);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal);

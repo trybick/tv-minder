@@ -34,7 +34,7 @@ export const registerUser = (req: Request, res: Response) => {
         const newUser = new User({
           email: req.body.email,
           password: hash,
-          followedShows: req.body.locallySavedShows || [],
+          followedShows: req.body.unregisteredFollowedShows || [],
         });
         newUser
           .save()
