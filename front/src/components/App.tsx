@@ -3,7 +3,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
 import { AppState } from 'store';
-import { fetchUserFollows } from 'store/user/actions';
+import { fetchUserFollowsAction } from 'store/user/actions';
 import Header from 'components/header/Header';
 import SearchPage from 'components/search/SearchPage';
 
@@ -12,17 +12,17 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  preloadUserFollows: typeof fetchUserFollows;
+  fetchUserFollows: typeof fetchUserFollowsAction;
 }
 
 type Props = StateProps & DispatchProps;
 
-const App = ({ isLoggedIn, preloadUserFollows }: Props): JSX.Element => {
+const App = ({ isLoggedIn, fetchUserFollows }: Props): JSX.Element => {
   useEffect(() => {
     if (isLoggedIn) {
-      preloadUserFollows();
+      fetchUserFollows();
     }
-  }, [isLoggedIn, preloadUserFollows]);
+  }, [isLoggedIn, fetchUserFollows]);
 
   return (
     <Router>
@@ -46,7 +46,7 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  preloadUserFollows: () => dispatch(fetchUserFollows()),
+  fetchUserFollows: () => dispatch(fetchUserFollowsAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -31,7 +31,7 @@ export function setHasLocalWarningToastBeenShownAction() {
   };
 }
 
-export function fetchUserFollows() {
+export function fetchUserFollowsAction() {
   return (dispatch: any) => {
     const token = localStorage.getItem('jwt');
 
