@@ -11,8 +11,6 @@ const LogoutButton = ({ setIsLoggedOut }: DispatchProps) => {
   function onLogout() {
     localStorage.removeItem('jwt');
     setIsLoggedOut();
-    // Using a manual reload here. Otherwise search results continue to show after logout.
-    window.location.reload();
   }
 
   return (
