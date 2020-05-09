@@ -87,13 +87,13 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
-  followShow: (showId: number) => dispatch(followShowAction(showId)),
-  followShowForUnregisteredUser: (showId: number) =>
+  followShow: (showId: string) => dispatch(followShowAction(showId)),
+  followShowForUnregisteredUser: (showId: string) =>
     dispatch(followShowForUnregisteredUserAction(showId)),
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
-  unFollowShowForUnregisteredUser: (showId: number) =>
+  unFollowShowForUnregisteredUser: (showId: string) =>
     dispatch(unFollowShowForUnregisteredUserAction(showId)),
-  unFollowShow: (showId: number) => dispatch(unFollowShowAction(showId)),
+  unFollowShow: (showId: string) => dispatch(unFollowShowAction(showId)),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, AppState>(

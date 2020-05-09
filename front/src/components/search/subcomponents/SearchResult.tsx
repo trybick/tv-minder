@@ -37,8 +37,10 @@ const SearchResult = ({
   unFollowShowForUnregisteredUser,
 }: Props) => {
   useEffect(() => {
-    const loggedInIsFollowed = followedShows.includes(showToDisplay.id);
-    const unregisteredIsFollowed = followedShowsForUnregisteredUser.includes(showToDisplay.id);
+    const loggedInIsFollowed = followedShows.includes(String(showToDisplay.id));
+    const unregisteredIsFollowed = followedShowsForUnregisteredUser.includes(
+      String(showToDisplay.id)
+    );
 
     if (isLoggedIn) {
       loggedInIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
@@ -68,7 +70,7 @@ const SearchResult = ({
       )
       .then(() => {
         setIsLoading(false);
-        followShow(externalId);
+        followShow(String(externalId));
       })
       .catch((error) => {
         handleErrors(error);
@@ -88,7 +90,7 @@ const SearchResult = ({
       })
       .then(() => {
         setIsLoading(false);
-        unFollowShow(externalId);
+        unFollowShow(String(externalId));
       })
       .catch((error) => {
         handleErrors(error);
@@ -97,7 +99,7 @@ const SearchResult = ({
   }
 
   function onLocalSaveShow() {
-    followShowForUnregisteredUser(externalId);
+    followShowForUnregisteredUser(String(externalId));
 
     if (!hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
@@ -113,7 +115,7 @@ const SearchResult = ({
   }
 
   function onLocalUnsaveShow() {
-    unFollowShowForUnregisteredUser(externalId);
+    unFollowShowForUnregisteredUser(String(externalId));
   }
 
   return (

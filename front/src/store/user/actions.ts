@@ -42,28 +42,28 @@ export const fetchfollowedShowsAction = () => (dispatch: any) =>
     })
     .catch(handleErrors);
 
-export const followShowForUnregisteredUserAction = (showId: number) => (dispatch: any) => {
+export const followShowForUnregisteredUserAction = (showId: string) => (dispatch: any) => {
   dispatch({
     type: FOLLOW_SHOW_FOR_UNREGISTERED_USER,
     payload: showId,
   });
 };
 
-export const unFollowShowForUnregisteredUserAction = (showId: number) => (dispatch: any) => {
+export const unFollowShowForUnregisteredUserAction = (showId: string) => (dispatch: any) => {
   dispatch({
     type: UNFOLLOW_SHOW_FOR_UNREGISTERED_USER,
     payload: showId,
   });
 };
 
-export const followShowAction = (showId: number) => (dispatch: any) => {
+export const followShowAction = (showId: string) => (dispatch: any) => {
   dispatch({
     type: FOLLOW_SHOW,
     payload: showId,
   });
 };
 
-export const unFollowShowAction = (showId: number) => (dispatch: any) => {
+export const unFollowShowAction = (showId: string) => (dispatch: any) => {
   dispatch({
     type: UNFOLLOW_SHOW,
     payload: showId,
