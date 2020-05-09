@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import {
   followShowAction,
-  followShowForUnregisteredUserAction,
+  unregisteredFollowShowAction,
   setHasLocalWarningToastBeenShownAction,
   unFollowShowAction,
-  unFollowShowForUnregisteredUserAction,
+  unregisteredUnFollowShowAction,
 } from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
@@ -18,23 +18,23 @@ interface Props {
   isLoggedIn: boolean;
   showToDisplay: any;
   followShow: typeof followShowAction;
-  followShowForUnregisteredUser: typeof followShowForUnregisteredUserAction;
+  unregisteredFollowShow: typeof unregisteredFollowShowAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
   unFollowShow: typeof unFollowShowAction;
-  unFollowShowForUnregisteredUser: typeof unFollowShowForUnregisteredUserAction;
+  unregisteredUnFollowShow: typeof unregisteredUnFollowShowAction;
 }
 
 const SearchResult = ({
   followShow,
   followedShows,
   followedShowsForUnregisteredUser,
-  followShowForUnregisteredUser,
+  unregisteredFollowShow,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
   unFollowShow,
-  unFollowShowForUnregisteredUser,
+  unregisteredUnFollowShow,
 }: Props) => {
   // State
   const [isFollowed, setIsFollowed] = useState(false);
@@ -101,7 +101,7 @@ const SearchResult = ({
   }
 
   function onLocalSaveShow() {
-    followShowForUnregisteredUser(showId);
+    unregisteredFollowShow(showId);
 
     if (!hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
@@ -117,7 +117,7 @@ const SearchResult = ({
   }
 
   function onLocalUnsaveShow() {
-    unFollowShowForUnregisteredUser(showId);
+    unregisteredUnFollowShow(showId);
   }
 
   return (

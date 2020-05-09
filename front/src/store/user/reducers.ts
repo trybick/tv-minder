@@ -1,11 +1,11 @@
 import { Action, Reducer } from 'redux';
 import {
   FETCH_USER_FOLLOWS,
-  FOLLOW_SHOW_FOR_UNREGISTERED_USER,
+  UNREGISTERED_FOLLOW_SHOW,
   SET_IS_LOGGED_IN_TRUE,
   SET_IS_LOGGED_IN_FALSE,
   SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
-  UNFOLLOW_SHOW_FOR_UNREGISTERED_USER,
+  UNREGISTERED_UNFOLLOW_SHOW,
   FOLLOW_SHOW,
   UNFOLLOW_SHOW,
   UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
@@ -44,7 +44,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         };
       }
     }
-    case FOLLOW_SHOW_FOR_UNREGISTERED_USER: {
+    case UNREGISTERED_FOLLOW_SHOW: {
       if (!state.followedShowsForUnregisteredUser.includes(action.payload)) {
         return {
           ...state,
@@ -80,7 +80,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         followedShows: state.followedShows.filter((showId) => showId !== action.payload),
       };
     }
-    case UNFOLLOW_SHOW_FOR_UNREGISTERED_USER: {
+    case UNREGISTERED_UNFOLLOW_SHOW: {
       return {
         ...state,
         followedShowsForUnregisteredUser: state.followedShowsForUnregisteredUser.filter(
