@@ -15,14 +15,14 @@ export interface UserReducerState {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   followedShows: any[];
-  followedShowsForUnregisteredUser: any[];
+  unregisteredFollowedShows: any[];
 }
 
 const initialState = {
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
   followedShows: [],
-  followedShowsForUnregisteredUser: [],
+  unregisteredFollowedShows: [],
 };
 
 export const userReducer: Reducer<UserReducerState, Action> = (
@@ -45,13 +45,10 @@ export const userReducer: Reducer<UserReducerState, Action> = (
       }
     }
     case UNREGISTERED_FOLLOW_SHOW: {
-      if (!state.followedShowsForUnregisteredUser.includes(action.payload)) {
+      if (!state.unregisteredFollowedShows.includes(action.payload)) {
         return {
           ...state,
-          followedShowsForUnregisteredUser: [
-            ...state.followedShowsForUnregisteredUser,
-            action.payload,
-          ],
+          unregisteredFollowedShows: [...state.unregisteredFollowedShows, action.payload],
         };
       }
     }
@@ -83,7 +80,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
     case UNREGISTERED_UNFOLLOW_SHOW: {
       return {
         ...state,
-        followedShowsForUnregisteredUser: state.followedShowsForUnregisteredUser.filter(
+        unregisteredFollowedShows: state.unregisteredFollowedShows.filter(
           (showId) => showId !== action.payload
         ),
       };
@@ -91,7 +88,7 @@ export const userReducer: Reducer<UserReducerState, Action> = (
     case UNREGISTERED_CLEAR_FOLLOWED_SHOWS: {
       return {
         ...state,
-        followedShowsForUnregisteredUser: [],
+        unregisteredFollowedShows: [],
       };
     }
     default:

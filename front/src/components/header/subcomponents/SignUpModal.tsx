@@ -29,7 +29,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-  followedShowsForUnregisteredUser?: any[];
+  unregisteredFollowedShows?: any[];
 }
 
 interface DispatchProps {
@@ -48,7 +48,7 @@ type FormData = {
 
 const SignUpModal = ({
   disclosureProps,
-  followedShowsForUnregisteredUser,
+  unregisteredFollowedShows,
   setIsLoggedIn,
   unregisteredClearFollowedShows,
 }: Props) => {
@@ -89,7 +89,7 @@ const SignUpModal = ({
       .post(`${baseUrl}/register`, {
         email,
         password,
-        unregisteredFollowedShows: followedShowsForUnregisteredUser,
+        unregisteredFollowedShows: unregisteredFollowedShows,
       })
       .then(() => {
         return axios.post(`${baseUrl}/login`, {
@@ -192,7 +192,7 @@ const SignUpModal = ({
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
-  followedShowsForUnregisteredUser: state.user.followedShowsForUnregisteredUser,
+  unregisteredFollowedShows: state.user.unregisteredFollowedShows,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

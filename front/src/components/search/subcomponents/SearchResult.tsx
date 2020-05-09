@@ -13,7 +13,7 @@ import handleErrors from 'utils/handleErrors';
 
 interface Props {
   followedShows: any;
-  followedShowsForUnregisteredUser: any;
+  unregisteredFollowedShows: any;
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: any;
@@ -27,7 +27,7 @@ interface Props {
 const SearchResult = ({
   followShow,
   followedShows,
-  followedShowsForUnregisteredUser,
+  unregisteredFollowedShows,
   unregisteredFollowShow,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
@@ -50,14 +50,14 @@ const SearchResult = ({
 
   useEffect(() => {
     const loggedInIsFollowed = followedShows.includes(showId);
-    const unregisteredIsFollowed = followedShowsForUnregisteredUser.includes(showId);
+    const unregisteredIsFollowed = unregisteredFollowedShows.includes(showId);
 
     if (isLoggedIn) {
       loggedInIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     } else {
       unregisteredIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     }
-  }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser, showId]);
+  }, [isLoggedIn, followedShows, unregisteredFollowedShows, showId]);
 
   function onFollowShow() {
     setIsLoading(true);

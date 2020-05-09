@@ -21,7 +21,7 @@ interface StateProps {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   followedShows?: any[];
-  followedShowsForUnregisteredUser?: any[];
+  unregisteredFollowedShows?: any[];
 }
 
 interface DispatchProps {
@@ -36,7 +36,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 const SearchResults = ({
   followShow,
-  followedShowsForUnregisteredUser,
+  unregisteredFollowedShows,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
   setHasLocalWarningToastBeenShown,
@@ -62,7 +62,7 @@ const SearchResults = ({
         {shows.map((show) => (
           <SearchResult
             followShow={followShow}
-            followedShowsForUnregisteredUser={followedShowsForUnregisteredUser}
+            unregisteredFollowedShows={unregisteredFollowedShows}
             unregisteredFollowShow={unregisteredFollowShow}
             hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
             isLoggedIn={isLoggedIn}
@@ -83,7 +83,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
   hasLocalWarningToastBeenShown: state.user.hasLocalWarningToastBeenShown,
   isLoggedIn: state.user.isLoggedIn,
   followedShows: state.user.followedShows,
-  followedShowsForUnregisteredUser: state.user.followedShowsForUnregisteredUser,
+  unregisteredFollowedShows: state.user.unregisteredFollowedShows,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
