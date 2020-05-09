@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import {
@@ -17,9 +18,20 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
+import { setIsLoggedInAction } from 'store/user/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
+
+interface OwnProps {
+  disclosureProps: DisclosureProps;
+}
+
+interface DispatchProps {
+  setIsLoggedIn: typeof setIsLoggedInAction;
+}
+
+type Props = DispatchProps & OwnProps;
 
 type FormData = {
   email: string;
@@ -28,7 +40,7 @@ type FormData = {
   signUp?: string;
 };
 
-const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) => {
+const SignUpModal = ({ disclosureProps, setIsLoggedIn }: Props) => {
   // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = React.useState(false);
@@ -79,11 +91,11 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
-        // window.location.reload();
+        localStorage.removeItem('savedShows');
+        setIsLoggedIn();
       })
       .then(() => {
         onClose();
-        localStorage.removeItem('savedShows');
         toast({
           title: 'Logged in',
           description: "We've created your account for you.",
@@ -172,4 +184,8 @@ const SignUpModal = ({ disclosureProps }: { disclosureProps: DisclosureProps }) 
   );
 };
 
-export default SignUpModal;
+const mapDispatchToProps = (dispatch: any) => ({
+  setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
+});
+
+export default connect(null, mapDispatchToProps)(SignUpModal);
