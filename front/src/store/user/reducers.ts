@@ -1,27 +1,27 @@
 import { Action, Reducer } from 'redux';
 import {
   FETCH_USER_FOLLOWS,
-  UNREGISTERED_FOLLOW_SHOW,
-  SET_IS_LOGGED_IN_TRUE,
-  SET_IS_LOGGED_IN_FALSE,
-  SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
-  UNREGISTERED_UNFOLLOW_SHOW,
-  SAVE_TO_FOLLOWED_SHOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,
+  SAVE_TO_FOLLOWED_SHOWS,
+  SET_IS_LOGGED_IN_FALSE,
+  SET_IS_LOGGED_IN_TRUE,
+  SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN,
   UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
+  UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
+  UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
 } from './actions';
 
 export interface UserReducerState {
+  followedShows: any[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  followedShows: any[];
   unregisteredFollowedShows: any[];
 }
 
 const initialState = {
+  followedShows: [],
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
-  followedShows: [],
   unregisteredFollowedShows: [],
 };
 
@@ -36,6 +36,12 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         followedShows: action.payload,
       };
     }
+    case REMOVE_FROM_FOLLOWED_SHOWS: {
+      return {
+        ...state,
+        followedShows: state.followedShows.filter((showId) => showId !== action.payload),
+      };
+    }
     case SAVE_TO_FOLLOWED_SHOWS: {
       if (!state.followedShows.includes(action.payload)) {
         return {
@@ -44,18 +50,11 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         };
       }
     }
-    case UNREGISTERED_FOLLOW_SHOW: {
-      if (!state.unregisteredFollowedShows.includes(action.payload)) {
-        return {
-          ...state,
-          unregisteredFollowedShows: [...state.unregisteredFollowedShows, action.payload],
-        };
-      }
-    }
-    case SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN: {
+    case SET_IS_LOGGED_IN_FALSE: {
       return {
         ...state,
-        hasLocalWarningToastBeenShown: true,
+        isLoggedIn: false,
+        followedShows: [],
       };
     }
     case SET_IS_LOGGED_IN_TRUE: {
@@ -64,25 +63,10 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         isLoggedIn: true,
       };
     }
-    case SET_IS_LOGGED_IN_FALSE: {
+    case SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN: {
       return {
         ...state,
-        isLoggedIn: false,
-        followedShows: [],
-      };
-    }
-    case REMOVE_FROM_FOLLOWED_SHOWS: {
-      return {
-        ...state,
-        followedShows: state.followedShows.filter((showId) => showId !== action.payload),
-      };
-    }
-    case UNREGISTERED_UNFOLLOW_SHOW: {
-      return {
-        ...state,
-        unregisteredFollowedShows: state.unregisteredFollowedShows.filter(
-          (showId) => showId !== action.payload
-        ),
+        hasLocalWarningToastBeenShown: true,
       };
     }
     case UNREGISTERED_CLEAR_FOLLOWED_SHOWS: {
@@ -90,6 +74,22 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         ...state,
         unregisteredFollowedShows: [],
       };
+    }
+    case UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS: {
+      return {
+        ...state,
+        unregisteredFollowedShows: state.unregisteredFollowedShows.filter(
+          (showId) => showId !== action.payload
+        ),
+      };
+    }
+    case UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS: {
+      if (!state.unregisteredFollowedShows.includes(action.payload)) {
+        return {
+          ...state,
+          unregisteredFollowedShows: [...state.unregisteredFollowedShows, action.payload],
+        };
+      }
     }
     default:
       return state;

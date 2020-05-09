@@ -2,46 +2,44 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import {
-  saveToFollowedShowsAction,
-  unregisteredSaveToFollowedShowsAction,
-  setHasLocalWarningToastBeenShownAction,
   removeFromFollowedShowsAction,
+  saveToFollowedShowsAction,
+  setHasLocalWarningToastBeenShownAction,
   unregisteredRemoveFromFollowedShowsAction,
+  unregisteredSaveToFollowedShowsAction,
 } from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
 interface Props {
   followedShows: any;
-  unregisteredFollowedShows: any;
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: any;
-  saveToFollowedShows: typeof saveToFollowedShowsAction;
-  unregisteredSaveToFollowedShows: typeof unregisteredSaveToFollowedShowsAction;
-  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
+  unregisteredFollowedShows: any;
   removeFromFollowedShows: typeof removeFromFollowedShowsAction;
+  saveToFollowedShows: typeof saveToFollowedShowsAction;
+  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
   unregisteredRemoveFromFollowedShows: typeof unregisteredRemoveFromFollowedShowsAction;
+  unregisteredSaveToFollowedShows: typeof unregisteredSaveToFollowedShowsAction;
 }
 
 const SearchResult = ({
-  saveToFollowedShows,
   followedShows,
-  unregisteredFollowedShows,
-  unregisteredSaveToFollowedShows,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
+  removeFromFollowedShows,
+  saveToFollowedShows,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
-  removeFromFollowedShows,
+  unregisteredFollowedShows,
   unregisteredRemoveFromFollowedShows,
+  unregisteredSaveToFollowedShows,
 }: Props) => {
-  // State
   const [isFollowed, setIsFollowed] = useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
 
-  // Display
   const { first_air_date: firstAirDate, id, name, popularity } = showToDisplay;
   const showId = String(id);
   const yearForDisplay = firstAirDate?.substr(0, 4);
