@@ -48,9 +48,9 @@ type FormData = {
 
 const SignUpModal = ({
   disclosureProps,
-  unregisteredFollowedShows,
   setIsLoggedIn,
   unregisteredClearFollowedShows,
+  unregisteredFollowedShows,
 }: Props) => {
   // Modal
   const { isOpen, onClose } = disclosureProps;
@@ -89,7 +89,7 @@ const SignUpModal = ({
       .post(`${baseUrl}/register`, {
         email,
         password,
-        unregisteredFollowedShows: unregisteredFollowedShows,
+        unregisteredFollowedShows,
       })
       .then(() => {
         return axios.post(`${baseUrl}/login`, {
