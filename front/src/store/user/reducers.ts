@@ -43,12 +43,12 @@ export const userReducer: Reducer<UserReducerState, Action> = (
       };
     }
     case SAVE_TO_FOLLOWED_SHOWS: {
-      if (!state.followedShows.includes(action.payload)) {
-        return {
-          ...state,
-          followedShows: [...state.followedShows, action.payload],
-        };
-      }
+      return !state.followedShows.includes(action.payload)
+        ? {
+            ...state,
+            followedShows: [...state.followedShows, action.payload],
+          }
+        : state;
     }
     case SET_IS_LOGGED_IN_FALSE: {
       return {
@@ -84,12 +84,12 @@ export const userReducer: Reducer<UserReducerState, Action> = (
       };
     }
     case UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS: {
-      if (!state.unregisteredFollowedShows.includes(action.payload)) {
-        return {
-          ...state,
-          unregisteredFollowedShows: [...state.unregisteredFollowedShows, action.payload],
-        };
-      }
+      return !state.unregisteredFollowedShows.includes(action.payload)
+        ? {
+            ...state,
+            unregisteredFollowedShows: [...state.unregisteredFollowedShows, action.payload],
+          }
+        : state;
     }
     default:
       return state;
