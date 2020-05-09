@@ -8,6 +8,7 @@ import {
   UNFOLLOW_SHOW_FOR_UNREGISTERED_USER,
   FOLLOW_SHOW,
   UNFOLLOW_SHOW,
+  UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
 } from './actions';
 
 export interface UserReducerState {
@@ -85,6 +86,12 @@ export const userReducer: Reducer<UserReducerState, Action> = (
         followedShowsForUnregisteredUser: state.followedShowsForUnregisteredUser.filter(
           (showId) => showId !== action.payload
         ),
+      };
+    }
+    case UNREGISTERED_CLEAR_FOLLOWED_SHOWS: {
+      return {
+        ...state,
+        followedShowsForUnregisteredUser: [],
       };
     }
     default:

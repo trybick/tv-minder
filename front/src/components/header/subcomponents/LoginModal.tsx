@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
-import { setIsLoggedInAction } from 'store/user/actions';
+import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
@@ -29,6 +29,7 @@ interface OwnProps {
 
 interface DispatchProps {
   setIsLoggedIn: typeof setIsLoggedInAction;
+  unregisteredClearFollowedShows: typeof unregisteredClearFollowedShowsAction;
 }
 
 type Props = DispatchProps & OwnProps;
@@ -49,7 +50,7 @@ const formSchema = {
   },
 };
 
-const LoginModal = ({ disclosureProps, setIsLoggedIn }: Props) => {
+const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
   // Modal
   const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
@@ -67,10 +68,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn }: Props) => {
       })
       .then((res) => {
         localStorage.setItem('jwt', res.data.token);
-      })
-      .then(() => {
-        onClose();
         setIsLoggedIn();
+        unregisteredClearFollowedShows();
+        onClose();
+
         toast({
           title: 'Login Successful',
           description: 'You are now logged in.',
@@ -136,6 +137,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn }: Props) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
+  unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 
 export default connect(null, mapDispatchToProps)(LoginModal);

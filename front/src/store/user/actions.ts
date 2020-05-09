@@ -10,6 +10,7 @@ export const FOLLOW_SHOW_FOR_UNREGISTERED_USER = 'FOLLOW_SHOW_FOR_UNREGISTERED_U
 export const UNFOLLOW_SHOW_FOR_UNREGISTERED_USER = 'UNFOLLOW_SHOW_FOR_UNREGISTERED_USER';
 export const FOLLOW_SHOW = 'FOLLOW_SHOW';
 export const UNFOLLOW_SHOW = 'UNFOLLOW_SHOW';
+export const UNREGISTERED_CLEAR_FOLLOWED_SHOWS = 'UNREGISTERED_CLEAR_FOLLOWED_SHOWS';
 
 export const setIsLoggedInAction = () => (dispatch: any) => {
   dispatch({
@@ -53,6 +54,12 @@ export const unFollowShowForUnregisteredUserAction = (showId: string) => (dispat
   dispatch({
     type: UNFOLLOW_SHOW_FOR_UNREGISTERED_USER,
     payload: showId,
+  });
+};
+
+export const unregisteredClearFollowedShowsAction = () => (dispatch: any) => {
+  dispatch({
+    type: UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
   });
 };
 
