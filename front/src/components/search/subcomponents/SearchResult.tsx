@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import {
@@ -11,6 +11,7 @@ import handleErrors from 'utils/handleErrors';
 
 interface Props {
   followedShows: any;
+  followedShowsForUnregisteredUser: any;
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: any;
@@ -21,6 +22,7 @@ interface Props {
 
 const SearchResult = ({
   followedShows,
+  followedShowsForUnregisteredUser,
   followShowForUnregisteredUser,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
@@ -28,8 +30,25 @@ const SearchResult = ({
   showToDisplay,
   unFollowShowForUnregisteredUser,
 }: Props) => {
-  const isInitiallyFollowed = isLoggedIn && followedShows.includes(String(showToDisplay.id));
-  const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (followedShows.includes(showToDisplay.id)) {
+        setIsFollowed(true);
+      } else {
+        setIsFollowed(false);
+      }
+    } else {
+      if (followedShowsForUnregisteredUser.includes(showToDisplay.id)) {
+        setIsFollowed(true);
+      } else {
+        setIsFollowed(false);
+      }
+    }
+  }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser]);
+
+  // const isInitiallyFollowed = isLoggedIn && followedShows.includes(String(showToDisplay.id));
+  const [isFollowed, setIsFollowed] = useState(false);
+
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = showToDisplay;
