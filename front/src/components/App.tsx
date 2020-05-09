@@ -3,7 +3,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
 import { AppState } from 'store';
-import { fetchUserFollows } from 'store/follows/actions';
+import { fetchUserFollows } from 'store/user/actions';
 import Header from 'components/header/Header';
 import SearchPage from 'components/search/SearchPage';
 

@@ -4,7 +4,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import { AppState } from 'store';
-import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
+import { setHasLocalWarningToastBeenShownAction } from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { saveShowToLocalStorage } from 'utils/localStorage';
@@ -157,7 +157,7 @@ const SearchResult = ({
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   state: AppState
 ): StateProps => ({
-  hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
+  hasLocalWarningToastBeenShown: state.userReducer.hasLocalWarningToastBeenShown,
   isLoggedIn: state.userReducer.isLoggedIn,
 });
 

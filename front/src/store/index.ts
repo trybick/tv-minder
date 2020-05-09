@@ -3,16 +3,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { followReducer, FollowReducerState } from './follows/reducers';
 import { userReducer, UserReducerState } from './user/reducers';
 
 export type AppState = {
-  followReducer: FollowReducerState;
   userReducer: UserReducerState;
 };
 
 const rootReducer = combineReducers({
-  followReducer,
   userReducer,
 });
 
