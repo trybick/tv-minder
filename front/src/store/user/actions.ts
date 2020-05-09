@@ -43,14 +43,14 @@ export const fetchfollowedShowsAction = () => (dispatch: any) =>
     })
     .catch(handleErrors);
 
-export const unregisteredFollowShowAction = (showId: string) => (dispatch: any) => {
+export const unregisteredSaveToFollowedShowsAction = (showId: string) => (dispatch: any) => {
   dispatch({
     type: UNREGISTERED_FOLLOW_SHOW,
     payload: showId,
   });
 };
 
-export const unregisteredUnFollowShowAction = (showId: string) => (dispatch: any) => {
+export const unregisteredRemoveFromFollowedShowsAction = (showId: string) => (dispatch: any) => {
   dispatch({
     type: UNREGISTERED_UNFOLLOW_SHOW,
     payload: showId,
