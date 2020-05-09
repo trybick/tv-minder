@@ -31,24 +31,17 @@ const SearchResult = ({
   unFollowShowForUnregisteredUser,
 }: Props) => {
   useEffect(() => {
+    const loggedInIsFollowed = followedShows.includes(showToDisplay.id);
+    const unregisteredIsFollowed = followedShowsForUnregisteredUser.includes(showToDisplay.id);
+
     if (isLoggedIn) {
-      if (followedShows.includes(showToDisplay.id)) {
-        setIsFollowed(true);
-      } else {
-        setIsFollowed(false);
-      }
+      loggedInIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     } else {
-      if (followedShowsForUnregisteredUser.includes(showToDisplay.id)) {
-        setIsFollowed(true);
-      } else {
-        setIsFollowed(false);
-      }
+      unregisteredIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
     }
   }, [isLoggedIn, followedShows, followedShowsForUnregisteredUser]);
 
-  // const isInitiallyFollowed = isLoggedIn && followedShows.includes(String(showToDisplay.id));
   const [isFollowed, setIsFollowed] = useState(false);
-
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
   const { first_air_date: firstAirDate, id: externalId, name, popularity } = showToDisplay;
@@ -99,7 +92,6 @@ const SearchResult = ({
 
   function onLocalSaveShow() {
     followShowForUnregisteredUser(externalId);
-    setIsFollowed(true);
 
     if (!hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
@@ -116,7 +108,6 @@ const SearchResult = ({
 
   function onLocalUnsaveShow() {
     unFollowShowForUnregisteredUser(externalId);
-    setIsFollowed(false);
   }
 
   return (
