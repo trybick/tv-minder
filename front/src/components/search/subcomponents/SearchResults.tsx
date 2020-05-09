@@ -3,7 +3,11 @@ import { Box, Stack, Tag } from '@chakra-ui/core';
 import { connect, MapStateToProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'store';
-import { setHasLocalWarningToastBeenShownAction } from 'store/user/actions';
+import {
+  followShowForUnregisteredUserAction,
+  setHasLocalWarningToastBeenShownAction,
+  unFollowShowForUnregisteredUserAction,
+} from 'store/user/actions';
 import SearchResult from './SearchResult';
 
 interface OwnProps {
@@ -18,7 +22,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
+  followShowForUnregisteredUser: typeof followShowForUnregisteredUserAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
+  unFollowShowForUnregisteredUser: typeof unFollowShowForUnregisteredUserAction;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -30,6 +36,8 @@ const SearchResults = ({
   shows,
   totalResults,
   followedShows,
+  followShowForUnregisteredUser,
+  unFollowShowForUnregisteredUser,
 }: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
@@ -45,12 +53,14 @@ const SearchResults = ({
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
         {shows.map((show) => (
           <SearchResult
+            followShowForUnregisteredUser={followShowForUnregisteredUser}
             hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
             isLoggedIn={isLoggedIn}
             key={show.id}
             setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
-            show={show}
+            showToDisplay={show}
             followedShows={followedShows}
+            unFollowShowForUnregisteredUser={unFollowShowForUnregisteredUser}
           />
         ))}
       </Stack>
@@ -66,6 +76,10 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
+  followShowForUnregisteredUser: (showId: number) =>
+    dispatch(followShowForUnregisteredUserAction(showId)),
+  unFollowShowForUnregisteredUser: (showId: number) =>
+    dispatch(unFollowShowForUnregisteredUserAction(showId)),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, AppState>(

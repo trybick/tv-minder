@@ -1,31 +1,38 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
-import { setHasLocalWarningToastBeenShownAction } from 'store/user/actions';
+import {
+  followShowForUnregisteredUserAction,
+  setHasLocalWarningToastBeenShownAction,
+  unFollowShowForUnregisteredUserAction,
+} from 'store/user/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
-import { saveShowToLocalStorage } from 'utils/localStorage';
 
 interface Props {
-  isLoggedIn: boolean;
-  hasLocalWarningToastBeenShown: boolean;
   followedShows: any;
+  hasLocalWarningToastBeenShown: boolean;
+  isLoggedIn: boolean;
+  showToDisplay: any;
+  followShowForUnregisteredUser: typeof followShowForUnregisteredUserAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
-  show: any;
+  unFollowShowForUnregisteredUser: typeof unFollowShowForUnregisteredUserAction;
 }
 
 const SearchResult = ({
+  followedShows,
+  followShowForUnregisteredUser,
   hasLocalWarningToastBeenShown,
   isLoggedIn,
   setHasLocalWarningToastBeenShown,
-  show,
-  followedShows,
+  showToDisplay,
+  unFollowShowForUnregisteredUser,
 }: Props) => {
-  const isInitiallyFollowed = isLoggedIn && followedShows.includes(String(show.id));
+  const isInitiallyFollowed = isLoggedIn && followedShows.includes(String(showToDisplay.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
-  const { first_air_date: firstAirDate, id: externalId, name, popularity } = show;
+  const { first_air_date: firstAirDate, id: externalId, name, popularity } = showToDisplay;
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
@@ -72,7 +79,7 @@ const SearchResult = ({
   }
 
   function onLocalSaveShow() {
-    saveShowToLocalStorage(externalId);
+    followShowForUnregisteredUser(externalId);
     setIsFollowed(true);
 
     if (!hasLocalWarningToastBeenShown) {
@@ -89,7 +96,7 @@ const SearchResult = ({
   }
 
   function onLocalUnsaveShow() {
-    saveShowToLocalStorage(externalId, 'unsave');
+    unFollowShowForUnregisteredUser(externalId);
     setIsFollowed(false);
   }
 
