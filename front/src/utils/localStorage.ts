@@ -1,5 +1,3 @@
-export const isLoggedIn = () => !!localStorage.getItem('jwt');
-
 export const saveShowToLocalStorage = (showId: number, method: 'save' | 'unsave' = 'save') => {
   const key = 'savedShows';
   const existingArray = localStorage.getItem(key);

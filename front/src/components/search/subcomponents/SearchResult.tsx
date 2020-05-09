@@ -7,7 +7,7 @@ import { AppState } from 'store';
 import { setHasLocalWarningToastBeenShownAction } from 'store/follows/actions';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
-import { isLoggedIn, saveShowToLocalStorage } from 'utils/localStorage';
+import { saveShowToLocalStorage } from 'utils/localStorage';
 
 interface OwnProps {
   show: any;
@@ -16,6 +16,7 @@ interface OwnProps {
 
 interface StateProps {
   hasLocalWarningToastBeenShown: boolean;
+  isLoggedIn: boolean;
 }
 
 interface DispatchProps {
@@ -26,11 +27,12 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 const SearchResult = ({
   hasLocalWarningToastBeenShown,
+  isLoggedIn,
   setHasLocalWarningToastBeenShown,
   show,
   userFollows,
 }: Props) => {
-  const isInitiallyFollowed = isLoggedIn() && userFollows.includes(String(show.id));
+  const isInitiallyFollowed = isLoggedIn && userFollows.includes(String(show.id));
   const [isFollowed, setIsFollowed] = useState(isInitiallyFollowed);
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
@@ -118,7 +120,7 @@ const SearchResult = ({
             leftIcon="check"
             variantColor="teal"
             variant="solid"
-            onClick={isLoggedIn() ? onUnFollowShow : onLocalUnsaveShow}
+            onClick={isLoggedIn ? onUnFollowShow : onLocalUnsaveShow}
             isLoading={isLoading}
           >
             Followed
@@ -130,7 +132,7 @@ const SearchResult = ({
             leftIcon="small-add"
             variantColor="teal"
             variant="outline"
-            onClick={isLoggedIn() ? onFollowShow : onLocalSaveShow}
+            onClick={isLoggedIn ? onFollowShow : onLocalSaveShow}
             isLoading={isLoading}
           >
             Follow
@@ -156,6 +158,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   state: AppState
 ): StateProps => ({
   hasLocalWarningToastBeenShown: state.followReducer.hasLocalWarningToastBeenShown,
+  isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({
