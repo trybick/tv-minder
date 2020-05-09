@@ -1,18 +1,12 @@
 import React from 'react';
-import { connect, MapStateToProps } from 'react-redux';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
-import { AppState } from 'store';
 import SearchResults from './SearchResults';
 
-interface OwnProps {
+interface Props {
   isInputDirty: boolean;
   isLoading: boolean;
   shows: any[];
   totalResults: number;
-}
-
-interface StateProps {
-  userFollows?: any[];
 }
 
 const LoadingSpinner = () => (
@@ -33,18 +27,12 @@ const WelcomeMessage = () => (
   </Flex>
 );
 
-const SearchResultsContainer = ({
-  isInputDirty,
-  isLoading,
-  shows,
-  totalResults,
-  userFollows,
-}: OwnProps & StateProps) => (
+const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
     ) : shows?.length ? (
-      <SearchResults shows={shows} totalResults={totalResults} userFollows={userFollows} />
+      <SearchResults shows={shows} totalResults={totalResults} />
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (
@@ -53,11 +41,4 @@ const SearchResultsContainer = ({
   </Flex>
 );
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
-  userFollows: state.user.userFollows,
-});
-
-export default connect<StateProps, null, OwnProps, AppState>(
-  mapStateToProps,
-  null
-)(SearchResultsContainer);
+export default SearchResultsContainer;

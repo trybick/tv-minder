@@ -1,12 +1,19 @@
 import React from 'react';
 import { Box, Stack, Tag } from '@chakra-ui/core';
+import { connect, MapStateToProps } from 'react-redux';
+import { AppState } from 'store';
 import SearchResult from './SearchResult';
 
-interface Props {
+interface OwnProps {
   shows: any[];
   totalResults: number;
+}
+
+interface StateProps {
   userFollows?: any[];
 }
+
+type Props = OwnProps & StateProps;
 
 const SearchResults = ({ shows, totalResults, userFollows }: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
@@ -29,4 +36,8 @@ const SearchResults = ({ shows, totalResults, userFollows }: Props) => {
   );
 };
 
-export default SearchResults;
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
+  userFollows: state.user.userFollows,
+});
+
+export default connect<StateProps, null, OwnProps, AppState>(mapStateToProps, null)(SearchResults);
