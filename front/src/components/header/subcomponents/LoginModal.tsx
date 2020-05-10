@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import {
@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
-import { AppThunkPlainAction, AppThunkDispatch } from 'store';
+import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'types/common';
@@ -33,7 +33,7 @@ interface DispatchProps {
   unregisteredClearFollowedShows: AppThunkPlainAction;
 }
 
-type Props = DispatchProps & OwnProps;
+type Props = OwnProps & DispatchProps;
 
 type FormData = {
   email: string;
@@ -134,9 +134,14 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   );
 };
 
+const mapStateToProps: MapStateToProps<{}, OwnProps, AppState> = () => ({});
+
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 
-export default connect(null, mapDispatchToProps)(LoginModal);
+export default connect<{}, DispatchProps, OwnProps, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginModal);

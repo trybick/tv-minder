@@ -50,4 +50,7 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   fetchfollowedShows: () => dispatch(fetchfollowedShowsAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect<StateProps, DispatchProps, {}, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

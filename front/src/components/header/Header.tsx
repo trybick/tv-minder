@@ -81,4 +81,4 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   isLoggedIn: selectIsLoggedIn(state),
 });
 
-export default connect(mapStateToProps, {})(Header);
+export default connect<StateProps, {}, {}, AppState>(mapStateToProps, {})(Header);
