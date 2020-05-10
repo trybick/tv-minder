@@ -1,4 +1,5 @@
 import { Action, Reducer, AnyAction } from 'redux';
+import { AppState } from 'store';
 import {
   FETCH_USER_FOLLOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,
@@ -24,6 +25,13 @@ const initialState = {
   isLoggedIn: false,
   unregisteredFollowedShows: [],
 };
+
+export const selectFollowedShows = (state: AppState) => state.user.followedShows;
+export const selectHasLocalWarningToastBeenShown = (state: AppState) =>
+  state.user.hasLocalWarningToastBeenShown;
+export const selectIsLoggedIn = (state: AppState) => state.user.isLoggedIn;
+export const selectUnregisteredFollowedShows = (state: AppState) =>
+  state.user.unregisteredFollowedShows;
 
 export const userReducer: Reducer<UserState, Action> = (
   state = initialState,

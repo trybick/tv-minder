@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
 import { AppState, AppThunkAction, AppThunkDispatch } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
+import { selectIsLoggedIn } from 'store/user/reducers';
 import Header from 'components/header/Header';
 import SearchPage from 'components/search/SearchPage';
 
@@ -42,7 +43,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
-  isLoggedIn: state.user.isLoggedIn,
+  isLoggedIn: selectIsLoggedIn(state),
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({

@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/core';
 import { AppState, AppThunkAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
+import { selectUnregisteredFollowedShows } from 'store/user/reducers';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
@@ -190,7 +191,7 @@ const SignUpModal = ({
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
-  unregisteredFollowedShows: state.user.unregisteredFollowedShows,
+  unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
