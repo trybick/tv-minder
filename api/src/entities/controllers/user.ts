@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import envConfig from 'config/env';
 import { emailRegex } from 'utils/constants';
+import { JWTData } from 'middleware/verifyToken';
 
 export const registerUser = (req: Request, res: Response) => {
   User.find({ email: req.body.email })
@@ -70,9 +71,10 @@ export const loginUser = (req: Request, res: Response) => {
             message: 'Auth failed on password validation',
           });
         }
+        const tokenData: Pick<JWTData, 'email' | 'id'> = { email: user.email, id: user._id };
         const token =
           envConfig?.JWT_KEY &&
-          jwt.sign({ email: user.email, id: user._id }, envConfig.JWT_KEY, {
+          jwt.sign(tokenData, envConfig.JWT_KEY, {
             expiresIn: '5d',
           });
 
