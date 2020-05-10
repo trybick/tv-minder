@@ -19,17 +19,22 @@ type CachedResults = { [query: string]: SearchShowData };
 
 const cachedResults: CachedResults = {};
 
-export const searchShows = async (query: string) => {
-  const emptyResult = { results: null, totalResults: 0 };
+export const searchShows = async (
+  query: string
+): Promise<{
+  results: ShowSearchResult[];
+  totalResults: number;
+}> => {
+  const emptyResult = { results: [], total_results: 0 };
   const requestConfig: RequestConfig = {
     api_key: process.env.REACT_APP_API_KEY,
     query,
   };
 
   const { results, total_results: totalResults } =
-    (await makeCachedRequest(MOVIE_DB_URL, requestConfig)) || {};
+    (await makeCachedRequest(MOVIE_DB_URL, requestConfig)) || emptyResult;
 
-  return results ? { results, totalResults } : emptyResult;
+  return { results, totalResults };
 };
 
 const makeCachedRequestCreator = () => {

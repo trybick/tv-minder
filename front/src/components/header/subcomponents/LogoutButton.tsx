@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@chakra-ui/core';
-import { AppThunkAction, AppThunkDispatch } from 'store';
+import { AppThunkActionCaller, AppThunkDispatch } from 'store';
 import { setIsLoggedOutAction } from 'store/user/actions';
 
 interface DispatchProps {
-  setIsLoggedOut: AppThunkAction;
+  setIsLoggedOut: AppThunkActionCaller;
 }
 
 const LogoutButton = ({ setIsLoggedOut }: DispatchProps) => {
