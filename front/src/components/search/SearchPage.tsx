@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Box } from '@chakra-ui/core';
 import { searchShows } from 'gateway/searchShows';
+import { ShowSearchResult } from 'types/external';
 import SearchResultsContainer from './subcomponents/SearchResultsContainer';
 import SearchInput from './subcomponents/SearchInput';
 
@@ -8,7 +9,7 @@ const SearchPage = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('');
   const [isInputDirty, setIsInputDirty] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [shows, setShows] = React.useState<any[]>([]);
+  const [shows, setShows] = React.useState<ShowSearchResult[]>([]);
   const [totalResults, setTotalResults] = React.useState<number>(0);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {

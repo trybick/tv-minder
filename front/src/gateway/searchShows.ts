@@ -1,4 +1,5 @@
 import axios, { CancelTokenSource } from 'axios';
+import { ShowSearchResult } from 'types/external';
 import { MOVIE_DB_URL } from 'utils/constants';
 
 //
@@ -6,10 +7,20 @@ import { MOVIE_DB_URL } from 'utils/constants';
 // It uses a request creator for results caching and cancel tokens
 //
 
+interface SearchShowData {
+  page: number;
+  results: ShowSearchResult[];
+  total_pages: number;
+  total_results: number;
+}
+
 type RequestConfig = { api_key: string | undefined; query: string };
-const cachedResults: any = {};
+type CachedResults = { [query: string]: SearchShowData };
+
+const cachedResults: CachedResults = {};
 
 export const searchShows = async (query: string) => {
+  const emptyResult = { results: null, totalResults: 0 };
   const requestConfig: RequestConfig = {
     api_key: process.env.REACT_APP_API_KEY,
     query,
@@ -18,13 +29,16 @@ export const searchShows = async (query: string) => {
   const { results, total_results: totalResults } =
     (await makeCachedRequest(MOVIE_DB_URL, requestConfig)) || {};
 
-  return results ? { results, totalResults } : { results: null };
+  return results ? { results, totalResults } : emptyResult;
 };
 
 const makeCachedRequestCreator = () => {
   let cancelToken: CancelTokenSource;
 
-  return (url: string, requestConfig: RequestConfig) => {
+  return (
+    url: string,
+    requestConfig: RequestConfig
+  ): SearchShowData | Promise<void | SearchShowData> => {
     if (cancelToken) {
       cancelToken.cancel();
     }
@@ -33,7 +47,7 @@ const makeCachedRequestCreator = () => {
     return cachedResults[requestConfig.query]
       ? cachedResults[requestConfig.query]
       : axios
-          .get(url, {
+          .get<SearchShowData>(url, {
             cancelToken: cancelToken.token,
             params: requestConfig,
           })
@@ -44,10 +58,8 @@ const makeCachedRequestCreator = () => {
             return data;
           })
           .catch((err: Error) => {
-            if (axios.isCancel(err)) {
-              console.log('Successfully canceled request');
-            } else {
-              console.log('General Axios error', err.message);
+            if (!axios.isCancel(err)) {
+              console.log('Axios error', err.message);
             }
           });
   };
