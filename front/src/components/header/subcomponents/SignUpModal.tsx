@@ -22,7 +22,7 @@ import { AppState, AppThunkAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/reducers';
 import { baseUrl, emailRegex } from 'utils/constants';
-import { DisclosureProps } from 'types/common';
+import { DisclosureProps, ID } from 'types/common';
 import handleErrors from 'utils/handleErrors';
 
 interface OwnProps {
@@ -30,7 +30,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-  unregisteredFollowedShows: any[];
+  unregisteredFollowedShows: ID[];
 }
 
 interface DispatchProps {

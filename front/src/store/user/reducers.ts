@@ -11,12 +11,13 @@ import {
   UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
   UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
 } from './actions';
+import { ID } from 'types/common';
 
 export interface UserState {
-  followedShows: any[];
+  followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  unregisteredFollowedShows: any[];
+  unregisteredFollowedShows: ID[];
 }
 
 const initialState = {

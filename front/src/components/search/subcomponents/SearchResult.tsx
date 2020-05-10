@@ -8,15 +8,16 @@ import {
   unregisteredRemoveFromFollowedShowsAction,
   unregisteredSaveToFollowedShowsAction,
 } from 'store/user/actions';
+import { ID } from 'types/common';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
 interface Props {
-  followedShows: any;
+  followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: any;
-  unregisteredFollowedShows: any;
+  unregisteredFollowedShows: ID[];
   removeFromFollowedShows: typeof removeFromFollowedShowsAction;
   saveToFollowedShows: typeof saveToFollowedShowsAction;
   setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;

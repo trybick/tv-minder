@@ -16,6 +16,7 @@ import {
   selectIsLoggedIn,
   selectUnregisteredFollowedShows,
 } from 'store/user/reducers';
+import { ID } from 'types/common';
 import SearchResult from './SearchResult';
 
 interface OwnProps {
@@ -24,10 +25,10 @@ interface OwnProps {
 }
 
 interface StateProps {
-  followedShows: any[];
+  followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  unregisteredFollowedShows: any[];
+  unregisteredFollowedShows: ID[];
 }
 
 interface DispatchProps {

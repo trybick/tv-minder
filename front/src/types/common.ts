@@ -3,3 +3,5 @@ export type DisclosureProps = {
   onOpen: () => void;
   onClose: () => void;
 };
+
+export type ID = string;
