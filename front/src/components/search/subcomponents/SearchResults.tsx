@@ -1,8 +1,7 @@
 import React from 'react';
 import { Box, Stack, Tag } from '@chakra-ui/core';
 import { connect, MapStateToProps } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState, AppThunkActionCaller } from 'store';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
@@ -19,7 +18,6 @@ import {
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
 import SearchResult from './SearchResult';
-import { AnyAction } from 'redux';
 
 interface OwnProps {
   shows: ShowSearchResult[];
@@ -35,7 +33,7 @@ interface StateProps {
 
 interface DispatchProps {
   removeFromFollowedShows: (showId: string) => void;
-  setHasLocalWarningToastBeenShown: AppThunkActionCaller;
+  setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: string) => void;
   unregisteredRemoveFromFollowedShows: (showId: string) => void;
   unregisteredSaveToFollowedShows: (showId: string) => void;
@@ -95,7 +93,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
   unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, AnyAction>) => ({
+const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   removeFromFollowedShows: (showId: string) => dispatch(removeFromFollowedShowsAction(showId)),
   saveToFollowedShows: (showId: string) => dispatch(saveToFollowedShowsAction(showId)),
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),

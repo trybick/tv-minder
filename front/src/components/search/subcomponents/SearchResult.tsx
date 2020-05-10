@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
-import { AppState, AppThunkActionCaller } from 'store';
+import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
 import { baseUrl } from 'utils/constants';
@@ -14,7 +14,7 @@ interface Props {
   showToDisplay: ShowSearchResult;
   unregisteredFollowedShows: ID[];
   removeFromFollowedShows: (showId: string) => void;
-  setHasLocalWarningToastBeenShown: AppThunkActionCaller;
+  setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: string) => void;
   unregisteredRemoveFromFollowedShows: (showId: string) => void;
   unregisteredSaveToFollowedShows: (showId: string) => void;

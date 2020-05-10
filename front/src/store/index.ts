@@ -12,7 +12,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 export type AppThunkDispatch = ThunkDispatch<AppState, void, AnyAction>;
-export type AppThunkActionCaller = () => void;
+export type AppThunkPlainAction = () => void;
 
 export type AppState = {
   user: UserState;

@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
-import { AppState, AppThunkActionCaller, AppThunkDispatch } from 'store';
+import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/reducers';
 import { baseUrl, emailRegex } from 'utils/constants';
@@ -34,8 +34,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setIsLoggedIn: AppThunkActionCaller;
-  unregisteredClearFollowedShows: AppThunkActionCaller;
+  setIsLoggedIn: AppThunkPlainAction;
+  unregisteredClearFollowedShows: AppThunkPlainAction;
 }
 
 type Props = DispatchProps & StateProps & OwnProps;

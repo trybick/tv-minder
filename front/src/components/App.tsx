@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
-import { AppState, AppThunkActionCaller, AppThunkDispatch } from 'store';
+import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/reducers';
 import Header from 'components/header/Header';
@@ -13,7 +13,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  fetchfollowedShows: AppThunkActionCaller;
+  fetchfollowedShows: AppThunkPlainAction;
 }
 
 type Props = StateProps & DispatchProps;
