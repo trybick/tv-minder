@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
-import {
-  removeFromFollowedShowsAction,
-  saveToFollowedShowsAction,
-  setHasLocalWarningToastBeenShownAction,
-  unregisteredRemoveFromFollowedShowsAction,
-  unregisteredSaveToFollowedShowsAction,
-} from 'store/user/actions';
+import { AppState, AppThunkActionCaller } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
 import { baseUrl } from 'utils/constants';
@@ -19,11 +13,11 @@ interface Props {
   isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
   unregisteredFollowedShows: ID[];
-  removeFromFollowedShows: typeof removeFromFollowedShowsAction;
-  saveToFollowedShows: typeof saveToFollowedShowsAction;
-  setHasLocalWarningToastBeenShown: typeof setHasLocalWarningToastBeenShownAction;
-  unregisteredRemoveFromFollowedShows: typeof unregisteredRemoveFromFollowedShowsAction;
-  unregisteredSaveToFollowedShows: typeof unregisteredSaveToFollowedShowsAction;
+  removeFromFollowedShows: (showId: string) => void;
+  setHasLocalWarningToastBeenShown: AppThunkActionCaller;
+  saveToFollowedShows: (showId: string) => void;
+  unregisteredRemoveFromFollowedShows: (showId: string) => void;
+  unregisteredSaveToFollowedShows: (showId: string) => void;
 }
 
 const SearchResult = ({
