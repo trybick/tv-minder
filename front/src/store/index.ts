@@ -11,8 +11,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-
 export type AppThunkDispatch = ThunkDispatch<AppState, void, AnyAction>;
+export type AppThunkAction = () => void;
 
 export type AppState = {
   user: UserState;

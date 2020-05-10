@@ -18,8 +18,9 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
-import { AppState } from 'store';
+import { AppState, AppThunkAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
+import { selectUnregisteredFollowedShows } from 'store/user/reducers';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
 import handleErrors from 'utils/handleErrors';
@@ -33,8 +34,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setIsLoggedIn: typeof setIsLoggedInAction;
-  unregisteredClearFollowedShows: typeof unregisteredClearFollowedShowsAction;
+  setIsLoggedIn: AppThunkAction;
+  unregisteredClearFollowedShows: AppThunkAction;
 }
 
 type Props = DispatchProps & StateProps & OwnProps;
@@ -52,12 +53,10 @@ const SignUpModal = ({
   unregisteredClearFollowedShows,
   unregisteredFollowedShows,
 }: Props) => {
-  // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
 
-  // Form
   const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<
     FormData
   >();
@@ -192,10 +191,10 @@ const SignUpModal = ({
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
-  unregisteredFollowedShows: state.user.unregisteredFollowedShows,
+  unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });

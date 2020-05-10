@@ -10,6 +10,12 @@ import {
   unregisteredRemoveFromFollowedShowsAction,
   unregisteredSaveToFollowedShowsAction,
 } from 'store/user/actions';
+import {
+  selectFollowedShows,
+  selectHasLocalWarningToastBeenShown,
+  selectIsLoggedIn,
+  selectUnregisteredFollowedShows,
+} from 'store/user/reducers';
 import SearchResult from './SearchResult';
 
 interface OwnProps {
@@ -80,10 +86,10 @@ const SearchResults = ({
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
-  followedShows: state.user.followedShows,
-  hasLocalWarningToastBeenShown: state.user.hasLocalWarningToastBeenShown,
-  isLoggedIn: state.user.isLoggedIn,
-  unregisteredFollowedShows: state.user.unregisteredFollowedShows,
+  followedShows: selectFollowedShows(state),
+  hasLocalWarningToastBeenShown: selectHasLocalWarningToastBeenShown(state),
+  isLoggedIn: selectIsLoggedIn(state),
+  unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, void, any>) => ({

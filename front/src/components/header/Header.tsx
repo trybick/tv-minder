@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import { Box, Flex, Heading, Text } from '@chakra-ui/core';
 import { AppState } from 'store';
+import { selectIsLoggedIn } from 'store/user/reducers';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
@@ -77,7 +78,7 @@ const Header = ({ isLoggedIn }: StateProps) => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
-  isLoggedIn: state.user.isLoggedIn,
+  isLoggedIn: selectIsLoggedIn(state),
 });
 
 export default connect(mapStateToProps, {})(Header);
