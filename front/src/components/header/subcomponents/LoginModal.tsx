@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
-import { AppThunkDispatch } from 'store';
+import { AppThunkAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { baseUrl, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'utils/commonTypes';
@@ -29,8 +29,8 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-  setIsLoggedIn: () => void;
-  unregisteredClearFollowedShows: () => void;
+  setIsLoggedIn: AppThunkAction;
+  unregisteredClearFollowedShows: AppThunkAction;
 }
 
 type Props = DispatchProps & OwnProps;
@@ -52,12 +52,10 @@ const formSchema = {
 };
 
 const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
-  // Modal
   const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onClose } = disclosureProps;
   const toast = useToast();
 
-  // Form
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
 
   const onSubmit = handleSubmit(({ email, password }) => {
