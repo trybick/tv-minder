@@ -1,7 +1,7 @@
-import { Action, combineReducers, createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk, { ThunkAction } from 'redux-thunk';
+import { Action, AnyAction, applyMiddleware, combineReducers, createStore } from 'redux';
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import storage from 'redux-persist/lib/storage';
 import { userReducer, UserState } from './user/reducers';
 
@@ -11,6 +11,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export type AppThunkDispatch = ThunkDispatch<AppState, void, AnyAction>;
 
 export type AppState = {
   user: UserState;

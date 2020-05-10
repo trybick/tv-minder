@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/core';
-import { AppState } from 'store';
+import { AppState, AppThunkDispatch } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import Header from 'components/header/Header';
 import SearchPage from 'components/search/SearchPage';
@@ -12,12 +12,12 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  fetchfollowedShows: typeof fetchfollowedShowsAction;
+  fetchfollowedShows: () => void;
 }
 
 type Props = StateProps & DispatchProps;
 
-const App = ({ isLoggedIn, fetchfollowedShows }: Props): JSX.Element => {
+const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   useEffect(() => {
     if (isLoggedIn) {
       fetchfollowedShows();
@@ -45,7 +45,7 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   isLoggedIn: state.user.isLoggedIn,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   fetchfollowedShows: () => dispatch(fetchfollowedShowsAction()),
 });
 
