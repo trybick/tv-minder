@@ -17,10 +17,11 @@ import {
   selectUnregisteredFollowedShows,
 } from 'store/user/reducers';
 import { ID } from 'types/common';
+import { ShowSearchResult } from 'types/external';
 import SearchResult from './SearchResult';
 
 interface OwnProps {
-  shows: any[];
+  shows: ShowSearchResult[];
   totalResults: number;
 }
 

@@ -9,6 +9,7 @@ import {
   unregisteredSaveToFollowedShowsAction,
 } from 'store/user/actions';
 import { ID } from 'types/common';
+import { ShowSearchResult } from 'types/external';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
@@ -16,7 +17,7 @@ interface Props {
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  showToDisplay: any;
+  showToDisplay: ShowSearchResult;
   unregisteredFollowedShows: ID[];
   removeFromFollowedShows: typeof removeFromFollowedShowsAction;
   saveToFollowedShows: typeof saveToFollowedShowsAction;

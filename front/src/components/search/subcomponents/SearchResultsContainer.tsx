@@ -1,11 +1,12 @@
 import React from 'react';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
+import { ShowSearchResult } from 'types/external';
 import SearchResults from './SearchResults';
 
 interface Props {
   isInputDirty: boolean;
   isLoading: boolean;
-  shows: any[];
+  shows: ShowSearchResult[];
   totalResults: number;
 }
 
