@@ -199,4 +199,7 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal);
+export default connect<StateProps, DispatchProps, OwnProps, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUpModal);
