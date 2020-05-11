@@ -1,0 +1,5 @@
+// Necessary to use sass for Full Calendar
+// https://github.com/fullcalendar/fullcalendar-example-projects/blob/master/react-typescript/src/main.scss
+
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
