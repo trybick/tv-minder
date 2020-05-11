@@ -7,8 +7,9 @@ import 'style/fullCalendar.scss';
 const CalendarPage = (): JSX.Element => {
   return (
     <Box>
-      <Box>Calendar</Box>
-      <FullCalendar defaultView="dayGridMonth" plugins={[dayGridPlugin]} />
+      <Box maxW="80%" m="30px auto 0">
+        <FullCalendar defaultView="dayGridMonth" plugins={[dayGridPlugin]} />
+      </Box>
     </Box>
   );
 };
