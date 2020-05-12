@@ -1,22 +1,23 @@
 import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
-import { MOVIE_DB_URL } from 'utils/constants';
+import { MOVIE_DB_BASE_URL } from 'utils/constants';
 
 //
 // Our app calls searchShows
 // It uses a request creator for results caching and cancel tokens
 //
 
-interface SearchShowData {
+interface ReturnedData {
   page: number;
   results: ShowSearchResult[];
   total_pages: number;
   total_results: number;
 }
 
-type RequestConfig = { api_key: string | undefined; query: string };
-type CachedResults = { [query: string]: SearchShowData };
+type QueryParams = { api_key: string | undefined; query: string };
+type CachedResults = { [query: string]: ReturnedData };
 
+const url = `${MOVIE_DB_BASE_URL}/search/tv`;
 const cachedResults: CachedResults = {};
 
 export const searchShows = async (
@@ -26,13 +27,13 @@ export const searchShows = async (
   totalResults: number;
 }> => {
   const emptyResult = { results: [], total_results: 0 };
-  const requestConfig: RequestConfig = {
+  const queryParams: QueryParams = {
     api_key: process.env.REACT_APP_API_KEY,
     query,
   };
 
   const { results, total_results: totalResults } =
-    (await makeCachedRequest(MOVIE_DB_URL, requestConfig)) || emptyResult;
+    (await makeCachedRequest(url, queryParams)) || emptyResult;
 
   return { results, totalResults };
 };
@@ -40,25 +41,22 @@ export const searchShows = async (
 const makeCachedRequestCreator = () => {
   let cancelToken: CancelTokenSource;
 
-  return (
-    url: string,
-    requestConfig: RequestConfig
-  ): SearchShowData | Promise<void | SearchShowData> => {
+  return (url: string, queryParams: QueryParams): ReturnedData | Promise<void | ReturnedData> => {
     if (cancelToken) {
       cancelToken.cancel();
     }
     cancelToken = axios.CancelToken.source();
 
-    return cachedResults[requestConfig.query]
-      ? cachedResults[requestConfig.query]
+    return cachedResults[queryParams.query]
+      ? cachedResults[queryParams.query]
       : axios
-          .get<SearchShowData>(url, {
+          .get<ReturnedData>(url, {
             cancelToken: cancelToken.token,
-            params: requestConfig,
+            params: queryParams,
           })
           .then((res) => {
             const { data } = res;
-            cachedResults[requestConfig.query] = data;
+            cachedResults[queryParams.query] = data;
 
             return data;
           })
