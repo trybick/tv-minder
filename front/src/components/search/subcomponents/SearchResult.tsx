@@ -13,11 +13,11 @@ interface Props {
   isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
   unregisteredFollowedShows: ID[];
-  removeFromFollowedShows: (showId: string) => void;
+  removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
-  saveToFollowedShows: (showId: string) => void;
-  unregisteredRemoveFromFollowedShows: (showId: string) => void;
-  unregisteredSaveToFollowedShows: (showId: string) => void;
+  saveToFollowedShows: (showId: number) => void;
+  unregisteredRemoveFromFollowedShows: (showId: number) => void;
+  unregisteredSaveToFollowedShows: (showId: number) => void;
 }
 
 const SearchResult = ({
@@ -36,8 +36,7 @@ const SearchResult = ({
   const [isLoading, setIsLoading] = React.useState(false);
   const toast = useToast();
 
-  const { first_air_date: firstAirDate, id, name, popularity } = showToDisplay;
-  const showId = String(id);
+  const { first_air_date: firstAirDate, id: showId, name, popularity } = showToDisplay;
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');

@@ -44,14 +44,14 @@ export const setIsLoggedInAction = (): AppThunk => (dispatch) => {
   });
 };
 
-export const removeFromFollowedShowsAction = (showId: string): AppThunk => (dispatch) => {
+export const removeFromFollowedShowsAction = (showId: number): AppThunk => (dispatch) => {
   dispatch({
     type: REMOVE_FROM_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
 
-export const saveToFollowedShowsAction = (showId: string): AppThunk => (dispatch) => {
+export const saveToFollowedShowsAction = (showId: number): AppThunk => (dispatch) => {
   dispatch({
     type: SAVE_TO_FOLLOWED_SHOWS,
     payload: showId,
@@ -64,14 +64,14 @@ export const unregisteredClearFollowedShowsAction = (): AppThunk => (dispatch) =
   });
 };
 
-export const unregisteredSaveToFollowedShowsAction = (showId: string): AppThunk => (dispatch) => {
+export const unregisteredSaveToFollowedShowsAction = (showId: number): AppThunk => (dispatch) => {
   dispatch({
     type: UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
 
-export const unregisteredRemoveFromFollowedShowsAction = (showId: string): AppThunk => (
+export const unregisteredRemoveFromFollowedShowsAction = (showId: number): AppThunk => (
   dispatch
 ) => {
   dispatch({

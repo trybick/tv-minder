@@ -23,7 +23,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   // Make a call to API for one show ID
   useEffect(() => {
     async function loadSeasonEpisodes() {
-      const season1Details = await getSeasonEpisodes(+followedShows[0], 1);
+      const season1Details = await getSeasonEpisodes(followedShows[0], 1);
       console.log('season1Details:', season1Details);
     }
 

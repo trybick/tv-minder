@@ -32,11 +32,11 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  removeFromFollowedShows: (showId: string) => void;
+  removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
-  saveToFollowedShows: (showId: string) => void;
-  unregisteredRemoveFromFollowedShows: (showId: string) => void;
-  unregisteredSaveToFollowedShows: (showId: string) => void;
+  saveToFollowedShows: (showId: number) => void;
+  unregisteredRemoveFromFollowedShows: (showId: number) => void;
+  unregisteredSaveToFollowedShows: (showId: number) => void;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -94,12 +94,12 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  removeFromFollowedShows: (showId: string) => dispatch(removeFromFollowedShowsAction(showId)),
-  saveToFollowedShows: (showId: string) => dispatch(saveToFollowedShowsAction(showId)),
+  removeFromFollowedShows: (showId: number) => dispatch(removeFromFollowedShowsAction(showId)),
+  saveToFollowedShows: (showId: number) => dispatch(saveToFollowedShowsAction(showId)),
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
-  unregisteredRemoveFromFollowedShows: (showId: string) =>
+  unregisteredRemoveFromFollowedShows: (showId: number) =>
     dispatch(unregisteredRemoveFromFollowedShowsAction(showId)),
-  unregisteredSaveToFollowedShows: (showId: string) =>
+  unregisteredSaveToFollowedShows: (showId: number) =>
     dispatch(unregisteredSaveToFollowedShowsAction(showId)),
 });
 

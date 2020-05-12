@@ -4,7 +4,7 @@ const UserSchema = createSchema(
   {
     email: Type.string({ required: true, unique: true, trim: true }),
     password: Type.string({ required: true }),
-    followedShows: Type.array().of(Type.string()),
+    followedShows: Type.array().of(Type.number()),
   },
   { timestamps: true }
 );

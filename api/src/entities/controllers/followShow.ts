@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import User from 'models/user';
 
 export const createFollow = async (req: Request, res: Response) => {
-  const userId = res.locals.userId;
-  const showId = req.body.showId;
+  const userId: number = res.locals.userId;
+  const showId: number = req.body.showId;
 
   if (!userId || !showId) {
     return res.status(422).json({
@@ -23,8 +23,8 @@ export const createFollow = async (req: Request, res: Response) => {
 };
 
 export const deleteFollow = async (req: Request, res: Response) => {
-  const userId = res.locals.userId;
-  const showId = req.body.showId;
+  const userId: number = res.locals.userId;
+  const showId: number = req.body.showId;
 
   if (!userId || !showId) {
     return res.status(422).json({
@@ -44,7 +44,7 @@ export const deleteFollow = async (req: Request, res: Response) => {
 };
 
 export const getFollows = async (req: Request, res: Response) => {
-  const userId = res.locals.userId;
+  const userId: number = res.locals.userId;
 
   User.findOne({ _id: userId }).exec((err, user) => {
     if (user && !err) {

@@ -4,4 +4,4 @@ export type DisclosureProps = {
   onClose: () => void;
 };
 
-export type ID = string;
+export type ID = number;
