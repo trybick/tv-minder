@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AppThunk } from 'store';
+import { ID } from 'types/common';
 import { baseUrl } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
@@ -15,7 +16,9 @@ export const UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS = 'UNREGISTERED_SAVE_TO_FOLLOWE
 
 export const fetchfollowedShowsAction = (): AppThunk => (dispatch) =>
   axios
-    .get(`${baseUrl}/follow`, {
+    .get<{
+      followedShows: ID[];
+    }>(`${baseUrl}/follow`, {
       params: { token: localStorage.getItem('jwt') },
     })
     .then(({ data }) => {
