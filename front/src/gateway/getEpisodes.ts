@@ -7,13 +7,27 @@ type QueryParams = {
 
 //
 // Using The Movie DB (first API)
+// getActiveSeasons --> getSeasonEpisodes --> calculate upcoming shows
 //
 
 export const getSchedule = async (showId: number) => {
   const seasonsToFetch = await getActiveSeasons(showId);
 
   const seasonEpisodes = await getSeasonEpisodes(showId, seasonsToFetch);
-  console.log('seasonEpisodes:', seasonEpisodes);
+
+  const episodesForCalendar = calculateEpisodesForCalendar(seasonEpisodes);
+  console.log('episodesForCalendar:', episodesForCalendar);
+};
+
+export const calculateEpisodesForCalendar = (seasons: any[]) => {
+  const episodes = {};
+
+  seasons.forEach((season) => {
+    // @ts-ignore
+    episodes[`season${season.season_number}`] = season.episodes;
+  });
+
+  return episodes;
 };
 
 // Get the season number of the latest and next episodes to air

@@ -24,7 +24,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
     }
 
     loadSeasonEpisodes();
-  }, [followedShows]);
+  }, []);
 
   return (
     <Box>
