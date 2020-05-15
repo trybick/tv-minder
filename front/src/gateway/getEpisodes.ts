@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { MOVIE_DB_BASE_URL } from 'utils/constants';
+import moment from 'moment';
 
 type QueryParams = {
   api_key: string | undefined;
@@ -16,7 +17,24 @@ export const getSchedule = async (showId: number) => {
   const seasonEpisodes = await getSeasonEpisodes(showId, seasonsToFetch);
 
   const episodesForCalendar = calculateEpisodesForCalendar(seasonEpisodes);
-  console.log('episodesForCalendar:', episodesForCalendar);
+
+  // @ts-ignore
+  const episodes = Object.values(episodesForCalendar)[0].filter((episode) => {
+    return moment(moment(episode.air_date)).isBetween(
+      moment().subtract(3, 'months'),
+      moment().add(3, 'months')
+    );
+  });
+
+  const pickedProperties = episodes.map((episode: any) => {
+    return (({ air_date, episode_number, season_number }) => ({
+      air_date,
+      episode_number,
+      season_number,
+    }))(episode);
+  });
+
+  return pickedProperties;
 };
 
 export const calculateEpisodesForCalendar = (seasons: any[]) => {

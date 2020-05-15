@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Box } from '@chakra-ui/core';
 import FullCalendar from '@fullcalendar/react';
@@ -16,11 +16,15 @@ interface StateProps {
 type Props = StateProps;
 
 const CalendarPage = ({ followedShows }: Props): JSX.Element => {
+  const [episodes, setEpisodes] = useState([]);
+  console.log('episodes to show:', episodes);
+
   useEffect(() => {
     async function loadSeasonEpisodes() {
       const schedule = await getSchedule(followedShows[0]);
+      console.log('schedule:', schedule);
 
-      return schedule;
+      setEpisodes(schedule);
     }
 
     loadSeasonEpisodes();
