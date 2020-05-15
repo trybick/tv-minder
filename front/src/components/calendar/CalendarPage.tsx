@@ -32,7 +32,14 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   return (
     <Box>
       <Box maxW="80%" m="30px auto 0">
-        <FullCalendar defaultView="dayGridMonth" plugins={[dayGridPlugin]} />
+        <FullCalendar
+          defaultView="dayGridMonth"
+          events={[
+            { title: 'event 1', date: '2019-04-01' },
+            { title: 'event 2', date: '2019-04-02' },
+          ]}
+          plugins={[dayGridPlugin]}
+        />
       </Box>
     </Box>
   );

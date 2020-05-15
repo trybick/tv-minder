@@ -95,11 +95,13 @@ const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
   });
 
   const episodesForDisplay = recentEpisodes?.map((episode: any) => {
-    return (({ air_date, episode_number, season_number }) => ({
-      airDate: air_date,
-      episodeNumber: episode_number,
-      seasonNumber: season_number,
-      showName: fullSeasonData[0].name,
+    return (({
+      air_date: airDate,
+      episode_number: episodeNumber,
+      season_number: seasonNumber,
+    }) => ({
+      date: airDate,
+      title: `${fullSeasonData[0].name} S${seasonNumber} E${episodeNumber}`,
     }))(episode);
   });
 
