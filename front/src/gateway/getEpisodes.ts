@@ -11,12 +11,12 @@ type QueryParams = {
 // getActiveSeasons --> getSeasonEpisodes --> calculate upcoming shows
 //
 
-export const getEpisodeData = async (showId: number) => {
+export const getEpisodesForDisplay = async (showId: number) => {
   const currentActiveSeasons = await getActiveSeasons(showId);
-  const fullEpisodeDataForSeason = await getFullEpisodeDataForSeason(showId, currentActiveSeasons);
-  const { episodes } = calculateEpisodeDataForDisplay(fullEpisodeDataForSeason);
+  const fullEpisodeDataForSeasons = await getFullSeasonData(showId, currentActiveSeasons);
+  const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
 
-  return { episodes };
+  return episodesForDisplay;
 };
 
 // Get the season number of the latest and next episodes to air
@@ -56,7 +56,7 @@ const getActiveSeasons = async (showId: number): Promise<any> => {
   );
 };
 
-const getFullEpisodeDataForSeason = async (showId: number, showData: any) => {
+const getFullSeasonData = async (showId: number, showData: any) => {
   const queryParams: QueryParams = {
     api_key: process.env.REACT_APP_API_KEY,
   };
@@ -70,39 +70,38 @@ const getFullEpisodeDataForSeason = async (showId: number, showData: any) => {
     );
 
   // @ts-ignore
-  const latestEpisodes = await axios.all(seasonRequests).then((res) => res.map((res) => res.data));
+  const fullSeasonData = await axios.all(seasonRequests).then((res) => res.map((res) => res.data));
 
   // @ts-ignore
-  latestEpisodes[0]['name'] = name;
+  fullSeasonData[0]['name'] = name;
 
-  return latestEpisodes;
+  return fullSeasonData;
 };
 
-const calculateEpisodeDataForDisplay = (latestEpisodes: any) => {
-  const episodes = {};
+const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
+  const fullEpisodes = {};
 
-  latestEpisodes.forEach((season: any) => {
+  fullSeasonData.forEach((season: any) => {
     // @ts-ignore
-    episodes[`season${season.season_number}`] = season.episodes;
+    fullEpisodes[`season${season.season_number}`] = season.episodes;
   });
-  console.log('episodes:', episodes);
 
   // @ts-ignore
-  const recentEpisodes = Object.values(episodes)[0]?.filter((episode) => {
+  const recentEpisodes = Object.values(fullEpisodes)[0]?.filter((episode) => {
     return moment(moment(episode.air_date)).isBetween(
       moment().subtract(3, 'months'),
       moment().add(3, 'months')
     );
   });
 
-  const episodesForCalendar = recentEpisodes?.map((episode: any) => {
+  const episodesForDisplay = recentEpisodes?.map((episode: any) => {
     return (({ air_date, episode_number, season_number }) => ({
       airDate: air_date,
       episodeNumber: episode_number,
       seasonNumber: season_number,
-      showName: latestEpisodes[0].name,
+      showName: fullSeasonData[0].name,
     }))(episode);
   });
 
-  return { episodes: episodesForCalendar };
+  return episodesForDisplay;
 };

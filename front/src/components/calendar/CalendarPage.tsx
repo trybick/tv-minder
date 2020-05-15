@@ -5,7 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { AppState } from 'store';
 import { selectFollowedShows } from 'store/user/reducers';
-import { getEpisodeData } from 'gateway/getEpisodes';
+import { getEpisodesForDisplay } from 'gateway/getEpisodes';
 import { ID } from 'types/common';
 import 'style/fullCalendar.scss';
 
@@ -16,14 +16,14 @@ interface StateProps {
 type Props = StateProps;
 
 const CalendarPage = ({ followedShows }: Props): JSX.Element => {
-  const [showData, setShowData] = useState<any>();
-  console.log('showData:', showData);
+  const [episodeData, setEpisodeData] = useState<any>();
+  console.log('episodeData:', episodeData);
 
   useEffect(() => {
     async function loadSeasonEpisodes() {
-      const showData = await getEpisodeData(followedShows[0]);
+      const episodeData = await getEpisodesForDisplay(followedShows[0]);
 
-      setShowData(showData);
+      setEpisodeData(episodeData);
     }
 
     loadSeasonEpisodes();
