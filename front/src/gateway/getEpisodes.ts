@@ -15,17 +15,18 @@ export const getSchedule = async (showId: number) => {
   const seasonsToFetch = await getActiveSeasons(showId);
   const seasonEpisodes = await getSeasonEpisodes(showId, seasonsToFetch);
 
-  const episodesForCalendar = calculateEpisodesForCalendar(seasonEpisodes);
+  const epi = calculateEpisodesForCalendar(seasonEpisodes);
+  const { episodes, name } = epi;
 
   // @ts-ignore
-  const episodes = Object.values(episodesForCalendar)[0]?.filter((episode) => {
+  const recentEpisodes = Object.values(episodes)[0]?.filter((episode) => {
     return moment(moment(episode.air_date)).isBetween(
       moment().subtract(3, 'months'),
       moment().add(3, 'months')
     );
   });
 
-  const pickedProperties = episodes?.map((episode: any) => {
+  const episodesForCalendar = recentEpisodes?.map((episode: any) => {
     return (({ air_date, episode_number, season_number }) => ({
       air_date,
       episode_number,
@@ -33,22 +34,23 @@ export const getSchedule = async (showId: number) => {
     }))(episode);
   });
 
-  return pickedProperties;
+  return { name, episodesForCalendar };
 };
 
-export const calculateEpisodesForCalendar = (seasons: any[]) => {
+export const calculateEpisodesForCalendar = (showData: any) => {
+  const { latestEpisodes, name } = showData;
   const episodes = {};
 
-  seasons.forEach((season) => {
+  latestEpisodes.forEach((season: any) => {
     // @ts-ignore
     episodes[`season${season.season_number}`] = season.episodes;
   });
 
-  return episodes;
+  return { episodes, name };
 };
 
 // Get the season number of the latest and next episodes to air
-export const getActiveSeasons = async (showId: number): Promise<number[]> => {
+export const getActiveSeasons = async (showId: number): Promise<any> => {
   const url = `${MOVIE_DB_BASE_URL}/tv/${showId}`;
   const queryParams: QueryParams = {
     api_key: process.env.REACT_APP_API_KEY,
@@ -59,18 +61,24 @@ export const getActiveSeasons = async (showId: number): Promise<number[]> => {
       .get(url, {
         params: queryParams,
       })
-      .then((res) => {
-        const { data } = res;
-        const lastSeasonNumberToAir = data.last_episode_to_air?.season_number || null;
-        const nextSeasonNumberToAir = data.next_episode_to_air?.season_number || null;
-        const activeSeasons = [lastSeasonNumberToAir, nextSeasonNumberToAir];
+      .then(({ data }) => {
+        const {
+          last_episode_to_air: lastEpisodeToAir,
+          name,
+          next_episode_to_air: nextEpisodeToAir,
+        } = data;
 
-        // If last and next are the same season number, only return a single value
-        return lastSeasonNumberToAir &&
+        const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
+        const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
+        const activeSeasons = [lastSeasonNumberToAir, nextSeasonNumberToAir];
+        const isLastAndNextSameSeason =
+          lastSeasonNumberToAir &&
           nextSeasonNumberToAir &&
-          lastSeasonNumberToAir === nextSeasonNumberToAir
-          ? [lastSeasonNumberToAir]
-          : activeSeasons;
+          lastSeasonNumberToAir === nextSeasonNumberToAir;
+
+        return isLastAndNextSameSeason
+          ? { name, activeSeasons: [lastSeasonNumberToAir] }
+          : { name, activeSeasons };
       })
       .catch((err: Error) => {
         console.log('Axios error', err.message);
@@ -79,16 +87,21 @@ export const getActiveSeasons = async (showId: number): Promise<number[]> => {
 };
 
 // Get full episode details for seasons
-export const getSeasonEpisodes = async (showId: number, seasonNumbers: number[]) => {
+export const getSeasonEpisodes = async (showId: number, showData: any) => {
   const queryParams: QueryParams = {
     api_key: process.env.REACT_APP_API_KEY,
   };
 
-  const seasonRequests = seasonNumbers
+  const { name, activeSeasons } = showData;
+
+  const seasonRequests = activeSeasons
     .filter(Boolean)
-    .map((seasonNum) =>
+    .map((seasonNum: any) =>
       axios.get(`${MOVIE_DB_BASE_URL}/tv/${showId}/season/${seasonNum}`, { params: queryParams })
     );
 
-  return axios.all(seasonRequests).then((res) => res.map((res) => res.data));
+  // @ts-ignore
+  const latestEpisodes = await axios.all(seasonRequests).then((res) => res.map((res) => res.data));
+
+  return { latestEpisodes, name };
 };

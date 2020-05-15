@@ -16,7 +16,7 @@ interface StateProps {
 type Props = StateProps;
 
 const CalendarPage = ({ followedShows }: Props): JSX.Element => {
-  const [episodes, setEpisodes] = useState([]);
+  const [episodes, setEpisodes] = useState<any>();
   console.log('episodes to show:', episodes);
 
   useEffect(() => {
