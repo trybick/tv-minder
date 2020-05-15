@@ -3,6 +3,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { Box } from '@chakra-ui/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { AppState } from 'store';
 import { selectFollowedShows } from 'store/user/reducers';
 import { getEpisodesForDisplay } from 'gateway/getEpisodes';
@@ -29,16 +30,19 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
     loadSeasonEpisodes();
   }, []);
 
+  // This only fires calendar dates, not events on a date
+  const handleDateClick = (arg: any) => {
+    console.log('date click', arg.dateString);
+  };
+
   return (
     <Box>
       <Box maxW="80%" m="30px auto 0">
         <FullCalendar
+          dateClick={handleDateClick}
           defaultView="dayGridMonth"
-          events={[
-            { title: 'event 1', date: '2019-04-01' },
-            { title: 'event 2', date: '2019-04-02' },
-          ]}
-          plugins={[dayGridPlugin]}
+          events={episodeData}
+          plugins={[dayGridPlugin, interactionPlugin]}
         />
       </Box>
     </Box>
