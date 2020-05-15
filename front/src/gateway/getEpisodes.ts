@@ -14,9 +14,9 @@ type QueryParams = {
 export const getEpisodeData = async (showId: number) => {
   const currentActiveSeasons = await getActiveSeasons(showId);
   const fullEpisodeDataForSeason = await getFullEpisodeDataForSeason(showId, currentActiveSeasons);
-  const { episodes, name } = calculateEpisodeDataForDisplay(fullEpisodeDataForSeason);
+  const { episodes } = calculateEpisodeDataForDisplay(fullEpisodeDataForSeason);
 
-  return { name, episodes };
+  return { episodes };
 };
 
 // Get the season number of the latest and next episodes to air
@@ -72,17 +72,20 @@ const getFullEpisodeDataForSeason = async (showId: number, showData: any) => {
   // @ts-ignore
   const latestEpisodes = await axios.all(seasonRequests).then((res) => res.map((res) => res.data));
 
-  return { latestEpisodes, name };
+  // @ts-ignore
+  latestEpisodes[0]['name'] = name;
+
+  return latestEpisodes;
 };
 
-const calculateEpisodeDataForDisplay = (showData: any) => {
-  const { latestEpisodes, name } = showData;
+const calculateEpisodeDataForDisplay = (latestEpisodes: any) => {
   const episodes = {};
 
   latestEpisodes.forEach((season: any) => {
     // @ts-ignore
     episodes[`season${season.season_number}`] = season.episodes;
   });
+  console.log('episodes:', episodes);
 
   // @ts-ignore
   const recentEpisodes = Object.values(episodes)[0]?.filter((episode) => {
@@ -97,8 +100,9 @@ const calculateEpisodeDataForDisplay = (showData: any) => {
       airDate: air_date,
       episodeNumber: episode_number,
       seasonNumber: season_number,
+      showName: latestEpisodes[0].name,
     }))(episode);
   });
 
-  return { episodes: episodesForCalendar, name };
+  return { episodes: episodesForCalendar };
 };
