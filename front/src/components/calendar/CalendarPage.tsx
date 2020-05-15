@@ -28,6 +28,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
     }
 
     loadSeasonEpisodes();
+    // eslint-disable-next-line
   }, []);
 
   // This only fires calendar dates, not events on a date
