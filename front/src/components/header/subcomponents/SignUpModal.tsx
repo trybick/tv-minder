@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -54,7 +54,7 @@ const SignUpModal = ({
   unregisteredFollowedShows,
 }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
   const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<

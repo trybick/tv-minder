@@ -13,20 +13,19 @@ type QueryParams = {
 
 export const getSchedule = async (showId: number) => {
   const seasonsToFetch = await getActiveSeasons(showId);
-
   const seasonEpisodes = await getSeasonEpisodes(showId, seasonsToFetch);
 
   const episodesForCalendar = calculateEpisodesForCalendar(seasonEpisodes);
 
   // @ts-ignore
-  const episodes = Object.values(episodesForCalendar)[0].filter((episode) => {
+  const episodes = Object.values(episodesForCalendar)[0]?.filter((episode) => {
     return moment(moment(episode.air_date)).isBetween(
       moment().subtract(3, 'months'),
       moment().add(3, 'months')
     );
   });
 
-  const pickedProperties = episodes.map((episode: any) => {
+  const pickedProperties = episodes?.map((episode: any) => {
     return (({ air_date, episode_number, season_number }) => ({
       air_date,
       episode_number,

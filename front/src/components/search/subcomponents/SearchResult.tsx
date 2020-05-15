@@ -33,7 +33,7 @@ const SearchResult = ({
   unregisteredSaveToFollowedShows,
 }: Props) => {
   const [isFollowed, setIsFollowed] = useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
   const { first_air_date: firstAirDate, id: showId, name, popularity } = showToDisplay;

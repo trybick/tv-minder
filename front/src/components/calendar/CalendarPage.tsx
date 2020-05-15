@@ -22,7 +22,6 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   useEffect(() => {
     async function loadSeasonEpisodes() {
       const schedule = await getSchedule(followedShows[0]);
-      console.log('schedule:', schedule);
 
       setEpisodes(schedule);
     }

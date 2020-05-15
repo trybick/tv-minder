@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import { Box, Flex, Heading, Text } from '@chakra-ui/core';
@@ -21,7 +21,7 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
 );
 
 const Header = ({ isLoggedIn }: StateProps) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
 
   return (
