@@ -18,11 +18,10 @@ type Props = StateProps;
 
 const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   const [episodeData, setEpisodeData] = useState<any>();
-  console.log('episodeData:', episodeData);
 
   useEffect(() => {
     async function loadSeasonEpisodes() {
-      const episodeData = await getEpisodesForDisplay(followedShows[0]);
+      const episodeData = await getEpisodesForDisplay(followedShows);
 
       setEpisodeData(episodeData);
     }
