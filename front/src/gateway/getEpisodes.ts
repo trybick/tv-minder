@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { MOVIE_DB_BASE_URL } from 'utils/constants';
+import { getShowColor } from 'utils/getShowColor';
 import moment from 'moment';
 
 type QueryParams = {
@@ -86,12 +87,14 @@ const getFullSeasonData = async (showsWithActiveSeasons: any) => {
 
 const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
   const showWithEpisodes = fullSeasonData.flat().map((season: any) => ({
-    name: season.name,
     episodes: season.episodes,
+    name: season.name,
   }));
 
   const episodesWithName = showWithEpisodes
-    .map((show: any) => show.episodes.map((episode: any) => ({ ...episode, showName: show.name })))
+    .map((show: any) =>
+      show.episodes.map((episode: any) => ({ ...episode, color: show.color, showName: show.name }))
+    )
     .flat();
 
   const recentEpisodes = episodesWithName.filter((episode: any) =>
@@ -106,8 +109,10 @@ const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
       air_date: airDate,
       episode_number: episodeNumber,
       season_number: seasonNumber,
+      show_id: showId,
       showName,
     }) => ({
+      color: getShowColor(showId),
       date: airDate,
       title: `${showName} S${seasonNumber} E${episodeNumber}`,
     }))(episode);
