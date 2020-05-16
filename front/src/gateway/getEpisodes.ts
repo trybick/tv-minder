@@ -18,8 +18,8 @@ const queryParams: QueryParams = {
 export const getEpisodesForDisplay = async (showIds: number[]) => {
   const showsWithActiveSeasons = await getShowsWithActiveSeasons(showIds);
   const fullEpisodeDataForSeasons = await getFullSeasonData(showsWithActiveSeasons);
-  console.log('fullEpisodeDataForSeasons:', fullEpisodeDataForSeasons);
   const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
+  console.log('episodesForDisplay:', episodesForDisplay);
 
   // return episodesForDisplay;
 };
@@ -48,9 +48,10 @@ const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
           nextSeasonNumberToAir &&
           lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-        const activeSeasons = isLastAndNextEpisodeInSameSeason
-          ? [lastSeasonNumberToAir]
-          : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
+        // const activeSeasons = isLastAndNextEpisodeInSameSeason
+        //   ? [lastSeasonNumberToAir]
+        //   : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
+        const activeSeasons = [3, 4];
 
         return { activeSeasons, id, name };
       });
@@ -75,8 +76,9 @@ const getFullSeasonData = async (showsWithActiveSeasons: any) => {
       // @ts-ignore
       .then((res) => res.map((res) => res.data));
 
-    // @ts-ignore
-    fullSeasonData[0]['name'] = name;
+    fullSeasonData.forEach((fullSeason: any) => {
+      fullSeason.name = name;
+    });
 
     return fullSeasonData;
   });
@@ -85,29 +87,31 @@ const getFullSeasonData = async (showsWithActiveSeasons: any) => {
 };
 
 const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
-  const fullEpisodes = {};
+  const showWithEpisodes = fullSeasonData.flat().map((season: any) => ({
+    name: season.name,
+    episodes: season.episodes,
+  }));
 
-  fullSeasonData.forEach((season: any) => {
-    // @ts-ignore
-    fullEpisodes[`season${season.season_number}`] = season.episodes;
-  });
+  const episodesWithName = showWithEpisodes
+    .map((show: any) => show.episodes.map((episode: any) => ({ ...episode, showName: show.name })))
+    .flat();
 
-  // @ts-ignore
-  const recentEpisodes = Object.values(fullEpisodes)[0]?.filter((episode) => {
-    return moment(moment(episode.air_date)).isBetween(
+  const recentEpisodes = episodesWithName.filter((episode: any) =>
+    moment(moment(episode.air_date)).isBetween(
       moment().subtract(3, 'months'),
       moment().add(3, 'months')
-    );
-  });
+    )
+  );
 
   const episodesForDisplay = recentEpisodes?.map((episode: any) => {
     return (({
       air_date: airDate,
       episode_number: episodeNumber,
       season_number: seasonNumber,
+      showName,
     }) => ({
       date: airDate,
-      title: `${fullSeasonData[0].name} S${seasonNumber} E${episodeNumber}`,
+      title: `${showName} S${seasonNumber} E${episodeNumber}`,
     }))(episode);
   });
 
