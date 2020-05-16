@@ -18,27 +18,26 @@ type Props = StateProps;
 
 const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   const [episodes, setEpisodes] = useState<any>();
-  console.log('episodes:', episodes);
 
   useEffect(() => {
     async function loadEpisodesForCalendar() {
       setEpisodes(await getEpisodesForDisplay(followedShows));
     }
-
     loadEpisodesForCalendar();
-    // eslint-disable-next-line
   }, []);
 
-  // This only fires calendar dates, not events on a date
-  const handleDateClick = (arg: any) => {
-    console.log('date click', arg.dateString);
+  const handleEventClick = (dateObj: any) => {
+    const {
+      event: { title },
+    } = dateObj;
+    console.log('title:', title);
   };
 
   return (
     <Box>
       <Box maxW="80%" m="30px auto 0">
         <FullCalendar
-          dateClick={handleDateClick}
+          eventClick={handleEventClick}
           defaultView="dayGridMonth"
           events={episodes}
           plugins={[dayGridPlugin, interactionPlugin]}
