@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { MOVIE_DB_BASE_URL } from 'utils/constants';
-import { getShowColor } from 'utils/getShowColor';
+import { getColorForShowId } from 'utils/getColorForShowId';
 import moment from 'moment';
 
 type QueryParams = {
@@ -112,7 +112,7 @@ const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
       show_id: showId,
       showName,
     }) => ({
-      color: getShowColor(showId),
+      color: getColorForShowId(showId),
       date: airDate,
       title: `${showName} S${seasonNumber} E${episodeNumber}`,
     }))(episode);

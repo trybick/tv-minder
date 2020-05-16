@@ -1,66 +1,14 @@
-export const getShowColor = (id: number) => {
-  const lastDigitOfShowId = +id.toString().slice(-1);
+// Will always return the same color for the same showId
+export const getColorForShowId = (id: number) => {
   const lastTwoDigitsOfShowId = +id.toString().slice(-2);
-  const showIdKey =
-    lastTwoDigitsOfShowId > colorsExtended.length ? lastDigitOfShowId : lastTwoDigitsOfShowId;
+  const lastThreeDigitsOfShowId = +id.toString().slice(-3);
+  const colorIndex =
+    lastThreeDigitsOfShowId > colors.length ? lastTwoDigitsOfShowId : lastThreeDigitsOfShowId;
 
-  return colorsExtended[showIdKey];
+  return colors[colorIndex];
 };
 
-// const colors = [
-//   '#FF6633',
-//   '#FFB399',
-//   '#FF33FF',
-//   '#FFFF99',
-//   '#00B3E6',
-//   '#E6B333',
-//   '#3366E6',
-//   '#999966',
-//   '#99FF99',
-//   '#B34D4D',
-//   '#80B300',
-//   '#809900',
-//   '#E6B3B3',
-//   '#6680B3',
-//   '#66991A',
-//   '#FF99E6',
-//   '#CCFF1A',
-//   '#FF1A66',
-//   '#E6331A',
-//   '#33FFCC',
-//   '#66994D',
-//   '#B366CC',
-//   '#4D8000',
-//   '#B33300',
-//   '#CC80CC',
-//   '#66664D',
-//   '#991AFF',
-//   '#E666FF',
-//   '#4DB3FF',
-//   '#1AB399',
-//   '#E666B3',
-//   '#33991A',
-//   '#CC9999',
-//   '#B3B31A',
-//   '#00E680',
-//   '#4D8066',
-//   '#809980',
-//   '#E6FF80',
-//   '#1AFF33',
-//   '#999933',
-//   '#FF3380',
-//   '#CCCC00',
-//   '#66E64D',
-//   '#4D80CC',
-//   '#9900B3',
-//   '#E64D66',
-//   '#4DB380',
-//   '#FF4D4D',
-//   '#99E6E6',
-//   '#6666FF',
-// ];
-
-const colorsExtended = [
+const colors = [
   '#63b598',
   '#ce7d78',
   '#ea9e70',
@@ -342,49 +290,3 @@ const colorsExtended = [
   '#dce77a',
   '#77ecca',
 ];
-
-// const colorsObject: any = {
-//   aqua: '#00ffff',
-//   azure: '#f0ffff',
-//   beige: '#f5f5dc',
-//   black: '#000000',
-//   blue: '#0000ff',
-//   brown: '#a52a2a',
-//   cyan: '#00ffff',
-//   darkblue: '#00008b',
-//   darkcyan: '#008b8b',
-//   darkgrey: '#a9a9a9',
-//   darkgreen: '#006400',
-//   darkkhaki: '#bdb76b',
-//   darkmagenta: '#8b008b',
-//   darkolivegreen: '#556b2f',
-//   darkorange: '#ff8c00',
-//   darkorchid: '#9932cc',
-//   darkred: '#8b0000',
-//   darksalmon: '#e9967a',
-//   darkviolet: '#9400d3',
-//   fuchsia: '#ff00ff',
-//   gold: '#ffd700',
-//   green: '#008000',
-//   indigo: '#4b0082',
-//   khaki: '#f0e68c',
-//   lightblue: '#add8e6',
-//   lightcyan: '#e0ffff',
-//   lightgreen: '#90ee90',
-//   lightgrey: '#d3d3d3',
-//   lightpink: '#ffb6c1',
-//   lightyellow: '#ffffe0',
-//   lime: '#00ff00',
-//   magenta: '#ff00ff',
-//   maroon: '#800000',
-//   navy: '#000080',
-//   olive: '#808000',
-//   orange: '#ffa500',
-//   pink: '#ffc0cb',
-//   purple: '#800080',
-//   violet: '#800080',
-//   red: '#ff0000',
-//   silver: '#c0c0c0',
-//   white: '#ffffff',
-//   yellow: '#ffff00',
-// };
