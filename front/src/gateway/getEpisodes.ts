@@ -17,7 +17,8 @@ const queryParams: QueryParams = {
 
 export const getEpisodesForDisplay = async (showIds: number[]) => {
   const showsWithActiveSeasons = await getShowsWithActiveSeasons(showIds);
-  // const fullEpisodeDataForSeasons = await getFullSeasonData(showIds, currentActiveSeasons);
+  const fullEpisodeDataForSeasons = await getFullSeasonData(showsWithActiveSeasons);
+  console.log('fullEpisodeDataForSeasons:', fullEpisodeDataForSeasons);
   // const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
 
   // return episodesForDisplay;
@@ -36,21 +37,22 @@ const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
       return arrayOfSeasons.map((season: any) => {
         const {
           last_episode_to_air: lastEpisodeToAir,
+          id,
           name,
           next_episode_to_air: nextEpisodeToAir,
         } = season;
-
         const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
         const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
-        const activeSeasons = [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
-        const isLastAndNextSameSeason =
+        const isLastAndNextEpisodeInSameSeason =
           lastSeasonNumberToAir &&
           nextSeasonNumberToAir &&
           lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-        return isLastAndNextSameSeason
-          ? { name, activeSeasons: [lastSeasonNumberToAir] }
-          : { name, activeSeasons };
+        const activeSeasons = isLastAndNextEpisodeInSameSeason
+          ? [lastSeasonNumberToAir]
+          : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
+
+        return { activeSeasons, id, name };
       });
     })
     .catch((err: Error) => {
@@ -60,20 +62,26 @@ const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
   return showsWithActiveSeasons;
 };
 
-const getFullSeasonData = async (showId: number, showData: any) => {
-  const { name, activeSeasons } = showData;
+const getFullSeasonData = async (showsWithActiveSeasons: any) => {
+  const mappedFullSeasonData = showsWithActiveSeasons.map(async (activeShow: any) => {
+    const { id, name, activeSeasons } = activeShow;
 
-  const seasonRequests = activeSeasons.map((seasonNum: any) =>
-    axios.get(`${MOVIE_DB_BASE_URL}/tv/${showId}/season/${seasonNum}`, { params: queryParams })
-  );
+    const seasonRequests = activeSeasons.map((seasonNum: any) =>
+      axios.get(`${MOVIE_DB_BASE_URL}/tv/${id}/season/${seasonNum}`, { params: queryParams })
+    );
 
-  // @ts-ignore
-  const fullSeasonData = await axios.all(seasonRequests).then((res) => res.map((res) => res.data));
+    const fullSeasonData = await axios
+      .all(seasonRequests)
+      // @ts-ignore
+      .then((res) => res.map((res) => res.data));
 
-  // @ts-ignore
-  fullSeasonData[0]['name'] = name;
+    // @ts-ignore
+    fullSeasonData[0]['name'] = name;
 
-  return fullSeasonData;
+    return fullSeasonData;
+  });
+
+  return Promise.all(mappedFullSeasonData);
 };
 
 const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
