@@ -6,30 +6,30 @@ type QueryParams = {
   api_key: string | undefined;
 };
 
+const queryParams: QueryParams = {
+  api_key: process.env.REACT_APP_API_KEY,
+};
+
 //
 // Using The Movie DB (first API)
-// getShowMapWithActiveSeasons --> getSeasonEpisodes --> calculate upcoming shows
+// getShowsWithActiveSeasons --> getSeasonEpisodes --> calculate upcoming shows
 //
 
 export const getEpisodesForDisplay = async (showIds: number[]) => {
-  const showMapWithActiveSeasons = await getShowMapWithActiveSeasons(showIds);
+  const showsWithActiveSeasons = await getShowsWithActiveSeasons(showIds);
   // const fullEpisodeDataForSeasons = await getFullSeasonData(showIds, currentActiveSeasons);
   // const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
 
   // return episodesForDisplay;
 };
 
-// Get the season number of the latest and next episodes to air
-const getShowMapWithActiveSeasons = async (showIds: number[]): Promise<any> => {
-  const queryParams: QueryParams = {
-    api_key: process.env.REACT_APP_API_KEY,
-  };
-
+// Returns an array of shows with their active seasons
+const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
   const fullSeasonRequests = showIds.map((showId: any) =>
     axios.get(`${MOVIE_DB_BASE_URL}/tv/${showId}`, { params: queryParams })
   );
 
-  const showMapWithActiveSeasons = await axios
+  const showsWithActiveSeasons = await axios
     .all(fullSeasonRequests)
     .then((res) => res.map((res) => res.data))
     .then((arrayOfSeasons) => {
@@ -57,14 +57,10 @@ const getShowMapWithActiveSeasons = async (showIds: number[]): Promise<any> => {
       console.log('Axios error', err.message);
     });
 
-  return showMapWithActiveSeasons;
+  return showsWithActiveSeasons;
 };
 
 const getFullSeasonData = async (showId: number, showData: any) => {
-  const queryParams: QueryParams = {
-    api_key: process.env.REACT_APP_API_KEY,
-  };
-
   const { name, activeSeasons } = showData;
 
   const seasonRequests = activeSeasons.map((seasonNum: any) =>
