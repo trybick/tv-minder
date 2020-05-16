@@ -19,7 +19,7 @@ export const getEpisodesForDisplay = async (showIds: number[]) => {
   const showsWithActiveSeasons = await getShowsWithActiveSeasons(showIds);
   const fullEpisodeDataForSeasons = await getFullSeasonData(showsWithActiveSeasons);
   console.log('fullEpisodeDataForSeasons:', fullEpisodeDataForSeasons);
-  // const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
+  const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
 
   // return episodesForDisplay;
 };
