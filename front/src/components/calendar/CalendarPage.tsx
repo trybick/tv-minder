@@ -17,16 +17,15 @@ interface StateProps {
 type Props = StateProps;
 
 const CalendarPage = ({ followedShows }: Props): JSX.Element => {
-  const [episodeData, setEpisodeData] = useState<any>();
+  const [episodes, setEpisodes] = useState<any>();
+  console.log('episodes:', episodes);
 
   useEffect(() => {
-    async function loadSeasonEpisodes() {
-      const episodeData = await getEpisodesForDisplay(followedShows);
-
-      setEpisodeData(episodeData);
+    async function loadEpisodesForCalendar() {
+      setEpisodes(await getEpisodesForDisplay(followedShows));
     }
 
-    loadSeasonEpisodes();
+    loadEpisodesForCalendar();
     // eslint-disable-next-line
   }, []);
 
@@ -41,7 +40,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
         <FullCalendar
           dateClick={handleDateClick}
           defaultView="dayGridMonth"
-          events={episodeData}
+          events={episodes}
           plugins={[dayGridPlugin, interactionPlugin]}
         />
       </Box>

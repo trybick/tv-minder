@@ -19,9 +19,8 @@ export const getEpisodesForDisplay = async (showIds: number[]) => {
   const showsWithActiveSeasons = await getShowsWithActiveSeasons(showIds);
   const fullEpisodeDataForSeasons = await getFullSeasonData(showsWithActiveSeasons);
   const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
-  console.log('episodesForDisplay:', episodesForDisplay);
 
-  // return episodesForDisplay;
+  return episodesForDisplay;
 };
 
 // Returns an array of shows with their active seasons
@@ -48,10 +47,9 @@ const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
           nextSeasonNumberToAir &&
           lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-        // const activeSeasons = isLastAndNextEpisodeInSameSeason
-        //   ? [lastSeasonNumberToAir]
-        //   : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
-        const activeSeasons = [3, 4];
+        const activeSeasons = isLastAndNextEpisodeInSameSeason
+          ? [lastSeasonNumberToAir]
+          : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
 
         return { activeSeasons, id, name };
       });
