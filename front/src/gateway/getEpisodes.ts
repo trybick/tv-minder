@@ -7,13 +7,9 @@ const queryParams = {
   api_key: process.env.REACT_APP_API_KEY,
 };
 
-//
-
-// getShowsWithActiveSeasons --> getSeasonEpisodes --> calculate upcoming shows
-//
-
 // Takes a list of showIds
 // Returns a list of episodes ready to display on calendar
+// 2 network requests per show. example: 5 shows = 10 requests to Movie DB
 export const getEpisodesForDisplay = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonDataForLatestSeasons(latestAiredSeasons);
@@ -28,34 +24,34 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
     axios.get(`${MOVIE_DB_BASE_URL}/tv/${showId}`, { params: queryParams })
   );
 
-  // Find latest season number(s) for each show
-  return await axios
+  // Get each show's basic info
+  const fullSeasonData = await axios
     .all(fullSeasonRequests)
     .then((res) => res.map((res) => res.data))
-    .then((fullSeasonInfo) =>
-      fullSeasonInfo.map((season: any) => {
-        const {
-          last_episode_to_air: lastEpisodeToAir,
-          id,
-          name,
-          next_episode_to_air: nextEpisodeToAir,
-        } = season;
-        const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
-        const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
-        const isLastAndNextEpisodeInSameSeason =
-          lastSeasonNumberToAir &&
-          nextSeasonNumberToAir &&
-          lastSeasonNumberToAir === nextSeasonNumberToAir;
-        const latestSeasons = isLastAndNextEpisodeInSameSeason
-          ? [lastSeasonNumberToAir]
-          : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
-
-        return { latestSeasons, id, name };
-      })
-    )
     .catch((err: Error) => {
       console.log('Axios error', err.message);
     });
+
+  // Find latest season number(s) for each show
+  return (fullSeasonData as any[]).map((season: any) => {
+    const {
+      last_episode_to_air: lastEpisodeToAir,
+      id,
+      name,
+      next_episode_to_air: nextEpisodeToAir,
+    } = season;
+    const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
+    const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
+    const isLastAndNextEpisodeInSameSeason =
+      lastSeasonNumberToAir &&
+      nextSeasonNumberToAir &&
+      lastSeasonNumberToAir === nextSeasonNumberToAir;
+    const latestSeasons = isLastAndNextEpisodeInSameSeason
+      ? [lastSeasonNumberToAir]
+      : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
+
+    return { latestSeasons, id, name };
+  });
 };
 
 const getFullSeasonDataForLatestSeasons = async (latestAiredSeasons: any[]) => {
