@@ -9,7 +9,6 @@ const queryParams = {
 
 // Takes a list of showIds
 // Returns a list of episodes ready to display on calendar
-// 2 network requests per show. example: 5 shows = 10 requests to Movie DB
 export const getEpisodesForDisplay = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
@@ -33,13 +32,19 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
     });
 
   // Find latest season number(s) for each show
-  return (basicInfoForShows as any[]).map((season: any) => {
+  const latestSeasons = (basicInfoForShows as any[]).map((showInfo: any) => {
     const {
       last_episode_to_air: lastEpisodeToAir,
       id,
       name,
       next_episode_to_air: nextEpisodeToAir,
-    } = season;
+      status,
+    } = showInfo;
+
+    if (status === 'Ended') {
+      return;
+    }
+
     const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
     const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
     const isLastAndNextEpisodeInSameSeason =
@@ -52,6 +57,8 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
 
     return { latestSeasons, id, name };
   });
+
+  return latestSeasons.filter(Boolean);
 };
 
 const getFullSeasonData = async (latestAiredSeasons: any[]) => {
