@@ -3,38 +3,37 @@ import { MOVIE_DB_BASE_URL } from 'utils/constants';
 import { getColorForShowId } from 'utils/getColorForShowId';
 import moment from 'moment';
 
-type QueryParams = {
-  api_key: string | undefined;
-};
-
-const queryParams: QueryParams = {
+const queryParams = {
   api_key: process.env.REACT_APP_API_KEY,
 };
 
 //
-// Using The Movie DB (first API)
+
 // getShowsWithActiveSeasons --> getSeasonEpisodes --> calculate upcoming shows
 //
 
+// Takes a list of showIds
+// Returns a list of episodes ready to display on calendar
 export const getEpisodesForDisplay = async (showIds: number[]) => {
-  const showsWithActiveSeasons = await getShowsWithActiveSeasons(showIds);
-  const fullEpisodeDataForSeasons = await getFullSeasonData(showsWithActiveSeasons);
-  const episodesForDisplay = calculateEpisodeDataForDisplay(fullEpisodeDataForSeasons);
+  const latestAiredSeasons = await getLatestAiredSeasons(showIds);
+  const fullSeasonData = await getFullSeasonDataForLatestSeasons(latestAiredSeasons);
+  const episodesForDisplay = calculateEpisodeDataForDisplay(fullSeasonData);
 
   return episodesForDisplay;
 };
 
-// Returns an array of shows with their active seasons
-const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
+const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
+  // List of requests for each show's basic info
   const fullSeasonRequests = showIds.map((showId: any) =>
     axios.get(`${MOVIE_DB_BASE_URL}/tv/${showId}`, { params: queryParams })
   );
 
-  const showsWithActiveSeasons = await axios
+  // Find latest season number(s) for each show
+  return await axios
     .all(fullSeasonRequests)
     .then((res) => res.map((res) => res.data))
-    .then((arrayOfSeasons) => {
-      return arrayOfSeasons.map((season: any) => {
+    .then((fullSeasonInfo) =>
+      fullSeasonInfo.map((season: any) => {
         const {
           last_episode_to_air: lastEpisodeToAir,
           id,
@@ -47,65 +46,77 @@ const getShowsWithActiveSeasons = async (showIds: number[]): Promise<any> => {
           lastSeasonNumberToAir &&
           nextSeasonNumberToAir &&
           lastSeasonNumberToAir === nextSeasonNumberToAir;
-
-        const activeSeasons = isLastAndNextEpisodeInSameSeason
+        const latestSeasons = isLastAndNextEpisodeInSameSeason
           ? [lastSeasonNumberToAir]
           : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
 
-        return { activeSeasons, id, name };
-      });
-    })
+        return { latestSeasons, id, name };
+      })
+    )
     .catch((err: Error) => {
       console.log('Axios error', err.message);
     });
-
-  return showsWithActiveSeasons;
 };
 
-const getFullSeasonData = async (showsWithActiveSeasons: any) => {
-  const mappedFullSeasonData = showsWithActiveSeasons.map(async (activeShow: any) => {
-    const { id, name, activeSeasons } = activeShow;
+const getFullSeasonDataForLatestSeasons = async (latestAiredSeasons: any[]) => {
+  const fullSeasonDataForLatestSeasons = latestAiredSeasons.map(
+    async (latestSeasonsForShow: any) => {
+      const { id, name, latestSeasons } = latestSeasonsForShow;
 
-    const seasonRequests = activeSeasons.map((seasonNum: any) =>
-      axios.get(`${MOVIE_DB_BASE_URL}/tv/${id}/season/${seasonNum}`, { params: queryParams })
-    );
+      // List of requests for each season
+      const latestSeasonsRequests = latestSeasons.map((seasonNum: number) =>
+        axios.get(`${MOVIE_DB_BASE_URL}/tv/${id}/season/${seasonNum}`, { params: queryParams })
+      );
 
-    const fullSeasonData = await axios
-      .all(seasonRequests)
-      // @ts-ignore
-      .then((res) => res.map((res) => res.data));
+      // Get latest season data
+      const fullSeasonData = await axios
+        .all(latestSeasonsRequests)
+        // @ts-ignore
+        .then((res) => res.map((res) => res.data));
 
-    fullSeasonData.forEach((fullSeason: any) => {
-      fullSeason.name = name;
-    });
+      // Store show name on season object
+      fullSeasonData.forEach((fullSeason: any) => {
+        fullSeason.name = name;
+      });
 
-    return fullSeasonData;
-  });
+      return fullSeasonData;
+    }
+  );
 
-  return Promise.all(mappedFullSeasonData);
+  return Promise.all(fullSeasonDataForLatestSeasons);
 };
 
-const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
-  const showWithEpisodes = fullSeasonData.flat().map((season: any) => ({
+const calculateEpisodeDataForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
+  // Add name property to episodes object
+  const showEpisodesAndNameObject = fullSeasonDataForLatestSeasons.flat().map((season: any) => ({
     episodes: season.episodes,
     name: season.name,
   }));
 
-  const episodesWithName = showWithEpisodes
-    .map((show: any) =>
-      show.episodes.map((episode: any) => ({ ...episode, color: show.color, showName: show.name }))
-    )
+  // Add name and color to each episode
+  const episodesListWithNameAndColor = showEpisodesAndNameObject
+    .map((show: any) => {
+      const { color, episodes, name } = show;
+
+      return episodes.map((episode: any) => ({
+        ...episode,
+        color,
+        showName: name,
+      }));
+    })
     .flat();
 
-  const recentEpisodes = episodesWithName.filter((episode: any) =>
+  // Remove episodes outside of time range
+  const recentEpisodes = episodesListWithNameAndColor.filter((episode: any) =>
     moment(moment(episode.air_date)).isBetween(
-      moment().subtract(3, 'months'),
-      moment().add(3, 'months')
+      moment().subtract(6, 'months'),
+      moment().add(12, 'months')
     )
   );
 
-  const episodesForDisplay = recentEpisodes?.map((episode: any) => {
-    return (({
+  // Create properties ready for calendar to accept
+  const episodesForDisplay = recentEpisodes?.map((episode: any) =>
+    (({
       air_date: airDate,
       episode_number: episodeNumber,
       season_number: seasonNumber,
@@ -115,8 +126,8 @@ const calculateEpisodeDataForDisplay = (fullSeasonData: any) => {
       color: getColorForShowId(showId),
       date: airDate,
       title: `${showName} S${seasonNumber} E${episodeNumber}`,
-    }))(episode);
-  });
+    }))(episode)
+  );
 
   return episodesForDisplay;
 };
