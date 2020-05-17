@@ -27,7 +27,8 @@ const initialState = {
   unregisteredFollowedShows: [],
 };
 
-export const selectFollowedShows = (state: AppState) => state.user.followedShows;
+export const selectFollowedShows = (state: AppState) =>
+  state.user.isLoggedIn ? state.user.followedShows : state.user.unregisteredFollowedShows;
 export const selectHasLocalWarningToastBeenShown = (state: AppState) =>
   state.user.hasLocalWarningToastBeenShown;
 export const selectIsLoggedIn = (state: AppState) => state.user.isLoggedIn;

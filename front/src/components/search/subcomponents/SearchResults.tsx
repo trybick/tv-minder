@@ -13,7 +13,6 @@ import {
   selectFollowedShows,
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
-  selectUnregisteredFollowedShows,
 } from 'store/user/reducers';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
@@ -28,7 +27,6 @@ interface StateProps {
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  unregisteredFollowedShows: ID[];
 }
 
 interface DispatchProps {
@@ -50,7 +48,6 @@ const SearchResults = ({
   setHasLocalWarningToastBeenShown,
   shows,
   totalResults,
-  unregisteredFollowedShows,
   unregisteredRemoveFromFollowedShows,
   unregisteredSaveToFollowedShows,
 }: Props) => {
@@ -76,7 +73,6 @@ const SearchResults = ({
             saveToFollowedShows={saveToFollowedShows}
             setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
             showToDisplay={show}
-            unregisteredFollowedShows={unregisteredFollowedShows}
             unregisteredRemoveFromFollowedShows={unregisteredRemoveFromFollowedShows}
             unregisteredSaveToFollowedShows={unregisteredSaveToFollowedShows}
           />
@@ -90,7 +86,6 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
   followedShows: selectFollowedShows(state),
   hasLocalWarningToastBeenShown: selectHasLocalWarningToastBeenShown(state),
   isLoggedIn: selectIsLoggedIn(state),
-  unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({

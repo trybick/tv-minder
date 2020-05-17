@@ -26,7 +26,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
     }
 
     loadEpisodesForCalendar();
-  }, []);
+  }, [followedShows]);
 
   const handleEventClick = (dateObj: any) => {
     const {

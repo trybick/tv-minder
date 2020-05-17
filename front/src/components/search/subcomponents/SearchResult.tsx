@@ -12,7 +12,6 @@ interface Props {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
-  unregisteredFollowedShows: ID[];
   removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: number) => void;
@@ -28,7 +27,6 @@ const SearchResult = ({
   saveToFollowedShows,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
-  unregisteredFollowedShows,
   unregisteredRemoveFromFollowedShows,
   unregisteredSaveToFollowedShows,
 }: Props) => {
@@ -42,15 +40,8 @@ const SearchResult = ({
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
 
   useEffect(() => {
-    const loggedInIsFollowed = followedShows.includes(showId);
-    const unregisteredIsFollowed = unregisteredFollowedShows.includes(showId);
-
-    if (isLoggedIn) {
-      loggedInIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
-    } else {
-      unregisteredIsFollowed ? setIsFollowed(true) : setIsFollowed(false);
-    }
-  }, [isLoggedIn, followedShows, unregisteredFollowedShows, showId]);
+    followedShows.includes(showId) ? setIsFollowed(true) : setIsFollowed(false);
+  }, [isLoggedIn, followedShows, showId]);
 
   function onFollowShow() {
     setIsLoading(true);
