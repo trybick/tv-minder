@@ -4,7 +4,7 @@ import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/co
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
-import { baseUrl } from 'utils/constants';
+import { API_URLS } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
 interface Props {
@@ -40,14 +40,18 @@ const SearchResult = ({
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
 
   useEffect(() => {
-    followedShows.includes(showId) ? setIsFollowed(true) : setIsFollowed(false);
+    if (followedShows.includes(showId)) {
+      setIsFollowed(true);
+    } else {
+      setIsFollowed(false);
+    }
   }, [isLoggedIn, followedShows, showId]);
 
   function onFollowShow() {
     setIsLoading(true);
     axios
       .post(
-        `${baseUrl}/follow`,
+        `${API_URLS.TV_MINDER}/follow`,
         {
           showId,
           token: localStorage.getItem('jwt'),
@@ -67,7 +71,7 @@ const SearchResult = ({
   function onUnFollowShow() {
     setIsLoading(true);
     axios
-      .delete(`${baseUrl}/follow`, {
+      .delete(`${API_URLS.TV_MINDER}/follow`, {
         data: {
           showId,
           token: localStorage.getItem('jwt'),

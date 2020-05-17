@@ -1,6 +1,6 @@
 import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
-import { MOVIE_DB_BASE_URL } from 'utils/constants';
+import { API_URLS } from 'utils/constants';
 
 //
 // Our app calls searchShows
@@ -17,7 +17,7 @@ interface ReturnedData {
 type QueryParams = { api_key: string | undefined; query: string };
 type CachedResults = { [query: string]: ReturnedData };
 
-const url = `${MOVIE_DB_BASE_URL}/search/tv`;
+const url = `${API_URLS.MOVIE_DB}/search/tv`;
 const cachedResults: CachedResults = {};
 
 export const searchShows = async (

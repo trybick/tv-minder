@@ -21,7 +21,7 @@ import {
 import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/reducers';
-import { baseUrl, emailRegex } from 'utils/constants';
+import { API_URLS, emailRegex } from 'utils/constants';
 import { DisclosureProps, ID } from 'types/common';
 import handleErrors from 'utils/handleErrors';
 
@@ -85,13 +85,13 @@ const SignUpModal = ({
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
     axios
-      .post(`${baseUrl}/register`, {
+      .post(`${API_URLS.TV_MINDER}/register`, {
         email,
         password,
         unregisteredFollowedShows,
       })
       .then(() => {
-        return axios.post(`${baseUrl}/login`, {
+        return axios.post(`${API_URLS.TV_MINDER}/login`, {
           email,
           password,
         });
