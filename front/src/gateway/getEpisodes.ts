@@ -12,28 +12,28 @@ const queryParams = {
 // 2 network requests per show. example: 5 shows = 10 requests to Movie DB
 export const getEpisodesForDisplay = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
-  const fullSeasonData = await getFullSeasonDataForLatestSeasons(latestAiredSeasons);
-  const episodesForDisplay = calculateEpisodeDataForDisplay(fullSeasonData);
+  const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
+  const episodesForDisplay = calculateEpisodesForDisplay(fullSeasonData);
 
   return episodesForDisplay;
 };
 
 const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   // List of requests for each show's basic info
-  const fullSeasonRequests = showIds.map((showId: any) =>
+  const basicInfoRequests = showIds.map((showId: any) =>
     axios.get(`${MOVIE_DB_BASE_URL}/tv/${showId}`, { params: queryParams })
   );
 
   // Get each show's basic info
-  const fullSeasonData = await axios
-    .all(fullSeasonRequests)
+  const basicInfoForShows = await axios
+    .all(basicInfoRequests)
     .then((res) => res.map((res) => res.data))
     .catch((err: Error) => {
       console.log('Axios error', err.message);
     });
 
   // Find latest season number(s) for each show
-  return (fullSeasonData as any[]).map((season: any) => {
+  return (basicInfoForShows as any[]).map((season: any) => {
     const {
       last_episode_to_air: lastEpisodeToAir,
       id,
@@ -54,17 +54,17 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   });
 };
 
-const getFullSeasonDataForLatestSeasons = async (latestAiredSeasons: any[]) => {
+const getFullSeasonData = async (latestAiredSeasons: any[]) => {
   const fullSeasonDataForLatestSeasons = latestAiredSeasons.map(
     async (latestSeasonsForShow: any) => {
       const { id, name, latestSeasons } = latestSeasonsForShow;
 
-      // List of requests for each season
+      // List of requests for each season(s) for each show
       const latestSeasonsRequests = latestSeasons.map((seasonNum: number) =>
         axios.get(`${MOVIE_DB_BASE_URL}/tv/${id}/season/${seasonNum}`, { params: queryParams })
       );
 
-      // Get latest season data
+      // Get season data for each season for each show
       const fullSeasonData = await axios
         .all(latestSeasonsRequests)
         // @ts-ignore
@@ -82,14 +82,14 @@ const getFullSeasonDataForLatestSeasons = async (latestAiredSeasons: any[]) => {
   return Promise.all(fullSeasonDataForLatestSeasons);
 };
 
-const calculateEpisodeDataForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
+const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // Add name property to episodes object
   const showEpisodesAndNameObject = fullSeasonDataForLatestSeasons.flat().map((season: any) => ({
     episodes: season.episodes,
     name: season.name,
   }));
 
-  // Add name and color to each episode
+  // Add name and color properties to each episode
   const episodesListWithNameAndColor = showEpisodesAndNameObject
     .map((show: any) => {
       const { color, episodes, name } = show;
