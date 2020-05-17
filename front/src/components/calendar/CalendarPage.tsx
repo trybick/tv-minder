@@ -20,12 +20,13 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   const [episodes, setEpisodes] = useState<any>();
 
   useEffect(() => {
+    async function loadEpisodesForCalendar() {
+      const episodesForDisplay = await getEpisodesForDisplay(followedShows);
+      setEpisodes(episodesForDisplay);
+    }
+
     loadEpisodesForCalendar();
   }, []);
-
-  async function loadEpisodesForCalendar() {
-    setEpisodes(await getEpisodesForDisplay(followedShows));
-  }
 
   const handleEventClick = (dateObj: any) => {
     const {
