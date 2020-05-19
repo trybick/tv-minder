@@ -34,6 +34,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   // Find latest season number(s) for each show
   const latestSeasons = (basicInfoForShows as any[]).map((showInfo: any) => {
     const {
+      last_air_date: lastAirDate,
       last_episode_to_air: lastEpisodeToAir,
       id,
       name,
@@ -41,7 +42,9 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
       status,
     } = showInfo;
 
-    if (status === 'Ended') {
+    const shouldSkipMoreFetching =
+      status === 'Ended' && moment(lastAirDate).isBefore(moment().subtract(6, 'months'));
+    if (shouldSkipMoreFetching) {
       return;
     }
 
@@ -100,7 +103,6 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   const episodesListWithNameAndColor = showEpisodesAndNameObject
     .map((show: any) => {
       const { color, episodes, name } = show;
-
       return episodes.map((episode: any) => ({
         ...episode,
         color,
