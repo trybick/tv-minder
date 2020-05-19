@@ -111,11 +111,9 @@ const SearchResult = ({
   return (
     <Box p={3} mb={4} shadow="md" borderWidth="1px">
       <Flex justify="space-between">
-        <Flex align="center">
-          <Heading size="md" isTruncated>
-            {name}
-          </Heading>
-        </Flex>
+        <Heading mr="10px" size="md" isTruncated>
+          {name}
+        </Heading>
 
         {isFollowed ? (
           <Button
