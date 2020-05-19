@@ -1,11 +1,28 @@
-// Will always return the same color for the same showId
-export const getColorForShowId = (id: number) => {
-  const lastTwoDigitsOfShowId = +id.toString().slice(-2);
-  const lastThreeDigitsOfShowId = +id.toString().slice(-3);
-  const colorIndex =
-    lastThreeDigitsOfShowId > colors.length ? lastTwoDigitsOfShowId : lastThreeDigitsOfShowId;
+// Takes a list of showIds
+// Returns a list of persistent unique colors
+export const getUniqueColorsForShowIds = (showIds: any[]) => {
+  const listOfIndicies = showIds.map((id: number) => {
+    const lastTwoDigitsOfShowId = +id.toString().slice(-2);
+    const lastThreeDigitsOfShowId = +id.toString().slice(-3);
+    const colorIndex =
+      lastThreeDigitsOfShowId > colors.length ? lastTwoDigitsOfShowId : lastThreeDigitsOfShowId;
 
-  return colors[colorIndex];
+    return colorIndex;
+  });
+
+  const usedIndicies: { [key: number]: boolean } = {};
+  const uniqueIndices = listOfIndicies.map((index: any) => {
+    if (!usedIndicies.hasOwnProperty(index)) {
+      usedIndicies[index] = true;
+      return index;
+    } else {
+      return index + 1;
+    }
+  });
+
+  const uniqueColors = uniqueIndices.map((num: number) => colors[num]);
+
+  return uniqueColors;
 };
 
 const colors = [

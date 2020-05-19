@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URLS } from 'utils/constants';
-import { getColorForShowId } from 'utils/getColorForShowId';
+import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import moment from 'moment';
 
 const queryParams = {
@@ -45,7 +45,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
     const shouldSkipMoreFetching =
       status === 'Ended' && moment(lastAirDate).isBefore(moment().subtract(6, 'months'));
     if (shouldSkipMoreFetching) {
-      return;
+      return null;
     }
 
     const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
@@ -83,6 +83,7 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
       // Store show name on season object
       fullSeasonData.forEach((fullSeason: any) => {
         fullSeason.name = name;
+        fullSeason.id = id;
       });
 
       return fullSeasonData;
@@ -93,14 +94,23 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 };
 
 const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
-  // Add name property to episodes object
-  const showEpisodesAndNameObject = fullSeasonDataForLatestSeasons.flat().map((season: any) => ({
+  // Attach extra properties to each season object
+  const showSeasonObject = fullSeasonDataForLatestSeasons.flat().map((season: any) => ({
     episodes: season.episodes,
     name: season.name,
+    showId: season.id,
   }));
 
-  // Add name and color properties to each episode
-  const episodesListWithNameAndColor = showEpisodesAndNameObject
+  // Calculate unique color based on showId
+  const listOfShowIds = showSeasonObject.map((show: any) => show.showId);
+  const uniqueColorList = getUniqueColorsForShowIds(listOfShowIds);
+  const showSeasonWithColors = showSeasonObject.map((show: any, i: any) => ({
+    ...show,
+    color: uniqueColorList[i],
+  }));
+
+  // Add extra properties on to each episode
+  const flattenedEpisodeList = showSeasonWithColors
     .map((show: any) => {
       const { color, episodes, name } = show;
       return episodes.map((episode: any) => ({
@@ -112,7 +122,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     .flat();
 
   // Remove episodes outside of time range
-  const recentEpisodes = episodesListWithNameAndColor.filter((episode: any) =>
+  const recentEpisodes = flattenedEpisodeList.filter((episode: any) =>
     moment(moment(episode.air_date)).isBetween(
       moment().subtract(6, 'months'),
       moment().add(12, 'months')
@@ -123,12 +133,12 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   const episodesForDisplay = recentEpisodes?.map((episode: any) =>
     (({
       air_date: airDate,
+      color,
       episode_number: episodeNumber,
       season_number: seasonNumber,
-      show_id: showId,
       showName,
     }) => ({
-      color: getColorForShowId(showId),
+      color,
       date: airDate,
       title: `${showName} S${seasonNumber} E${episodeNumber}`,
     }))(episode)
