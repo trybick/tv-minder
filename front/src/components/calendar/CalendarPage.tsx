@@ -43,6 +43,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
           defaultView="dayGridMonth"
           events={episodes}
           plugins={[dayGridPlugin, interactionPlugin]}
+          eventLimit
         />
       </Box>
     </Box>
