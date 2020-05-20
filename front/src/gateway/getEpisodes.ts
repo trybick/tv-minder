@@ -110,16 +110,14 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   }));
 
   // Add extra properties on to each episode
-  const flattenedEpisodeList = showSeasonWithColors
-    .map((show: any) => {
-      const { color, episodes, name } = show;
-      return episodes.map((episode: any) => ({
-        ...episode,
-        color,
-        showName: name,
-      }));
-    })
-    .flat();
+  const flattenedEpisodeList = showSeasonWithColors.flatMap((show: any) => {
+    const { color, episodes, name } = show;
+    return episodes.map((episode: any) => ({
+      ...episode,
+      color,
+      showName: name,
+    }));
+  });
 
   // Remove episodes outside of time range
   const recentEpisodes = flattenedEpisodeList.filter((episode: any) =>
