@@ -4,7 +4,7 @@ import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import moment from 'moment';
 
 const queryParams = {
-  api_key: process.env.REACT_APP_API_KEY,
+  api_key: process.env.REACT_APP_MOVIE_DB_KHEE,
 };
 
 // Takes a list of showIds
