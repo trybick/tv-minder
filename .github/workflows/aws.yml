@@ -25,8 +25,8 @@
 
 on:
   push:
-    branches:
-      - aws/github-workflow-ecs
+    release:
+      types: [created]
 
 name: Deploy API to Amazon ECS
 
