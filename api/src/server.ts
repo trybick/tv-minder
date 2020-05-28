@@ -7,7 +7,7 @@ import { userRoutes } from 'entities/routes/user';
 import { followShowRoutes } from 'entities/routes/followShow';
 
 const app = express();
-const port = 5000;
+const port = process.env.NODE_ENV === 'production' ? 80 : 5000;
 
 connectToDatabase();
 
