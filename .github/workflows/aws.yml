@@ -24,8 +24,9 @@
 #    and best practices on handling the access key credentials.
 
 on:
-  release:
-    types: [created]
+  push:
+    paths:
+      - 'api/**'
 
 name: Deploy API to Amazon ECS
 
