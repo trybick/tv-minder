@@ -115,7 +115,7 @@ const SignUpModal = ({
         reset({}, { errors: true });
         emailRef.current?.focus();
 
-        if (err.response.status === 409) {
+        if (err.response?.status === 409) {
           setError('signUp', 'emailTaken', 'Email already registered. Please try again.');
         } else {
           setError('signUp', 'generic', 'Could not sign up. Please try again.');
