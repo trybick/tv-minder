@@ -13,7 +13,7 @@ Start the React front-end: `yarn start`
 ### API
 
 - After installing a new node module in the API folder, follow this process to avoid "module not found" errors
-  - npm install some-package --save
+  - yarn add some-package
   - docker-compose build
   - docker-compose down
   - docker-compose up
