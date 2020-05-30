@@ -5,8 +5,8 @@
       "entryPoint": null,
       "essential": true,
       "image": "765170299946.dkr.ecr.us-east-2.amazonaws.com/tv-minder-repo:6930a27d1d8c3c8888fed0ec3f19fc7bf2e5cbcf",
-      "logConfiguration": null,
       "name": "tv-minder-container",
+      "logConfiguration": null,
       "portMappings": [
         {
           "containerPort": 80,
@@ -18,6 +18,16 @@
         {
           "name": "NODE_ENV",
           "value": "production"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:ssm:us-east-2:765170299946:parameter/DB_PASSWORD"
+        },
+        {
+          "name": "JWT_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-2:765170299946:parameter/JWT_KEY"
         }
       ]
     }
