@@ -27,6 +27,7 @@ on:
   push:
     paths:
       - 'api/**'
+      - '.github/**'
 
 name: Deploy API to Amazon ECS
 
