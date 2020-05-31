@@ -18,7 +18,6 @@
   "scripts": {
     "start": "yarn --cwd front start",
     "serve": "yarn --cwd api serve",
-    "serve-logs": "yarn --cwd api serve-logs",
     "serve-stop": "yarn --cwd api serve-stop"
   }
 }

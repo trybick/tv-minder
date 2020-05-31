@@ -5,12 +5,10 @@
   "author": "Tim Rybicki",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
     "start": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
-    "serve": "docker-compose up -d",
+    "serve": "docker-compose up",
     "serve-build": "docker-compose build",
     "serve-build-clean": "docker-compose build --no-cache",
-    "serve-logs": "docker-compose up",
     "serve-stop": "docker-compose down"
   },
   "_moduleAliases": {
