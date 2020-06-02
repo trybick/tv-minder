@@ -4,7 +4,7 @@ Full-stack application to track TV shows
 
 ## Local Development
 
-Start the API with Docker: `yarn-serve` (detached mode) or `yarn serve-logs` (keep in terminal)
+Start the API with Docker: `yarn-serve` (detached mode)
 
 Start the React front-end: `yarn start`
 

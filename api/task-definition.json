@@ -6,7 +6,14 @@
       "essential": true,
       "image": "765170299946.dkr.ecr.us-east-2.amazonaws.com/tv-minder-repo:6930a27d1d8c3c8888fed0ec3f19fc7bf2e5cbcf",
       "name": "tv-minder-container",
-      "logConfiguration": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "ecs-tv-minder",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs-tv-minder"
+        }
+      },
       "portMappings": [
         {
           "containerPort": 80,
