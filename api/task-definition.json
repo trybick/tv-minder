@@ -40,9 +40,9 @@
     }
   ],
   "cpu": "256",
+  "memory": "512",
   "executionRoleArn": "arn:aws:iam::765170299946:role/ecsTaskExecutionRole",
   "family": "tv-minder",
-  "memory": "512",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"]
 }
