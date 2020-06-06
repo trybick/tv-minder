@@ -26,35 +26,24 @@ export const registerUser = (req: Request, res: Response) => {
       }
     })
     .then(() => {
-      bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) {
-          return res.status(500).json({
-            error: err,
-          });
+      bcrypt.hash(req.body.password, 10, (error, hash) => {
+        if (error) {
+          return res.status(500).json({ error });
         }
         const newUser = new User({
           email: req.body.email,
           password: hash,
           followedShows: req.body.unregisteredFollowedShows || [],
         });
-        newUser
-          .save()
-          .then(() => {
-            res.status(201).json({
-              message: 'User created',
-            });
-          })
-          .catch((err: Error) => {
-            return res.status(500).json({
-              error: err,
-            });
+        newUser.save().then(() => {
+          res.status(201).json({
+            message: 'User created',
           });
+        });
       });
     })
-    .catch((err: Error) => {
-      return res.status(500).json({
-        error: err,
-      });
+    .catch((error: Error) => {
+      return res.status(500).json({ error });
     });
 };
 
@@ -67,6 +56,7 @@ export const loginUser = (req: Request, res: Response) => {
           message: 'Auth failed on user verify',
         });
       }
+
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (!result || err) {
           return res.status(401).json({
