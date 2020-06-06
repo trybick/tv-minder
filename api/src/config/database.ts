@@ -14,6 +14,7 @@ export default function connectToDatabase() {
     .catch((err: Error) => console.log('mongoose error', err));
 
   const db = mongoose.connection;
-  db.on('error', (error) => console.error('database error', error));
+
+  db.on('error', (error) => console.log('database error', error));
   db.once('open', () => console.log('Connected to database'));
 }

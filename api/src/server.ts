@@ -1,10 +1,10 @@
 import 'module-alias/register';
 import express from 'express';
 import connectToDatabase from 'config/database';
-import { configureCors } from 'config/cors';
-import { userRoutes } from 'entities/routes/user';
-import { followShowRoutes } from 'entities/routes/followShow';
-import { healthCheckRoutes } from 'entities/routes/healthCheck';
+import configureCors from 'config/configureCors';
+import userRoutes from 'entities/routes/user';
+import followShowRoutes from 'entities/routes/follow';
+import healthCheckRoutes from 'entities/routes/healthCheck';
 
 const port = process.env.PORT || 5000;
 const app = express();
