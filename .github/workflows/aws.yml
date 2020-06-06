@@ -25,9 +25,8 @@
 
 on:
   push:
-    paths:
-      - 'api/**'
-      - '.github/**'
+    branches:
+      - feature
 
 name: Deploy API to Amazon ECS
 
