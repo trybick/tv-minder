@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 import envConfig from 'config/env';
 
+const { JWT_KEY } = envConfig;
+
 export interface JWTData {
   email: string;
   exp: number;
@@ -12,7 +14,6 @@ export interface JWTData {
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
   const providedToken = req.body.token || req.query.token;
-  const { JWT_KEY } = envConfig;
 
   jwt.verify(
     providedToken,
@@ -21,8 +22,10 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
       err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null,
       decodedData: JWTData | undefined | {}
     ) => {
-      if (decodedData && !err) {
-        res.locals.userId = (decodedData as JWTData)?.id;
+      const userId = (decodedData as JWTData)?.id;
+
+      if (userId && !err) {
+        res.locals.userId = userId;
         next();
       } else {
         res.status(401).json({ message: 'Check auth failed' });
