@@ -1,21 +1,21 @@
 import 'module-alias/register';
 import express from 'express';
-import cors from 'cors';
 import connectToDatabase from 'config/database';
-import { showRoutes } from 'entities/routes/show';
+import { configureCors } from './config/cors';
 import { userRoutes } from 'entities/routes/user';
 import { followShowRoutes } from 'entities/routes/followShow';
+import { healthCheckRoutes } from 'entities/routes/healthCheck';
+
+const port = process.env.NODE_ENV === 'production' ? 80 : 5000;
 
 const app = express();
-const port = process.env.NODE_ENV === 'production' ? 80 : 5000;
+app.use(configureCors);
+app.use(express.json());
 
 connectToDatabase();
 
-app.use(cors());
-app.use(express.json());
-
+app.use(healthCheckRoutes);
 app.use(userRoutes);
 app.use(followShowRoutes);
-app.use('/shows', showRoutes);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

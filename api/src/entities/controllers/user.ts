@@ -52,7 +52,6 @@ export const registerUser = (req: Request, res: Response) => {
       });
     })
     .catch((err: Error) => {
-      console.log('Register general error:', err);
       return res.status(500).json({
         error: err,
       });
@@ -86,7 +85,6 @@ export const loginUser = (req: Request, res: Response) => {
             error: err,
           });
         }
-
         return res.status(200).json({
           message: 'Auth successful',
           token,

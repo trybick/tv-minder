@@ -12,11 +12,11 @@ export interface JWTData {
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
   const providedToken = req.body.token || req.query.token;
-  const { JWT_KEY = '' } = envConfig;
+  const { JWT_KEY } = envConfig;
 
   jwt.verify(
     providedToken,
-    JWT_KEY,
+    JWT_KEY!,
     (
       err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null,
       decodedData: JWTData | undefined | {}
