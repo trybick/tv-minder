@@ -7,8 +7,7 @@ const queryParams = {
   api_key: process.env.REACT_APP_MOVIE_DB_KHEE,
 };
 
-// Takes a list of showIds
-// Returns a list of episodes ready to display on calendar
+// Takes a list of showIds. Returns a list of episodes ready to display on calendar
 export const getEpisodesForDisplay = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
@@ -102,7 +101,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   }));
 
   // Calculate unique color based on showId
-  const listOfShowIds = showSeasonObject.map((show: any) => show.showId);
+  const listOfShowIds: number[] = showSeasonObject.map((show: any) => show.showId);
   const uniqueColorList = getUniqueColorsForShowIds(listOfShowIds);
   const showSeasonWithColors = showSeasonObject.map((show: any, i: any) => ({
     ...show,

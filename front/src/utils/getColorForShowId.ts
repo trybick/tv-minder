@@ -1,6 +1,6 @@
 // Takes a list of showIds. Returns a list of persistent unique colors
-export const getUniqueColorsForShowIds = (showIds: any[]) => {
-  const listOfIndicies = showIds.map((id: number) => {
+export const getUniqueColorsForShowIds = (showIds: number[]) => {
+  const listOfIndicies: number[] = showIds.map(id => {
     const lastTwoDigitsOfShowId = +id.toString().slice(-2);
     const lastThreeDigitsOfShowId = +id.toString().slice(-3);
     const colorIndex =
@@ -10,7 +10,7 @@ export const getUniqueColorsForShowIds = (showIds: any[]) => {
   });
 
   const usedIndicies: { [key: number]: boolean } = {};
-  const uniqueIndices = listOfIndicies.map((index: any) => {
+  const uniqueIndices = listOfIndicies.map(index => {
     if (!usedIndicies.hasOwnProperty(index)) {
       usedIndicies[index] = true;
       return index;
@@ -19,7 +19,7 @@ export const getUniqueColorsForShowIds = (showIds: any[]) => {
     }
   });
 
-  const uniqueColors = uniqueIndices.map((num: number) => colors[num]);
+  const uniqueColors = uniqueIndices.map(num => colors[num]);
 
   return uniqueColors;
 };
