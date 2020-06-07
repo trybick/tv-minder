@@ -27,7 +27,7 @@
 on:
   push:
     branches:
-      - feature
+      - api
 
 # Trigger action by folder path
 # on:
