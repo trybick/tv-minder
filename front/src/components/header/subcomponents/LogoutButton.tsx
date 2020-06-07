@@ -4,13 +4,20 @@ import { Button } from '@chakra-ui/core';
 import { AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { setIsLoggedOutAction } from 'store/user/actions';
 
+interface OwnProps {
+  closeHeader: () => void;
+}
+
 interface DispatchProps {
   setIsLoggedOut: AppThunkPlainAction;
 }
 
-const LogoutButton = ({ setIsLoggedOut }: DispatchProps) => {
+type Props = OwnProps & DispatchProps;
+
+const LogoutButton = ({ closeHeader, setIsLoggedOut }: Props) => {
   function onLogout() {
     localStorage.removeItem('jwt');
+    closeHeader();
     setIsLoggedOut();
   }
 
@@ -25,4 +32,4 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   setIsLoggedOut: () => dispatch(setIsLoggedOutAction()),
 });
 
-export default connect<{}, DispatchProps, {}, {}>(null, mapDispatchToProps)(LogoutButton);
+export default connect<{}, DispatchProps, OwnProps, {}>(null, mapDispatchToProps)(LogoutButton);

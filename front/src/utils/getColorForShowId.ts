@@ -1,5 +1,4 @@
-// Takes a list of showIds
-// Returns a list of persistent unique colors
+// Takes a list of showIds. Returns a list of persistent unique colors
 export const getUniqueColorsForShowIds = (showIds: any[]) => {
   const listOfIndicies = showIds.map((id: number) => {
     const lastTwoDigitsOfShowId = +id.toString().slice(-2);

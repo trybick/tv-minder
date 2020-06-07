@@ -12,24 +12,18 @@ interface StateProps {
   isLoggedIn: boolean;
 }
 
-const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
-  <Link to={linkTo}>
-    <Text cursor="pointer" mt={{ base: 4, md: 0 }} mr={6} display="block">
-      {text}
-    </Text>
-  </Link>
-);
-
-// Mange header 'open' state and close hamburger menu when user clicks outside header
+// On smaller resolutions a hamburger menu is shown which opens the header
+// This hook manages the 'open' state and closes the menu upon clicking outside
 function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   const [isOpen, setIsOpen] = useState(false);
-  const handleToggle = () => setIsOpen(!isOpen);
+  const toggleIsOpen = () => setIsOpen(!isOpen);
+  const closeHeader = () => setIsOpen(false);
 
   useEffect(() => {
     function closeHeaderOnOutsideClick(event: Event) {
       const isClickOutside = ref.current && !ref.current.contains(event.target as Node);
       if (isClickOutside && isOpen) {
-        setIsOpen(false);
+        closeHeader();
       }
     }
     document.addEventListener('mousedown', closeHeaderOnOutsideClick);
@@ -39,12 +33,20 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
     };
   }, [isOpen, ref]);
 
-  return { handleToggle, isOpen };
+  return { isOpen, closeHeader, toggleIsOpen };
 }
 
 const Header = ({ isLoggedIn }: StateProps) => {
   const wrapperRef = useRef(null);
-  const { handleToggle, isOpen } = useHeaderManager(wrapperRef);
+  const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
+
+  const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
+    <Link onClick={closeHeader} to={linkTo}>
+      <Text cursor="pointer" mt={{ base: 4, md: 0 }} mr={6} display="block">
+        {text}
+      </Text>
+    </Link>
+  );
 
   return (
     <Flex
@@ -58,14 +60,14 @@ const Header = ({ isLoggedIn }: StateProps) => {
       color="white"
     >
       <Flex align="center" mr={5}>
-        <Link to="/">
+        <Link onClick={closeHeader} to="/">
           <Heading cursor="pointer" as="h1" size="lg" letterSpacing={'-.1rem'}>
             TV Minder
           </Heading>
         </Link>
       </Flex>
 
-      <Box display={{ sm: 'block', md: 'none' }} onClick={handleToggle}>
+      <Box display={{ sm: 'block', md: 'none' }} onClick={toggleIsOpen}>
         <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <title>Menu</title>
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
@@ -85,12 +87,12 @@ const Header = ({ isLoggedIn }: StateProps) => {
       <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
         {isLoggedIn ? (
           <>
-            <LogoutButton />
+            <LogoutButton closeHeader={closeHeader} />
           </>
         ) : (
           <>
-            <LoginButton />
-            <SignUpButton />
+            <LoginButton closeHeader={closeHeader} />
+            <SignUpButton closeHeader={closeHeader} />
           </>
         )}
       </Box>

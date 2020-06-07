@@ -29,9 +29,7 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   }, [followedShows]);
 
   const handleEventClick = (dateObj: any) => {
-    const {
-      event: { title },
-    } = dateObj;
+    const { title } = dateObj.event;
     console.log('title:', title);
   };
 
