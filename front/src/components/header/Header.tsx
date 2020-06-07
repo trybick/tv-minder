@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState, RefObject } from 'react';
 import { Link } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import { Box, Flex, Heading, Text } from '@chakra-ui/core';
@@ -20,12 +20,35 @@ const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
   </Link>
 );
 
-const Header = ({ isLoggedIn }: StateProps) => {
+// Mange header 'open' state and close hamburger menu when user clicks outside header
+function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
 
+  useEffect(() => {
+    function closeHeaderOnOutsideClick(event: Event) {
+      const isClickOutside = ref.current && !ref.current.contains(event.target as Node);
+      if (isClickOutside && isOpen) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', closeHeaderOnOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', closeHeaderOnOutsideClick);
+    };
+  }, [isOpen, ref]);
+
+  return { handleToggle, isOpen };
+}
+
+const Header = ({ isLoggedIn }: StateProps) => {
+  const wrapperRef = useRef(null);
+  const { handleToggle, isOpen } = useHeaderManager(wrapperRef);
+
   return (
     <Flex
+      ref={wrapperRef}
       as="nav"
       align="center"
       justify="space-between"
