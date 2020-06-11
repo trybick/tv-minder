@@ -4,6 +4,7 @@ import { persistStore, persistReducer, Persistor } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import storage from 'redux-persist/lib/storage';
 import { userReducer, UserState } from './user/reducers';
+import { tvReducer, TvState } from './tv/reducers';
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -16,6 +17,7 @@ export type AppThunkPlainAction = () => void;
 
 export type AppState = {
   user: UserState;
+  tv: TvState;
 };
 
 const rootPersistConfig = {
@@ -30,8 +32,14 @@ const userPersistConfig = {
   blacklist: ['hasLocalWarningToastBeenShown'],
 };
 
+const tvPersistConfig = {
+  key: 'tv',
+  storage: storage,
+};
+
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
+  tv: persistReducer(tvPersistConfig, tvReducer),
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
