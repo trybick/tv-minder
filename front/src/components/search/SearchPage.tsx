@@ -6,14 +6,9 @@ import { ShowSearchResult } from 'types/external';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
 import { selectSavedQueries } from 'store/tv/reducers';
+import { SavedQuery } from 'store/tv/types';
 import SearchResultsContainer from './subcomponents/SearchResultsContainer';
 import SearchInput from './subcomponents/SearchInput';
-
-export type SavedQuery = {
-  query: string;
-  results: ShowSearchResult[];
-  totalResults: number;
-};
 
 interface StateProps {
   savedQueries: SavedQuery[];
@@ -47,23 +42,29 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
+
+    const { results, totalResults } = await getQueryData(query);
+    if (!results) return;
+
+    setShows(results);
+    setTotalResults(totalResults);
+    setIsLoading(false);
+  };
+
+  const getQueryData = async (query: string): Promise<SavedQuery> => {
+    let queryData: SavedQuery;
     const index = savedQueries.findIndex(data => data.query === query);
     const isCached = index > -1;
 
     if (isCached) {
-      const { results, totalResults } = savedQueries[index];
-      setShows(results);
-      setTotalResults(totalResults);
+      queryData = savedQueries[index];
     } else {
       const { results, totalResults } = await searchShows(query);
-      if (!results) return;
-      const queryToSave = { query, results, totalResults };
-      saveSearchQuery(queryToSave);
-      setShows(results);
-      setTotalResults(totalResults);
+      queryData = { query, results, totalResults };
+      saveSearchQuery(queryData);
     }
 
-    setIsLoading(false);
+    return queryData;
   };
 
   return (

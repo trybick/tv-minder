@@ -4,7 +4,7 @@ import { API_URLS } from 'utils/constants';
 
 //
 // Our app calls searchShows
-// It uses a request creator for results caching and cancel tokens
+// It uses a request creator for cancel tokens
 //
 
 type QueryParams = { api_key: string | undefined; query: string };
@@ -16,7 +16,7 @@ export interface ReturnedSearchResult {
   total_results: number;
 }
 
-const url = `${API_URLS.MOVIE_DB}/search/tv`;
+const URL = `${API_URLS.MOVIE_DB}/search/tv`;
 
 export const searchShows = async (
   query: string
@@ -31,12 +31,12 @@ export const searchShows = async (
   };
 
   const { results, total_results: totalResults } =
-    (await makeCachedRequest(url, queryParams)) || emptyResult;
+    (await makeCancellableRequest(URL, queryParams)) || emptyResult;
 
   return { results, totalResults };
 };
 
-const makeCachedRequestCreator = () => {
+const makeCancellableRequestCreator = () => {
   let cancelToken: CancelTokenSource;
 
   return (
@@ -62,4 +62,4 @@ const makeCachedRequestCreator = () => {
   };
 };
 
-const makeCachedRequest = makeCachedRequestCreator();
+const makeCancellableRequest = makeCancellableRequestCreator();

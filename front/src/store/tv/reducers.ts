@@ -1,7 +1,7 @@
 import { Action, Reducer, AnyAction } from 'redux';
 import { AppState } from 'store';
 import { SAVE_SEARCH_QUERY } from './actions';
-import { SavedQuery } from 'components/search/SearchPage';
+import { SavedQuery } from './types';
 
 export interface TvState {
   savedQueries: SavedQuery[];

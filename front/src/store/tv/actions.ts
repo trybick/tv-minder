@@ -1,5 +1,5 @@
 import { AppThunk } from 'store';
-import { SavedQuery } from 'components/search/SearchPage';
+import { SavedQuery } from './types';
 
 export const SAVE_SEARCH_QUERY = 'SAVE_SEARCH_QUERY';
 
