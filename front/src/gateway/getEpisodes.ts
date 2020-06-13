@@ -13,6 +13,8 @@ export const getEpisodesForDisplay = async (showIds: number[]) => {
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const episodesForDisplay = calculateEpisodesForDisplay(fullSeasonData);
 
+  cacheEpisodeData(episodesForDisplay, showIds);
+
   return episodesForDisplay;
 };
 
@@ -148,8 +150,33 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     }))(episode)
   );
 
-  // Send episodesForDisplay and showIds to new function here which will save this data to store
-  // Map thru
-
   return episodesForDisplay;
+};
+
+const cacheEpisodeData = (episodesData: any, showIds: number[]) => {
+  const cache: { [key: number]: any } = {};
+  episodesData.forEach((episode: any) => {
+    const { showId } = episode.extendedProps;
+    if (cache.hasOwnProperty(showId)) {
+      cache[showId].push({
+        ...episode,
+      });
+    } else {
+      cache[showId] = [
+        {
+          ...episode,
+        },
+      ];
+    }
+  });
+
+  // If there are showIds missing from episode data, it means they were taken out because they
+  // don't have active seasons. Add these showIds back in so we can cache that they are empty.
+  showIds.forEach(id => {
+    if (!cache.hasOwnProperty(id)) {
+      cache[id] = null;
+    }
+  });
+
+  console.log('cache:', cache);
 };
