@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
+import moment from 'moment';
 import { Box } from '@chakra-ui/core';
 import { searchShows } from 'gateway/searchShows';
 import { ShowSearchResult } from 'types/external';
@@ -51,20 +52,30 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
     setIsLoading(false);
   };
 
+  // Save network calls to cache with a timestamp
   const getQueryData = async (query: string): Promise<SavedQuery> => {
     let queryData: SavedQuery;
     const index = savedQueries.findIndex(data => data.query === query);
     const isCached = index > -1;
 
-    if (isCached) {
+    if (isCached && getIsCacheValid(index)) {
       queryData = savedQueries[index];
     } else {
       const { results, totalResults } = await searchShows(query);
-      queryData = { query, results, totalResults };
+      queryData = { query, results, timeSaved: moment(), totalResults };
       saveSearchQuery(queryData);
     }
 
     return queryData;
+  };
+
+  // Check if timestamp is within set duration
+  const getIsCacheValid = (index: number) => {
+    const CACHE_DURATION = 3;
+    const { timeSaved } = savedQueries[index];
+    const diff = moment().diff(moment(timeSaved), 'days');
+
+    return diff > CACHE_DURATION ? false : true;
   };
 
   return (

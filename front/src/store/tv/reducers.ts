@@ -18,7 +18,12 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
     case SAVE_SEARCH_QUERY: {
       return {
         ...state,
-        savedQueries: [...state.savedQueries, action.payload],
+        savedQueries: state.savedQueries
+          ? [
+              ...state.savedQueries.filter(savedQuery => savedQuery.query !== action.payload.query),
+              action.payload,
+            ]
+          : [action.payload],
       };
     }
     default:
