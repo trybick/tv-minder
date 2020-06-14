@@ -12,7 +12,7 @@ export const fetchEpisodeData = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);
-  const cache = cacheEpisodeData(fetchedEpisodeData, showIds);
+  const cache = createCache(fetchedEpisodeData, showIds);
 
   return { cache, fetchedEpisodeData };
 };
@@ -153,7 +153,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 };
 
 // Create a cache object which will be persisted to the redux store
-const cacheEpisodeData = (episodesData: any, showIds: number[]) => {
+const createCache = (episodesData: any, showIds: number[]) => {
   const cache: { [key: number]: any } = {};
 
   episodesData.forEach((episode: any) => {

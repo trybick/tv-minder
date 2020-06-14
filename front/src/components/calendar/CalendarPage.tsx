@@ -18,6 +18,7 @@ const CalendarPage = (): JSX.Element => {
   const [calendarEpisodes, setCalendarEpisodes] = useState<any>();
 
   useEffect(() => {
+    // Get episodes from cache if valid, or make network call
     async function loadEpisodesForCalendar() {
       const CACHE_DURATION = 5;
       const cachedIds = Object.keys(storedEpisodeData);
