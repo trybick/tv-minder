@@ -32,18 +32,18 @@ const CalendarPage = (): JSX.Element => {
 
       let fetchedData;
       const nonCachedIds = followedShowsIds.filter(id => !validCachedIds.includes(id));
-      if (nonCachedIds) {
+      if (nonCachedIds.length) {
         const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
         fetchedData = fetchedEpisodeData;
         dispatch(saveEpisodeDataAction(cache));
       }
 
-      const combinedEpisodesForDisplay = cachedData.concat(fetchedData);
+      const combinedEpisodesForDisplay = (cachedData || []).concat(fetchedData || []);
       setCalendarEpisodes(combinedEpisodesForDisplay);
     }
 
     loadEpisodesForCalendar();
-  }, [followedShowsIds]);
+  }, [dispatch, followedShowsIds, storedEpisodeData]);
 
   const handleEventClick = (dateObj: any) => {
     const { title } = dateObj.event;
