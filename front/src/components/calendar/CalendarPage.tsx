@@ -1,36 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { connect, MapStateToProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { AppState } from 'store';
 import { selectFollowedShows } from 'store/user/reducers';
+import { saveEpisodeDataAction } from 'store/tv/actions';
 import { getEpisodesForDisplay } from 'gateway/getEpisodes';
-import { ID } from 'types/common';
 import 'style/fullCalendar.scss';
 
-interface StateProps {
-  followedShows: ID[];
-}
-
-type Props = StateProps;
-
-const CalendarPage = ({ followedShows }: Props): JSX.Element => {
+const CalendarPage = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const followedShowsIds = useSelector(selectFollowedShows);
   const [episodes, setEpisodes] = useState<any>();
 
   useEffect(() => {
     async function loadEpisodesForCalendar() {
-      const episodesForDisplay = await getEpisodesForDisplay(followedShows);
+      const { cache, episodesForDisplay } = await getEpisodesForDisplay(followedShowsIds);
       setEpisodes(episodesForDisplay);
+      dispatch(saveEpisodeDataAction(cache));
     }
 
     loadEpisodesForCalendar();
-  }, [followedShows]);
+  }, [followedShowsIds]);
 
   const handleEventClick = (dateObj: any) => {
     const { title } = dateObj.event;
-    console.log('title:', title, dateObj.event);
+    console.log('event:', title, dateObj.event);
   };
 
   return (
@@ -48,8 +44,4 @@ const CalendarPage = ({ followedShows }: Props): JSX.Element => {
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (state: AppState) => ({
-  followedShows: selectFollowedShows(state),
-});
-
-export default connect<StateProps, {}, {}, AppState>(mapStateToProps, {})(CalendarPage);
+export default CalendarPage;

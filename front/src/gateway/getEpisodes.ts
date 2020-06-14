@@ -12,10 +12,9 @@ export const getEpisodesForDisplay = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const episodesForDisplay = calculateEpisodesForDisplay(fullSeasonData);
+  const cache = cacheEpisodeData(episodesForDisplay, showIds);
 
-  cacheEpisodeData(episodesForDisplay, showIds);
-
-  return episodesForDisplay;
+  return { cache, episodesForDisplay };
 };
 
 const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
@@ -178,5 +177,5 @@ const cacheEpisodeData = (episodesData: any, showIds: number[]) => {
     }
   });
 
-  console.log('cache:', cache);
+  return cache;
 };
