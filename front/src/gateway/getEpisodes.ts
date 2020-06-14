@@ -8,13 +8,13 @@ const queryParams = {
 };
 
 // Takes a list of showIds. Returns a list of episodes ready to display on calendar
-export const getEpisodesForDisplay = async (showIds: number[]) => {
+export const fetchEpisodeData = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
-  const episodesForDisplay = calculateEpisodesForDisplay(fullSeasonData);
-  const cache = cacheEpisodeData(episodesForDisplay, showIds);
+  const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);
+  const cache = cacheEpisodeData(fetchedEpisodeData, showIds);
 
-  return { cache, episodesForDisplay };
+  return { cache, fetchedEpisodeData };
 };
 
 const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
@@ -152,10 +152,13 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   return episodesForDisplay;
 };
 
+// Create a cache object which will be persisted to the redux store
 const cacheEpisodeData = (episodesData: any, showIds: number[]) => {
   const cache: { [key: number]: any } = {};
+
   episodesData.forEach((episode: any) => {
     const { showId } = episode.extendedProps;
+
     if (cache.hasOwnProperty(showId)) {
       cache[showId].push({
         ...episode,
