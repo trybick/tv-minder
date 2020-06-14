@@ -27,9 +27,17 @@ const CalendarPage = (): JSX.Element => {
 
       // Get cached ids from store
 
+      const finalEpisodesData = cachedIds
+        .flatMap(id => {
+          if (storedEpisodeData[id] !== null) return Object.values(storedEpisodeData[id]);
+        })
+        .filter(Boolean);
+      console.log('finalEpisodeData:', finalEpisodesData);
+
       // Get non-cached ids from network
 
       const { cache, episodesForDisplay } = await getEpisodesForDisplay(followedShowsIds);
+      console.log('episodesForDisplay:', episodesForDisplay);
       setEpisodes(episodesForDisplay);
       dispatch(saveEpisodeDataAction(cache));
     }
