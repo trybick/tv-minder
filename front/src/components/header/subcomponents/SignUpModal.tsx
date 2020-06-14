@@ -9,6 +9,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -53,16 +55,22 @@ const SignUpModal = ({
   unregisteredClearFollowedShows,
   unregisteredFollowedShows,
 }: Props) => {
+  // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
+  // Form
   const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<
     FormData
   >();
   const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
+
+  // Password fields
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   const formSchema = {
     email: {
@@ -96,7 +104,7 @@ const SignUpModal = ({
           password,
         });
       })
-      .then((res) => {
+      .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
         setIsLoggedIn();
@@ -109,7 +117,7 @@ const SignUpModal = ({
           isClosable: true,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         handleErrors(err);
         setIsLoading(false);
         reset({}, { errors: true });
@@ -153,23 +161,37 @@ const SignUpModal = ({
 
             <FormControl mt={4} isInvalid={Boolean(errors.password)}>
               <FormLabel>Password</FormLabel>
-              <Input
-                name="password"
-                type="password"
-                placeholder="Password"
-                ref={register(formSchema.password)}
-              />
+              <InputGroup>
+                <Input
+                  name="password"
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder="Password"
+                  ref={register(formSchema.password)}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>
+                    {passwordVisible ? 'Hide' : 'Show'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl mt={4} isInvalid={Boolean(errors.confirmPassword)}>
               <FormLabel>Confirm Password</FormLabel>
-              <Input
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                ref={register(formSchema.confirmPassword)}
-              />
+              <InputGroup>
+                <Input
+                  name="confirmPassword"
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder="Confirm Password"
+                  ref={register(formSchema.confirmPassword)}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>
+                    {passwordVisible ? 'Hide' : 'Show'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
               <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
             </FormControl>
 

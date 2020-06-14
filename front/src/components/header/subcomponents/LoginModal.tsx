@@ -9,6 +9,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -52,11 +54,17 @@ const formSchema = {
 };
 
 const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
+  // Modal
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
   const toast = useToast();
 
+  // Form
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
+
+  // Password fields
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
@@ -65,7 +73,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         email,
         password,
       })
-      .then((res) => {
+      .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
         setIsLoggedIn();
@@ -78,7 +86,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           isClosable: true,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         handleErrors(err);
         setIsLoading(false);
         setError('login', 'generic', 'Invalid login. Please try again.');
@@ -108,12 +116,19 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
             <FormControl mt={4} isInvalid={Boolean(errors.password)}>
               <FormLabel>Password</FormLabel>
-              <Input
-                name="password"
-                type="password"
-                placeholder="Password"
-                ref={register(formSchema.password)}
-              />
+              <InputGroup>
+                <Input
+                  name="password"
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder="Password"
+                  ref={register(formSchema.password)}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>
+                    {passwordVisible ? 'Hide' : 'Show'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 

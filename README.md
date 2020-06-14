@@ -8,6 +8,12 @@ Start the API with Docker: `yarn-serve`
 
 Start the React front-end: `yarn start`
 
+## Technologies
+
+**Front**: React, Redux, TypeScript
+
+**API**: Express, TypeScript, Docker, AWS ECS
+
 ## Dev Notes
 
 ### ENV files in use
@@ -24,6 +30,8 @@ API:
 - `JWT_KEY`
 
 ### General API notes
+
+- To trigger a new workflow build to build the docker API on AWS, push to the branch `api`, or change the trigger inside `.github/workflows/aws.yml`.
 
 - After installing a new node module in the API folder, follow this process to avoid "module not found" errors
   - yarn add some-package
