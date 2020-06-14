@@ -18,27 +18,23 @@ const CalendarPage = (): JSX.Element => {
 
   useEffect(() => {
     async function loadEpisodesForCalendar() {
-      // Import savedEpisodeData here and check if any of the followedShowIds are saved there
-      // Create array of showIds to get from store and another array to get from network
-
-      const storedKeys = Object.keys(storedEpisodeData);
-      const cachedIds = followedShowsIds.filter(id => storedKeys.includes(String(id)));
+      const storedShowsIds = Object.keys(storedEpisodeData);
+      const cachedIds = followedShowsIds.filter(id => storedShowsIds.includes(String(id)));
       const nonCachedIds = followedShowsIds.filter(id => !cachedIds.includes(id));
 
       // Get cached ids from store
+      const cachedData = cachedIds.flatMap(id =>
+        storedEpisodeData[id] !== null ? Object.values(storedEpisodeData[id]) : []
+      );
 
-      const finalEpisodesData = cachedIds
-        .flatMap(id => {
-          if (storedEpisodeData[id] !== null) return Object.values(storedEpisodeData[id]);
-        })
-        .filter(Boolean);
-      console.log('finalEpisodeData:', finalEpisodesData);
-
+      console.log('cachedData:', cachedData);
       // Get non-cached ids from network
-
-      const { cache, episodesForDisplay } = await getEpisodesForDisplay(followedShowsIds);
+      const { cache, episodesForDisplay } = await getEpisodesForDisplay(nonCachedIds);
       console.log('episodesForDisplay:', episodesForDisplay);
-      setEpisodes(episodesForDisplay);
+      const combinedEpisodesForDisplay = cachedData.concat(episodesForDisplay);
+      console.log('combinedEpisodesForDisplay:', combinedEpisodesForDisplay);
+
+      setEpisodes(combinedEpisodesForDisplay);
       dispatch(saveEpisodeDataAction(cache));
     }
 
