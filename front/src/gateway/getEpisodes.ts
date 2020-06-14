@@ -8,12 +8,13 @@ const queryParams = {
 };
 
 // Takes a list of showIds. Returns a list of episodes ready to display on calendar
-export const getEpisodesForDisplay = async (showIds: number[]) => {
+export const fetchEpisodeData = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
-  const episodesForDisplay = calculateEpisodesForDisplay(fullSeasonData);
+  const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);
+  const cache = createCache(fetchedEpisodeData, showIds);
 
-  return episodesForDisplay;
+  return { cache, fetchedEpisodeData };
 };
 
 const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
@@ -25,7 +26,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   // Get each show's basic info
   const basicInfoForShows = await axios
     .all(basicInfoRequests)
-    .then((res) => res.map((res) => res.data))
+    .then(res => res.map(res => res.data))
     .catch((err: Error) => {
       console.log('Axios error', err.message);
     });
@@ -77,12 +78,12 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
       const fullSeasonData = await axios
         .all(latestSeasonsRequests)
         // @ts-ignore
-        .then((res) => res.map((res) => res.data));
+        .then(res => res.map(res => res.data));
 
-      // Store show name on season object
+      // Store show name and ID on season object
       fullSeasonData.forEach((fullSeason: any) => {
         fullSeason.name = name;
-        fullSeason.id = id;
+        fullSeason.showId = id;
       });
 
       return fullSeasonData;
@@ -94,11 +95,13 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 
 const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // Attach extra properties to each season object
-  const showSeasonObject = fullSeasonDataForLatestSeasons.flat().map((season: any) => ({
-    episodes: season.episodes,
-    name: season.name,
-    showId: season.id,
-  }));
+  const showSeasonObject = fullSeasonDataForLatestSeasons.flat().map((season: any) =>
+    (({ episodes, name, showId }) => ({
+      episodes,
+      name,
+      showId,
+    }))(season)
+  );
 
   // Calculate unique color based on showId
   const listOfShowIds: number[] = showSeasonObject.map((show: any) => show.showId);
@@ -110,10 +113,11 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 
   // Add extra properties on to each episode
   const flattenedEpisodeList = showSeasonWithColors.flatMap((show: any) => {
-    const { color, episodes, name } = show;
+    const { color, episodes, name, showId } = show;
     return episodes.map((episode: any) => ({
       ...episode,
       color,
+      showId,
       showName: name,
     }));
   });
@@ -133,13 +137,47 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       color,
       episode_number: episodeNumber,
       season_number: seasonNumber,
+      showId,
       showName,
     }) => ({
       color,
       date: airDate,
+      extendedProps: {
+        showId,
+      },
       title: `${showName} S${seasonNumber} E${episodeNumber}`,
     }))(episode)
   );
 
   return episodesForDisplay;
+};
+
+// Create a cache object which will be persisted to the redux store
+const createCache = (episodesData: any, showIds: number[]) => {
+  const cache: { [key: number]: any } = {};
+
+  episodesData.forEach((episode: any) => {
+    const { showId } = episode.extendedProps;
+    if (cache.hasOwnProperty(showId)) {
+      cache[showId].episodes.push(episode);
+    } else {
+      cache[showId] = {
+        episodes: [episode],
+        fetchedAt: moment(),
+      };
+    }
+  });
+
+  // If there are showIds missing from episode data, it means they were taken out because they
+  // don't have active seasons. Add these showIds back in so we can cache that they are empty.
+  showIds.forEach(id => {
+    if (!cache.hasOwnProperty(id)) {
+      cache[id] = {
+        episodes: null,
+        fetchedAt: moment(),
+      };
+    }
+  });
+
+  return cache;
 };

@@ -75,7 +75,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
     const { timeSaved } = savedQueries[index];
     const diff = moment().diff(moment(timeSaved), 'days');
 
-    return diff > CACHE_DURATION ? false : true;
+    return CACHE_DURATION > diff ? true : false;
   };
 
   return (
