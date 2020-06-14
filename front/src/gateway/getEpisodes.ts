@@ -158,17 +158,13 @@ const cacheEpisodeData = (episodesData: any, showIds: number[]) => {
 
   episodesData.forEach((episode: any) => {
     const { showId } = episode.extendedProps;
-
     if (cache.hasOwnProperty(showId)) {
-      cache[showId].push({
-        ...episode,
-      });
+      cache[showId].episodes.push(episode);
     } else {
-      cache[showId] = [
-        {
-          ...episode,
-        },
-      ];
+      cache[showId] = {
+        episodes: [episode],
+        fetchedAt: moment(),
+      };
     }
   });
 
@@ -176,7 +172,10 @@ const cacheEpisodeData = (episodesData: any, showIds: number[]) => {
   // don't have active seasons. Add these showIds back in so we can cache that they are empty.
   showIds.forEach(id => {
     if (!cache.hasOwnProperty(id)) {
-      cache[id] = null;
+      cache[id] = {
+        episodes: null,
+        fetchedAt: moment(),
+      };
     }
   });
 

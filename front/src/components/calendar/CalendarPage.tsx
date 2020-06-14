@@ -23,7 +23,7 @@ const CalendarPage = (): JSX.Element => {
       const nonCachedIds = followedShowsIds.filter(id => !cachedIds.includes(id));
 
       const cachedData = cachedIds.flatMap(id =>
-        storedEpisodeData[id] !== null ? Object.values(storedEpisodeData[id]) : []
+        storedEpisodeData[id].episodes !== null ? Object.values(storedEpisodeData[id].episodes) : []
       );
 
       const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
