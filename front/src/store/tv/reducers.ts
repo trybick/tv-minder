@@ -14,10 +14,9 @@ const initialState = {
 };
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
+export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
-  console.log('cache reducer:', action.payload);
-
   switch (action.type) {
     case SAVE_SEARCH_QUERY: {
       return {
