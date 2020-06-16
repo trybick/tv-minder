@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
 import { Box } from '@chakra-ui/core';
@@ -22,6 +22,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [isInputDirty, setIsInputDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +40,13 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
       setShows([]);
       setIsInputDirty(false);
     }
+  };
+
+  const handleClearInput = () => {
+    setIsInputDirty(false);
+    setInputValue('');
+    setShows([]);
+    inputRef.current?.focus();
   };
 
   const handleSearch = async (query: string) => {
@@ -80,7 +88,12 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
 
   return (
     <Box>
-      <SearchInput handleChange={handleChange} inputValue={inputValue} />
+      <SearchInput
+        handleChange={handleChange}
+        handleClearInput={handleClearInput}
+        inputRef={inputRef}
+        inputValue={inputValue}
+      />
       <SearchResultsContainer
         isInputDirty={isInputDirty}
         isLoading={isLoading}
