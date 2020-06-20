@@ -28,7 +28,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
               aria-label="Clear input"
               icon="small-close"
               onClick={handleClearInput}
-              size="xs"
+              size="sm"
               variant="ghost"
             />
           }

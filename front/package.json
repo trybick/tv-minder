@@ -32,9 +32,6 @@
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",
     "@fullcalendar/react": "^4.4.0",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
     "axios": "^0.19.2",
     "emotion-theming": "^10.0.27",
     "moment": "^2.25.3",
@@ -51,6 +48,9 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^2.30.0",

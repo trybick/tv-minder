@@ -17,8 +17,8 @@ const CalendarPage = (): JSX.Element => {
   const storedEpisodeData = useSelector(selectEpisodeData);
   const [calendarEpisodes, setCalendarEpisodes] = useState<any>();
 
+  // Load episodes from cache or make network call
   useEffect(() => {
-    // Get episodes from cache if valid, or make network call
     async function loadEpisodesForCalendar() {
       const CACHE_DURATION = 5;
       const cachedIds = Object.keys(storedEpisodeData);
@@ -55,11 +55,13 @@ const CalendarPage = (): JSX.Element => {
     <Box>
       <Box maxW="80%" m="30px auto 0">
         <FullCalendar
+          eventAllow={() => false} // do not allow dragging
           eventClick={handleEventClick}
           defaultView="dayGridMonth"
           events={calendarEpisodes}
           plugins={[dayGridPlugin, interactionPlugin]}
-          eventLimit
+          editable // enables mouse pointer cursor
+          eventLimit // display popover if events overflow in a day
         />
       </Box>
     </Box>
