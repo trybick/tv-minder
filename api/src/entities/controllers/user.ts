@@ -67,7 +67,7 @@ export const loginUser = (req: Request, res: Response) => {
         const token =
           envConfig?.JWT_KEY &&
           jwt.sign(tokenData, envConfig.JWT_KEY, {
-            expiresIn: '5d',
+            expiresIn: '300d',
           });
 
         if (!token) {
