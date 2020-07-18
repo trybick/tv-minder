@@ -1,16 +1,18 @@
 # TV-Minder
 
+![Amazon ECS Badge](https://github.com/trybick/tv-minder/workflows/Deploy%20API%20to%20Amazon%20ECS/badge.svg)
+
 Full-stack application to track TV shows
 
 ## Local Development
 
 Start the API with Docker: `yarn-serve`
 
-Start the React front-end: `yarn start`
+Start the React front end: `yarn start`
 
 ## Technologies
 
-**Front**: React, Redux, TypeScript
+**Front**: React, Redux, TypeScript, Chakra UI
 
 **API**: Express, TypeScript, Docker, AWS ECS
 
@@ -18,7 +20,7 @@ Start the React front-end: `yarn start`
 
 ### ENV files in use
 
-To setup env files for local development, create two files, `api/.env` and `front/.env`, with the contents in this format - `KEY="value"`. The keys are listed below. To request the values please reply to an open issue.
+To setup env files for local development, create two files, `api/.env` and `front/.env`, with the contents in this format - `KEY="value"`.
 
 Front:
 
