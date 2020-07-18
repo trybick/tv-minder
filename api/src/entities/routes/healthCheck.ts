@@ -6,6 +6,7 @@ import express from 'express';
 const healthCheckRoutes = express.Router();
 
 healthCheckRoutes.get('/healthCheck', (req, res) => {
+  console.log('Health check passed');
   res.status(200).json({ status: 'Word Up' });
 });
 

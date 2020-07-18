@@ -4,8 +4,8 @@
       "command": null,
       "entryPoint": null,
       "essential": true,
-      "image": "765170299946.dkr.ecr.us-east-2.amazonaws.com/tv-minder-repo:6930a27d1d8c3c8888fed0ec3f19fc7bf2e5cbcf",
-      "name": "tv-minder-container",
+      "image": "765170299946.dkr.ecr.us-east-2.amazonaws.com/tv-minder-repo:latest",
+      "name": "tv-minder-container-ec2",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -16,15 +16,15 @@
       },
       "portMappings": [
         {
-          "containerPort": 80,
-          "hostPort": 80,
+          "containerPort": 5000,
+          "hostPort": 5000,
           "protocol": "tcp"
         }
       ],
       "environment": [
         {
           "name": "PORT",
-          "value": "80"
+          "value": "5000"
         }
       ],
       "secrets": [
@@ -43,6 +43,5 @@
   "memory": "512",
   "executionRoleArn": "arn:aws:iam::765170299946:role/ecsTaskExecutionRole",
   "family": "tv-minder",
-  "networkMode": "awsvpc",
-  "requiresCompatibilities": ["FARGATE"]
+  "requiresCompatibilities": ["EC2"]
 }
