@@ -9,7 +9,6 @@ import { selectFollowedShows } from 'store/user/reducers';
 import { saveEpisodeDataAction } from 'store/tv/actions';
 import { selectEpisodeData } from 'store/tv/reducers';
 import { fetchEpisodeData } from 'gateway/getEpisodes';
-import 'style/fullCalendar.scss';
 
 const CalendarPage = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -57,11 +56,11 @@ const CalendarPage = (): JSX.Element => {
         <FullCalendar
           eventAllow={() => false} // do not allow dragging
           eventClick={handleEventClick}
-          defaultView="dayGridMonth"
+          initialView="dayGridMonth"
           events={calendarEpisodes}
           plugins={[dayGridPlugin, interactionPlugin]}
-          editable // enables mouse pointer cursor
-          eventLimit // display popover if events overflow in a day
+          editable // enable mouse pointer cursor
+          dayMaxEventRows // display popover if events overflow in a day
         />
       </Box>
     </Box>
