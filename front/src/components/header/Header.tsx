@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, RefObject } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
-import { Box, Flex, Heading, Text } from '@chakra-ui/core';
+import { Badge, Box, Divider, Flex, Heading, Text } from '@chakra-ui/core';
 import { AppState } from 'store';
 import { selectIsLoggedIn } from 'store/user/reducers';
 import LoginButton from './subcomponents/LoginButton';
@@ -37,66 +37,100 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
 }
 
 const Header = ({ isLoggedIn }: StateProps) => {
+  const activeRoute = useLocation().pathname;
+  console.log('activeRoute:', activeRoute);
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
 
-  const MenuItem = ({ text, linkTo }: { text: string; linkTo: string }) => (
+  const NavLink = ({
+    isActiveRoute,
+    linkTo,
+    text,
+  }: {
+    isActiveRoute?: boolean;
+    linkTo: string;
+    text: string;
+  }) => (
     <Link onClick={closeHeader} to={linkTo}>
-      <Text cursor="pointer" mt={{ base: 4, md: 0 }} mr={6} display="block">
+      <Text
+        color={isActiveRoute ? 'teal.600' : ''}
+        cursor="pointer"
+        mt={{ base: 4, md: 0 }}
+        mr={6}
+        display="block"
+        fontSize="1.05rem"
+        borderBottom={isActiveRoute ? '3px solid teal' : ''}
+        padding="0 12px 5px"
+      >
         {text}
       </Text>
     </Link>
   );
 
   return (
-    <Flex
-      ref={wrapperRef}
-      as="nav"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      padding="1.5rem"
-      bg="teal.500"
-      color="white"
-    >
-      <Flex align="center" mr={5}>
-        <Link onClick={closeHeader} to="/">
-          <Heading cursor="pointer" as="h1" size="lg" letterSpacing={'-.1rem'}>
-            TV Minder
-          </Heading>
-        </Link>
+    <>
+      <Flex
+        ref={wrapperRef}
+        as="nav"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
+        padding="1.2rem 1.2rem 0"
+        bg="white"
+        color="black"
+      >
+        <Flex align="center" mr={5}>
+          <Link onClick={closeHeader} to="/">
+            <Heading
+              cursor="pointer"
+              display="inline"
+              as="h1"
+              size="md"
+              fontWeight="600"
+              fontSize="1rem"
+              mr="4px"
+            >
+              TV Minder
+            </Heading>
+            <Badge fontSize="11px" variantColor="red">
+              Beta
+            </Badge>
+          </Link>
+        </Flex>
+
+        <Box display={{ sm: 'block', md: 'none' }} onClick={toggleIsOpen}>
+          <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </Box>
+
+        <Box
+          display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
+          width={{ xs: 'full', md: 'auto' }}
+          ml="auto"
+          mr="auto"
+        >
+          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
+          <NavLink isActiveRoute={activeRoute === '/calendar'} linkTo="/calendar" text="Calendar" />
+        </Box>
+
+        <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
+          {isLoggedIn ? (
+            <>
+              <LogoutButton closeHeader={closeHeader} />
+            </>
+          ) : (
+            <>
+              <SignUpButton closeHeader={closeHeader} />
+              <LoginButton closeHeader={closeHeader} />
+            </>
+          )}
+        </Box>
       </Flex>
 
-      <Box display={{ sm: 'block', md: 'none' }} onClick={toggleIsOpen}>
-        <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-        </svg>
-      </Box>
-
-      <Box
-        display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
-        width={{ xs: 'full', md: 'auto' }}
-        alignItems="center"
-        flexGrow={1}
-      >
-        <MenuItem text="Search" linkTo="/" />
-        <MenuItem text="Calendar" linkTo="/calendar" />
-      </Box>
-
-      <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        {isLoggedIn ? (
-          <>
-            <LogoutButton closeHeader={closeHeader} />
-          </>
-        ) : (
-          <>
-            <LoginButton closeHeader={closeHeader} />
-            <SignUpButton closeHeader={closeHeader} />
-          </>
-        )}
-      </Box>
-    </Flex>
+      <Divider />
+    </>
   );
 };
 

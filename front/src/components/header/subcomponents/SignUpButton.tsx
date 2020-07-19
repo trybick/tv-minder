@@ -17,7 +17,7 @@ const SignUpButton = ({ closeHeader }: Props) => {
 
   return (
     <>
-      <Button ml=" 12px" onClick={handleClick} variant="outline">
+      <Button onClick={handleClick} variant="solid">
         Sign Up
       </Button>
       <SignUpModal disclosureProps={disclosureProps} />
