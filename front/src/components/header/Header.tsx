@@ -37,10 +37,9 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
 }
 
 const Header = ({ isLoggedIn }: StateProps) => {
-  const activeRoute = useLocation().pathname;
-  console.log('activeRoute:', activeRoute);
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
+  const activeRoute = useLocation().pathname;
 
   const NavLink = ({
     isActiveRoute,
@@ -53,13 +52,13 @@ const Header = ({ isLoggedIn }: StateProps) => {
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
       <Text
+        borderBottom={isActiveRoute ? '3px solid teal' : ''}
         color={isActiveRoute ? 'teal.600' : ''}
         cursor="pointer"
-        mt={{ base: 4, md: 0 }}
-        mr={6}
         display="block"
         fontSize="1.05rem"
-        borderBottom={isActiveRoute ? '3px solid teal' : ''}
+        mr={6}
+        mt={{ base: 4, md: 0 }}
         padding="0 12px 5px"
       >
         {text}
@@ -70,25 +69,25 @@ const Header = ({ isLoggedIn }: StateProps) => {
   return (
     <>
       <Flex
-        ref={wrapperRef}
-        as="nav"
         align="center"
-        justify="space-between"
-        wrap="wrap"
-        padding="1.2rem 1.2rem 0"
+        as="nav"
         bg="white"
         color="black"
+        justify="space-between"
+        padding="1.2rem 1.2rem 0"
+        ref={wrapperRef}
+        wrap="wrap"
       >
         <Flex align="center" mr={5}>
           <Link onClick={closeHeader} to="/">
             <Heading
+              as="h1"
               cursor="pointer"
               display="inline"
-              as="h1"
-              size="md"
-              fontWeight="600"
               fontSize="1rem"
+              fontWeight="600"
               mr="4px"
+              size="md"
             >
               TV Minder
             </Heading>

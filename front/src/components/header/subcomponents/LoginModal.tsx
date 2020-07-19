@@ -119,9 +119,9 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <InputGroup>
                 <Input
                   name="password"
-                  type={passwordVisible ? 'text' : 'password'}
                   placeholder="Password"
                   ref={register(formSchema.password)}
+                  type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>

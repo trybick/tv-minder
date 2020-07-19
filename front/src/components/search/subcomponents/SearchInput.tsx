@@ -12,13 +12,13 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
   <Flex w="xs" direction="column" justify="center" m="100px auto 25px">
     <InputGroup>
       <Input
-        value={inputValue}
+        focusBorderColor="teal.500"
         onChange={handleChange}
         placeholder="Enter show name"
-        variant="flushed"
-        focusBorderColor="teal.500"
         ref={inputRef}
         size="md"
+        value={inputValue}
+        variant="flushed"
         autoFocus
       />
       {inputValue && (

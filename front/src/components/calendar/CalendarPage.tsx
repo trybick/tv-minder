@@ -56,11 +56,11 @@ const CalendarPage = (): JSX.Element => {
         <FullCalendar
           eventAllow={() => false} // do not allow dragging
           eventClick={handleEventClick}
-          initialView="dayGridMonth"
           events={calendarEpisodes}
+          initialView="dayGridMonth"
           plugins={[dayGridPlugin, interactionPlugin]}
-          editable // enable mouse pointer cursor
           dayMaxEventRows // display popover if events overflow in a day
+          editable // enable mouse pointer cursor
         />
       </Box>
     </Box>

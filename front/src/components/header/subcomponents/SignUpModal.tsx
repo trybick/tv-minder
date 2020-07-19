@@ -182,9 +182,9 @@ const SignUpModal = ({
               <InputGroup>
                 <Input
                   name="confirmPassword"
-                  type={passwordVisible ? 'text' : 'password'}
                   placeholder="Confirm Password"
                   ref={register(formSchema.confirmPassword)}
+                  type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>

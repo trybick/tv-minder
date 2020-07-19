@@ -63,7 +63,7 @@ const SearchResults = ({
       </Box>
 
       <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
-        {shows.map((show) => (
+        {shows.map(show => (
           <SearchResult
             followedShows={followedShows}
             hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}

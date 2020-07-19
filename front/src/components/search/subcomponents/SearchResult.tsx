@@ -62,7 +62,7 @@ const SearchResult = ({
         setIsLoading(false);
         saveToFollowedShows(showId);
       })
-      .catch((error) => {
+      .catch(error => {
         handleErrors(error);
         setIsLoading(false);
       });
@@ -82,7 +82,7 @@ const SearchResult = ({
         setIsLoading(false);
         removeFromFollowedShows(showId);
       })
-      .catch((error) => {
+      .catch(error => {
         handleErrors(error);
         setIsLoading(false);
       });
@@ -117,25 +117,25 @@ const SearchResult = ({
 
         {isFollowed ? (
           <Button
-            minW="88px"
-            size="sm"
-            leftIcon="check"
-            variantColor="teal"
-            variant="solid"
-            onClick={isLoggedIn ? onUnFollowShow : onLocalUnsaveShow}
             isLoading={isLoading}
+            leftIcon="check"
+            minW="88px"
+            onClick={isLoggedIn ? onUnFollowShow : onLocalUnsaveShow}
+            size="sm"
+            variant="solid"
+            variantColor="teal"
           >
             Followed
           </Button>
         ) : (
           <Button
-            minW="88px"
-            size="sm"
-            leftIcon="small-add"
-            variantColor="teal"
-            variant="outline"
-            onClick={isLoggedIn ? onFollowShow : onLocalSaveShow}
             isLoading={isLoading}
+            leftIcon="small-add"
+            minW="88px"
+            onClick={isLoggedIn ? onFollowShow : onLocalSaveShow}
+            size="sm"
+            variant="outline"
+            variantColor="teal"
           >
             Follow
           </Button>
