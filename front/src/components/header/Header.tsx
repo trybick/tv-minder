@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, RefObject } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
-import { Badge, Box, Divider, Flex, Heading, Text } from '@chakra-ui/core';
+import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/core';
 import { AppState } from 'store';
 import { selectIsLoggedIn } from 'store/user/reducers';
 import LoginButton from './subcomponents/LoginButton';
@@ -86,19 +86,15 @@ const Header = ({ isLoggedIn }: StateProps) => {
               display="inline"
               fontSize="1rem"
               fontWeight="600"
-              mr="4px"
               size="md"
             >
               TV Minder
             </Heading>
-            <Badge fontSize="11px" variantColor="red">
-              Beta
-            </Badge>
           </Link>
         </Flex>
 
         <Box display={{ sm: 'block', md: 'none' }} onClick={toggleIsOpen}>
-          <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <svg fill="teal" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <title>Menu</title>
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
           </svg>
