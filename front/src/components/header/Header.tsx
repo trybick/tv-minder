@@ -42,10 +42,12 @@ const Header = ({ isLoggedIn }: StateProps) => {
   const activeRoute = useLocation().pathname;
 
   const NavLink = ({
+    borderWidth,
     isActiveRoute,
     linkTo,
     text,
   }: {
+    borderWidth: string;
     isActiveRoute?: boolean;
     linkTo: string;
     text: string;
@@ -59,7 +61,8 @@ const Header = ({ isLoggedIn }: StateProps) => {
         fontSize="1.05rem"
         mr={6}
         mt={{ base: 4, md: 0 }}
-        padding="0 12px 5px"
+        padding={{ base: 0, md: '0 12px 5px' }}
+        width={{ base: borderWidth, md: 'unset' }}
       >
         {text}
       </Text>
@@ -106,8 +109,13 @@ const Header = ({ isLoggedIn }: StateProps) => {
           ml="auto"
           mr="auto"
         >
-          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
-          <NavLink isActiveRoute={activeRoute === '/calendar'} linkTo="/calendar" text="Calendar" />
+          <NavLink borderWidth="48px" isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
+          <NavLink
+            borderWidth="70px"
+            isActiveRoute={activeRoute === '/calendar'}
+            linkTo="/calendar"
+            text="Calendar"
+          />
         </Box>
 
         <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
