@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, RefObject } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/core';
+import { FaUser } from 'react-icons/fa';
+import { IoMdNotifications } from 'react-icons/io';
 import { AppState } from 'store';
 import { selectIsLoggedIn } from 'store/user/reducers';
 import LoginButton from './subcomponents/LoginButton';
@@ -118,10 +120,17 @@ const Header = ({ isLoggedIn }: StateProps) => {
           />
         </Box>
 
-        <Box display={{ xs: isOpen ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
+        <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
           {isLoggedIn ? (
             <>
-              <LogoutButton closeHeader={closeHeader} />
+              <Box display={{ xs: 'none', md: 'flex' }}>
+                <Box as={IoMdNotifications} color="black" display="block" size="19px" />
+                <Box as={FaUser} color="black" ml="14px" size="19px" />
+              </Box>
+
+              <Box display={{ xs: 'block', md: 'none' }}>
+                <LogoutButton closeHeader={closeHeader} />
+              </Box>
             </>
           ) : (
             <>
