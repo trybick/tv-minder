@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Spinner, Text } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
-import SearchResults from './SearchResults';
+import SearchResults from './subcomponents/SearchResults';
 
 interface Props {
   isInputDirty: boolean;
@@ -28,7 +28,7 @@ const WelcomeMessage = () => (
   </Flex>
 );
 
-const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
+const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
@@ -42,4 +42,4 @@ const SearchResultsContainer = ({ isInputDirty, isLoading, shows, totalResults }
   </Flex>
 );
 
-export default SearchResultsContainer;
+export default SearchContainer;

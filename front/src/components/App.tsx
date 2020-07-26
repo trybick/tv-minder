@@ -5,8 +5,8 @@ import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/reducers';
 import Header from 'components/header/Header';
-import SearchPage from 'components/search/SearchPage';
-import CalendarPage from 'components/calendar/CalendarPage';
+import SearchPage from 'pages/SearchPage';
+import CalendarPage from 'pages/CalendarPage';
 
 interface StateProps {
   isLoggedIn: boolean;
