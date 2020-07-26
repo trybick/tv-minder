@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
   Box,
-  Button,
   Divider,
   Flex,
   Heading,
@@ -13,8 +12,6 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
-  MenuOptionGroup,
-  MenuItemOption,
   Text,
 } from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';
@@ -139,11 +136,20 @@ const Header = ({ isLoggedIn }: StateProps) => {
           {isLoggedIn ? (
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
-                {/* <Box as={IoMdNotifications} color="black" display="block" size="19px" /> */}
+                <Menu>
+                  <MenuButton mr="6px">
+                    <Box as={IoMdNotifications} size="20px" />
+                  </MenuButton>
+                  <MenuList placement="bottom-start">
+                    <MenuGroup title="Notifications">
+                      <MenuItem>None</MenuItem>
+                    </MenuGroup>
+                  </MenuList>
+                </Menu>
 
                 <Menu>
                   <MenuButton>
-                    <Box as={FaUser} size="19px" />
+                    <Box as={FaUser} size="17px" />
                   </MenuButton>
                   <MenuList placement="bottom-start">
                     <MenuGroup title="Options">
