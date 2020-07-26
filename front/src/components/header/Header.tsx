@@ -1,7 +1,22 @@
 import React, { useEffect, useRef, useState, RefObject } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
-import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/core';
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuGroup,
+  MenuDivider,
+  MenuOptionGroup,
+  MenuItemOption,
+  Text,
+} from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import { AppState } from 'store';
@@ -124,8 +139,22 @@ const Header = ({ isLoggedIn }: StateProps) => {
           {isLoggedIn ? (
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
-                <Box as={IoMdNotifications} color="black" display="block" size="19px" />
-                <Box as={FaUser} color="black" ml="14px" size="19px" />
+                {/* <Box as={IoMdNotifications} color="black" display="block" size="19px" /> */}
+
+                <Menu>
+                  <MenuButton>
+                    <Box as={FaUser} size="19px" />
+                  </MenuButton>
+                  <MenuList placement="bottom-start">
+                    <MenuGroup title="Options">
+                      <MenuItem>My Profile</MenuItem>
+                    </MenuGroup>
+                    <MenuDivider />
+                    <MenuGroup>
+                      <MenuItem>Logout</MenuItem>
+                    </MenuGroup>
+                  </MenuList>
+                </Menu>
               </Box>
 
               <Box display={{ xs: 'block', md: 'none' }}>
