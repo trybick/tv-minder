@@ -15,11 +15,11 @@ interface DispatchProps {
 type Props = OwnProps & DispatchProps;
 
 const LogoutButton = ({ closeHeader, setIsLoggedOut }: Props) => {
-  function onLogout() {
+  const onLogout = () => {
     localStorage.removeItem('jwt');
     closeHeader();
     setIsLoggedOut();
-  }
+  };
 
   return (
     <Button variant="outline" variantColor="teal" onClick={onLogout} size="xs">

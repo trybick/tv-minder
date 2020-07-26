@@ -16,8 +16,9 @@ import {
 } from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
-import { AppState } from 'store';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn } from 'store/user/reducers';
+import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
@@ -25,6 +26,12 @@ import LogoutButton from './subcomponents/LogoutButton';
 interface StateProps {
   isLoggedIn: boolean;
 }
+
+interface DispatchProps {
+  setIsLoggedOut: AppThunkPlainAction;
+}
+
+type Props = StateProps & DispatchProps;
 
 // On smaller resolutions a hamburger menu is shown which opens the header
 // This hook manages the 'open' state and closes the menu upon clicking outside
@@ -50,10 +57,16 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   return { isOpen, closeHeader, toggleIsOpen };
 }
 
-const Header = ({ isLoggedIn }: StateProps) => {
+const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
+
+  const onLogout = () => {
+    localStorage.removeItem('jwt');
+    closeHeader();
+    setIsLoggedOut();
+  };
 
   const NavLink = ({
     borderWidth,
@@ -157,7 +170,7 @@ const Header = ({ isLoggedIn }: StateProps) => {
                     </MenuGroup>
                     <MenuDivider />
                     <MenuGroup>
-                      <MenuItem>Logout</MenuItem>
+                      <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
                 </Menu>
@@ -187,4 +200,11 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   isLoggedIn: selectIsLoggedIn(state),
 });
 
-export default connect<StateProps, {}, {}, AppState>(mapStateToProps, {})(Header);
+const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
+  setIsLoggedOut: () => dispatch(setIsLoggedOutAction()),
+});
+
+export default connect<StateProps, DispatchProps, {}, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
