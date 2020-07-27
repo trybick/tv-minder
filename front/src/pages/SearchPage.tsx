@@ -8,7 +8,7 @@ import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
 import { selectSavedQueries } from 'store/tv/reducers';
 import { SavedQuery } from 'store/tv/types';
-import SearchResultsContainer from '../components/search/SearchContainer';
+import SearchContainer from '../components/search/SearchContainer';
 import SearchInput from '../components/search/subcomponents/SearchInput';
 
 interface StateProps {
@@ -94,7 +94,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
         inputRef={inputRef}
         inputValue={inputValue}
       />
-      <SearchResultsContainer
+      <SearchContainer
         isInputDirty={isInputDirty}
         isLoading={isLoading}
         shows={shows}

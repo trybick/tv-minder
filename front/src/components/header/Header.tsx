@@ -69,14 +69,14 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   };
 
   const NavLink = ({
-    borderWidth,
     isActiveRoute,
     linkTo,
+    mobileWidth,
     text,
   }: {
-    borderWidth: string;
     isActiveRoute?: boolean;
     linkTo: string;
+    mobileWidth: string;
     text: string;
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
@@ -89,7 +89,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         mr={6}
         mt={{ base: 4, md: 0 }}
         padding={{ base: 0, md: '0 12px 5px' }}
-        width={{ base: borderWidth, md: 'unset' }}
+        width={{ base: mobileWidth, md: 'unset' }}
       >
         {text}
       </Text>
@@ -136,12 +136,18 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           ml="auto"
           mr="auto"
         >
-          <NavLink borderWidth="48px" isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
+          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" mobileWidth="48px" text="Home" />
           <NavLink
-            borderWidth="70px"
             isActiveRoute={activeRoute === '/calendar'}
             linkTo="/calendar"
+            mobileWidth="70px"
             text="Calendar"
+          />
+          <NavLink
+            isActiveRoute={activeRoute === '/my-shows'}
+            linkTo="/my-shows"
+            mobileWidth="80px"
+            text="My Shows"
           />
         </Box>
 

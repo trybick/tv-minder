@@ -7,6 +7,7 @@ import { selectIsLoggedIn } from 'store/user/reducers';
 import Header from 'components/header/Header';
 import SearchPage from 'pages/SearchPage';
 import CalendarPage from 'pages/CalendarPage';
+import MyShowsPage from 'pages/MyShowsPage';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -34,6 +35,9 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
         </Route>
         <Route path="/calendar">
           <CalendarPage />
+        </Route>
+        <Route path="/my-shows">
+          <MyShowsPage />
         </Route>
       </Switch>
     </Router>
