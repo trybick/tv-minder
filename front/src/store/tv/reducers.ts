@@ -1,20 +1,23 @@
 import { Action, Reducer, AnyAction } from 'redux';
 import { AppState } from 'store';
-import { SAVE_SEARCH_QUERY, SAVE_EPISODE_DATA } from './actions';
+import { REQUEST_BASIC_SHOW_INFO_SUCCEEDED, SAVE_SEARCH_QUERY, SAVE_EPISODE_DATA } from './actions';
 import { SavedQuery } from './types';
 
 export interface TvState {
   savedQueries: SavedQuery[];
   episodeData: { [key: number]: any };
+  basicShowInfo: any[];
 }
 
 const initialState = {
   savedQueries: [],
   episodeData: {},
+  basicShowInfo: [],
 };
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
+export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
   switch (action.type) {
@@ -33,6 +36,12 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
       return {
         ...state,
         episodeData: { ...state.episodeData, ...action.payload },
+      };
+    }
+    case REQUEST_BASIC_SHOW_INFO_SUCCEEDED: {
+      return {
+        ...state,
+        basicShowInfo: { ...state.basicShowInfo, ...action.payload },
       };
     }
     default:

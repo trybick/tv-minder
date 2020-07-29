@@ -28,13 +28,13 @@ const rootPersistConfig = {
 
 const userPersistConfig = {
   key: 'user',
-  storage: storage,
+  storage,
   blacklist: ['hasLocalWarningToastBeenShown'],
 };
 
 const tvPersistConfig = {
   key: 'tv',
-  storage: storage,
+  storage,
 };
 
 const rootReducer = combineReducers({

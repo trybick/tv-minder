@@ -19,12 +19,12 @@ const CalendarPage = (): JSX.Element => {
   // Load episodes from cache or make network call
   useEffect(() => {
     async function loadEpisodesForCalendar() {
-      const CACHE_DURATION = 5;
+      const CACHE_DURATION_DAYS = 5;
       const cachedIds = Object.keys(storedEpisodeData);
       const validCachedIds = followedShowsIds.filter(
         id =>
           cachedIds.includes(String(id)) &&
-          CACHE_DURATION > moment().diff(moment(storedEpisodeData[id].fetchedAt), 'days')
+          CACHE_DURATION_DAYS > moment().diff(moment(storedEpisodeData[id].fetchedAt), 'days')
       );
       const cachedData = validCachedIds.flatMap(id =>
         storedEpisodeData[id].episodes !== null ? Object.values(storedEpisodeData[id].episodes) : []
