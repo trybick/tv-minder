@@ -5,9 +5,9 @@ import { Box } from '@chakra-ui/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { selectFollowedShows } from 'store/user/reducers';
+import { selectFollowedShows } from 'store/user/selectors';
 import { saveEpisodeDataAction } from 'store/tv/actions';
-import { selectEpisodeData } from 'store/tv/reducers';
+import { selectEpisodeData } from 'store/tv/selectors';
 import { fetchEpisodeData } from 'gateway/getEpisodes';
 
 const CalendarPage = (): JSX.Element => {

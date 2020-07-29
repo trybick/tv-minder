@@ -17,7 +17,7 @@ import {
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { selectIsLoggedIn } from 'store/user/reducers';
+import { selectIsLoggedIn } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';

@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import { AppState } from 'store';
 
+export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
+export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 
 export const selectBasicShowInfoForDisplay = createSelector(selectBasicShowInfo, showsInfo =>

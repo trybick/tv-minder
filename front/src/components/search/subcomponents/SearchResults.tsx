@@ -13,7 +13,7 @@ import {
   selectFollowedShows,
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
-} from 'store/user/reducers';
+} from 'store/user/selectors';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
 import SearchResult from './SearchResult';

@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/core';
 import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
-import { selectUnregisteredFollowedShows } from 'store/user/reducers';
+import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { API_URLS, emailRegex } from 'utils/constants';
 import { DisclosureProps, ID } from 'types/common';
 import handleErrors from 'utils/handleErrors';

@@ -1,5 +1,4 @@
 import { Action, Reducer, AnyAction } from 'redux';
-import { AppState } from 'store';
 import { REQUEST_BASIC_SHOW_INFO_SUCCEEDED, SAVE_SEARCH_QUERY, SAVE_EPISODE_DATA } from './actions';
 import { SavedQuery } from './types';
 
@@ -14,9 +13,6 @@ const initialState = {
   episodeData: {},
   basicShowInfo: {},
 };
-
-export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
-export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
   switch (action.type) {

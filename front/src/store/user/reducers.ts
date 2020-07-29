@@ -27,14 +27,6 @@ const initialState = {
   unregisteredFollowedShows: [],
 };
 
-export const selectFollowedShows = (state: AppState) =>
-  state.user.isLoggedIn ? state.user.followedShows : state.user.unregisteredFollowedShows;
-export const selectHasLocalWarningToastBeenShown = (state: AppState) =>
-  state.user.hasLocalWarningToastBeenShown;
-export const selectIsLoggedIn = (state: AppState) => state.user.isLoggedIn;
-export const selectUnregisteredFollowedShows = (state: AppState) =>
-  state.user.unregisteredFollowedShows;
-
 export const userReducer: Reducer<UserState, Action> = (
   state = initialState,
   action: AnyAction
@@ -49,7 +41,7 @@ export const userReducer: Reducer<UserState, Action> = (
     case REMOVE_FROM_FOLLOWED_SHOWS: {
       return {
         ...state,
-        followedShows: state.followedShows.filter((showId) => showId !== action.payload),
+        followedShows: state.followedShows.filter(showId => showId !== action.payload),
       };
     }
     case SAVE_TO_FOLLOWED_SHOWS: {
@@ -89,7 +81,7 @@ export const userReducer: Reducer<UserState, Action> = (
       return {
         ...state,
         unregisteredFollowedShows: state.unregisteredFollowedShows.filter(
-          (showId) => showId !== action.payload
+          showId => showId !== action.payload
         ),
       };
     }

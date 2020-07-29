@@ -6,7 +6,7 @@ import { searchShows } from 'gateway/searchShows';
 import { ShowSearchResult } from 'types/external';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
-import { selectSavedQueries } from 'store/tv/reducers';
+import { selectSavedQueries } from 'store/tv/selectors';
 import { SavedQuery } from 'store/tv/types';
 import SearchContainer from '../components/search/SearchContainer';
 import SearchInput from '../components/search/subcomponents/SearchInput';
