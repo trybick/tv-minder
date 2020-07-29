@@ -1,7 +1,8 @@
 import axios from 'axios';
+import moment from 'moment';
 import { API_URLS } from 'utils/constants';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
-import moment from 'moment';
+import handleErrors from 'utils/handleErrors';
 
 const queryParams = {
   api_key: process.env.REACT_APP_MOVIE_DB_KHEE,
@@ -27,9 +28,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   const basicInfoForShows = await axios
     .all(basicInfoRequests)
     .then(res => res.map(res => res.data))
-    .catch((err: Error) => {
-      console.log('Axios error', err.message);
-    });
+    .catch(handleErrors);
 
   // Find latest season number(s) for each show
   const latestSeasons = (basicInfoForShows as any[]).map((showInfo: any) => {
