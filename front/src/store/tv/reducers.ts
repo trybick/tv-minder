@@ -6,18 +6,17 @@ import { SavedQuery } from './types';
 export interface TvState {
   savedQueries: SavedQuery[];
   episodeData: { [key: number]: any };
-  basicShowInfo: any[];
+  basicShowInfo: { [key: number]: any };
 }
 
 const initialState = {
   savedQueries: [],
   episodeData: {},
-  basicShowInfo: [],
+  basicShowInfo: {},
 };
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
-export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
   switch (action.type) {

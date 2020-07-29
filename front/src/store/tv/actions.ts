@@ -24,11 +24,11 @@ export const saveEpisodeDataAction = (episodeData: any): AppThunk => dispatch =>
   });
 };
 
+// Check if shows in store are validly cached. If not, fetch basic show info for each show.
 export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getState) => {
   const { followedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
 
-  // Filter out shows that have a valid cache
   const CACHE_DURATION_DAYS = 5;
   const cachedIds = Object.keys(cachedBasicShowInfo);
   const nonCachedIds = followedShows.filter(
@@ -38,25 +38,30 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
         CACHE_DURATION_DAYS < moment().diff(moment(cachedBasicShowInfo[id]._fetchedAt), 'days'))
   );
 
-  // Requests for shows that do not have a valid cache
-  const basicInfoRequests = nonCachedIds.map((showId: any) =>
+  const requests = nonCachedIds.map((showId: any) =>
     axios.get(`${API_URLS.MOVIE_DB}/tv/${showId}`, {
       params: { api_key: process.env.REACT_APP_MOVIE_DB_KHEE },
     })
   );
 
-  const basicInfoForShows = await axios
-    .all(basicInfoRequests)
-    .then(res =>
-      res.map(res => ({
-        ...res.data,
-        _fetchedAt: moment(),
-      }))
-    )
+  const responses = await axios
+    .all(requests)
+    .then(res => res.map(res => res.data))
     .catch(handleErrors);
 
-  dispatch({
-    type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
-    payload: basicInfoForShows,
-  });
+  if (responses) {
+    const basicShowInfo: { [key: number]: any } = {};
+
+    responses.forEach((res: any) => {
+      basicShowInfo[res.id] = {
+        ...res,
+        _fetchedAt: moment(),
+      };
+    });
+
+    dispatch({
+      type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
+      payload: basicShowInfo,
+    });
+  }
 };
