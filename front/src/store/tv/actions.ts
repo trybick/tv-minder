@@ -24,7 +24,7 @@ export const saveEpisodeDataAction = (episodeData: any): AppThunk => dispatch =>
   });
 };
 
-// Check if shows in store are validly cached. If not, fetch basic show info for each show.
+// Check if each show in store is validly cached. If not, fetch basic show info for necessary shows.
 export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getState) => {
   const { followedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;

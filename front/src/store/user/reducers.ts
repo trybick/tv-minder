@@ -1,5 +1,4 @@
 import { Action, Reducer, AnyAction } from 'redux';
-import { AppState } from 'store';
 import {
   FETCH_USER_FOLLOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,
