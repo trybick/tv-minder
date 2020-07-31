@@ -36,7 +36,7 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
     case REQUEST_BASIC_SHOW_INFO_SUCCEEDED: {
       return {
         ...state,
-        basicShowInfo: { ...state.basicShowInfo, ...action.payload },
+        basicShowInfo: { ...action.payload },
       };
     }
     default:

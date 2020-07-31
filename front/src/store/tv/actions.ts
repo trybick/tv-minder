@@ -24,44 +24,51 @@ export const saveEpisodeDataAction = (episodeData: any): AppThunk => dispatch =>
   });
 };
 
-// Check if each show in store is validly cached. If not, fetch basic show info for necessary shows.
+// Get valid cached data and/or fetch data for a show's basic info
 export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getState) => {
   const { followedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
 
+  const combinedData: { [key: number]: any } = {};
+
+  // Get cached data and add to combinedData
   const CACHE_DURATION_DAYS = 5;
   const cachedIds = Object.keys(cachedBasicShowInfo);
-  const nonCachedIds = followedShows.filter(
+  const validCachedIds = followedShows.filter(
     id =>
-      !cachedIds.includes(String(id)) ||
-      (cachedIds.includes(String(id)) &&
-        CACHE_DURATION_DAYS < moment().diff(moment(cachedBasicShowInfo[id]._fetchedAt), 'days'))
+      cachedIds.includes(String(id)) &&
+      CACHE_DURATION_DAYS > moment().diff(moment(cachedBasicShowInfo[id].fetchedAt), 'seconds')
   );
-
-  const requests = nonCachedIds.map((showId: any) =>
-    axios.get(`${API_URLS.MOVIE_DB}/tv/${showId}`, {
-      params: { api_key: process.env.REACT_APP_MOVIE_DB_KHEE },
-    })
-  );
-
-  const responses = await axios
-    .all(requests)
-    .then(res => res.map(res => res.data))
-    .catch(handleErrors);
-
-  if (responses) {
-    const basicShowInfo: { [key: number]: any } = {};
-
-    responses.forEach((res: any) => {
-      basicShowInfo[res.id] = {
-        ...res,
-        _fetchedAt: moment(),
-      };
+  validCachedIds &&
+    validCachedIds.forEach((id: number) => {
+      combinedData[id] = cachedBasicShowInfo[id];
     });
 
-    dispatch({
-      type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
-      payload: basicShowInfo,
-    });
+  // Fetch data for ids that are not cached and add to combinedData
+  const nonCachedIds = followedShows.filter(id => !validCachedIds.includes(id));
+  if (nonCachedIds) {
+    const requests = nonCachedIds.map((showId: any) =>
+      axios.get(`${API_URLS.MOVIE_DB}/tv/${showId}`, {
+        params: { api_key: process.env.REACT_APP_MOVIE_DB_KHEE },
+      })
+    );
+
+    const responses = await axios
+      .all(requests)
+      .then(res => res.map(res => res.data))
+      .catch(handleErrors);
+
+    responses &&
+      responses.forEach((res: any) => {
+        combinedData[res.id] = {
+          ...res,
+          _fetchedAt: moment(),
+        };
+      });
   }
+
+  dispatch({
+    type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
+    payload: combinedData,
+  });
 };

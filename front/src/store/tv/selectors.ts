@@ -21,9 +21,9 @@ export const selectBasicShowInfoForDisplay = createSelector(selectBasicShowInfo,
     } = show;
 
     const lastEpisodeForDisplay = {
-      airDate: lastEpisodeToAir.air_date,
-      episodeNumber: lastEpisodeToAir.episode_number,
-      seasonNumber: lastEpisodeToAir.season_number,
+      airDate: lastEpisodeToAir?.air_date,
+      episodeNumber: lastEpisodeToAir?.episode_number,
+      seasonNumber: lastEpisodeToAir?.season_number,
     };
 
     return {
