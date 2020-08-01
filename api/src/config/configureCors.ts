@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 
-const allowedOrigins = ['http://localhost:4000', 'https://www.tv-minder.com'];
+const allowedOrigins = [
+  'http://localhost:4000',
+  'https://www.tv-minder.com',
+  'https://tv-minder.com',
+];
 
 const configureCors = (req: Request, res: Response, next: NextFunction) => {
   const { origin } = req.headers;

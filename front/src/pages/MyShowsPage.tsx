@@ -20,7 +20,7 @@ const MyShows = () => {
   return (
     <Box maxW="80%" m="40px auto 0">
       <Grid justifyContent="center" templateColumns="repeat(auto-fill, 300px)" gap={12}>
-        {showInfo.map(show => {
+        {showInfo?.map(show => {
           const { id, lastEpisodeForDisplay, name, posterPath } = show;
           const airDate = lastEpisodeForDisplay.airDate;
           const timeFromNow = moment(airDate).fromNow();

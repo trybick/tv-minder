@@ -33,21 +33,23 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
 
   // Get cached data and add to combinedData
   const CACHE_DURATION_DAYS = 5;
-  const cachedIds = Object.keys(cachedBasicShowInfo);
-  const validCachedIds = followedShowsSource.filter(id => {
-    const cacheAge = moment().diff(moment(cachedBasicShowInfo[id]?._fetchedAt), 'days');
+  const cachedIds = cachedBasicShowInfo && Object.keys(cachedBasicShowInfo);
+  const validCachedIds =
+    cachedBasicShowInfo &&
+    followedShowsSource?.filter(id => {
+      const cacheAge = moment().diff(moment(cachedBasicShowInfo[id]?._fetchedAt), 'days');
 
-    return cachedIds.includes(String(id)) && cacheAge < CACHE_DURATION_DAYS;
-  });
+      return cachedIds?.includes(String(id)) && cacheAge < CACHE_DURATION_DAYS;
+    });
   validCachedIds &&
     validCachedIds.forEach(id => {
       combinedData[id] = cachedBasicShowInfo[id];
     });
 
   // Fetch data for ids that are not cached and add to combinedData
-  const nonCachedIds = followedShowsSource.filter(id => !validCachedIds.includes(id));
+  const nonCachedIds = followedShowsSource?.filter(id => !validCachedIds?.includes(id));
   if (nonCachedIds) {
-    const requests = nonCachedIds.map(id =>
+    const requests = nonCachedIds?.map(id =>
       axios.get(`${API.THE_MOVIE_DB}/tv/${id}`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KHEE },
       })
