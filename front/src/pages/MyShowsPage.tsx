@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { Box, Grid, Heading, Image, Link, Text, Tooltip } from '@chakra-ui/core';
+import { Box, Grid, Image, Text, Tooltip } from '@chakra-ui/core';
+import { MdNewReleases } from 'react-icons/md';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
 import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
 
@@ -19,11 +20,9 @@ const MyShows = () => {
       <Grid justifyContent="center" templateColumns="repeat(auto-fill, 300px)" gap={12}>
         {showInfo.map(show => {
           const { id, lastEpisodeForDisplay, name, posterPath } = show;
-
-          const airDate = moment(lastEpisodeForDisplay.airDate);
-          const today = moment().startOf('day');
-          const daysAgo = moment.duration(today.diff(airDate)).asDays();
-          const dateDisplay = daysAgo < 30 ? `${daysAgo} days ago` : airDate.format('M/D/YY');
+          const airDate = lastEpisodeForDisplay.airDate;
+          const timeFromNow = moment(airDate).fromNow();
+          const isRecent = moment().startOf('day').diff(airDate, 'days') <= 10;
 
           return (
             <Box key={id}>
@@ -41,7 +40,8 @@ const MyShows = () => {
                   <Grid>
                     <Box>
                       <Text fontSize="m" textAlign="center">
-                        {dateDisplay}
+                        {isRecent && <Box as={MdNewReleases} display="inline" size="19px" />}{' '}
+                        {timeFromNow}
                       </Text>
                     </Box>
                     <Box>
