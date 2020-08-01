@@ -41,17 +41,17 @@ const MyShows = () => {
                   <Grid>
                     <Box>
                       <Text fontSize="m" textAlign="center">
+                        {dateDisplay}
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="m" textAlign="center">
                         Episode {lastEpisodeForDisplay.episodeNumber}
                       </Text>
                     </Box>
                     <Box>
                       <Text fontSize="m" textAlign="center">
                         Season {lastEpisodeForDisplay.seasonNumber}
-                      </Text>
-                    </Box>
-                    <Box>
-                      <Text fontSize="m" textAlign="center">
-                        Aired: {dateDisplay}
                       </Text>
                     </Box>
                   </Grid>
