@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, RefObject } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
+  Badge,
   Box,
   Divider,
   Flex,
@@ -120,6 +121,17 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             >
               TV Minder
             </Heading>
+            {/* 'Beta' Badge - position absolute to avoid pushing NavLinks to right */}
+            <Badge
+              fontSize="10.5px"
+              left="102px"
+              position="absolute"
+              top={{ base: '24px', md: '32px' }}
+              variant="outline"
+              variantColor="green"
+            >
+              Beta
+            </Badge>
           </Link>
         </Flex>
 
