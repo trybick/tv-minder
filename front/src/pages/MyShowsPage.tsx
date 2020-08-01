@@ -5,15 +5,17 @@ import { Box, Grid, Image, Text, Tooltip } from '@chakra-ui/core';
 import { MdNewReleases } from 'react-icons/md';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
 import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
+import { selectFollowedShows } from 'store/user/selectors';
 
 const MyShows = () => {
   const dispatch = useDispatch();
+  const followedShows = useSelector(selectFollowedShows);
   const showInfo = useSelector(selectBasicShowInfoForDisplay);
   console.log('showInfo:', showInfo);
 
   useEffect(() => {
     dispatch(requestBasicShowInfoAction());
-  }, [dispatch]);
+  }, [dispatch, followedShows]);
 
   return (
     <Box maxW="80%" m="40px auto 0">
