@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { AppThunk } from 'store';
-import { API_URLS } from 'utils/constants';
+import { API } from 'utils/constants';
 import { SavedQuery } from './types';
 import handleErrors from 'utils/handleErrors';
 
@@ -48,8 +48,8 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
   const nonCachedIds = followedShowsSource.filter(id => !validCachedIds.includes(id));
   if (nonCachedIds) {
     const requests = nonCachedIds.map(id =>
-      axios.get(`${API_URLS.MOVIE_DB}/tv/${id}`, {
-        params: { api_key: process.env.REACT_APP_MOVIE_DB_KHEE },
+      axios.get(`${API.THE_MOVIE_DB}/tv/${id}`, {
+        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KHEE },
       })
     );
 

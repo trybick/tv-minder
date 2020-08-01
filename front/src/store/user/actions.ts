@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AppThunk } from 'store';
 import { ID } from 'types/common';
-import { API_URLS } from 'utils/constants';
+import { API } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
@@ -18,7 +18,7 @@ export const fetchfollowedShowsAction = (): AppThunk => dispatch =>
   axios
     .get<{
       followedShows: ID[];
-    }>(`${API_URLS.TV_MINDER}/follow`, {
+    }>(`${API.TV_MINDER}/follow`, {
       params: { token: localStorage.getItem('jwt') },
     })
     .then(({ data }) => {

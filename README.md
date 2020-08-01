@@ -24,7 +24,7 @@ To setup env files for local development, create two files, `api/.env` and `fron
 
 Front:
 
-- `REACT_APP_MOVIE_DB_KHEE`
+- `REACT_APP_THE_MOVIE_DB_KHEE`
 
 API:
 

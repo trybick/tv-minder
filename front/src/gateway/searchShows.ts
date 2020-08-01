@@ -1,6 +1,6 @@
 import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
-import { API_URLS } from 'utils/constants';
+import { API } from 'utils/constants';
 
 //
 // Our app calls searchShows
@@ -16,7 +16,7 @@ export interface ReturnedSearchResult {
   total_results: number;
 }
 
-const URL = `${API_URLS.MOVIE_DB}/search/tv`;
+const URL = `${API.THE_MOVIE_DB}/search/tv`;
 
 export const searchShows = async (
   query: string
@@ -26,7 +26,7 @@ export const searchShows = async (
 }> => {
   const emptyResult = { results: [], total_results: 0 };
   const queryParams: QueryParams = {
-    api_key: process.env.REACT_APP_MOVIE_DB_KHEE,
+    api_key: process.env.REACT_APP_THE_MOVIE_DB_KHEE,
     query,
   };
 

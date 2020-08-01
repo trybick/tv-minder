@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/core';
 import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
-import { API_URLS, emailRegex } from 'utils/constants';
+import { API, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'types/common';
 import handleErrors from 'utils/handleErrors';
 
@@ -69,7 +69,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
     axios
-      .post(`${API_URLS.TV_MINDER}/login`, {
+      .post(`${API.TV_MINDER}/login`, {
         email,
         password,
       })

@@ -4,7 +4,7 @@ import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/co
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
-import { API_URLS } from 'utils/constants';
+import { API } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 
 interface Props {
@@ -51,7 +51,7 @@ const SearchResult = ({
     setIsLoading(true);
     axios
       .post(
-        `${API_URLS.TV_MINDER}/follow`,
+        `${API.TV_MINDER}/follow`,
         {
           showId,
           token: localStorage.getItem('jwt'),
@@ -71,7 +71,7 @@ const SearchResult = ({
   function onUnFollowShow() {
     setIsLoading(true);
     axios
-      .delete(`${API_URLS.TV_MINDER}/follow`, {
+      .delete(`${API.TV_MINDER}/follow`, {
         data: {
           showId,
           token: localStorage.getItem('jwt'),

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import moment from 'moment';
-import { API_URLS } from 'utils/constants';
+import { API } from 'utils/constants';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
 
 const queryParams = {
-  api_key: process.env.REACT_APP_MOVIE_DB_KHEE,
+  api_key: process.env.REACT_APP_THE_MOVIE_DB_KHEE,
 };
 
 // Takes a list of showIds. Returns a list of episodes ready to display on calendar
@@ -21,7 +21,7 @@ export const fetchEpisodeData = async (showIds: number[]) => {
 const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   // List of requests for each show's basic info
   const basicInfoRequests = showIds.map((showId: any) =>
-    axios.get(`${API_URLS.MOVIE_DB}/tv/${showId}`, { params: queryParams })
+    axios.get(`${API.THE_MOVIE_DB}/tv/${showId}`, { params: queryParams })
   );
 
   // Get each show's basic info
@@ -70,7 +70,7 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 
       // List of requests for each season(s) for each show
       const latestSeasonsRequests = latestSeasons.map((seasonNum: number) =>
-        axios.get(`${API_URLS.MOVIE_DB}/tv/${id}/season/${seasonNum}`, { params: queryParams })
+        axios.get(`${API.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, { params: queryParams })
       );
 
       // Get season data for each season for each show
