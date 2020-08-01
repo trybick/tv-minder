@@ -28,27 +28,26 @@ export const saveEpisodeDataAction = (episodeData: any): AppThunk => dispatch =>
 export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getState) => {
   const { followedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
-
   const combinedData: { [key: number]: any } = {};
 
   // Get cached data and add to combinedData
   const CACHE_DURATION_DAYS = 5;
   const cachedIds = Object.keys(cachedBasicShowInfo);
-  const validCachedIds = followedShows.filter(
-    id =>
-      cachedIds.includes(String(id)) &&
-      CACHE_DURATION_DAYS > moment().diff(moment(cachedBasicShowInfo[id].fetchedAt), 'seconds')
-  );
+  const validCachedIds = followedShows.filter(id => {
+    const cacheAge = moment().diff(moment(cachedBasicShowInfo[id]?._fetchedAt), 'days');
+
+    return cachedIds.includes(String(id)) && cacheAge < CACHE_DURATION_DAYS;
+  });
   validCachedIds &&
-    validCachedIds.forEach((id: number) => {
+    validCachedIds.forEach(id => {
       combinedData[id] = cachedBasicShowInfo[id];
     });
 
   // Fetch data for ids that are not cached and add to combinedData
   const nonCachedIds = followedShows.filter(id => !validCachedIds.includes(id));
   if (nonCachedIds) {
-    const requests = nonCachedIds.map((showId: any) =>
-      axios.get(`${API_URLS.MOVIE_DB}/tv/${showId}`, {
+    const requests = nonCachedIds.map(id =>
+      axios.get(`${API_URLS.MOVIE_DB}/tv/${id}`, {
         params: { api_key: process.env.REACT_APP_MOVIE_DB_KHEE },
       })
     );

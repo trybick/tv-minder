@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { Box, Grid, Image, Link, Text } from '@chakra-ui/core';
+import { Box, Grid, Heading, Image, Link, Text, Tooltip } from '@chakra-ui/core';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
 import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
 
@@ -18,7 +18,7 @@ const MyShows = () => {
     <Box maxW="80%" m="40px auto 0">
       <Grid justifyContent="center" templateColumns="repeat(auto-fill, 300px)" gap={12}>
         {showInfo.map(show => {
-          const { backdropPath, id, lastEpisodeForDisplay, name } = show;
+          const { id, lastEpisodeForDisplay, name, posterPath } = show;
 
           const airDate = moment(lastEpisodeForDisplay.airDate);
           const today = moment().startOf('day');
@@ -27,45 +27,36 @@ const MyShows = () => {
 
           return (
             <Box key={id}>
-              <Box>
-                <Link>
-                  <Image
-                    borderRadius="5px"
-                    src={`https://image.tmdb.org/t/p/w342${backdropPath}`}
-                  />
-                </Link>
-              </Box>
-              <Box mt="4px">
-                <Text fontSize="xl" textAlign="center" isTruncated>
-                  <Link>{name}</Link>
-                </Text>
-              </Box>
-              <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" justifyItems="center" mt="10px">
+              <Grid mt="5px" templateColumns="3fr 5fr">
+                <Tooltip aria-label={name} label={name} placement="bottom">
+                  <Box>
+                    <Image
+                      borderRadius="5px"
+                      src={`https://image.tmdb.org/t/p/w185${posterPath}`}
+                    />
+                  </Box>
+                </Tooltip>
+
                 <Box>
-                  <Text fontSize="m" textAlign="center">
-                    {lastEpisodeForDisplay.seasonNumber}
-                  </Text>
-                  <Text fontSize="xs" textAlign="center">
-                    Season
-                  </Text>
+                  <Grid>
+                    <Box>
+                      <Text fontSize="m" textAlign="center">
+                        Episode {lastEpisodeForDisplay.episodeNumber}
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="m" textAlign="center">
+                        Season {lastEpisodeForDisplay.seasonNumber}
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="m" textAlign="center">
+                        Aired: {dateDisplay}
+                      </Text>
+                    </Box>
+                  </Grid>
                 </Box>
-                <Box>
-                  <Text fontSize="m" textAlign="center">
-                    {lastEpisodeForDisplay.episodeNumber}
-                  </Text>
-                  <Text fontSize="xs" textAlign="center">
-                    Episode
-                  </Text>
-                </Box>
-                <Box>
-                  <Text fontSize="m" textAlign="center">
-                    {dateDisplay}
-                  </Text>
-                  <Text fontSize="xs" textAlign="center">
-                    Aired
-                  </Text>
-                </Box>
-              </Box>
+              </Grid>
             </Box>
           );
         })}
