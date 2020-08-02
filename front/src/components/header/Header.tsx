@@ -126,7 +126,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
               fontSize="10.5px"
               left="102px"
               position="absolute"
-              top={{ base: '24px', md: '32px' }}
+              top={{ base: '24px', md: '30px' }}
               variant="outline"
               variantColor="green"
             >

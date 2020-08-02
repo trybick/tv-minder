@@ -26,7 +26,7 @@ export const searchShows = async (
 }> => {
   const emptyResult = { results: [], total_results: 0 };
   const queryParams: QueryParams = {
-    api_key: process.env.REACT_APP_THE_MOVIE_DB_KHEE,
+    api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
     query,
   };
 

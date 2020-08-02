@@ -51,7 +51,7 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
   if (nonCachedIds) {
     const requests = nonCachedIds?.map(id =>
       axios.get(`${API.THE_MOVIE_DB}/tv/${id}`, {
-        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KHEE },
+        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
       })
     );
 
