@@ -31,13 +31,19 @@ export const selectBasicShowInfoForDisplay = createSelector(
           seasonNumber: lastEpisodeToAir?.season_number,
         };
 
+        const nextEpisodeForDisplay = {
+          airDate: nextEpisodeToAir?.air_date,
+          episodeNumber: nextEpisodeToAir?.episode_number,
+          seasonNumber: nextEpisodeToAir?.season_number,
+        };
+
         return {
           backdropPath,
           id,
           lastAirDate,
           lastEpisodeForDisplay,
           name,
-          nextEpisodeToAir,
+          nextEpisodeForDisplay,
           numEpisodes,
           numSeasons,
           posterPath,
