@@ -18,6 +18,7 @@ export const selectBasicShowInfoForDisplay = createSelector(
           last_air_date: lastAirDate,
           last_episode_to_air: lastEpisodeToAir,
           name,
+          networks,
           next_episode_to_air: nextEpisodeToAir,
           number_of_episodes: numEpisodes,
           number_of_seasons: numSeasons,
@@ -28,6 +29,8 @@ export const selectBasicShowInfoForDisplay = createSelector(
         const lastEpisodeForDisplay = {
           airDate: lastEpisodeToAir?.air_date,
           episodeNumber: lastEpisodeToAir?.episode_number,
+          name: lastEpisodeToAir?.name,
+          overview: lastEpisodeToAir?.overview,
           seasonNumber: lastEpisodeToAir?.season_number,
         };
 
@@ -43,6 +46,7 @@ export const selectBasicShowInfoForDisplay = createSelector(
           lastAirDate,
           lastEpisodeForDisplay,
           name,
+          network: networks[0],
           nextEpisodeForDisplay,
           numEpisodes,
           numSeasons,
