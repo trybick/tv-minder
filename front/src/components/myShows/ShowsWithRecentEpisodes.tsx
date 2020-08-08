@@ -20,9 +20,13 @@ interface Props {
 }
 
 const RecentEpisode = ({ show }: { show: any }) => {
-  const { lastEpisodeForDisplay, name, posterPath } = show;
-  const timeFromNow = moment(lastEpisodeForDisplay.airDate).fromNow();
-  const seasonEpisodeNumber = `S${lastEpisodeForDisplay.seasonNumber} E${lastEpisodeForDisplay.episodeNumber}`;
+  const {
+    lastEpisodeForDisplay: { airDate, episodeNumber, name, overview, seasonNumber },
+    name: showName,
+    posterPath,
+  } = show;
+  const timeFromNow = moment(airDate).fromNow();
+  const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
   const posterSource = `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   return (
@@ -44,20 +48,32 @@ const RecentEpisode = ({ show }: { show: any }) => {
           </Text>
 
           <Text fontSize="sm" fontWeight="700" isTruncated>
-            {name}
+            {showName}
           </Text>
         </Grid>
         <AccordionIcon />
       </AccordionHeader>
+
       <AccordionPanel pb={4}>
-        <Tooltip aria-label={name} label={name} placement="top" hasArrow>
-          <Box width="50px">
-            <Image borderRadius="6px" src={posterSource} />
-          </Box>
-        </Tooltip>
-        ; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.
+        <Grid alignItems="center" gap={6} templateColumns="100px 1fr">
+          <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
+            <Box width="100px">
+              <Image borderRadius="6px" src={posterSource} />
+            </Box>
+          </Tooltip>
+
+          <Grid templateRows="30px 1fr">
+            <Box>
+              <Heading as="h4" fontSize="md">
+                {name}
+              </Heading>
+            </Box>
+
+            <Box>
+              <Text fontSize="sm">{overview}</Text>
+            </Box>
+          </Grid>
+        </Grid>
       </AccordionPanel>
     </AccordionItem>
   );

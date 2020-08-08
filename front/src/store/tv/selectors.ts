@@ -26,22 +26,21 @@ export const selectBasicShowInfoForDisplay = createSelector(
           status,
         } = show;
 
-        const lastEpisodeForDisplay = {
-          airDate: lastEpisodeToAir?.air_date,
-          episodeNumber: lastEpisodeToAir?.episode_number,
-          name: lastEpisodeToAir?.name,
-          overview: lastEpisodeToAir?.overview,
-          seasonNumber: lastEpisodeToAir?.season_number,
+        const lastEpisodeForDisplay = lastEpisodeToAir && {
+          airDate: lastEpisodeToAir.air_date,
+          episodeNumber: lastEpisodeToAir.episode_number,
+          name: lastEpisodeToAir.name,
+          overview: lastEpisodeToAir.overview,
+          seasonNumber: lastEpisodeToAir.season_number,
         };
 
-        const nextEpisodeForDisplay = {
-          airDate: nextEpisodeToAir?.air_date,
-          episodeNumber: nextEpisodeToAir?.episode_number,
-          seasonNumber: nextEpisodeToAir?.season_number,
+        const nextEpisodeForDisplay = nextEpisodeToAir && {
+          airDate: nextEpisodeToAir.air_date,
+          episodeNumber: nextEpisodeToAir.episode_number,
+          seasonNumber: nextEpisodeToAir.season_number,
         };
 
         return {
-          backdropPath,
           id,
           lastAirDate,
           lastEpisodeForDisplay,
