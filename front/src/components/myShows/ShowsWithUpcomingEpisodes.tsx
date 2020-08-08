@@ -19,7 +19,7 @@ interface Props {
   shows: any[];
 }
 
-const RecentEpisode = ({ show }: { show: any }) => {
+const UpcomingEpisode = ({ show }: { show: any }) => {
   const {
     lastEpisodeForDisplay: { airDate, episodeNumber, name, overview, seasonNumber },
     name: showName,
@@ -79,18 +79,18 @@ const RecentEpisode = ({ show }: { show: any }) => {
   );
 };
 
-const ShowsWithRecentEpisodes = ({ shows }: Props) => (
+const ShowsWithUpcomingEpisodes = ({ shows }: Props) => (
   <Box>
     <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
-      Recently Aired
+      Upcoming
     </Heading>
 
     <Accordion>
       {shows?.map(show => (
-        <RecentEpisode key={show.id} show={show} />
+        <UpcomingEpisode key={show.id} show={show} />
       ))}
     </Accordion>
   </Box>
 );
 
-export default ShowsWithRecentEpisodes;
+export default ShowsWithUpcomingEpisodes;
