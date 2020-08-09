@@ -1,5 +1,8 @@
 import { createSelector } from 'reselect';
 import { AppState } from 'store';
+import moment from 'moment';
+
+const NUM_EPISODES_TO_SHOW = 6;
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
@@ -50,4 +53,32 @@ export const selectBasicShowInfoForDisplay = createSelector(
         status,
       };
     })
+);
+
+// Shows sorted by most recently aired episodes
+export const selectBasicShowInfoForRecentEpisodes = createSelector(
+  selectBasicShowInfoForDisplay,
+  showsInfo =>
+    showsInfo
+      ?.filter(show => show.lastEpisodeForDisplay)
+      ?.sort((a, b) => moment(b.lastAirDate).diff(moment(a.lastAirDate)))
+      ?.slice(0, NUM_EPISODES_TO_SHOW)
+);
+
+// Shows sorted by upcoming episodes
+export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
+  selectBasicShowInfoForDisplay,
+  showsInfo =>
+    showsInfo
+      ?.filter(show => show.nextEpisodeForDisplay)
+      ?.sort((a, b) =>
+        moment(b.nextEpisodeForDisplay.airDate).diff(moment(a.nextEpisodeForDisplay.airDate))
+      )
+      ?.slice(0, NUM_EPISODES_TO_SHOW)
+);
+
+// Shows sorted alphabetically
+export const selectBasicShowInfoForAllShows = createSelector(
+  selectBasicShowInfoForDisplay,
+  showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))
 );

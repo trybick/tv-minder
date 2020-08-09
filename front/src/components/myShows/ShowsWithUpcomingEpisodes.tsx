@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Accordion,
   AccordionItem,
@@ -14,11 +15,8 @@ import {
   Tooltip,
 } from '@chakra-ui/core';
 import moment from 'moment';
+import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
 import { fallBackImage } from 'utils/constants';
-
-interface Props {
-  shows: any[];
-}
 
 const UpcomingEpisode = ({ show }: { show: any }) => {
   const {
@@ -80,23 +78,22 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
   );
 };
 
-const ShowsWithUpcomingEpisodes = ({ shows }: Props) => (
-  <Box>
-    <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
-      Upcoming
-    </Heading>
+const ShowsWithUpcomingEpisodes = () => {
+  const shows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
 
-    <Accordion>
-      {shows
-        ?.filter(show => show.nextEpisodeForDisplay)
-        ?.sort((a, b) =>
-          moment(b.nextEpisodeForDisplay.airDate).diff(moment(a.nextEpisodeForDisplay.airDate))
-        )
-        ?.map(show => (
+  return (
+    <Box>
+      <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
+        Upcoming
+      </Heading>
+
+      <Accordion>
+        {shows?.map(show => (
           <UpcomingEpisode key={show.id} show={show} />
         ))}
-    </Accordion>
-  </Box>
-);
+      </Accordion>
+    </Box>
+  );
+};
 
 export default ShowsWithUpcomingEpisodes;

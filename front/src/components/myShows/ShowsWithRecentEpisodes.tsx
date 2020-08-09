@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Accordion,
   AccordionItem,
@@ -14,11 +15,8 @@ import {
   Tooltip,
 } from '@chakra-ui/core';
 import moment from 'moment';
+import { selectBasicShowInfoForRecentEpisodes } from 'store/tv/selectors';
 import { fallBackImage } from 'utils/constants';
-
-interface Props {
-  shows: any[];
-}
 
 const RecentEpisode = ({ show }: { show: any }) => {
   const {
@@ -80,21 +78,22 @@ const RecentEpisode = ({ show }: { show: any }) => {
   );
 };
 
-const ShowsWithRecentEpisodes = ({ shows }: Props) => (
-  <Box>
-    <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
-      Recent
-    </Heading>
+const ShowsWithRecentEpisodes = () => {
+  const shows = useSelector(selectBasicShowInfoForRecentEpisodes);
 
-    <Accordion>
-      {shows
-        ?.sort((a, b) => moment(b.lastAirDate).diff(moment(a.lastAirDate)))
-        ?.slice(0, 10)
-        ?.map(show => (
+  return (
+    <Box>
+      <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
+        Recent
+      </Heading>
+
+      <Accordion>
+        {shows?.map(show => (
           <RecentEpisode key={show.id} show={show} />
         ))}
-    </Accordion>
-  </Box>
-);
+      </Accordion>
+    </Box>
+  );
+};
 
 export default ShowsWithRecentEpisodes;
