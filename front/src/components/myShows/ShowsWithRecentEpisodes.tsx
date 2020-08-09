@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from '@chakra-ui/core';
 import moment from 'moment';
+import { fallBackImage } from 'utils/constants';
 
 interface Props {
   shows: any[];
@@ -27,7 +28,7 @@ const RecentEpisode = ({ show }: { show: any }) => {
   } = show;
   const timeFromNow = moment(airDate).fromNow();
   const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
-  const posterSource = `https://image.tmdb.org/t/p/w185${posterPath}`;
+  const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   return (
     <AccordionItem>
@@ -58,7 +59,7 @@ const RecentEpisode = ({ show }: { show: any }) => {
         <Grid alignItems="center" gap={6} templateColumns="100px 1fr">
           <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
             <Box width="100px">
-              <Image borderRadius="6px" src={posterSource} />
+              <Image borderRadius="6px" fallbackSrc={fallBackImage} src={posterSource} />
             </Box>
           </Tooltip>
 
@@ -82,7 +83,7 @@ const RecentEpisode = ({ show }: { show: any }) => {
 const ShowsWithRecentEpisodes = ({ shows }: Props) => (
   <Box>
     <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
-      Recently Aired
+      Recent
     </Heading>
 
     <Accordion>

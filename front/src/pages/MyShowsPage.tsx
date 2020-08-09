@@ -20,8 +20,8 @@ const MyShows = () => {
   }, [dispatch, followedShows]);
 
   return (
-    <Box m="30px auto" p="0 20px" maxWidth="1400px">
-      <Grid gap={12} templateColumns="1fr 1fr">
+    <Box m="30px auto" p="0 40px" maxWidth="1400px">
+      <Grid gap="5rem" templateColumns="1fr 1fr">
         <ShowsWithUpcomingEpisodes shows={basicShowsInfo} />
         <ShowsWithRecentEpisodes shows={basicShowsInfo} />
       </Grid>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Badge, Box, Grid, Heading, Image, Tooltip } from '@chakra-ui/core';
+import { Box, Grid, Heading, Image, Tooltip } from '@chakra-ui/core';
+import { fallBackImage } from 'utils/constants';
 
 interface Props {
   showsInfo: any[];
@@ -14,13 +15,20 @@ const AllShows = ({ showsInfo }: Props) => (
     <Grid justifyContent="center" templateColumns="repeat(auto-fill, 300px)" gap={6}>
       {showsInfo?.map(show => {
         const { name, posterPath } = show;
-        const posterSource = `https://image.tmdb.org/t/p/w185${posterPath}`;
+        const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
         return (
-          <Grid borderWidth="1px" gap="19px" p={4} shadow="md" templateColumns="1fr 2fr">
+          <Grid
+            borderWidth="1px"
+            gap="19px"
+            key={show.id}
+            p={4}
+            shadow="md"
+            templateColumns="1fr 2fr"
+          >
             <Tooltip aria-label={name} label={name} placement="top" hasArrow>
               <Box>
-                <Image borderRadius="6px" src={posterSource} />
+                <Image borderRadius="6px" fallbackSrc={fallBackImage} src={posterSource} />
               </Box>
             </Tooltip>
 
