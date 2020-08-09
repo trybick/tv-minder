@@ -25,7 +25,7 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
     name: showName,
     posterPath,
   } = show;
-  const timeFromNow = moment(airDate).fromNow();
+  const timeFromNow = moment(airDate).toNow();
   const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
   const posterSource = `https://image.tmdb.org/t/p/w185${posterPath}`;
 
@@ -39,15 +39,15 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
           templateColumns="110px 120px auto"
           width="100%"
         >
-          <Badge variant="subtle" variantColor="red">
+          <Badge variant="subtle" variantColor="purple">
             {timeFromNow}
           </Badge>
 
-          <Text fontSize="sm" fontWeight="700" isTruncated>
+          <Text fontSize="sm" fontWeight="600" isTruncated>
             {seasonEpisodeNumber}
           </Text>
 
-          <Text fontSize="sm" fontWeight="700" isTruncated>
+          <Text fontSize="sm" fontWeight="600" isTruncated>
             {showName}
           </Text>
         </Grid>
@@ -86,9 +86,14 @@ const ShowsWithUpcomingEpisodes = ({ shows }: Props) => (
     </Heading>
 
     <Accordion>
-      {shows?.map(show => (
-        <UpcomingEpisode key={show.id} show={show} />
-      ))}
+      {shows
+        ?.filter(show => show.nextEpisodeForDisplay)
+        ?.sort((a, b) =>
+          moment(b.nextEpisodeForDisplay.airDate).diff(moment(a.nextEpisodeForDisplay.airDate))
+        )
+        ?.map(show => (
+          <UpcomingEpisode key={show.id} show={show} />
+        ))}
     </Accordion>
   </Box>
 );

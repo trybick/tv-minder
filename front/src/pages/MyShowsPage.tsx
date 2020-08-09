@@ -12,21 +12,22 @@ import AllShows from 'components/myShows/AllShows';
 const MyShows = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
-  const recentShows = useSelector(selectBasicShowInfoForDisplay);
-  console.log('recentShows:', recentShows);
+  const basicShowsInfo = useSelector(selectBasicShowInfoForDisplay);
+  console.log('basicShowsInfo:', basicShowsInfo);
 
   useEffect(() => {
     dispatch(requestBasicShowInfoAction());
   }, [dispatch, followedShows]);
 
   return (
-    <Grid gap={12} m="30px auto" p="0 20px" maxWidth="1400px" templateColumns="1fr 1fr">
-      <ShowsWithRecentEpisodes shows={recentShows} />
-      <ShowsWithUpcomingEpisodes shows={recentShows} />
+    <Box m="30px auto" p="0 20px" maxWidth="1400px">
+      <Grid gap={12} templateColumns="1fr 1fr">
+        <ShowsWithUpcomingEpisodes shows={basicShowsInfo} />
+        <ShowsWithRecentEpisodes shows={basicShowsInfo} />
+      </Grid>
 
-      {/* All shows will show up at bottom of page */}
-      {/* <AllShows showsInfo={showsInfo} /> */}
-    </Grid>
+      <AllShows showsInfo={basicShowsInfo} />
+    </Box>
   );
 };
 

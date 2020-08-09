@@ -43,11 +43,11 @@ const RecentEpisode = ({ show }: { show: any }) => {
             {timeFromNow}
           </Badge>
 
-          <Text fontSize="sm" fontWeight="700" isTruncated>
+          <Text fontSize="sm" fontWeight="600" isTruncated>
             {seasonEpisodeNumber}
           </Text>
 
-          <Text fontSize="sm" fontWeight="700" isTruncated>
+          <Text fontSize="sm" fontWeight="600" isTruncated>
             {showName}
           </Text>
         </Grid>
@@ -86,9 +86,12 @@ const ShowsWithRecentEpisodes = ({ shows }: Props) => (
     </Heading>
 
     <Accordion>
-      {shows?.map(show => (
-        <RecentEpisode key={show.id} show={show} />
-      ))}
+      {shows
+        ?.sort((a, b) => moment(b.lastAirDate).diff(moment(a.lastAirDate)))
+        ?.slice(0, 10)
+        ?.map(show => (
+          <RecentEpisode key={show.id} show={show} />
+        ))}
     </Accordion>
   </Box>
 );
