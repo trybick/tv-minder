@@ -1,6 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Grid, Heading, Image, Text, Tooltip } from '@chakra-ui/core';
+import {
+  Box,
+  Grid,
+  Heading,
+  Image,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Text,
+  Tooltip,
+} from '@chakra-ui/core';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaRegStar } from 'react-icons/fa';
+import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
 import { fallBackImage } from 'utils/constants';
 
@@ -35,9 +49,27 @@ const AllShows = () => {
               </Tooltip>
 
               <Box minWidth="0">
-                <Heading as="h4" fontSize="md" mb="10px" textAlign="center" isTruncated>
-                  {name}
-                </Heading>
+                <Box display="flex" justifyContent="space-between">
+                  <Heading as="h4" fontSize="md" mb="10px" textAlign="center" isTruncated>
+                    {name}
+                  </Heading>
+
+                  <Menu>
+                    <MenuButton>
+                      <Box as={BsThreeDotsVertical} size="19px" />
+                    </MenuButton>
+                    <MenuList placement="bottom-end">
+                      <MenuItem>
+                        <Box as={FaRegStar} mr="8px" size="19px" />
+                        Favorite
+                      </MenuItem>
+                      <MenuItem>
+                        <Box as={MdRemoveCircleOutline} mr="8px" size="19px" />
+                        Unfollow
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Box>
 
                 <Text fontSize="sm">{numSeasons} seasons</Text>
                 <Text fontSize="sm">{numEpisodes} episodes</Text>
