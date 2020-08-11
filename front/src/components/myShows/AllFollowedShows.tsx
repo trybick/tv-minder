@@ -17,6 +17,7 @@ import { FaRegStar } from 'react-icons/fa';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
 import { fallBackImage } from 'utils/constants';
+import { maybePluralize } from 'utils/formatting';
 
 const FollowedShow = ({ show }: { show: any }) => {
   const { name, numEpisodes, numSeasons, posterPath, status } = show;
@@ -53,8 +54,12 @@ const FollowedShow = ({ show }: { show: any }) => {
           </Menu>
         </Box>
 
-        <Text fontSize="sm">{numSeasons} seasons</Text>
-        <Text fontSize="sm">{numEpisodes} episodes</Text>
+        <Text fontSize="sm">
+          {numSeasons} {maybePluralize(numSeasons, 'season')}
+        </Text>
+        <Text fontSize="sm">
+          {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
+        </Text>
         <Text fontSize="sm">{status}</Text>
       </Box>
     </Grid>
@@ -63,7 +68,6 @@ const FollowedShow = ({ show }: { show: any }) => {
 
 const AllFollowedShows = () => {
   const shows = useSelector(selectBasicShowInfoForAllShows);
-  console.log('all shows:', shows);
 
   return (
     <Box mt="55px">
