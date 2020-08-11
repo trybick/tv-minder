@@ -6,6 +6,7 @@ import { fallBackImage } from 'utils/constants';
 
 const AllShows = () => {
   const shows = useSelector(selectBasicShowInfoForAllShows);
+  console.log('all shows:', shows);
 
   return (
     <Box mt="55px">

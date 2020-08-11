@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Box, Grid } from '@chakra-ui/core';
+import { Box, Flex, Grid } from '@chakra-ui/core';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
 import ShowsWithRecentEpisodes from 'components/myShows/ShowsWithRecentEpisodes';
 import ShowsWithUpcomingEpisodes from 'components/myShows/ShowsWithUpcomingEpisodes';
@@ -14,11 +14,11 @@ const MyShows = () => {
   }, [dispatch]);
 
   return (
-    <Box m="30px auto" p="0 40px" maxWidth="1400px">
-      <Grid gap="5rem" templateColumns="1fr 1fr">
+    <Box m="30px auto" p="0 40px">
+      <Flex direction={{ base: 'column', lg: 'row' }} justify="center">
         <ShowsWithUpcomingEpisodes />
         <ShowsWithRecentEpisodes />
-      </Grid>
+      </Flex>
 
       <AllShows />
     </Box>

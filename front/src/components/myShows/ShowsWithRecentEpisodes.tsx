@@ -54,7 +54,7 @@ const RecentEpisode = ({ show }: { show: any }) => {
       </AccordionHeader>
 
       <AccordionPanel pb={4}>
-        <Grid alignItems="center" gap={6} templateColumns="100px 1fr">
+        <Grid alignItems="center" gap={6} templateColumns="100px 300px">
           <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
             <Box width="100px">
               <Image borderRadius="6px" fallbackSrc={fallBackImage} src={posterSource} />
@@ -82,7 +82,11 @@ const ShowsWithRecentEpisodes = () => {
   const shows = useSelector(selectBasicShowInfoForRecentEpisodes);
 
   return (
-    <Box>
+    <Box
+      alignSelf={{ base: 'center', lg: 'unset' }}
+      ml={{ base: 0, lg: 50 }}
+      mt={{ base: 50, lg: 0 }}
+    >
       <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
         Recent
       </Heading>
