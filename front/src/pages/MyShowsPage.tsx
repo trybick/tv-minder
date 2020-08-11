@@ -4,7 +4,7 @@ import { Box, Flex, Grid } from '@chakra-ui/core';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
 import ShowsWithRecentEpisodes from 'components/myShows/ShowsWithRecentEpisodes';
 import ShowsWithUpcomingEpisodes from 'components/myShows/ShowsWithUpcomingEpisodes';
-import AllShows from 'components/myShows/AllShows';
+import AllShows from 'components/myShows/AllFollowedShows';
 
 const MyShows = () => {
   const dispatch = useDispatch();
