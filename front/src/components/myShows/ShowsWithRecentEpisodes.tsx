@@ -68,7 +68,11 @@ const RecentEpisode = ({ show }: { show: any }) => {
               </Heading>
             </Box>
 
-            <Box>
+            <Box mb="8px">
+              <Text fontSize="sm">{moment(airDate).format('dddd, MMMM Do')}</Text>
+            </Box>
+
+            <Box maxH="63px" overflow="hidden">
               <Text fontSize="sm">{overview}</Text>
             </Box>
           </Grid>
