@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Box, Flex, Grid } from '@chakra-ui/core';
+import { Box, Flex } from '@chakra-ui/core';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
 import ShowsWithRecentEpisodes from 'components/myShows/ShowsWithRecentEpisodes';
 import ShowsWithUpcomingEpisodes from 'components/myShows/ShowsWithUpcomingEpisodes';

@@ -32,7 +32,7 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
   const combinedData: { [key: number]: any } = {};
 
   // Get cached data and add to combinedData
-  const CACHE_DURATION_DAYS = 5;
+  const CACHE_DURATION_DAYS = 1;
   const cachedIds = cachedBasicShowInfo && Object.keys(cachedBasicShowInfo);
   const validCachedIds =
     cachedBasicShowInfo &&

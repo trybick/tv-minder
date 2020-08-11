@@ -46,7 +46,7 @@ const RecentEpisode = ({ show }: { show: any }) => {
             {seasonEpisodeNumber}
           </Text>
 
-          <Text fontSize="sm" fontWeight="600" isTruncated>
+          <Text fontSize="sm" fontWeight="600" mr="12px" isTruncated>
             {showName}
           </Text>
         </Grid>
@@ -90,8 +90,9 @@ const ShowsWithRecentEpisodes = () => {
       alignSelf={{ base: 'center', lg: 'unset' }}
       ml={{ base: 0, lg: 50 }}
       mt={{ base: 50, lg: 0 }}
+      width="530px"
     >
-      <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
+      <Heading as="h2" fontSize="xl" mb="14px" textAlign="center">
         Recent
       </Heading>
 

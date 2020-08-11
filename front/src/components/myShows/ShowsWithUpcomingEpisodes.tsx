@@ -20,11 +20,11 @@ import { fallBackImage } from 'utils/constants';
 
 const UpcomingEpisode = ({ show }: { show: any }) => {
   const {
-    lastEpisodeForDisplay: { airDate, episodeNumber, name, overview, seasonNumber },
+    nextEpisodeForDisplay: { airDate, episodeNumber, name, overview, seasonNumber },
     name: showName,
     posterPath,
   } = show;
-  const timeFromNow = moment(airDate).toNow();
+  const timeFromNow = moment(airDate).fromNow();
   const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
@@ -46,7 +46,7 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
             {seasonEpisodeNumber}
           </Text>
 
-          <Text fontSize="sm" fontWeight="600" isTruncated>
+          <Text fontSize="sm" fontWeight="600" mr="12px" isTruncated>
             {showName}
           </Text>
         </Grid>
@@ -86,8 +86,8 @@ const ShowsWithUpcomingEpisodes = () => {
   const shows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
 
   return (
-    <Box alignSelf={{ base: 'center', lg: 'unset' }} ml={{ base: 0, lg: 50 }}>
-      <Heading as="h2" fontSize="lg" mb="12px" textAlign="center">
+    <Box alignSelf={{ base: 'center', lg: 'unset' }} ml={{ base: 0, lg: 50 }} width="530px">
+      <Heading as="h2" fontSize="xl" mb="14px" textAlign="center">
         Upcoming
       </Heading>
 

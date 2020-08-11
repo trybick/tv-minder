@@ -71,13 +71,13 @@ const AllFollowedShows = () => {
 
   return (
     <Box mt="55px">
-      <Heading as="h2" fontSize="lg" mb="18px" textAlign="center">
+      <Heading as="h2" fontSize="xl" mb="18px" textAlign="center">
         Following
       </Heading>
 
       <Grid justifyContent="center" templateColumns="repeat(auto-fill, 400px)" gap={6}>
         {shows?.map(show => (
-          <FollowedShow show={show} />
+          <FollowedShow key={show.id} show={show} />
         ))}
       </Grid>
     </Box>
