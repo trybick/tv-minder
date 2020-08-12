@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import {
   Box,
   Grid,
@@ -16,12 +17,26 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaRegStar } from 'react-icons/fa';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
-import { fallBackImage } from 'utils/constants';
+import { removeFromFollowedShowsAction } from 'store/user/actions';
+import { API, fallBackImage } from 'utils/constants';
 import { maybePluralize } from 'utils/formatting';
 
 const FollowedShow = ({ show }: { show: any }) => {
-  const { name, numEpisodes, numSeasons, posterPath, status } = show;
+  const dispatch = useDispatch();
+  const { id: showId, name, numEpisodes, numSeasons, posterPath, status } = show;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
+
+  const onUnfollowShow = () => {
+    axios.delete(`${API.TV_MINDER}/follow`, {
+      data: {
+        showId,
+        token: localStorage.getItem('jwt'),
+      },
+      timeout: 8000,
+    });
+
+    dispatch(removeFromFollowedShowsAction(showId));
+  };
 
   return (
     <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 3fr">
@@ -46,7 +61,7 @@ const FollowedShow = ({ show }: { show: any }) => {
                 <Box as={FaRegStar} mr="8px" size="19px" />
                 Favorite
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={onUnfollowShow}>
                 <Box as={MdRemoveCircleOutline} mr="8px" size="19px" />
                 Unfollow
               </MenuItem>

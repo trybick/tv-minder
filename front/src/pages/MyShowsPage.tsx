@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Flex } from '@chakra-ui/core';
 import { requestBasicShowInfoAction } from 'store/tv/actions';
+import { selectFollowedShows } from 'store/user/selectors';
 import ShowsWithRecentEpisodes from 'components/myShows/ShowsWithRecentEpisodes';
 import ShowsWithUpcomingEpisodes from 'components/myShows/ShowsWithUpcomingEpisodes';
 import AllShows from 'components/myShows/AllFollowedShows';
 
 const MyShows = () => {
   const dispatch = useDispatch();
+  const followedShows = useSelector(selectFollowedShows);
 
   useEffect(() => {
     dispatch(requestBasicShowInfoAction());
-  }, [dispatch]);
+  }, [dispatch, followedShows]);
 
   return (
     <Box m="30px auto" p="0 40px">
