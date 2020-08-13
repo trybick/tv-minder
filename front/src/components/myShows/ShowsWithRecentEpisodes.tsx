@@ -24,7 +24,7 @@ const RecentEpisode = ({ show }: { show: any }) => {
     name: showName,
     posterPath,
   } = show;
-  const timeFromNow = moment(airDate).fromNow();
+  const timeFromNow = moment(airDate).add(1, 'days').fromNow();
   const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
