@@ -6,4 +6,4 @@ export const API = {
 
 export const emailRegex = /^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$/;
 
-export const fallBackImage = 'https://www.placecage.com/g/82/123';
+export const fallbackImage = 'https://www.placecage.com/g/82/123';

@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/core';
 import moment from 'moment';
 import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
-import { fallBackImage } from 'utils/constants';
+import { fallbackImage } from 'utils/constants';
 import { maybePluralize } from 'utils/formatting';
 
 const UpcomingEpisode = ({ show }: { show: any }) => {
@@ -75,7 +75,7 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
         <Grid alignItems="center" gap={6} templateColumns="100px 300px">
           <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
             <Box width="100px">
-              <Image borderRadius="6px" fallbackSrc={fallBackImage} src={posterSource} />
+              <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
             </Box>
           </Tooltip>
 

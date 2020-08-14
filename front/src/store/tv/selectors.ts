@@ -57,7 +57,7 @@ export const selectBasicShowInfoForDisplay = createSelector(
     })
 );
 
-// Shows sorted by most recently aired episodes
+// Sorted by most recently aired episodes
 export const selectBasicShowInfoForRecentEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
@@ -67,7 +67,7 @@ export const selectBasicShowInfoForRecentEpisodes = createSelector(
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
-// Shows sorted by upcoming episodes
+// Sorted by upcoming episodes
 export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
@@ -79,7 +79,7 @@ export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
-// Shows sorted alphabetically
+// Sorted by alphabetically
 export const selectBasicShowInfoForAllShows = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))

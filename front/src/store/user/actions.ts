@@ -48,6 +48,18 @@ export const setIsLoggedInAction = (): AppThunk => dispatch => {
 };
 
 export const removeFromFollowedShowsAction = (showId: number): AppThunk => dispatch => {
+  axios
+    .delete(`${API.TV_MINDER}/follow`, {
+      data: {
+        showId,
+        token: localStorage.getItem('jwt'),
+      },
+      timeout: 8000,
+    })
+    .catch(error => {
+      handleErrors(error);
+    });
+
   dispatch({
     type: REMOVE_FROM_FOLLOWED_SHOWS,
     payload: showId,

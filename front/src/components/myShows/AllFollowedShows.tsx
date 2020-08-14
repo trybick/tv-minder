@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import {
   Box,
   Grid,
@@ -18,7 +17,7 @@ import { FaRegStar } from 'react-icons/fa';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
-import { API, fallBackImage } from 'utils/constants';
+import { fallbackImage } from 'utils/constants';
 import { maybePluralize } from 'utils/formatting';
 
 const FollowedShow = ({ show }: { show: any }) => {
@@ -27,14 +26,6 @@ const FollowedShow = ({ show }: { show: any }) => {
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   const onUnfollowShow = () => {
-    axios.delete(`${API.TV_MINDER}/follow`, {
-      data: {
-        showId,
-        token: localStorage.getItem('jwt'),
-      },
-      timeout: 8000,
-    });
-
     dispatch(removeFromFollowedShowsAction(showId));
   };
 
@@ -42,7 +33,7 @@ const FollowedShow = ({ show }: { show: any }) => {
     <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 3fr">
       <Tooltip aria-label={name} label={name} placement="top" hasArrow>
         <Box>
-          <Image borderRadius="6px" fallbackSrc={fallBackImage} src={posterSource} />
+          <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
         </Box>
       </Tooltip>
 

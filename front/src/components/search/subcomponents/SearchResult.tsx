@@ -70,22 +70,9 @@ const SearchResult = ({
 
   function onUnFollowShow() {
     setIsLoading(true);
-    axios
-      .delete(`${API.TV_MINDER}/follow`, {
-        data: {
-          showId,
-          token: localStorage.getItem('jwt'),
-        },
-        timeout: 8000,
-      })
-      .then(() => {
-        setIsLoading(false);
-        removeFromFollowedShows(showId);
-      })
-      .catch(error => {
-        handleErrors(error);
-        setIsLoading(false);
-      });
+
+    removeFromFollowedShows(showId);
+    setIsLoading(false);
   }
 
   function onLocalSaveShow() {
