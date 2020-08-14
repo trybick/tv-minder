@@ -14,6 +14,7 @@ import {
 } from 'store/user/selectors';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
+import { maybePluralize } from 'utils/formatting';
 import SearchResult from './SearchResult';
 
 interface OwnProps {
@@ -45,8 +46,7 @@ const SearchResults = ({
   shows,
   totalResults,
 }: Props) => {
-  const casedMatches = totalResults === 1 ? 'match' : 'matches';
-  const totalMatchesText = `${totalResults} ${casedMatches} found`;
+  const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'match', 'es')} found`;
 
   return (
     <Box>
