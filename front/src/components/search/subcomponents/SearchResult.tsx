@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
-import { API } from 'utils/constants';
-import handleErrors from 'utils/handleErrors';
 
 interface Props {
   followedShows: ID[];
@@ -45,36 +42,10 @@ const SearchResult = ({
 
   function onFollowShow() {
     setIsLoading(true);
-    axios
-      .post(
-        `${API.TV_MINDER}/follow`,
-        {
-          showId,
-          token: localStorage.getItem('jwt'),
-        },
-        { timeout: 8000 }
-      )
-      .then(() => {
-        setIsLoading(false);
-        saveToFollowedShows(showId);
-      })
-      .catch(error => {
-        handleErrors(error);
-        setIsLoading(false);
-      });
-  }
-
-  function onUnFollowShow() {
-    setIsLoading(true);
-
-    removeFromFollowedShows(showId);
-    setIsLoading(false);
-  }
-
-  function onLocalSaveShow() {
     saveToFollowedShows(showId);
+    setIsLoading(false);
 
-    if (!hasLocalWarningToastBeenShown) {
+    if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
       toast({
         title: `Saving followed shows`,
@@ -85,6 +56,12 @@ const SearchResult = ({
         position: 'bottom-right',
       });
     }
+  }
+
+  function onUnFollowShow() {
+    setIsLoading(true);
+    removeFromFollowedShows(showId);
+    setIsLoading(false);
   }
 
   return (
@@ -111,7 +88,7 @@ const SearchResult = ({
             isLoading={isLoading}
             leftIcon="small-add"
             minW="88px"
-            onClick={isLoggedIn ? onFollowShow : onLocalSaveShow}
+            onClick={onFollowShow}
             size="sm"
             variant="outline"
             variantColor="teal"
