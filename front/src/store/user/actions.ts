@@ -76,22 +76,25 @@ export const removeFromFollowedShowsAction = (showId: number): AppThunk => (disp
   }
 };
 
-export const saveToFollowedShowsAction = (showId: number): AppThunk => dispatch => {
-  dispatch({
-    type: SAVE_TO_FOLLOWED_SHOWS,
-    payload: showId,
-  });
+// Add show to state
+export const saveToFollowedShowsAction = (showId: number): AppThunk => (dispatch, getState) => {
+  const { isLoggedIn } = getState().user;
+
+  if (isLoggedIn) {
+    dispatch({
+      type: SAVE_TO_FOLLOWED_SHOWS,
+      payload: showId,
+    });
+  } else {
+    dispatch({
+      type: UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
+      payload: showId,
+    });
+  }
 };
 
 export const unregisteredClearFollowedShowsAction = (): AppThunk => dispatch => {
   dispatch({
     type: UNREGISTERED_CLEAR_FOLLOWED_SHOWS,
-  });
-};
-
-export const unregisteredSaveToFollowedShowsAction = (showId: number): AppThunk => dispatch => {
-  dispatch({
-    type: UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
-    payload: showId,
   });
 };

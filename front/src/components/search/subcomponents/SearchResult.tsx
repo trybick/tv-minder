@@ -15,7 +15,6 @@ interface Props {
   removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: number) => void;
-  unregisteredSaveToFollowedShows: (showId: number) => void;
 }
 
 const SearchResult = ({
@@ -26,7 +25,6 @@ const SearchResult = ({
   saveToFollowedShows,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
-  unregisteredSaveToFollowedShows,
 }: Props) => {
   const [isFollowed, setIsFollowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +72,7 @@ const SearchResult = ({
   }
 
   function onLocalSaveShow() {
-    unregisteredSaveToFollowedShows(showId);
+    saveToFollowedShows(showId);
 
     if (!hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();

@@ -6,7 +6,6 @@ import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
   setHasLocalWarningToastBeenShownAction,
-  unregisteredSaveToFollowedShowsAction,
 } from 'store/user/actions';
 import {
   selectFollowedShows,
@@ -32,7 +31,6 @@ interface DispatchProps {
   removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: number) => void;
-  unregisteredSaveToFollowedShows: (showId: number) => void;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -46,7 +44,6 @@ const SearchResults = ({
   setHasLocalWarningToastBeenShown,
   shows,
   totalResults,
-  unregisteredSaveToFollowedShows,
 }: Props) => {
   const casedMatches = totalResults === 1 ? 'match' : 'matches';
   const totalMatchesText = `${totalResults} ${casedMatches} found`;
@@ -70,7 +67,6 @@ const SearchResults = ({
             saveToFollowedShows={saveToFollowedShows}
             setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
             showToDisplay={show}
-            unregisteredSaveToFollowedShows={unregisteredSaveToFollowedShows}
           />
         ))}
       </Stack>
@@ -88,8 +84,6 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   removeFromFollowedShows: (showId: number) => dispatch(removeFromFollowedShowsAction(showId)),
   saveToFollowedShows: (showId: number) => dispatch(saveToFollowedShowsAction(showId)),
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
-  unregisteredSaveToFollowedShows: (showId: number) =>
-    dispatch(unregisteredSaveToFollowedShowsAction(showId)),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, AppState>(
