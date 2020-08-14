@@ -17,6 +17,7 @@ import {
 import moment from 'moment';
 import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
 import { fallBackImage } from 'utils/constants';
+import { maybePluralize } from 'utils/formatting';
 
 const UpcomingEpisode = ({ show }: { show: any }) => {
   const {
@@ -24,9 +25,26 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
     name: showName,
     posterPath,
   } = show;
-  const timeFromNow = moment(airDate).add(1, 'days').fromNow();
   const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
+
+  // Moment's 'timeFromNow' would be nice here, but recent shows display as 'X hours ago'
+  const getTimeFromNow = () => {
+    let timeFromNow;
+    const daysDiff = moment(airDate).diff(moment().startOf('day'), 'days');
+    const weeksDiff = moment.duration(daysDiff, 'days').weeks();
+    const monthsDiff = moment.duration(daysDiff, 'days').months();
+
+    if (daysDiff < 7) {
+      timeFromNow = ` In ${daysDiff} ${maybePluralize(daysDiff, 'day')}`;
+    } else if (daysDiff < 28) {
+      timeFromNow = `In ${weeksDiff} ${maybePluralize(weeksDiff, 'week')}`;
+    } else {
+      timeFromNow = `In ${monthsDiff} ${maybePluralize(monthsDiff, 'month')}`;
+    }
+
+    return timeFromNow;
+  };
 
   return (
     <AccordionItem>
@@ -39,7 +57,7 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
           width="100%"
         >
           <Badge variant="subtle" variantColor="purple">
-            {timeFromNow}
+            {getTimeFromNow()}
           </Badge>
 
           <Text fontSize="sm" fontWeight="600" isTruncated>
