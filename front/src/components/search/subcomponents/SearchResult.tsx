@@ -15,7 +15,6 @@ interface Props {
   removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: number) => void;
-  unregisteredRemoveFromFollowedShows: (showId: number) => void;
   unregisteredSaveToFollowedShows: (showId: number) => void;
 }
 
@@ -27,7 +26,6 @@ const SearchResult = ({
   saveToFollowedShows,
   setHasLocalWarningToastBeenShown,
   showToDisplay,
-  unregisteredRemoveFromFollowedShows,
   unregisteredSaveToFollowedShows,
 }: Props) => {
   const [isFollowed, setIsFollowed] = useState(false);
@@ -91,10 +89,6 @@ const SearchResult = ({
     }
   }
 
-  function onLocalUnsaveShow() {
-    unregisteredRemoveFromFollowedShows(showId);
-  }
-
   return (
     <Box p={3} mb={4} shadow="md" borderWidth="1px">
       <Flex justify="space-between">
@@ -107,7 +101,7 @@ const SearchResult = ({
             isLoading={isLoading}
             leftIcon="check"
             minW="88px"
-            onClick={isLoggedIn ? onUnFollowShow : onLocalUnsaveShow}
+            onClick={onUnFollowShow}
             size="sm"
             variant="solid"
             variantColor="teal"

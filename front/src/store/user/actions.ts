@@ -47,23 +47,33 @@ export const setIsLoggedInAction = (): AppThunk => dispatch => {
   });
 };
 
-export const removeFromFollowedShowsAction = (showId: number): AppThunk => dispatch => {
-  axios
-    .delete(`${API.TV_MINDER}/follow`, {
-      data: {
-        showId,
-        token: localStorage.getItem('jwt'),
-      },
-      timeout: 8000,
-    })
-    .catch(error => {
-      handleErrors(error);
-    });
+// If logged in, remove show from state and update API. Else just remove from state
+export const removeFromFollowedShowsAction = (showId: number): AppThunk => (dispatch, getState) => {
+  const { isLoggedIn } = getState().user;
 
-  dispatch({
-    type: REMOVE_FROM_FOLLOWED_SHOWS,
-    payload: showId,
-  });
+  if (isLoggedIn) {
+    axios
+      .delete(`${API.TV_MINDER}/follow`, {
+        data: {
+          showId,
+          token: localStorage.getItem('jwt'),
+        },
+        timeout: 8000,
+      })
+      .catch(error => {
+        handleErrors(error);
+      });
+
+    dispatch({
+      type: REMOVE_FROM_FOLLOWED_SHOWS,
+      payload: showId,
+    });
+  } else {
+    dispatch({
+      type: UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
+      payload: showId,
+    });
+  }
 };
 
 export const saveToFollowedShowsAction = (showId: number): AppThunk => dispatch => {
@@ -82,13 +92,6 @@ export const unregisteredClearFollowedShowsAction = (): AppThunk => dispatch => 
 export const unregisteredSaveToFollowedShowsAction = (showId: number): AppThunk => dispatch => {
   dispatch({
     type: UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
-    payload: showId,
-  });
-};
-
-export const unregisteredRemoveFromFollowedShowsAction = (showId: number): AppThunk => dispatch => {
-  dispatch({
-    type: UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
     payload: showId,
   });
 };
