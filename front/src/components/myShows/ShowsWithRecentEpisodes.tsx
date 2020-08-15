@@ -118,9 +118,17 @@ const ShowsWithRecentEpisodes = () => {
         Recent
       </Heading>
 
-      <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
-        {createAccordionItems(shows)}
-      </Accordion>
+      {shows.length ? (
+        <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
+          {createAccordionItems(shows)}
+        </Accordion>
+      ) : (
+        <Box>
+          <Text fontSize="sm" textAlign="center">
+            Currently no recent shows
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -113,9 +113,17 @@ const ShowsWithUpcomingEpisodes = () => {
         Upcoming
       </Heading>
 
-      <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
-        {createAccordionItems(shows)}
-      </Accordion>
+      {shows.length ? (
+        <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
+          {createAccordionItems(shows)}
+        </Accordion>
+      ) : (
+        <Box>
+          <Text fontSize="sm" textAlign="center">
+            Currently no upcoming shows
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 };

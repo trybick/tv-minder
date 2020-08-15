@@ -81,11 +81,19 @@ const AllFollowedShows = () => {
         Following
       </Heading>
 
-      <Grid justifyContent="center" templateColumns="repeat(auto-fill, 400px)" gap={6}>
-        {shows?.map(show => (
-          <FollowedShow key={show.id} show={show} />
-        ))}
-      </Grid>
+      {shows.length ? (
+        <Grid justifyContent="center" templateColumns="repeat(auto-fill, 400px)" gap={6}>
+          {shows.map(show => (
+            <FollowedShow key={show.id} show={show} />
+          ))}
+        </Grid>
+      ) : (
+        <Box>
+          <Text fontSize="sm" textAlign="center">
+            Start following your favorite shows to track them here!
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 };
