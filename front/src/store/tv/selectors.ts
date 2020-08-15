@@ -57,29 +57,33 @@ export const selectBasicShowInfoForDisplay = createSelector(
     })
 );
 
-// Sorted by most recently aired episodes
+// Sort by most recently aired episodes, within past 90 days
 export const selectBasicShowInfoForRecentEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
     showsInfo
-      ?.filter(show => show.lastEpisodeForDisplay)
+      ?.filter(show => show.lastAirDate && 90 > moment(moment()).diff(show.lastAirDate, 'days'))
       ?.sort((a, b) => moment(b.lastAirDate).diff(moment(a.lastAirDate)))
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
-// Sorted by upcoming episodes
+// Sort by upcoming episode date, within next 90 days
 export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
     showsInfo
-      ?.filter(show => show.nextEpisodeForDisplay)
+      ?.filter(
+        show =>
+          show.nextEpisodeForDisplay?.airDate &&
+          90 > moment(moment()).diff(show.nextEpisodeForDisplay.airDate, 'days')
+      )
       ?.sort((a, b) =>
         moment(a.nextEpisodeForDisplay.airDate).diff(moment(b.nextEpisodeForDisplay.airDate))
       )
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
-// Sorted by alphabetically
+// Sort alphabetically
 export const selectBasicShowInfoForAllShows = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))

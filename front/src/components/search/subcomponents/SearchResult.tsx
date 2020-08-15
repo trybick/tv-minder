@@ -51,7 +51,7 @@ const SearchResult = ({
         title: `Saving followed shows`,
         description: `Be sure to login to save permanently`,
         status: 'warning',
-        duration: 8000,
+        duration: 7000,
         isClosable: true,
         position: 'bottom-right',
       });
