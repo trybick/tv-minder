@@ -105,7 +105,7 @@ const createAccordionItems = (shows: any) =>
   });
 
 const ShowsWithUpcomingEpisodes = () => {
-  const shows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
+  const upcomingShows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
 
   return (
     <Box alignSelf={{ base: 'center', lg: 'unset' }} ml={{ base: 0, lg: 50 }} width="530px">
@@ -113,9 +113,9 @@ const ShowsWithUpcomingEpisodes = () => {
         Upcoming
       </Heading>
 
-      {shows.length ? (
+      {upcomingShows.length ? (
         <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
-          {createAccordionItems(shows)}
+          {createAccordionItems(upcomingShows)}
         </Accordion>
       ) : (
         <Box>

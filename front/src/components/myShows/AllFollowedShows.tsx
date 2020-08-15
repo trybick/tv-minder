@@ -73,7 +73,7 @@ const FollowedShow = ({ show }: { show: any }) => {
 };
 
 const AllFollowedShows = () => {
-  const shows = useSelector(selectBasicShowInfoForAllShows);
+  const allShows = useSelector(selectBasicShowInfoForAllShows);
 
   return (
     <Box mt="55px">
@@ -81,9 +81,9 @@ const AllFollowedShows = () => {
         Following
       </Heading>
 
-      {shows.length ? (
+      {allShows.length ? (
         <Grid justifyContent="center" templateColumns="repeat(auto-fill, 400px)" gap={6}>
-          {shows.map(show => (
+          {allShows.map(show => (
             <FollowedShow key={show.id} show={show} />
           ))}
         </Grid>

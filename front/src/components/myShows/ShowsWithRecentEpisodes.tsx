@@ -105,7 +105,7 @@ const createAccordionItems = (shows: any) =>
   });
 
 const ShowsWithRecentEpisodes = () => {
-  const shows = useSelector(selectBasicShowInfoForRecentEpisodes);
+  const recentShows = useSelector(selectBasicShowInfoForRecentEpisodes);
 
   return (
     <Box
@@ -118,9 +118,9 @@ const ShowsWithRecentEpisodes = () => {
         Recent
       </Heading>
 
-      {shows.length ? (
+      {recentShows.length ? (
         <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
-          {createAccordionItems(shows)}
+          {createAccordionItems(recentShows)}
         </Accordion>
       ) : (
         <Box>
