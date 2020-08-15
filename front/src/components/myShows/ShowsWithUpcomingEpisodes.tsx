@@ -35,8 +35,10 @@ const UpcomingEpisode = ({ show }: { show: any }) => {
     const weeksDiff = moment.duration(daysDiff, 'days').weeks();
     const monthsDiff = moment.duration(daysDiff, 'days').months();
 
-    if (daysDiff < 7) {
-      timeFromNow = ` In ${daysDiff} ${maybePluralize(daysDiff, 'day')}`;
+    if (daysDiff === 0) {
+      timeFromNow = 'Today';
+    } else if (daysDiff < 7) {
+      timeFromNow = `In ${daysDiff} ${maybePluralize(daysDiff, 'day')}`;
     } else if (daysDiff < 28) {
       timeFromNow = `In ${weeksDiff} ${maybePluralize(weeksDiff, 'week')}`;
     } else {

@@ -35,7 +35,9 @@ const RecentEpisode = ({ show }: { show: any }) => {
     const weeksDiff = moment.duration(daysDiff, 'days').weeks();
     const monthsDiff = moment.duration(daysDiff, 'days').months();
 
-    if (daysDiff < 7) {
+    if (daysDiff === 1) {
+      timeFromNow = 'Yesterday';
+    } else if (daysDiff < 7) {
       timeFromNow = `${daysDiff} ${maybePluralize(daysDiff, 'day')} ago`;
     } else if (daysDiff < 28) {
       timeFromNow = `${weeksDiff} ${maybePluralize(weeksDiff, 'week')} ago`;
