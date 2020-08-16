@@ -13,7 +13,6 @@ import {
   Tooltip,
 } from '@chakra-ui/core';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaRegStar } from 'react-icons/fa';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
@@ -48,10 +47,6 @@ const FollowedShow = ({ show }: { show: any }) => {
               <Box as={BsThreeDotsVertical} size="19px" />
             </MenuButton>
             <MenuList placement="bottom-end">
-              <MenuItem>
-                <Box as={FaRegStar} mr="8px" size="19px" />
-                Favorite
-              </MenuItem>
               <MenuItem onClick={onUnfollowShow}>
                 <Box as={MdRemoveCircleOutline} mr="8px" size="19px" />
                 Unfollow

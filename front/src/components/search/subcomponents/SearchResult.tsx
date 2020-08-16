@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Box, Button, Flex, Heading, Text, useToast } from '@chakra-ui/core';
+import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '@chakra-ui/core';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
+import { fallbackImage } from 'utils/constants';
 
 interface Props {
   followedShows: ID[];
@@ -27,10 +28,18 @@ const SearchResult = ({
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const { first_air_date: firstAirDate, id: showId, name, popularity } = showToDisplay;
+  const {
+    first_air_date: firstAirDate,
+    id: showId,
+    name,
+    popularity,
+    poster_path: posterPath,
+  } = showToDisplay;
+  console.log('showToDisplay:', showToDisplay);
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
+  const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   useEffect(() => {
     if (followedShows.includes(showId)) {
@@ -66,48 +75,57 @@ const SearchResult = ({
 
   return (
     <Box p={3} mb={4} shadow="md" borderWidth="1px">
-      <Flex justify="space-between">
-        <Heading mr="10px" size="md" isTruncated>
-          {name}
-        </Heading>
+      <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
+        <Box width="50px">
+          <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
+        </Box>
 
-        {isFollowed ? (
-          <Button
-            isLoading={isLoading}
-            leftIcon="check"
-            minW="88px"
-            onClick={onUnFollowShow}
-            size="sm"
-            variant="solid"
-            variantColor="teal"
-          >
-            Followed
-          </Button>
-        ) : (
-          <Button
-            isLoading={isLoading}
-            leftIcon="small-add"
-            minW="88px"
-            onClick={onFollowShow}
-            size="sm"
-            variant="outline"
-            variantColor="teal"
-          >
-            Follow
-          </Button>
-        )}
-      </Flex>
+        <Box>
+          <Flex justify="space-between">
+            <Heading maxW="300px" mr="10px" size="md" isTruncated>
+              {name}
+            </Heading>
 
-      <Flex mt="6px">
-        <Text fontSize=".83rem">{yearForDisplay}</Text>
-        {popularityForDisplay && (
-          <Flex ml="6px" align="center">
-            <Badge variant="subtle" color="green.400">
-              {popularityForDisplay}% watching now
-            </Badge>
+            {isFollowed ? (
+              <Button
+                isLoading={isLoading}
+                leftIcon="check"
+                minW="88px"
+                onClick={onUnFollowShow}
+                size="sm"
+                variant="solid"
+                variantColor="teal"
+              >
+                Followed
+              </Button>
+            ) : (
+              <Button
+                isLoading={isLoading}
+                leftIcon="small-add"
+                minW="88px"
+                onClick={onFollowShow}
+                size="sm"
+                variant="outline"
+                variantColor="teal"
+              >
+                Follow
+              </Button>
+            )}
           </Flex>
-        )}
-      </Flex>
+
+          <Flex mt="6px">
+            <Text fontSize=".9rem">{yearForDisplay}</Text>
+
+            {popularityForDisplay && (
+              <Flex ml="10px" align="center">
+                <Badge variant="subtle" color="green.400">
+                  {popularityForDisplay}% watching now
+                </Badge>
+              </Flex>
+            )}
+          </Flex>
+        </Box>
+      </Grid>
     </Box>
   );
 };
