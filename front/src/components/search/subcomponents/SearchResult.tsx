@@ -80,9 +80,9 @@ const SearchResult = ({
           <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
         </Box>
 
-        <Box>
+        <Box minW="0">
           <Flex justify="space-between">
-            <Heading maxW="300px" mr="10px" size="md" isTruncated>
+            <Heading mr="10px" size="md" isTruncated>
               {name}
             </Heading>
 
