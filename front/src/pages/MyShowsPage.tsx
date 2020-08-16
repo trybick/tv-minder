@@ -16,14 +16,16 @@ const MyShows = () => {
   }, [dispatch, followedShows]);
 
   return (
-    <Box m="30px auto" p="0 40px">
-      <Flex direction={{ base: 'column', lg: 'row' }} justify="center">
-        <ShowsWithUpcomingEpisodes />
-        <ShowsWithRecentEpisodes />
-      </Flex>
+    <>
+      <Box m="30px auto" p="0 40px">
+        <Flex direction={{ base: 'column', lg: 'row' }} justify="center">
+          <ShowsWithUpcomingEpisodes />
+          <ShowsWithRecentEpisodes />
+        </Flex>
+      </Box>
 
       <AllShows />
-    </Box>
+    </>
   );
 };
 
