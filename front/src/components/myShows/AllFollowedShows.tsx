@@ -71,7 +71,7 @@ const AllFollowedShows = () => {
   const allShows = useSelector(selectBasicShowInfoForAllShows);
 
   return (
-    <Box mt="55px">
+    <Box mb="25px" mt="55px">
       <Heading as="h2" fontSize="xl" mb="18px" textAlign="center">
         Following
       </Heading>

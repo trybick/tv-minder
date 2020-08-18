@@ -35,7 +35,6 @@ const SearchResult = ({
     popularity,
     poster_path: posterPath,
   } = showToDisplay;
-  console.log('showToDisplay:', showToDisplay);
   const yearForDisplay = firstAirDate?.substr(0, 4);
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');

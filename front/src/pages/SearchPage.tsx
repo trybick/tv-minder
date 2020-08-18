@@ -87,7 +87,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
   };
 
   return (
-    <Box>
+    <Box mb="25px">
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

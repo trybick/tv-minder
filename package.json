@@ -17,8 +17,8 @@
   "homepage": "https://github.com/trybick/tv-minder#readme",
   "scripts": {
     "postinstall": "(cd api && yarn); (cd front && yarn);",
-    "start": "yarn --cwd front start",
     "serve": "yarn --cwd api serve",
-    "serve-stop": "yarn --cwd api serve-stop"
+    "serve-stop": "yarn --cwd api serve-stop",
+    "start": "yarn --cwd front start"
   }
 }
