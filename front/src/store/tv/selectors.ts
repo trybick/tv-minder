@@ -52,7 +52,7 @@ export const selectBasicShowInfoForDisplay = createSelector(
         numEpisodes,
         numSeasons,
         posterPath,
-        status,
+        status: status === 'Returning Series' ? 'Returning' : status,
       };
     })
 );

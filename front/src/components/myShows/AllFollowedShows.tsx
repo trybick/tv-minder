@@ -21,7 +21,7 @@ import { maybePluralize } from 'utils/formatting';
 
 const FollowedShow = ({ show }: { show: any }) => {
   const dispatch = useDispatch();
-  const { id: showId, name, numEpisodes, numSeasons, posterPath, status } = show;
+  const { id: showId, name, network, numEpisodes, numSeasons, posterPath, status } = show;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   const onUnfollowShow = () => {
@@ -38,7 +38,7 @@ const FollowedShow = ({ show }: { show: any }) => {
 
       <Box minWidth="0">
         <Box display="flex" justifyContent="space-between">
-          <Heading as="h4" fontSize="md" mb="10px" textAlign="center" isTruncated>
+          <Heading as="h4" fontSize="lg" mb="6px" textAlign="center" isTruncated>
             {name}
           </Heading>
 
@@ -55,13 +55,16 @@ const FollowedShow = ({ show }: { show: any }) => {
           </Menu>
         </Box>
 
+        <Text fontSize="sm" fontWeight="400" mb="12px">
+          {network.name} | {status}
+        </Text>
+
         <Text fontSize="sm">
           {numSeasons} {maybePluralize(numSeasons, 'season')}
         </Text>
         <Text fontSize="sm">
           {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
         </Text>
-        <Text fontSize="sm">{status}</Text>
       </Box>
     </Grid>
   );
