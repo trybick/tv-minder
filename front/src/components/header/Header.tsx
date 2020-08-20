@@ -7,6 +7,7 @@ import {
   Divider,
   Flex,
   Heading,
+  Image,
   Menu,
   MenuButton,
   MenuList,
@@ -23,6 +24,7 @@ import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
+import logo from '../../images/tv-64-black.png';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -105,7 +107,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         bg="white"
         color="black"
         justify="space-between"
-        padding="1.2rem 1.2rem 0"
+        padding="1.2rem 1.6rem 0"
         ref={wrapperRef}
         wrap="wrap"
       >
@@ -117,12 +119,13 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
               display="inline"
               fontSize="1rem"
               fontWeight="600"
+              mr="8px"
               size="md"
             >
               TV Minder
             </Heading>
             {/* 'Beta' Badge - position absolute to avoid pushing NavLinks to right */}
-            <Badge
+            {/* <Badge
               fontSize="10.5px"
               left="102px"
               position="absolute"
@@ -131,7 +134,9 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
               variantColor="green"
             >
               Beta
-            </Badge>
+            </Badge> */}
+
+            <Image display="inline" src={logo} verticalAlign="text-bottom" width="20px" />
           </Link>
         </Flex>
 
@@ -168,8 +173,8 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
                 <Menu>
-                  <MenuButton mr="6px">
-                    <Box as={IoMdNotifications} size="20px" />
+                  <MenuButton mr="12px">
+                    <Box as={IoMdNotifications} size="21px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Notifications">
@@ -180,7 +185,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
 
                 <Menu>
                   <MenuButton>
-                    <Box as={FaUser} size="17px" />
+                    <Box as={FaUser} size="18px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Options">
