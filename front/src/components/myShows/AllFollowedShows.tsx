@@ -29,11 +29,9 @@ const FollowedShow = ({ show }: { show: any }) => {
   };
 
   return (
-    <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 3fr">
+    <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 2.65fr">
       <Tooltip aria-label={name} label={name} placement="top" hasArrow>
-        <Box>
-          <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
-        </Box>
+        <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
       </Tooltip>
 
       <Box minWidth="0">
@@ -55,7 +53,7 @@ const FollowedShow = ({ show }: { show: any }) => {
           </Menu>
         </Box>
 
-        <Text fontSize="sm" fontWeight="400" mb="12px">
+        <Text fontSize="sm" fontWeight="400" mb={{ base: '5px', md: '8px' }}>
           {network.name} | {status}
         </Text>
 
@@ -74,13 +72,17 @@ const AllFollowedShows = () => {
   const allShows = useSelector(selectBasicShowInfoForAllShows);
 
   return (
-    <Box mb="25px" mt="55px">
+    <Box mb="25px" mt="55px" p="0 10px">
       <Heading as="h2" fontSize="xl" mb="18px" textAlign="center">
         Following
       </Heading>
 
       {allShows.length ? (
-        <Grid justifyContent="center" templateColumns="repeat(auto-fill, 400px)" gap={6}>
+        <Grid
+          justifyContent="center"
+          gap={6}
+          templateColumns={{ base: 'repeat(auto-fill, 300px)', md: 'repeat(auto-fill, 400px)' }}
+        >
           {allShows.map(show => (
             <FollowedShow key={show.id} show={show} />
           ))}
