@@ -57,7 +57,7 @@ const createAccordionItems = (shows: any) =>
             alignItems="center"
             gap={3}
             justifyContent="start"
-            templateColumns="110px 120px auto"
+            templateColumns={{ base: '110px 70px auto', xl: '110px 120px auto' }}
             width="100%"
           >
             <Badge variant="subtle" variantColor="purple">
@@ -108,7 +108,11 @@ const ShowsWithUpcomingEpisodes = () => {
   const upcomingShows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
 
   return (
-    <Box alignSelf={{ base: 'center', xl: 'unset' }} ml={{ base: 0, xl: 50 }} width="530px">
+    <Box
+      alignSelf={{ base: 'center', xl: 'unset' }}
+      ml={{ base: 0, xl: 50 }}
+      width={{ base: 350, lg: 530 }}
+    >
       <Heading as="h2" fontSize="xl" mb="14px" textAlign="center">
         Upcoming
       </Heading>

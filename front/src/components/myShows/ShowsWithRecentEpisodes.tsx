@@ -57,7 +57,7 @@ const createAccordionItems = (shows: any) =>
             alignItems="center"
             gap={3}
             justifyContent="start"
-            templateColumns="110px 120px auto"
+            templateColumns={{ base: '110px 70px auto', xl: '110px 120px auto' }}
             width="100%"
           >
             <Badge variant="subtle" variantColor="red">
@@ -112,7 +112,7 @@ const ShowsWithRecentEpisodes = () => {
       alignSelf={{ base: 'center', xl: 'unset' }}
       ml={{ base: 0, xl: 50 }}
       mt={{ base: 50, xl: 0 }}
-      width="530px"
+      width={{ base: 350, lg: 530 }}
     >
       <Heading as="h2" fontSize="xl" mb="14px" textAlign="center">
         Recent

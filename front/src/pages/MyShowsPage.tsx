@@ -17,7 +17,7 @@ const MyShows = () => {
 
   return (
     <>
-      <Box m="30px auto" p="0 40px">
+      <Box m="30px auto" p={{ base: '0 10px', xl: '0 40px' }}>
         <Flex direction={{ base: 'column', xl: 'row' }} justify="center">
           <ShowsWithUpcomingEpisodes />
           <ShowsWithRecentEpisodes />
