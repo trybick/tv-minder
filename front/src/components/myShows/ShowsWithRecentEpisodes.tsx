@@ -109,9 +109,9 @@ const ShowsWithRecentEpisodes = () => {
 
   return (
     <Box
-      alignSelf={{ base: 'center', lg: 'unset' }}
-      ml={{ base: 0, lg: 50 }}
-      mt={{ base: 50, lg: 0 }}
+      alignSelf={{ base: 'center', xl: 'unset' }}
+      ml={{ base: 0, xl: 50 }}
+      mt={{ base: 50, xl: 0 }}
       width="530px"
     >
       <Heading as="h2" fontSize="xl" mb="14px" textAlign="center">

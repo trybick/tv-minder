@@ -108,7 +108,7 @@ const ShowsWithUpcomingEpisodes = () => {
   const upcomingShows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
 
   return (
-    <Box alignSelf={{ base: 'center', lg: 'unset' }} ml={{ base: 0, lg: 50 }} width="530px">
+    <Box alignSelf={{ base: 'center', xl: 'unset' }} ml={{ base: 0, xl: 50 }} width="530px">
       <Heading as="h2" fontSize="xl" mb="14px" textAlign="center">
         Upcoming
       </Heading>
