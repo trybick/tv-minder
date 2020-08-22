@@ -56,12 +56,12 @@ const SearchResult = ({
     if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
       toast({
-        title: `Saving followed shows`,
-        description: `Be sure to login to save permanently`,
+        title: `Temporarily saving`,
+        description: `Be sure to sign up to save permanently`,
         status: 'warning',
         duration: 7000,
         isClosable: true,
-        position: 'bottom-right',
+        position: window.innerWidth > 767 ? 'bottom-right' : 'bottom',
       });
     }
   }
