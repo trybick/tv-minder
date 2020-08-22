@@ -49,14 +49,14 @@ const SearchResults = ({
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'match', 'es')} found`;
 
   return (
-    <Box>
-      <Box textAlign="right">
+    <Box m="0 auto">
+      <Box textAlign="right" mr={{ base: '32px', xl: 'unset' }}>
         <Tag size="sm" mb="24px" fontSize="0.84rem">
           {totalMatchesText}
         </Tag>
       </Box>
 
-      <Stack w={['xs', 'sm', 'md', 'lg']} spacing={4}>
+      <Stack spacing={4} m="0 auto" w={{ base: '90%', xl: '100%' }}>
         {shows.map(show => (
           <SearchResult
             followedShows={followedShows}
