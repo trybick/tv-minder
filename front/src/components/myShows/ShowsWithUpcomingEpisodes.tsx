@@ -76,22 +76,22 @@ const createAccordionItems = (shows: any) =>
         </AccordionHeader>
 
         <AccordionPanel pb={4}>
-          <Grid alignItems="center" gap={6} templateColumns="100px 300px">
+          <Grid alignItems="center" gap={6} templateColumns="1fr 3fr">
             <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
-              <Box width="100px">
+              <Box>
                 <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
               </Box>
             </Tooltip>
 
-            <Grid templateRows="30px 1fr">
-              <Box>
-                <Heading as="h4" fontSize="md">
-                  {name}
-                </Heading>
-              </Box>
+            <Grid templateRows="24px 1fr">
+              <Heading as="h4" fontSize="md" isTruncated>
+                {name}
+              </Heading>
 
               <Box mb="8px">
-                <Text fontSize="sm">{moment(airDate).format('dddd, MMMM Do')}</Text>
+                <Text as="i" fontSize="sm">
+                  {moment(airDate).format('dddd, MMMM Do')}
+                </Text>
               </Box>
 
               <Box maxH="63px" overflow="hidden">

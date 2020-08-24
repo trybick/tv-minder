@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, RefObject } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
-  Badge,
   Box,
   Divider,
   Flex,
