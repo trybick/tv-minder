@@ -15,6 +15,7 @@ import {
   Tooltip,
 } from '@chakra-ui/core';
 import moment from 'moment';
+import Truncate from 'react-truncate';
 import { selectBasicShowInfoForRecentEpisodes } from 'store/tv/selectors';
 import { fallbackImage } from 'utils/constants';
 import { maybePluralize } from 'utils/formatting';
@@ -95,7 +96,9 @@ const createAccordionItems = (shows: any) =>
               </Box>
 
               <Box maxH="63px" overflow="hidden">
-                <Text fontSize="sm">{overview}</Text>
+                <Text fontSize="sm">
+                  <Truncate lines={window.innerWidth > 500 ? 3 : 2}>{overview}</Truncate>
+                </Text>
               </Box>
             </Grid>
           </Grid>

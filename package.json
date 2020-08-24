@@ -20,5 +20,11 @@
     "serve": "yarn --cwd api serve",
     "serve-stop": "yarn --cwd api serve-stop",
     "start": "yarn --cwd front start"
+  },
+  "dependencies": {
+    "react-truncate": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/react-truncate": "^2.3.3"
   }
 }
