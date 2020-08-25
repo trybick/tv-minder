@@ -57,7 +57,7 @@ const CalendarPage = (): JSX.Element => {
           eventAllow={() => false} // do not allow dragging
           eventClick={handleEventClick}
           events={calendarEpisodes}
-          initialView="dayGridMonth"
+          initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'dayGridWeek'}
           plugins={[dayGridPlugin, interactionPlugin]}
           dayMaxEventRows // display popover if events overflow in a day
           editable // enable mouse pointer cursor
