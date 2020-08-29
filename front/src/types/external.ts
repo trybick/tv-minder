@@ -1,3 +1,8 @@
+// This file contains types created to use with the data returned from the 'Movie DB' API
+
+//
+// Search
+//
 export type ShowSearchResult = {
   backdrop_path: string;
   first_air_date: '1965-09-14';
@@ -12,4 +17,35 @@ export type ShowSearchResult = {
   poster_path: string;
   vote_average: number;
   vote_count: number;
+};
+
+//
+// Basic Show Info
+//
+type Episode = {
+  airDate: string;
+  episodeNumber: number;
+  name: string;
+  overview: string;
+  seasonNumber: number;
+};
+
+type Network = {
+  id: number;
+  logo_path: string;
+  name: string;
+  origin_country: string;
+};
+
+export type BasicShowInfo = {
+  id: number;
+  lastAirDate: string;
+  lastEpisodeForDisplay: Episode;
+  name: string;
+  network: Network;
+  nextEpisodeForDisplay: Episode;
+  numEpisodes: number;
+  numSeasons: number;
+  posterPath: string;
+  status: string;
 };

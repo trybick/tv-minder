@@ -1,6 +1,8 @@
+import { Selector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { AppState } from 'store';
 import moment from 'moment';
+import { AppState } from 'store';
+import { BasicShowInfo } from 'types/external';
 
 const NUM_EPISODES_IN_ACCORDION = 6;
 
@@ -8,7 +10,7 @@ export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 
-export const selectBasicShowInfoForDisplay = createSelector(
+export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> = createSelector(
   selectBasicShowInfo,
   showsInfo =>
     showsInfo &&
@@ -57,7 +59,7 @@ export const selectBasicShowInfoForDisplay = createSelector(
     })
 );
 
-// Sort by most recently aired episodes, within past 90 days
+// Sorted by most recently aired episodes, within past 90 days
 export const selectBasicShowInfoForRecentEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
@@ -67,7 +69,7 @@ export const selectBasicShowInfoForRecentEpisodes = createSelector(
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
-// Sort by upcoming episode date, within next 90 days
+// Sorted by upcoming episode date, within next 90 days
 export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
@@ -83,7 +85,7 @@ export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
-// Sort alphabetically
+// Sorted alphabetically
 export const selectBasicShowInfoForAllShows = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))
