@@ -52,7 +52,7 @@ const CalendarPage = (): JSX.Element => {
 
   return (
     <Box mb="25px">
-      <Box maxW="80%" m="30px auto 0">
+      <Box maxW="1170px" m="30px auto 0" p="0 25px">
         <FullCalendar
           eventAllow={() => false} // do not allow dragging
           eventClick={handleEventClick}
