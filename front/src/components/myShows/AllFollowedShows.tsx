@@ -18,8 +18,9 @@ import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
 import { fallbackImage } from 'utils/constants';
 import { maybePluralize } from 'utils/formatting';
+import { BasicShowInfo } from 'types/external';
 
-const FollowedShow = ({ show }: { show: any }) => {
+const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
   const dispatch = useDispatch();
   const { id: showId, name, network, numEpisodes, numSeasons, posterPath, status } = show;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;

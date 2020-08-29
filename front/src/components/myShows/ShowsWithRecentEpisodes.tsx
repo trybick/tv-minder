@@ -19,9 +19,10 @@ import Truncate from 'react-truncate';
 import { selectBasicShowInfoForRecentEpisodes } from 'store/tv/selectors';
 import { fallbackImage } from 'utils/constants';
 import { getTimeFromNowForRecent } from './common/utils';
+import { BasicShowInfo } from 'types/external';
 
-const createAccordionItems = (shows: any) =>
-  shows.map((show: any) => {
+const createAccordionItems = (shows: BasicShowInfo[]) =>
+  shows.map(show => {
     const {
       lastEpisodeForDisplay: { airDate, episodeNumber, name, overview, seasonNumber },
       name: showName,
