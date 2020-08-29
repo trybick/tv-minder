@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Flex } from '@chakra-ui/core';
+import ReactGA from 'react-ga';
 import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/selectors';
@@ -10,6 +11,7 @@ import Footer from 'components/footer/Footer';
 import SearchPage from 'pages/SearchPage';
 import CalendarPage from 'pages/CalendarPage';
 import MyShowsPage from 'pages/MyShowsPage';
+import { gAnalyticsID } from 'utils/constants';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -23,6 +25,9 @@ type Props = StateProps & DispatchProps;
 
 const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   useEffect(() => {
+    ReactGA.initialize(gAnalyticsID);
+    ReactGA.pageview(window.location.pathname);
+
     if (isLoggedIn) {
       fetchfollowedShows();
     }
