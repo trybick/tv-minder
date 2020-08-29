@@ -18,9 +18,8 @@ import moment from 'moment';
 import Truncate from 'react-truncate';
 import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
 import { fallbackImage } from 'utils/constants';
-import { maybePluralize } from 'utils/formatting';
+import { getTimeFromNowForUpcoming } from './common/utils';
 
-// We had an Episode component for each accordion item, however it did not work with 'allowMulitple'
 const createAccordionItems = (shows: any) =>
   shows.map((show: any) => {
     const {
@@ -30,26 +29,6 @@ const createAccordionItems = (shows: any) =>
     } = show;
     const seasonEpisodeNumber = `S${seasonNumber} E${episodeNumber}`;
     const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
-
-    // Moment's 'timeFromNow' would be nice here, but recent shows display as 'X hours ago'
-    const getTimeFromNow = () => {
-      let timeFromNow;
-      const daysDiff = moment(airDate).diff(moment().startOf('day'), 'days');
-      const weeksDiff = moment.duration(daysDiff, 'days').weeks();
-      const monthsDiff = moment.duration(daysDiff, 'days').months();
-
-      if (daysDiff === 0) {
-        timeFromNow = 'Today';
-      } else if (daysDiff < 7) {
-        timeFromNow = `In ${daysDiff} ${maybePluralize(daysDiff, 'day')}`;
-      } else if (daysDiff < 28) {
-        timeFromNow = `In ${weeksDiff} ${maybePluralize(weeksDiff, 'week')}`;
-      } else {
-        timeFromNow = `In ${monthsDiff} ${maybePluralize(monthsDiff, 'month')}`;
-      }
-
-      return timeFromNow;
-    };
 
     return (
       <AccordionItem key={show.id}>
@@ -62,7 +41,7 @@ const createAccordionItems = (shows: any) =>
             width="100%"
           >
             <Badge variant="subtle" variantColor="purple">
-              {getTimeFromNow()}
+              {getTimeFromNowForUpcoming(airDate)}
             </Badge>
 
             <Text fontSize="sm" fontWeight="600" isTruncated>
