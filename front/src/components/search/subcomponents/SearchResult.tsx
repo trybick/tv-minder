@@ -46,18 +46,20 @@ const SearchResult = ({
     } else {
       setIsFollowed(false);
     }
+
+    // Set loading to false because it's set to true in the follow functions
+    setIsLoading(false);
   }, [isLoggedIn, followedShows, showId]);
 
   function onFollowShow() {
     setIsLoading(true);
     saveToFollowedShows(showId);
-    setIsLoading(false);
 
     if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
       toast({
-        title: `Temporarily saving`,
-        description: `Be sure to sign up to save permanently`,
+        title: 'Temporarily saving',
+        description: 'Be sure to sign up to save permanently',
         status: 'warning',
         duration: 7000,
         isClosable: true,
@@ -69,7 +71,6 @@ const SearchResult = ({
   function onUnFollowShow() {
     setIsLoading(true);
     removeFromFollowedShows(showId);
-    setIsLoading(false);
   }
 
   return (

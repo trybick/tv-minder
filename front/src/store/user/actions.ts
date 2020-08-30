@@ -52,11 +52,6 @@ export const saveToFollowedShowsAction = (showId: number): AppThunk => (dispatch
   const { isLoggedIn } = getState().user;
 
   if (isLoggedIn) {
-    dispatch({
-      type: SAVE_TO_FOLLOWED_SHOWS,
-      payload: showId,
-    });
-
     axios
       .post(
         `${API.TV_MINDER}/follow`,
@@ -66,6 +61,12 @@ export const saveToFollowedShowsAction = (showId: number): AppThunk => (dispatch
         },
         { timeout: 8000 }
       )
+      .then(() => {
+        dispatch({
+          type: SAVE_TO_FOLLOWED_SHOWS,
+          payload: showId,
+        });
+      })
       .catch(handleErrors);
   } else {
     dispatch({
@@ -88,12 +89,13 @@ export const removeFromFollowedShowsAction = (showId: number): AppThunk => (disp
         },
         timeout: 8000,
       })
+      .then(() => {
+        dispatch({
+          type: REMOVE_FROM_FOLLOWED_SHOWS,
+          payload: showId,
+        });
+      })
       .catch(handleErrors);
-
-    dispatch({
-      type: REMOVE_FROM_FOLLOWED_SHOWS,
-      payload: showId,
-    });
   } else {
     dispatch({
       type: UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
