@@ -123,18 +123,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             >
               TV Minder
             </Heading>
-            {/* 'Beta' Badge - position absolute to avoid pushing NavLinks to right */}
-            {/* <Badge
-              fontSize="10.5px"
-              left="102px"
-              position="absolute"
-              top={{ base: '24px', md: '30px' }}
-              variant="outline"
-              variantColor="green"
-            >
-              Beta
-            </Badge> */}
-
             <Image display="inline" src={logo} verticalAlign="text-bottom" width="20px" />
           </Link>
         </Flex>

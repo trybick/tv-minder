@@ -4,6 +4,7 @@ import { AppThunk } from 'store';
 import { API } from 'utils/constants';
 import { SavedQuery } from './types';
 import handleErrors from 'utils/handleErrors';
+import cacheDurationDays from 'utils/cacheDurations';
 
 export const SAVE_SEARCH_QUERY = 'SAVE_SEARCH_QUERY';
 export const SAVE_EPISODE_DATA = 'SAVE_EPISODE_DATA';
@@ -32,14 +33,12 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
   const combinedData: { [key: number]: any } = {};
 
   // Get cached data and add to combinedData
-  const CACHE_DURATION_DAYS = 1;
   const cachedIds = cachedBasicShowInfo && Object.keys(cachedBasicShowInfo);
   const validCachedIds =
     cachedBasicShowInfo &&
     followedShowsSource?.filter(id => {
       const cacheAge = moment().diff(moment(cachedBasicShowInfo[id]?._fetchedAt), 'days');
-
-      return cachedIds?.includes(String(id)) && cacheAge < CACHE_DURATION_DAYS;
+      return cachedIds?.includes(String(id)) && cacheAge < cacheDurationDays.myShows;
     });
   validCachedIds &&
     validCachedIds.forEach(id => {

@@ -3,11 +3,12 @@ import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
 import { Box } from '@chakra-ui/core';
 import { searchShows } from 'gateway/searchShows';
-import { ShowSearchResult } from 'types/external';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
 import { selectSavedQueries } from 'store/tv/selectors';
 import { SavedQuery } from 'store/tv/types';
+import { ShowSearchResult } from 'types/external';
+import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from '../components/search/SearchContainer';
 import SearchInput from '../components/search/subcomponents/SearchInput';
 
@@ -79,11 +80,10 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
 
   // Check if timestamp is within set duration
   const getIsCacheValid = (index: number) => {
-    const CACHE_DURATION = 3;
     const { timeSaved } = savedQueries[index];
     const diff = moment().diff(moment(timeSaved), 'days');
 
-    return CACHE_DURATION > diff ? true : false;
+    return cacheDurationDays.search > diff;
   };
 
   return (
