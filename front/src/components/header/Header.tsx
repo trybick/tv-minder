@@ -176,10 +176,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Options">
-                      <MenuItem>My Profile</MenuItem>
-                    </MenuGroup>
-                    <MenuDivider />
-                    <MenuGroup>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
