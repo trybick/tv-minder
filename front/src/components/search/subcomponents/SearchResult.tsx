@@ -3,7 +3,7 @@ import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
-import { fallbackImage } from 'utils/constants';
+import { fallbackImage, localWarningToastMessage } from 'utils/constants';
 
 interface Props {
   followedShows: ID[];
@@ -47,7 +47,7 @@ const SearchResult = ({
       setIsFollowed(false);
     }
 
-    // Set loading to false because it's set to true in the follow functions
+    // Set loading to false because it's set to true in the onFollow functions
     setIsLoading(false);
   }, [isLoggedIn, followedShows, showId]);
 
@@ -57,14 +57,7 @@ const SearchResult = ({
 
     if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
-      toast({
-        title: 'Temporarily saving',
-        description: 'Be sure to sign up to save permanently',
-        status: 'warning',
-        duration: 7000,
-        isClosable: true,
-        position: window.innerWidth > 767 ? 'bottom-right' : 'bottom',
-      });
+      toast(localWarningToastMessage);
     }
   }
 
