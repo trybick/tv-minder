@@ -18,7 +18,6 @@ From the root directory:
 - Start the API with Docker: `yarn serve`
 - Start the React front end: `yarn start`
 
-### Env files:
+### Environment Variables
 
-- `api/.env` should contain `DB_PASSWORD` and `JWT_KEY`
-- `front/.env` should contain `REACT_APP_THE_MOVIE_DB_KEY`.
+- Duplicate `front/.env.template` and `api/.env.template`, naming them `.env`, and fill in secrets (please request in an issue)
