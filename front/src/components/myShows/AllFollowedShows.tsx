@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  Badge,
   Box,
   Grid,
   Heading,
@@ -54,9 +55,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
           </Menu>
         </Box>
 
-        <Text fontSize="sm" fontWeight="400" mb={{ base: '5px', md: '8px' }}>
-          {network.name} | {status}
-        </Text>
+        <Badge>{network.name}</Badge>
 
         <Text fontSize="sm">
           {numSeasons} {maybePluralize(numSeasons, 'season')}
@@ -64,6 +63,10 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
         <Text fontSize="sm">
           {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
         </Text>
+
+        <Badge variant="outline" variantColor={status === 'Ended' ? 'red' : 'green'}>
+          {status}
+        </Badge>
       </Box>
     </Grid>
   );
