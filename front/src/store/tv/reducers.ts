@@ -1,17 +1,24 @@
 import { Action, Reducer, AnyAction } from 'redux';
-import { REQUEST_BASIC_SHOW_INFO_SUCCEEDED, SAVE_SEARCH_QUERY, SAVE_EPISODE_DATA } from './actions';
+import {
+  REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
+  SAVE_SEARCH_QUERY,
+  SAVE_EPISODE_DATA,
+  SET_CALENDAR_EPISODES,
+} from './actions';
 import { SavedQuery } from './types';
 
 export interface TvState {
   savedQueries: SavedQuery[];
   episodeData: { [key: number]: any };
   basicShowInfo: { [key: number]: any };
+  calendarEpisodesForDisplay: any[];
 }
 
 const initialState = {
   savedQueries: [],
   episodeData: {},
   basicShowInfo: {},
+  calendarEpisodesForDisplay: [],
 };
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
@@ -37,6 +44,12 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
       return {
         ...state,
         basicShowInfo: { ...action.payload },
+      };
+    }
+    case SET_CALENDAR_EPISODES: {
+      return {
+        ...state,
+        calendarEpisodesForDisplay: action.payload,
       };
     }
     default:

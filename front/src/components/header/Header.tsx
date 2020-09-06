@@ -12,7 +12,6 @@ import {
   MenuList,
   MenuItem,
   MenuGroup,
-  MenuDivider,
   Text,
 } from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';

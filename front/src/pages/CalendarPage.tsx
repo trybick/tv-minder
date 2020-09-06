@@ -1,50 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { Box } from '@chakra-ui/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
-import { saveEpisodeDataAction } from 'store/tv/actions';
-import { selectEpisodeData } from 'store/tv/selectors';
-import { fetchEpisodeData } from 'gateway/getEpisodes';
-import cacheDurationDays from 'utils/cacheDurations';
+import { loadEpisodesForCalendar } from 'store/tv/actions';
+import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 
-const CalendarPage = (): JSX.Element => {
+const CalendarPage = () => {
   const dispatch = useDispatch();
-  const followedShowsIds = useSelector(selectFollowedShows);
-  const storedEpisodeData = useSelector(selectEpisodeData);
-  const [calendarEpisodes, setCalendarEpisodes] = useState<any>();
+  const followedShows = useSelector(selectFollowedShows);
+  const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
 
-  // Load episodes from cache or make network call
   useEffect(() => {
-    async function loadEpisodesForCalendar() {
-      const cachedIds = Object.keys(storedEpisodeData);
-      const validCachedIds = followedShowsIds.filter(
-        id =>
-          cachedIds.includes(String(id)) &&
-          cacheDurationDays.calendar >
-            moment().diff(moment(storedEpisodeData[id].fetchedAt), 'days')
-      );
-      const cachedData = validCachedIds.flatMap(id =>
-        storedEpisodeData[id].episodes !== null ? Object.values(storedEpisodeData[id].episodes) : []
-      );
-
-      let fetchedData;
-      const nonCachedIds = followedShowsIds.filter(id => !validCachedIds.includes(id));
-      if (nonCachedIds.length) {
-        const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
-        fetchedData = fetchedEpisodeData;
-        dispatch(saveEpisodeDataAction(cache));
-      }
-
-      const combinedEpisodesForDisplay = (cachedData || []).concat(fetchedData || []);
-      setCalendarEpisodes(combinedEpisodesForDisplay);
-    }
-
-    loadEpisodesForCalendar();
-  }, [dispatch, followedShowsIds, storedEpisodeData]);
+    dispatch(loadEpisodesForCalendar());
+  }, [dispatch, followedShows]);
 
   return (
     <Box mb="25px">

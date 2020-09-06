@@ -22,7 +22,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const SearchPage = ({ saveSearchQuery, savedQueries }: Props): JSX.Element => {
+const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [isInputDirty, setIsInputDirty] = useState(false);

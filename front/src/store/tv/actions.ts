@@ -1,13 +1,15 @@
 import axios from 'axios';
 import moment from 'moment';
 import { AppThunk } from 'store';
-import { API } from 'utils/constants';
+import { fetchEpisodeData } from 'gateway/getEpisodes';
 import { SavedQuery } from './types';
+import { API } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import cacheDurationDays from 'utils/cacheDurations';
 
 export const SAVE_SEARCH_QUERY = 'SAVE_SEARCH_QUERY';
 export const SAVE_EPISODE_DATA = 'SAVE_EPISODE_DATA';
+export const SET_CALENDAR_EPISODES = 'SAVE_CALENDAR_EPISODES';
 export const REQUEST_BASIC_SHOW_INFO = 'REQUEST_BASIC_SHOW_INFO';
 export const REQUEST_BASIC_SHOW_INFO_SUCCEEDED = 'REQUEST_BASIC_SHOW_INFO_SUCCEEDED';
 
@@ -25,7 +27,45 @@ export const saveEpisodeDataAction = (episodeData: any): AppThunk => dispatch =>
   });
 };
 
-// Get valid cached data and/or fetch data for a show's basic info
+export const setCalendarEpisodesAction = (episodesForDisplay: any): AppThunk => dispatch => {
+  dispatch({
+    type: SET_CALENDAR_EPISODES,
+    payload: episodesForDisplay,
+  });
+};
+
+export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState) => {
+  const { followedShows } = getState().user;
+  const { episodeData: storedEpisodeData } = getState().tv;
+
+  const cachedIds = Object.keys(storedEpisodeData);
+  const validCachedIds = followedShows.filter(
+    id =>
+      cachedIds.includes(String(id)) &&
+      cacheDurationDays.calendar > moment().diff(moment(storedEpisodeData[id].fetchedAt), 'days')
+  );
+  const cachedData = validCachedIds.flatMap(id =>
+    storedEpisodeData[id].episodes !== null ? Object.values(storedEpisodeData[id].episodes) : []
+  );
+  let fetchedData;
+  const nonCachedIds = followedShows.filter(id => !validCachedIds.includes(id));
+  if (nonCachedIds.length) {
+    const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
+    fetchedData = fetchedEpisodeData;
+    dispatch({
+      type: SAVE_EPISODE_DATA,
+      payload: cache,
+    });
+  }
+
+  const combinedEpisodesForDisplay = (cachedData || []).concat(fetchedData || []);
+  dispatch({
+    type: SET_CALENDAR_EPISODES,
+    payload: combinedEpisodesForDisplay,
+  });
+};
+
+// Basic Show Info is used for latest episodes on My Shows page
 export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getState) => {
   const { followedShows, isLoggedIn, unregisteredFollowedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
