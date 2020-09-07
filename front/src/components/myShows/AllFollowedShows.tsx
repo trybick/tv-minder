@@ -30,6 +30,12 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
     dispatch(removeFromFollowedShowsAction(showId));
   };
 
+  const statusColorMap = {
+    Ended: 'red',
+    Returning: 'purple',
+    'New Episodes': 'green',
+  };
+
   return (
     <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 2.65fr">
       <Tooltip aria-label={name} label={name} placement="top" hasArrow>
@@ -64,7 +70,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
           {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
         </Text>
 
-        <Badge variant="outline" variantColor={status === 'Ended' ? 'red' : 'green'}>
+        <Badge variant="outline" variantColor={statusColorMap[status]}>
           {status}
         </Badge>
       </Box>

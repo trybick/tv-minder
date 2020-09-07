@@ -46,6 +46,13 @@ export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> 
         seasonNumber: nextEpisodeToAir.season_number,
       };
 
+      const _hasCurrentlyActiveSeason =
+        lastEpisodeForDisplay &&
+        nextEpisodeForDisplay &&
+        moment(nextEpisodeForDisplay.airDate).diff(lastEpisodeForDisplay.airDate, 'days') < 16;
+      const statusForDisplay =
+        status === 'Ended' ? 'Ended' : _hasCurrentlyActiveSeason ? 'New Episodes' : 'Returning';
+
       return {
         id,
         lastAirDate,
@@ -56,7 +63,7 @@ export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> 
         numEpisodes,
         numSeasons,
         posterPath,
-        status: status === 'Returning Series' ? 'Returning' : status,
+        status: statusForDisplay,
       };
     })
 );

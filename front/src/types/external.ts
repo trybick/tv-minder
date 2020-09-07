@@ -37,6 +37,8 @@ type Network = {
   origin_country: string;
 };
 
+export type Status = 'Ended' | 'Returning' | 'New Episodes';
+
 export type BasicShowInfo = {
   id: number;
   lastAirDate: string;
@@ -47,5 +49,5 @@ export type BasicShowInfo = {
   numEpisodes: number;
   numSeasons: number;
   posterPath: string;
-  status: string;
+  status: Status;
 };
