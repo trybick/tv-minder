@@ -61,7 +61,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
           </Menu>
         </Box>
 
-        <Badge>{network.name}</Badge>
+        <Badge>{network?.name}</Badge>
 
         <Text fontSize="sm">
           {numSeasons} {maybePluralize(numSeasons, 'season')}

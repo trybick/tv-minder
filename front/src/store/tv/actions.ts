@@ -35,11 +35,12 @@ export const setCalendarEpisodesAction = (episodesForDisplay: any): AppThunk => 
 };
 
 export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState) => {
-  const { followedShows } = getState().user;
+  const { followedShows, isLoggedIn, unregisteredFollowedShows } = getState().user;
   const { episodeData: storedEpisodeData } = getState().tv;
+  const userFollowedShowsIds = isLoggedIn ? followedShows : unregisteredFollowedShows;
 
   const cachedIds = Object.keys(storedEpisodeData);
-  const validCachedIds = followedShows.filter(
+  const validCachedIds = userFollowedShowsIds.filter(
     id =>
       cachedIds.includes(String(id)) &&
       cacheDurationDays.calendar > moment().diff(moment(storedEpisodeData[id].fetchedAt), 'days')
@@ -48,7 +49,7 @@ export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState
     storedEpisodeData[id].episodes !== null ? Object.values(storedEpisodeData[id].episodes) : []
   );
   let fetchedData;
-  const nonCachedIds = followedShows.filter(id => !validCachedIds.includes(id));
+  const nonCachedIds = userFollowedShowsIds.filter(id => !validCachedIds.includes(id));
   if (nonCachedIds.length) {
     const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
     fetchedData = fetchedEpisodeData;
