@@ -9,6 +9,7 @@
     "sourceMap": false,
     "outDir": "dist",
     "baseUrl": "./src",
+    "noEmitOnError": false,
     "paths": {
       "*": ["node_modules/*"],
       "config/*": ["config/*"],
