@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Grid, Link, Text, useDisclosure } from '@chakra-ui/core';
+import { Box, Button, Flex, Link, Text, useDisclosure } from '@chakra-ui/core';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
 import FeedbackModal from './FeedbackModal';
 
@@ -9,12 +9,11 @@ const Footer = () => {
 
   return (
     <Box backgroundColor="#F3F5F6" marginTop="30px" height="76px" padding=".5rem">
-      <Grid
+      <Flex
         alignItems="center"
         fontSize=".85rem"
         justifyContent="space-between"
-        padding="1rem 2rem"
-        templateColumns="repeat(auto-fit, minmax(200px,240px))"
+        padding={{ xs: '1rem .3rem', sm: '1rem 2rem' }}
       >
         <Box color="#333" fontWeight="700">
           <Link href="https://github.com/trybick/tv-minder" isExternal>
@@ -23,7 +22,7 @@ const Footer = () => {
           </Link>
         </Box>
 
-        <Box color="#a0a4a6" textAlign="center">
+        <Box color="#a0a4a6" ml="auto">
           © {new Date().getFullYear()}
           {` `}
           <Text display="inline">TV-Minder</Text>
@@ -33,7 +32,7 @@ const Footer = () => {
           Feedback
         </Button>
         <FeedbackModal disclosureProps={disclosureProps} />
-      </Grid>
+      </Flex>
     </Box>
   );
 };
