@@ -30,7 +30,7 @@ const Footer = () => {
         </Box>
 
         <Button rightIcon={FaRegComment} ml="auto" onClick={onOpen} size="sm" variantColor="green">
-          Feedback?
+          Feedback
         </Button>
         <FeedbackModal disclosureProps={disclosureProps} />
       </Grid>
