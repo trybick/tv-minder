@@ -17,7 +17,13 @@ const LoginButton = ({ closeHeader }: Props) => {
 
   return (
     <>
-      <Button ml=" 12px" onClick={handleClick} variant="outline" variantColor="teal">
+      <Button
+        ml=" 12px"
+        onClick={handleClick}
+        variant="outline"
+        borderColor="#0099DB"
+        color="#0099DB"
+      >
         Login
       </Button>
       <LoginModal disclosureProps={disclosureProps} />

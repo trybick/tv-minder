@@ -5,7 +5,6 @@ import {
   Box,
   Divider,
   Flex,
-  Heading,
   Image,
   Menu,
   MenuButton,
@@ -22,7 +21,7 @@ import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
-import logo from '../../images/tv-64-black.png';
+import logo from '../../images/logo.svg';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -82,8 +81,8 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
       <Text
-        borderBottom={isActiveRoute ? '3px solid teal' : ''}
-        color={isActiveRoute ? 'teal.600' : ''}
+        borderBottom={isActiveRoute ? '1px solid #0099DB' : ''}
+        color={isActiveRoute ? '#034A85' : '#0099DB'}
         cursor="pointer"
         display="block"
         fontSize="1.05rem"
@@ -104,25 +103,15 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         as="nav"
         bg="white"
         color="black"
+        height="75px"
         justify="space-between"
-        padding="1.2rem 1.6rem 0"
+        padding="0 1.6rem 0"
         ref={wrapperRef}
         wrap="wrap"
       >
-        <Flex align="center" mr={5}>
+        <Flex align="center">
           <Link onClick={closeHeader} to="/">
-            <Heading
-              as="h1"
-              cursor="pointer"
-              display="inline"
-              fontSize="1rem"
-              fontWeight="600"
-              mr="8px"
-              size="md"
-            >
-              TV Minder
-            </Heading>
-            <Image display="inline" src={logo} verticalAlign="text-bottom" width="20px" />
+            <Image display="inline" height="50px" src={logo} />
           </Link>
         </Flex>
 
