@@ -41,8 +41,8 @@ export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> 
       const nextEpisodeForDisplay = nextEpisodeToAir && {
         airDate: nextEpisodeToAir.air_date,
         episodeNumber: nextEpisodeToAir.episode_number,
-        name: lastEpisodeToAir.name,
-        overview: lastEpisodeToAir.overview,
+        name: nextEpisodeToAir.name,
+        overview: nextEpisodeToAir.overview,
         seasonNumber: nextEpisodeToAir.season_number,
       };
 
