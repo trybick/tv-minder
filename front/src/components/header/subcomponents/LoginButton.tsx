@@ -21,8 +21,8 @@ const LoginButton = ({ closeHeader }: Props) => {
         ml=" 12px"
         onClick={handleClick}
         variant="outline"
-        borderColor="#0099DB"
-        color="#0099DB"
+        borderColor="c.cyan"
+        color="c.cyan"
       >
         Login
       </Button>

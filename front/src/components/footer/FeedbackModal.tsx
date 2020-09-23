@@ -76,7 +76,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
             mr={3}
             onClick={handleSubmit}
             rightIcon={FiSend}
-            variantColor="green"
+            variantColor="cyan"
           >
             Submit
           </Button>

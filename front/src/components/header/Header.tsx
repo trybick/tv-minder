@@ -81,8 +81,9 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
       <Text
-        borderBottom={isActiveRoute ? '1px solid #0099DB' : ''}
-        color={isActiveRoute ? '#034A85' : '#0099DB'}
+        borderBottom={isActiveRoute ? '1px solid' : ''}
+        borderColor={isActiveRoute ? 'c.cyan' : ''}
+        color={isActiveRoute ? 'c.navy' : 'c.cyan'}
         cursor="pointer"
         display="block"
         fontSize="1.05rem"
@@ -103,15 +104,15 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         as="nav"
         bg="white"
         color="black"
-        height="75px"
+        height="50px"
         justify="space-between"
-        padding="0 1.6rem 0"
+        padding="10px 1.6rem 0"
         ref={wrapperRef}
         wrap="wrap"
       >
         <Flex align="center">
           <Link onClick={closeHeader} to="/">
-            <Image display="inline" height="50px" src={logo} />
+            <Image display="inline" height="35px" src={logo} />
           </Link>
         </Flex>
 

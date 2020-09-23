@@ -138,7 +138,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="teal" mr={3} isLoading={isLoading} type="submit">
+            <Button variantColor="cyan" mr={3} isLoading={isLoading} type="submit">
               Login
             </Button>
             <Button onClick={onClose}>Cancel</Button>

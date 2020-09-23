@@ -87,7 +87,7 @@ const SearchResult = ({
                 onClick={onUnFollowShow}
                 size="sm"
                 variant="solid"
-                variantColor="teal"
+                variantColor="cyan"
               >
                 Followed
               </Button>
@@ -99,7 +99,7 @@ const SearchResult = ({
                 onClick={onFollowShow}
                 size="sm"
                 variant="outline"
-                variantColor="teal"
+                variantColor="cyan"
               >
                 Follow
               </Button>
