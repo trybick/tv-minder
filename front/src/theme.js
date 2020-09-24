@@ -5,11 +5,7 @@ export default {
   colors: {
     ...defaultTheme.colors,
     black: '#333333',
-    // Overwriting a color like cyan at this level doesn't seem to work (TS error)
-    // Access these colors by using 'c.cyan'
-    c: {
-      cyan: '#0099DB',
-      navy: '#034A85',
-    },
+    primary: '#0099DB',
+    secondary: '#034A85',
   },
 };

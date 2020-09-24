@@ -82,8 +82,8 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
     <Link onClick={closeHeader} to={linkTo}>
       <Text
         borderBottom={isActiveRoute ? '1px solid' : ''}
-        borderColor={isActiveRoute ? 'c.cyan' : ''}
-        color={isActiveRoute ? 'c.navy' : 'c.cyan'}
+        borderColor={isActiveRoute ? 'primary' : ''}
+        color={isActiveRoute ? 'secondary' : 'primary'}
         cursor="pointer"
         display="block"
         fontSize="1.05rem"
