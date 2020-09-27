@@ -87,7 +87,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         cursor="pointer"
         display="block"
         fontSize="1.1rem"
-        fontWeight={isActiveRoute ? '500' : '400'}
+        fontWeight={isActiveRoute ? '600' : '500'}
         mr={8}
         mt={{ base: 4, md: 0 }}
         padding={{ base: 0, md: '0 12px 5px' }}
@@ -140,7 +140,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           <NavLink
             isActiveRoute={activeRoute === '/my-shows'}
             linkTo="/my-shows"
-            mobileWidth="80px"
+            mobileWidth="84px"
             text="My Shows"
           />
         </Box>
