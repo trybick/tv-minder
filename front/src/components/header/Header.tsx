@@ -104,9 +104,8 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         as="nav"
         bg="white"
         color="black"
-        height="50px"
         justify="space-between"
-        padding="10px 1.6rem 0"
+        padding="10px 1.6rem 5px"
         ref={wrapperRef}
         wrap="wrap"
       >
@@ -128,6 +127,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           width={{ xs: 'full', md: 'auto' }}
           ml="auto"
           mr="auto"
+          pt="10px"
         >
           <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" mobileWidth="48px" text="Home" />
           <NavLink
