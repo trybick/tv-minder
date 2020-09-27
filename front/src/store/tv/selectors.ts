@@ -87,7 +87,7 @@ export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
         const daysDiff =
           show.nextEpisodeForDisplay?.airDate &&
           moment(moment()).diff(show.nextEpisodeForDisplay.airDate, 'days');
-        return 90 > daysDiff && daysDiff < 0;
+        return 90 > daysDiff && daysDiff <= 0;
       })
       ?.sort((a, b) =>
         moment(a.nextEpisodeForDisplay.airDate).diff(moment(b.nextEpisodeForDisplay.airDate))
