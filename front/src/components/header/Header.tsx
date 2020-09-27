@@ -81,13 +81,14 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
       <Text
-        borderBottom={isActiveRoute ? '1px solid' : ''}
-        borderColor={isActiveRoute ? 'primary' : ''}
+        borderBottom={isActiveRoute ? '2px solid' : ''}
+        borderColor={isActiveRoute ? 'secondary' : ''}
         color={isActiveRoute ? 'secondary' : 'primary'}
         cursor="pointer"
         display="block"
-        fontSize="1.05rem"
-        mr={6}
+        fontSize="1.1rem"
+        fontWeight={isActiveRoute ? '500' : '400'}
+        mr={8}
         mt={{ base: 4, md: 0 }}
         padding={{ base: 0, md: '0 12px 5px' }}
         width={{ base: mobileWidth, md: 'unset' }}
