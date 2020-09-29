@@ -21,3 +21,7 @@ From the root directory:
 ### Environment Variables
 
 - Duplicate `front/.env.template` and `api/.env.template`, naming them `.env`, and fill in secrets (please request in an issue)
+
+## Contributing
+
+See [Contribution guidelines for this project](./CONTRIBUTING.md)
