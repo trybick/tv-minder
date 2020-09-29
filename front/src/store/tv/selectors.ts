@@ -73,8 +73,15 @@ export const selectBasicShowInfoForRecentEpisodes = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo =>
     showsInfo
-      ?.filter(show => show.lastAirDate && 90 > moment(moment()).diff(show.lastAirDate, 'days'))
-      ?.sort((a, b) => moment(b.lastAirDate).diff(moment(a.lastAirDate)))
+      ?.filter(show => {
+        const daysDiff =
+          show.lastEpisodeForDisplay?.airDate &&
+          moment(moment()).diff(show.lastEpisodeForDisplay.airDate, 'days');
+        return 90 > daysDiff && daysDiff >= 0;
+      })
+      ?.sort((a, b) =>
+        moment(b.lastEpisodeForDisplay.airDate).diff(moment(a.lastEpisodeForDisplay.airDate))
+      )
       ?.slice(0, NUM_EPISODES_IN_ACCORDION)
 );
 
