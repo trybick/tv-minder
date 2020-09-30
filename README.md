@@ -15,13 +15,10 @@
 From the root directory:
 
 - Run `yarn`
-- Start the API with Docker: `yarn serve`
-- Start the React front end: `yarn start`
-
-### Environment Variables
-
-- Duplicate `front/.env.template` and `api/.env.template`, naming them `.env`, and fill in secrets (please request in an issue)
+- Start the front end: `yarn start`
+- Optionally start the back end: `yarn serve`
+  - Note: If you are just working on the front-end, you don't need to run the back-end since the local project is set to use the deployed API. If you want to work with the local API, change [this](https://github.com/trybick/tv-minder/blob/master/front/src/utils/constants.ts) file and request the env files for the api folder in an issue.
 
 ## Contributing
 
-See [Contribution guidelines for this project](./CONTRIBUTING.md)
+See [Contribution guidelines](./CONTRIBUTING.md) 😎
