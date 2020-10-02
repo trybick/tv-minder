@@ -71,8 +71,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
     setIsLoggedOut();
   };
 
-  console.log('colorMode', colorMode);
-
   const NavLink = ({
     isActiveRoute,
     linkTo,
