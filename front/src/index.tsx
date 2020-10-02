@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ReactDOM from 'react-dom';
 import configureStore from 'store';
-import { CSSReset, ThemeProvider } from '@chakra-ui/core';
+import { CSSReset, ThemeProvider, ColorModeProvider } from '@chakra-ui/core';
 import App from 'components/App';
 import theme from './theme';
 
@@ -14,8 +14,10 @@ const RenderedApp = (): JSX.Element => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
-          <CSSReset />
-          <App />
+          <ColorModeProvider>
+            <CSSReset />
+            <App />
+          </ColorModeProvider>
         </ThemeProvider>
       </PersistGate>
     </Provider>
