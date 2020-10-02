@@ -9,7 +9,7 @@ const ToggleColorModeButton = () => {
       aria-label="toggle color mode"
       ml=" 12px"
       onClick={toggleColorMode}
-      icon={colorMode === 'light' ? 'sun' : 'moon'}
+      icon={colorMode === 'light' ? 'moon' : 'sun'}
     />
   );
 };
