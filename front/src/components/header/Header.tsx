@@ -179,17 +179,22 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
               <Box display={{ xs: 'block', md: 'none' }}>
                 <LogoutButton closeHeader={closeHeader} />
               </Box>
+              <IconButton aria-label="Light Style"
+                onClick={toggleColorMode}
+                icon={colorMode === "light" ? "moon" : "sun"}
+                ml="14px"
+                variant="unstyled"
+              />
             </>
           ) : (
             <>
               <SignUpButton closeHeader={closeHeader} />
               <LoginButton closeHeader={closeHeader} />
-              <IconButton aria-label="Ligh Style"
+              <IconButton aria-label="Light Style"
                 onClick={toggleColorMode}
                 icon={colorMode === "light" ? "moon" : "sun"}
                 ml=" 12px"
                 variant="outline"
-                // width="120px"
                 borderColor="primary"
                 color="primary"
               />
