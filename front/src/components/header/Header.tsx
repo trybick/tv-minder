@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuGroup,
   Text,
+  useColorMode,
 } from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
@@ -21,6 +22,7 @@ import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
+import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
 import logo from '../../images/logo.svg';
 
 interface StateProps {
@@ -61,12 +63,15 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
+  const { colorMode } = useColorMode();
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
     closeHeader();
     setIsLoggedOut();
   };
+
+  console.log('colorMode', colorMode);
 
   const NavLink = ({
     isActiveRoute,
@@ -82,8 +87,8 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
     <Link onClick={closeHeader} to={linkTo}>
       <Text
         borderBottom={isActiveRoute ? '2px solid' : ''}
-        borderColor={isActiveRoute ? 'secondary' : ''}
-        color={isActiveRoute ? 'secondary' : 'primary'}
+        borderColor={isActiveRoute ? `mode.${colorMode}.secondary` : ''}
+        color={isActiveRoute ? `mode.${colorMode}.secondary` : `mode.${colorMode}.primary`}
         cursor="pointer"
         display="block"
         fontSize="1.1rem"
@@ -103,8 +108,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
       <Flex
         align="center"
         as="nav"
-        bg="white"
-        color="black"
         justify="space-between"
         padding="10px 1.6rem 5px"
         ref={wrapperRef}
@@ -180,6 +183,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <SignUpButton closeHeader={closeHeader} />
               <LoginButton closeHeader={closeHeader} />
+              <ToggleColorModeButton />
             </>
           )}
         </Box>
