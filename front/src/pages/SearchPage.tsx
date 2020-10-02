@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
-import { Box } from '@chakra-ui/core';
+import { Box, Flex, Image } from '@chakra-ui/core';
 import { searchShows } from 'gateway/searchShows';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
@@ -11,6 +11,7 @@ import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from '../components/search/SearchContainer';
 import SearchInput from '../components/search/subcomponents/SearchInput';
+import logo from '../images/logo.svg';
 
 interface StateProps {
   savedQueries: SavedQuery[];
@@ -87,7 +88,15 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   };
 
   return (
-    <Box mb="25px">
+    <Box 
+      width={{ xs: 'full', md: 'auto' }}
+      ml="auto"
+      mr="auto"
+      pt="10px"
+    >
+
+      <Image display="inline" height="80px" mt="50px" src={logo} />
+
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}
