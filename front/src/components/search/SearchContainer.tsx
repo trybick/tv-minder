@@ -1,8 +1,8 @@
 import React from 'react';
-import { Flex, Spinner, Text } from '@chakra-ui/core';
+import { Flex, Spinner, Text,Image } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
-
+import cam from '../../images/camera.png';
 interface Props {
   isInputDirty: boolean;
   isLoading: boolean;
@@ -24,7 +24,10 @@ const EmptyListMessage = () => (
 
 const WelcomeMessage = () => (
   <Flex justifyContent="center">
-    <Text>Welcome, search for a show</Text>
+    <Text>Ready with your snack?</Text>
+    <Text>Search your favourite show!</Text>
+    <Image src={cam} alt="camera" />
+
   </Flex>
 );
 
