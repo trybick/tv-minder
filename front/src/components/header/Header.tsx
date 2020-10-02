@@ -12,6 +12,8 @@ import {
   MenuItem,
   MenuGroup,
   Text,
+  IconButton,
+  useColorMode
 } from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
@@ -39,6 +41,7 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
   const closeHeader = () => setIsOpen(false);
+ 
 
   useEffect(() => {
     function closeHeaderOnOutsideClick(event: Event) {
@@ -61,6 +64,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -144,7 +148,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             text="My Shows"
           />
         </Box>
-
+          
         <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
           {isLoggedIn ? (
             <>
@@ -180,6 +184,15 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <SignUpButton closeHeader={closeHeader} />
               <LoginButton closeHeader={closeHeader} />
+              <IconButton aria-label="Ligh Style"
+                onClick={toggleColorMode}
+                icon={colorMode === "light" ? "moon" : "sun"}
+                ml=" 12px"
+                variant="outline"
+                // width="120px"
+                borderColor="primary"
+                color="primary"
+              />
             </>
           )}
         </Box>
