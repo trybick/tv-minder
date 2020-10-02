@@ -170,11 +170,13 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
+                  <ToggleColorModeButton />
                 </Menu>
               </Box>
 
               <Box display={{ xs: 'block', md: 'none' }}>
                 <LogoutButton closeHeader={closeHeader} />
+                <ToggleColorModeButton />
               </Box>
             </>
           ) : (
