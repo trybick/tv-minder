@@ -9,15 +9,15 @@ const Footer = () => {
 
   return (
     <>
+      <Box height="50px" padding=".6rem">
       <Divider />
-      <Box height="76px" padding=".5rem">
         <Flex
           alignItems="center"
           fontSize=".85rem"
           justifyContent="space-between"
           padding={{ xs: '1rem .3rem', sm: '1rem 2rem' }}
         >
-          <Box fontWeight="700">
+          <Box height="30px" fontWeight="700">
             <Link href="https://github.com/trybick/tv-minder" isExternal>
               <Box as={FaGithub} display="inline" mr="4px" size="16px" verticalAlign="sub" />
               <Text display="inline">GitHub</Text>
