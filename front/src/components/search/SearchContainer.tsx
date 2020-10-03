@@ -26,7 +26,7 @@ const WelcomeMessage = () => (
   <Flex justifyContent="center">
     <Text>Ready with your snack?</Text>
     <Text>Search your favourite show!</Text>
-    <Image src={cam} alt="camera" />
+    {/* <Image src={cam} alt="camera" /> */}
 
   </Flex>
 );
