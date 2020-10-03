@@ -6,3 +6,4 @@ Thanks for your interest! Please keep the following in mind. Please reference ou
 - Create an issue on GitHub or make sure you're assigned an existing one
 - Open a PR and post comments on your PR for tricky areas to help reviewers
 - On your pull request, ensure the Netlify build succeeds
+- Target the `master` branch for new pull requests
