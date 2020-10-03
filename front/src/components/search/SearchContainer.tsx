@@ -23,12 +23,13 @@ const EmptyListMessage = () => (
 );
 
 const WelcomeMessage = () => (
-  <Flex justifyContent="center">
-    <Text>Ready with your snack?</Text>
-    <Text>Search your favourite show!</Text>
-    {/* <Image src={cam} alt="camera" /> */}
-
+ <Flex justifyContent="center" display="block" textAlign="center">
+  
+    <Text >Ready with your snack?</Text>
+    <Text> Search your favourite show!</Text>
+     <Image marginLeft="40%" width="" height = "20%" src={cam} alt="camera" /> 
   </Flex>
+ 
 );
 
 const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
