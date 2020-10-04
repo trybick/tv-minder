@@ -1,9 +1,13 @@
 // Takes a list of showIds. Returns a list of persistent unique colors
+// Created by @tadite - see comment here for information
+// https://github.com/trybick/tv-minder/pull/48#issuecomment-703297673
+
 export const getUniqueColorsForShowIds = (showIds: number[]) => {
   // get list of indicies in color array
   const listOfIndicies: number[] = showIds.map(id => {
     // using modulus operator, so if id = 103 and color.length = 100, then colorIndex will be 3
     const colorIndex = id % colors.length;
+
     return colorIndex;
   });
 
@@ -11,8 +15,8 @@ export const getUniqueColorsForShowIds = (showIds: number[]) => {
   // trying to get unique numbers if have dublicates in listOfIndicies
   const uniqueIndices = listOfIndicies.map(index => {
     // counting the number of steps done while finding unique index
-    var findUniqueIndexStepsCount = 0;
-    var uniqueIndex = index;
+    let findUniqueIndexStepsCount = 0;
+    let uniqueIndex = index;
     // stopping when tried all available color indices
     while (findUniqueIndexStepsCount < colors.length) {
       if (!usedIndicies.hasOwnProperty(uniqueIndex)) {
@@ -22,9 +26,10 @@ export const getUniqueColorsForShowIds = (showIds: number[]) => {
         // using modulus operator, so if colors.length = 3 and index = 2
         // will be trying to find unique index in cycle stepping like 2->3->0->1->2
         uniqueIndex = (uniqueIndex + 1) % colors.length;
-      } 
+      }
     }
     usedIndicies[uniqueIndex] = true;
+
     return uniqueIndex;
   });
 
