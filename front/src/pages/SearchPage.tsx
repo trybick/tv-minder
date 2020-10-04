@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
-import { Box } from '@chakra-ui/core';
+import { Box, useColorMode } from '@chakra-ui/core';
 import { searchShows } from 'gateway/searchShows';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
@@ -29,6 +29,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [shows, setShows] = useState<ShowSearchResult[]>([]);
   const [totalResults, setTotalResults] = useState(0);
+  const { colorMode } = useColorMode();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
@@ -87,7 +88,14 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   };
 
   return (
-    <Box mb="25px">
+    <Box 
+      background={colorMode === 'light' ? '#FAFAFA' : '#252E41'}
+      borderRadius= "15px"
+      flex='1'
+      margin= "50px"
+      mb="25px"
+      paddingBottom="20px"
+    >
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

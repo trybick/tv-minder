@@ -10,13 +10,13 @@ export default {
     mode: {
       light: {
         ...defaultTheme.colors,
-        primary: '#0099DB',
+        primary: '#659bc7',
         secondary: '#034A85',
       },
       dark: {
         ...defaultTheme.colors,
         secondary: '#0099DB',
-        primary: '#034A85',
+        primary: '#659bc7',
       },
     },
   },

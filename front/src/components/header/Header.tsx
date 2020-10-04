@@ -84,14 +84,13 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
       <Text
-        borderBottom={isActiveRoute ? '2px solid' : ''}
         borderColor={isActiveRoute ? `mode.${colorMode}.secondary` : ''}
         color={isActiveRoute ? `mode.${colorMode}.secondary` : `mode.${colorMode}.primary`}
         cursor="pointer"
         display="block"
-        fontSize="1.1rem"
+        fontSize="1.2rem"
         fontWeight={isActiveRoute ? '600' : '500'}
-        mr={8}
+        mr={1}
         mt={{ base: 4, md: 0 }}
         padding={{ base: 0, md: '0 12px 5px' }}
         width={{ base: mobileWidth, md: 'unset' }}
@@ -128,6 +127,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
           ml="auto"
           mr="auto"
+          paddingLeft="10px"
           pt="10px"
           width={{ xs: 'full', md: 'auto' }}
         >
