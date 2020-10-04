@@ -110,7 +110,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           <ModalBody pb={6}>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
-              <Input autoFocus name="email" placeholder="Email" ref={register(formSchema.email)} />
+              <Input name="email" placeholder="Email" ref={register(formSchema.email)} autoFocus />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 

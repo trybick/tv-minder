@@ -75,7 +75,7 @@ const SearchResult = ({
 
         <Box minW="0">
           <Flex justify="space-between">
-            <Heading isTruncated mr="10px" size="md">
+            <Heading mr="10px" size="md" isTruncated>
               {name}
             </Heading>
 

@@ -38,13 +38,13 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
 
   return (
     <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 2.65fr">
-      <Tooltip aria-label={name} hasArrow label={name} placement="top">
+      <Tooltip aria-label={name} label={name} placement="top" hasArrow>
         <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
       </Tooltip>
 
       <Box minWidth="0">
         <Box display="flex" justifyContent="space-between">
-          <Heading as="h4" fontSize="lg" isTruncated mb="6px" textAlign="center">
+          <Heading as="h4" fontSize="lg" mb="6px" textAlign="center" isTruncated>
             {name}
           </Heading>
 

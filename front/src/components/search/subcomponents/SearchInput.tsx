@@ -17,11 +17,10 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => (
-  <Flex w="xs" direction="column" justify="center" m="100px auto 25px">
+  <Flex direction="column" justify="center" m="100px auto 25px" w="xs">
     <InputGroup display="flex">
-      <InputLeftElement top="5px" children={<Icon name="search-2" color="gray.300" />} />
+      <InputLeftElement children={<Icon color="gray.300" name="search-2" />} top="5px" />
       <Input
-        autoFocus
         border="2px solid #0099DB"
         borderRadius="5px"
         height="50px"
@@ -31,6 +30,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
         size="md"
         value={inputValue}
         variant="flushed"
+        autoFocus
       />
       {inputValue && (
         <InputRightElement

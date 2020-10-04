@@ -148,13 +148,13 @@ const SignUpModal = ({
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
-                autoFocus
                 name="email"
                 placeholder="Email"
                 ref={(emailInput: HTMLInputElement) => {
                   register(emailInput, formSchema.email);
                   emailRef.current = emailInput;
                 }}
+                autoFocus
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
