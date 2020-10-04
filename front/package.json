@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "react-scripts build",
-    "format": "eslint --fix --ext .tsx,.js,.ts . && prettier --write \"**/*.{js,scss,json,ts,tsx}\"",
+    "lint": "eslint --fix --ext .tsx,.js,.ts .",
     "start": "cross-env PORT=4000 react-scripts start"
   },
   "dependencies": {

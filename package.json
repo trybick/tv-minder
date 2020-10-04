@@ -19,8 +19,7 @@
     "postinstall": "(cd api && yarn); (cd front && yarn);",
     "serve": "yarn --cwd api serve",
     "serve-stop": "yarn --cwd api serve-stop",
-    "start": "yarn --cwd front start",
-    "format-front": "yarn --cwd front format"
+    "start": "yarn --cwd front start"
   },
   "dependencies": {}
 }
