@@ -9,9 +9,10 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => (
-  <Flex w="xs" direction="column" justify="center" m="100px auto 25px">
+  <Flex direction="column" justify="center" m="100px auto 25px" w="xs">
     <InputGroup>
       <Input
+        autoFocus
         focusBorderColor="primary"
         onChange={handleChange}
         placeholder="Enter show name"
@@ -19,7 +20,6 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
         size="md"
         value={inputValue}
         variant="flushed"
-        autoFocus
       />
       {inputValue && (
         <InputRightElement

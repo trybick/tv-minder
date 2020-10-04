@@ -19,14 +19,14 @@ const CalendarPage = () => {
 
   return (
     <Box mb="25px">
-      <Box maxW="1170px" m="30px auto 0" p="0 25px">
+      <Box m="30px auto 0" maxW="1170px" p="0 25px">
         <FullCalendar
-          eventAllow={() => false} // do not allow dragging
+          dayMaxEventRows // do not allow dragging
+          editable
+          eventAllow={() => false}
           events={calendarEpisodes}
-          initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'dayGridWeek'}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          dayMaxEventRows // display popover if events overflow in a day
-          editable // enable mouse pointer cursor
+          initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'dayGridWeek'} // display popover if events overflow in a day
+          plugins={[dayGridPlugin, interactionPlugin]} // enable mouse pointer cursor
         />
       </Box>
     </Box>

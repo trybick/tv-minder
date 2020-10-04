@@ -18,11 +18,11 @@ const LoginButton = ({ closeHeader }: Props) => {
   return (
     <>
       <Button
+        borderColor="primary"
+        color="primary"
         ml=" 12px"
         onClick={handleClick}
         variant="outline"
-        borderColor="primary"
-        color="primary"
       >
         Login
       </Button>

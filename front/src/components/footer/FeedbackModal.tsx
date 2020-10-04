@@ -53,7 +53,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} initialFocusRef={initialRef} onClose={onClose}>
+    <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Submit Feedback</ModalHeader>

@@ -49,7 +49,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
               {seasonEpisodeNumber}
             </Text>
 
-            <Text fontSize="sm" fontWeight="600" mr="12px" isTruncated>
+            <Text fontSize="sm" fontWeight="600" isTruncated mr="12px">
               {showName}
             </Text>
           </Grid>
@@ -58,7 +58,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
 
         <AccordionPanel pb={4}>
           <Grid alignItems="center" gap={6} templateColumns="1fr 3fr">
-            <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
+            <Tooltip aria-label={showName} hasArrow label={showName} placement="right">
               <Box>
                 <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
               </Box>

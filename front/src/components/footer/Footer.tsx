@@ -30,7 +30,7 @@ const Footer = () => {
             <Text display="inline">TV-Minder</Text>
           </Box>
 
-          <Button rightIcon={FaRegComment} ml="auto" onClick={onOpen} size="sm" variantColor="cyan">
+          <Button ml="auto" onClick={onOpen} rightIcon={FaRegComment} size="sm" variantColor="cyan">
             Feedback
           </Button>
           <FeedbackModal disclosureProps={disclosureProps} />

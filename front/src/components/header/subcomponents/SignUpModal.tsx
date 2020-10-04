@@ -132,7 +132,7 @@ const SignUpModal = ({
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
@@ -148,28 +148,28 @@ const SignUpModal = ({
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
+                autoFocus
                 name="email"
                 placeholder="Email"
                 ref={(emailInput: HTMLInputElement) => {
                   register(emailInput, formSchema.email);
                   emailRef.current = emailInput;
                 }}
-                autoFocus
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl mt={4} isInvalid={Boolean(errors.password)}>
+            <FormControl isInvalid={Boolean(errors.password)} mt={4}>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
                   name="password"
-                  type={passwordVisible ? 'text' : 'password'}
                   placeholder="Password"
                   ref={register(formSchema.password)}
+                  type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>
+                  <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
                     {passwordVisible ? 'Hide' : 'Show'}
                   </Button>
                 </InputRightElement>
@@ -177,7 +177,7 @@ const SignUpModal = ({
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl mt={4} isInvalid={Boolean(errors.confirmPassword)}>
+            <FormControl isInvalid={Boolean(errors.confirmPassword)} mt={4}>
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <Input
@@ -187,7 +187,7 @@ const SignUpModal = ({
                   type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>
+                  <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
                     {passwordVisible ? 'Hide' : 'Show'}
                   </Button>
                 </InputRightElement>
@@ -195,13 +195,13 @@ const SignUpModal = ({
               <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl mt={4} isInvalid={Boolean(errors.signUp)}>
+            <FormControl isInvalid={Boolean(errors.signUp)} mt={4}>
               <FormErrorMessage>{errors.signUp?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="teal" mr={3} type="submit" isLoading={isLoading}>
+            <Button isLoading={isLoading} mr={3} type="submit" variantColor="teal">
               Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>
