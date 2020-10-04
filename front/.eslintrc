@@ -29,5 +29,5 @@
       "shorthandLast": true
     }]
   },
-  "ignorePatterns": ["node_modules/*", "public/*"]
+  "ignorePatterns": ["node_modules/*", "public/*", "build/*"]
 }
