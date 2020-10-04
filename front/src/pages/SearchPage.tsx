@@ -89,12 +89,12 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
 
   return (
     <Box 
-      mb="25px"
-      background={colorMode == 'light' ? '#FAFAFA' : '#252e41'}
+      background={colorMode === 'light' ? '#FAFAFA' : '#252E41'}
       borderRadius= "15px"
-      margin= "50px"
-      paddingBottom="20px"
       flex='1'
+      margin= "50px"
+      mb="25px"
+      paddingBottom="20px"
     >
       <SearchInput
         handleChange={handleChange}
