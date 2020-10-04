@@ -12,15 +12,15 @@ import {
   InputGroup,
   InputRightElement,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useToast,
 } from '@chakra-ui/core';
-import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { API, emailRegex } from 'utils/constants';

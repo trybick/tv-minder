@@ -1,12 +1,12 @@
 import React, { ChangeEvent, RefObject } from 'react';
 import {
   Flex,
+  Icon,
   IconButton,
   Input,
   InputGroup,
-  InputRightElement,
-  Icon,
   InputLeftElement,
+  InputRightElement,
 } from '@chakra-ui/core';
 
 interface Props {

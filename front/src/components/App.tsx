@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Flex } from '@chakra-ui/core';
 import ReactGA from 'react-ga';
-import { AppState, AppThunkPlainAction, AppThunkDispatch } from 'store';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/selectors';
 import Header from 'components/header/Header';

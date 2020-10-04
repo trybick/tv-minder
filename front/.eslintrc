@@ -25,9 +25,19 @@
     "@typescript-eslint/camelcase": 0,
     "react-hooks/exhaustive-deps": 0,
     "arrow-parens": ["warn", "as-needed"],
-    "react/jsx-sort-props": [1, {
-      "shorthandLast": true
-    }]
+    "react/jsx-sort-props": [
+      1,
+      {
+        "shorthandLast": true
+      }
+    ],
+    "sort-imports": [
+      1,
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ]
   },
   "ignorePatterns": ["node_modules/*", "public/*", "build/*"]
 }

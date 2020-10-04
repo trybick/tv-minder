@@ -1,8 +1,8 @@
-import { Action, Reducer, AnyAction } from 'redux';
+import { Action, AnyAction, Reducer } from 'redux';
 import {
   REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
-  SAVE_SEARCH_QUERY,
   SAVE_EPISODE_DATA,
+  SAVE_SEARCH_QUERY,
   SET_CALENDAR_EPISODES,
 } from './actions';
 import { SavedQuery } from './types';

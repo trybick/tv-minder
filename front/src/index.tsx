@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ReactDOM from 'react-dom';
 import configureStore from 'store';
-import { CSSReset, ThemeProvider, ColorModeProvider } from '@chakra-ui/core';
+import { ColorModeProvider, CSSReset, ThemeProvider } from '@chakra-ui/core';
 import App from 'components/App';
 import theme from './theme';
 

@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   Accordion,
-  AccordionItem,
   AccordionHeader,
-  AccordionPanel,
   AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Badge,
   Box,
   Grid,

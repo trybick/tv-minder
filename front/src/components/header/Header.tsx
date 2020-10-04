@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, RefObject } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
@@ -8,9 +8,9 @@ import {
   Image,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   MenuGroup,
+  MenuItem,
+  MenuList,
   Text,
   useColorMode,
 } from '@chakra-ui/core';

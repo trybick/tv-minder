@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@chakra-ui/core';
-import { AppThunkPlainAction, AppThunkDispatch } from 'store';
+import { AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedOutAction } from 'store/user/actions';
 
 interface OwnProps {

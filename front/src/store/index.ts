@@ -1,6 +1,6 @@
 import { Action, AnyAction, applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { persistStore, persistReducer, Persistor } from 'redux-persist';
+import { Persistor, persistReducer, persistStore } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import storage from 'redux-persist/lib/storage';
 import { userReducer, UserState } from './user/reducers';

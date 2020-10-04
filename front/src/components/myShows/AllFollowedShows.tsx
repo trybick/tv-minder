@@ -8,8 +8,8 @@ import {
   Image,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
+  MenuList,
   Text,
   Tooltip,
 } from '@chakra-ui/core';

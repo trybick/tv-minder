@@ -2,12 +2,12 @@ import React, { ChangeEvent, useState } from 'react';
 import {
   Button,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Textarea,
   useToast,
 } from '@chakra-ui/core';
