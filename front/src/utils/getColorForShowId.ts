@@ -1,22 +1,31 @@
 // Takes a list of showIds. Returns a list of persistent unique colors
 export const getUniqueColorsForShowIds = (showIds: number[]) => {
+  // get list of indicies in color array
   const listOfIndicies: number[] = showIds.map(id => {
-    const lastTwoDigitsOfShowId = +id.toString().slice(-2);
-    const lastThreeDigitsOfShowId = +id.toString().slice(-3);
-    const colorIndex =
-      lastThreeDigitsOfShowId > colors.length ? lastTwoDigitsOfShowId : lastThreeDigitsOfShowId;
-
+    // using modulus operator, so if id = 103 and color.length = 100, then colorIndex will be 3
+    const colorIndex = id % colors.length;
     return colorIndex;
   });
 
   const usedIndicies: { [key: number]: boolean } = {};
+  // trying to get unique numbers if have dublicates in listOfIndicies
   const uniqueIndices = listOfIndicies.map(index => {
-    if (!usedIndicies.hasOwnProperty(index)) {
-      usedIndicies[index] = true;
-      return index;
-    } else {
-      return index + 1;
+    // counting the number of steps done while finding unique index
+    var findUniqueIndexStepsCount = 0;
+    var uniqueIndex = index;
+    // stopping when tried all available color indices
+    while (findUniqueIndexStepsCount < colors.length) {
+      if (!usedIndicies.hasOwnProperty(uniqueIndex)) {
+        break;
+      } else {
+        findUniqueIndexStepsCount++;
+        // using modulus operator, so if colors.length = 3 and index = 2
+        // will be trying to find unique index in cycle stepping like 2->3->0->1->2
+        uniqueIndex = (uniqueIndex + 1) % colors.length;
+      } 
     }
+    usedIndicies[uniqueIndex] = true;
+    return uniqueIndex;
   });
 
   const uniqueColors = uniqueIndices.map(num => colors[num]);
