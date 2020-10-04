@@ -19,5 +19,5 @@
     "no-unused-vars": 1,
     "@typescript-eslint/no-explicit-any": 1
   },
-  "exclude": ["node_modules", "dist"]
+  "ignorePatterns": ["node_modules/*", "dist/*"]
 }
