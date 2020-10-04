@@ -1,5 +1,13 @@
 import React, { ChangeEvent, RefObject } from 'react';
-import { Flex, IconButton, Input, InputGroup, InputRightElement, Icon, InputLeftElement } from '@chakra-ui/core';
+import {
+  Flex,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Icon,
+  InputLeftElement,
+} from '@chakra-ui/core';
 
 interface Props {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -9,9 +17,9 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => (
-  <Flex w="xs" direction="column" justify="center" m="100px auto 25px" >
+  <Flex w="xs" direction="column" justify="center" m="100px auto 25px">
     <InputGroup display="flex">
-      <InputLeftElement top="5px" children={<Icon name="search-2" color="gray.300"/>} />
+      <InputLeftElement top="5px" children={<Icon name="search-2" color="gray.300" />} />
       <Input
         autoFocus
         border="2px solid #0099DB"

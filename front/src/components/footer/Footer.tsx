@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <>
       <Box height="50px" padding=".6rem">
-      <Divider />
+        <Divider />
         <Flex
           alignItems="center"
           fontSize=".85rem"

@@ -88,11 +88,11 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   };
 
   return (
-    <Box 
+    <Box
       background={colorMode === 'light' ? '#FAFAFA' : '#252E41'}
-      borderRadius= "15px"
-      flex='1'
-      margin= "50px"
+      borderRadius="15px"
+      flex="1"
+      margin="50px"
       mb="25px"
       paddingBottom="20px"
     >
