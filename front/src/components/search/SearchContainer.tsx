@@ -1,5 +1,13 @@
 import React from 'react';
-import { Flex, Spinner, Text } from '@chakra-ui/core';
+import {
+  Flex,
+  Spinner,
+  Text,
+  Stat,
+  StatLabel,
+  StatHelpText,
+  Box,
+} from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
 
@@ -24,7 +32,12 @@ const EmptyListMessage = () => (
 
 const WelcomeMessage = () => (
   <Flex justifyContent="center">
-    <Text>Welcome, search for a show</Text>
+    <Stat borderWidth="1px" padding="12px" shadow="sm">
+      <StatLabel>Keep track of your favorite shows with this app</StatLabel>
+      <Box d='flex' flexDirection='column' alignItems='center'>
+        <StatHelpText>Search for a show now !</StatHelpText>
+      </Box>
+    </Stat>
   </Flex>
 );
 
