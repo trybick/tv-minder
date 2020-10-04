@@ -125,7 +125,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
 
         <Box
           display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
-          ml="auto"
           mr="auto"
           paddingLeft="10px"
           pt="10px"
