@@ -31,8 +31,6 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   const [totalResults, setTotalResults] = useState(0);
   const { colorMode } = useColorMode();
 
-  const backGroundCardColor = colorMode == 'light' ? '#FAFAFA' : '#252e41';
- 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
     setIsInputDirty(true);
@@ -92,7 +90,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   return (
     <Box 
       mb="25px"
-      background={backGroundCardColor}
+      background={colorMode == 'light' ? '#FAFAFA' : '#252e41'}
       borderRadius= "15px"
       margin= "50px"
       paddingBottom="20px"

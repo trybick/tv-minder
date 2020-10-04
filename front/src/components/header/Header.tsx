@@ -125,10 +125,10 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
 
         <Box
           display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
-          paddingLeft="10px"
-          width={{ xs: 'full', md: 'auto' }}
           mr="auto"
+          paddingLeft="10px"
           pt="10px"
+          width={{ xs: 'full', md: 'auto' }}
         >
           <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" mobileWidth="48px" text="Home" />
           <NavLink

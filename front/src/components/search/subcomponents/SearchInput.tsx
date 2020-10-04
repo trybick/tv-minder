@@ -13,15 +13,15 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
     <InputGroup display="flex">
       <InputLeftElement top="5px" children={<Icon name="search-2" color="gray.300"/>} />
       <Input
+        autoFocus
+        border="2px solid #0099DB" 
+        borderRadius="5px"
+        height="50px"
         onChange={handleChange}
         placeholder="Enter show name"
         ref={inputRef}
         size="md"
         value={inputValue}
-        border="2px solid #0099DB" 
-        height="50px"
-        borderRadius="5px"
-        autoFocus
       />
       {inputValue && (
         <InputRightElement

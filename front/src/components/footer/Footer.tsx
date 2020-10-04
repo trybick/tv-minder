@@ -17,7 +17,7 @@ const Footer = () => {
           justifyContent="space-between"
           padding={{ xs: '1rem .3rem', sm: '1rem 2rem' }}
         >
-          <Box height="30px" fontWeight="700">
+          <Box fontWeight="700" height="30px">
             <Link href="https://github.com/trybick/tv-minder" isExternal>
               <Box as={FaGithub} display="inline" mr="4px" size="16px" verticalAlign="sub" />
               <Text display="inline">GitHub</Text>
@@ -30,7 +30,7 @@ const Footer = () => {
             <Text display="inline">TV-Minder</Text>
           </Box>
 
-          <Button rightIcon={FaRegComment} ml="auto" onClick={onOpen} size="sm" variantColor="cyan">
+          <Button ml="auto" rightIcon={FaRegComment} onClick={onOpen} size="sm" variantColor="cyan">
             Feedback
           </Button>
           <FeedbackModal disclosureProps={disclosureProps} />
