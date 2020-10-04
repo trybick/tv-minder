@@ -67,7 +67,7 @@ const SearchResult = ({
   }
 
   return (
-    <Box p={3} mb={4} shadow="md" borderWidth="1px">
+    <Box borderWidth="1px" mb={4} p={3} shadow="md">
       <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
         <Box width="50px">
           <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
@@ -110,8 +110,8 @@ const SearchResult = ({
             <Text fontSize=".9rem">{yearForDisplay}</Text>
 
             {popularityForDisplay && (
-              <Flex ml="10px" align="center">
-                <Badge variant="subtle" color="green.400">
+              <Flex align="center" ml="10px">
+                <Badge color="green.400" variant="subtle">
                   {popularityForDisplay}% watching now
                 </Badge>
               </Flex>

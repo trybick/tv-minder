@@ -39,7 +39,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
         <Header />
 
         <Switch>
-          <Route exact path="/">
+          <Route path="/" exact>
             <SearchPage />
           </Route>
           <Route path="/calendar">

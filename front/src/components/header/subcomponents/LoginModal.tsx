@@ -95,7 +95,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
@@ -114,7 +114,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl mt={4} isInvalid={Boolean(errors.password)}>
+            <FormControl isInvalid={Boolean(errors.password)} mt={4}>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
@@ -124,7 +124,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={togglePasswordVisible} tabIndex={-1}>
+                  <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
                     {passwordVisible ? 'Hide' : 'Show'}
                   </Button>
                 </InputRightElement>
@@ -132,13 +132,13 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl mt={4} isInvalid={Boolean(errors.login)}>
+            <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="cyan" mr={3} isLoading={isLoading} type="submit">
+            <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
               Login
             </Button>
             <Button onClick={onClose}>Cancel</Button>

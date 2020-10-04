@@ -19,7 +19,7 @@ const CalendarPage = () => {
 
   return (
     <Box mb="25px">
-      <Box maxW="1170px" m="30px auto 0" p="0 25px">
+      <Box m="30px auto 0" maxW="1170px" p="0 25px">
         <FullCalendar
           eventAllow={() => false} // do not allow dragging
           events={calendarEpisodes}

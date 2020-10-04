@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <>
       <Box height="50px" padding=".6rem">
-      <Divider />
+        <Divider />
         <Flex
           alignItems="center"
           fontSize=".85rem"
@@ -30,7 +30,7 @@ const Footer = () => {
             <Text display="inline">TV-Minder</Text>
           </Box>
 
-          <Button ml="auto" rightIcon={FaRegComment} onClick={onOpen} size="sm" variantColor="cyan">
+          <Button ml="auto" onClick={onOpen} rightIcon={FaRegComment} size="sm" variantColor="cyan">
             Feedback
           </Button>
           <FeedbackModal disclosureProps={disclosureProps} />

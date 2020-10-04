@@ -89,8 +89,8 @@ const AllFollowedShows = () => {
 
       {allShows.length ? (
         <Grid
-          justifyContent="center"
           gap={6}
+          justifyContent="center"
           templateColumns={{ base: 'repeat(auto-fill, 300px)', md: 'repeat(auto-fill, 400px)' }}
         >
           {allShows.map(show => (
