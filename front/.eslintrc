@@ -28,5 +28,6 @@
     "react/jsx-sort-props": [2, {
       "shorthandLast": true
     }]
-  }
+  },
+  "ignorePatterns": ["node_modules/*", "public/*"]
 }

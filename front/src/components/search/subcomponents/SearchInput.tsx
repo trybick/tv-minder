@@ -19,7 +19,9 @@ interface Props {
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => (
   <Flex direction="column" justify="center" m="100px auto 25px" w="xs">
     <InputGroup display="flex">
-      <InputLeftElement children={<Icon color="gray.300" name="search-2" />} top="5px" />
+      <InputLeftElement top="5px">
+        <Icon color="gray.300" name="search-2" />
+      </InputLeftElement>
       <Input
         border="2px solid #0099DB"
         borderRadius="5px"
@@ -33,17 +35,15 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
         autoFocus
       />
       {inputValue && (
-        <InputRightElement
-          children={
-            <IconButton
-              aria-label="Clear input"
-              icon="small-close"
-              onClick={handleClearInput}
-              size="sm"
-              variant="ghost"
-            />
-          }
-        />
+        <InputRightElement>
+          <IconButton
+            aria-label="Clear input"
+            icon="small-close"
+            onClick={handleClearInput}
+            size="sm"
+            variant="ghost"
+          />
+        </InputRightElement>
       )}
     </InputGroup>
   </Flex>
