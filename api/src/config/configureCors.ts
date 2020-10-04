@@ -4,6 +4,7 @@ const allowedOrigins = [
   'http://localhost:4000',
   'https://www.tv-minder.com',
   'https://tv-minder.com',
+  'https://netlify.app',
 ];
 
 const configureCors = (req: Request, res: Response, next: NextFunction) => {
