@@ -6,16 +6,19 @@ import {
   Stat,
   StatLabel,
   StatHelpText,
-  Box,
+  Image,
+  StatGroup,
 } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
+import logo from '../../images/logo.svg';
 
 interface Props {
   isInputDirty: boolean;
   isLoading: boolean;
   shows: ShowSearchResult[];
   totalResults: number;
+  colorMode: 'light' | 'dark';
 }
 
 const LoadingSpinner = () => (
@@ -30,18 +33,28 @@ const EmptyListMessage = () => (
   </Flex>
 );
 
-const WelcomeMessage = () => (
+const WelcomeMessage = ({ colorMode }: Pick<Props, 'colorMode'>) => (
   <Flex justifyContent="center">
-    <Stat borderWidth="1px" padding="12px" shadow="sm">
-      <StatLabel>Keep track of your favorite shows with this app</StatLabel>
-      <Box d='flex' flexDirection='column' alignItems='center'>
+    <StatGroup
+      bg={colorMode === 'light' ? 'white' : ''}
+      d="flex"
+      alignItems="center"
+      flexDirection={{ sm: 'column', lg: 'row' }}
+      borderWidth="1px"
+      padding="15px"
+      shadow="sm"
+      minHeight="125px"
+    >
+      <Stat d="flex" flexDirection="column" alignItems="center">
+        <StatLabel>Keep track of your favorite shows with this app</StatLabel>
         <StatHelpText>Search for a show now !</StatHelpText>
-      </Box>
-    </Stat>
+      </Stat>
+      <Image alt="logo" height="35px" src={logo} />
+    </StatGroup>
   </Flex>
 );
 
-const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
+const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults, colorMode }: Props) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
@@ -50,7 +63,7 @@ const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (
-      <WelcomeMessage />
+      <WelcomeMessage colorMode={colorMode} />
     )}
   </Flex>
 );
