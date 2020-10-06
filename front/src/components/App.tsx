@@ -12,6 +12,8 @@ import SearchPage from 'pages/SearchPage';
 import CalendarPage from 'pages/CalendarPage';
 import MyShowsPage from 'pages/MyShowsPage';
 import { gAnalyticsID } from 'utils/constants';
+import ProtectedRoute from './ProtectedRoute';
+import MyProfilePage from 'pages/MyProfilePage';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -37,7 +39,6 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     <Router>
       <Flex direction="column" minH="97vh">
         <Header />
-
         <Switch>
           <Route path="/" exact>
             <SearchPage />
@@ -48,9 +49,13 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
           <Route path="/my-shows">
             <MyShowsPage />
           </Route>
+          <Route path="/my-profile">
+            <ProtectedRoute>
+              <MyProfilePage />
+            </ProtectedRoute>
+          </Route>
         </Switch>
       </Flex>
-
       <Footer />
     </Router>
   );
