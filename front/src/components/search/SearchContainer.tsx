@@ -8,17 +8,17 @@ import {
   StatHelpText,
   Image,
   StatGroup,
+  useColorMode
 } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
-import logo from '../../images/logo.svg';
+import clock from '../../images/clock.png'
 
 interface Props {
   isInputDirty: boolean;
   isLoading: boolean;
   shows: ShowSearchResult[];
   totalResults: number;
-  colorMode: 'light' | 'dark';
 }
 
 const LoadingSpinner = () => (
@@ -33,28 +33,31 @@ const EmptyListMessage = () => (
   </Flex>
 );
 
-const WelcomeMessage = ({ colorMode }: Pick<Props, 'colorMode'>) => (
-  <Flex justifyContent="center">
-    <StatGroup
-      bg={colorMode === 'light' ? 'white' : ''}
-      d="flex"
-      alignItems="center"
-      flexDirection={{ sm: 'column', lg: 'row' }}
-      borderWidth="1px"
-      padding="15px"
-      shadow="sm"
-      minHeight="125px"
-    >
-      <Stat d="flex" flexDirection="column" alignItems="center">
-        <StatLabel>Keep track of your favorite shows with this app</StatLabel>
-        <StatHelpText>Search for a show now !</StatHelpText>
-      </Stat>
-      <Image alt="logo" height="35px" src={logo} />
-    </StatGroup>
-  </Flex>
-);
+const WelcomeMessage = () => {
+  const { colorMode } = useColorMode(); 
+  return (
+    <Flex justifyContent="center">
+      <StatGroup
+        bg={colorMode === 'light' ? 'white' : ''}
+        d="flex"
+        alignItems="center"
+        flexDirection={{ sm: 'column', lg: 'row' }}
+        borderWidth="1px"
+        padding="10px"
+        shadow="sm"
+        minHeight="120px"
+      >
+        <Stat d="flex" flexDirection="column" alignItems="center">
+          <StatLabel>Keep track of your favorite shows.</StatLabel>
+          <StatHelpText>Search for a show now!</StatHelpText>
+        </Stat>
+        <Image alt="alt clock logo" height="80px" objectFit='cover' src={clock} />
+      </StatGroup>
+    </Flex>
+  );
+};
 
-const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults, colorMode }: Props) => (
+const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
@@ -63,7 +66,7 @@ const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults, colorMo
     ) : isInputDirty ? (
       <EmptyListMessage />
     ) : (
-      <WelcomeMessage colorMode={colorMode} />
+      <WelcomeMessage />
     )}
   </Flex>
 );

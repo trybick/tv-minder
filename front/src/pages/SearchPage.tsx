@@ -107,7 +107,6 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
         isLoading={isLoading}
         shows={shows}
         totalResults={totalResults}
-        colorMode={colorMode}
       />
     </Box>
   );
