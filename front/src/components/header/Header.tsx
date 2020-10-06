@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
   Box,
@@ -64,6 +64,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -140,9 +141,19 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           <NavLink
             isActiveRoute={activeRoute === '/my-shows'}
             linkTo="/my-shows"
-            mobileWidth="84px"
+            mobileWidth="100px"
             text="My Shows"
           />
+          {isLoggedIn ? (
+            <Box display={{ xs: 'block', md: 'none' }}>
+              <NavLink
+                isActiveRoute={activeRoute === '/my-profile'}
+                linkTo="/my-profile"
+                mobileWidth="100px"
+                text="My Profile"
+              />
+            </Box>
+          ) : null}
         </Box>
 
         <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
@@ -166,6 +177,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Options">
+                      <MenuItem onClick={() => history.push('/my-profile')}>My Profile</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
