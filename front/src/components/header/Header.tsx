@@ -23,7 +23,7 @@ import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
-import logo from '../../images/logo.svg';
+import logo from 'images/logo.svg';
 
 interface StateProps {
   isLoggedIn: boolean;
