@@ -17,9 +17,14 @@ const Footer = () => {
           justifyContent="space-between"
           p={{ xs: '1rem .3rem', sm: '1rem 2rem' }}
         >
-          <Box fontWeight="700" height="30px">
-            <Link href="https://github.com/trybick/tv-minder" isExternal>
-              <Box as={FaGithub} display="inline" mr="4px" size="16px" verticalAlign="sub" />
+          <Box fontWeight="700">
+            <Link
+              alignItems="baseline"
+              display="flex"
+              href="https://github.com/trybick/tv-minder"
+              isExternal
+            >
+              <Box as={FaGithub} display="inline" mr="4px" size="12px" verticalAlign="sub" />
               <Text display="inline">GitHub</Text>
             </Link>
           </Box>
