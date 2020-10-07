@@ -2,13 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from 'store';
 import { Redirect } from 'react-router-dom';
+import { selectIsLoggedIn } from 'store/user/selectors';
 
-export interface ProtectedRouteProps {
+interface Props {
   children: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }: ProtectedRouteProps) => {
-  const isUserLoggedIn = useSelector((state: AppState) => state.user && state.user.isLoggedIn);
+const ProtectedRoute: React.FC<Props> = ({ children }: Props) => {
+  const isUserLoggedIn = useSelector((state: AppState) => selectIsLoggedIn(state));
 
   return <>{isUserLoggedIn ? children : <Redirect to="/" />}</>;
 };
