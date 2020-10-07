@@ -1,18 +1,18 @@
 import React from 'react';
 import {
   Flex,
-  Spinner,
-  Text,
-  Stat,
-  StatLabel,
-  StatHelpText,
   Image,
+  Spinner,
+  Stat,
   StatGroup,
-  useColorMode
+  StatHelpText,
+  StatLabel,
+  Text,
+  useColorMode,
 } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
-import clock from '../../images/clock.png'
+import clock from 'images/clock.png';
 
 interface Props {
   isInputDirty: boolean;
@@ -34,24 +34,27 @@ const EmptyListMessage = () => (
 );
 
 const WelcomeMessage = () => {
-  const { colorMode } = useColorMode(); 
+  const { colorMode } = useColorMode();
+
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" mt="10px">
       <StatGroup
-        bg={colorMode === 'light' ? 'white' : ''}
-        d="flex"
         alignItems="center"
-        flexDirection={{ sm: 'column', lg: 'row' }}
+        bg={colorMode === 'light' ? 'white' : ''}
         borderWidth="1px"
-        padding="10px"
-        shadow="sm"
-        minHeight="120px"
+        d="flex"
+        flexDirection={{ sm: 'column', lg: 'row' }}
+        minH="120px"
+        p="16px 26px"
+        shadow="md"
       >
-        <Stat d="flex" flexDirection="column" alignItems="center">
-          <StatLabel>Keep track of your favorite shows.</StatLabel>
-          <StatHelpText>Search for a show now!</StatHelpText>
+        <Stat alignItems="center" d="flex" flexDirection="column">
+          <StatLabel fontSize="16px">Start following your favorite shows</StatLabel>
+          <StatHelpText fontSize="16px" mt="6px">
+            Never miss an episode!
+          </StatHelpText>
         </Stat>
-        <Image alt="alt clock logo" height="80px" objectFit='cover' src={clock} />
+        <Image alt="alt clock logo" height="55px" objectFit="cover" src={clock} />
       </StatGroup>
     </Flex>
   );

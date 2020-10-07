@@ -94,7 +94,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       flex="1"
       margin="50px"
       mb="25px"
-      paddingBottom="20px"
+      pb="20px"
     >
       <SearchInput
         handleChange={handleChange}
