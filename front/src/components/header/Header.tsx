@@ -23,7 +23,7 @@ import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
-import logo from '../../images/logo.svg';
+import logo from 'images/logo.svg';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -90,7 +90,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         fontWeight={isActiveRoute ? '600' : '500'}
         mr={1}
         mt={{ base: 4, md: 0 }}
-        padding={{ base: 0, md: '0 12px 5px' }}
+        p={{ base: 0, md: '0 12px 5px' }}
       >
         {text}
       </Text>
@@ -103,7 +103,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         align="center"
         as="nav"
         justify="space-between"
-        padding="10px 1.6rem 5px"
+        p="10px 1.6rem 5px"
         ref={wrapperRef}
         wrap="wrap"
       >
@@ -123,7 +123,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         <Box
           display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
           mr="auto"
-          paddingLeft="10px"
+          pl="10px"
           pt="10px"
           width={{ xs: 'full', md: 'auto' }}
         >
