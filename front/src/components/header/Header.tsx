@@ -91,7 +91,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         mr={1}
         mt={{ base: 4, md: 0 }}
         padding={{ base: 0, md: '0 12px 5px' }}
-        width={{ base: 0, md: 'unset' }}
       >
         {text}
       </Text>
