@@ -21,5 +21,7 @@
     "serve-stop": "yarn --cwd api serve-stop",
     "start": "yarn --cwd front start"
   },
-  "dependencies": {}
+  "dependencies": {
+    "husky": "^4.3.0"
+  }
 }

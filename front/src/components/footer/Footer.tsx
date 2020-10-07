@@ -16,10 +16,11 @@ const Footer = () => {
           fontSize=".85rem"
           justifyContent="space-between"
           p={{ xs: '1rem .3rem', sm: '1rem 2rem' }}
+          border="1px"
         >
           <Box fontWeight="700" height="30px">
             <Link href="https://github.com/trybick/tv-minder" isExternal>
-              <Box as={FaGithub} display="inline" mr="4px" size="16px" verticalAlign="sub" />
+              <Box as={FaGithub} display="inline" mr="4px" mt="8px" size="16px" verticalAlign="sub" />
               <Text display="inline">GitHub</Text>
             </Link>
           </Box>
