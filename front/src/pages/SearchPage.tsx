@@ -11,6 +11,7 @@ import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from '../components/search/SearchContainer';
 import SearchInput from '../components/search/subcomponents/SearchInput';
+import { useDebouncedFunction } from '../utils/debounce';
 
 interface StateProps {
   savedQueries: SavedQuery[];
@@ -51,7 +52,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
     inputRef.current?.focus();
   };
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = useDebouncedFunction(async (query: string) => {
     setIsLoading(true);
 
     const { results, totalResults } = await getQueryData(query);
@@ -60,7 +61,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
     setShows(results);
     setTotalResults(totalResults);
     setIsLoading(false);
-  };
+  });
 
   // Save network calls to cache with a timestamp
   const getQueryData = async (query: string): Promise<SavedQuery> => {
