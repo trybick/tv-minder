@@ -128,16 +128,8 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           width={{ xs: 'full', md: 'auto' }}
         >
           <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
-          <NavLink
-            isActiveRoute={activeRoute === '/calendar'}
-            linkTo="/calendar"
-            text="Calendar"
-          />
-          <NavLink
-            isActiveRoute={activeRoute === '/my-shows'}
-            linkTo="/my-shows"
-            text="My Shows"
-          />
+          <NavLink isActiveRoute={activeRoute === '/calendar'} linkTo="/calendar" text="Calendar" />
+          <NavLink isActiveRoute={activeRoute === '/my-shows'} linkTo="/my-shows" text="My Shows" />
         </Box>
 
         <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
