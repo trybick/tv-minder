@@ -134,7 +134,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           {isLoggedIn ? (
             <Box display={{ xs: 'block', md: 'none' }}>
               <NavLink
-                isActiveRoute={activeRoute === '/my-profile'}
+                isActiveRoute={activeRoute === '/settings'}
                 linkTo="/settings"
                 text="Settings"
               />
