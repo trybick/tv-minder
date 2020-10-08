@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from 'store';
 import { Redirect } from 'react-router-dom';
 import { selectIsLoggedIn } from 'store/user/selectors';
 
@@ -9,7 +8,7 @@ interface Props {
 }
 
 const ProtectedRoute: React.FC<Props> = ({ children }: Props) => {
-  const isUserLoggedIn = useSelector((state: AppState) => selectIsLoggedIn(state));
+  const isUserLoggedIn = useSelector(selectIsLoggedIn);
 
   return <>{isUserLoggedIn ? children : <Redirect to="/" />}</>;
 };

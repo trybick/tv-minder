@@ -148,7 +148,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
             <Box display={{ xs: 'block', md: 'none' }}>
               <NavLink
                 isActiveRoute={activeRoute === '/my-profile'}
-                linkTo="/my-settings"
+                linkTo="/settings"
                 mobileWidth="100px"
                 text="Settings"
               />
@@ -177,7 +177,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Options">
-                      <MenuItem onClick={() => history.push('/my-settings')}>Settings</MenuItem>
+                      <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>

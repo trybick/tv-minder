@@ -50,7 +50,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
           <Route path="/my-shows">
             <MyShowsPage />
           </Route>
-          <Route path="/my-settings">
+          <Route path="/settings">
             <ProtectedRoute>
               <SettingsPage />
             </ProtectedRoute>
