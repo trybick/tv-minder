@@ -23,7 +23,7 @@ import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
-import logo from '../../images/logo.svg';
+import logo from 'images/logo.svg';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -74,12 +74,10 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const NavLink = ({
     isActiveRoute,
     linkTo,
-    mobileWidth,
     text,
   }: {
     isActiveRoute?: boolean;
     linkTo: string;
-    mobileWidth: string;
     text: string;
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
@@ -93,7 +91,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         mr={1}
         mt={{ base: 4, md: 0 }}
         p={{ base: 0, md: '0 12px 5px' }}
-        width={{ base: mobileWidth, md: 'unset' }}
       >
         {text}
       </Text>
@@ -130,19 +127,9 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           pt="10px"
           width={{ xs: 'full', md: 'auto' }}
         >
-          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" mobileWidth="48px" text="Home" />
-          <NavLink
-            isActiveRoute={activeRoute === '/calendar'}
-            linkTo="/calendar"
-            mobileWidth="70px"
-            text="Calendar"
-          />
-          <NavLink
-            isActiveRoute={activeRoute === '/my-shows'}
-            linkTo="/my-shows"
-            mobileWidth="84px"
-            text="My Shows"
-          />
+          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
+          <NavLink isActiveRoute={activeRoute === '/calendar'} linkTo="/calendar" text="Calendar" />
+          <NavLink isActiveRoute={activeRoute === '/my-shows'} linkTo="/my-shows" text="My Shows" />
         </Box>
 
         <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
