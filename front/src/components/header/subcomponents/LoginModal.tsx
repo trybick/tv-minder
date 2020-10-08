@@ -11,6 +11,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -66,6 +67,9 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
+  //Forgot Password
+  const [forgotPassVisible, setForgotPassVisible] = React.useState(false);
+
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
     axios
@@ -114,32 +118,37 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={Boolean(errors.password)} mt={4}>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input
-                  name="password"
-                  placeholder="Password"
-                  ref={register(formSchema.password)}
-                  type={passwordVisible ? 'text' : 'password'}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
-                    {passwordVisible ? 'Hide' : 'Show'}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-            </FormControl>
+            {forgotPassVisible === false ? (
+              <FormControl isInvalid={Boolean(errors.password)} mt={4}>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    name="password"
+                    placeholder="Password"
+                    ref={register(formSchema.password)}
+                    type={passwordVisible ? 'text' : 'password'}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
+                      {passwordVisible ? 'Hide' : 'Show'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+              </FormControl>
+            ) : null}
 
             <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
+            <Link color="teal" onClick={() => setForgotPassVisible(!forgotPassVisible)}>
+              {forgotPassVisible === false ? 'Forgot Password?' : 'Back to signin'}
+            </Link>
           </ModalBody>
 
           <ModalFooter>
             <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
-              Login
+              {forgotPassVisible === false ? 'Login' : 'Reset Password'}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
