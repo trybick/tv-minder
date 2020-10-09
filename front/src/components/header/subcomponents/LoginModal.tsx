@@ -68,34 +68,56 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   //Forgot Password
-  const [forgotPassVisible, setForgotPassVisible] = React.useState(false);
+  const [formOption, setformOption] = React.useState(0);
 
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
-    axios
-      .post(`${API.TV_MINDER}/login`, {
-        email,
-        password,
-      })
-      .then(res => {
-        localStorage.setItem('jwt', res.data.token);
-        onClose();
-        setIsLoggedIn();
-        unregisteredClearFollowedShows();
+    switch (formOption) {
+      case 0:
+        axios
+          .post(`${API.TV_MINDER}/login`, {
+            email,
+            password,
+          })
+          .then(res => {
+            localStorage.setItem('jwt', res.data.token);
+            onClose();
+            setIsLoggedIn();
+            unregisteredClearFollowedShows();
 
-        toast({
-          title: 'Login Successful',
-          description: 'You are now logged in.',
-          status: 'success',
-          isClosable: true,
-        });
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsLoading(false);
-        setError('login', 'generic', 'Invalid login. Please try again.');
-        setValue('password', '');
-      });
+            toast({
+              title: 'Login Successful',
+              description: 'You are now logged in.',
+              status: 'success',
+              isClosable: true,
+            });
+          })
+          .catch(err => {
+            handleErrors(err);
+            setIsLoading(false);
+            setError('login', 'generic', 'Invalid login. Please try again.');
+            setValue('password', '');
+          });
+        break;
+      case 1:
+        axios
+          .post(`${API.TV_MINDER}/forgotpassword`, email)
+          .then(res => {
+            setIsLoading(false);
+            setformOption(2);
+            toast({
+              title: 'Password Reset!',
+              description: 'A password reset mail has been sent',
+              status: 'success',
+              isClosable: true,
+            });
+          })
+          .catch(err => {
+            handleErrors(err);
+            setIsLoading(false);
+            setError('login', 'generic', 'The email is not registered');
+          });
+    }
   });
 
   return (
@@ -118,7 +140,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
-            {forgotPassVisible === false ? (
+            {(formOption === 0 && (
               <FormControl isInvalid={Boolean(errors.password)} mt={4}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
@@ -136,19 +158,41 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                 </InputGroup>
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
-            ) : null}
+            )) ||
+              (formOption === 2 && (
+                <FormControl isInvalid={Boolean(errors.password)} mt={4}>
+                  <FormLabel>OTP</FormLabel>
+                  <InputGroup>
+                    <Input
+                      name="password"
+                      placeholder="Password"
+                      ref={register(formSchema.password)}
+                      type={passwordVisible ? 'text' : 'password'}
+                    />
+                    <InputRightElement width="4.5rem">
+                      <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
+                        {passwordVisible ? 'Hide' : 'Show'}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+                </FormControl>
+              ))}
 
             <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
-            <Link color="teal" onClick={() => setForgotPassVisible(!forgotPassVisible)}>
-              {forgotPassVisible === false ? 'Forgot Password?' : 'Back to signin'}
+            <Link color="teal.500" onClick={() => setformOption((formOption + 1) % 2)}>
+              {(formOption === 0 && 'Forgot Password') || (formOption === 1 && '<- Back to Signin')}
             </Link>
           </ModalBody>
 
           <ModalFooter>
             <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
-              {forgotPassVisible === false ? 'Login' : 'Reset Password'}
+              {(formOption === 0 && 'Login') ||
+                (formOption === 1 && 'Reset Password') ||
+                (formOption === 2 && 'Verify') ||
+                (formOption === 3 && 'Change Password')}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
