@@ -12,6 +12,8 @@ import SearchPage from 'pages/SearchPage';
 import CalendarPage from 'pages/CalendarPage';
 import MyShowsPage from 'pages/MyShowsPage';
 import { gAnalyticsID } from 'utils/constants';
+import ProtectedRoute from './common/ProtectedRoute';
+import SettingsPage from 'pages/SettingsPage';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -47,6 +49,11 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
           </Route>
           <Route path="/my-shows">
             <MyShowsPage />
+          </Route>
+          <Route path="/settings">
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
           </Route>
         </Switch>
       </Flex>
