@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
   Box,
@@ -64,6 +64,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -74,12 +75,10 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
   const NavLink = ({
     isActiveRoute,
     linkTo,
-    mobileWidth,
     text,
   }: {
     isActiveRoute?: boolean;
     linkTo: string;
-    mobileWidth: string;
     text: string;
   }) => (
     <Link onClick={closeHeader} to={linkTo}>
@@ -93,7 +92,6 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         mr={1}
         mt={{ base: 4, md: 0 }}
         p={{ base: 0, md: '0 12px 5px' }}
-        width={{ base: mobileWidth, md: 'unset' }}
       >
         {text}
       </Text>
@@ -130,19 +128,18 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           pt="10px"
           width={{ xs: 'full', md: 'auto' }}
         >
-          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" mobileWidth="48px" text="Home" />
-          <NavLink
-            isActiveRoute={activeRoute === '/calendar'}
-            linkTo="/calendar"
-            mobileWidth="70px"
-            text="Calendar"
-          />
-          <NavLink
-            isActiveRoute={activeRoute === '/my-shows'}
-            linkTo="/my-shows"
-            mobileWidth="84px"
-            text="My Shows"
-          />
+          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
+          <NavLink isActiveRoute={activeRoute === '/calendar'} linkTo="/calendar" text="Calendar" />
+          <NavLink isActiveRoute={activeRoute === '/my-shows'} linkTo="/my-shows" text="My Shows" />
+          {isLoggedIn ? (
+            <Box display={{ xs: 'block', md: 'none' }}>
+              <NavLink
+                isActiveRoute={activeRoute === '/settings'}
+                linkTo="/settings"
+                text="Settings"
+              />
+            </Box>
+          ) : null}
         </Box>
 
         <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
@@ -166,6 +163,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Options">
+                      <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
