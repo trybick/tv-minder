@@ -54,7 +54,7 @@ const formSchema = {
     required: 'Password is required',
   },
   otp: {
-    required: 'Password is required',
+    required: 'OTP is required',
   },
 };
 
