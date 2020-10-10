@@ -82,7 +82,7 @@
     "husky": ">=4",
     "lint-staged": ">=10",
     "prettier": "^2.0.4",
-    "ts-jest": "25.5.0",
+    "ts-jest": "24.0.0",
     "typescript": "~3.7.2"
   }
 }

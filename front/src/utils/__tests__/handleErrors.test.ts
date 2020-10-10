@@ -1,8 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import handleErrors from '../../utils/handleErrors';
+import handleErrors from '../handleErrors';
 
 describe('handleErrors', () => {
-
   const spy: jest.SpyInstance = jest.spyOn(console, 'log');
 
   beforeEach(jest.resetAllMocks);
