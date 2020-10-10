@@ -1,0 +1,13 @@
+name: Compile TypeScript in front/
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn
+      - name: Validate
+        run: yarn validate
