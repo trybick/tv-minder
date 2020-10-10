@@ -5,7 +5,7 @@ const allowedOrigins = [
   'https://www.tv-minder.com',
   'https://tv-minder.com',
   'https://www.netlify.app',
-  'https://netlify.app',
+  'https://netlify.adfapp',
 ];
 
 // To allow auth login inside deploy previews
