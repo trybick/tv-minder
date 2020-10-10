@@ -10,4 +10,6 @@ jobs:
       - name: Install modules
         run: yarn
       - name: Validate
-        run: yarn validate
+        run: |
+          cd front
+          yarn validate
