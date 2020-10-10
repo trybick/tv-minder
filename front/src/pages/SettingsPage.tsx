@@ -1,9 +1,13 @@
 import React from 'react';
-import { Avatar, Box } from '@chakra-ui/core';
+import { Box, Heading, Text } from '@chakra-ui/core';
 
 const SettingsPage = () => (
   <Box mt="25px" textAlign="center">
-    <Avatar name="TV Minder User" size="2xl" />
+    <Heading as="h3" fontSize="1.8rem">
+      Settings
+    </Heading>
+
+    <Text mt="10px">Nothing here yet :)</Text>
   </Box>
 );
 
