@@ -54,7 +54,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
           </Heading>
 
           <Menu>
-            <MenuButton>
+            <MenuButton aria-label="Show Options">
               <Box as={BsThreeDotsVertical} size="19px" />
             </MenuButton>
             <MenuList placement="bottom-end">
