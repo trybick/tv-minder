@@ -1,4 +1,4 @@
-name: Compile TypeScript in front/
+name: Compile TypeScript in front
 
 on: push
 
