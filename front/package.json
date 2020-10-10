@@ -24,7 +24,8 @@
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
     "start": "cross-env PORT=4000 react-scripts start",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch", 
+    "validate": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
