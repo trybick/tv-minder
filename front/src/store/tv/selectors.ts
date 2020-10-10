@@ -7,7 +7,7 @@ import { BasicShowInfo } from 'types/external';
 const NUM_EPISODES_IN_ACCORDION = 6;
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
-export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
+export const selectEpisodeData = (state: AppadfadfState) => state.tv.episodeData;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
