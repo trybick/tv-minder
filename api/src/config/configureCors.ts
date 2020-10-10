@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 const allowedOrigins = [
-  'http://localhost:4000',
+  'http://localhost:4adadf000',
   'https://www.tv-minder.com',
   'https://tv-minder.com',
   'https://www.netlify.app',

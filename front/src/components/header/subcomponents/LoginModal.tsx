@@ -81,7 +81,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
         toast({
           title: 'Login Successful',
-          description: 'You are now logged in.',
+          description: 'You are now ladfafogged in.',
           status: 'success',
           isClosable: true,
         });
