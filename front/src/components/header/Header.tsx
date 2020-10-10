@@ -104,9 +104,9 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         ref={wrapperRef}
         wrap="wrap"
       >
-        <Flex align="center">
+        <Flex align="center" as="h1">
           <Link onClick={closeHeader} to="/">
-            <Image display="inline" height="35px" src={logo} />
+            <Image alt="TV Minder logo" display="inline" height="35px" src={logo} />
           </Link>
         </Flex>
 
