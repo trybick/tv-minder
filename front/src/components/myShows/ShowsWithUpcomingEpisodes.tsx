@@ -60,7 +60,12 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
           <Grid alignItems="center" gap={6} templateColumns="1fr 3fr">
             <Tooltip aria-label={showName} label={showName} placement="right" hasArrow>
               <Box>
-                <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
+                <Image
+                  alt={`${showName} image`}
+                  borderRadius="6px"
+                  fallbackSrc={fallbackImage}
+                  src={posterSource}
+                />
               </Box>
             </Tooltip>
 

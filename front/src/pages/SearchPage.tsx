@@ -9,9 +9,9 @@ import { selectSavedQueries } from 'store/tv/selectors';
 import { SavedQuery } from 'store/tv/types';
 import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
-import SearchContainer from '../components/search/SearchContainer';
-import SearchInput from '../components/search/subcomponents/SearchInput';
-import { useDebouncedFunction } from '../utils/debounce';
+import SearchContainer from 'components/search/SearchContainer';
+import SearchInput from 'components/search/subcomponents/SearchInput';
+import { useDebouncedFunction } from 'utils/debounce';
 
 interface StateProps {
   savedQueries: SavedQuery[];

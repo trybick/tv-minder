@@ -13,6 +13,7 @@ import {
 import { ID } from 'types/common';
 
 export interface UserState {
+  email: string;
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
@@ -20,6 +21,7 @@ export interface UserState {
 }
 
 const initialState = {
+  email: '',
   followedShows: [],
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
@@ -56,12 +58,14 @@ export const userReducer: Reducer<UserState, Action> = (
         ...state,
         isLoggedIn: false,
         followedShows: [],
+        email: '',
       };
     }
     case SET_IS_LOGGED_IN_TRUE: {
       return {
         ...state,
         isLoggedIn: true,
+        email: action.payload,
       };
     }
     case SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN: {
