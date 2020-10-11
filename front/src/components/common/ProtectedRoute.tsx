@@ -7,10 +7,10 @@ interface Props {
   children: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<Props> = ({ children }: Props) => {
+const ProtectedRoute = ({ children }: Props) => {
   const isUserLoggedIn = useSelector(selectIsLoggedIn);
 
-  return <>{isUserLoggedIn ? children : <Redirect to="/" />}</>;
+  return isUserLoggedIn ? <>{children}</> : <Redirect to="/" />;
 };
 
 export default ProtectedRoute;
