@@ -17,7 +17,7 @@ import {
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { selectIsLoggedIn } from 'store/user/selectors';
+import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
@@ -26,8 +26,8 @@ import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
 import logo from 'images/logo.svg';
 
 interface StateProps {
-  isLoggedIn: boolean;
   email: string;
+  isLoggedIn: boolean;
 }
 
 interface DispatchProps {
@@ -187,8 +187,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
+  email: selectUserEmail(state),
   isLoggedIn: selectIsLoggedIn(state),
-  email: state.user.email,
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({

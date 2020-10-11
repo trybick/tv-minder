@@ -13,19 +13,19 @@ import {
 import { ID } from 'types/common';
 
 export interface UserState {
+  email: string;
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   unregisteredFollowedShows: ID[];
-  email: string;
 }
 
 const initialState = {
+  email: '',
   followedShows: [],
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
   unregisteredFollowedShows: [],
-  email: '',
 };
 
 export const userReducer: Reducer<UserState, Action> = (
