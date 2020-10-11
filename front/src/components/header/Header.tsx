@@ -17,7 +17,7 @@ import {
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { selectIsLoggedIn } from 'store/user/selectors';
+import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
@@ -26,6 +26,7 @@ import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
 import logo from 'images/logo.svg';
 
 interface StateProps {
+  email: string;
   isLoggedIn: boolean;
 }
 
@@ -59,7 +60,7 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   return { isOpen, closeHeader, toggleIsOpen };
 }
 
-const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
+const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
@@ -159,7 +160,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                     <Box as={FaUser} size="18px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
-                    <MenuGroup title="Options">
+                    <MenuGroup title={email}>
                       <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
@@ -191,6 +192,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
+  email: selectUserEmail(state),
   isLoggedIn: selectIsLoggedIn(state),
 });
 
