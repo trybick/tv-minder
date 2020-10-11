@@ -21,5 +21,6 @@
     "serve-stop": "yarn --cwd api serve-stop",
     "start": "yarn --cwd front start"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {}
 }
