@@ -1,6 +1,6 @@
-name: Validate front code
+name: Run tests
 
-on: push
+on: [push, pull_request]
 
 jobs:
   build:
@@ -16,7 +16,12 @@ jobs:
       - name: Install packages
         run: yarn install
 
-      - name: Compile TypeScript
+      - name: Check TypeScript
         run: |
           cd front
           yarn validate
+
+      - name: Run tests
+        run: |
+          cd front
+          yarn test

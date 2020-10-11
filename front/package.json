@@ -23,9 +23,9 @@
     "build": "react-scripts build",
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
     "start": "cross-env PORT=4000 react-scripts start",
-    "validate": "tsc --noEmit", 
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "validate": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
