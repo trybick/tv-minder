@@ -22,7 +22,10 @@
   "scripts": {
     "build": "react-scripts build",
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
-    "start": "cross-env PORT=4000 react-scripts start"
+    "start": "cross-env PORT=4000 react-scripts start",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "validate": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
@@ -60,6 +63,10 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.4",
+    "@testing-library/react-hooks": "^3.4.2",
+    "@types/jest": "^26.0.14",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
@@ -76,6 +83,7 @@
     "husky": ">=4",
     "lint-staged": ">=10",
     "prettier": "^2.0.4",
+    "ts-jest": "24.0.0",
     "typescript": "~3.7.2"
   }
 }

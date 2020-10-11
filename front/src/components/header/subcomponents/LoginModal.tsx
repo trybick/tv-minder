@@ -32,7 +32,7 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-  setIsLoggedIn: AppThunkPlainAction;
+  setIsLoggedIn: (email: string) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
 }
 
@@ -80,7 +80,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
-        setIsLoggedIn();
+        setIsLoggedIn(res.data.email);
         unregisteredClearFollowedShows();
 
         toast({
@@ -161,7 +161,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 const mapStateToProps: MapStateToProps<{}, OwnProps, AppState> = () => ({});
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedIn: () => dispatch(setIsLoggedInAction()),
+  setIsLoggedIn: (email: string) => dispatch(setIsLoggedInAction(email)),
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 

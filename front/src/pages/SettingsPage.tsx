@@ -1,12 +1,14 @@
 import React from 'react';
-import { Avatar } from '@chakra-ui/core';
+import { Box, Heading, Text } from '@chakra-ui/core';
 
-const SettingsPage: React.FC<{}> = () => {
-  return (
-    <div style={{ textAlign: 'center', marginTop: '25px' }}>
-      <Avatar name="TV Minder User" size="2xl" src="https://bit.ly/broken-link" />
-    </div>
-  );
-};
+const SettingsPage = () => (
+  <Box mt="25px" textAlign="center">
+    <Heading as="h3" fontSize="1.8rem">
+      Settings
+    </Heading>
+
+    <Text mt="10px">Nothing here yet :)</Text>
+  </Box>
+);
 
 export default SettingsPage;

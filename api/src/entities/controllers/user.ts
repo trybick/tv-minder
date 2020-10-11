@@ -78,6 +78,7 @@ export const loginUser = (req: Request, res: Response) => {
         return res.status(200).json({
           message: 'Auth successful',
           token,
+          email: user.email
         });
       });
     })

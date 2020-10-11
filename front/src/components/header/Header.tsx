@@ -17,7 +17,7 @@ import {
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { selectIsLoggedIn } from 'store/user/selectors';
+import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
@@ -26,6 +26,7 @@ import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
 import logo from 'images/logo.svg';
 
 interface StateProps {
+  email: string;
   isLoggedIn: boolean;
 }
 
@@ -59,7 +60,7 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   return { isOpen, closeHeader, toggleIsOpen };
 }
 
-const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
+const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
@@ -72,31 +73,27 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
     setIsLoggedOut();
   };
 
-  const NavLink = ({
-    isActiveRoute,
-    linkTo,
-    text,
-  }: {
-    isActiveRoute?: boolean;
-    linkTo: string;
-    text: string;
-  }) => (
-    <Link onClick={closeHeader} to={linkTo}>
-      <Text
-        borderColor={isActiveRoute ? `mode.${colorMode}.secondary` : ''}
-        color={isActiveRoute ? `mode.${colorMode}.secondary` : `mode.${colorMode}.primary`}
-        cursor="pointer"
-        display="block"
-        fontSize="1.2rem"
-        fontWeight={isActiveRoute ? '600' : '500'}
-        mr={1}
-        mt={{ base: 4, md: 0 }}
-        p={{ base: 0, md: '0 12px 5px' }}
-      >
-        {text}
-      </Text>
-    </Link>
-  );
+  const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => {
+    const isActive = activeRoute === linkTo;
+
+    return (
+      <Link onClick={closeHeader} to={linkTo}>
+        <Text
+          borderColor={isActive ? `mode.${colorMode}.secondary` : ''}
+          color={isActive ? `mode.${colorMode}.secondary` : `mode.${colorMode}.primary`}
+          cursor="pointer"
+          display="block"
+          fontSize="1.2rem"
+          fontWeight={isActive ? '600' : '500'}
+          mr={1}
+          mt={{ base: 4, md: 0 }}
+          p={{ base: 0, md: '0 12px 5px' }}
+        >
+          {text}
+        </Text>
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -108,9 +105,9 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
         ref={wrapperRef}
         wrap="wrap"
       >
-        <Flex align="center">
+        <Flex align="center" as="h1">
           <Link onClick={closeHeader} to="/">
-            <Image display="inline" height="35px" src={logo} />
+            <Image alt="TV Minder logo" display="inline" height="35px" src={logo} />
           </Link>
         </Flex>
 
@@ -128,26 +125,27 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           pt="10px"
           width={{ xs: 'full', md: 'auto' }}
         >
-          <NavLink isActiveRoute={activeRoute === '/'} linkTo="/" text="Home" />
-          <NavLink isActiveRoute={activeRoute === '/calendar'} linkTo="/calendar" text="Calendar" />
-          <NavLink isActiveRoute={activeRoute === '/my-shows'} linkTo="/my-shows" text="My Shows" />
+          <NavLink linkTo="/" text="Home" />
+          <NavLink linkTo="/calendar" text="Calendar" />
+          <NavLink linkTo="/my-shows" text="My Shows" />
           {isLoggedIn ? (
             <Box display={{ xs: 'block', md: 'none' }}>
-              <NavLink
-                isActiveRoute={activeRoute === '/settings'}
-                linkTo="/settings"
-                text="Settings"
-              />
+              <NavLink linkTo="/settings" text="Settings" />
             </Box>
           ) : null}
         </Box>
 
-        <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
+        <Box
+          display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
+          mt={{ base: 4, md: 0 }}
+          textAlign={{ xs: isOpen && isLoggedIn ? 'right' : 'left', md: 'left' }}
+          width={{ xs: 'full', md: 'auto' }}
+        >
           {isLoggedIn ? (
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
                 <Menu>
-                  <MenuButton mr="12px">
+                  <MenuButton aria-label="Notifications" mr="12px">
                     <Box as={IoMdNotifications} size="21px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
@@ -158,11 +156,11 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                 </Menu>
 
                 <Menu>
-                  <MenuButton>
+                  <MenuButton aria-label="Page Options">
                     <Box as={FaUser} size="18px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
-                    <MenuGroup title="Options">
+                    <MenuGroup title={email}>
                       <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
@@ -194,6 +192,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
+  email: selectUserEmail(state),
   isLoggedIn: selectIsLoggedIn(state),
 });
 
