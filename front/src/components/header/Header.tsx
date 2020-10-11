@@ -134,7 +134,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
           ) : null}
         </Box>
 
-        <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }}>
+        <Box display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }} mt={{ base: 4, md: 0 }} width={{ xs: 'full', md: 'auto'}} textAlign={{ xs: isOpen && isLoggedIn ? "right" : "left", md: "left"}}>
           {isLoggedIn ? (
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
