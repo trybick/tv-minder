@@ -12,6 +12,7 @@ export const SAVE_EPISODE_DATA = 'SAVE_EPISODE_DATA';
 export const SET_CALENDAR_EPISODES = 'SAVE_CALENDAR_EPISODES';
 export const REQUEST_BASIC_SHOW_INFO = 'REQUEST_BASIC_SHOW_INFO';
 export const REQUEST_BASIC_SHOW_INFO_SUCCEEDED = 'REQUEST_BASIC_SHOW_INFO_SUCCEEDED';
+export const SET_POPULAR_SHOWS = 'SET_POPULAR_SHOWS';
 
 export const saveSearchQueryAction = (query: SavedQuery): AppThunk => dispatch => {
   dispatch({
@@ -113,4 +114,18 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
     type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
     payload: combinedData,
   });
+};
+
+export const getPopularShowsAction = (): AppThunk => dispatch => {
+  axios
+    .get(`${API.THE_MOVIE_DB}/tv/popular`, {
+      params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
+    })
+    .then(({ data }) => {
+      dispatch({
+        type: SET_POPULAR_SHOWS,
+        payload: data.results,
+      });
+    })
+    .catch(handleErrors);
 };

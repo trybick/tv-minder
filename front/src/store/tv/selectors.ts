@@ -11,6 +11,7 @@ export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
+export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 
 export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> = createSelector(
   selectBasicShowInfo,
@@ -106,4 +107,30 @@ export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
 export const selectBasicShowInfoForAllShows = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))
+);
+
+export const selectPopularShowsForDisplay = createSelector(selectPopularShows, shows =>
+  Object.values(shows)?.map(show => {
+    const {
+      id,
+      backdrop_path: backdropPath,
+      name,
+      overview,
+      popularity,
+      poster_path: posterPath,
+      vote_average: voteAverage,
+      vote_count: voteCount,
+    } = show;
+
+    return {
+      id,
+      backdropPath,
+      name,
+      overview,
+      popularity,
+      posterPath,
+      voteAverage,
+      voteCount,
+    };
+  })
 );

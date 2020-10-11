@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Heading, Stack, Text } from '@chakra-ui/core';
-
-// useEffect to call a getPopularShows action
-// which calls the Popular Shows api method
-// which updates state for a selector which is fed to the component
+import { getPopularShowsAction } from 'store/tv/actions';
+import { selectPopularShowsForDisplay } from 'store/tv/selectors';
 
 const Show = () => (
   <Box borderWidth="1px" maxW={{ base: '100px', md: '200px' }} p={5} rounded="md" shadow="md">
@@ -13,6 +12,14 @@ const Show = () => (
 );
 
 const PopularShows = () => {
+  const dispatch = useDispatch();
+  const popularShows = useSelector(selectPopularShowsForDisplay);
+  console.log('popularShows:', popularShows);
+
+  useEffect(() => {
+    dispatch(getPopularShowsAction());
+  }, []);
+
   return (
     <Box m="0 auto" maxWidth="60%" textAlign="center">
       <Stack align="center" spacing={8} isInline>
