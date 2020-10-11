@@ -41,9 +41,10 @@ export const setIsLoggedOutAction = (): AppThunk => dispatch => {
   });
 };
 
-export const setIsLoggedInAction = (): AppThunk => dispatch => {
+export const setIsLoggedInAction = (email: string): AppThunk => dispatch => {
   dispatch({
     type: SET_IS_LOGGED_IN_TRUE,
+    payload: email,
   });
 };
 

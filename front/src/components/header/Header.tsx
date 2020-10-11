@@ -27,6 +27,7 @@ import logo from 'images/logo.svg';
 
 interface StateProps {
   isLoggedIn: boolean;
+  email: string;
 }
 
 interface DispatchProps {
@@ -59,7 +60,7 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
   return { isOpen, closeHeader, toggleIsOpen };
 }
 
-const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
+const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
@@ -154,7 +155,7 @@ const Header = ({ isLoggedIn, setIsLoggedOut }: Props) => {
                     <Box as={FaUser} size="18px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
-                    <MenuGroup title="Options">
+                    <MenuGroup title={email}>
                       <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
@@ -187,6 +188,7 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   state: AppState
 ): StateProps => ({
   isLoggedIn: selectIsLoggedIn(state),
+  email: state.user.email,
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({

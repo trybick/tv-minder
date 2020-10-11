@@ -17,6 +17,7 @@ export interface UserState {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   unregisteredFollowedShows: ID[];
+  email: string;
 }
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
   unregisteredFollowedShows: [],
+  email: '',
 };
 
 export const userReducer: Reducer<UserState, Action> = (
@@ -56,12 +58,14 @@ export const userReducer: Reducer<UserState, Action> = (
         ...state,
         isLoggedIn: false,
         followedShows: [],
+        email: '',
       };
     }
     case SET_IS_LOGGED_IN_TRUE: {
       return {
         ...state,
         isLoggedIn: true,
+        email: action.payload,
       };
     }
     case SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN: {
