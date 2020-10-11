@@ -41,7 +41,7 @@ type Props = OwnProps & DispatchProps;
 type FormData = {
   email: string;
   password: string;
-  otp: string;
+  oneTimeCode: string;
   login?: string;
 };
 
@@ -53,8 +53,8 @@ const formSchema = {
   password: {
     required: 'Password is required',
   },
-  otp: {
-    required: 'OTP is required',
+  oneTimeCode: {
+    required: 'One time code is required',
   },
 };
 
@@ -72,19 +72,19 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   //Forgot Password
-  const [formOption, setformOption] = React.useState(0);
+  const [formOption, setFormOption] = React.useState(0);
 
-  const onSubmit = handleSubmit(({ email, password, otp }) => {
+  const onSubmit = handleSubmit(({ email, password, oneTimeCode }) => {
     setIsLoading(true);
     switch (formOption) {
       case 0:
         processLogin(email, password);
         break;
       case 1:
-        processOtp(email);
+        processOneTimeCode(email);
         break;
       case 2:
-        processOtpVerification(email, otp);
+        processOneTimeCodeVerification(email, oneTimeCode);
         break;
       case 3:
         processChangePassword(email, password);
@@ -117,15 +117,15 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setValue('password', '');
       });
   };
-  const processOtp = (email: string) => {
+  const processOneTimeCode = (email: string) => {
     axios
-      .post(`${API.TV_MINDER}/processotp`, email)
-      .then(res => {
+      .post(`${API.TV_MINDER}/processonetimecode`, email)
+      .then(() => {
         setIsLoading(false);
-        setformOption(2);
+        setFormOption(2);
         toast({
           title: 'Password Reset!',
-          description: 'A password reset mail has been sent',
+          description: 'A one-time code has been sent to your email address',
           status: 'success',
           isClosable: true,
         });
@@ -136,12 +136,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setError('login', 'generic', 'The email is not registered');
       });
   };
-  const processOtpVerification = (email: string, otp: string) => {
+  const processOneTimeCodeVerification = (email: string, oneTimeCode: string) => {
     axios
-      .post(`${API.TV_MINDER}/otpverification`, { email, otp })
-      .then(res => {
+      .post(`${API.TV_MINDER}/onetimecodeverification`, { email, oneTimeCode })
+      .then(() => {
         setIsLoading(false);
-        setformOption(3);
+        setFormOption(3);
         toast({
           title: 'Verification Completed!',
           description: 'Time to change your password',
@@ -152,15 +152,15 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .catch(err => {
         handleErrors(err);
         setIsLoading(false);
-        setError('login', 'generic', 'Invalid OTP');
+        setError('login', 'generic', 'Invalid One Time Code');
       });
   };
   const processChangePassword = (email: string, password: string) => {
     axios
       .post(`${API.TV_MINDER}/changepassword`, { email, password })
-      .then(res => {
+      .then(() => {
         setIsLoading(false);
-        setformOption(0);
+        setFormOption(0);
         toast({
           title: 'Password Changed!',
           description: 'Login with your new password',
@@ -175,7 +175,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       });
   };
   const handleFormClose = () => {
-    setformOption(0);
+    setFormOption(0);
     onClose();
   };
 
@@ -195,7 +195,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
-                isDisabled={formOption === 0 || formOption === 1 ? false : true}
+                isDisabled={formOption === 2 || formOption === 3}
                 name="email"
                 placeholder="Email"
                 ref={register(formSchema.email)}
@@ -226,22 +226,33 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             {formOption === 2 && (
               <FormControl isInvalid={Boolean(errors.password)} mt={4}>
                 <FormLabel>Enter Verification Code</FormLabel>
-                <Input name="otp" placeholder="OTP" ref={register(formSchema.otp)} />
-                <FormErrorMessage>{errors.otp?.message}</FormErrorMessage>
+                <Input
+                  name="oneTimeCode"
+                  placeholder="One Time Code"
+                  ref={register(formSchema.oneTimeCode)}
+                />
+                <FormErrorMessage>{errors.oneTimeCode?.message}</FormErrorMessage>
               </FormControl>
             )}
             <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
-            <Link color="teal.500" onClick={() => setformOption((formOption + 1) % 2)}>
-              {(formOption === 0 && 'Forgot Password') || (formOption === 1 && '<- Back to Signin')}
-            </Link>
+            {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
+                when formOption = 0 : (0 + 1) % 2 which is 1
+                when formOption = 1 : (1 + 1) % 2 which is 0
+            */}
+            {(formOption === 0 || formOption === 1) && (
+              <Link color="teal.500" onClick={() => setFormOption((formOption + 1) % 2)}>
+                {(formOption === 0 && 'Forgot Password') ||
+                  (formOption === 1 && '<- Back to Signin')}
+              </Link>
+            )}
           </ModalBody>
 
           <ModalFooter>
             <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
               {(formOption === 0 && 'Login') ||
-                (formOption === 1 && 'Send OTP') ||
+                (formOption === 1 && 'Send One Time Code') ||
                 (formOption === 2 && 'Verify') ||
                 (formOption === 3 && 'Change Password')}
             </Button>
