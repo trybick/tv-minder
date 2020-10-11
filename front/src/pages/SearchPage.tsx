@@ -11,6 +11,7 @@ import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from 'components/search/SearchContainer';
 import SearchInput from 'components/search/subcomponents/SearchInput';
+import PopularShows from 'components/popularShows/popularShows';
 import { useDebouncedFunction } from 'utils/debounce';
 
 interface StateProps {
@@ -93,10 +94,10 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       background={colorMode === 'light' ? '#FAFAFA' : '#252E41'}
       borderRadius="15px"
       flex="1"
-      margin="50px"
-      mb="25px"
+      m="35px 50px 25px"
       pb="20px"
     >
+      <PopularShows />
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

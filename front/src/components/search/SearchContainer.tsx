@@ -41,6 +41,7 @@ const WelcomeMessage = () => {
       <StatGroup
         alignItems="center"
         bg={colorMode === 'light' ? 'white' : ''}
+        borderRadius="8px"
         borderWidth="1px"
         d="flex"
         flexDirection={{ sm: 'column', lg: 'row' }}
