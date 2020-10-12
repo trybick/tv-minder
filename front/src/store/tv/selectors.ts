@@ -114,6 +114,7 @@ export const selectPopularShowsForDisplay = createSelector(selectPopularShows, s
     const {
       id,
       backdrop_path: backdropPath,
+      fetchedAt,
       name,
       overview,
       popularity,
@@ -125,6 +126,7 @@ export const selectPopularShowsForDisplay = createSelector(selectPopularShows, s
     return {
       id,
       backdropPath,
+      fetchedAt,
       name,
       overview,
       popularity,

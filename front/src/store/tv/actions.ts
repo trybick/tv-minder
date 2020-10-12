@@ -121,10 +121,11 @@ export const getPopularShowsAction = (): AppThunk => dispatch => {
     .get(`${API.THE_MOVIE_DB}/tv/popular`, {
       params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
     })
-    .then(({ data }) => {
+    .then(({ data: { results } }) => {
+      const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
       dispatch({
         type: SET_POPULAR_SHOWS,
-        payload: data.results,
+        payload: dataWithTimestamp,
       });
     })
     .catch(handleErrors);
