@@ -116,17 +116,29 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
   });
 };
 
-export const getPopularShowsAction = (): AppThunk => dispatch => {
-  axios
-    .get(`${API.THE_MOVIE_DB}/tv/popular`, {
-      params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
-    })
-    .then(({ data: { results } }) => {
-      const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
-      dispatch({
-        type: SET_POPULAR_SHOWS,
-        payload: dataWithTimestamp,
-      });
-    })
-    .catch(handleErrors);
+export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
+  const { popularShows: cachedPopularShows } = getState().tv;
+
+  // Check if popular shows has a valid cache
+  const cacheAge =
+    cachedPopularShows.length &&
+    cachedPopularShows[0].fetchedAt &&
+    moment().diff(moment(cachedPopularShows[0].fetchedAt), 'days');
+  const isCacheValid = cacheDurationDays.popularShows > cacheAge;
+
+  // Fetch data if needed
+  if (!isCacheValid) {
+    axios
+      .get(`${API.THE_MOVIE_DB}/tv/popular`, {
+        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
+      })
+      .then(({ data: { results } }) => {
+        const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
+        dispatch({
+          type: SET_POPULAR_SHOWS,
+          payload: dataWithTimestamp,
+        });
+      })
+      .catch(handleErrors);
+  }
 };
