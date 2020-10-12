@@ -2,7 +2,7 @@ import { Selector } from 'react-redux';
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { AppState } from 'store';
-import { BasicShowInfo } from 'types/external';
+import { BasicShowInfo, PopularShow } from 'types/external';
 
 const NUM_EPISODES_IN_ACCORDION = 6;
 
@@ -109,30 +109,32 @@ export const selectBasicShowInfoForAllShows = createSelector(
   showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))
 );
 
-export const selectPopularShowsForDisplay = createSelector(selectPopularShows, shows =>
-  Object.values(shows)?.map(show => {
-    const {
-      id,
-      backdrop_path: backdropPath,
-      fetchedAt,
-      name,
-      overview,
-      popularity,
-      poster_path: posterPath,
-      vote_average: voteAverage,
-      vote_count: voteCount,
-    } = show;
+export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
+  selectPopularShows,
+  shows =>
+    Object.values(shows)?.map(show => {
+      const {
+        id,
+        backdrop_path: backdropPath,
+        fetchedAt,
+        name,
+        overview,
+        popularity,
+        poster_path: posterPath,
+        vote_average: voteAverage,
+        vote_count: voteCount,
+      } = show;
 
-    return {
-      id,
-      backdropPath,
-      fetchedAt,
-      name,
-      overview,
-      popularity,
-      posterPath,
-      voteAverage,
-      voteCount,
-    };
-  })
+      return {
+        id,
+        backdropPath,
+        fetchedAt,
+        name,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        voteCount,
+      };
+    })
 );

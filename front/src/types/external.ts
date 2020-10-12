@@ -51,3 +51,15 @@ export type BasicShowInfo = {
   posterPath: string;
   status: Status;
 };
+
+export type PopularShow = {
+  id: number;
+  backdropPath: string;
+  fetchedAt: string;
+  name: string;
+  overview: string;
+  popularity: number;
+  posterPath: string;
+  voteAverage: number;
+  voteCount: number;
+};

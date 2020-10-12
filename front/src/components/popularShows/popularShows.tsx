@@ -18,7 +18,7 @@ const PopularShows = () => {
 
   useEffect(() => {
     dispatch(getPopularShowsAction());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box m="0 auto" maxWidth="60%" textAlign="center">
