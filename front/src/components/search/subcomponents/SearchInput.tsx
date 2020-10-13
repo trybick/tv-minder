@@ -35,12 +35,12 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
         autoFocus
       />
       {inputValue && (
-        <InputRightElement>
+        <InputRightElement right="5px" top="5px">
           <IconButton
             aria-label="Clear input"
             icon="small-close"
             onClick={handleClearInput}
-            size="sm"
+            size="md"
             variant="ghost"
           />
         </InputRightElement>
