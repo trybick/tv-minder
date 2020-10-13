@@ -4,9 +4,9 @@ import { Box, Heading, Stack, Text } from '@chakra-ui/core';
 import { getPopularShowsAction } from 'store/tv/actions';
 import { selectPopularShowsForDisplay } from 'store/tv/selectors';
 
-const Show = () => (
+const Show = ({ name }: { name: string }) => (
   <Box borderWidth="1px" maxW={{ base: '100px', md: '200px' }} p={5} rounded="md" shadow="md">
-    <Heading fontSize="xl">Show name</Heading>
+    <Heading fontSize="xl">{name}</Heading>
     <Text mt={4}>Some text</Text>
   </Box>
 );
@@ -23,8 +23,9 @@ const PopularShows = () => {
   return (
     <Box m="0 auto" maxWidth="60%" textAlign="center">
       <Stack align="center" spacing={8} isInline>
-        <Show />
-        <Show />
+        {popularShows.map(show => (
+          <Show key={show.id} name={show.name} />
+        ))}
       </Stack>
     </Box>
   );
