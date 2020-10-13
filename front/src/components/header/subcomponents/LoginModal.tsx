@@ -41,6 +41,7 @@ type Props = OwnProps & DispatchProps;
 type FormData = {
   email: string;
   password: string;
+  oneTimeCode: string;
   login?: string;
 };
 
@@ -51,6 +52,9 @@ const formSchema = {
   },
   password: {
     required: 'Password is required',
+  },
+  oneTimeCode: {
+    required: 'One time code is required',
   },
 };
 
@@ -68,10 +72,27 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   //Forgot Password
-  const [forgotPassVisible, setForgotPassVisible] = React.useState(false);
+  const [formOption, setFormOption] = React.useState(0);
 
-  const onSubmit = handleSubmit(({ email, password }) => {
+  const onSubmit = handleSubmit(({ email, password, oneTimeCode }) => {
     setIsLoading(true);
+    switch (formOption) {
+      case 0:
+        processLogin(email, password);
+        break;
+      case 1:
+        processOneTimeCode(email);
+        break;
+      case 2:
+        processOneTimeCodeVerification(email, oneTimeCode);
+        break;
+      case 3:
+        processChangePassword(email, password);
+        break;
+    }
+  });
+
+  const processLogin = (email: string, password: string) => {
     axios
       .post(`${API.TV_MINDER}/login`, {
         email,
@@ -82,7 +103,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         onClose();
         setIsLoggedIn(res.data.email);
         unregisteredClearFollowedShows();
-
         toast({
           title: 'Login Successful',
           description: 'You are now logged in.',
@@ -96,10 +116,71 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setError('login', 'generic', 'Invalid login. Please try again.');
         setValue('password', '');
       });
-  });
+  };
+  const processOneTimeCode = (email: string) => {
+    axios
+      .post(`${API.TV_MINDER}/processonetimecode`, email)
+      .then(() => {
+        setIsLoading(false);
+        setFormOption(2);
+        toast({
+          title: 'Password Reset!',
+          description: 'A one-time code has been sent to your email address',
+          status: 'success',
+          isClosable: true,
+        });
+      })
+      .catch(err => {
+        handleErrors(err);
+        setIsLoading(false);
+        setError('login', 'generic', 'The email is not registered');
+      });
+  };
+  const processOneTimeCodeVerification = (email: string, oneTimeCode: string) => {
+    axios
+      .post(`${API.TV_MINDER}/onetimecodeverification`, { email, oneTimeCode })
+      .then(() => {
+        setIsLoading(false);
+        setFormOption(3);
+        toast({
+          title: 'Verification Completed!',
+          description: 'Time to change your password',
+          status: 'success',
+          isClosable: true,
+        });
+      })
+      .catch(err => {
+        handleErrors(err);
+        setIsLoading(false);
+        setError('login', 'generic', 'Invalid One Time Code');
+      });
+  };
+  const processChangePassword = (email: string, password: string) => {
+    axios
+      .post(`${API.TV_MINDER}/changepassword`, { email, password })
+      .then(() => {
+        setIsLoading(false);
+        setFormOption(0);
+        toast({
+          title: 'Password Changed!',
+          description: 'Login with your new password',
+          status: 'success',
+          isClosable: true,
+        });
+      })
+      .catch(err => {
+        handleErrors(err);
+        setIsLoading(false);
+        setError('login', 'generic', 'Unable to change password');
+      });
+  };
+  const handleFormClose = () => {
+    setFormOption(0);
+    onClose();
+  };
 
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
       <ModalContent>
         <Box as="form" onSubmit={onSubmit}>
@@ -107,20 +188,25 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           <ModalCloseButton
             onClick={() => {
               clearError();
-              onClose();
+              handleFormClose();
             }}
           />
-
           <ModalBody pb={6}>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
-              <Input name="email" placeholder="Email" ref={register(formSchema.email)} autoFocus />
+              <Input
+                isDisabled={formOption === 2 || formOption === 3}
+                name="email"
+                placeholder="Email"
+                ref={register(formSchema.email)}
+                autoFocus
+              />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
-            {forgotPassVisible === false ? (
+            {(formOption === 0 || formOption === 3) && (
               <FormControl isInvalid={Boolean(errors.password)} mt={4}>
-                <FormLabel>Password</FormLabel>
+                <FormLabel> {formOption === 3 && 'New'} Password</FormLabel>
                 <InputGroup>
                   <Input
                     name="password"
@@ -136,21 +222,41 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                 </InputGroup>
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
-            ) : null}
-
+            )}
+            {formOption === 2 && (
+              <FormControl isInvalid={Boolean(errors.password)} mt={4}>
+                <FormLabel>Enter Verification Code</FormLabel>
+                <Input
+                  name="oneTimeCode"
+                  placeholder="One Time Code"
+                  ref={register(formSchema.oneTimeCode)}
+                />
+                <FormErrorMessage>{errors.oneTimeCode?.message}</FormErrorMessage>
+              </FormControl>
+            )}
             <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
-            <Link color="teal" onClick={() => setForgotPassVisible(!forgotPassVisible)}>
-              {forgotPassVisible === false ? 'Forgot Password?' : 'Back to signin'}
-            </Link>
+            {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
+                when formOption = 0 : (0 + 1) % 2 which is 1
+                when formOption = 1 : (1 + 1) % 2 which is 0
+            */}
+            {(formOption === 0 || formOption === 1) && (
+              <Link color="teal.500" onClick={() => setFormOption((formOption + 1) % 2)}>
+                {(formOption === 0 && 'Forgot Password') ||
+                  (formOption === 1 && '<- Back to Signin')}
+              </Link>
+            )}
           </ModalBody>
 
           <ModalFooter>
             <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
-              {forgotPassVisible === false ? 'Login' : 'Reset Password'}
+              {(formOption === 0 && 'Login') ||
+                (formOption === 1 && 'Send One Time Code') ||
+                (formOption === 2 && 'Verify') ||
+                (formOption === 3 && 'Change Password')}
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={handleFormClose}>Cancel</Button>
           </ModalFooter>
         </Box>
       </ModalContent>
