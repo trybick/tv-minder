@@ -39,7 +39,7 @@ const ChangePasswordContainer = () => {
             <FormLabel htmlFor={labelName} my={3} w="100%">
               {name}
             </FormLabel>
-            <Input name={labelName} />
+            <Input name={labelName} type="password" />
           </FormControl>
         ))}
         <Button
