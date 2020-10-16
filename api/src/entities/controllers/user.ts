@@ -90,10 +90,10 @@ export const loginUser = (req: Request, res: Response) => {
     });
 };
 
-export const processRequestOneTimeCode = (req: Request, res: Response) => {
-  let min = 100000
-  let max = 999999
-  let generatedCode = min + (Math.floor(Math.random() * (max - min)))
+export const requestOneTimeCode = (req: Request, res: Response) => {
+  const min = 100000
+  const max = 999999
+  const generatedCode = min + (Math.floor(Math.random() * (max - min)))
   User.findOneAndUpdate({ email: req.body.email }, { oneTimeCode: generatedCode })
     .exec()
     .then(user => {
@@ -115,7 +115,7 @@ export const processRequestOneTimeCode = (req: Request, res: Response) => {
         subject: 'TV Minder: One-time code',
         text: 'Your one-time code is: ' + generatedCode.toString(),
       };
-      transporter.sendMail(mailOptions, (error, info) => {
+      transporter.sendMail(mailOptions, (error) => {
         if (error) {
           console.log('Nodemailer error: ', error);
         } else {
@@ -128,7 +128,7 @@ export const processRequestOneTimeCode = (req: Request, res: Response) => {
     });
 }
 
-export const processVerifyOneTimeCode = (req: Request, res: Response) => {
+export const verifyOneTimeCode = (req: Request, res: Response) => {
   const minTimestamp = new Date()
   minTimestamp.setMinutes(minTimestamp.getMinutes() - TOKEN_LIFESPAN_MINS)
   User.findOne({ email: req.body.email, oneTimeCode: req.body.oneTimeCode, updatedAt: { $gte: minTimestamp } })
@@ -148,7 +148,7 @@ export const processVerifyOneTimeCode = (req: Request, res: Response) => {
     });
 }
 
-export const processChangePassword = (req: Request, res: Response) => {
+export const changePasswordForReset = (req: Request, res: Response) => {
   bcrypt.hash(req.body.password, 10, (error, hash) => {
     if (error) {
       return res.status(500).json({ error });

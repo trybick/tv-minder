@@ -71,28 +71,28 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
-  //Forgot Password
+  // Forgot Password
   const [formOption, setFormOption] = React.useState(0);
 
   const onSubmit = handleSubmit(({ email, password, oneTimeCode }) => {
     setIsLoading(true);
     switch (formOption) {
       case 0:
-        processLogin(email, password);
+        handleLogin(email, password);
         break;
       case 1:
-        processOneTimeCode(email);
+        requestGenerateOneTimeCode(email);
         break;
       case 2:
-        processOneTimeCodeVerification(email, oneTimeCode);
+        requestVerifyOneTimeCode(email, oneTimeCode);
         break;
       case 3:
-        processChangePassword(email, password);
+        requestChangePassword(email, password);
         break;
     }
   });
 
-  const processLogin = (email: string, password: string) => {
+  const handleLogin = (email: string, password: string) => {
     axios
       .post(`${API.TV_MINDER}/login`, {
         email,
@@ -117,9 +117,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setValue('password', '');
       });
   };
-  const processOneTimeCode = (email: string) => {
+
+  const requestGenerateOneTimeCode = (email: string) => {
     axios
-      .post(`${API.TV_MINDER}/processonetimecode`, { email })
+      .post(`${API.TV_MINDER}/requestonetimecode`, { email })
       .then(() => {
         setIsLoading(false);
         setFormOption(2);
@@ -136,9 +137,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setError('login', 'generic', 'The email is not registered');
       });
   };
-  const processOneTimeCodeVerification = (email: string, oneTimeCode: string) => {
+
+  const requestVerifyOneTimeCode = (email: string, oneTimeCode: string) => {
     axios
-      .post(`${API.TV_MINDER}/onetimecodeverification`, { email, oneTimeCode })
+      .post(`${API.TV_MINDER}/verifyonetimecode`, { email, oneTimeCode })
       .then(() => {
         setIsLoading(false);
         setFormOption(3);
@@ -155,9 +157,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setError('login', 'generic', 'Invalid One Time Code');
       });
   };
-  const processChangePassword = (email: string, password: string) => {
+
+  const requestChangePassword = (email: string, password: string) => {
     axios
-      .post(`${API.TV_MINDER}/changepassword`, { email, password })
+      .post(`${API.TV_MINDER}/changepasswordforreset`, { email, password })
       .then(() => {
         setIsLoading(false);
         setFormOption(0);
@@ -174,6 +177,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setError('login', 'generic', 'Unable to change password');
       });
   };
+
   const handleFormClose = () => {
     setFormOption(0);
     onClose();

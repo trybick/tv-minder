@@ -7,10 +7,10 @@ userRoutes.post('/register', UserController.registerUser);
 
 userRoutes.post('/login', UserController.loginUser);
 
-userRoutes.post('/processonetimecode', UserController.processRequestOneTimeCode)
+userRoutes.post('/requestonetimecode', UserController.requestOneTimeCode)
 
-userRoutes.post('/onetimecodeverification', UserController.processVerifyOneTimeCode)
+userRoutes.post('/verifyonetimecode', UserController.verifyOneTimeCode)
 
-userRoutes.post('/changepassword', UserController.processChangePassword)
+userRoutes.post('/changepasswordforreset', UserController.changePasswordForReset)
 
 export default userRoutes;
