@@ -13,4 +13,6 @@ userRoutes.post('/verifyonetimecode', UserController.verifyOneTimeCode)
 
 userRoutes.post('/changepasswordforreset', UserController.changePasswordForReset)
 
+userRoutes.post('/changepassword', UserController.changePasswordForSettings)
+
 export default userRoutes;
