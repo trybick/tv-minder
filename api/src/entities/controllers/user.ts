@@ -3,7 +3,7 @@ import User from 'models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import envConfig from 'config/env';
-import { emailRegex } from 'utils/constants';
+import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
 import nodemailer from 'nodemailer';
 
@@ -90,7 +90,7 @@ export const loginUser = (req: Request, res: Response) => {
     });
 };
 
-export const processOneTimeCode = (req: Request, res: Response) => {
+export const processRequestOneTimeCode = (req: Request, res: Response) => {
   let min = 100000
   let max = 999999
   let generatedCode = min + (Math.floor(Math.random() * (max - min)))
@@ -111,15 +111,15 @@ export const processOneTimeCode = (req: Request, res: Response) => {
       });
       const mailOptions = {
         from: 'devtimr@gmail.com',
-        to: req.body.email,
-        subject: 'TV Minder: OneTimeCode',
-        text: generatedCode.toString(),
+        to: user.email,
+        subject: 'TV Minder: One-time code',
+        text: 'Your one-time code is: ' + generatedCode.toString(),
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log('Nodemailer error: ', error);
         } else {
-          res.status(200).json({ message: 'One Time Code Sent' });
+          res.status(200).json({ message: 'One-time code sent' });
         }
       });
     })
@@ -128,10 +128,10 @@ export const processOneTimeCode = (req: Request, res: Response) => {
     });
 }
 
-export const processOneTimeCodeVerification = (req: Request, res: Response) => {
-  let dt = new Date()
-  dt.setMinutes(dt.getMinutes() - 5)
-  User.findOne({ email: req.body.email, oneTimeCode: req.body.oneTimeCode, updatedAt: { $gte: dt } })
+export const processVerifyOneTimeCode = (req: Request, res: Response) => {
+  const minTimestamp = new Date()
+  minTimestamp.setMinutes(minTimestamp.getMinutes() - TOKEN_LIFESPAN_MINS)
+  User.findOne({ email: req.body.email, oneTimeCode: req.body.oneTimeCode, updatedAt: { $gte: minTimestamp } })
     .exec()
     .then(user => {
       if (!user) {
