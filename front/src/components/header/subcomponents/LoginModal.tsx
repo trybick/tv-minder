@@ -119,7 +119,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   };
   const processOneTimeCode = (email: string) => {
     axios
-      .post(`${API.TV_MINDER}/processonetimecode`, email)
+      .post(`${API.TV_MINDER}/processonetimecode`, { email })
       .then(() => {
         setIsLoading(false);
         setFormOption(2);
