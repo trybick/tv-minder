@@ -5,13 +5,13 @@ import axios from 'axios';
 import {
   Box,
   Button,
+  Grid,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -241,26 +241,39 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
-            {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
-                when formOption = 0 : (0 + 1) % 2 which is 1
-                when formOption = 1 : (1 + 1) % 2 which is 0
-            */}
-            {(formOption === 0 || formOption === 1) && (
-              <Link color="teal.500" onClick={() => setFormOption((formOption + 1) % 2)}>
-                {(formOption === 0 && 'Forgot Password') ||
-                  (formOption === 1 && '<- Back to Signin')}
-              </Link>
-            )}
           </ModalBody>
 
           <ModalFooter>
-            <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
-              {(formOption === 0 && 'Login') ||
-                (formOption === 1 && 'Send One Time Code') ||
-                (formOption === 2 && 'Verify') ||
-                (formOption === 3 && 'Change Password')}
-            </Button>
-            <Button onClick={handleFormClose}>Cancel</Button>
+            <Grid gridTemplateColumns="1fr 3fr">
+              <Box textAlign="left">
+                {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
+                    when formOption = 0 : (0 + 1) % 2 which is 1
+                    when formOption = 1 : (1 + 1) % 2 which is 0
+                */}
+                {(formOption === 0 || formOption === 1) && (
+                  <Button variant="link" pt="0.75rem" fontSize="0.88rem" color="#659BC7" 
+                    _active={{
+                      borderColor: "none",
+                    }}
+                    _focus={{
+                      borderColor: "none",
+                    }}
+                    onClick={() => setFormOption((formOption + 1) % 2)}>
+                    {(formOption === 0 && 'Forgot Password?') ||
+                      (formOption === 1 && '< Back to Login')}
+                  </Button>
+                  )}
+              </Box>
+              <Box textAlign="right" >
+                <Button isLoading={isLoading} type="submit" variantColor="cyan">
+                  {(formOption === 0 && 'Login') ||
+                    (formOption === 1 && 'Send One Time Code') ||
+                    (formOption === 2 && 'Verify') ||
+                    (formOption === 3 && 'Change Password')}
+                </Button>
+                <Button ml={2} onClick={handleFormClose}>Cancel</Button>
+              </Box>
+            </Grid>
           </ModalFooter>
         </Box>
       </ModalContent>
