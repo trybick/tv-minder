@@ -241,16 +241,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             <FormControl isInvalid={Boolean(errors.login)} mt={4}>
               <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
             </FormControl>
-            {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
-                when formOption = 0 : (0 + 1) % 2 which is 1
-                when formOption = 1 : (1 + 1) % 2 which is 0
-            */}
-            {(formOption === 0 || formOption === 1) && (
-              <Link d="block" mt="-0.5rem" color="#659BC7" onClick={() => setFormOption((formOption + 1) % 2)}>
-                {(formOption === 0 && 'Forgot Password?') ||
-                  (formOption === 1 && '<- Back to Signin')}
-              </Link>
-            )}
           </ModalBody>
 
           <ModalFooter>
@@ -262,6 +252,18 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             </Button>
             <Button onClick={handleFormClose}>Cancel</Button>
           </ModalFooter>
+          <Box pt="0.5rem" pr="1.5rem" pb="1.5rem" pl="1.5rem">
+              {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
+                  when formOption = 0 : (0 + 1) % 2 which is 1
+                  when formOption = 1 : (1 + 1) % 2 which is 0
+              */}
+              {(formOption === 0 || formOption === 1) && (
+                <Link d="block" textAlign="center" color="#659BC7" onClick={() => setFormOption((formOption + 1) % 2)}>
+                  {(formOption === 0 && 'Forgot Password?') ||
+                    (formOption === 1 && '<- Back to Sign In')}
+                </Link>
+                )}
+            </Box>
         </Box>
       </ModalContent>
     </Modal>
