@@ -8,7 +8,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -248,7 +247,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             */}
             {(formOption === 0 || formOption === 1) && (
               <Link d="block" mt="-0.5rem" color="#659BC7" onClick={() => setFormOption((formOption + 1) % 2)}>
-                {/*<Icon pr={1} verticalAlign="text-top" name="info-outline" />*/}
                 {(formOption === 0 && 'Forgot Password?') ||
                   (formOption === 1 && '<- Back to Signin')}
               </Link>
