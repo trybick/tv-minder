@@ -258,7 +258,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   when formOption = 1 : (1 + 1) % 2 which is 0
               */}
               {(formOption === 0 || formOption === 1) && (
-                <Link d="block" textAlign="center" color="#659BC7" onClick={() => setFormOption((formOption + 1) % 2)}>
+                <Link d="block" color="#659BC7" onClick={() => setFormOption((formOption + 1) % 2)}>
                   {(formOption === 0 && 'Forgot Password?') ||
                     (formOption === 1 && '<- Back to Sign In')}
                 </Link>
