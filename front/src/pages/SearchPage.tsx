@@ -34,12 +34,14 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
+    setIsLoading(true);
     setIsInputDirty(true);
     setInputValue(searchValue);
 
     if (searchValue) {
       handleSearch(searchValue);
     } else {
+      setIsLoading(false);
       setShows([]);
       setIsInputDirty(false);
     }
@@ -53,8 +55,6 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   };
 
   const handleSearch = useDebouncedFunction(async (query: string) => {
-    setIsLoading(true);
-
     const { results, totalResults } = await getQueryData(query);
     if (!results) return;
 

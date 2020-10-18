@@ -1,41 +1,35 @@
 // Takes a list of showIds. Returns a list of persistent unique colors
-// Created by @tadite - see comment here for information
-// https://github.com/trybick/tv-minder/pull/48#issuecomment-703297673
 
 export const getUniqueColorsForShowIds = (showIds: number[]) => {
-  // get list of indicies in color array
-  const listOfIndicies: number[] = showIds.map(id => {
-    // using modulus operator, so if id = 103 and color.length = 100, then colorIndex will be 3
-    const colorIndex = id % colors.length;
+  const usedIndicies: { [key: number]: boolean } = {};
 
+  const listOfIndicies = showIds.map(id => {
+    // Guaranteed to be a number between 0 and 280 (which is the length of colors)
+    // Example: 45230 % 280 = 220
+    const colorIndex = id % colors.length;
     return colorIndex;
   });
 
-  const usedIndicies: { [key: number]: boolean } = {};
-  // trying to get unique numbers if have dublicates in listOfIndicies
   const uniqueIndices = listOfIndicies.map(index => {
-    // counting the number of steps done while finding unique index
     let findUniqueIndexStepsCount = 0;
     let uniqueIndex = index;
-    // stopping when tried all available color indices
+
     while (findUniqueIndexStepsCount < colors.length) {
+      // If the index isn't used yet, then choose this number and break loop
       if (!usedIndicies.hasOwnProperty(uniqueIndex)) {
+        console.log('uniqueIndex:', uniqueIndex);
         break;
       } else {
+        // If the index is a repeat, get a new number
         findUniqueIndexStepsCount++;
-        // using modulus operator, so if colors.length = 3 and index = 2
-        // will be trying to find unique index in cycle stepping like 2->3->0->1->2
         uniqueIndex = (uniqueIndex + 1) % colors.length;
       }
     }
     usedIndicies[uniqueIndex] = true;
-
     return uniqueIndex;
   });
 
-  const uniqueColors = uniqueIndices.map(num => colors[num]);
-
-  return uniqueColors;
+  return uniqueIndices.map(num => colors[num]);
 };
 
 const colors = [
@@ -181,7 +175,6 @@ const colors = [
   '#792ed8',
   '#73872a',
   '#520d3a',
-  '#cefcb8',
   '#a5b3d9',
   '#7d1d85',
   '#c4fd57',

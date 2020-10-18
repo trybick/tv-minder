@@ -37,7 +37,15 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
   };
 
   return (
-    <Grid borderWidth="1px" gap="19px" key={show.id} p={4} shadow="md" templateColumns="1fr 2.65fr">
+    <Grid
+      borderRadius="4px"
+      borderWidth="1px"
+      gap="19px"
+      key={show.id}
+      p={4}
+      shadow="md"
+      templateColumns="1fr 2.65fr"
+    >
       <Tooltip aria-label={name} label={name} placement="top" hasArrow>
         <Image
           alt={`${name} image`}
