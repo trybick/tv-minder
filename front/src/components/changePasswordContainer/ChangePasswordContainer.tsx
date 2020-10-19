@@ -53,6 +53,13 @@ const ChangePasswordContainer = ({ email, setIsLoggedOut }: Props) => {
   const handleSubmit = (event: any) => {
     if (formData[0] && formData[1] && formData[2] && formData[1] === formData[2]) {
       changePassword(email, formData[0], formData[1]);
+    } else {
+      toast({
+        title: 'Invalid input fields!',
+        description: 'Check your input fields.',
+        status: 'error',
+        isClosable: true,
+      });
     }
     event.preventDefault();
   };
