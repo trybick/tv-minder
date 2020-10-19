@@ -5,7 +5,7 @@ import moment from 'moment';
 
 describe('tv actions', () => {
   const mockStore = returnWithStore();
-  it('dispatches correct state @saveSearchQueryAction', () => {
+  it('dispatches correct state with saveSearchQueryAction', () => {
     const query: SavedQuery = { query: 'test', results: [], timeSaved: moment(), totalResults: 1 };
     const expectedState = [{ type: SAVE_SEARCH_QUERY, payload: query }];
     mockStore.dispatch<any>(saveSearchQueryAction(query));
