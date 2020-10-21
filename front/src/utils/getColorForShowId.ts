@@ -17,7 +17,6 @@ export const getUniqueColorsForShowIds = (showIds: number[]) => {
     while (findUniqueIndexStepsCount < colors.length) {
       // If the index isn't used yet, then choose this number and break loop
       if (!usedIndicies.hasOwnProperty(uniqueIndex)) {
-        console.log('uniqueIndex:', uniqueIndex);
         break;
       } else {
         // If the index is a repeat, get a new number

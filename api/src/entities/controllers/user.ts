@@ -172,32 +172,36 @@ export const changePasswordForReset = (req: Request, res: Response) => {
 }
 
 export const changePasswordForSettings = (req: Request, res: Response) => {
-  bcrypt.compare(req.body.oldPassword, req.body.newPassword, (err, result) => {
-    if (!result || err) {
-      return res.status(401).json({
-        message: 'Failed on password validation',
-      });
-    }
-
-    bcrypt.hash(req.body.newPassword, 10, (error, hash) => {
-      if (error) {
-        return res.status(500).json({ error });
-      }
-      User.findOneAndUpdate({ email: req.body.email }, { password: hash })
-        .exec()
-        .then((user) => {
-          if (!user) {
-            return res.status(400).json({
-              message: 'Invalid Email',
-            })
-          }
-          res.status(200).json({
-            message: 'Password Changed',
-          });
-        })
-        .catch((error: Error) => {
-          return res.status(500).json({ error });
+  User.findOne({ email: req.body.email })
+    .exec()
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({
+          message: 'Email does not exist',
         });
+      }
+      bcrypt.compare(req.body.oldPassword, user.password, (err, result) => {
+        if (!result || err) {
+          return res.status(401).json({
+            message: 'Failed on password validation',
+          });
+        }
+        bcrypt.hash(req.body.newPassword, 10, (error, hash) => {
+          if (error) {
+            return res.status(500).json({ error });
+          }
+          User.findOneAndUpdate({ email: req.body.email }, { password: hash })
+            .exec()
+            .then(() => {
+            return res.status(200).json({
+              message: 'Password changed',
+            });
+        });
+      })
+    })
+  }).catch((err: Error) => {
+    return res.status(500).json({
+      error: err,
     });
   });
 }

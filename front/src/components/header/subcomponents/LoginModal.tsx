@@ -5,10 +5,10 @@ import axios from 'axios';
 import {
   Box,
   Button,
-  Grid,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Grid,
   Input,
   InputGroup,
   InputRightElement,
@@ -21,6 +21,7 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/core';
+import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
@@ -244,34 +245,46 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           </ModalBody>
 
           <ModalFooter>
-            <Grid gridTemplateColumns="1fr 3fr">
+            <Grid gap="20px" gridTemplateColumns="1fr 3fr">
               <Box textAlign="left">
                 {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
                     when formOption = 0 : (0 + 1) % 2 which is 1
                     when formOption = 1 : (1 + 1) % 2 which is 0
                 */}
                 {(formOption === 0 || formOption === 1) && (
-                  <Button variant="link" pt="0.75rem" fontSize="0.88rem" color="#659BC7" 
+                  <Button
                     _active={{
-                      borderColor: "none",
+                      borderColor: 'none',
                     }}
                     _focus={{
-                      borderColor: "none",
+                      borderColor: 'none',
                     }}
-                    onClick={() => setFormOption((formOption + 1) % 2)}>
+                    color="#659BC7"
+                    fontSize="0.88rem"
+                    onClick={() => setFormOption((formOption + 1) % 2)}
+                    pt="0.75rem"
+                    variant="link"
+                  >
                     {(formOption === 0 && 'Forgot Password?') ||
-                      (formOption === 1 && '< Back to Login')}
+                      (formOption === 1 && (
+                        <>
+                          <Box as={TiArrowBack} size="18px" />
+                          Go back
+                        </>
+                      ))}
                   </Button>
-                  )}
+                )}
               </Box>
-              <Box textAlign="right" >
+              <Box textAlign="right">
                 <Button isLoading={isLoading} type="submit" variantColor="cyan">
                   {(formOption === 0 && 'Login') ||
                     (formOption === 1 && 'Send One Time Code') ||
                     (formOption === 2 && 'Verify') ||
                     (formOption === 3 && 'Change Password')}
                 </Button>
-                <Button ml={2} onClick={handleFormClose}>Cancel</Button>
+                <Button ml={2} onClick={handleFormClose}>
+                  Cancel
+                </Button>
               </Box>
             </Grid>
           </ModalFooter>
