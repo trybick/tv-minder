@@ -12,19 +12,12 @@ import {
 import axios from 'axios';
 import { API } from 'utils/constants';
 import { connect, MapStateToProps } from 'react-redux';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
+import { AppState } from 'store';
 import { selectUserEmail } from 'store/user/selectors';
-import { setIsLoggedOutAction } from 'store/user/actions';
 
 interface StateProps {
   email: string;
 }
-
-interface DispatchProps {
-  setIsLoggedOut: AppThunkPlainAction;
-}
-
-type Props = StateProps & DispatchProps;
 
 const formFields = [
   {
@@ -41,7 +34,7 @@ const formFields = [
   },
 ];
 
-const ChangePasswordContainer = ({ email, setIsLoggedOut }: Props) => {
+const ChangePasswordContainer = ({ email }: StateProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [formData, setFormData] = React.useState(['', '', '']);
 
@@ -86,7 +79,7 @@ const ChangePasswordContainer = ({ email, setIsLoggedOut }: Props) => {
         setFormData(['', '', '']);
         setIsLoading(false);
       })
-      .catch(err => {
+      .catch(() => {
         toast({
           title: 'An Error occurred!',
           description: 'Your Password cannot be updated.',
@@ -152,11 +145,4 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
   email: selectUserEmail(state),
 });
 
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedOut: () => dispatch(setIsLoggedOutAction()),
-});
-
-export default connect<StateProps, DispatchProps, {}, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChangePasswordContainer);
+export default connect<StateProps, {}, {}, AppState>(mapStateToProps, {})(ChangePasswordContainer);
