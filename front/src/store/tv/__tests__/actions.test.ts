@@ -1,5 +1,5 @@
 import { SAVE_SEARCH_QUERY, saveSearchQueryAction } from '../actions';
-import { returnWithStore } from './config';
+import { returnWithStore } from './test-config';
 import { SavedQuery } from '../types';
 import moment from 'moment';
 

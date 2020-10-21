@@ -4,5 +4,5 @@ module.exports = {
   transform: { '^.+\\.tsx?$': 'ts-jest' },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  testPathIgnorePatterns: ['<rootDir>/src/store/tv/__tests__/config.ts'],
+  testPathIgnorePatterns: ['node_modules', 'test-config'],
 };
