@@ -21,6 +21,7 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/core';
+import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
@@ -244,7 +245,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           </ModalBody>
 
           <ModalFooter>
-            <Grid gridTemplateColumns="1fr 3fr">
+            <Grid gap="20px" gridTemplateColumns="1fr 3fr">
               <Box textAlign="left">
                 {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
                     when formOption = 0 : (0 + 1) % 2 which is 1
@@ -265,7 +266,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     variant="link"
                   >
                     {(formOption === 0 && 'Forgot Password?') ||
-                      (formOption === 1 && '< Back to Login')}
+                      (formOption === 1 && (
+                        <>
+                          <Box as={TiArrowBack} size="18px" />
+                          Go back
+                        </>
+                      ))}
                   </Button>
                 )}
               </Box>
