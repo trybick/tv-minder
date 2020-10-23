@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   Textarea,
   useToast,
 } from '@chakra-ui/core';
@@ -24,6 +25,7 @@ interface Props {
 const FeedbackModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const [value, setValue] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
   const initialRef = React.useRef(null);
@@ -49,7 +51,11 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
           isClosable: true,
         });
       })
-      .catch(handleErrors);
+      .catch(error => {
+        handleErrors(error);
+        setErrorMsg(error.message);
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -62,11 +68,15 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
         <ModalBody>
           <Textarea
             height="150px"
+            mb={2}
             onChange={handleTextChange}
             placeholder="Any feedback welcome 😎"
             ref={initialRef}
             value={value}
           />
+          <Text color="#ff3e3e" fontSize="sm">
+            {errorMsg}
+          </Text>
         </ModalBody>
 
         <ModalFooter>
