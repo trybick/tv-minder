@@ -14,6 +14,7 @@ import MyShowsPage from 'pages/MyShowsPage';
 import { gAnalyticsID } from 'utils/constants';
 import ProtectedRoute from './common/ProtectedRoute';
 import SettingsPage from 'pages/SettingsPage';
+import ErrorBoundary from './common/ErrorBoundary';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -39,23 +40,24 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     <Router>
       <Flex direction="column" minH="97vh">
         <Header />
-
-        <Switch>
-          <Route path="/" exact>
-            <SearchPage />
-          </Route>
-          <Route path="/calendar">
-            <CalendarPage />
-          </Route>
-          <Route path="/my-shows">
-            <MyShowsPage />
-          </Route>
-          <Route path="/settings">
-            <ProtectedRoute>
-              <SettingsPage />
-            </ProtectedRoute>
-          </Route>
-        </Switch>
+        <ErrorBoundary>
+          <Switch>
+            <Route path="/" exact>
+              <SearchPage />
+            </Route>
+            <Route path="/calendar">
+              <CalendarPage />
+            </Route>
+            <Route path="/my-shows">
+              <MyShowsPage />
+            </Route>
+            <Route path="/settings">
+              <ProtectedRoute>
+                <SettingsPage />
+              </ProtectedRoute>
+            </Route>
+          </Switch>
+        </ErrorBoundary>
       </Flex>
 
       <Footer />
