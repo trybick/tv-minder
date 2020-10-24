@@ -1,7 +1,8 @@
 import { Box, Text } from '@chakra-ui/core';
 import React, { Component } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-interface Props {
+interface Props extends RouteComponentProps<any> {
   children: React.ReactNode;
 }
 interface States {
@@ -13,6 +14,15 @@ interface States {
 class ErrorBoundary extends Component<Props, States> {
   constructor(props: Props) {
     super(props);
+    const { history } = this.props;
+
+    history.listen((location, action) => {
+      if (this.state.hasError) {
+        this.setState({
+          hasError: false,
+        });
+      }
+    });
 
     this.state = {
       hasError: false,
@@ -49,4 +59,4 @@ class ErrorBoundary extends Component<Props, States> {
   }
 }
 
-export default ErrorBoundary;
+export default withRouter(ErrorBoundary);

@@ -40,31 +40,24 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     <Router>
       <Flex direction="column" minH="97vh">
         <Header />
-
-        <Switch>
-          <Route path="/" exact>
-            <ErrorBoundary>
+        <ErrorBoundary>
+          <Switch>
+            <Route path="/" exact>
               <SearchPage />
-            </ErrorBoundary>
-          </Route>
-          <Route path="/calendar">
-            <ErrorBoundary>
+            </Route>
+            <Route path="/calendar">
               <CalendarPage />
-            </ErrorBoundary>
-          </Route>
-          <Route path="/my-shows">
-            <ErrorBoundary>
+            </Route>
+            <Route path="/my-shows">
               <MyShowsPage />
-            </ErrorBoundary>
-          </Route>
-          <Route path="/settings">
-            <ProtectedRoute>
-              <ErrorBoundary>
+            </Route>
+            <Route path="/settings">
+              <ProtectedRoute>
                 <SettingsPage />
-              </ErrorBoundary>
-            </ProtectedRoute>
-          </Route>
-        </Switch>
+              </ProtectedRoute>
+            </Route>
+          </Switch>
+        </ErrorBoundary>
       </Flex>
 
       <Footer />
