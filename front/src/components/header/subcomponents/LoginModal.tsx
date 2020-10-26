@@ -5,10 +5,10 @@ import axios from 'axios';
 import {
   Box,
   Button,
+  Grid,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Grid,
   Input,
   InputGroup,
   InputRightElement,
@@ -20,13 +20,16 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
+  Flex,
+  Divider,
 } from '@chakra-ui/core';
-import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'types/common';
 import handleErrors from 'utils/handleErrors';
+import GoogleLoginButton from '../subcomponents/OAuth/GoogleLoginButton';
+import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
 interface OwnProps {
   disclosureProps: DisclosureProps;
@@ -118,6 +121,58 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setValue('password', '');
       });
   };
+
+  //  Handles OAuth login from Google
+  type Responses = GoogleLoginResponse | GoogleLoginResponseOffline;
+  const handleGoogleLogin = {
+    onSuccess: (response: Responses) => {
+      setIsLoading(true);
+      const isValidGoogleResponse = (response: Responses): response is GoogleLoginResponse => 'googleId' in response;
+      if (isValidGoogleResponse(response)) {
+        const email = response.profileObj.email;
+        const googleId = response.profileObj.googleId;
+        axios
+          .post(`${API.TV_MINDER}/register`, {
+            email,
+            password: googleId,
+          }).catch((error) => {
+             if (error.response) {
+               console.log("User already exists, continuing to Login.")
+             }
+          }).finally(() => {
+            axios
+              .post(`${API.TV_MINDER}/login`, {
+                email,
+                password: googleId,
+              }).then((res) => {
+                localStorage.setItem('jwt', res.data.token);
+                onClose();
+                setIsLoggedIn(res.data.email);
+                unregisteredClearFollowedShows();
+                toast({
+                  title: 'Login Successful',
+                  description: 'You are now logged in with Google.',
+                  status: 'success',
+                  isClosable: true,
+                })
+              }).catch((error: any) => {
+                handleErrors(error);
+                setIsLoading(false);
+          })
+        })
+      }
+    },
+    onFailure: (error: any) => {
+      console.log(error);
+      setIsLoading(false);
+      toast({
+        title: 'Error in login',
+        description: 'Could not login in. Please try again.',
+        status: 'error',
+        isClosable: true
+      })
+    }
+  }
 
   const requestGenerateOneTimeCode = (email: string) => {
     axios
@@ -245,48 +300,49 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           </ModalBody>
 
           <ModalFooter>
-            <Grid gap="20px" gridTemplateColumns="1fr 3fr">
-              <Box textAlign="left">
-                {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
-                    when formOption = 0 : (0 + 1) % 2 which is 1
-                    when formOption = 1 : (1 + 1) % 2 which is 0
-                */}
-                {(formOption === 0 || formOption === 1) && (
-                  <Button
-                    _active={{
-                      borderColor: 'none',
-                    }}
-                    _focus={{
-                      borderColor: 'none',
-                    }}
-                    color="#659BC7"
-                    fontSize="0.88rem"
-                    onClick={() => setFormOption((formOption + 1) % 2)}
-                    pt="0.75rem"
-                    variant="link"
-                  >
-                    {(formOption === 0 && 'Forgot Password?') ||
-                      (formOption === 1 && (
-                        <>
-                          <Box as={TiArrowBack} size="18px" />
-                          Go back
-                        </>
-                      ))}
-                  </Button>
-                )}
-              </Box>
-              <Box textAlign="right">
-                <Button isLoading={isLoading} type="submit" variantColor="cyan">
-                  {(formOption === 0 && 'Login') ||
-                    (formOption === 1 && 'Send One Time Code') ||
-                    (formOption === 2 && 'Verify') ||
-                    (formOption === 3 && 'Change Password')}
-                </Button>
-                <Button ml={2} onClick={handleFormClose}>
-                  Cancel
-                </Button>
-              </Box>
-            </Grid>
+            <Box>
+              <Flex flex={1}>
+                <Grid gridTemplateColumns="1fr 3fr">
+                  <Box textAlign="left">
+                    {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
+                        when formOption = 0 : (0 + 1) % 2 which is 1
+                        when formOption = 1 : (1 + 1) % 2 which is 0
+                    */}
+                      {(formOption === 0 || formOption === 1) && (
+                      <Button variant="link" pt="0.75rem" fontSize="0.88rem" color="#659BC7" 
+                        _active={{
+                          borderColor: "none",
+                        }}
+                        _focus={{
+                          borderColor: "none",
+                        }}
+                        onClick={() => setFormOption((formOption + 1) % 2)}>
+                        {(formOption === 0 && 'Forgot Password?') ||
+                          (formOption === 1 && '< Back to Login')}
+                      </Button>
+                    )}
+                  </Box>
+                  <Box textAlign="right" marginBottom={2} >
+                    <Button isLoading={isLoading} type="submit" variantColor="cyan">
+                      {(formOption === 0 && 'Login') ||
+                        (formOption === 1 && 'Send One Time Code') ||
+                        (formOption === 2 && 'Verify') ||
+                        (formOption === 3 && 'Change Password')}
+                    </Button>
+                    <Button ml={2} onClick={handleFormClose}>Cancel</Button>
+                  </Box>
+                </Grid>
+              </Flex>
+              {(formOption === 0) && (<Box>
+                <Divider borderColor="cyan.200" height="10px" />
+                <Flex flex={1} textAlign="center" justifyContent="center">
+                  <ModalHeader>Login with Social Account</ModalHeader>
+                </Flex>
+                <Flex size="auto" flex={2} justifyContent={"space-around"} marginBottom={2} >
+                  <GoogleLoginButton onSuccess={handleGoogleLogin.onSuccess} onFailure={handleGoogleLogin.onFailure} />
+                </Flex>
+              </Box>)}
+            </Box>
           </ModalFooter>
         </Box>
       </ModalContent>
