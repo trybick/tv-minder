@@ -16,7 +16,7 @@ class ErrorBoundary extends Component<Props, States> {
     super(props);
     const { history } = this.props;
 
-    history.listen((location, action) => {
+    history.listen(() => {
       if (this.state.hasError) {
         this.setState({
           hasError: false,

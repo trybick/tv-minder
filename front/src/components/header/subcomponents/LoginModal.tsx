@@ -5,10 +5,12 @@ import axios from 'axios';
 import {
   Box,
   Button,
-  Grid,
+  Divider,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Grid,
   Input,
   InputGroup,
   InputRightElement,
@@ -20,17 +22,15 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
-  Flex,
-  Divider,
 } from '@chakra-ui/core';
-import {TiArrowBack} from 'react-icons/ti';
+import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
 import { DisclosureProps } from 'types/common';
 import handleErrors from 'utils/handleErrors';
 import GoogleLoginButton from '../subcomponents/OAuth/GoogleLoginButton';
-import { HandleGoogleLoginOnSuccess, HandleGoogleLoginOnFailure } from 'utils/googleOAuth';
+import { handleGoogleLoginOnFailure, handleGoogleLoginOnSuccess } from 'utils/googleOAuth';
 
 interface OwnProps {
   disclosureProps: DisclosureProps;
@@ -294,19 +294,27 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Box>
                 </Grid>
               </Flex>
-              {(formOption === 0) && (
-              <Box>
-                <Divider borderColor="cyan.200" height="10px" />
-                <Flex flex={1} textAlign="center" justifyContent="center">
-                  <ModalHeader>Login with Social Account</ModalHeader>
-                </Flex>
-                <Flex size="auto" flex={2} justifyContent={"space-around"} marginBottom={2} >
-                  <GoogleLoginButton
-                    onSuccess={ (response) => HandleGoogleLoginOnSuccess(response, { setIsLoggedIn, unregisteredClearFollowedShows }, onClose, toast) }
-                    onFailure={ (error) => HandleGoogleLoginOnFailure(error, toast) }
-                  />
-                </Flex>
-              </Box>)}
+              {formOption === 0 && (
+                <Box>
+                  <Divider borderColor="cyan.200" height="10px" />
+                  <Flex flex={1} justifyContent="center" textAlign="center">
+                    <ModalHeader>Login with Social Account</ModalHeader>
+                  </Flex>
+                  <Flex flex={2} justifyContent={'space-around'} marginBottom={2} size="auto">
+                    <GoogleLoginButton
+                      onFailure={error => handleGoogleLoginOnFailure(error, toast)}
+                      onSuccess={response =>
+                        handleGoogleLoginOnSuccess(
+                          response,
+                          { setIsLoggedIn, unregisteredClearFollowedShows },
+                          onClose,
+                          toast
+                        )
+                      }
+                    />
+                  </Flex>
+                </Box>
+              )}
             </Box>
           </ModalFooter>
         </Box>
