@@ -23,6 +23,10 @@ From the root directory:
 - Optionally start the back end: `yarn serve`
   - Note: If you are just working on the front-end, you don't need to run the back-end since the local project is set to use the deployed API. If you want to work with the local API, change [this](https://github.com/trybick/tv-minder/blob/master/front/src/utils/constants.ts) file and request the env files for the api folder in an issue.
 
+#### More On ENV Files
+
+- All ENV files on the frontend are checked into git, except for the google 0Auth token. If you need to use Google 0Auth locally, then create a file `front/.env.local` which contains `REACT_APP_GOOGLE_OAUTH_CLIENT_ID`.
+
 ## Contributing 😎
 
 See [Contribution guidelines](https://github.com/trybick/tv-minder/blob/master/CONTRIBUTING.md)
