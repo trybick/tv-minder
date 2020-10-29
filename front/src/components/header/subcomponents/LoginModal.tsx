@@ -24,13 +24,13 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { TiArrowBack } from 'react-icons/ti';
+import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
 import handleErrors from 'utils/handleErrors';
 import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import { DisclosureProps } from 'types/common';
-import GoogleLoginButton from './GoogleLoginButton';
 
 interface OwnProps {
   disclosureProps: DisclosureProps;
@@ -301,7 +301,9 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     <ModalHeader>Login with Social Account</ModalHeader>
                   </Flex>
                   <Flex flex={2} justifyContent={'space-around'} marginBottom={2} size="auto">
-                    <GoogleLoginButton
+                    <GoogleLogin
+                      buttonText="Login with Google"
+                      clientId={API.GOOGLE_0AUTH!}
                       onFailure={error => handleGoogleLoginFailure(error, toast)}
                       onSuccess={response =>
                         handleGoogleLoginSuccess(response, {
@@ -311,6 +313,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                           toast,
                         })
                       }
+                      type="submit"
                     />
                   </Flex>
                 </Box>
