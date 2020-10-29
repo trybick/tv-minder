@@ -1,22 +1,23 @@
-import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import { useToastOptions } from '@chakra-ui/core';
+import { GoogleLoginResponse } from 'react-google-login';
 import { API } from './constants';
 import axios from 'axios';
 import handleErrors from './handleErrors';
 import { AppThunkPlainAction } from 'store';
+import { GoogleLoginResponses } from 'types/external';
 
-interface DispatchProps {
+interface Props {
+  onClose: () => void;
   setIsLoggedIn: (email: string) => void;
+  toast: (props: useToastOptions) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
 }
 
-type Responses = GoogleLoginResponse | GoogleLoginResponseOffline;
-export const handleGoogleLoginOnSuccess = (
-  response: Responses,
-  { setIsLoggedIn, unregisteredClearFollowedShows }: DispatchProps,
-  onClose: Function,
-  toast: Function
+export const handleGoogleLoginSuccess = (
+  response: GoogleLoginResponses,
+  { onClose, setIsLoggedIn, toast, unregisteredClearFollowedShows }: Props
 ) => {
-  const isValidGoogleResponse = (response: Responses): response is GoogleLoginResponse =>
+  const isValidGoogleResponse = (response: GoogleLoginResponses): response is GoogleLoginResponse =>
     'googleId' in response;
   if (isValidGoogleResponse(response)) {
     const email = response.profileObj.email;
@@ -56,7 +57,7 @@ export const handleGoogleLoginOnSuccess = (
   }
 };
 
-export const handleGoogleLoginOnFailure = (error: any, toast: Function) => {
+export const handleGoogleLoginFailure = (error: Error, toast: (props: useToastOptions) => void) => {
   console.log(error);
   toast({
     title: 'Error in login',

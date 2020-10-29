@@ -27,10 +27,10 @@ import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
-import { DisclosureProps } from 'types/common';
 import handleErrors from 'utils/handleErrors';
-import GoogleLoginButton from '../subcomponents/OAuth/GoogleLoginButton';
-import { handleGoogleLoginOnFailure, handleGoogleLoginOnSuccess } from 'utils/googleOAuth';
+import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
+import { DisclosureProps } from 'types/common';
+import GoogleLoginButton from './GoogleLoginButton';
 
 interface OwnProps {
   disclosureProps: DisclosureProps;
@@ -302,14 +302,14 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Flex>
                   <Flex flex={2} justifyContent={'space-around'} marginBottom={2} size="auto">
                     <GoogleLoginButton
-                      onFailure={error => handleGoogleLoginOnFailure(error, toast)}
+                      onFailure={error => handleGoogleLoginFailure(error, toast)}
                       onSuccess={response =>
-                        handleGoogleLoginOnSuccess(
-                          response,
-                          { setIsLoggedIn, unregisteredClearFollowedShows },
+                        handleGoogleLoginSuccess(response, {
+                          setIsLoggedIn,
+                          unregisteredClearFollowedShows,
                           onClose,
-                          toast
-                        )
+                          toast,
+                        })
                       }
                     />
                   </Flex>

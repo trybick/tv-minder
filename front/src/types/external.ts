@@ -1,4 +1,6 @@
-// This file contains types created to use with the data returned from the 'Movie DB' API
+import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+
+// Data returned from 'The Movie DB' API
 
 //
 // Search
@@ -51,3 +53,6 @@ export type BasicShowInfo = {
   posterPath: string;
   status: Status;
 };
+
+// Google 0Auth
+export type GoogleLoginResponses = GoogleLoginResponse | GoogleLoginResponseOffline;

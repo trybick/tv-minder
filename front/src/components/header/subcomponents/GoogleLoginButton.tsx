@@ -1,12 +1,11 @@
 import React from 'react';
-import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import GoogleLogin from 'react-google-login';
+import { GoogleLoginResponses } from 'types/external';
 
 interface Props {
-  onSuccess: (response: Responses) => void;
-  onFailure: (error: any) => void;
+  onSuccess: (response: GoogleLoginResponses) => void;
+  onFailure: (error: Error) => void;
 }
-
-type Responses = GoogleLoginResponse | GoogleLoginResponseOffline;
 
 const GoogleLoginButton = ({ onSuccess, onFailure }: Props) => {
   const GOOGLE_API: string | undefined = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID;
