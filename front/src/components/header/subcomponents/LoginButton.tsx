@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, useDisclosure } from '@chakra-ui/core';
+import { PlainFunction } from 'types/common';
 import LoginModal from './LoginModal';
 
 interface Props {
-  closeHeader: () => void;
+  closeHeader: PlainFunction;
 }
 
 const LoginButton = ({ closeHeader }: Props) => {

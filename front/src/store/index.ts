@@ -5,6 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import storage from 'redux-persist/lib/storage';
 import { userReducer, UserState } from './user/reducers';
 import { tvReducer, TvState } from './tv/reducers';
+import { PlainFunction } from 'types/common';
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -13,7 +14,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 export type AppThunkDispatch = ThunkDispatch<AppState, void, AnyAction>;
-export type AppThunkPlainAction = () => void;
+export type AppThunkPlainAction = PlainFunction;
 
 export type AppState = {
   user: UserState;

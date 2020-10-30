@@ -8,10 +8,11 @@ import {
   InputLeftElement,
   InputRightElement,
 } from '@chakra-ui/core';
+import { PlainFunction } from 'types/common';
 
 interface Props {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleClearInput: () => void;
+  handleClearInput: PlainFunction;
   inputRef: RefObject<HTMLInputElement>;
   inputValue: string;
 }

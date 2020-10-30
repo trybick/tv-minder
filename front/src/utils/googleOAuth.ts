@@ -4,10 +4,11 @@ import { API } from './constants';
 import axios from 'axios';
 import handleErrors from './handleErrors';
 import { AppThunkPlainAction } from 'store';
+import { PlainFunction } from 'types/common';
 import { GoogleLoginResponses } from 'types/external';
 
 interface Props {
-  onClose: () => void;
+  onClose: PlainFunction;
   setIsLoggedIn: (email: string) => void;
   toast: (props: useToastOptions) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
