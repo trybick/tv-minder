@@ -28,6 +28,10 @@ export const getUniqueColorsForShowIds = (showIds: number[]) => {
     return uniqueIndex;
   });
 
+  console.log(
+    'uniqueIndices.map(num => colors[num]):',
+    uniqueIndices.map(num => colors[num])
+  );
   return uniqueIndices.map(num => colors[num]);
 };
 
@@ -305,7 +309,6 @@ const colors = [
   '#9685eb',
   '#8a96c6',
   '#dba2e6',
-  '#76fc1b',
   '#608fa4',
   '#20f6ba',
   '#07d7f6',
