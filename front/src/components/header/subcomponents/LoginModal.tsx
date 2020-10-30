@@ -296,11 +296,14 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               </Flex>
               {formOption === 0 && (
                 <Box>
-                  <Divider borderColor="cyan.200" height="10px" />
-                  <Flex flex={1} justifyContent="center" textAlign="center">
-                    <ModalHeader>Login with Social Account</ModalHeader>
-                  </Flex>
-                  <Flex flex={2} justifyContent={'space-around'} marginBottom={2} size="auto">
+                  <Divider borderColor="#3182ce" height="10px" />
+                  <Flex
+                    flex={2}
+                    justifyContent={'space-around'}
+                    marginBottom={2}
+                    mt="25px"
+                    size="auto"
+                  >
                     <GoogleLogin
                       buttonText="Login with Google"
                       clientId={API.GOOGLE_0AUTH!}
@@ -313,6 +316,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                           toast,
                         })
                       }
+                      theme="dark"
                       type="submit"
                     />
                   </Flex>
