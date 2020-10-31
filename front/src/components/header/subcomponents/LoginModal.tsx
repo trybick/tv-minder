@@ -190,13 +190,13 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const getSubmitButtonText = () => {
     let buttonText;
-    if (formOption == 0) {
+    if (formOption === 0) {
       buttonText = 'Login';
-    } else if (formOption == 1) {
+    } else if (formOption === 1) {
       buttonText = 'Send One-time Code';
-    } else if (formOption == 2) {
+    } else if (formOption === 2) {
       buttonText = 'Verify';
-    } else if (formOption == 3) {
+    } else if (formOption === 3) {
       buttonText = 'Change Password';
     }
     return buttonText;
