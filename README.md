@@ -16,9 +16,9 @@
 
 ## Local Development
 
-#### Start the front-end while using the production API (quickest)
+#### Using the production API (quickest)
 
-From the root directory:
+This will start the front-end and use the production API for API requests.
 
 ```bash
 yarn
@@ -29,13 +29,11 @@ npm install
 npm start
 ```
 
-#### Start the front-end while using a locally running API
-
-From the root directory:
+#### Using a locally running API
 
 - Start the local API:
 
-```
+```bash
 yarn serve
 
 # or with npm
@@ -44,7 +42,7 @@ npm run serve
 
 - Start the front-end:
 
-```
+```bash
 yarn start:local
 
 # or with npm
@@ -53,7 +51,7 @@ npm run start:local
 
 #### ENV Files
 
-- All ENV files on the frontend are checked into git, except for the google 0Auth token. If you need to use Google 0Auth locally, then create a file `front/.env.local` which contains `REACT_APP_GOOGLE_OAUTH_CLIENT_ID`.
+- All ENV files on the frontend are checked into git, except for the google OAuth token. If you need to use Google OAuth locally, then create a file `front/.env.local` which contains `REACT_APP_GOOGLE_OAUTH_CLIENT_ID`.
 
 ## Contributing 😎
 
