@@ -58,7 +58,7 @@ export const handleGoogleLoginSuccess = (
   }
 };
 
-export const handleGoogleLoginFailure = (error: Error, toast: (props: useToastOptions) => void) => {
+export const handleGoogleLoginFailure = (error: Error, toast: Props['toast']) => {
   console.log(error);
   toast({
     title: 'Error in login',

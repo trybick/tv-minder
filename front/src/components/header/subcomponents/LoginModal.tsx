@@ -188,6 +188,20 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     onClose();
   };
 
+  const getSubmitButtonText = () => {
+    let buttonText;
+    if (formOption == 0) {
+      buttonText = 'Login';
+    } else if (formOption == 1) {
+      buttonText = 'Send One-time Code';
+    } else if (formOption == 2) {
+      buttonText = 'Verify';
+    } else if (formOption == 3) {
+      buttonText = 'Change Password';
+    }
+    return buttonText;
+  };
+
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
@@ -253,10 +267,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <Flex flex={1}>
                 <Grid gridTemplateColumns="1fr 3fr">
                   <Box textAlign="left">
-                    {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
-                        when formOption = 0 : (0 + 1) % 2 which is 1
-                        when formOption = 1 : (1 + 1) % 2 which is 0
-                    */}
                     {(formOption === 0 || formOption === 1) && (
                       <Button
                         _active={{
@@ -283,10 +293,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Box>
                   <Box textAlign="right">
                     <Button isLoading={isLoading} type="submit" variantColor="cyan">
-                      {(formOption === 0 && 'Login') ||
-                        (formOption === 1 && 'Send One Time Code') ||
-                        (formOption === 2 && 'Verify') ||
-                        (formOption === 3 && 'Change Password')}
+                      {getSubmitButtonText()}
                     </Button>
                     <Button ml={2} onClick={handleFormClose}>
                       Cancel

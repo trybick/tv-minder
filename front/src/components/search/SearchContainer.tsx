@@ -54,7 +54,7 @@ const WelcomeMessage = () => {
             Never miss an episode!
           </StatHelpText>
         </Stat>
-        <Image alt="alt clock logo" height="55px" objectFit="cover" src={clock} />
+        <Image alt="clock logo" height="55px" objectFit="cover" src={clock} />
       </StatGroup>
     </Flex>
   );

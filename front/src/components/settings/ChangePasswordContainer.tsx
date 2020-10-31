@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
+import { connect, MapStateToProps } from 'react-redux';
 import {
   Box,
   Button,
@@ -10,10 +11,9 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import axios from 'axios';
-import { API } from 'utils/constants';
-import { connect, MapStateToProps } from 'react-redux';
 import { AppState } from 'store';
 import { selectUserEmail } from 'store/user/selectors';
+import { API } from 'utils/constants';
 
 interface StateProps {
   email: string;
@@ -37,24 +37,22 @@ const formFields = [
 const ChangePasswordContainer = ({ email }: StateProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [formData, setFormData] = React.useState(['', '', '']);
-
   const toast = useToast();
-
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (formData[0] && formData[1] && formData[2] && formData[1] === formData[2]) {
       changePassword(email, formData[0], formData[1]);
     } else {
       toast({
-        title: 'Invalid input fields!',
+        title: 'Invalid input fields',
         description: 'Check your input fields.',
         status: 'error',
         isClosable: true,
       });
     }
-    event.preventDefault();
   };
 
   const changePassword = (email: string, oldPassword: string, newPassword: string) => {
@@ -112,7 +110,7 @@ const ChangePasswordContainer = ({ email }: StateProps) => {
             </FormLabel>
             <Input
               name={labelName}
-              onChange={(e: any) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setFormData([
                   ...formData.slice(0, index),
                   e.target.value,
@@ -124,6 +122,7 @@ const ChangePasswordContainer = ({ email }: StateProps) => {
             />
           </FormControl>
         ))}
+
         <Button
           bg={isDarkMode ? 'blue.900' : 'blue.300'}
           color="white"

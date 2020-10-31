@@ -1,14 +1,11 @@
 import { getUniqueColorsForShowIds } from '../getColorForShowId';
 
-//returns true if array values are unique otherwise returns false;
 const isUnique = (arr: string[]): boolean => new Set(arr).size === arr.length;
 
 const generateIds = (repeat: number) => {
   const randomArr: number[] = [];
   for (let i = 1; i <= repeat; i++) {
-    //generates random number 'tween  1000 & 100000
     const randomNum: number = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
-    //push unique ids only into the array
     if (randomArr.indexOf(randomNum) === -1) randomArr.push(randomNum);
   }
   return randomArr;

@@ -25,7 +25,7 @@ interface Props {
 const FeedbackModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
   const [value, setValue] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
   const initialRef = React.useRef(null);
@@ -53,7 +53,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
       })
       .catch(error => {
         handleErrors(error);
-        setErrorMsg(error.message);
+        setError(error.message);
         setIsSubmitting(false);
       });
   };
@@ -74,9 +74,11 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
             ref={initialRef}
             value={value}
           />
-          <Text color="#ff3e3e" fontSize="sm">
-            {errorMsg}
-          </Text>
+          {error && (
+            <Text color="#ff3e3e" fontSize="sm">
+              {error}
+            </Text>
+          )}
         </ModalBody>
 
         <ModalFooter>

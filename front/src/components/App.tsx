@@ -6,15 +6,15 @@ import ReactGA from 'react-ga';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/selectors';
+import { gAnalyticsID } from 'utils/constants';
 import Header from 'components/header/Header';
 import Footer from 'components/footer/Footer';
+import ProtectedRoute from 'components/common/ProtectedRoute';
+import ErrorBoundary from 'components/common/ErrorBoundary';
 import SearchPage from 'pages/SearchPage';
 import CalendarPage from 'pages/CalendarPage';
 import MyShowsPage from 'pages/MyShowsPage';
-import { gAnalyticsID } from 'utils/constants';
-import ProtectedRoute from './common/ProtectedRoute';
 import SettingsPage from 'pages/SettingsPage';
-import ErrorBoundary from './common/ErrorBoundary';
 
 interface StateProps {
   isLoggedIn: boolean;

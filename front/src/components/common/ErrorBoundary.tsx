@@ -1,14 +1,14 @@
-import { Box, Text } from '@chakra-ui/core';
-import React, { Component } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Box, Text } from '@chakra-ui/core';
 
 interface Props extends RouteComponentProps<any> {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 interface States {
   hasError: boolean;
-  error: any;
-  errorInfo: any;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
 }
 
 class ErrorBoundary extends Component<Props, States> {
@@ -31,30 +31,29 @@ class ErrorBoundary extends Component<Props, States> {
     };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ hasError: true, error: error, errorInfo: errorInfo });
   }
 
   render() {
-    if (this.state.hasError) {
+    const { error, errorInfo, hasError } = this.state;
+
+    if (hasError) {
       return (
         <Box>
           <Text color={'#034A85'} fontSize="5xl" p={8} textAlign="center">
             Something Went Wrong
           </Text>
           <Text color={'#034A85'} fontSize="md" p={3} textAlign="center">
-            {typeof this.state.error === 'object' && this.state.error !== null
-              ? JSON.stringify(this.state.error)
-              : ''}
+            {typeof error === 'object' && error !== null ? JSON.stringify(error) : ''}
           </Text>
           <Text color={'#034A85'} fontSize="md" p={3}>
-            {typeof this.state.errorInfo === 'object' && this.state.errorInfo !== null
-              ? JSON.stringify(this.state.errorInfo)
-              : ''}
+            {typeof errorInfo === 'object' && errorInfo !== null ? JSON.stringify(errorInfo) : ''}
           </Text>
         </Box>
       );
     }
+
     return this.props.children;
   }
 }

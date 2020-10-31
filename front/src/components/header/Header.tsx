@@ -75,7 +75,6 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
   const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => {
     const isActive = activeRoute === linkTo;
-
     return (
       <Link onClick={closeHeader} to={linkTo}>
         <Text
