@@ -24,6 +24,7 @@
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
     "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "start": "cross-env PORT=4000 react-scripts start",
+    "start:local": "cross-env PORT=4000 REACT_APP_API=local react-scripts start",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "validate": "tsc --noEmit"
