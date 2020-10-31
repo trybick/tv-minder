@@ -22,6 +22,7 @@
   "scripts": {
     "build": "react-scripts build",
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
+    "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "start": "cross-env PORT=4000 react-scripts start",
     "test": "jest",
     "test:watch": "jest --watchAll",

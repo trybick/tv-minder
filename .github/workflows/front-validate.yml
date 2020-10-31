@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -25,3 +25,8 @@ jobs:
         run: |
           cd front
           yarn test
+
+      - name: Check formatting
+        run: |
+          cd front
+          yarn lint:check
