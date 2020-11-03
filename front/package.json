@@ -22,7 +22,9 @@
   "scripts": {
     "build": "react-scripts build",
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
+    "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "start": "cross-env PORT=4000 react-scripts start",
+    "start:local": "cross-env PORT=4000 REACT_APP_API=local react-scripts start",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "validate": "tsc --noEmit"
@@ -50,6 +52,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-ga": "^3.1.2",
+    "react-google-login": "^5.1.22",
     "react-hook-form": "^5.5.3",
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",

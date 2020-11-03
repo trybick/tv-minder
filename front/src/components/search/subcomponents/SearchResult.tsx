@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '@chakra-ui/core';
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Heading,
+  Image,
+  IToast,
+  Text,
+  useToast,
+} from '@chakra-ui/core';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
-import { fallbackImage, localWarningToastMessage } from 'utils/constants';
+import { fallbackImage } from 'utils/constants';
 
 interface Props {
   followedShows: ID[];
@@ -39,6 +50,15 @@ const SearchResult = ({
   const popularityForDisplay =
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
+
+  const localWarningToastMessage: IToast = {
+    title: 'Temporarily saving',
+    description: 'Be sure to sign up to save permanently',
+    status: 'warning',
+    duration: 7000,
+    isClosable: true,
+    position: window.innerWidth > 767 ? 'bottom-right' : 'bottom',
+  };
 
   useEffect(() => {
     if (followedShows.includes(showId)) {

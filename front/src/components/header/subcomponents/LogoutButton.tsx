@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Button } from '@chakra-ui/core';
 import { AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedOutAction } from 'store/user/actions';
+import { PlainFunction } from 'types/common';
 
 interface OwnProps {
-  closeHeader: () => void;
+  closeHeader: PlainFunction;
 }
 
 interface DispatchProps {

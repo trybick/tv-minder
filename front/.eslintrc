@@ -37,7 +37,8 @@
         "ignoreCase": true,
         "ignoreDeclarationSort": true
       }
-    ]
+    ],
+    "@typescript-eslint/no-non-null-assertion": 0
   },
   "ignorePatterns": ["node_modules/*", "public/*", "build/*"]
 }

@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import User from 'models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 import envConfig from 'config/env';
 import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
-import nodemailer from 'nodemailer';
 
 export const registerUser = (req: Request, res: Response) => {
   User.find({ email: req.body.email })
@@ -79,7 +79,7 @@ export const loginUser = (req: Request, res: Response) => {
         return res.status(200).json({
           message: 'Auth successful',
           token,
-          email: user.email
+          email: user.email,
         });
       });
     })
@@ -91,16 +91,16 @@ export const loginUser = (req: Request, res: Response) => {
 };
 
 export const requestOneTimeCode = (req: Request, res: Response) => {
-  const min = 100000
-  const max = 999999
-  const generatedCode = min + (Math.floor(Math.random() * (max - min)))
+  const min = 100000;
+  const max = 999999;
+  const generatedCode = min + Math.floor(Math.random() * (max - min));
   User.findOneAndUpdate({ email: req.body.email }, { oneTimeCode: generatedCode })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (!user) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: 'Email is not registered',
-        })
+        });
       }
       const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -126,18 +126,22 @@ export const requestOneTimeCode = (req: Request, res: Response) => {
     .catch((error: Error) => {
       return res.status(500).json({ error });
     });
-}
+};
 
 export const verifyOneTimeCode = (req: Request, res: Response) => {
-  const minTimestamp = new Date()
-  minTimestamp.setMinutes(minTimestamp.getMinutes() - TOKEN_LIFESPAN_MINS)
-  User.findOne({ email: req.body.email, oneTimeCode: req.body.oneTimeCode, updatedAt: { $gte: minTimestamp } })
+  const timestamp = new Date();
+  timestamp.setMinutes(timestamp.getMinutes() - TOKEN_LIFESPAN_MINS);
+  User.findOne({
+    email: req.body.email,
+    oneTimeCode: req.body.oneTimeCode,
+    updatedAt: { $gte: timestamp },
+  })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.status(400).json({
           message: 'Invalid One Time Code',
-        })
+        });
       }
       res.status(200).json({
         message: 'One Time Code Verified',
@@ -146,7 +150,7 @@ export const verifyOneTimeCode = (req: Request, res: Response) => {
     .catch((error: Error) => {
       return res.status(500).json({ error });
     });
-}
+};
 
 export const changePasswordForReset = (req: Request, res: Response) => {
   bcrypt.hash(req.body.password, 10, (error, hash) => {
@@ -159,7 +163,7 @@ export const changePasswordForReset = (req: Request, res: Response) => {
         if (!user) {
           return res.status(400).json({
             message: 'Invalid Email',
-          })
+          });
         }
         res.status(200).json({
           message: 'Password Changed',
@@ -169,7 +173,7 @@ export const changePasswordForReset = (req: Request, res: Response) => {
         return res.status(500).json({ error });
       });
   });
-}
+};
 
 export const changePasswordForSettings = (req: Request, res: Response) => {
   User.findOne({ email: req.body.email })
@@ -193,15 +197,16 @@ export const changePasswordForSettings = (req: Request, res: Response) => {
           User.findOneAndUpdate({ email: req.body.email }, { password: hash })
             .exec()
             .then(() => {
-            return res.status(200).json({
-              message: 'Password changed',
+              return res.status(200).json({
+                message: 'Password changed',
+              });
             });
         });
-      })
+      });
     })
-  }).catch((err: Error) => {
-    return res.status(500).json({
-      error: err,
+    .catch((err: Error) => {
+      return res.status(500).json({
+        error: err,
+      });
     });
-  });
-}
+};

@@ -7,8 +7,6 @@ const allowedOrigins = [
   'https://www.netlify.app',
   'https://netlify.app',
 ];
-
-// To allow auth login inside deploy previews
 const netlifyPattern = /^(https?:(?:.+\.)?netlify\.app(?::\d{1,5})?)$/;
 
 const configureCors = (req: Request, res: Response, next: NextFunction) => {

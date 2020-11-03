@@ -5,6 +5,8 @@ import axios from 'axios';
 import {
   Box,
   Button,
+  Divider,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -20,11 +22,13 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/core';
+import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
-import { API, emailRegex } from 'utils/constants';
 import { DisclosureProps, ID } from 'types/common';
+import { API, emailRegex } from 'utils/constants';
+import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import handleErrors from 'utils/handleErrors';
 
 interface OwnProps {
@@ -201,11 +205,32 @@ const SignUpModal = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button isLoading={isLoading} mr={3} type="submit" variantColor="teal">
+            <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
               Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
+
+          <Box mb="22px">
+            <Divider borderColor="#3182ce" height="10px" />
+            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="25px" size="auto">
+              <GoogleLogin
+                buttonText="Login with Google"
+                clientId={API.GOOGLE_0AUTH!}
+                onFailure={error => handleGoogleLoginFailure(error, toast)}
+                onSuccess={response =>
+                  handleGoogleLoginSuccess(response, {
+                    setIsLoggedIn,
+                    unregisteredClearFollowedShows,
+                    onClose,
+                    toast,
+                  })
+                }
+                theme="dark"
+                type="submit"
+              />
+            </Flex>
+          </Box>
         </Box>
       </ModalContent>
     </Modal>

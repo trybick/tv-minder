@@ -1,7 +1,7 @@
+import moment from 'moment';
 import { SAVE_SEARCH_QUERY, saveSearchQueryAction } from '../actions';
 import { returnWithStore } from './test-config';
 import { SavedQuery } from '../types';
-import moment from 'moment';
 
 describe('tv actions', () => {
   const mockStore = returnWithStore();

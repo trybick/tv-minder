@@ -1,7 +1,7 @@
-import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
 
-//mock redux store cofig for dispathing action
+// Mock redux store config for dispathing action
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 export const returnWithStore = (args?: any) => mockStore(args);

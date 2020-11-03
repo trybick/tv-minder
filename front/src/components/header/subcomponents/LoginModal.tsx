@@ -5,6 +5,8 @@ import axios from 'axios';
 import {
   Box,
   Button,
+  Divider,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -22,11 +24,13 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { TiArrowBack } from 'react-icons/ti';
+import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API, emailRegex } from 'utils/constants';
-import { DisclosureProps } from 'types/common';
 import handleErrors from 'utils/handleErrors';
+import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
+import { DisclosureProps } from 'types/common';
 
 interface OwnProps {
   disclosureProps: DisclosureProps;
@@ -184,6 +188,20 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     onClose();
   };
 
+  const getSubmitButtonText = () => {
+    let buttonText;
+    if (formOption === 0) {
+      buttonText = 'Login';
+    } else if (formOption === 1) {
+      buttonText = 'Send One-time Code';
+    } else if (formOption === 2) {
+      buttonText = 'Verify';
+    } else if (formOption === 3) {
+      buttonText = 'Change Password';
+    }
+    return buttonText;
+  };
+
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
@@ -245,48 +263,73 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           </ModalBody>
 
           <ModalFooter>
-            <Grid gap="20px" gridTemplateColumns="1fr 3fr">
-              <Box textAlign="left">
-                {/* The below button is visible in first & second formOption only and toggle between them (i.e. Login, Send One Time Code)
-                    when formOption = 0 : (0 + 1) % 2 which is 1
-                    when formOption = 1 : (1 + 1) % 2 which is 0
-                */}
-                {(formOption === 0 || formOption === 1) && (
-                  <Button
-                    _active={{
-                      borderColor: 'none',
-                    }}
-                    _focus={{
-                      borderColor: 'none',
-                    }}
-                    color="#659BC7"
-                    fontSize="0.88rem"
-                    onClick={() => setFormOption((formOption + 1) % 2)}
-                    pt="0.75rem"
-                    variant="link"
+            <Box>
+              <Flex flex={1}>
+                <Grid gridTemplateColumns="1fr 3fr">
+                  <Box textAlign="left">
+                    {(formOption === 0 || formOption === 1) && (
+                      <Button
+                        _active={{
+                          borderColor: 'none',
+                        }}
+                        _focus={{
+                          borderColor: 'none',
+                        }}
+                        color="#659BC7"
+                        fontSize="0.88rem"
+                        onClick={() => setFormOption((formOption + 1) % 2)}
+                        pt="0.75rem"
+                        variant="link"
+                      >
+                        {(formOption === 0 && 'Forgot Password?') ||
+                          (formOption === 1 && (
+                            <>
+                              <Box as={TiArrowBack} size="18px" />
+                              Go back
+                            </>
+                          ))}
+                      </Button>
+                    )}
+                  </Box>
+                  <Box textAlign="right">
+                    <Button isLoading={isLoading} type="submit" variantColor="cyan">
+                      {getSubmitButtonText()}
+                    </Button>
+                    <Button ml={2} onClick={handleFormClose}>
+                      Cancel
+                    </Button>
+                  </Box>
+                </Grid>
+              </Flex>
+              {formOption === 0 && (
+                <Box>
+                  <Divider borderColor="#3182ce" height="10px" />
+                  <Flex
+                    flex={2}
+                    justifyContent={'space-around'}
+                    marginBottom={2}
+                    mt="25px"
+                    size="auto"
                   >
-                    {(formOption === 0 && 'Forgot Password?') ||
-                      (formOption === 1 && (
-                        <>
-                          <Box as={TiArrowBack} size="18px" />
-                          Go back
-                        </>
-                      ))}
-                  </Button>
-                )}
-              </Box>
-              <Box textAlign="right">
-                <Button isLoading={isLoading} type="submit" variantColor="cyan">
-                  {(formOption === 0 && 'Login') ||
-                    (formOption === 1 && 'Send One Time Code') ||
-                    (formOption === 2 && 'Verify') ||
-                    (formOption === 3 && 'Change Password')}
-                </Button>
-                <Button ml={2} onClick={handleFormClose}>
-                  Cancel
-                </Button>
-              </Box>
-            </Grid>
+                    <GoogleLogin
+                      buttonText="Login with Google"
+                      clientId={API.GOOGLE_0AUTH!}
+                      onFailure={error => handleGoogleLoginFailure(error, toast)}
+                      onSuccess={response =>
+                        handleGoogleLoginSuccess(response, {
+                          setIsLoggedIn,
+                          unregisteredClearFollowedShows,
+                          onClose,
+                          toast,
+                        })
+                      }
+                      theme="dark"
+                      type="submit"
+                    />
+                  </Flex>
+                </Box>
+              )}
+            </Box>
           </ModalFooter>
         </Box>
       </ModalContent>
