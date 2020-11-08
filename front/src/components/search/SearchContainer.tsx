@@ -37,7 +37,7 @@ const WelcomeMessage = () => {
   const { colorMode } = useColorMode();
 
   return (
-    <Flex justifyContent="center" mt="10px">
+    <Flex justifyContent="center" maxW="90%" mt="10px">
       <StatGroup
         alignItems="center"
         bg={colorMode === 'light' ? 'white' : ''}
