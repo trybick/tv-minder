@@ -63,11 +63,11 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
 
           <Menu>
             <MenuButton aria-label="Show Options">
-              <Box as={BsThreeDotsVertical} size="19px" />
+              <Box as={BsThreeDotsVertical} w="19px" />
             </MenuButton>
             <MenuList placement="bottom-end">
               <MenuItem onClick={onUnfollowShow}>
-                <Box as={MdRemoveCircleOutline} mr="8px" size="19px" />
+                <Box as={MdRemoveCircleOutline} mr="8px" w="19px" />
                 Unfollow
               </MenuItem>
             </MenuList>
@@ -83,7 +83,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
           {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
         </Text>
 
-        <Badge variant="outline" variantColor={statusColorMap[status]}>
+        <Badge colorScheme={statusColorMap[status]} variant="outline">
           {status}
         </Badge>
       </Box>

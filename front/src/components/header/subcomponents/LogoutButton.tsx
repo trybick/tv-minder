@@ -23,7 +23,7 @@ const LogoutButton = ({ closeHeader, setIsLoggedOut }: Props) => {
   };
 
   return (
-    <Button onClick={onLogout} size="xs" variant="outline" variantColor="teal">
+    <Button colorScheme="teal" onClick={onLogout} size="xs" variant="outline">
       Logout
     </Button>
   );

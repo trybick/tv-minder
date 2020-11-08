@@ -83,12 +83,12 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
         <ModalFooter>
           <Button
+            colorScheme="cyan"
             isDisabled={!value}
             isLoading={isSubmitting}
             mr={3}
             onClick={handleSubmit}
-            rightIcon={FiSend}
-            variantColor="cyan"
+            rightIcon={<FiSend />}
           >
             Submit
           </Button>

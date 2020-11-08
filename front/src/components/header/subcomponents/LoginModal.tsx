@@ -284,7 +284,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                         {(formOption === 0 && 'Forgot Password?') ||
                           (formOption === 1 && (
                             <>
-                              <Box as={TiArrowBack} size="18px" />
+                              <Box as={TiArrowBack} w="18px" />
                               Go back
                             </>
                           ))}
@@ -292,7 +292,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     )}
                   </Box>
                   <Box textAlign="right">
-                    <Button isLoading={isLoading} type="submit" variantColor="cyan">
+                    <Button colorScheme="cyan" isLoading={isLoading} type="submit">
                       {getSubmitButtonText()}
                     </Button>
                     <Button ml={2} onClick={handleFormClose}>
@@ -309,7 +309,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     justifyContent={'space-around'}
                     marginBottom={2}
                     mt="25px"
-                    size="auto"
+                    w="auto"
                   >
                     <GoogleLogin
                       buttonText="Login with Google"

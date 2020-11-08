@@ -11,6 +11,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/core';
+import { CheckIcon } from '@chakra-ui/icons';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
@@ -101,25 +102,25 @@ const SearchResult = ({
 
             {isFollowed ? (
               <Button
+                colorScheme="cyan"
                 isLoading={isLoading}
-                leftIcon="check"
+                leftIcon={<CheckIcon />}
                 minW="88px"
                 onClick={onUnFollowShow}
                 size="sm"
                 variant="solid"
-                variantColor="cyan"
               >
                 Followed
               </Button>
             ) : (
               <Button
+                colorScheme="cyan"
                 isLoading={isLoading}
                 leftIcon="small-add"
                 minW="88px"
                 onClick={onFollowShow}
                 size="sm"
                 variant="outline"
-                variantColor="cyan"
               >
                 Follow
               </Button>

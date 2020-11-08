@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   Accordion,
-  AccordionHeader,
+  AccordionButton,
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
@@ -33,7 +33,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
 
     return (
       <AccordionItem key={show.id}>
-        <AccordionHeader>
+        <AccordionButton>
           <Grid
             alignItems="center"
             gap={3}
@@ -41,7 +41,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
             templateColumns={{ base: '110px 70px auto', xl: '110px 120px auto' }}
             width="100%"
           >
-            <Badge variant="subtle" variantColor="red">
+            <Badge colorScheme="red" variant="subtle">
               {getTimeFromNowForRecent(airDate)}
             </Badge>
 
@@ -54,7 +54,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
             </Text>
           </Grid>
           <AccordionIcon />
-        </AccordionHeader>
+        </AccordionButton>
 
         <AccordionPanel pb={4}>
           <Grid alignItems="center" gap={6} templateColumns="1fr 3fr">

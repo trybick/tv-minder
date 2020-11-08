@@ -205,7 +205,7 @@ const SignUpModal = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
+            <Button colorScheme="cyan" isLoading={isLoading} mr={3} type="submit">
               Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>
@@ -213,7 +213,7 @@ const SignUpModal = ({
 
           <Box mb="22px">
             <Divider borderColor="#3182ce" height="10px" />
-            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="25px" size="auto">
+            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="25px" w="auto">
               <GoogleLogin
                 buttonText="Login with Google"
                 clientId={API.GOOGLE_0AUTH!}

@@ -145,7 +145,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               <Box display={{ xs: 'none', md: 'flex' }}>
                 <Menu>
                   <MenuButton aria-label="Notifications" mr="12px">
-                    <Box as={IoMdNotifications} size="21px" />
+                    <Box as={IoMdNotifications} w="21px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title="Notifications">
@@ -156,7 +156,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
                 <Menu>
                   <MenuButton aria-label="Page Options">
-                    <Box as={FaUser} size="18px" />
+                    <Box as={FaUser} w="18px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title={email}>

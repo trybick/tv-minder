@@ -23,7 +23,7 @@ const Footer = () => {
             href="https://github.com/trybick/tv-minder"
             isExternal
           >
-            <Box as={FaGithub} display="inline" mr="4px" size="12px" verticalAlign="sub" />
+            <Box as={FaGithub} display="inline" mr="4px" verticalAlign="sub" w="12px" />
             <Text display="inline">GitHub</Text>
           </Link>
         </Box>
@@ -34,7 +34,13 @@ const Footer = () => {
           <Text display="inline">TV-Minder</Text>
         </Box>
 
-        <Button ml="auto" onClick={onOpen} rightIcon={FaRegComment} size="sm" variantColor="cyan">
+        <Button
+          colorScheme="cyan"
+          ml="auto"
+          onClick={onOpen}
+          rightIcon={<FaRegComment />}
+          size="sm"
+        >
           Feedback
         </Button>
         <FeedbackModal disclosureProps={disclosureProps} />
