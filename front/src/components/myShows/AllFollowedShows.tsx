@@ -61,11 +61,11 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
             {name}
           </Heading>
 
-          <Menu>
+          <Menu placement="bottom-end">
             <MenuButton aria-label="Show Options">
               <Box as={BsThreeDotsVertical} w="19px" />
             </MenuButton>
-            <MenuList placement="bottom-end">
+            <MenuList>
               <MenuItem onClick={onUnfollowShow}>
                 <Box as={MdRemoveCircleOutline} mr="8px" w="19px" />
                 Unfollow

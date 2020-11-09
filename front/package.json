@@ -46,6 +46,7 @@
     "@fullcalendar/react": "^5.1.0",
     "@types/react-truncate": "^2.3.3",
     "axios": "^0.19.2",
+    "focus-visible": "^5.2.0",
     "framer-motion": "^2.9.4",
     "moment": "^2.25.3",
     "react": "^16.13.1",

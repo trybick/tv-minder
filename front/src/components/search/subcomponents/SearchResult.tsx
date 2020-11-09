@@ -11,7 +11,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/core';
-import { CheckIcon } from '@chakra-ui/icons';
+import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
@@ -116,7 +116,7 @@ const SearchResult = ({
               <Button
                 colorScheme="cyan"
                 isLoading={isLoading}
-                leftIcon="small-add"
+                leftIcon={<SmallAddIcon />}
                 minW="88px"
                 onClick={onFollowShow}
                 size="sm"

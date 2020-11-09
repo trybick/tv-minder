@@ -143,22 +143,22 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           {isLoggedIn ? (
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
-                <Menu>
+                <Menu placement="bottom-end">
                   <MenuButton aria-label="Notifications" mr="12px">
                     <Box as={IoMdNotifications} w="21px" />
                   </MenuButton>
-                  <MenuList placement="bottom-end">
+                  <MenuList>
                     <MenuGroup title="Notifications">
                       <MenuItem>None</MenuItem>
                     </MenuGroup>
                   </MenuList>
                 </Menu>
 
-                <Menu>
+                <Menu placement="bottom-end">
                   <MenuButton aria-label="Page Options">
                     <Box as={FaUser} w="18px" />
                   </MenuButton>
-                  <MenuList placement="bottom-end">
+                  <MenuList>
                     <MenuGroup title={email}>
                       <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
