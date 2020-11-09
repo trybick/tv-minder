@@ -18,7 +18,7 @@
 
 #### Using the production API (quickest)
 
-From the root directory:
+This will start the front-end and use the production API for API requests.
 
 ```bash
 yarn
@@ -30,8 +30,6 @@ npm start
 ```
 
 #### Using a locally running API
-
-From the root directory:
 
 - Start the local API:
 

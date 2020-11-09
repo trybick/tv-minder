@@ -18,7 +18,7 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => (
-  <Flex direction="column" justify="center" m="100px auto 25px" w="xs">
+  <Flex direction="column" justify="center" m="100px auto 25px" maxW="90%" w="xs">
     <InputGroup display="flex">
       <InputLeftElement top="5px">
         <Icon color="gray.300" name="search-2" />

@@ -80,7 +80,6 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
     return queryData;
   };
 
-  // Check if timestamp is within set duration
   const getIsCacheValid = (index: number) => {
     const { timeSaved } = savedQueries[index];
     const diff = moment().diff(moment(timeSaved), 'days');
@@ -93,8 +92,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       background={colorMode === 'light' ? '#FAFAFA' : '#252E41'}
       borderRadius="15px"
       flex="1"
-      margin="50px"
-      mb="25px"
+      m={{ base: '0 15px 20px', md: '25px 35px 25px' }}
       pb="20px"
     >
       <SearchInput
