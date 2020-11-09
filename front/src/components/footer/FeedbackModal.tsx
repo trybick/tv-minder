@@ -30,7 +30,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const toast = useToast();
   const initialRef = React.useRef(null);
 
-  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
 
