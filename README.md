@@ -16,44 +16,12 @@
 
 ## Local Development
 
-#### Using the production API (quickest)
-
 From the root directory:
 
-```bash
-yarn
-yarn start
-
-# or with npm
-npm install
-npm start
-```
-
-#### Using a locally running API
-
-From the root directory:
-
-- Start the local API:
-
-```bash
-yarn serve
-
-# or with npm
-npm run serve
-```
-
-- Start the front-end:
-
-```bash
-yarn start:local
-
-# or with npm
-npm run start:local
-```
-
-#### ENV Files
-
-- All ENV files on the frontend are checked into git, except for the google OAuth token. If you need to use Google OAuth locally, then create a file `front/.env.local` which contains `REACT_APP_GOOGLE_OAUTH_CLIENT_ID`.
+- Run `yarn`
+- Start the front end: `yarn start`
+- Optionally start the back end: `yarn serve`
+  - Note: If you are just working on the front-end, you don't need to run the back-end since the local project is set to use the deployed API. If you want to work with the local API, change [this](https://github.com/trybick/tv-minder/blob/master/front/src/utils/constants.ts) file and request the env files for the api folder in an issue.
 
 ## Contributing 😎
 

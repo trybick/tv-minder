@@ -85,6 +85,8 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
     validCachedIds.forEach(id => {
       combinedData[id] = cachedBasicShowInfo[id];
     });
+
+  // Fetch data for ids that are not cached and add to combinedData
   const nonCachedIds = followedShowsSource?.filter(id => !validCachedIds?.includes(id));
   if (nonCachedIds) {
     const requests = nonCachedIds?.map(id =>
