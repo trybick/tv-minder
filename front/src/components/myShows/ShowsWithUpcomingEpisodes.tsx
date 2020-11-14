@@ -13,7 +13,7 @@ import {
   Image,
   Text,
   Tooltip,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import moment from 'moment';
 import Truncate from 'react-truncate';
 import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';

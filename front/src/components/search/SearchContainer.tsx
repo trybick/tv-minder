@@ -9,7 +9,7 @@ import {
   StatLabel,
   Text,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
 import clock from 'images/clock.png';

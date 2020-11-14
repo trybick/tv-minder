@@ -12,7 +12,7 @@ import {
   MenuList,
   Text,
   Tooltip,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';

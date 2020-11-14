@@ -10,7 +10,7 @@ import {
   IToast,
   Text,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';

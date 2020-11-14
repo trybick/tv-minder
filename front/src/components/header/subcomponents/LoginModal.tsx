@@ -22,7 +22,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { TiArrowBack } from 'react-icons/ti';
 import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';

@@ -11,7 +11,7 @@ import {
   Text,
   Textarea,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { FiSend } from 'react-icons/fi';
 import { API } from 'utils/constants';

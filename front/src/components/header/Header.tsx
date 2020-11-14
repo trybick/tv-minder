@@ -13,7 +13,7 @@ import {
   MenuList,
   Text,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { FaUser } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';

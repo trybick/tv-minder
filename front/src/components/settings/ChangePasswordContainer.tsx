@@ -9,7 +9,7 @@ import {
   Input,
   useColorMode,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { AppState } from 'store';
 import { selectUserEmail } from 'store/user/selectors';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Divider, Flex, Link, Text, useDisclosure } from '@chakra-ui/core';
+import { Box, Button, Divider, Flex, Link, Text, useDisclosure } from '@chakra-ui/react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
 import FeedbackModal from './FeedbackModal';
 

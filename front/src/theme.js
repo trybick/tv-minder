@@ -1,4 +1,4 @@
-import { theme as defaultTheme } from '@chakra-ui/core';
+import { theme as defaultTheme } from '@chakra-ui/react';
 
 export default {
   ...defaultTheme,

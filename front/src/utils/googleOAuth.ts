@@ -1,4 +1,4 @@
-import { useToastOptions } from '@chakra-ui/core';
+import { useToastOptions } from '@chakra-ui/react';
 import { GoogleLoginResponse } from 'react-google-login';
 import { API } from './constants';
 import axios from 'axios';

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
-import { Box, useColorMode } from '@chakra-ui/core';
+import { Box, useColorMode } from '@chakra-ui/react';
 import { searchShows } from 'gateway/searchShows';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';

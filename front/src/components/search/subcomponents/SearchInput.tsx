@@ -6,7 +6,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { Search2Icon, SmallCloseIcon } from '@chakra-ui/icons';
 import { PlainFunction } from 'types/common';
 

@@ -21,7 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';

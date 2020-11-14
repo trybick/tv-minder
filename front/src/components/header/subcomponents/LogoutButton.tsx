@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@chakra-ui/core';
+import { Button } from '@chakra-ui/react';
 import { AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedOutAction } from 'store/user/actions';
 import { PlainFunction } from 'types/common';
