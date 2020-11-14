@@ -15,7 +15,7 @@ const RenderedApp = (): JSX.Element => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ChakraProvider theme={theme}>
-          {/* <CSSReset /> */}
+          <CSSReset />
           <App />
         </ChakraProvider>
       </PersistGate>
