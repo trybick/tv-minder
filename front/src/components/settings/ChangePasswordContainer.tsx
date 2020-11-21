@@ -1,61 +1,59 @@
-import React, { ChangeEvent, FormEvent } from 'react';
-import { connect, MapStateToProps } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import axios, { AxiosError } from 'axios';
 import {
   Box,
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
   useColorMode,
   useToast,
 } from '@chakra-ui/core';
-import axios from 'axios';
-import { AppState } from 'store';
 import { selectUserEmail } from 'store/user/selectors';
 import { API } from 'utils/constants';
 
-interface StateProps {
-  email: string;
-}
+type FormDataType = {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
+};
 
-const formFields = [
-  {
-    name: 'Old Password',
-    labelName: 'oldPassword',
-  },
-  {
-    name: 'New Password',
-    labelName: 'newPassword',
-  },
-  {
-    name: 'Confirm New Password',
-    labelName: 'newPasswordConfirmation',
-  },
-];
-
-const ChangePasswordContainer = ({ email }: StateProps) => {
+const ChangePasswordContainer = () => {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [formData, setFormData] = React.useState(['', '', '']);
+  const email = useSelector(selectUserEmail);
   const toast = useToast();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
+  const { getValues, handleSubmit, errors, register } = useForm<FormDataType>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (formData[0] && formData[1] && formData[2] && formData[1] === formData[2]) {
-      changePassword(email, formData[0], formData[1]);
-    } else {
-      toast({
-        title: 'Invalid input fields',
-        description: 'Check your input fields.',
-        status: 'error',
-        isClosable: true,
-      });
-    }
+  const formSchema = {
+    oldPassword: {
+      required: 'Current password field is required',
+    },
+    newPassword: {
+      required: 'New password field is required',
+    },
+    newPasswordConfirmation: {
+      required: 'Confirm Password field is required',
+      validate: {
+        matchesPreviousPassword: (value: string) => {
+          const { newPassword } = getValues();
+          return newPassword === value || 'New passwords do not match';
+        },
+      },
+    },
   };
 
-  const changePassword = (email: string, oldPassword: string, newPassword: string) => {
+  const formErrorForDisplay =
+    errors['oldPassword']?.message ||
+    errors['newPassword']?.message ||
+    errors['newPasswordConfirmation']?.message;
+
+  const onSubmit = handleSubmit(({ oldPassword, newPassword }) => {
     setIsLoading(true);
     axios
       .post(
@@ -68,26 +66,28 @@ const ChangePasswordContainer = ({ email }: StateProps) => {
         { timeout: 8000 }
       )
       .then(() => {
+        setIsLoading(false);
         toast({
           title: 'Password Changed!',
           description: 'Your Password has been updated.',
           status: 'success',
           isClosable: true,
         });
-        setFormData(['', '', '']);
-        setIsLoading(false);
       })
-      .catch(() => {
+      .catch((error: AxiosError) => {
+        setIsLoading(false);
+        const isUnauthorizedError = error.response && error.response.status === 401;
+        const errorDescription = isUnauthorizedError
+          ? 'Your current password was not correct.'
+          : 'Your Password could not be updated.';
         toast({
-          title: 'An Error occurred!',
-          description: 'Your Password cannot be updated.',
+          title: 'An error occurred',
+          description: errorDescription,
           status: 'error',
           isClosable: true,
         });
-        setFormData(['', '', '']);
-        setIsLoading(false);
       });
-  };
+  });
 
   return (
     <Box
@@ -98,30 +98,34 @@ const ChangePasswordContainer = ({ email }: StateProps) => {
       p={5}
       width={['80%', '75%', '50%', '30%']}
     >
-      <Heading as="h4" fontSize="1.8rem" textAlign="left">
+      <Heading as="h4" fontSize="1.8rem" textAlign="center">
         Change Password
       </Heading>
 
-      <form onSubmit={handleSubmit}>
-        {formFields.map(({ name, labelName }, index) => (
-          <FormControl key={index}>
-            <FormLabel htmlFor={labelName} my={3} w="100%">
-              {name}
-            </FormLabel>
-            <Input
-              name={labelName}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setFormData([
-                  ...formData.slice(0, index),
-                  e.target.value,
-                  ...formData.slice(index + 1),
-                ])
-              }
-              type="password"
-              value={formData[index]}
-            />
-          </FormControl>
-        ))}
+      <Box as="form" onSubmit={onSubmit}>
+        <FormControl isInvalid={!!errors.oldPassword}>
+          <FormLabel mt="1.5rem" w="100%">
+            Current Password
+          </FormLabel>
+          <Input name="oldPassword" ref={register(formSchema.oldPassword)} type="password" />
+        </FormControl>
+        <FormControl isInvalid={!!errors.newPassword}>
+          <FormLabel mt="1rem" w="100%">
+            New Password
+          </FormLabel>
+          <Input name="newPassword" ref={register(formSchema.newPassword)} type="password" />
+        </FormControl>
+        <FormControl isInvalid={!!errors.newPasswordConfirmation}>
+          <FormLabel mt="1rem" w="100%">
+            Confirm New Password
+          </FormLabel>
+          <Input
+            name="newPasswordConfirmation"
+            ref={register(formSchema.newPasswordConfirmation)}
+            type="password"
+          />
+          <FormErrorMessage>{formErrorForDisplay}</FormErrorMessage>
+        </FormControl>
 
         <Button
           bg={isDarkMode ? 'blue.900' : 'blue.300'}
@@ -133,15 +137,9 @@ const ChangePasswordContainer = ({ email }: StateProps) => {
         >
           Submit
         </Button>
-      </form>
+      </Box>
     </Box>
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
-  state: AppState
-): StateProps => ({
-  email: selectUserEmail(state),
-});
-
-export default connect<StateProps, {}, {}, AppState>(mapStateToProps, {})(ChangePasswordContainer);
+export default ChangePasswordContainer;
