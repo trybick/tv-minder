@@ -27,7 +27,8 @@ import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
-import { API, emailRegex } from 'utils/constants';
+import { API } from 'constants/api';
+import { emailRegex } from 'constants/strings';
 import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import handleErrors from 'utils/handleErrors';
 

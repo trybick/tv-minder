@@ -1,6 +1,6 @@
 import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
-import { API } from 'utils/constants';
+import { API } from 'constants/api';
 
 //
 // Our app calls searchShows

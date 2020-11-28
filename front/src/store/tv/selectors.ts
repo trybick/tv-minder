@@ -2,7 +2,7 @@ import { Selector } from 'react-redux';
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { AppState } from 'store';
-import { BasicShowInfo } from 'types/external';
+import { BasicShowInfo, PopularShow } from 'types/external';
 
 const NUM_EPISODES_IN_ACCORDION = 6;
 
@@ -11,6 +11,7 @@ export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
+export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 
 export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> = createSelector(
   selectBasicShowInfo,
@@ -106,4 +107,37 @@ export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
 export const selectBasicShowInfoForAllShows = createSelector(
   selectBasicShowInfoForDisplay,
   showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))
+);
+
+export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
+  selectPopularShows,
+  shows =>
+    shows &&
+    Object.values(shows)?.map(show => {
+      const {
+        id,
+        backdrop_path: backdropPath,
+        fetchedAt,
+        name,
+        overview,
+        popularity,
+        poster_path: posterPath,
+        vote_average: voteAverage,
+        vote_count: voteCount,
+      } = show;
+
+      const voteAverageForDisplay = (voteAverage * 10).toString() + '%';
+
+      return {
+        id,
+        backdropPath,
+        fetchedAt,
+        name,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage: voteAverageForDisplay,
+        voteCount,
+      };
+    })
 );

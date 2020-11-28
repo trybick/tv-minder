@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/core';
 import axios from 'axios';
 import { FiSend } from 'react-icons/fi';
-import { API } from 'utils/constants';
+import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
 

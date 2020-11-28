@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AppThunk } from 'store';
 import { ID } from 'types/common';
-import { API } from 'utils/constants';
+import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
 
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';

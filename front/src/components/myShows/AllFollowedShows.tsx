@@ -17,7 +17,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
-import { fallbackImage } from 'utils/constants';
+import { fallbackImagePath } from 'constants/strings';
 import { maybePluralize } from 'utils/formatting';
 import { BasicShowInfo } from 'types/external';
 
@@ -50,7 +50,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
         <Image
           alt={`${name} image`}
           borderRadius="6px"
-          fallbackSrc={fallbackImage}
+          fallbackSrc={fallbackImagePath}
           src={posterSource}
         />
       </Tooltip>

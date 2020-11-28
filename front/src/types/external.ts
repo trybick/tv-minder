@@ -1,7 +1,6 @@
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
 // Data returned from 'The Movie DB' API
-
 //
 // Search
 //
@@ -54,5 +53,19 @@ export type BasicShowInfo = {
   status: Status;
 };
 
-// Google 0Auth
+//
+// Misc types
+//
 export type GoogleLoginResponses = GoogleLoginResponse | GoogleLoginResponseOffline;
+
+export type PopularShow = {
+  id: number;
+  backdropPath: string;
+  fetchedAt: string;
+  name: string;
+  overview: string;
+  popularity: number;
+  posterPath: string;
+  voteAverage: string;
+  voteCount: number;
+};

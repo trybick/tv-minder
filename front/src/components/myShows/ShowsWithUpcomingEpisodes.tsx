@@ -17,7 +17,7 @@ import {
 import moment from 'moment';
 import Truncate from 'react-truncate';
 import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
-import { fallbackImage } from 'utils/constants';
+import { fallbackImagePath } from 'constants/strings';
 import { getTimeFromNowForUpcoming } from './common/utils';
 import { BasicShowInfo } from 'types/external';
 
@@ -63,7 +63,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
                 <Image
                   alt={`${showName} image`}
                   borderRadius="6px"
-                  fallbackSrc={fallbackImage}
+                  fallbackSrc={fallbackImagePath}
                   src={posterSource}
                 />
               </Box>

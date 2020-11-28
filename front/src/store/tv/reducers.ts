@@ -4,6 +4,7 @@ import {
   SAVE_EPISODE_DATA,
   SAVE_SEARCH_QUERY,
   SET_CALENDAR_EPISODES,
+  SET_POPULAR_SHOWS,
 } from './actions';
 import { SavedQuery } from './types';
 
@@ -12,6 +13,7 @@ export interface TvState {
   episodeData: { [key: number]: any };
   basicShowInfo: { [key: number]: any };
   calendarEpisodesForDisplay: any[];
+  popularShows: Array<{ [key: string]: any }>;
 }
 
 const initialState = {
@@ -19,6 +21,7 @@ const initialState = {
   episodeData: {},
   basicShowInfo: {},
   calendarEpisodesForDisplay: [],
+  popularShows: [],
 };
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
@@ -50,6 +53,12 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
       return {
         ...state,
         calendarEpisodesForDisplay: action.payload,
+      };
+    }
+    case SET_POPULAR_SHOWS: {
+      return {
+        ...state,
+        popularShows: action.payload,
       };
     }
     default:
