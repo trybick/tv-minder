@@ -17,16 +17,15 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => {
-  function clearOnEsc(event: KeyboardEvent) {
-    event.key === 'Escape' && handleClearInput();
-  }
-
   useEffect(() => {
+    function clearOnEsc(event: KeyboardEvent) {
+      event.key === 'Escape' && handleClearInput();
+    }
     document.addEventListener('keydown', clearOnEsc, false);
     return () => {
       document.removeEventListener('keydown', clearOnEsc, false);
     };
-  }, []);
+  }, [handleClearInput]);
 
   return (
     <Flex
