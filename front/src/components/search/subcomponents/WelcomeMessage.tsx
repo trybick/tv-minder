@@ -20,15 +20,15 @@ const WelcomeMessage = () => {
         borderRadius="8px"
         borderWidth="1px"
         d="flex"
-        p="20px"
-        shadow="md"
+        p="18px"
+        shadow="sm"
       >
         <Image alt="clock logo" height="55px" mr="20px" objectFit="cover" src={clock} />
-        <Stat alignItems="left" d="flex" flexDirection="column">
-          <StatLabel fontSize="20px" fontWeight="500">
+        <Stat alignItems="left" d="flex" flexDirection="column" p="0">
+          <StatLabel fontSize="18px" fontWeight="500">
             Follow your favorite shows
           </StatLabel>
-          <StatHelpText fontSize="16px" fontWeight="500" m="4px 0 0">
+          <StatHelpText fontSize="15px" fontWeight="500" m="4px 0 0">
             Never miss an episode!
           </StatHelpText>
         </Stat>

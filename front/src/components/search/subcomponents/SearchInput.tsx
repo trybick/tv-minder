@@ -33,7 +33,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
       justify="center"
       m="40px auto 30px"
       p="0 25px"
-      w={['100%%', 'sm', 'md', 'lg']}
+      w={['90%', 'sm', 'md', 'lg']}
     >
       <InputGroup display="flex">
         <InputLeftElement top="5px">
