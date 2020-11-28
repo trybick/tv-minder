@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Badge,
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  IToast,
-  Text,
-  useToast,
-} from '@chakra-ui/core';
+import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '@chakra-ui/core';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
-import { fallbackImage } from 'utils/constants';
+import { fallbackImagePath } from 'constants/strings';
+import { localWarningToastMessage } from 'constants/toasts';
 
 interface Props {
   followedShows: ID[];
@@ -51,30 +41,18 @@ const SearchResult = ({
     popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
-  const localWarningToastMessage: IToast = {
-    title: 'Temporarily saving',
-    description: 'Be sure to sign up to save permanently',
-    status: 'warning',
-    duration: 7000,
-    isClosable: true,
-    position: window.innerWidth > 767 ? 'bottom-right' : 'bottom',
-  };
-
   useEffect(() => {
     if (followedShows.includes(showId)) {
       setIsFollowed(true);
     } else {
       setIsFollowed(false);
     }
-
-    // Set loading to false because it's set to true in the onFollow functions
-    setIsLoading(false);
+    setIsLoading(false); // loading is set to true in follow functions
   }, [isLoggedIn, followedShows, showId]);
 
   function onFollowShow() {
     setIsLoading(true);
     saveToFollowedShows(showId);
-
     if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       setHasLocalWarningToastBeenShown();
       toast(localWarningToastMessage);
@@ -90,7 +68,7 @@ const SearchResult = ({
     <Box borderWidth="1px" mb={4} p={3} shadow="md">
       <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
         <Box width="50px">
-          <Image borderRadius="6px" fallbackSrc={fallbackImage} src={posterSource} />
+          <Image borderRadius="6px" fallbackSrc={fallbackImagePath} src={posterSource} />
         </Box>
 
         <Box minW="0">
@@ -99,31 +77,17 @@ const SearchResult = ({
               {name}
             </Heading>
 
-            {isFollowed ? (
-              <Button
-                isLoading={isLoading}
-                leftIcon="check"
-                minW="88px"
-                onClick={onUnFollowShow}
-                size="sm"
-                variant="solid"
-                variantColor="cyan"
-              >
-                Followed
-              </Button>
-            ) : (
-              <Button
-                isLoading={isLoading}
-                leftIcon="small-add"
-                minW="88px"
-                onClick={onFollowShow}
-                size="sm"
-                variant="outline"
-                variantColor="cyan"
-              >
-                Follow
-              </Button>
-            )}
+            <Button
+              isLoading={isLoading}
+              leftIcon={isFollowed ? 'check' : 'small-add'}
+              minW="88px"
+              onClick={isFollowed ? onUnFollowShow : onFollowShow}
+              size="sm"
+              variant={isFollowed ? 'solid' : 'outline'}
+              variantColor="cyan"
+            >
+              {isFollowed ? 'Followed' : 'Follow'}
+            </Button>
           </Flex>
 
           <Flex mt="6px">

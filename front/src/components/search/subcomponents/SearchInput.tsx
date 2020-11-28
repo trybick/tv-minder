@@ -9,7 +9,6 @@ import {
   InputRightElement,
 } from '@chakra-ui/core';
 import { PlainFunction } from 'types/common';
-
 interface Props {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearInput: PlainFunction;
@@ -18,7 +17,13 @@ interface Props {
 }
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => (
-  <Flex direction="column" justify="center" m="100px auto 25px" maxW="90%" w="xs">
+  <Flex
+    direction="column"
+    justify="center"
+    m="40px auto 30px"
+    p="0 25px"
+    w={['100%%', 'sm', 'md', 'lg']}
+  >
     <InputGroup display="flex">
       <InputLeftElement top="5px">
         <Icon color="gray.300" name="search-2" />
@@ -28,9 +33,9 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
         borderRadius="5px"
         height="50px"
         onChange={handleChange}
-        placeholder="Enter show name"
+        placeholder="Search for a tv show"
         ref={inputRef}
-        size="md"
+        size="sm"
         value={inputValue}
         variant="flushed"
         autoFocus

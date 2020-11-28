@@ -1,7 +1,3 @@
-export const emailRegex = /^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$/;
-export const fallbackImage = 'https://www.placecage.com/g/82/123';
-export const gAnalyticsID = 'UA-156066902-04';
-
 const { REACT_APP_API, REACT_APP_GOOGLE_OAUTH_CLIENT_ID } = process.env;
 
 export const API = {

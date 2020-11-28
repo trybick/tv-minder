@@ -1,6 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
-import { API } from 'utils/constants';
+import { API } from 'constants/api';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
 

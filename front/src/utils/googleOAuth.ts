@@ -1,6 +1,6 @@
 import { useToastOptions } from '@chakra-ui/core';
 import { GoogleLoginResponse } from 'react-google-login';
-import { API } from './constants';
+import { API } from 'constants/api';
 import axios from 'axios';
 import handleErrors from './handleErrors';
 import { AppThunkPlainAction } from 'store';

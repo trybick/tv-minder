@@ -3,7 +3,7 @@ import moment from 'moment';
 import { AppThunk } from 'store';
 import { fetchEpisodeData } from 'gateway/getEpisodes';
 import { SavedQuery } from './types';
-import { API } from 'utils/constants';
+import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
 import cacheDurationDays from 'utils/cacheDurations';
 
@@ -12,6 +12,7 @@ export const SAVE_EPISODE_DATA = 'SAVE_EPISODE_DATA';
 export const SET_CALENDAR_EPISODES = 'SAVE_CALENDAR_EPISODES';
 export const REQUEST_BASIC_SHOW_INFO = 'REQUEST_BASIC_SHOW_INFO';
 export const REQUEST_BASIC_SHOW_INFO_SUCCEEDED = 'REQUEST_BASIC_SHOW_INFO_SUCCEEDED';
+export const SET_POPULAR_SHOWS = 'SET_POPULAR_SHOWS';
 
 export const saveSearchQueryAction = (query: SavedQuery): AppThunk => dispatch => {
   dispatch({
@@ -113,4 +114,31 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
     type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
     payload: combinedData,
   });
+};
+
+export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
+  const { popularShows: cachedPopularShows } = getState().tv;
+
+  // Check if popular shows has a valid cache
+  const cacheAge =
+    cachedPopularShows?.length &&
+    cachedPopularShows[0].fetchedAt &&
+    moment().diff(moment(cachedPopularShows[0].fetchedAt), 'days');
+  const isCacheValid = cacheDurationDays.popularShows > cacheAge;
+
+  // Fetch data if needed
+  if (!isCacheValid) {
+    axios
+      .get(`${API.THE_MOVIE_DB}/tv/popular`, {
+        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
+      })
+      .then(({ data: { results } }) => {
+        const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
+        dispatch({
+          type: SET_POPULAR_SHOWS,
+          payload: dataWithTimestamp,
+        });
+      })
+      .catch(handleErrors);
+  }
 };

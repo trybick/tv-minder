@@ -1,18 +1,8 @@
 import React from 'react';
-import {
-  Flex,
-  Image,
-  Spinner,
-  Stat,
-  StatGroup,
-  StatHelpText,
-  StatLabel,
-  Text,
-  useColorMode,
-} from '@chakra-ui/core';
+import { Flex, Spinner, Text } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
-import clock from 'images/clock.png';
+import PopularShows from 'components/popularShows/PopularShows';
 
 interface Props {
   isInputDirty: boolean;
@@ -22,54 +12,26 @@ interface Props {
 }
 
 const LoadingSpinner = () => (
-  <Flex justifyContent="center">
-    <Spinner />
-  </Flex>
+  <Spinner
+    color="blue.500"
+    emptyColor="gray.200"
+    mt="26px"
+    size="xl"
+    speed="0.65s"
+    thickness="4px"
+  />
 );
-
-const EmptyListMessage = () => (
-  <Flex justifyContent="center">
-    <Text>There are no shows to display</Text>
-  </Flex>
-);
-
-const WelcomeMessage = () => {
-  const { colorMode } = useColorMode();
-
-  return (
-    <Flex justifyContent="center" maxW="90%" mt="10px">
-      <StatGroup
-        alignItems="center"
-        bg={colorMode === 'light' ? 'white' : ''}
-        borderWidth="1px"
-        d="flex"
-        flexDirection={{ sm: 'column', lg: 'row' }}
-        minH="120px"
-        p="16px 26px"
-        shadow="md"
-      >
-        <Stat alignItems="center" d="flex" flexDirection="column">
-          <StatLabel fontSize="16px">Start following your favorite shows</StatLabel>
-          <StatHelpText fontSize="16px" mt="6px">
-            Never miss an episode!
-          </StatHelpText>
-        </Stat>
-        <Image alt="clock logo" height="55px" objectFit="cover" src={clock} />
-      </StatGroup>
-    </Flex>
-  );
-};
 
 const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
-  <Flex justify="center" m="0 auto">
+  <Flex justify="center" justifyContent="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />
     ) : shows?.length ? (
       <SearchResults shows={shows} totalResults={totalResults} />
     ) : isInputDirty ? (
-      <EmptyListMessage />
+      <Text mt="24px">There are no shows to display.</Text>
     ) : (
-      <WelcomeMessage />
+      <PopularShows />
     )}
   </Flex>
 );

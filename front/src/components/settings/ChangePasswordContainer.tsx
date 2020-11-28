@@ -14,7 +14,7 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { selectUserEmail } from 'store/user/selectors';
-import { API } from 'utils/constants';
+import { API } from 'constants/api';
 
 type FormDataType = {
   oldPassword: string;

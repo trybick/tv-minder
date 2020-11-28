@@ -11,6 +11,7 @@ import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from 'components/search/SearchContainer';
 import SearchInput from 'components/search/subcomponents/SearchInput';
+import WelcomeMessage from 'components/search/subcomponents/WelcomeMessage';
 import { useDebouncedFunction } from 'utils/debounce';
 
 interface StateProps {
@@ -83,7 +84,6 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   const getIsCacheValid = (index: number) => {
     const { timeSaved } = savedQueries[index];
     const diff = moment().diff(moment(timeSaved), 'days');
-
     return cacheDurationDays.search > diff;
   };
 
@@ -95,6 +95,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       m={{ base: '0 15px 20px', md: '25px 35px 25px' }}
       pb="20px"
     >
+      <WelcomeMessage />
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

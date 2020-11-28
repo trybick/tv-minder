@@ -6,7 +6,7 @@ import ReactGA from 'react-ga';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/selectors';
-import { gAnalyticsID } from 'utils/constants';
+import { gAnalyticsID } from 'constants/strings';
 import Header from 'components/header/Header';
 import Footer from 'components/footer/Footer';
 import ProtectedRoute from 'components/common/ProtectedRoute';
