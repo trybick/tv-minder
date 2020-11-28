@@ -33,12 +33,11 @@ const SearchResult = ({
     first_air_date: firstAirDate,
     id: showId,
     name,
-    popularity,
     poster_path: posterPath,
+    vote_average: voteAverage,
   } = showToDisplay;
   const yearForDisplay = firstAirDate?.substr(0, 4);
-  const popularityForDisplay =
-    popularity >= 10 && String(popularity)?.substr(0, 2).replace(/\.$/, '');
+  const ratingFordisplay = voteAverage * 10;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   useEffect(() => {
@@ -93,12 +92,14 @@ const SearchResult = ({
           <Flex mt="6px">
             <Text fontSize=".9rem">{yearForDisplay}</Text>
 
-            {popularityForDisplay && (
+            {ratingFordisplay ? (
               <Flex align="center" ml="10px">
                 <Badge color="green.400" variant="subtle">
-                  {popularityForDisplay}% watching now
+                  {ratingFordisplay}% recommend
                 </Badge>
               </Flex>
+            ) : (
+              ''
             )}
           </Flex>
         </Box>
