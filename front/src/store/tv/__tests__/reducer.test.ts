@@ -14,23 +14,17 @@ describe('tv reducer', () => {
     calendarEpisodesForDisplay: [],
   };
 
-  it('saves query', () => {
+  it('returns expected state on SAVE_SEARCH_QUERY', () => {
     const action = { type: SAVE_SEARCH_QUERY, payload: { query: '1' } };
     expect(tvReducer(undefined, action)).toEqual(commonState);
   });
 
-  it('does not add same query', () => {
-    const initialState = {
-      savedQueries: [{ query: '1' }] as any,
-      episodeData: {},
-      basicShowInfo: {},
-      calendarEpisodesForDisplay: [],
-    };
+  it('filters existing query on SAVE_SEARCH_QUERY', () => {
     const action = { type: SAVE_SEARCH_QUERY, payload: { query: '1' } };
-    expect(tvReducer(initialState, action)).toEqual(commonState);
+    expect(tvReducer(commonState as any, action)).toEqual(commonState);
   });
 
-  it('saves episode data', () => {
+  it('returns expected state on SAVE_EPISODE_DATA', () => {
     const expectedState = {
       savedQueries: [],
       episodeData: { episode: 'test' },
@@ -41,7 +35,7 @@ describe('tv reducer', () => {
     expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
 
-  it('returns show info', () => {
+  it('returns expected state on REQUEST_BASIC_SHOW_INFO_SUCCEEDED', () => {
     const expectedState = {
       savedQueries: [],
       episodeData: {},
@@ -52,7 +46,7 @@ describe('tv reducer', () => {
     expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
 
-  it('returns calendar episode for display', () => {
+  it('returns expected state on SET_CALENDAR_EPISODES', () => {
     const expectedState = {
       savedQueries: [],
       episodeData: {},
