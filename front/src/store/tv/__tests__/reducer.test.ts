@@ -8,6 +8,7 @@ import {
 } from '../actions';
 
 describe('tv reducer', () => {
+  //this state is used for SAVE_SEARCH_QUERY tests
   const commonState = {
     savedQueries: [{ query: '1' }],
     episodeData: {},
