@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Flex,
-  Spinner,
-  Text,
-} from '@chakra-ui/core';
+import { Flex, Spinner, Text } from '@chakra-ui/core';
 import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
 import PopularShows from 'components/popularShows/PopularShows';
