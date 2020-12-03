@@ -8,9 +8,8 @@ import {
 } from '../actions';
 
 describe('tv reducer', () => {
-  //this state is used for SAVE_SEARCH_QUERY tests
-  const commonState = {
-    savedQueries: [{ query: '1' }],
+  const blankState = {
+    savedQueries: [],
     episodeData: {},
     basicShowInfo: {},
     calendarEpisodesForDisplay: [],
@@ -18,59 +17,37 @@ describe('tv reducer', () => {
   };
 
   it('returns expected state on SAVE_SEARCH_QUERY', () => {
+    const expectedState = { ...blankState, savedQueries: [{ query: '1' }] };
     const action = { type: SAVE_SEARCH_QUERY, payload: { query: '1' } };
-    expect(tvReducer(undefined, action)).toEqual(commonState);
+    expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
 
   it('filters existing query on SAVE_SEARCH_QUERY', () => {
+    const expectedState = { ...blankState, savedQueries: [{ query: '1' }] };
     const action = { type: SAVE_SEARCH_QUERY, payload: { query: '1' } };
-    expect(tvReducer(commonState as any, action)).toEqual(commonState);
+    expect(tvReducer(blankState as any, action)).toEqual(expectedState);
   });
 
   it('returns expected state on SAVE_EPISODE_DATA', () => {
-    const expectedState = {
-      savedQueries: [],
-      episodeData: { episode: 'test' },
-      basicShowInfo: {},
-      popularShows: [],
-      calendarEpisodesForDisplay: [],
-    };
+    const expectedState = { ...blankState, episodeData: { episode: 'test' } };
     const action = { type: SAVE_EPISODE_DATA, payload: { episode: 'test' } };
     expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
 
   it('returns expected state on REQUEST_BASIC_SHOW_INFO_SUCCEEDED', () => {
-    const expectedState = {
-      savedQueries: [],
-      episodeData: {},
-      popularShows: [],
-      basicShowInfo: { 0: { episode: 'test' } },
-      calendarEpisodesForDisplay: [],
-    };
+    const expectedState = { ...blankState, basicShowInfo: { 0: { episode: 'test' } } };
     const action = { type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED, payload: [{ episode: 'test' }] };
     expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
 
   it('returns expected state on SET_CALENDAR_EPISODES', () => {
-    const expectedState = {
-      savedQueries: [],
-      episodeData: {},
-      basicShowInfo: {},
-      popularShows: [],
-      calendarEpisodesForDisplay: [{ episode: 'test' }],
-    };
+    const expectedState = { ...blankState, calendarEpisodesForDisplay: [{ episode: 'test' }] };
     const action = { type: SET_CALENDAR_EPISODES, payload: [{ episode: 'test' }] };
     expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
 
   it('returns expected state on SET_POPULAR_SHOWS', () => {
-    const expectedState = {
-      savedQueries: [],
-      episodeData: {},
-      basicShowInfo: {},
-      popularShows: [{ episode: 'test' }],
-      calendarEpisodesForDisplay: [],
-    };
+    const expectedState = { ...blankState, popularShows: [{ episode: 'test' }] };
     const action = { type: SET_POPULAR_SHOWS, payload: [{ episode: 'test' }] };
     expect(tvReducer(undefined, action)).toEqual(expectedState);
   });
