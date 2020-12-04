@@ -5,7 +5,6 @@ import axios from 'axios';
 import {
   Box,
   Button,
-  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -22,6 +21,7 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/core';
+import styled from '@emotion/styled';
 import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
@@ -136,6 +136,21 @@ const SignUpModal = ({
       });
   });
 
+  const Separator = styled(Flex)`
+    &:before,
+    &:after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid grey;
+    }
+    &:before {
+      margin-right: 15px;
+    }
+    &:after {
+      margin-left: 15px;
+    }
+  `;
+
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -150,6 +165,29 @@ const SignUpModal = ({
           />
 
           <ModalBody pb={6}>
+            <Box mb="22px">
+              <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px" size="auto">
+                <GoogleLogin
+                  buttonText="Continue with Google"
+                  clientId={API.GOOGLE_0AUTH!}
+                  onFailure={error => handleGoogleLoginFailure(error, toast)}
+                  onSuccess={response =>
+                    handleGoogleLoginSuccess(response, {
+                      setIsLoggedIn,
+                      unregisteredClearFollowedShows,
+                      onClose,
+                      toast,
+                    })
+                  }
+                  theme="dark"
+                  type="submit"
+                />
+              </Flex>
+            </Box>
+            <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+              OR
+            </Separator>
+
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
@@ -211,27 +249,6 @@ const SignUpModal = ({
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
-
-          <Box mb="22px">
-            <Divider borderColor="#3182ce" height="10px" />
-            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="25px" size="auto">
-              <GoogleLogin
-                buttonText="Login with Google"
-                clientId={API.GOOGLE_0AUTH!}
-                onFailure={error => handleGoogleLoginFailure(error, toast)}
-                onSuccess={response =>
-                  handleGoogleLoginSuccess(response, {
-                    setIsLoggedIn,
-                    unregisteredClearFollowedShows,
-                    onClose,
-                    toast,
-                  })
-                }
-                theme="dark"
-                type="submit"
-              />
-            </Flex>
-          </Box>
         </Box>
       </ModalContent>
     </Modal>
