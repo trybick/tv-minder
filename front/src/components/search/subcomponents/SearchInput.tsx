@@ -31,7 +31,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
     <Flex
       direction="column"
       justify="center"
-      m="40px auto 30px"
+      m="42px auto 30px"
       p="0 25px"
       w={['90%', 'sm', 'md', 'lg']}
     >
