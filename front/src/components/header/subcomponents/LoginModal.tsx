@@ -5,7 +5,6 @@ import axios from 'axios';
 import {
   Box,
   Button,
-  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -23,6 +22,7 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/core';
+import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
 import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -203,6 +203,21 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     return buttonText;
   };
 
+  const Separator = styled(Flex)`
+    &:before,
+    &:after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid grey;
+    }
+    &:before {
+      margin-right: 15px;
+    }
+    &:after {
+      margin-left: 15px;
+    }
+  `;
+
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
@@ -216,6 +231,36 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             }}
           />
           <ModalBody pb={6}>
+            {formOption === 0 && (
+              <Box>
+                <Flex
+                  flex={2}
+                  justifyContent={'space-around'}
+                  marginBottom={2}
+                  mt="10px"
+                  size="auto"
+                >
+                  <GoogleLogin
+                    buttonText="Continue with Google"
+                    clientId={API.GOOGLE_0AUTH!}
+                    onFailure={error => handleGoogleLoginFailure(error, toast)}
+                    onSuccess={response =>
+                      handleGoogleLoginSuccess(response, {
+                        setIsLoggedIn,
+                        unregisteredClearFollowedShows,
+                        onClose,
+                        toast,
+                      })
+                    }
+                    theme="dark"
+                    type="submit"
+                  />
+                </Flex>
+              </Box>
+            )}
+            <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+              OR
+            </Separator>
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
@@ -227,7 +272,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
-
             {(formOption === 0 || formOption === 3) && (
               <FormControl isInvalid={Boolean(errors.password)} mt={4}>
                 <FormLabel> {formOption === 3 && 'New'} Password</FormLabel>
@@ -302,34 +346,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Box>
                 </Grid>
               </Flex>
-              {formOption === 0 && (
-                <Box>
-                  <Divider borderColor="#3182ce" height="10px" />
-                  <Flex
-                    flex={2}
-                    justifyContent={'space-around'}
-                    marginBottom={2}
-                    mt="25px"
-                    size="auto"
-                  >
-                    <GoogleLogin
-                      buttonText="Login with Google"
-                      clientId={API.GOOGLE_0AUTH!}
-                      onFailure={error => handleGoogleLoginFailure(error, toast)}
-                      onSuccess={response =>
-                        handleGoogleLoginSuccess(response, {
-                          setIsLoggedIn,
-                          unregisteredClearFollowedShows,
-                          onClose,
-                          toast,
-                        })
-                      }
-                      theme="dark"
-                      type="submit"
-                    />
-                  </Flex>
-                </Box>
-              )}
             </Box>
           </ModalFooter>
         </Box>
