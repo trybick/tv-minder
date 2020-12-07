@@ -124,7 +124,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
     cachedPopularShows?.length &&
     cachedPopularShows[0].fetchedAt &&
     moment().diff(moment(cachedPopularShows[0].fetchedAt), 'days');
-  const isCacheValid = cacheDurationDays.popularShows > cacheAge;
+  const isCacheValid = cachedPopularShows.length && cacheDurationDays.popularShows > cacheAge;
 
   // Fetch data if needed
   if (!isCacheValid) {
