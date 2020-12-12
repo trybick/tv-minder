@@ -17,9 +17,9 @@ const FadeWrapper = styled(Flex)<FadeWrapperProps>`
   &:after {
     content: '';
     position: absolute;
-    bottom: 34px;
+    bottom: -17px;
     right: 0;
-    top: 53px;
+    top: 50px;
     width: 50px;
     background-image: linear-gradient(
       to right,
@@ -54,7 +54,7 @@ const PopularShows = () => {
   });
 
   return (
-    <Box maxWidth="86%" mt="18px" position="relative">
+    <Box height="330px" m="18px 0 30px" maxWidth="86%" position="relative">
       <Heading as="h3" fontSize="1.3rem" fontWeight="600" m="0 18px 25px">
         Popular Now
       </Heading>

@@ -28,8 +28,8 @@ const WelcomeMessage = () => {
           <StatLabel fontSize="18px" fontWeight="500">
             Follow your favorite shows!
           </StatLabel>
-          <StatHelpText fontSize="16px" fontWeight="500" m="4px 0 0">
-            Enter a show name or browse popular shows.
+          <StatHelpText fontSize="16px" fontWeight="400" m="4px 0 0">
+            Enter a show name or browse popular shows
           </StatHelpText>
         </Stat>
       </StatGroup>
