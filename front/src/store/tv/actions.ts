@@ -51,7 +51,7 @@ export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState
   );
   let fetchedData;
   const nonCachedIds = userFollowedShowsIds.filter(id => !validCachedIds.includes(id));
-  if (nonCachedIds.length) {
+  if (nonCachedIds?.length) {
     const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
     fetchedData = fetchedEpisodeData;
     dispatch({
@@ -124,7 +124,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
     cachedPopularShows?.length &&
     cachedPopularShows[0].fetchedAt &&
     moment().diff(moment(cachedPopularShows[0].fetchedAt), 'days');
-  const isCacheValid = cachedPopularShows.length && cacheDurationDays.popularShows > cacheAge;
+  const isCacheValid = cachedPopularShows?.length && cacheDurationDays.popularShows > cacheAge;
 
   // Fetch data if needed
   if (!isCacheValid) {
