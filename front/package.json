@@ -46,7 +46,7 @@
     "@fullcalendar/interaction": "^5.1.0",
     "@fullcalendar/react": "^5.1.0",
     "@types/react-truncate": "^2.3.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "emotion-theming": "^10.0.27",
     "moment": "^2.25.3",
     "react": "^16.13.1",
