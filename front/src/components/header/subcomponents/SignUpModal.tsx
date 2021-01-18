@@ -155,35 +155,34 @@ const SignUpModal = ({
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <Box as="form" onSubmit={onSubmit}>
-          <ModalHeader>Create your account</ModalHeader>
-          <ModalCloseButton
-            onClick={() => {
-              clearError();
-              onClose();
-            }}
-          />
+        <ModalHeader>Create your account</ModalHeader>
+        <ModalCloseButton
+          onClick={() => {
+            clearError();
+            onClose();
+          }}
+        />
 
+        <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px" size="auto">
+          <GoogleLogin
+            buttonText="Continue with Google"
+            clientId={API.GOOGLE_0AUTH!}
+            onFailure={error => handleGoogleLoginFailure(error, toast)}
+            onSuccess={response =>
+              handleGoogleLoginSuccess(response, {
+                setIsLoggedIn,
+                unregisteredClearFollowedShows,
+                onClose,
+                toast,
+              })
+            }
+            theme="dark"
+            type="submit"
+          />
+        </Flex>
+
+        <Box as="form" onSubmit={onSubmit}>
           <ModalBody pb={6}>
-            <Box mb="22px">
-              <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px" size="auto">
-                <GoogleLogin
-                  buttonText="Continue with Google"
-                  clientId={API.GOOGLE_0AUTH!}
-                  onFailure={error => handleGoogleLoginFailure(error, toast)}
-                  onSuccess={response =>
-                    handleGoogleLoginSuccess(response, {
-                      setIsLoggedIn,
-                      unregisteredClearFollowedShows,
-                      onClose,
-                      toast,
-                    })
-                  }
-                  theme="dark"
-                  type="submit"
-                />
-              </Flex>
-            </Box>
             <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
               OR
             </Separator>

@@ -222,45 +222,41 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
       <ModalContent>
+        <ModalHeader>Login</ModalHeader>
+        <ModalCloseButton
+          onClick={() => {
+            clearError();
+            handleFormClose();
+          }}
+        />
+        {formOption === 0 && (
+          <Box>
+            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px" size="auto">
+              <GoogleLogin
+                buttonText="Continue with Google"
+                clientId={API.GOOGLE_0AUTH!}
+                onFailure={error => handleGoogleLoginFailure(error, toast)}
+                onSuccess={response =>
+                  handleGoogleLoginSuccess(response, {
+                    setIsLoggedIn,
+                    unregisteredClearFollowedShows,
+                    onClose,
+                    toast,
+                  })
+                }
+                theme="dark"
+                type="submit"
+              />
+            </Flex>
+          </Box>
+        )}
+
         <Box as="form" onSubmit={onSubmit}>
-          <ModalHeader>Login</ModalHeader>
-          <ModalCloseButton
-            onClick={() => {
-              clearError();
-              handleFormClose();
-            }}
-          />
           <ModalBody pb={6}>
-            {formOption === 0 && (
-              <Box>
-                <Flex
-                  flex={2}
-                  justifyContent={'space-around'}
-                  marginBottom={2}
-                  mt="10px"
-                  size="auto"
-                >
-                  <GoogleLogin
-                    buttonText="Continue with Google"
-                    clientId={API.GOOGLE_0AUTH!}
-                    onFailure={error => handleGoogleLoginFailure(error, toast)}
-                    onSuccess={response =>
-                      handleGoogleLoginSuccess(response, {
-                        setIsLoggedIn,
-                        unregisteredClearFollowedShows,
-                        onClose,
-                        toast,
-                      })
-                    }
-                    theme="dark"
-                    type="submit"
-                  />
-                </Flex>
-              </Box>
-            )}
             <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
               OR
             </Separator>
+
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
@@ -336,6 +332,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                       </Button>
                     )}
                   </Box>
+
                   <Box textAlign="right">
                     <Button isLoading={isLoading} type="submit" variantColor="cyan">
                       {getSubmitButtonText()}
