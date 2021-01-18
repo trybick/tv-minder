@@ -15,7 +15,6 @@ import {
   useColorMode,
 } from '@chakra-ui/core';
 import { FaUser } from 'react-icons/fa';
-import { IoMdNotifications } from 'react-icons/io';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
@@ -144,19 +143,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ xs: 'none', md: 'flex' }}>
                 <Menu>
-                  <MenuButton aria-label="Notifications" mr="12px">
-                    <Box as={IoMdNotifications} size="21px" />
-                  </MenuButton>
-                  <MenuList placement="bottom-end">
-                    <MenuGroup title="Notifications">
-                      <MenuItem>None</MenuItem>
-                    </MenuGroup>
-                  </MenuList>
-                </Menu>
-
-                <Menu>
                   <MenuButton aria-label="Page Options">
-                    <Box as={FaUser} size="18px" />
+                    <Box as={FaUser} size="24px" />
                   </MenuButton>
                   <MenuList placement="bottom-end">
                     <MenuGroup title={email}>
