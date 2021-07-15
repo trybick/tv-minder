@@ -1,0 +1,4 @@
+[build]
+  base = "front/"
+  command = "yarn build"
+  build = "build/"
