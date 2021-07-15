@@ -37,8 +37,8 @@
           "valueFrom": "arn:aws:ssm:us-east-2:765170299946:parameter/JWT_KEY"
         },
         {
-          "name": "GMAIL_PASSWORD",
-          "valueFrom": "arn:aws:ssm:us-east-2:765170299946:parameter/GMAIL_PASSWORD"
+          "name": "SENDGRID_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-2:765170299946:parameter/SENDGRID_KEY"
         }
       ]
     }

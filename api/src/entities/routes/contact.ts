@@ -6,23 +6,22 @@ const contactRoutes = express.Router();
 
 contactRoutes.post('/contact', (req, res) => {
   const { text } = req.body;
-  console.log('Received message:', text);
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
+  const client = nodemailer.createTransport({
+    service: 'SendGrid',
     auth: {
-      user: 'devtimr',
-      pass: envConfig.GMAIL_PASSWORD,
+      user: 'apikey',
+      pass: envConfig.SENDGRID_KEY,
     },
   });
-  const mailOptions = {
-    from: 'devtimr@gmail.com',
+  const email = {
+    from: 'admin@em9332.timr.dev',
     to: 'devtimr@gmail.com',
     subject: 'TV Minder: New feedback',
     text,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  client.sendMail(email, (error, info) => {
     if (error) {
       console.log('Nodemailer error: ', error);
     } else {

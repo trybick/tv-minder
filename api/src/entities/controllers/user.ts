@@ -102,20 +102,20 @@ export const requestOneTimeCode = (req: Request, res: Response) => {
           message: 'Email is not registered',
         });
       }
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
+      const client = nodemailer.createTransport({
+        service: 'SendGrid',
         auth: {
-          user: 'devtimr',
-          pass: envConfig.GMAIL_PASSWORD,
+          user: 'apikey',
+          pass: envConfig.SENDGRID_KEY,
         },
       });
       const mailOptions = {
-        from: 'devtimr@gmail.com',
+        from: 'admin@em9332.timr.dev',
         to: user.email,
         subject: 'TV Minder: One-time code',
         text: 'Your one-time code is: ' + generatedCode.toString(),
       };
-      transporter.sendMail(mailOptions, (error) => {
+      client.sendMail(mailOptions, (error) => {
         if (error) {
           console.log('Nodemailer error: ', error);
         } else {

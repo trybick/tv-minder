@@ -36,7 +36,7 @@ const Footer = () => {
         </Box>
 
         <Button ml="auto" onClick={onOpen} rightIcon={FaRegComment} size="sm" variantColor="cyan">
-          Feedback
+          Send Feedback
         </Button>
         <FeedbackModal disclosureProps={disclosureProps} />
       </Flex>
