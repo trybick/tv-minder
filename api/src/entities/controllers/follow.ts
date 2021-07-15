@@ -11,6 +11,7 @@ export const createFollow = async (req: Request, res: Response) => {
     });
   }
 
+  // @ts-ignore - tsc cli error on 'err' below, even when using 'any' type.
   User.findOneAndUpdate({ _id: userId }, { $addToSet: { followedShows: showId } }, (err) => {
     if (err) {
       return res.status(500).json({
@@ -32,6 +33,7 @@ export const deleteFollow = async (req: Request, res: Response) => {
     });
   }
 
+  // @ts-ignore - tsc cli error on 'err' below, even when using 'any' type.
   User.findOneAndUpdate({ _id: userId }, { $pull: { followedShows: showId } }, (err) => {
     if (err) {
       return res.status(500).json({

@@ -10,6 +10,7 @@
     "outDir": "dist",
     "baseUrl": "./src",
     "noEmitOnError": false,
+    "skipLibCheck": true,
     "paths": {
       "*": ["node_modules/*"],
       "config/*": ["config/*"],
