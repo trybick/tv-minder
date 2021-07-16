@@ -21,28 +21,28 @@
     "utils": "dist/utils"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
-    "dotenv": "^8.1.0",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.3.2",
-    "mongoose": "5.7.1",
-    "nodemailer": "^6.4.11",
-    "ts-mongoose": "^0.0.21"
+    "mongodb": "^4.0.0",
+    "mongoose": "5.13.3",
+    "nodemailer": "^6.6.3",
+    "ts-mongoose": "^0.0.24"
   },
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
-    "@types/express": "^4.17.6",
-    "@types/jsonwebtoken": "^8.3.9",
-    "@types/mongoose": "5.7.1",
-    "@types/node": "^13.11.1",
-    "@types/nodemailer": "^6.4.0",
-    "@typescript-eslint/eslint-plugin": "^2.28.0",
-    "@typescript-eslint/parser": "^2.28.0",
-    "eslint": "^6.8.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.4",
+    "@types/mongoose": "5.11.97",
+    "@types/node": "^16.3.3",
+    "@types/nodemailer": "^6.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.30.0",
     "module-alias": "^2.2.2",
-    "nodemon": "^2.0.3",
-    "tsc-watch": "^4.2.3",
+    "nodemon": "^2.0.12",
+    "tsc-watch": "^4.4.0",
     "typescript": "^3.8.3"
   }
 }
