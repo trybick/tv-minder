@@ -253,9 +253,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
         <Box as="form" onSubmit={onSubmit}>
           <ModalBody pb={6}>
-            <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
-              OR
-            </Separator>
+            {formOption === 0 && (
+              <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+                OR
+              </Separator>
+            )}
 
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
@@ -326,7 +328,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                           (formOption === 1 && (
                             <>
                               <Box as={TiArrowBack} size="18px" />
-                              Go back
+                              Back
                             </>
                           ))}
                       </Button>
