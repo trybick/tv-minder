@@ -66,9 +66,8 @@ const SignUpModal = ({
   const toast = useToast();
 
   // Form
-  const { clearError, errors, handleSubmit, reset, setError, register, watch } = useForm<
-    FormData
-  >();
+  const { clearError, errors, handleSubmit, reset, setError, register, watch } =
+    useForm<FormData>();
   const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
