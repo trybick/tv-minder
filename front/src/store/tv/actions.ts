@@ -14,26 +14,32 @@ export const REQUEST_BASIC_SHOW_INFO = 'REQUEST_BASIC_SHOW_INFO';
 export const REQUEST_BASIC_SHOW_INFO_SUCCEEDED = 'REQUEST_BASIC_SHOW_INFO_SUCCEEDED';
 export const SET_POPULAR_SHOWS = 'SET_POPULAR_SHOWS';
 
-export const saveSearchQueryAction = (query: SavedQuery): AppThunk => dispatch => {
-  dispatch({
-    type: SAVE_SEARCH_QUERY,
-    payload: query,
-  });
-};
+export const saveSearchQueryAction =
+  (query: SavedQuery): AppThunk =>
+  dispatch => {
+    dispatch({
+      type: SAVE_SEARCH_QUERY,
+      payload: query,
+    });
+  };
 
-export const saveEpisodeDataAction = (episodeData: any): AppThunk => dispatch => {
-  dispatch({
-    type: SAVE_EPISODE_DATA,
-    payload: episodeData,
-  });
-};
+export const saveEpisodeDataAction =
+  (episodeData: any): AppThunk =>
+  dispatch => {
+    dispatch({
+      type: SAVE_EPISODE_DATA,
+      payload: episodeData,
+    });
+  };
 
-export const setCalendarEpisodesAction = (episodesForDisplay: any): AppThunk => dispatch => {
-  dispatch({
-    type: SET_CALENDAR_EPISODES,
-    payload: episodesForDisplay,
-  });
-};
+export const setCalendarEpisodesAction =
+  (episodesForDisplay: any): AppThunk =>
+  dispatch => {
+    dispatch({
+      type: SET_CALENDAR_EPISODES,
+      payload: episodesForDisplay,
+    });
+  };
 
 export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState) => {
   const { followedShows, isLoggedIn, unregisteredFollowedShows } = getState().user;

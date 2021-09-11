@@ -1,4 +1,4 @@
-name: Run tests
+name: Validate front
 
 on: [pull_request]
 
@@ -20,11 +20,6 @@ jobs:
         run: |
           cd front
           yarn validate
-
-      - name: Run tests
-        run: |
-          cd front
-          yarn test
 
       - name: Check formatting
         run: |
