@@ -27,11 +27,6 @@
     "start:local": "cross-env PORT=4000 REACT_APP_API=local react-scripts start",
     "validate": "tsc --noEmit"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{tsx,js,ts}": "eslint --cache --fix"
   },
@@ -77,8 +72,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": ">=4",
-    "lint-staged": ">=10",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "typescript": "^3.7.2"
   },

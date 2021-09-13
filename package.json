@@ -17,11 +17,14 @@
   "homepage": "https://github.com/trybick/tv-minder#readme",
   "scripts": {
     "postinstall": "(cd api && yarn); (cd front && yarn);",
+    "prepare": "husky install",
     "serve": "yarn --cwd api serve",
     "serve-stop": "yarn --cwd api serve-stop",
     "start": "yarn --cwd front start",
     "start:local": "yarn --cwd front start:local"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "husky": "^7.0.2"
+  }
 }
