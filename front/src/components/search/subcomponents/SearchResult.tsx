@@ -79,13 +79,13 @@ const SearchResult = ({
             <Button
               isLoading={isLoading}
               leftIcon={isFollowed ? 'check' : 'small-add'}
-              minW="88px"
+              minW={isFollowed ? '102px' : '88px'}
               onClick={isFollowed ? onUnFollowShow : onFollowShow}
               size="sm"
               variant={isFollowed ? 'solid' : 'outline'}
               variantColor="cyan"
             >
-              {isFollowed ? 'Followed' : 'Follow'}
+              {isFollowed ? 'Following' : 'Follow'}
             </Button>
           </Flex>
 

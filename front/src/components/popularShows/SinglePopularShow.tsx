@@ -69,7 +69,7 @@ const SinglePopularShow = ({ show: { id, name, posterPath } }: OwnProps) => {
           variant={isFollowed ? 'solid' : 'outline'}
           variantColor="cyan"
         >
-          {isFollowed ? 'Followed' : 'Follow'}
+          {isFollowed ? 'Following' : 'Follow'}
         </Button>
       </Box>
     </Box>
