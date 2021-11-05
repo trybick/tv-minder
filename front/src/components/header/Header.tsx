@@ -105,7 +105,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
       >
         <Flex align="center" as="h1">
           <Link onClick={closeHeader} to="/">
-            <Image alt="TV Minder logo" display="inline" height="35px" src={logo} />
+            <Image alt="TV Minder logo" display="inline" height="28px" src={logo} />
           </Link>
         </Flex>
 
@@ -171,7 +171,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         </Box>
       </Flex>
 
-      <Divider />
+      <Divider mt="6px" />
     </>
   );
 };

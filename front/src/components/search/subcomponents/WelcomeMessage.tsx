@@ -25,7 +25,7 @@ const WelcomeMessage = () => {
       >
         <Image alt="clock logo" height="55px" mr="20px" objectFit="cover" src={clock} />
         <Stat alignItems="left" d="flex" flexDirection="column" p="0">
-          <StatLabel fontSize="18px" fontWeight="500">
+          <StatLabel fontSize="18px" fontWeight="500" textAlign="center">
             Follow your favorite shows!
           </StatLabel>
           <StatHelpText fontSize="16px" fontWeight="400" m="4px 0 0">
