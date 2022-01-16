@@ -3,6 +3,7 @@ import moment from 'moment';
 import { API } from 'constants/api';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
+import { addLeadingZero } from '../utils/formatting';
 
 const queryParams = {
   api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
@@ -130,8 +131,8 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   );
 
   // Create properties ready for calendar to accept
-  const episodesForDisplay = recentEpisodes?.map((episode: any) =>
-    (({
+  const episodesForDisplay = recentEpisodes?.map(
+    ({
       air_date: airDate,
       color,
       episode_number: episodeNumber,
@@ -144,8 +145,8 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       extendedProps: {
         showId,
       },
-      title: `${showName} S${seasonNumber} E${episodeNumber}`,
-    }))(episode)
+      title: `${showName} S${addLeadingZero(seasonNumber)} E${addLeadingZero(episodeNumber)}`,
+    })
   );
 
   return episodesForDisplay;
