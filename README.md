@@ -23,30 +23,15 @@ This will start the front-end and use the production API for API requests.
 ```bash
 yarn
 yarn start
-
-# or with npm
-npm install
-npm start
 ```
 
-#### Using a locally running API
-
-- Start the local API:
+#### Or run the API locally if you need to
 
 ```bash
+# Start the local API
 yarn serve
-
-# or with npm
-npm run serve
-```
-
-- Start the front-end:
-
-```bash
+# Start the app
 yarn start:local
-
-# or with npm
-npm run start:local
 ```
 
 #### ENV Files
