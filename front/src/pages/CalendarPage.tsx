@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box } from '@chakra-ui/core';
-import FullCalendar from '@fullcalendar/react';
+import {
+  Box,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from '@chakra-ui/core';
+import FullCalendar, { EventContentArg } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
@@ -17,11 +25,28 @@ const CalendarPage = () => {
     dispatch(loadEpisodesForCalendar());
   }, [dispatch, followedShows]);
 
+  const addPopover = (eventInfo: EventContentArg) => (
+    <Popover placement="top" trigger="hover" usePortal>
+      <PopoverTrigger>
+        <div>{eventInfo.event.title}</div>
+      </PopoverTrigger>
+      <PopoverContent bg={eventInfo.backgroundColor} maxW="200px" zIndex={4}>
+        <PopoverArrow />
+        <PopoverBody>
+          <Text color="white" fontSize="sm">
+            {eventInfo.event.title}
+          </Text>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+
   return (
     <Box mb="25px">
       <Box m="30px auto 0" maxW="1170px" p="0 25px">
         <FullCalendar
           eventAllow={() => false} // do not allow dragging
+          eventContent={addPopover}
           events={calendarEpisodes}
           initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'dayGridWeek'}
           plugins={[dayGridPlugin, interactionPlugin]}
