@@ -6,11 +6,8 @@
     "type": "git",
     "url": "git+https://github.com/trybick/tv-minder.git"
   },
-  "keywords": [
-    "tv"
-  ],
   "author": "Tim Rybicki",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/trybick/tv-minder/issues"
   },

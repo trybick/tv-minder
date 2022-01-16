@@ -1,9 +1,8 @@
 {
   "name": "tv-minder-api",
-  "version": "0.1.0",
   "main": "./dist/server.js",
   "author": "Tim Rybicki",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
     "serve": "docker-compose up",

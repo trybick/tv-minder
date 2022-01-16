@@ -1,8 +1,7 @@
 {
   "name": "tv-minder-front",
-  "version": "0.1.0",
   "author": "Tim Rybicki",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/trybick/tv-minder"
