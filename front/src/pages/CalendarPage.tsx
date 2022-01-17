@@ -50,21 +50,19 @@ const CalendarPage = () => {
   };
 
   return (
-    <Box mb="25px">
-      <Box m="30px auto 0" maxW="1170px" p="0 25px">
-        <FullCalendar
-          allDayContent={false}
-          eventAllow={() => false} // do not allow dragging
-          eventContent={addPopover}
-          events={calendarEpisodes}
-          height="auto"
-          initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'listMonth'}
-          plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
-          titleFormat={titleFormat}
-          dayMaxEventRows // display popover if events overflow in a day
-          editable // enable mouse pointer cursor
-        />
-      </Box>
+    <Box m="15px auto 0" maxW="1170px" p="0 25px">
+      <FullCalendar
+        allDayContent={false}
+        eventAllow={() => false} // do not allow dragging
+        eventContent={addPopover}
+        events={calendarEpisodes}
+        height="auto"
+        initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'listMonth'}
+        plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
+        titleFormat={titleFormat}
+        dayMaxEventRows // display popover if events overflow in a day
+        editable // enable mouse pointer cursor
+      />
     </Box>
   );
 };
