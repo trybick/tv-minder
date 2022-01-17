@@ -57,7 +57,7 @@ const CalendarPage = () => {
         eventContent={addPopoverToEvent}
         events={calendarEpisodes}
         height="auto"
-        initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'listMonth'}
+        initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
         plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
         titleFormat={titleFormat}
         dayMaxEventRows // display popover if events overflow in a day

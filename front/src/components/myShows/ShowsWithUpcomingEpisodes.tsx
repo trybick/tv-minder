@@ -20,8 +20,9 @@ import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
 import { fallbackImagePath } from 'constants/strings';
 import { getTimeFromNowForUpcoming } from './common/utils';
 import { BasicShowInfo } from 'types/external';
+import { useIsMobile } from 'hooks/useIsMobile';
 
-const createAccordionItems = (shows: BasicShowInfo[]) =>
+const createAccordionItems = (shows: BasicShowInfo[], isMobile: boolean) =>
   shows.map(show => {
     const {
       nextEpisodeForDisplay: { airDate, episodeNumber, name, overview, seasonNumber },
@@ -82,7 +83,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
 
               <Box maxH="63px" overflow="hidden">
                 <Text fontSize="sm">
-                  <Truncate lines={window.innerWidth > 500 ? 3 : 2}>{overview}</Truncate>
+                  <Truncate lines={isMobile ? 2 : 3}>{overview}</Truncate>
                 </Text>
               </Box>
             </Grid>
@@ -94,6 +95,7 @@ const createAccordionItems = (shows: BasicShowInfo[]) =>
 
 const ShowsWithUpcomingEpisodes = () => {
   const upcomingShows = useSelector(selectBasicShowInfoForUpcomingEpisodes);
+  const isMobile = useIsMobile();
 
   return (
     <Box
@@ -107,7 +109,7 @@ const ShowsWithUpcomingEpisodes = () => {
 
       {upcomingShows.length ? (
         <Accordion allowMultiple={false} allowToggle={true} defaultIndex={[-1]}>
-          {createAccordionItems(upcomingShows)}
+          {createAccordionItems(upcomingShows, isMobile)}
         </Accordion>
       ) : (
         <Box>
