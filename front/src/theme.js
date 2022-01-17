@@ -5,6 +5,8 @@ export default {
   colors: {
     ...defaultTheme.colors,
     black: '#333333',
+    darkBlack: '#1A202C',
+    white: '#fffff',
     primary: '#0099DB',
     secondary: '#034A85',
     mode: {

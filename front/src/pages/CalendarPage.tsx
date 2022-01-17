@@ -8,7 +8,9 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
+  useColorMode,
 } from '@chakra-ui/core';
+import { css, Global } from '@emotion/react';
 import FullCalendar, { EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
@@ -17,12 +19,14 @@ import { selectFollowedShows } from 'store/user/selectors';
 import { loadEpisodesForCalendar } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { useIsMobile } from 'hooks/useIsMobile';
+import theme from 'theme';
 
 const CalendarPage = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const isMobile = useIsMobile();
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     dispatch(loadEpisodesForCalendar());
@@ -51,6 +55,14 @@ const CalendarPage = () => {
 
   return (
     <Box m="15px auto 0" maxW="1170px" p="0 25px">
+      <Global
+        styles={css`
+          // While in dark mode, change calendar column titles to dark color
+          .fc-col-header-cell {
+            background-color: ${colorMode === 'dark' ? theme.colors.darkBlack : theme.colors.white};
+          }
+        `}
+      />
       <FullCalendar
         allDayContent={false}
         eventAllow={() => false} // do not allow dragging
