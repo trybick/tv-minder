@@ -16,17 +16,19 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
 import { loadEpisodesForCalendar } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
+import { useIsMobile } from 'hooks/useIsMobile';
 
 const CalendarPage = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     dispatch(loadEpisodesForCalendar());
   }, [dispatch, followedShows]);
 
-  const addPopover = (eventInfo: EventContentArg) => (
+  const addPopoverToEvent = (eventInfo: EventContentArg) => (
     <Popover placement="top" trigger="hover" usePortal>
       <PopoverTrigger>
         <div>{eventInfo.event.title}</div>
@@ -42,8 +44,6 @@ const CalendarPage = () => {
     </Popover>
   );
 
-  const isMobile = window.innerWidth < 667;
-
   const titleFormat: FormatterInput = {
     month: isMobile ? 'short' : 'long',
     year: 'numeric',
@@ -54,7 +54,7 @@ const CalendarPage = () => {
       <FullCalendar
         allDayContent={false}
         eventAllow={() => false} // do not allow dragging
-        eventContent={addPopover}
+        eventContent={addPopoverToEvent}
         events={calendarEpisodes}
         height="auto"
         initialView={window.innerWidth > 667 ? 'dayGridMonth' : 'listMonth'}
