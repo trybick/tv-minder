@@ -36,6 +36,7 @@
     "@fullcalendar/core": "^5.10.1",
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/interaction": "^5.10.1",
+    "@fullcalendar/list": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",
     "axios": "^0.24.0",
     "emotion-theming": "^10.0.27",
