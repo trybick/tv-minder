@@ -30,7 +30,7 @@ const CalendarPage = () => {
       <PopoverTrigger>
         <div>{eventInfo.event.title}</div>
       </PopoverTrigger>
-      <PopoverContent bg={eventInfo.backgroundColor} maxW="200px" zIndex={4}>
+      <PopoverContent bg={eventInfo.backgroundColor} width="unset" zIndex={4}>
         <PopoverArrow />
         <PopoverBody>
           <Text color="white" fontSize="sm">
