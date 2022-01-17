@@ -146,7 +146,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                   <MenuButton aria-label="Page Options">
                     <Box as={FaUser} size="24px" />
                   </MenuButton>
-                  <MenuList placement="bottom-end">
+                  <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>
                       <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
