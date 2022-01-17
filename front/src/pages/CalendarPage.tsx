@@ -31,7 +31,7 @@ const CalendarPage = () => {
   const addPopoverToEvent = (eventInfo: EventContentArg) => (
     <Popover placement="top" trigger="hover" usePortal>
       <PopoverTrigger>
-        <div>{eventInfo.event.title}</div>
+        <Text overflow="hidden">{eventInfo.event.title}</Text>
       </PopoverTrigger>
       <PopoverContent bg={eventInfo.backgroundColor} width="unset" zIndex={4}>
         <PopoverArrow />
