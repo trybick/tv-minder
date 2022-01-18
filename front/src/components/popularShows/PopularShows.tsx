@@ -1,19 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Flex, Heading } from '@chakra-ui/core';
-import styled from '@emotion/styled';
+import { Box, Flex, Heading } from '@chakra-ui/react';
+import { css } from '@emotion/react';
 import { getPopularShowsAction } from 'store/tv/actions';
 import { selectPopularShowsForDisplay } from 'store/tv/selectors';
 import SinglePopularShow from './SinglePopularShow';
 
-type FadeWrapperProps = {
-  shouldFade: boolean;
-};
-
-const FadeWrapper = styled(Flex)<FadeWrapperProps>`
-  ${(props: FadeWrapperProps) =>
-    props.shouldFade &&
-    `
+const fadeCss = css`
   &:after {
     content: '';
     position: absolute;
@@ -28,7 +21,6 @@ const FadeWrapper = styled(Flex)<FadeWrapperProps>`
     );
     will-change: opacity;
   }
-`}
 `;
 
 const PopularShows = () => {
@@ -58,12 +50,12 @@ const PopularShows = () => {
       <Heading as="h3" fontSize="1.3rem" fontWeight="600" m="0 18px 25px">
         Popular Now
       </Heading>
-      <FadeWrapper
+      <Flex
+        css={shouldFade && fadeCss}
         maxWidth="800px"
         mt="14px"
         overflow="auto"
         ref={scrollWrapperRef}
-        shouldFade={shouldFade}
       >
         <Flex justifyContent="center">
           {popularShows?.slice(0, 20).map(show => (
@@ -71,7 +63,7 @@ const PopularShows = () => {
           ))}
           <Box background="transparent" w="20px" />
         </Flex>
-      </FadeWrapper>
+      </Flex>
     </Box>
   );
 };

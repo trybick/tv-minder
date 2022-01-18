@@ -13,7 +13,7 @@ import {
   MenuList,
   Text,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { FaUser } from 'react-icons/fa';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
@@ -105,11 +105,17 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
       >
         <Flex align="center" as="h1">
           <Link onClick={closeHeader} to="/">
-            <Image alt="TV Minder logo" display="inline" height="28px" src={logo} />
+            <Image
+              alt="TV Minder logo"
+              display="inline"
+              height="28px"
+              src={logo}
+              verticalAlign="middle"
+            />
           </Link>
         </Flex>
 
-        <Box display={{ sm: 'block', md: 'none' }} onClick={toggleIsOpen}>
+        <Box display={{ base: 'block', md: 'none' }} onClick={toggleIsOpen}>
           <svg fill="teal" viewBox="0 0 20 20" width="12px" xmlns="http://www.w3.org/2000/svg">
             <title>Menu</title>
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
@@ -117,34 +123,34 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         </Box>
 
         <Box
-          display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
+          display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
           mr="auto"
           pl="10px"
           pt="10px"
-          width={{ xs: 'full', md: 'auto' }}
+          width={{ base: 'full', md: 'auto' }}
         >
           <NavLink linkTo="/" text="Home" />
           <NavLink linkTo="/calendar" text="Calendar" />
           <NavLink linkTo="/my-shows" text="My Shows" />
           {isLoggedIn ? (
-            <Box display={{ xs: 'block', md: 'none' }}>
+            <Box display={{ base: 'block', md: 'none' }}>
               <NavLink linkTo="/settings" text="Settings" />
             </Box>
           ) : null}
         </Box>
 
         <Box
-          display={{ xs: isOpen ? 'block' : 'none', md: 'flex' }}
+          display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
           mt={{ base: 4, md: 0 }}
-          textAlign={{ xs: isOpen && isLoggedIn ? 'right' : 'left', md: 'left' }}
-          width={{ xs: 'full', md: 'auto' }}
+          textAlign={{ base: isOpen && isLoggedIn ? 'right' : 'left', md: 'left' }}
+          width={{ base: 'full', md: 'auto' }}
         >
           {isLoggedIn ? (
             <>
-              <Box display={{ xs: 'none', md: 'flex' }}>
+              <Box display={{ base: 'none', md: 'flex' }}>
                 <Menu>
                   <MenuButton aria-label="Page Options">
-                    <Box as={FaUser} size="24px" />
+                    <Box as={FaUser} boxSize="24px" />
                   </MenuButton>
                   <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>
@@ -156,7 +162,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                 </Menu>
               </Box>
 
-              <Box display={{ xs: 'block', md: 'none' }}>
+              <Box display={{ base: 'block', md: 'none' }}>
                 <LogoutButton closeHeader={closeHeader} />
                 <ToggleColorModeButton />
               </Box>

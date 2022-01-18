@@ -1,13 +1,13 @@
 import React, { ChangeEvent, RefObject, useEffect } from 'react';
 import {
   Flex,
-  Icon,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
+import { Search2Icon, SmallCloseIcon } from '@chakra-ui/icons';
 import { PlainFunction } from 'types/common';
 interface Props {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -37,7 +37,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
     >
       <InputGroup display="flex">
         <InputLeftElement top="5px">
-          <Icon color="gray.300" name="search-2" />
+          <Search2Icon color="gray.300" />
         </InputLeftElement>
         <Input
           border="2px solid #0099DB"
@@ -55,7 +55,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
           <InputRightElement right="5px" top="5px">
             <IconButton
               aria-label="Clear input"
-              icon="small-close"
+              icon={<SmallCloseIcon />}
               onClick={handleClearInput}
               size="md"
               variant="ghost"

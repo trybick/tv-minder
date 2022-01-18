@@ -1,4 +1,4 @@
-import { IToast } from '@chakra-ui/core';
+import { IToast } from '@chakra-ui/react';
 
 export const localWarningToastMessage: IToast = {
   title: 'Temporarily saving',

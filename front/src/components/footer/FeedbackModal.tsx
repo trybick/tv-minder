@@ -11,7 +11,7 @@ import {
   Text,
   Textarea,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { FiSend } from 'react-icons/fi';
 import { API } from 'constants/api';
@@ -30,7 +30,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const toast = useToast();
   const initialRef = React.useRef(null);
 
-  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
 
@@ -83,12 +83,13 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
         <ModalFooter>
           <Button
+            bg="primary"
+            color="white"
             isDisabled={!value}
             isLoading={isSubmitting}
             mr={3}
             onClick={handleSubmit}
-            rightIcon={FiSend}
-            variantColor="cyan"
+            rightIcon={<FiSend />}
           >
             Submit
           </Button>
