@@ -68,6 +68,7 @@ const CalendarPage = () => {
       />
       <FullCalendar
         allDayContent={false}
+        dayMaxEventRows={5}
         eventAllow={() => false} // do not allow dragging
         eventContent={addPopoverToEvent}
         events={calendarEpisodes}
@@ -75,7 +76,6 @@ const CalendarPage = () => {
         initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
         plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
         titleFormat={titleFormat}
-        dayMaxEventRows // display popover if events overflow in a day
         editable // enable mouse pointer cursor
       />
     </Box>
