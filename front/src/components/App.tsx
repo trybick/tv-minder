@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import { Flex } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/react';
 import ReactGA from 'react-ga';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';

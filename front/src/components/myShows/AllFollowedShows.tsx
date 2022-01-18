@@ -12,7 +12,7 @@ import {
   MenuList,
   Text,
   Tooltip,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { selectBasicShowInfoForAllShows } from 'store/tv/selectors';
@@ -61,13 +61,13 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
             {name}
           </Heading>
 
-          <Menu>
+          <Menu placement="bottom-end">
             <MenuButton aria-label="Show Options">
-              <Box as={BsThreeDotsVertical} size="19px" />
+              <Box as={BsThreeDotsVertical} w="19px" />
             </MenuButton>
-            <MenuList placement="bottom-end">
+            <MenuList>
               <MenuItem onClick={onUnfollowShow}>
-                <Box as={MdRemoveCircleOutline} mr="8px" size="19px" />
+                <Box as={MdRemoveCircleOutline} mr="8px" w="19px" />
                 Unfollow
               </MenuItem>
             </MenuList>
@@ -83,7 +83,7 @@ const FollowedShow = ({ show }: { show: BasicShowInfo }) => {
           {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
         </Text>
 
-        <Badge variant="outline" variantColor={statusColorMap[status]}>
+        <Badge colorScheme={statusColorMap[status]} variant="outline">
           {status}
         </Badge>
       </Box>

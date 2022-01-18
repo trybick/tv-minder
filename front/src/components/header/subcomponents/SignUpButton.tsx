@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, useDisclosure } from '@chakra-ui/core';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { PlainFunction } from 'types/common';
 import SignUpModal from './SignUpModal';
 

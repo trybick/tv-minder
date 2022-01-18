@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Accordion,
-  AccordionHeader,
+  AccordionButton,
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
@@ -13,7 +13,7 @@ import {
   Image,
   Text,
   Tooltip,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import moment from 'moment';
 import Truncate from 'react-truncate';
 import { selectBasicShowInfoForUpcomingEpisodes } from 'store/tv/selectors';
@@ -38,7 +38,7 @@ const ShowsWithUpcomingEpisodes = () => {
 
         return (
           <AccordionItem key={show.id}>
-            <AccordionHeader>
+            <AccordionButton>
               <Grid
                 alignItems="center"
                 gap={3}
@@ -46,7 +46,7 @@ const ShowsWithUpcomingEpisodes = () => {
                 templateColumns={{ base: '110px 70px auto', xl: '110px 120px auto' }}
                 width="100%"
               >
-                <Badge variant="subtle" variantColor="purple">
+                <Badge colorScheme="purple" variant="subtle">
                   {getTimeFromNowForUpcoming(airDate)}
                 </Badge>
 
@@ -59,7 +59,7 @@ const ShowsWithUpcomingEpisodes = () => {
                 </Text>
               </Grid>
               <AccordionIcon />
-            </AccordionHeader>
+            </AccordionButton>
 
             <AccordionPanel pb={4}>
               <Grid alignItems="center" gap={6} templateColumns="1fr 3fr">

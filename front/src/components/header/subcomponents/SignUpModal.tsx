@@ -19,8 +19,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useColorMode,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -64,6 +65,7 @@ const SignUpModal = ({
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   // Form
   const { clearError, errors, handleSubmit, reset, setError, register, watch } =
@@ -153,7 +155,7 @@ const SignUpModal = ({
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={colorMode === 'dark' ? '#2D3748' : '#fff'}>
         <ModalHeader>Create your account</ModalHeader>
         <ModalCloseButton
           onClick={() => {
@@ -242,7 +244,7 @@ const SignUpModal = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button isLoading={isLoading} mr={3} type="submit" variantColor="cyan">
+            <Button colorScheme="cyan" isLoading={isLoading} mr={3} type="submit">
               Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '@chakra-ui/core';
+import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '@chakra-ui/react';
+import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
@@ -76,17 +77,32 @@ const SearchResult = ({
               {name}
             </Heading>
 
-            <Button
-              isLoading={isLoading}
-              leftIcon={isFollowed ? 'check' : 'small-add'}
-              minW={isFollowed ? '102px' : '88px'}
-              onClick={isFollowed ? onUnFollowShow : onFollowShow}
-              size="sm"
-              variant={isFollowed ? 'solid' : 'outline'}
-              variantColor="cyan"
-            >
-              {isFollowed ? 'Following' : 'Follow'}
-            </Button>
+            {isFollowed ? (
+              <Button
+                bg="primary"
+                color="white"
+                isLoading={isLoading}
+                leftIcon={<CheckIcon />}
+                minW="102px"
+                onClick={onUnFollowShow}
+                size="sm"
+                variant="solid"
+              >
+                Followed
+              </Button>
+            ) : (
+              <Button
+                colorScheme="cyan"
+                isLoading={isLoading}
+                leftIcon={<SmallAddIcon />}
+                minW="88px"
+                onClick={onFollowShow}
+                size="sm"
+                variant="outline"
+              >
+                Follow
+              </Button>
+            )}
           </Flex>
 
           <Flex mt="6px">

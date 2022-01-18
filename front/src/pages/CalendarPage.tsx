@@ -7,9 +7,10 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Portal,
   Text,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import FullCalendar, { EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -33,18 +34,20 @@ const CalendarPage = () => {
   }, [dispatch, followedShows]);
 
   const addPopoverToEvent = (eventInfo: EventContentArg) => (
-    <Popover placement="top" trigger="hover" usePortal>
+    <Popover placement="top" trigger="hover">
       <PopoverTrigger>
         <Text overflow="hidden">{eventInfo.event.title}</Text>
       </PopoverTrigger>
-      <PopoverContent bg={eventInfo.backgroundColor} width="unset" zIndex={4}>
-        <PopoverArrow />
-        <PopoverBody>
-          <Text color="white" fontSize="sm">
-            {eventInfo.event.title}
-          </Text>
-        </PopoverBody>
-      </PopoverContent>
+      <Portal>
+        <PopoverContent bg={eventInfo.backgroundColor} width="unset" zIndex={4}>
+          <PopoverArrow bg={eventInfo.backgroundColor} />
+          <PopoverBody>
+            <Text color="white" fontSize="sm">
+              {eventInfo.event.title}
+            </Text>
+          </PopoverBody>
+        </PopoverContent>
+      </Portal>
     </Popover>
   );
 

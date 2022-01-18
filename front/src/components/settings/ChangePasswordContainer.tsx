@@ -10,9 +10,8 @@ import {
   FormLabel,
   Heading,
   Input,
-  useColorMode,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { selectUserEmail } from 'store/user/selectors';
 import { API } from 'constants/api';
 
@@ -26,8 +25,6 @@ const ChangePasswordContainer = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const email = useSelector(selectUserEmail);
   const toast = useToast();
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
   const { getValues, handleSubmit, errors, register } = useForm<FormDataType>();
 
   const formSchema = {
@@ -127,14 +124,7 @@ const ChangePasswordContainer = () => {
           <FormErrorMessage>{formErrorForDisplay}</FormErrorMessage>
         </FormControl>
 
-        <Button
-          bg={isDarkMode ? 'blue.900' : 'blue.300'}
-          color="white"
-          isLoading={isLoading}
-          mt={4}
-          type="submit"
-          width="100%"
-        >
+        <Button bg="primary" color="white" isLoading={isLoading} mt={4} type="submit" width="100%">
           Submit
         </Button>
       </Box>

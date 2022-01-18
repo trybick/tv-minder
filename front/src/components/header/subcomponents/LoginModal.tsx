@@ -20,8 +20,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useColorMode,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
 import GoogleLogin from 'react-google-login';
@@ -69,6 +70,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   // Form
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
@@ -221,7 +223,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={colorMode === 'dark' ? '#2D3748' : '#fff'}>
         <ModalHeader>Login</ModalHeader>
         <ModalCloseButton
           onClick={() => {
@@ -327,8 +329,8 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                         {(formOption === 0 && 'Forgot Password?') ||
                           (formOption === 1 && (
                             <>
-                              <Box as={TiArrowBack} size="18px" />
-                              Back
+                              <Box as={TiArrowBack} w="18px" />
+                              Go back
                             </>
                           ))}
                       </Button>
@@ -336,7 +338,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Box>
 
                   <Box textAlign="right">
-                    <Button isLoading={isLoading} type="submit" variantColor="cyan">
+                    <Button colorScheme="cyan" isLoading={isLoading} type="submit">
                       {getSubmitButtonText()}
                     </Button>
                     <Button ml={2} onClick={handleFormClose}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button, Heading, Image, useToast } from '@chakra-ui/core';
+import { Box, Button, Heading, Image, useToast } from '@chakra-ui/react';
+import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
@@ -59,18 +60,34 @@ const SinglePopularShow = ({ show: { id, name, posterPath } }: OwnProps) => {
           {name}
         </Heading>
 
-        <Button
-          isLoading={isLoading}
-          leftIcon={isFollowed ? 'check' : 'small-add'}
-          m="12px auto 6px"
-          minW="108px"
-          onClick={isFollowed ? onUnFollowShow : onFollowShow}
-          size="sm"
-          variant={isFollowed ? 'solid' : 'outline'}
-          variantColor="cyan"
-        >
-          {isFollowed ? 'Following' : 'Follow'}
-        </Button>
+        {isFollowed ? (
+          <Button
+            bg="primary"
+            color="white"
+            isLoading={isLoading}
+            leftIcon={<CheckIcon />}
+            m="12px auto 6px"
+            minW="108px"
+            onClick={onUnFollowShow}
+            size="sm"
+            variant="solid"
+          >
+            Followed
+          </Button>
+        ) : (
+          <Button
+            colorScheme="cyan"
+            isLoading={isLoading}
+            leftIcon={<SmallAddIcon />}
+            m="12px auto 6px"
+            minW="108px"
+            onClick={onFollowShow}
+            size="sm"
+            variant="outline"
+          >
+            Follow
+          </Button>
+        )}
       </Box>
     </Box>
   );

@@ -7,7 +7,7 @@ import {
   StatHelpText,
   StatLabel,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import clock from 'images/clock.png';
 
 const WelcomeMessage = () => {
