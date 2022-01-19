@@ -49,7 +49,7 @@ const middlewares = [thunk];
 const appliedMiddleware = applyMiddleware(...middlewares);
 
 export default (): {
-  store: Store<{}, Action<any>> & {
+  store: Store<any, Action<any>> & {
     dispatch: unknown;
   };
   persistor: Persistor;

@@ -3,7 +3,6 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
@@ -23,6 +22,7 @@
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
     "react-hooks/exhaustive-deps": 0,
     "arrow-parens": ["warn", "as-needed"],
     "react/jsx-sort-props": [
@@ -38,7 +38,8 @@
         "ignoreDeclarationSort": true
       }
     ],
-    "@typescript-eslint/no-non-null-assertion": 0
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/ban-types": 0
   },
   "ignorePatterns": ["node_modules/*", "public/*", "build/*"]
 }
