@@ -92,8 +92,8 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       background={colorMode === 'light' ? '#FAFAFA' : '#252E41'}
       borderRadius="15px"
       flex="1"
-      m={{ base: '0 15px 20px', md: '25px 35px 25px' }}
-      pb="20px"
+      m={{ base: '0 0 20px', md: '25px 0 25px' }}
+      p={{ base: '0 15px 25px', md: '25px 15px 20px' }}
     >
       <WelcomeMessage />
       <SearchInput

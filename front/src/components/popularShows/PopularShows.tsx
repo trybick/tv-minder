@@ -46,7 +46,7 @@ const PopularShows = () => {
   });
 
   return (
-    <Box height="330px" m="18px 0 30px" maxWidth="86%" position="relative">
+    <Box height="330px" m="18px 0 30px" maxWidth="100%" position="relative">
       <Heading as="h3" fontSize="1.3rem" fontWeight="600" m="0 18px 25px">
         Popular Now
       </Heading>
