@@ -99,7 +99,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         align="center"
         as="nav"
         justify="space-between"
-        p="10px 1.6rem 5px"
+        p="12px 1.6rem 5px"
         ref={wrapperRef}
         wrap="wrap"
       >

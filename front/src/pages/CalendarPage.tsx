@@ -22,6 +22,12 @@ import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { useIsMobile } from 'hooks/useIsMobile';
 import theme from 'theme';
 
+const darkModeCalendarCss = css`
+.fc-col-header-cell,
+.fc-more-popover,
+.fc-list-day-cushion {
+  background-color: ${theme.colors.darkBlack} !important;`;
+
 const CalendarPage = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
@@ -58,14 +64,7 @@ const CalendarPage = () => {
 
   return (
     <Box m="15px auto 0" maxW="1170px" p="0 25px">
-      <Global
-        styles={css`
-          // While in dark mode, change calendar column titles to dark color
-          .fc-col-header-cell {
-            background-color: ${colorMode === 'dark' ? theme.colors.darkBlack : theme.colors.white};
-          }
-        `}
-      />
+      <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
       <FullCalendar
         allDayContent={false}
         dayMaxEventRows={5}
