@@ -63,7 +63,7 @@ const CalendarPage = () => {
   };
 
   return (
-    <Box m="15px auto 0" maxW="1170px" p="0 15px 20px">
+    <Box m="15px auto 0" maxW="1170px" p="0 15px 20px" w={{ base: '90%', md: 'unset' }}>
       <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
       <FullCalendar
         allDayContent={false}
