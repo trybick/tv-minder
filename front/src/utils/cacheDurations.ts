@@ -1,9 +1,8 @@
-// How long to keep cached data
+// How long to keep cached data on each page
 const cacheDurationDays = {
-  calendar: 5,
-  // My Shows should be lower so that Upcoming and Recent can always have accurate data
+  calendar: 1,
   myShows: 1,
-  popularShows: 1,
+  popularShows: 5,
   search: 5,
 };
 

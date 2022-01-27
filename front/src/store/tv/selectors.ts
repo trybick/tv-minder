@@ -2,9 +2,13 @@ import { Selector } from 'react-redux';
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { AppState } from 'store';
-import { BasicShowInfo, PopularShow } from 'types/external';
-
-const NUM_EPISODES_IN_ACCORDION = 6;
+import { BasicShowInfo, Genre, PopularShow } from 'types/external';
+import { getStatusWithColor, getVideoTrailerKey } from './tvUtils';
+import {
+  addLeadingZero,
+  getTimeFromNowForLastAired,
+  getTimeFromNowForNextAiring,
+} from 'utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
@@ -15,98 +19,89 @@ export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 
 export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> = createSelector(
   selectBasicShowInfo,
-  showsInfo =>
-    showsInfo &&
-    Object.values(showsInfo)?.map(show => {
-      const {
-        id,
-        last_air_date: lastAirDate,
-        last_episode_to_air: lastEpisodeToAir,
-        name,
-        networks,
-        next_episode_to_air: nextEpisodeToAir,
-        number_of_episodes: numEpisodes,
-        number_of_seasons: numSeasons,
-        poster_path: posterPath,
-        status,
-      } = show;
+  showInfo =>
+    showInfo &&
+    Object.values(showInfo)
+      ?.map<BasicShowInfo>(show => {
+        const {
+          backdrop_path: backdropPath,
+          created_by: createdBy,
+          episode_run_time: episodeRunTime,
+          first_air_date: firstAirDate,
+          genres,
+          id,
+          in_production: inProduction,
+          last_air_date: lastAirDate,
+          last_episode_to_air: lastEpisodeToAir,
+          name,
+          networks,
+          next_episode_to_air: nextEpisodeToAir,
+          number_of_episodes: numEpisodes,
+          number_of_seasons: numSeasons,
+          overview,
+          poster_path: posterPath,
+          spoken_languages: spokenLanuages,
+          status,
+          tagline,
+          videos,
+          vote_average: voteAverage,
+          vote_count: voteCount,
+        } = show;
 
-      const lastEpisodeForDisplay = lastEpisodeToAir && {
-        airDate: lastEpisodeToAir.air_date,
-        episodeNumber: lastEpisodeToAir.episode_number,
-        name: lastEpisodeToAir.name,
-        overview: lastEpisodeToAir.overview,
-        seasonNumber: lastEpisodeToAir.season_number,
-      };
+        const lastEpisodeForDisplay = lastEpisodeToAir && {
+          airDate: lastEpisodeToAir.air_date,
+          daysDiff: moment(moment().startOf('day')).diff(lastEpisodeToAir.air_date, 'days'),
+          episodeNumber: addLeadingZero(lastEpisodeToAir.episode_number),
+          name: lastEpisodeToAir.name,
+          overview: lastEpisodeToAir.overview,
+          seasonNumber: addLeadingZero(lastEpisodeToAir.season_number),
+          timeFromNow: getTimeFromNowForLastAired(lastEpisodeToAir?.air_date),
+        };
 
-      const nextEpisodeForDisplay = nextEpisodeToAir && {
-        airDate: nextEpisodeToAir.air_date,
-        episodeNumber: nextEpisodeToAir.episode_number,
-        name: nextEpisodeToAir.name,
-        overview: nextEpisodeToAir.overview,
-        seasonNumber: nextEpisodeToAir.season_number,
-      };
+        const nextEpisodeForDisplay = nextEpisodeToAir && {
+          airDate: nextEpisodeToAir.air_date,
+          daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir.air_date, 'days')),
+          episodeNumber: addLeadingZero(nextEpisodeToAir.episode_number),
+          name: nextEpisodeToAir.name,
+          overview: nextEpisodeToAir.overview,
+          seasonNumber: addLeadingZero(nextEpisodeToAir.season_number),
+          timeFromNow: getTimeFromNowForNextAiring(nextEpisodeToAir?.air_date),
+        };
 
-      const _hasCurrentlyActiveSeason =
-        lastEpisodeForDisplay &&
-        nextEpisodeForDisplay &&
-        moment(nextEpisodeForDisplay.airDate).diff(lastEpisodeForDisplay.airDate, 'days') < 16;
-      const statusForDisplay =
-        status === 'Ended' ? 'Ended' : _hasCurrentlyActiveSeason ? 'New Episodes' : 'Returning';
+        const statusWithColor = getStatusWithColor(
+          status,
+          lastEpisodeForDisplay,
+          nextEpisodeForDisplay
+        );
 
-      return {
-        id,
-        lastAirDate,
-        lastEpisodeForDisplay,
-        name,
-        network: networks[0],
-        nextEpisodeForDisplay,
-        numEpisodes,
-        numSeasons,
-        posterPath,
-        status: statusForDisplay,
-      };
-    })
-);
+        const genreNames: string[] = genres.slice(0, 2).map((genre: Genre) => genre.name);
 
-// Sorted by most recently aired episodes, within past 90 days
-export const selectBasicShowInfoForRecentEpisodes = createSelector(
-  selectBasicShowInfoForDisplay,
-  showsInfo =>
-    showsInfo
-      ?.filter(show => {
-        const daysDiff =
-          show.lastEpisodeForDisplay?.airDate &&
-          moment(moment()).diff(show.lastEpisodeForDisplay.airDate, 'days');
-        return 90 > daysDiff && daysDiff >= 0;
+        return {
+          backdropPath,
+          createdBy: createdBy[0]?.name,
+          episodeRunTime: episodeRunTime.length && episodeRunTime[0],
+          firstAirDate,
+          genreNames,
+          language: spokenLanuages[0]?.english_name,
+          id,
+          inProduction,
+          lastAirDate,
+          lastEpisodeForDisplay,
+          name,
+          network: networks[0]?.name,
+          nextEpisodeForDisplay,
+          numEpisodes,
+          numSeasons,
+          overview,
+          posterPath,
+          statusWithColor,
+          tagline,
+          videoTrailerKey: getVideoTrailerKey(videos),
+          voteAverage,
+          voteCount,
+        };
       })
-      ?.sort((a, b) =>
-        moment(b.lastEpisodeForDisplay.airDate).diff(moment(a.lastEpisodeForDisplay.airDate))
-      )
-      ?.slice(0, NUM_EPISODES_IN_ACCORDION)
-);
-
-// Sorted by upcoming episode date, within next 90 days
-export const selectBasicShowInfoForUpcomingEpisodes = createSelector(
-  selectBasicShowInfoForDisplay,
-  showsInfo =>
-    showsInfo
-      ?.filter(show => {
-        const daysDiff =
-          show.nextEpisodeForDisplay?.airDate &&
-          moment(moment()).diff(show.nextEpisodeForDisplay.airDate, 'days');
-        return 90 > daysDiff && daysDiff <= 0;
-      })
-      ?.sort((a, b) =>
-        moment(a.nextEpisodeForDisplay.airDate).diff(moment(b.nextEpisodeForDisplay.airDate))
-      )
-      ?.slice(0, NUM_EPISODES_IN_ACCORDION)
-);
-
-// Sorted alphabetically
-export const selectBasicShowInfoForAllShows = createSelector(
-  selectBasicShowInfoForDisplay,
-  showsInfo => showsInfo?.sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.name.localeCompare(b.name))
 );
 
 export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(

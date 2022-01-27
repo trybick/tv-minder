@@ -1,4 +1,5 @@
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import { StatusWithColor } from 'store/tv/tvUtils';
 
 // Data returned from 'The Movie DB' API
 //
@@ -25,32 +26,42 @@ export type ShowSearchResult = {
 //
 type Episode = {
   airDate: string;
-  episodeNumber: number;
+  daysDiff: string;
+  episodeNumber: string;
   name: string;
   overview: string;
-  seasonNumber: number;
+  seasonNumber: string;
+  timeFromNow: string;
 };
 
-type Network = {
+export type Genre = {
   id: number;
-  logo_path: string;
   name: string;
-  origin_country: string;
 };
-
-export type Status = 'Ended' | 'Returning' | 'New Episodes';
 
 export type BasicShowInfo = {
+  backdropPath: string;
+  createdBy: string | undefined;
+  episodeRunTime: number;
+  firstAirDate: string;
+  language: string;
+  genreNames: string[];
   id: number;
+  inProduction: boolean;
   lastAirDate: string;
   lastEpisodeForDisplay: Episode;
   name: string;
-  network: Network;
+  network: string;
   nextEpisodeForDisplay: Episode;
   numEpisodes: number;
   numSeasons: number;
+  overview: string;
   posterPath: string;
-  status: Status;
+  statusWithColor: StatusWithColor;
+  tagline: string;
+  videoTrailerKey: string;
+  voteAverage: number;
+  voteCount: number;
 };
 
 //
