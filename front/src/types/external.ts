@@ -59,7 +59,7 @@ export type BasicShowInfo = {
   posterPath: string;
   statusWithColor: StatusWithColor;
   tagline: string;
-  videoTrailerKey: string;
+  videoTrailerKey: string | undefined;
   voteAverage: number;
   voteCount: number;
 };

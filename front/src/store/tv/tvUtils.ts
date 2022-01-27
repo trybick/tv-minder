@@ -33,7 +33,7 @@ export const getStatusWithColor = (
   }
 };
 
-export const getVideoTrailerKey = ({ results }: { results: any[] }): string => {
+export const getVideoTrailerKey = ({ results }: { results: any[] }): string | undefined => {
   const matchingVideo = results
     ?.filter(video => video.site === 'YouTube')
     ?.find(video => {
@@ -43,5 +43,5 @@ export const getVideoTrailerKey = ({ results }: { results: any[] }): string => {
         return video;
       }
     });
-  return matchingVideo?.key || results[0]?.key;
+  return matchingVideo?.key || results[0]?.key || undefined;
 };
