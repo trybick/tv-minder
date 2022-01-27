@@ -244,7 +244,7 @@ const SignUpModal = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="cyan" isLoading={isLoading} mr={3} type="submit">
+            <Button bg="primary" color="white" isLoading={isLoading} mr={3} type="submit">
               Sign Up
             </Button>
             <Button onClick={onClose}>Cancel</Button>

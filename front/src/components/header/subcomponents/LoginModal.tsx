@@ -338,7 +338,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Box>
 
                   <Box textAlign="right">
-                    <Button colorScheme="cyan" isLoading={isLoading} type="submit">
+                    <Button bg="primary" color="white" isLoading={isLoading} type="submit">
                       {getSubmitButtonText()}
                     </Button>
                     <Button ml={2} onClick={handleFormClose}>
