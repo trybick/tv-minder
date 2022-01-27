@@ -38,7 +38,6 @@ const SearchResult = ({
     vote_average: voteAverage,
   } = showToDisplay;
   const yearForDisplay = firstAirDate?.substr(0, 4);
-  const ratingFordisplay = voteAverage * 10;
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   useEffect(() => {
@@ -106,12 +105,12 @@ const SearchResult = ({
           </Flex>
 
           <Flex mt="6px">
-            <Text fontSize=".9rem">{yearForDisplay}</Text>
+            <Text fontSize="14px">{yearForDisplay}</Text>
 
-            {ratingFordisplay ? (
+            {voteAverage ? (
               <Flex align="center" ml="10px">
-                <Badge color="green.400" variant="subtle">
-                  {ratingFordisplay}% recommend
+                <Badge colorScheme="green" fontSize="12px" variant="outline">
+                  {voteAverage}⭐️
                 </Badge>
               </Flex>
             ) : (
