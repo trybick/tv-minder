@@ -26,7 +26,6 @@ export type ShowSearchResult = {
 //
 type Episode = {
   airDate: string;
-  airDateShortened: string;
   daysDiff: string;
   episodeNumber: string;
   name: string;

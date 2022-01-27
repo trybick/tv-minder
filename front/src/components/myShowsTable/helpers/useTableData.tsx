@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
-import { Text } from '@chakra-ui/react';
+import { Tag, Text } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
-import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 import NameColumn from './subcomponents/NameColumn';
-import { Tag } from '@chakra-ui/react';
+import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForDisplay);

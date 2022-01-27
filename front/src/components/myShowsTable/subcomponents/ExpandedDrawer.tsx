@@ -119,7 +119,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                 {nextEpisodeForDisplay.timeFromNow}
               </Badge>
             </Flex>
-          ) : (
+          ) : lastEpisodeForDisplay?.airDate ? (
             <Flex alignSelf="center" direction="column">
               <Text fontSize="md" fontWeight="600" mb="5px">
                 {getLastEpisodeFormatted()}
@@ -128,7 +128,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                 Last aired {lastEpisodeForDisplay.timeFromNow}
               </Badge>
             </Flex>
-          )}
+          ) : null}
         </Flex>
       </Td>
     </Tr>

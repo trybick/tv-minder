@@ -60,7 +60,6 @@ export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> 
 
         const nextEpisodeForDisplay = nextEpisodeToAir && {
           airDate: nextEpisodeToAir.air_date,
-          airDateShortened: moment(nextEpisodeToAir.air_date).format('MMMM DD'),
           daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir.air_date, 'days')),
           episodeNumber: addLeadingZero(nextEpisodeToAir.episode_number),
           name: nextEpisodeToAir.name,
