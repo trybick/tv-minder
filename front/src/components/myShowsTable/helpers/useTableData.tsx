@@ -15,7 +15,11 @@ export const useTableData = () => {
       {
         id: 'name',
         accessor: 'name',
-        Header: () => <Text ml="38px">Name</Text>,
+        Header: () => (
+          <Text d="inline" ml="38px">
+            Name
+          </Text>
+        ),
         Cell: ({ row }: Cell<BasicShowInfo>) => (
           <NameColumn
             getToggleRowExpandedProps={row.getToggleRowExpandedProps}

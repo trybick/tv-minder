@@ -17,15 +17,14 @@ const TableHeader = ({ headerGroups }: Props) => (
             {...column.getHeaderProps(column.getSortByToggleProps())}
             fontSize={14}
             key={column.id}
-            px="30px"
           >
             {column.render('Header')}
-            <chakra.span>
+            <chakra.span ml="3px">
               {column.isSorted ? (
                 column.isSortedDesc ? (
-                  <TriangleDownIcon />
+                  <TriangleDownIcon boxSize="16px" verticalAlign="text-bottom" />
                 ) : (
-                  <TriangleUpIcon />
+                  <TriangleUpIcon boxSize="16px" verticalAlign="text-bottom" />
                 )
               ) : null}
             </chakra.span>
