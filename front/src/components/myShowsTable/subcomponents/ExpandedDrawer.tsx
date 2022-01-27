@@ -125,7 +125,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                 {getLastEpisodeFormatted()}
               </Text>
               <Badge colorScheme={statusWithColor.color} fontSize="11px" mr="auto" px="5px">
-                Last aired {lastEpisodeForDisplay.timeFromNow}
+                Aired {lastEpisodeForDisplay.timeFromNow}
               </Badge>
             </Flex>
           ) : null}

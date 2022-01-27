@@ -16,7 +16,7 @@ export const getStatusWithColor = (
   const hasCurrentlyActiveSeason =
     lastEpisodeForDisplay &&
     nextEpisodeForDisplay &&
-    moment(nextEpisodeForDisplay.airDate).diff(lastEpisodeForDisplay.airDate, 'days') < 30;
+    moment(nextEpisodeForDisplay.airDate).diff(lastEpisodeForDisplay.airDate, 'days') < 45;
   const isPremieringSoon =
     nextEpisodeForDisplay &&
     moment(nextEpisodeForDisplay.airDate).diff(moment().startOf('day'), 'days') < 60 &&

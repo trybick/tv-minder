@@ -110,7 +110,7 @@ const SearchResult = ({
             {voteAverage ? (
               <Flex align="center" ml="10px">
                 <Badge colorScheme="green" fontSize="12px" variant="outline">
-                  {voteAverage}⭐️
+                  {voteAverage}
                 </Badge>
               </Flex>
             ) : (
