@@ -9,6 +9,7 @@ import {
   AlertDialogOverlay,
   Button,
   CloseButton,
+  Flex,
 } from '@chakra-ui/react';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
 
@@ -28,7 +29,7 @@ const UnfollowCloseButton = ({ showId, showName }: Props) => {
   };
 
   return (
-    <>
+    <Flex align="center" height="100%">
       <CloseButton onClick={() => setIsOpen(true)} size="sm" />
 
       <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
@@ -47,7 +48,7 @@ const UnfollowCloseButton = ({ showId, showName }: Props) => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </>
+    </Flex>
   );
 };
 
