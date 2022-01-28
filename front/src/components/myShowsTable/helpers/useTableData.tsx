@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
-import { Tag, Text } from '@chakra-ui/react';
+import { Tag, Text, useMediaQuery } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
 import NameColumn from './subcomponents/NameColumn';
@@ -9,25 +9,29 @@ import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForDisplay);
+  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
 
-  const columns: Column<BasicShowInfo>[] = useMemo(
-    () => [
-      {
-        id: 'name',
-        accessor: 'name',
-        Header: () => (
-          <Text d="inline" ml="38px">
-            Name
-          </Text>
-        ),
-        Cell: ({ row }: Cell<BasicShowInfo>) => (
-          <NameColumn
-            getToggleRowExpandedProps={row.getToggleRowExpandedProps}
-            isExpanded={row.isExpanded}
-            showName={row.original.name}
-          />
-        ),
-      },
+  const columns: Column<BasicShowInfo>[] = [
+    {
+      id: 'name',
+      accessor: 'name',
+      Header: () => (
+        <Text d="inline" ml="38px">
+          Name
+        </Text>
+      ),
+      Cell: ({ row }: Cell<BasicShowInfo>) => (
+        <NameColumn
+          getToggleRowExpandedProps={row.getToggleRowExpandedProps}
+          isExpanded={row.isExpanded}
+          showName={row.original.name}
+        />
+      ),
+    },
+  ];
+
+  if (isLargerThan768) {
+    columns.push(
       {
         id: 'status',
         Header: 'Status',
@@ -55,18 +59,19 @@ export const useTableData = () => {
         Cell: ({ row }: Cell<BasicShowInfo>) => (
           <Tag {...row.getToggleRowExpandedProps()}>{row.original.network || 'Unlisted'}</Tag>
         ),
-      },
+      }
+    );
+  }
 
-      {
-        id: 'unfollow',
-        width: 35,
-        Cell: ({ row }: Cell<BasicShowInfo>) => (
-          <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
-        ),
-      },
-    ],
-    [data]
-  );
+  columns.push({
+    id: 'unfollow',
+    width: 35,
+    Cell: ({ row }: Cell<BasicShowInfo>) => (
+      <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
+    ),
+  });
 
-  return { data, columns };
+  const memoColumns: Column<BasicShowInfo>[] = useMemo(() => columns, [data, isLargerThan768]);
+
+  return { data, columns: memoColumns };
 };
