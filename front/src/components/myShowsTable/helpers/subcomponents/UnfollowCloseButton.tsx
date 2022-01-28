@@ -33,8 +33,8 @@ const UnfollowCloseButton = ({ showId, showName }: Props) => {
 
       <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader>Unfollow{showName}</AlertDialogHeader>
+          <AlertDialogContent mx="10px">
+            <AlertDialogHeader>Unfollow {showName}</AlertDialogHeader>
             <AlertDialogBody>Are you sure?</AlertDialogBody>
             <AlertDialogFooter>
               <Button onClick={onClose} ref={cancelRef}>

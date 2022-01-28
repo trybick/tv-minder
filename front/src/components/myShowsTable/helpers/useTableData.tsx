@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
-import { Tag, Text, useMediaQuery } from '@chakra-ui/react';
+import { Button, Tag, Text, useMediaQuery } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
-import NameColumn from './subcomponents/NameColumn';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
+import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForDisplay);
@@ -21,11 +21,16 @@ export const useTableData = () => {
         </Text>
       ),
       Cell: ({ row }: Cell<BasicShowInfo>) => (
-        <NameColumn
-          getToggleRowExpandedProps={row.getToggleRowExpandedProps}
-          isExpanded={row.isExpanded}
-          showName={row.original.name}
-        />
+        <Button
+          {...row.getToggleRowExpandedProps()}
+          fontSize="md"
+          fontWeight={row.isExpanded ? 500 : 400}
+          leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+          maxW="100%"
+          variant="ghost"
+        >
+          <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
+        </Button>
       ),
     },
   ];

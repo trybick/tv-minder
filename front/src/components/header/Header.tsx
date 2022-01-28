@@ -13,6 +13,7 @@ import {
   MenuList,
   Text,
   useColorMode,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { FaUser } from 'react-icons/fa';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -64,6 +65,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
   const { colorMode } = useColorMode();
+  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
   const history = useHistory();
 
   const onLogout = () => {
@@ -115,8 +117,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           </Link>
         </Flex>
 
-        <Box display={{ base: 'block', md: 'none' }} onClick={toggleIsOpen}>
-          <svg fill="teal" viewBox="0 0 20 20" width="12px" xmlns="http://www.w3.org/2000/svg">
+        <Box cursor="pointer" display={{ base: 'block', md: 'none' }} onClick={toggleIsOpen}>
+          <svg fill="teal" viewBox="0 0 20 20" width="17px" xmlns="http://www.w3.org/2000/svg">
             <title>Menu</title>
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
           </svg>
@@ -128,6 +130,14 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           pl="10px"
           pt="10px"
           width={{ base: 'full', md: 'auto' }}
+          {...(isOpen &&
+            !isLargerThan768 && {
+              alignItems: 'flex-end',
+              display: 'flex',
+              flexDir: 'column',
+              ml: 'auto',
+              mr: 'unset',
+            })}
         >
           <NavLink linkTo="/" text="Home" />
           <NavLink linkTo="/calendar" text="Calendar" />
@@ -164,7 +174,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
               <Box display={{ base: 'block', md: 'none' }}>
                 <LogoutButton closeHeader={closeHeader} />
-                <ToggleColorModeButton />
+                <ToggleColorModeButton isMobile={!isLargerThan768} />
               </Box>
             </>
           ) : (

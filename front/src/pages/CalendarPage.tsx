@@ -10,6 +10,7 @@ import {
   Portal,
   Text,
   useColorMode,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import FullCalendar, { EventContentArg, FormatterInput } from '@fullcalendar/react';
@@ -19,7 +20,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
 import { loadEpisodesForCalendar } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
-import { useIsMobile } from 'hooks/useIsMobile';
 import theme from 'theme';
 
 const darkModeCalendarCss = css`
@@ -32,7 +32,7 @@ const CalendarPage = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
-  const isMobile = useIsMobile();
+  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
   const { colorMode } = useColorMode();
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const CalendarPage = () => {
   );
 
   const titleFormat: FormatterInput = {
-    month: isMobile ? 'short' : 'long',
+    month: isLargerThan768 ? 'long' : 'short',
     year: 'numeric',
   };
 
@@ -77,7 +77,7 @@ const CalendarPage = () => {
         eventContent={addPopoverToEvent}
         events={calendarEpisodes}
         height="auto"
-        initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
+        initialView={isLargerThan768 ? 'dayGridMonth' : 'listMonth'}
         plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
         titleFormat={titleFormat}
         editable // enable mouse pointer cursor

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AspectRatio,
   Box,
   Icon,
   Link,
@@ -14,12 +15,14 @@ import { AiFillYoutube } from 'react-icons/ai';
 import YouTube, { Options } from 'react-youtube';
 
 interface Props {
+  isMobile?: boolean;
   videoTrailerKey: string;
 }
 
-const VideoTrailerLink = ({ videoTrailerKey }: Props) => {
+const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const youtubeOptions: Options = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
+  const desktopOptions: Options = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
+  const mobileOptions: Options = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
 
   return videoTrailerKey ? (
     <Box mb="10px">
@@ -34,7 +37,13 @@ const VideoTrailerLink = ({ videoTrailerKey }: Props) => {
         <ModalOverlay />
         <ModalContent bg="unset" boxShadow="unset">
           <ModalBody>
-            <YouTube opts={youtubeOptions} videoId={videoTrailerKey} />
+            {isMobile ? (
+              <AspectRatio ratio={1}>
+                <YouTube opts={mobileOptions} videoId={videoTrailerKey} />
+              </AspectRatio>
+            ) : (
+              <YouTube opts={desktopOptions} videoId={videoTrailerKey} />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

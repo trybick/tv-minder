@@ -3,8 +3,8 @@ export const getUniqueColorsForShowIds = (showIds: number[]) => {
   const usedIndicies: { [key: number]: boolean } = {};
 
   const listOfIndicies = showIds.map(id => {
-    // Guaranteed to be a number between 0 and 280 (which is the length of colors)
-    // Example: 45230 % 280 = 220
+    // Guaranteed to be a number between 0 and 278 (which is the length of colors)
+    // Example: 45230 % 278 = 220
     const colorIndex = id % colors.length;
     return colorIndex;
   });
@@ -192,7 +192,6 @@ const colors = [
   '#983f7a',
   '#983f7a',
   '#986b53',
-  '#986b53',
   '#996635',
   '#996c48',
   '#9ab9b7',
@@ -200,7 +199,6 @@ const colors = [
   '#9cb64a',
   '#9e6d71',
   '#a259a4',
-  '#a2f8a5',
   '#a48a9e',
   '#a4d17a',
   '#a4e43f',

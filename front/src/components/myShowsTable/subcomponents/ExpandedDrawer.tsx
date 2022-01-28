@@ -66,7 +66,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
     isLargerThan768 ? (
       <Tr>
         <Td backgroundColor={darkMode ? '#252E41' : '#f7f5f5'} colSpan={row.allCells.length} pt="0">
-          <Flex height="180px">
+          <Flex height="180px" ml="10px">
             <Image
               borderRadius="6px"
               fallbackSrc={fallbackImagePath}
@@ -77,7 +77,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
             <Flex
               direction="column"
               justify="space-between"
-              minW={{ md: '180px', lg: '220px', xl: '270px' }}
+              minW={{ md: '180px', lg: '210px', xl: '260px' }}
               ml="22px"
             >
               <Flex direction="column">
@@ -140,7 +140,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
           p="0 32px 26px 40px"
         >
           <Flex direction="column">
-            {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} />}
+            {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} isMobile />}
 
             {genreNames && (
               <Box>
