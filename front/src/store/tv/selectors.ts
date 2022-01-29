@@ -3,12 +3,13 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import { AppState } from 'store';
 import { BasicShowInfo, Genre, PopularShow } from 'types/external';
-import { getStatusWithColor, getVideoTrailerKey } from './tvUtils';
 import {
-  addLeadingZero,
-  getTimeFromNowForLastAired,
-  getTimeFromNowForNextAiring,
-} from 'utils/formatting';
+  getStatusWithColor,
+  getTimeFromLastEpisode,
+  getTimeUntilNextEpisode,
+  getVideoTrailerKey,
+} from './tvUtils';
+import { addLeadingZero } from 'utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectEpisodeData = (state: AppState) => state.tv.episodeData;
@@ -49,23 +50,23 @@ export const selectBasicShowInfoForDisplay: Selector<AppState, BasicShowInfo[]> 
         } = show;
 
         const lastEpisodeForDisplay = lastEpisodeToAir && {
-          airDate: lastEpisodeToAir.air_date,
-          daysDiff: moment(moment().startOf('day')).diff(lastEpisodeToAir.air_date, 'days'),
-          episodeNumber: addLeadingZero(lastEpisodeToAir.episode_number),
-          name: lastEpisodeToAir.name,
-          overview: lastEpisodeToAir.overview,
-          seasonNumber: addLeadingZero(lastEpisodeToAir.season_number),
-          timeFromNow: getTimeFromNowForLastAired(lastEpisodeToAir?.air_date),
+          airDate: lastEpisodeToAir?.air_date,
+          daysDiff: Math.abs(moment().startOf('day').diff(lastEpisodeToAir?.air_date, 'days')),
+          episodeNumber: addLeadingZero(lastEpisodeToAir?.episode_number),
+          name: lastEpisodeToAir?.name,
+          overview: lastEpisodeToAir?.overview,
+          seasonNumber: addLeadingZero(lastEpisodeToAir?.season_number),
+          timeFromNow: getTimeFromLastEpisode(lastEpisodeToAir?.air_date),
         };
 
         const nextEpisodeForDisplay = nextEpisodeToAir && {
-          airDate: nextEpisodeToAir.air_date,
-          daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir.air_date, 'days')),
-          episodeNumber: addLeadingZero(nextEpisodeToAir.episode_number),
-          name: nextEpisodeToAir.name,
-          overview: nextEpisodeToAir.overview,
-          seasonNumber: addLeadingZero(nextEpisodeToAir.season_number),
-          timeFromNow: getTimeFromNowForNextAiring(nextEpisodeToAir?.air_date),
+          airDate: nextEpisodeToAir?.air_date,
+          daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir?.air_date, 'days')),
+          episodeNumber: addLeadingZero(nextEpisodeToAir?.episode_number),
+          name: nextEpisodeToAir?.name,
+          overview: nextEpisodeToAir?.overview,
+          seasonNumber: addLeadingZero(nextEpisodeToAir?.season_number),
+          timeFromNow: getTimeUntilNextEpisode(nextEpisodeToAir?.air_date),
         };
 
         const statusWithColor = getStatusWithColor(

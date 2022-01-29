@@ -33,6 +33,36 @@ export const getStatusWithColor = (
   }
 };
 
+export const getTimeFromLastEpisode = (lastEpisodeDate: string) => {
+  if (!lastEpisodeDate) {
+    return;
+  }
+  let diff = moment(lastEpisodeDate).startOf('day').from(moment().startOf('day'));
+
+  if (diff === 'a few seconds ago') {
+    diff = 'today';
+  } else if (diff === 'a day ago') {
+    diff = 'yesterday';
+  }
+
+  return diff;
+};
+
+export const getTimeUntilNextEpisode = (nextAirDate: string) => {
+  if (!nextAirDate) {
+    return;
+  }
+  let diff = moment(nextAirDate).startOf('day').from(moment().startOf('day'));
+
+  if (diff === 'a few seconds ago') {
+    diff = 'today';
+  } else if (diff === 'in a day') {
+    diff = 'tomorrow';
+  }
+
+  return diff;
+};
+
 export const getVideoTrailerKey = ({ results }: { results: any[] }): string | undefined => {
   const matchingVideo = results
     ?.filter(video => video.site === 'YouTube')
