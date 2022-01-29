@@ -36,13 +36,14 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
       w={['100%', 'sm', 'md', 'lg']}
     >
       <InputGroup display="flex">
-        <InputLeftElement top="5px">
+        <InputLeftElement top="9px">
           <Search2Icon color="gray.300" />
         </InputLeftElement>
         <Input
           border="2px solid #0099DB"
           borderRadius="5px"
-          height="50px"
+          fontSize="18px"
+          height="60px"
           onChange={handleChange}
           placeholder="Search all shows"
           ref={inputRef}
@@ -52,12 +53,12 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
           autoFocus
         />
         {inputValue && (
-          <InputRightElement right="5px" top="5px">
+          <InputRightElement right="5px" top="10px">
             <IconButton
               aria-label="Clear input"
-              icon={<SmallCloseIcon boxSize="16px" />}
+              icon={<SmallCloseIcon boxSize="20px" />}
               onClick={handleClearInput}
-              size="xs"
+              size="sm"
               variant="ghost"
             />
           </InputRightElement>

@@ -11,7 +11,6 @@ import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from 'components/search/SearchContainer';
 import SearchInput from 'components/search/subcomponents/SearchInput';
-import WelcomeMessage from 'components/search/subcomponents/WelcomeMessage';
 import { useDebouncedFunction } from 'utils/debounce';
 
 interface StateProps {
@@ -95,7 +94,6 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       m={{ base: '0 0 20px', md: '25px 0 25px' }}
       p={{ base: '0 15px 25px', md: '25px 15px 20px' }}
     >
-      <WelcomeMessage />
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}
