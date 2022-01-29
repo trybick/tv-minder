@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Image, Link, Text } from '@chakra-ui/react';
 import noShowsImage from '../../images/woody.jpg';

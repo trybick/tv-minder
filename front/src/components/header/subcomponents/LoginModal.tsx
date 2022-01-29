@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -76,11 +76,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
 
   // Password fields
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   // Forgot Password
-  const [formOption, setFormOption] = React.useState(0);
+  const [formOption, setFormOption] = useState(0);
 
   const onSubmit = handleSubmit(({ email, password, oneTimeCode }) => {
     setIsLoading(true);

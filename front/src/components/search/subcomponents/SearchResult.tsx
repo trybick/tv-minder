@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge, Box, Button, Flex, Grid, Heading, Image, Text, useToast } from '@chakra-ui/react';
 import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { AppThunkPlainAction } from 'store';

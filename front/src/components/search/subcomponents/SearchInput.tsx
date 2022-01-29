@@ -1,4 +1,4 @@
-import React, { ChangeEvent, RefObject, useEffect } from 'react';
+import { ChangeEvent, RefObject, useEffect } from 'react';
 import {
   Flex,
   IconButton,

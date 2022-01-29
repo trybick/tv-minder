@@ -1,4 +1,3 @@
-import React from 'react';
 import { Cell } from 'react-table';
 import { TableRowProps, Td, Tr } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';

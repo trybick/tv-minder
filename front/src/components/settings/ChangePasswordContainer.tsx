@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
@@ -22,7 +22,7 @@ type FormDataType = {
 };
 
 const ChangePasswordContainer = () => {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const email = useSelector(selectUserEmail);
   const toast = useToast();
   const { getValues, handleSubmit, errors, register } = useForm<FormDataType>();

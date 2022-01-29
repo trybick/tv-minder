@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import {
   Button,
   Modal,
@@ -28,7 +28,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
-  const initialRef = React.useRef(null);
+  const initialRef = useRef(null);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);

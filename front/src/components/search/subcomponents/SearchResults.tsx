@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Stack, Tag } from '@chakra-ui/react';
 import { connect, MapStateToProps } from 'react-redux';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';

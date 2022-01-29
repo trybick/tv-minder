@@ -1,4 +1,3 @@
-import React from 'react';
 import { HeaderGroup } from 'react-table';
 import { chakra, Th, Tr } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
