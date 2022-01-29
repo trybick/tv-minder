@@ -71,10 +71,8 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
           p="0 32px 26px 40px"
         >
           <Flex direction="column">
-            {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} isMobile />}
-
             {genreNames && (
-              <Box>
+              <Box mb="6px">
                 {genreNames?.map(genre => (
                   <Tag key={genre} mb="5px" mr="5px" size="sm">
                     {genre}
@@ -82,6 +80,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                 ))}
               </Box>
             )}
+            {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} isMobile />}
 
             {nextEpisodeForDisplay?.airDate ? (
               <Flex direction="column" mt="20px">
@@ -100,7 +99,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                 </Badge>
               </Flex>
             ) : lastEpisodeForDisplay?.airDate ? (
-              <Flex direction="column" mt="24px">
+              <Flex direction="column" mt="20px">
                 <Text fontWeight="500">Most Recent</Text>
                 <Text fontSize="lg" fontWeight="600" mb="5px">
                   {getLastEpisodeFormatted()}
@@ -131,9 +130,8 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
               ml="22px"
             >
               <Flex direction="column">
-                {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} />}
                 {genreNames && (
-                  <Box maxW="200px">
+                  <Box maxW="200px" mb="6px">
                     {genreNames?.map(genre => (
                       <Tag key={genre} mb="5px" mr="5px" size="md">
                         {genre}
@@ -141,6 +139,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                     ))}
                   </Box>
                 )}
+                {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} />}
               </Flex>
               <StatGroup width="170px">
                 <Stat>

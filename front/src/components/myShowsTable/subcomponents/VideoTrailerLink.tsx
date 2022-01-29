@@ -25,9 +25,9 @@ const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
   const mobileOptions: Options = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
 
   return videoTrailerKey ? (
-    <Box mb="10px">
+    <Box>
       <Link onClick={onOpen}>
-        <Icon as={AiFillYoutube} boxSize="20px" color="red" mr="3px" verticalAlign="sub" />
+        <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="2px" verticalAlign="sub" />
         <Text d="inline" fontSize="16px" fontWeight="500">
           Watch Trailer
         </Text>
