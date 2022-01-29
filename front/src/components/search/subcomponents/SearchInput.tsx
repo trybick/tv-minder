@@ -55,9 +55,9 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
           <InputRightElement right="5px" top="5px">
             <IconButton
               aria-label="Clear input"
-              icon={<SmallCloseIcon />}
+              icon={<SmallCloseIcon boxSize="16px" />}
               onClick={handleClearInput}
-              size="md"
+              size="xs"
               variant="ghost"
             />
           </InputRightElement>
