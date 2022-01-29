@@ -26,7 +26,7 @@ interface Props {
 }
 
 const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
-  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
+  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const {
     genreNames,
     lastEpisodeForDisplay,
@@ -63,7 +63,57 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
     );
 
   return isExpanded ? (
-    isLargerThan768 ? (
+    isMobile ? (
+      <Tr>
+        <Td
+          backgroundColor={darkMode ? '#252E41' : '#f7f5f5'}
+          colSpan={row.allCells.length}
+          p="0 32px 26px 40px"
+        >
+          <Flex direction="column">
+            {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} isMobile />}
+
+            {genreNames && (
+              <Box>
+                {genreNames?.map(genre => (
+                  <Tag key={genre} mb="5px" mr="5px" size="sm">
+                    {genre}
+                  </Tag>
+                ))}
+              </Box>
+            )}
+
+            {nextEpisodeForDisplay?.airDate ? (
+              <Flex direction="column" mt="20px">
+                <Text fontWeight="500">Next Airing</Text>
+                <Text fontSize="lg" fontWeight="600" mb="5px">
+                  {getNextEpisodeFormatted()}
+                </Text>
+                <Badge
+                  colorScheme={statusWithColor.color}
+                  fontSize="11px"
+                  fontWeight="700"
+                  mr="auto"
+                  px="5px"
+                >
+                  {nextEpisodeForDisplay.timeFromNow}
+                </Badge>
+              </Flex>
+            ) : lastEpisodeForDisplay?.airDate ? (
+              <Flex direction="column" mt="24px">
+                <Text fontWeight="500">Most Recent</Text>
+                <Text fontSize="lg" fontWeight="600" mb="5px">
+                  {getLastEpisodeFormatted()}
+                </Text>
+                <Badge colorScheme={statusWithColor.color} fontSize="11px" mr="auto" px="5px">
+                  Aired {lastEpisodeForDisplay.timeFromNow}
+                </Badge>
+              </Flex>
+            ) : null}
+          </Flex>
+        </Td>
+      </Tr>
+    ) : (
       <Tr>
         <Td backgroundColor={darkMode ? '#252E41' : '#f7f5f5'} colSpan={row.allCells.length} pt="0">
           <Flex height="180px" ml="10px">
@@ -124,56 +174,6 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
               <Flex alignSelf="center" direction="column">
                 <Text fontWeight="500">Most Recent </Text>
                 <Text fontSize="md" fontWeight="600" mb="5px">
-                  {getLastEpisodeFormatted()}
-                </Text>
-                <Badge colorScheme={statusWithColor.color} fontSize="11px" mr="auto" px="5px">
-                  Aired {lastEpisodeForDisplay.timeFromNow}
-                </Badge>
-              </Flex>
-            ) : null}
-          </Flex>
-        </Td>
-      </Tr>
-    ) : (
-      <Tr>
-        <Td
-          backgroundColor={darkMode ? '#252E41' : '#f7f5f5'}
-          colSpan={row.allCells.length}
-          p="0 32px 26px 40px"
-        >
-          <Flex direction="column">
-            {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} isMobile />}
-
-            {genreNames && (
-              <Box>
-                {genreNames?.map(genre => (
-                  <Tag key={genre} mb="5px" mr="5px" size="sm">
-                    {genre}
-                  </Tag>
-                ))}
-              </Box>
-            )}
-
-            {nextEpisodeForDisplay?.airDate ? (
-              <Flex direction="column" mt="20px">
-                <Text fontWeight="500">Next Airing</Text>
-                <Text fontSize="lg" fontWeight="600" mb="5px">
-                  {getNextEpisodeFormatted()}
-                </Text>
-                <Badge
-                  colorScheme={statusWithColor.color}
-                  fontSize="11px"
-                  fontWeight="700"
-                  mr="auto"
-                  px="5px"
-                >
-                  {nextEpisodeForDisplay.timeFromNow}
-                </Badge>
-              </Flex>
-            ) : lastEpisodeForDisplay?.airDate ? (
-              <Flex direction="column" mt="24px">
-                <Text fontWeight="500">Most Recent</Text>
-                <Text fontSize="lg" fontWeight="600" mb="5px">
                   {getLastEpisodeFormatted()}
                 </Text>
                 <Badge colorScheme={statusWithColor.color} fontSize="11px" mr="auto" px="5px">

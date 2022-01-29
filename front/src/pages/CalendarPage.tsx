@@ -32,7 +32,7 @@ const CalendarPage = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
-  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
+  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const { colorMode } = useColorMode();
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const CalendarPage = () => {
   );
 
   const titleFormat: FormatterInput = {
-    month: isLargerThan768 ? 'long' : 'short',
+    month: isMobile ? 'short' : 'long',
     year: 'numeric',
   };
 
@@ -77,7 +77,7 @@ const CalendarPage = () => {
         eventContent={addPopoverToEvent}
         events={calendarEpisodes}
         height="auto"
-        initialView={isLargerThan768 ? 'dayGridMonth' : 'listMonth'}
+        initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
         plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
         titleFormat={titleFormat}
         editable // enable mouse pointer cursor

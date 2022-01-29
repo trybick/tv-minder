@@ -8,8 +8,8 @@ import TableRow from './subcomponents/TableRow';
 import ExpandedDrawer from './subcomponents/ExpandedDrawer';
 
 const MyShowsTable = () => {
-  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
   const { colorMode } = useColorMode();
+  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const { data, columns } = useTableData();
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<BasicShowInfo>(
@@ -32,7 +32,7 @@ const MyShowsTable = () => {
               cells={row.cells}
               darkMode={colorMode === 'dark'}
               isExpanded={row.isExpanded}
-              isMobile={!isLargerThan768}
+              isMobile={isMobile}
               key={`row-${i}`}
               rowProps={row.getRowProps()}
             />,

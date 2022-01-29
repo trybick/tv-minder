@@ -9,25 +9,25 @@ import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForDisplay);
-  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
+  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
 
   const columns: Column<BasicShowInfo>[] = [
     {
       id: 'name',
       accessor: 'name',
       Header: () => (
-        <Text d="inline" ml={isLargerThan768 ? '38px' : '14px'}>
+        <Text d="inline" ml={isMobile ? '14px' : '38px'}>
           Name
         </Text>
       ),
       Cell: ({ row }: Cell<BasicShowInfo>) => (
         <Flex
-          {...(!isLargerThan768 && {
+          {...(isMobile && {
             ...row.getToggleRowExpandedProps(),
           })}
         >
           <Button
-            {...(isLargerThan768 && {
+            {...(!isMobile && {
               ...row.getToggleRowExpandedProps(),
             })}
             fontSize="md"
@@ -42,7 +42,7 @@ export const useTableData = () => {
     },
   ];
 
-  if (isLargerThan768) {
+  if (!isMobile) {
     columns.push(
       {
         id: 'status',
@@ -89,7 +89,7 @@ export const useTableData = () => {
     ),
   });
 
-  const memoColumns: Column<BasicShowInfo>[] = useMemo(() => columns, [data, isLargerThan768]);
+  const memoColumns: Column<BasicShowInfo>[] = useMemo(() => columns, [data, isMobile]);
 
   return { data, columns: memoColumns };
 };

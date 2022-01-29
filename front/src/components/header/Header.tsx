@@ -65,7 +65,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
   const { colorMode } = useColorMode();
-  const [isLargerThan768] = useMediaQuery(['(min-width: 768px)']);
+  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const history = useHistory();
 
   const onLogout = () => {
@@ -131,7 +131,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           pt="10px"
           width={{ base: 'full', md: 'auto' }}
           {...(isOpen &&
-            !isLargerThan768 && {
+            isMobile && {
               alignItems: 'flex-end',
               display: 'flex',
               flexDir: 'column',
@@ -174,7 +174,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
               <Box display={{ base: 'block', md: 'none' }}>
                 <LogoutButton closeHeader={closeHeader} />
-                <ToggleColorModeButton isMobile={!isLargerThan768} />
+                <ToggleColorModeButton isMobile={isMobile} />
               </Box>
             </>
           ) : (
