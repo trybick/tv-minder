@@ -106,6 +106,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
 
             {nextEpisodeForDisplay?.airDate ? (
               <Flex alignSelf="center" direction="column">
+                <Text fontWeight="500">Next Airing</Text>
                 <Text fontSize="md" fontWeight="600" mb="5px">
                   {getNextEpisodeFormatted()}
                 </Text>
@@ -121,6 +122,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
               </Flex>
             ) : lastEpisodeForDisplay?.airDate ? (
               <Flex alignSelf="center" direction="column">
+                <Text fontWeight="500">Most Recent </Text>
                 <Text fontSize="md" fontWeight="600" mb="5px">
                   {getLastEpisodeFormatted()}
                 </Text>
@@ -152,19 +154,9 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
               </Box>
             )}
 
-            <StatGroup mt="20px" width="170px">
-              <Stat>
-                <StatLabel fontSize="xs">Seasons</StatLabel>
-                <StatNumber fontSize="lg">{numSeasons}</StatNumber>
-              </Stat>
-              <Stat>
-                <StatLabel fontSize="xs">Episodes</StatLabel>
-                <StatNumber fontSize="lg">{numEpisodes}</StatNumber>
-              </Stat>
-            </StatGroup>
-
             {nextEpisodeForDisplay?.airDate ? (
               <Flex direction="column" mt="20px">
+                <Text fontWeight="500">Next Airing</Text>
                 <Text fontSize="lg" fontWeight="600" mb="5px">
                   {getNextEpisodeFormatted()}
                 </Text>
@@ -180,6 +172,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
               </Flex>
             ) : lastEpisodeForDisplay?.airDate ? (
               <Flex direction="column" mt="24px">
+                <Text fontWeight="500">Most Recent</Text>
                 <Text fontSize="lg" fontWeight="600" mb="5px">
                   {getLastEpisodeFormatted()}
                 </Text>

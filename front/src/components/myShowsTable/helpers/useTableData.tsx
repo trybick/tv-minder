@@ -16,20 +16,28 @@ export const useTableData = () => {
       id: 'name',
       accessor: 'name',
       Header: () => (
-        <Text d="inline" ml="38px">
+        <Text d="inline" ml={isLargerThan768 ? '38px' : '14px'}>
           Name
         </Text>
       ),
       Cell: ({ row }: Cell<BasicShowInfo>) => (
-        <Button
-          {...row.getToggleRowExpandedProps()}
-          fontSize="md"
-          fontWeight={row.isExpanded ? 500 : 400}
-          leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-          variant="ghost"
+        <Flex
+          {...(!isLargerThan768 && {
+            ...row.getToggleRowExpandedProps(),
+          })}
         >
-          <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
-        </Button>
+          <Button
+            {...(isLargerThan768 && {
+              ...row.getToggleRowExpandedProps(),
+            })}
+            fontSize="md"
+            fontWeight={row.isExpanded ? 500 : 400}
+            leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            variant={row.isExpanded ? 'solid' : 'ghost'}
+          >
+            <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
+          </Button>
+        </Flex>
       ),
     },
   ];

@@ -32,9 +32,9 @@ const UnfollowCloseButton = ({ showId, showName }: Props) => {
     <Flex align="center" height="100%">
       <CloseButton onClick={() => setIsOpen(true)} size="sm" />
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} isCentered>
         <AlertDialogOverlay>
-          <AlertDialogContent mx="10px">
+          <AlertDialogContent mx="20px">
             <AlertDialogHeader>Unfollow {showName}</AlertDialogHeader>
             <AlertDialogBody>Are you sure?</AlertDialogBody>
             <AlertDialogFooter>
