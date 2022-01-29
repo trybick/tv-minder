@@ -101,7 +101,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         align="center"
         as="nav"
         justify="space-between"
-        p="12px 1.6rem 5px"
+        p="14px 1.6rem 7px"
         ref={wrapperRef}
         wrap="wrap"
       >
@@ -139,7 +139,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               mr: 'unset',
             })}
         >
-          <NavLink linkTo="/" text="Home" />
+          <NavLink linkTo="/" text="Search" />
           <NavLink linkTo="/calendar" text="Calendar" />
           <NavLink linkTo="/my-shows" text="My Shows" />
           {isLoggedIn ? (
