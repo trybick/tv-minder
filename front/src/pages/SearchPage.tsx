@@ -87,7 +87,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
 
   return (
     <Box
-      background={useColorModeValue('#FAFAFA', '#252E41')}
+      bg={useColorModeValue('#FAFAFA', '#252E41')}
       borderRadius="15px"
       flex="1"
       m={{ base: '0 0 20px', md: '25px 0 25px' }}

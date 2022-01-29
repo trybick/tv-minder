@@ -65,7 +65,7 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
     isMobile ? (
       <Tr>
         <Td
-          backgroundColor={useColorModeValue('#f7f5f5', '#252E41')}
+          bg={useColorModeValue('#f7f5f5', '#252E41')}
           colSpan={row.allCells.length}
           p="0 32px 26px 40px"
         >
@@ -113,11 +113,7 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
       </Tr>
     ) : (
       <Tr>
-        <Td
-          backgroundColor={useColorModeValue('#f7f5f5', '#252E41')}
-          colSpan={row.allCells.length}
-          pt="0"
-        >
+        <Td bg={useColorModeValue('#f7f5f5', '#252E41')} colSpan={row.allCells.length} pt="0">
           <Flex h="180px" ml="10px">
             <Image
               borderRadius="6px"

@@ -61,7 +61,7 @@ const PopularShows = () => {
           {popularShows?.slice(0, 20).map(show => (
             <SinglePopularShow key={show.id} show={show} />
           ))}
-          <Box background="transparent" w="20px" />
+          <Box bg="transparent" w="20px" />
         </Flex>
       </Flex>
     </Box>
