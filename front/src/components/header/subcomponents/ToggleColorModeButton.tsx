@@ -7,6 +7,7 @@ const ToggleColorModeButton = () => {
 
   return (
     <IconButton
+      alignSelf="center"
       aria-label="toggle color mode"
       icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
       ml="12px"
