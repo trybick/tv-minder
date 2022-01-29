@@ -20,7 +20,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useColorMode,
+  useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
@@ -70,7 +70,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
   const toast = useToast();
-  const { colorMode } = useColorMode();
 
   // Form
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
@@ -223,7 +222,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
-      <ModalContent bg={colorMode === 'dark' ? '#2D3748' : '#fff'}>
+      <ModalContent bg={useColorModeValue('#fff', '#2D3748')}>
         <ModalHeader>Login</ModalHeader>
         <ModalCloseButton
           onClick={() => {

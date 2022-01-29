@@ -14,6 +14,7 @@ import {
   MenuList,
   Text,
   useColorMode,
+  useColorModeValue,
   useMediaQuery,
 } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -161,7 +162,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                 <ToggleColorModeButton />
                 <Menu>
                   <MenuButton aria-label="Page Options" ml="11px">
-                    <Avatar bg={colorMode === 'dark' ? 'black' : '#a0afbf'} size="sm" />
+                    <Avatar bg={useColorModeValue('#a0afbf', 'black')} size="sm" />
                   </MenuButton>
                   <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>

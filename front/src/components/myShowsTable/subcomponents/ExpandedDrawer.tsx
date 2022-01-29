@@ -12,6 +12,7 @@ import {
   Td,
   Text,
   Tr,
+  useColorModeValue,
   useMediaQuery,
 } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
@@ -19,12 +20,11 @@ import { fallbackImagePath, imagePath154 } from 'constants/strings';
 import VideoTrailerLink from './VideoTrailerLink';
 
 interface Props {
-  darkMode: boolean;
   isExpanded: boolean;
   row: Row<BasicShowInfo>;
 }
 
-const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
+const ExpandedDrawer = ({ isExpanded, row }: Props) => {
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const {
     genreNames,
@@ -65,7 +65,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
     isMobile ? (
       <Tr>
         <Td
-          backgroundColor={darkMode ? '#252E41' : '#f7f5f5'}
+          backgroundColor={useColorModeValue('#f7f5f5', '#252E41')}
           colSpan={row.allCells.length}
           p="0 32px 26px 40px"
         >
@@ -113,7 +113,11 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
       </Tr>
     ) : (
       <Tr>
-        <Td backgroundColor={darkMode ? '#252E41' : '#f7f5f5'} colSpan={row.allCells.length} pt="0">
+        <Td
+          backgroundColor={useColorModeValue('#f7f5f5', '#252E41')}
+          colSpan={row.allCells.length}
+          pt="0"
+        >
           <Flex h="180px" ml="10px">
             <Image
               borderRadius="6px"
