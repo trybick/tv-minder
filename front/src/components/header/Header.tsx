@@ -178,11 +178,11 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               </Box>
             </>
           ) : (
-            <>
+            <Flex justify="flex-end">
               <SignUpButton closeHeader={closeHeader} />
               <LoginButton closeHeader={closeHeader} />
               <ToggleColorModeButton />
-            </>
+            </Flex>
           )}
         </Box>
       </Flex>
