@@ -2,11 +2,7 @@ import React from 'react';
 import { IconButton, useColorMode } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-interface Props {
-  isMobile?: boolean;
-}
-
-const ToggleColorModeButton = ({ isMobile }: Props) => {
+const ToggleColorModeButton = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -15,7 +11,7 @@ const ToggleColorModeButton = ({ isMobile }: Props) => {
       icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
       ml="12px"
       onClick={toggleColorMode}
-      size={isMobile ? 'sm' : 'md'}
+      size="sm"
     />
   );
 };

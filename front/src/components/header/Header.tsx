@@ -2,6 +2,7 @@ import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
+  Avatar,
   Box,
   Divider,
   Flex,
@@ -15,7 +16,6 @@ import {
   useColorMode,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { FaUser } from 'react-icons/fa';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
@@ -158,9 +158,10 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           {isLoggedIn ? (
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
+                <ToggleColorModeButton />
                 <Menu>
-                  <MenuButton aria-label="Page Options">
-                    <Box as={FaUser} boxSize="24px" />
+                  <MenuButton aria-label="Page Options" ml="11px">
+                    <Avatar bg={colorMode === 'dark' ? 'black' : '#a0afbf'} size="sm" />
                   </MenuButton>
                   <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>
@@ -168,13 +169,12 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
-                  <ToggleColorModeButton />
                 </Menu>
               </Box>
 
               <Box display={{ base: 'block', md: 'none' }}>
                 <LogoutButton closeHeader={closeHeader} />
-                <ToggleColorModeButton isMobile={isMobile} />
+                <ToggleColorModeButton />
               </Box>
             </>
           ) : (
