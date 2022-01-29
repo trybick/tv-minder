@@ -53,7 +53,7 @@ export const useTableData = () => {
           const { color, status } = row.original.statusWithColor;
           const isBold = status === 'New Episodes' || status === 'Premiering Soon';
           return (
-            <Flex align="center" height="100%">
+            <Flex align="center" h="100%">
               <Tag
                 {...row.getToggleRowExpandedProps()}
                 colorScheme={color}
@@ -71,7 +71,7 @@ export const useTableData = () => {
         width: 110,
         accessor: row => row.network,
         Cell: ({ row }: Cell<BasicShowInfo>) => (
-          <Flex align="center" height="100%">
+          <Flex align="center" h="100%">
             <Tag {...row.getToggleRowExpandedProps()}>
               <Text isTruncated>{row.original.network || 'Unlisted'}</Text>
             </Tag>

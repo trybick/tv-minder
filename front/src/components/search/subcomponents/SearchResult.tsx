@@ -66,7 +66,7 @@ const SearchResult = ({
   return (
     <Box borderWidth="1px" mb={4} p={3} shadow="md">
       <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
-        <Box width="50px">
+        <Box w="50px">
           <Image borderRadius="6px" fallbackSrc={fallbackImagePath} src={posterSource} />
         </Box>
 

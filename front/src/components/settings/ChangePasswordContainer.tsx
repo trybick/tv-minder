@@ -93,7 +93,7 @@ const ChangePasswordContainer = () => {
       borderWidth="1px"
       margin="20px auto"
       p={5}
-      width={['80%', '75%', '50%', '30%']}
+      w={['80%', '75%', '50%', '30%']}
     >
       <Heading as="h4" fontSize="1.8rem" textAlign="center">
         Change Password

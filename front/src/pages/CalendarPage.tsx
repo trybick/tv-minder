@@ -46,7 +46,7 @@ const CalendarPage = () => {
         <Text overflow="hidden">{eventInfo.event.title}</Text>
       </PopoverTrigger>
       <Portal>
-        <PopoverContent bg={eventInfo.backgroundColor} width="unset" zIndex={4}>
+        <PopoverContent bg={eventInfo.backgroundColor} w="unset" zIndex={4}>
           <PopoverArrow bg={eventInfo.backgroundColor} />
           <PopoverBody>
             <Text color="white" fontSize="sm">

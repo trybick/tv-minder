@@ -211,7 +211,7 @@ const SignUpModal = ({
                   ref={register(formSchema.password)}
                   type={passwordVisible ? 'text' : 'password'}
                 />
-                <InputRightElement width="4.5rem">
+                <InputRightElement widwth="4.5rem">
                   <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
                     {passwordVisible ? 'Hide' : 'Show'}
                   </Button>
@@ -229,7 +229,7 @@ const SignUpModal = ({
                   ref={register(formSchema.confirmPassword)}
                   type={passwordVisible ? 'text' : 'password'}
                 />
-                <InputRightElement width="4.5rem">
+                <InputRightElement w="4.5rem">
                   <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
                     {passwordVisible ? 'Hide' : 'Show'}
                   </Button>

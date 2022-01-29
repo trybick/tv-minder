@@ -53,7 +53,7 @@ const SinglePopularShow = ({ show: { id, name, posterPath } }: OwnProps) => {
   }
 
   return (
-    <Box borderRadius="8px" borderWidth="1px" mb="18px" minWidth="0" ml="20px" width="144px">
+    <Box borderRadius="8px" borderWidth="1px" mb="18px" minW="0" ml="20px" w="144px">
       <Image borderRadius="8px 8px 0 0" src={imagePath154 + posterPath} w="154px" />
       <Box p="8px 12px">
         <Heading fontSize="sm" textAlign="center" isTruncated>

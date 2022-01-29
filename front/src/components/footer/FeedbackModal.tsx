@@ -67,7 +67,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
         <ModalBody>
           <Textarea
-            height="150px"
+            h="150px"
             mb={2}
             onChange={handleTextChange}
             placeholder="Any feedback welcome 😎"

@@ -115,7 +115,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
     ) : (
       <Tr>
         <Td backgroundColor={darkMode ? '#252E41' : '#f7f5f5'} colSpan={row.allCells.length} pt="0">
-          <Flex height="180px" ml="10px">
+          <Flex h="180px" ml="10px">
             <Image
               borderRadius="6px"
               fallbackSrc={fallbackImagePath}
@@ -141,7 +141,7 @@ const ExpandedDrawer = ({ darkMode, isExpanded, row }: Props) => {
                 )}
                 {videoTrailerKey && <VideoTrailerLink videoTrailerKey={videoTrailerKey} />}
               </Flex>
-              <StatGroup width="170px">
+              <StatGroup w="170px">
                 <Stat>
                   <StatLabel>Seasons</StatLabel>
                   <StatNumber>{numSeasons}</StatNumber>

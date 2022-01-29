@@ -5,7 +5,7 @@ import noShowsImage from '../../images/woody.jpg';
 
 const NoFollowShowsMessage = () => (
   <Box m="40px auto 0" maxW="400px">
-    <Image borderRadius="6px" height="266.7px" mb="14px" src={noShowsImage} />
+    <Image borderRadius="6px" h="266.7px" mb="14px" src={noShowsImage} />
     <Text fontSize="lg" fontWeight="500" mb="2px" textAlign="center">
       You are not following any shows yet.
     </Text>

@@ -110,7 +110,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <Image
               alt="TV Minder logo"
               display="inline"
-              height="28px"
+              h="28px"
               src={logo}
               verticalAlign="middle"
             />
@@ -129,7 +129,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           mr="auto"
           pl="10px"
           pt="10px"
-          width={{ base: 'full', md: 'auto' }}
+          w={{ base: 'full', md: 'auto' }}
           {...(isOpen &&
             isMobile && {
               alignItems: 'flex-end',
@@ -153,7 +153,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
           mt={{ base: 4, md: 0 }}
           textAlign={{ base: isOpen && isLoggedIn ? 'right' : 'left', md: 'left' }}
-          width={{ base: 'full', md: 'auto' }}
+          w={{ base: 'full', md: 'auto' }}
         >
           {isLoggedIn ? (
             <>
