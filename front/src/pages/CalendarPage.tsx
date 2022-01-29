@@ -20,6 +20,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
 import { loadEpisodesForCalendar } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
+import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
 
 const darkModeCalendarCss = css`
@@ -63,26 +64,29 @@ const CalendarPage = () => {
   };
 
   return (
-    <Box
-      m="15px auto 0"
-      maxW="1170px"
-      p={{ base: '0 15px 20px', md: '0 25px 20px' }}
-      w={{ base: '90%', md: 'unset' }}
-    >
-      <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
-      <FullCalendar
-        allDayContent={false}
-        dayMaxEventRows={5}
-        eventAllow={() => false} // do not allow dragging
-        eventContent={addPopoverToEvent}
-        events={calendarEpisodes}
-        height="auto"
-        initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
-        plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
-        titleFormat={titleFormat}
-        editable // enable mouse pointer cursor
-      />
-    </Box>
+    <>
+      {!followedShows.length && <NoFollowedShowsBanner />}
+      <Box
+        m="15px auto 0"
+        maxW="1170px"
+        p={{ base: '0 15px 20px', md: '0 25px 20px' }}
+        w={{ base: '90%', md: 'unset' }}
+      >
+        <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
+        <FullCalendar
+          allDayContent={false}
+          dayMaxEventRows={5}
+          eventAllow={() => false} // do not allow dragging
+          eventContent={addPopoverToEvent}
+          events={calendarEpisodes}
+          height="auto"
+          initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
+          plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
+          titleFormat={titleFormat}
+          editable // enable mouse pointer cursor
+        />
+      </Box>
+    </>
   );
 };
 

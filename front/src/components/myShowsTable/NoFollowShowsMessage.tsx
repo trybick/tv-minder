@@ -9,9 +9,9 @@ const NoFollowShowsMessage = () => (
     <Text fontSize="lg" fontWeight="500" mb="2px" textAlign="center">
       You are not following any shows yet.
     </Text>
-    <Text color="blue.400" fontSize="3xl" fontWeight="500" textAlign="center">
+    <Text color="blue.400" fontSize="4xl" fontWeight="500" textAlign="center">
       <Link as={RouterLink} to="/">
-        Click here to start.
+        Click here to start
       </Link>
     </Text>
   </Box>
