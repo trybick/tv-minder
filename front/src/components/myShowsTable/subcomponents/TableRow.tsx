@@ -1,17 +1,16 @@
 import { Cell } from 'react-table';
-import { TableRowProps, Td, Tr } from '@chakra-ui/react';
+import { TableRowProps, Td, Tr, useColorModeValue } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 
 interface Props {
   cells: Cell<BasicShowInfo>[];
-  darkMode: boolean;
   isExpanded: boolean;
   isMobile?: boolean;
   rowProps: TableRowProps;
 }
 
-const TableRow = ({ cells, darkMode, isExpanded, isMobile, rowProps }: Props) => (
-  <Tr {...rowProps} backgroundColor={isExpanded ? (darkMode ? '#252E41' : '#f7f5f5 ') : ''}>
+const TableRow = ({ cells, isExpanded, isMobile, rowProps }: Props) => (
+  <Tr {...rowProps} bg={isExpanded ? useColorModeValue('#f7f5f5', '#252E41') : ''}>
     {cells.map((cell, i) => (
       <Td
         {...cell.getCellProps()}
