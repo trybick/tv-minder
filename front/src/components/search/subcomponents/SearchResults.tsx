@@ -46,11 +46,11 @@ const SearchResults = ({
   shows,
   totalResults,
 }: Props) => {
-  const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'match', 'es')} found`;
+  const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'show')} found`;
 
   return (
     <Box m="0 auto">
-      <Box mr={{ base: '32px', xl: 'unset' }} textAlign="right">
+      <Box mr={{ base: '14px', md: '2px' }} textAlign="right">
         <Tag fontSize="0.84rem" mb="24px" size="sm">
           {totalMatchesText}
         </Tag>
