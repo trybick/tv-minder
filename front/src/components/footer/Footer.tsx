@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button, Divider, Flex, Icon, Link, Text, useDisclosure } from '@chakra-ui/react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
 import FeedbackModal from './FeedbackModal';

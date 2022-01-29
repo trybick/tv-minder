@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { HStack, Icon, Link, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';

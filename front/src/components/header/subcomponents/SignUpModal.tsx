@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { MutableRefObject, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -70,12 +70,12 @@ const SignUpModal = ({
   // Form
   const { clearError, errors, handleSubmit, reset, setError, register, watch } =
     useForm<FormData>();
-  const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
   const watchedPassword = useRef({});
   watchedPassword.current = watch('password', '');
 
   // Password fields
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   const formSchema = {

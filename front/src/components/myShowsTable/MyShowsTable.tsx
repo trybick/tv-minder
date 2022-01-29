@@ -1,4 +1,3 @@
-import React from 'react';
 import { useExpanded, useFlexLayout, useSortBy, useTable } from 'react-table';
 import { Table, Tbody, Thead, useColorMode, useMediaQuery } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';

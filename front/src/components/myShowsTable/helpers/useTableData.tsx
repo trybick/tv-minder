@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
 import { Button, Flex, Tag, Text, useMediaQuery } from '@chakra-ui/react';
