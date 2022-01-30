@@ -5,3 +5,9 @@
 
 [context.production]
   environment = { NODE_VERSION = "14.18.0" }
+
+[build.environment]
+  GENERATE_SOURCEMAP = "true"
+
+[build.production.environment]
+  GENERATE_SOURCEMAP = "true"
