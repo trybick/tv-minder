@@ -36,6 +36,7 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
     posterPath,
     videoTrailerKey,
   } = row.original;
+  const cellBackgroundColor = useColorModeValue('#f7f5f5', '#252E41');
 
   const getNextEpisodeFormatted = () =>
     nextEpisodeForDisplay?.name ? (
@@ -64,11 +65,7 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
   return isExpanded ? (
     isMobile ? (
       <Tr>
-        <Td
-          bg={useColorModeValue('#f7f5f5', '#252E41')}
-          colSpan={row.allCells.length}
-          p="0 32px 26px 40px"
-        >
+        <Td bg={cellBackgroundColor} colSpan={row.allCells.length} p="0 32px 26px 40px">
           <Flex direction="column">
             {genreNames && (
               <Box mb="6px">
@@ -113,7 +110,7 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
       </Tr>
     ) : (
       <Tr>
-        <Td bg={useColorModeValue('#f7f5f5', '#252E41')} colSpan={row.allCells.length} pt="0">
+        <Td bg={cellBackgroundColor} colSpan={row.allCells.length} pt="0">
           <Flex h="180px" ml="10px">
             <Image
               borderRadius="6px"

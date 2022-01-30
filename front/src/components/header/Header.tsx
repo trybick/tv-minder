@@ -68,6 +68,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const { colorMode } = useColorMode();
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const history = useHistory();
+  const avatarBackgroundColor = useColorModeValue('#a0afbf', 'black');
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -162,7 +163,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                 <ToggleColorModeButton />
                 <Menu>
                   <MenuButton aria-label="Page Options" ml="11px">
-                    <Avatar bg={useColorModeValue('#a0afbf', 'black')} size="sm" />
+                    <Avatar bg={avatarBackgroundColor} size="sm" />
                   </MenuButton>
                   <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>

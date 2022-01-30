@@ -11,36 +11,39 @@ export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForDisplay);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
 
-  const columns: Column<BasicShowInfo>[] = [
-    {
-      id: 'name',
-      accessor: 'name',
-      Header: () => (
-        <Text d="inline" ml={isMobile ? '14px' : '38px'}>
-          Name
-        </Text>
-      ),
-      Cell: ({ row }: Cell<BasicShowInfo>) => (
-        <Flex
-          {...(isMobile && {
-            ...row.getToggleRowExpandedProps(),
-          })}
-        >
-          <Button
-            {...(!isMobile && {
+  const columns: Column<BasicShowInfo>[] = useMemo(
+    () => [
+      {
+        id: 'name',
+        accessor: 'name',
+        Header: () => (
+          <Text d="inline" ml={isMobile ? '14px' : '38px'}>
+            Name
+          </Text>
+        ),
+        Cell: ({ row }: Cell<BasicShowInfo>) => (
+          <Flex
+            {...(isMobile && {
               ...row.getToggleRowExpandedProps(),
             })}
-            fontSize="md"
-            fontWeight={row.isExpanded ? 500 : 400}
-            leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-            variant={row.isExpanded ? 'solid' : 'ghost'}
           >
-            <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
-          </Button>
-        </Flex>
-      ),
-    },
-  ];
+            <Button
+              {...(!isMobile && {
+                ...row.getToggleRowExpandedProps(),
+              })}
+              fontSize="md"
+              fontWeight={row.isExpanded ? 500 : 400}
+              leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+              variant={row.isExpanded ? 'solid' : 'ghost'}
+            >
+              <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
+            </Button>
+          </Flex>
+        ),
+      },
+    ],
+    [isMobile]
+  );
 
   if (!isMobile) {
     columns.push(
@@ -89,7 +92,5 @@ export const useTableData = () => {
     ),
   });
 
-  const memoColumns: Column<BasicShowInfo>[] = useMemo(() => columns, [data, isMobile]);
-
-  return { data, columns: memoColumns };
+  return { data, columns };
 };
