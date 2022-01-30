@@ -4,6 +4,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c0c8f001-1839-4c79-a338-de51cf4cd991/deploy-status)](https://app.netlify.com/sites/tv-minder/deploys) ![Amazon ECS Badge](https://github.com/trybick/tv-minder/workflows/Deploy%20API%20to%20Amazon%20ECS/badge.svg) [![Validate front](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml)
 
+## Demo
+
 <p align="center">
 <img src="./images/demo.gif" width="800px"/>
 </p>
@@ -12,7 +14,7 @@
 
 **Front**: React, Redux, TypeScript, Chakra UI
 
-**API**: Express, TypeScript, Docker, AWS ECS
+**API**: Node.js, Express, TypeScript, Docker, AWS ECS
 
 ## Local Development
 
