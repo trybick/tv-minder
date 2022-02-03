@@ -1,6 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
+import { Helmet } from 'react-helmet-async';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import { searchShows } from 'gateway/searchShows';
 import { AppState, AppThunkDispatch } from 'store';
@@ -93,6 +94,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
       m={{ base: '0 0 20px', md: '25px 0 25px' }}
       p={{ base: '0 15px 25px', md: '25px 15px 20px' }}
     >
+      <Helmet title="Search | TV Minder" />
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 import {
   Box,
   Popover,
@@ -65,6 +66,7 @@ const CalendarPage = () => {
 
   return (
     <>
+      <Helmet title="Calendar | TV Minder" />
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
         m="15px auto 0"

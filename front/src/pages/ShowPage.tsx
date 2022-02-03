@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { AppState } from 'store';
 import { getBasicShowInfoWithSeasonsAndEpisodesForShow } from 'store/tv/actions';
 import { mapShowInfoForDisplay } from 'store/tv/tvUtils';
@@ -20,7 +21,10 @@ const ShowPage = () => {
 
   // This check is to avoid flashing the previous show on first render
   return showIdNum === showInfo?.id ? (
-    <ShowContainer showInfoForDisplay={showInfoForDisplay} />
+    <>
+      <Helmet title={`${showInfoForDisplay.name} | TV Minder`} />
+      <ShowContainer showInfoForDisplay={showInfoForDisplay} />
+    </>
   ) : null;
 };
 
