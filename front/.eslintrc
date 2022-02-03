@@ -26,6 +26,10 @@
     "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": 1,
     "arrow-parens": ["warn", "as-needed"],
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/ban-types": 0,
+    "react/jsx-uses-react": 0,
+    "react/react-in-jsx-scope": 0,
     "react/jsx-sort-props": [
       1,
       {
@@ -38,11 +42,7 @@
         "ignoreCase": true,
         "ignoreDeclarationSort": true
       }
-    ],
-    "@typescript-eslint/no-non-null-assertion": 0,
-    "@typescript-eslint/ban-types": 0,
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    ]
   },
   "ignorePatterns": ["node_modules/*", "public/*", "build/*"]
 }

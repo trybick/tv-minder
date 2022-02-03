@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/react';
-import { requestBasicShowInfoAction } from 'store/tv/actions';
+import { getBasicShowInfoForFollowedShows } from 'store/tv/actions';
 import { selectFollowedShows } from 'store/user/selectors';
 import MyShowsTable from 'components/myShowsTable/MyShowsTable';
 import NoFollowShowsMessage from 'components/myShowsTable/NoFollowShowsMessage';
 
-const MyShows = () => {
+const MyShowsPage = () => {
   const dispatch = useDispatch();
   const followedShows = useSelector(selectFollowedShows);
 
   useEffect(() => {
-    dispatch(requestBasicShowInfoAction());
+    dispatch(getBasicShowInfoForFollowedShows());
   }, [dispatch, followedShows]);
 
   return (
@@ -21,4 +21,4 @@ const MyShows = () => {
   );
 };
 
-export default MyShows;
+export default MyShowsPage;

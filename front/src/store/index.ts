@@ -1,8 +1,8 @@
 import { Action, AnyAction, applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { Persistor, persistReducer, persistStore } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import storage from 'redux-persist/lib/storage';
+import { Persistor, persistReducer, persistStore } from 'redux-persist';
+import localforage from 'localforage';
 import { userReducer, UserState } from './user/reducers';
 import { tvReducer, TvState } from './tv/reducers';
 import { PlainFunction } from 'types/common';
@@ -23,19 +23,19 @@ export type AppState = {
 
 const rootPersistConfig = {
   key: 'root',
-  storage,
+  storage: localforage,
   blacklist: ['user'],
 };
 
 const userPersistConfig = {
   key: 'user',
-  storage,
+  storage: localforage,
   blacklist: ['hasLocalWarningToastBeenShown'],
 };
 
 const tvPersistConfig = {
   key: 'tv',
-  storage,
+  storage: localforage,
 };
 
 const rootReducer = combineReducers({

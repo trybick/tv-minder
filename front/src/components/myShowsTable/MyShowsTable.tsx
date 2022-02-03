@@ -4,7 +4,7 @@ import { BasicShowInfo } from 'types/external';
 import { useTableData } from './helpers/useTableData';
 import TableHeader from './subcomponents/TableHeader';
 import TableRow from './subcomponents/TableRow';
-import ExpandedDrawer from './subcomponents/ExpandedDrawer';
+import ExpandedDrawer from './subcomponents/ExpandedDrawer/ExpandedDrawer';
 
 const MyShowsTable = () => {
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);

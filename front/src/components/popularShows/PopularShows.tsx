@@ -4,7 +4,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import { getPopularShowsAction } from 'store/tv/actions';
 import { selectPopularShowsForDisplay } from 'store/tv/selectors';
-import SinglePopularShow from './SinglePopularShow';
+import PopularShow from './subcomponents/PopularShow';
 
 const fadeCss = css`
   &:after {
@@ -59,7 +59,7 @@ const PopularShows = () => {
       >
         <Flex justifyContent="center">
           {popularShows?.slice(0, 20).map(show => (
-            <SinglePopularShow key={show.id} show={show} />
+            <PopularShow key={show.id} show={show} />
           ))}
           <Box bg="transparent" w="20px" />
         </Flex>

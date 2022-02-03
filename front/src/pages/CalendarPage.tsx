@@ -18,7 +18,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
-import { loadEpisodesForCalendar } from 'store/tv/actions';
+import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
@@ -37,7 +37,7 @@ const CalendarPage = () => {
   const { colorMode } = useColorMode();
 
   useEffect(() => {
-    dispatch(loadEpisodesForCalendar());
+    dispatch(getEpisodesForCalendarAction());
   }, [dispatch, followedShows]);
 
   const addPopoverToEvent = (eventInfo: EventContentArg) => (

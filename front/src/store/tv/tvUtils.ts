@@ -1,4 +1,6 @@
 import moment from 'moment';
+import { BasicShowInfo, Genre } from 'types/external';
+import { addLeadingZero } from 'utils/formatting';
 
 type Status = 'Ended' | 'Returning' | 'New Episodes' | 'Premiering Soon';
 
@@ -63,10 +65,14 @@ export const getTimeUntilNextEpisode = (nextAirDate: string) => {
   return diff;
 };
 
-export const getVideoTrailerKey = ({ results }: { results: any[] }): string | undefined => {
+export const getVideoTrailerKey = (videos: any): string | undefined => {
+  if (!videos?.results.length) {
+    return;
+  }
+  const { results } = videos;
   const matchingVideo = results
-    ?.filter(video => video.site === 'YouTube')
-    ?.find(video => {
+    ?.filter((video: any) => video.site === 'YouTube')
+    ?.find((video: any) => {
       if (video.name === 'Official Trailer') {
         return video;
       } else if (video.name.includes('Trailer')) {
@@ -74,4 +80,87 @@ export const getVideoTrailerKey = ({ results }: { results: any[] }): string | un
       }
     });
   return matchingVideo?.key || results[0]?.key || undefined;
+};
+
+export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
+  const {
+    backdrop_path: backdropPath,
+    created_by: createdBy,
+    episode_run_time: episodeRunTime,
+    first_air_date: firstAirDate,
+    genres,
+    id,
+    in_production: inProduction,
+    last_air_date: lastAirDate,
+    last_episode_to_air: lastEpisodeToAir,
+    name,
+    networks,
+    next_episode_to_air: nextEpisodeToAir,
+    number_of_episodes: numEpisodes,
+    number_of_seasons: numSeasons,
+    overview,
+    poster_path: posterPath,
+    seasonsAndEpisodes,
+    spoken_languages: spokenLanuages,
+    status,
+    tagline,
+    videos,
+    vote_average: voteAverage,
+    vote_count: voteCount,
+  } = show;
+
+  const lastEpisodeForDisplay = lastEpisodeToAir && {
+    airDate: lastEpisodeToAir?.air_date,
+    daysDiff: Math.abs(moment().startOf('day').diff(lastEpisodeToAir?.air_date, 'days')),
+    episodeNumber: addLeadingZero(lastEpisodeToAir?.episode_number),
+    name: lastEpisodeToAir?.name,
+    overview: lastEpisodeToAir?.overview,
+    seasonNumber: addLeadingZero(lastEpisodeToAir?.season_number),
+    timeFromNow: getTimeFromLastEpisode(lastEpisodeToAir?.air_date),
+  };
+
+  const nextEpisodeForDisplay = nextEpisodeToAir && {
+    airDate: nextEpisodeToAir?.air_date,
+    daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir?.air_date, 'days')),
+    episodeNumber: addLeadingZero(nextEpisodeToAir?.episode_number),
+    name: nextEpisodeToAir?.name,
+    overview: nextEpisodeToAir?.overview,
+    seasonNumber: addLeadingZero(nextEpisodeToAir?.season_number),
+    timeFromNow: getTimeUntilNextEpisode(nextEpisodeToAir?.air_date),
+  };
+
+  const statusWithColor = getStatusWithColor(status, lastEpisodeForDisplay, nextEpisodeForDisplay);
+
+  const genreNames: string[] = genres.slice(0, 2).map((genre: Genre) => genre.name);
+
+  const yearsActive = `${moment(firstAirDate).year()}-${
+    status === 'Ended' ? moment(lastEpisodeToAir?.air_date).year() : ''
+  }`;
+
+  return {
+    backdropPath,
+    createdBy: createdBy[0]?.name,
+    episodeRunTime: episodeRunTime.length && episodeRunTime[0],
+    firstAirDate,
+    genreNames,
+    language: spokenLanuages[0]?.english_name,
+    id,
+    inProduction,
+    lastAirDate,
+    lastEpisodeForDisplay,
+    name,
+    network: networks[0]?.name,
+    nextEpisodeForDisplay,
+    numEpisodes,
+    numSeasons,
+    overview,
+    posterPath,
+    seasonsAndEpisodes,
+    statusWithColor,
+    tagline,
+    videoTrailerKey: getVideoTrailerKey(videos),
+    voteAverage,
+    voteCount,
+    yearsActive,
+  };
 };
