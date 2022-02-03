@@ -15,7 +15,7 @@ import YouTube, { Options } from 'react-youtube';
 
 interface Props {
   isMobile?: boolean;
-  videoTrailerKey: string;
+  videoTrailerKey: string | undefined;
 }
 
 const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
@@ -24,9 +24,9 @@ const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
   const mobileOptions: Options = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
 
   return videoTrailerKey ? (
-    <Box>
+    <Box alignSelf="flex-start">
       <Link onClick={onOpen}>
-        <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="2px" verticalAlign="sub" />
+        <Icon as={AiFillYoutube} boxSize="21px" color="red" mr="2px" verticalAlign="sub" />
         <Text d="inline" fontSize="16px" fontWeight="500">
           Watch Trailer
         </Text>

@@ -24,7 +24,7 @@ export type ShowSearchResult = {
 //
 // Basic Show Info
 //
-type Episode = {
+export type Episode = {
   airDate: string;
   daysDiff: string;
   episodeNumber: string;
@@ -57,11 +57,13 @@ export type BasicShowInfo = {
   numSeasons: number;
   overview: string;
   posterPath: string;
+  seasonsAndEpisodes: { [key: string]: any };
   statusWithColor: StatusWithColor;
   tagline: string;
   videoTrailerKey: string | undefined;
   voteAverage: number;
   voteCount: number;
+  yearsActive: string;
 };
 
 //

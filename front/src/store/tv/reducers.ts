@@ -1,10 +1,11 @@
 import { Action, AnyAction, Reducer } from 'redux';
 import {
-  REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
-  SAVE_EPISODE_DATA,
-  SAVE_SEARCH_QUERY,
-  SET_CALENDAR_EPISODES,
-  SET_POPULAR_SHOWS,
+  SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
+  SAVE_BASIC_SHOW_INFO_FOR_SHOW,
+  SAVE_CALENDAR_EPISODES_CACHE,
+  SAVE_POPULAR_SHOWS,
+  SET_CURRENT_CALENDAR_EPISODES,
+  SET_SEARCH_QUERY,
 } from './actions';
 import { SavedQuery } from './types';
 
@@ -26,7 +27,7 @@ const initialState = {
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case SAVE_SEARCH_QUERY: {
+    case SET_SEARCH_QUERY: {
       return {
         ...state,
         savedQueries: state.savedQueries
@@ -37,25 +38,31 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
           : [action.payload],
       };
     }
-    case SAVE_EPISODE_DATA: {
+    case SAVE_CALENDAR_EPISODES_CACHE: {
       return {
         ...state,
         episodeData: { ...state.episodeData, ...action.payload },
       };
     }
-    case REQUEST_BASIC_SHOW_INFO_SUCCEEDED: {
+    case SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS: {
       return {
         ...state,
         basicShowInfo: { ...action.payload },
       };
     }
-    case SET_CALENDAR_EPISODES: {
+    case SAVE_BASIC_SHOW_INFO_FOR_SHOW: {
+      return {
+        ...state,
+        basicShowInfo: { ...state.basicShowInfo, ...action.payload },
+      };
+    }
+    case SET_CURRENT_CALENDAR_EPISODES: {
       return {
         ...state,
         calendarEpisodesForDisplay: action.payload,
       };
     }
-    case SET_POPULAR_SHOWS: {
+    case SAVE_POPULAR_SHOWS: {
       return {
         ...state,
         popularShows: action.payload,

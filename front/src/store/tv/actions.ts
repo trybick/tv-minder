@@ -7,41 +7,23 @@ import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
 import cacheDurationDays from 'utils/cacheDurations';
 
-export const SAVE_SEARCH_QUERY = 'SAVE_SEARCH_QUERY';
-export const SAVE_EPISODE_DATA = 'SAVE_EPISODE_DATA';
-export const SET_CALENDAR_EPISODES = 'SAVE_CALENDAR_EPISODES';
-export const REQUEST_BASIC_SHOW_INFO = 'REQUEST_BASIC_SHOW_INFO';
-export const REQUEST_BASIC_SHOW_INFO_SUCCEEDED = 'REQUEST_BASIC_SHOW_INFO_SUCCEEDED';
-export const SET_POPULAR_SHOWS = 'SET_POPULAR_SHOWS';
+export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
+export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';
+export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
+export const SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS = 'SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS';
+export const SAVE_BASIC_SHOW_INFO_FOR_SHOW = 'SAVE_BASIC_SHOW_INFO_FOR_SHOW';
+export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
 
 export const saveSearchQueryAction =
   (query: SavedQuery): AppThunk =>
   dispatch => {
     dispatch({
-      type: SAVE_SEARCH_QUERY,
+      type: SET_SEARCH_QUERY,
       payload: query,
     });
   };
 
-export const saveEpisodeDataAction =
-  (episodeData: any): AppThunk =>
-  dispatch => {
-    dispatch({
-      type: SAVE_EPISODE_DATA,
-      payload: episodeData,
-    });
-  };
-
-export const setCalendarEpisodesAction =
-  (episodesForDisplay: any): AppThunk =>
-  dispatch => {
-    dispatch({
-      type: SET_CALENDAR_EPISODES,
-      payload: episodesForDisplay,
-    });
-  };
-
-export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState) => {
+export const getEpisodesForCalendarAction = (): AppThunk => async (dispatch, getState) => {
   const { followedShows, isLoggedIn, unregisteredFollowedShows } = getState().user;
   const { episodeData: storedEpisodeData } = getState().tv;
   const userFollowedShowsIds = isLoggedIn ? followedShows : unregisteredFollowedShows;
@@ -61,20 +43,19 @@ export const loadEpisodesForCalendar = (): AppThunk => async (dispatch, getState
     const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
     fetchedData = fetchedEpisodeData;
     dispatch({
-      type: SAVE_EPISODE_DATA,
+      type: SAVE_CALENDAR_EPISODES_CACHE,
       payload: cache,
     });
   }
 
   const combinedEpisodesForDisplay = (cachedData || []).concat(fetchedData || []);
   dispatch({
-    type: SET_CALENDAR_EPISODES,
+    type: SET_CURRENT_CALENDAR_EPISODES,
     payload: combinedEpisodesForDisplay,
   });
 };
 
-// Basic Show Info is used for latest episodes on My Shows page
-export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getState) => {
+export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch, getState) => {
   const { followedShows, isLoggedIn, unregisteredFollowedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
   const followedShowsSource = isLoggedIn ? followedShows : unregisteredFollowedShows;
@@ -117,10 +98,68 @@ export const requestBasicShowInfoAction = (): AppThunk => async (dispatch, getSt
   }
 
   dispatch({
-    type: REQUEST_BASIC_SHOW_INFO_SUCCEEDED,
+    type: SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
     payload: combinedData,
   });
 };
+
+export const getBasicShowInfoWithSeasonsAndEpisodesForShow =
+  (showId: number): AppThunk =>
+  async (dispatch, getState) => {
+    // If we already have the basic show info, season info, and cache is valid, do nothing
+    const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
+    const cacheAge = moment().diff(moment(cachedBasicShowInfo[showId]?._fetchedAt), 'days');
+    const hasValidCache =
+      cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsAndEpisodes') &&
+      cacheAge < cacheDurationDays.myShows;
+    if (hasValidCache) {
+      return;
+    }
+
+    // If we don't have a valid cache, start by fetching the basic info
+    const basicInfo = await axios
+      .get(`${API.THE_MOVIE_DB}/tv/${showId}`, {
+        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
+      })
+      .then(res => res.data)
+      .catch(handleErrors);
+
+    // Create an object to allow merging basic info with season info
+    const combinedData = {
+      [showId]: {
+        ...basicInfo,
+        _fetchedAt: moment(),
+      },
+    };
+
+    // Fetch full seasons and episodes data
+    const seasonNumbers: number[] = basicInfo.seasons?.map((season: any) => season.season_number);
+    const seasonsRequests = seasonNumbers?.map(seasonNumber =>
+      axios.get(`${API.THE_MOVIE_DB}/tv/${showId}/season/${seasonNumber}`, {
+        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
+      })
+    );
+    const seasonsResponse = await axios
+      .all(seasonsRequests)
+      .then(res => res.map((res: any) => res.data))
+      .catch(handleErrors);
+
+    // Merge the season data
+    seasonsResponse?.forEach((season: any) => {
+      combinedData[showId] = {
+        ...combinedData[showId],
+        seasonsAndEpisodes: {
+          ...combinedData[showId].seasonsAndEpisodes,
+          [season.name]: season,
+        },
+      };
+    });
+
+    dispatch({
+      type: SAVE_BASIC_SHOW_INFO_FOR_SHOW,
+      payload: combinedData,
+    });
+  };
 
 export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
   const { popularShows: cachedPopularShows } = getState().tv;
@@ -141,7 +180,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
       .then(({ data: { results } }) => {
         const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
         dispatch({
-          type: SET_POPULAR_SHOWS,
+          type: SAVE_POPULAR_SHOWS,
           payload: dataWithTimestamp,
         });
       })

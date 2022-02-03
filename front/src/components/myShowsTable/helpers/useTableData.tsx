@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
 import { Button, Flex, Tag, Text, useMediaQuery } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
-import { selectBasicShowInfoForDisplay } from 'store/tv/selectors';
+import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 export const useTableData = () => {
-  const data = useSelector(selectBasicShowInfoForDisplay);
+  const data = useSelector(selectBasicShowInfoForFollowedShows);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
 
   const columns: Column<BasicShowInfo>[] = useMemo(
@@ -34,7 +34,7 @@ export const useTableData = () => {
               fontSize="md"
               fontWeight={row.isExpanded ? 500 : 400}
               leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-              variant={row.isExpanded ? 'solid' : 'ghost'}
+              variant="ghost"
             >
               <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
             </Button>
@@ -54,14 +54,9 @@ export const useTableData = () => {
         width: 119,
         Cell: ({ row }: Cell<BasicShowInfo>) => {
           const { color, status } = row.original.statusWithColor;
-          const isBold = status === 'New Episodes' || status === 'Premiering Soon';
           return (
             <Flex align="center" h="100%">
-              <Tag
-                {...row.getToggleRowExpandedProps()}
-                colorScheme={color}
-                fontWeight={isBold ? 700 : ''}
-              >
+              <Tag {...row.getToggleRowExpandedProps()} colorScheme={color} fontWeight="400">
                 {status}
               </Tag>
             </Flex>
