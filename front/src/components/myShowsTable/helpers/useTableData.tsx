@@ -70,7 +70,7 @@ export const useTableData = () => {
         accessor: row => row.network,
         Cell: ({ row }: Cell<BasicShowInfo>) => (
           <Flex align="center" h="100%">
-            <Tag {...row.getToggleRowExpandedProps()}>
+            <Tag {...row.getToggleRowExpandedProps()} fontWeight="400">
               <Text isTruncated>{row.original.network || 'Unlisted'}</Text>
             </Tag>
           </Flex>

@@ -1,8 +1,8 @@
 import {
   AspectRatio,
   Box,
+  Button,
   Icon,
-  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -15,22 +15,22 @@ import YouTube, { Options } from 'react-youtube';
 
 interface Props {
   isMobile?: boolean;
-  videoTrailerKey: string | undefined;
+  videoId: string | undefined;
 }
 
-const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
+const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const desktopOptions: Options = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
   const mobileOptions: Options = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
 
-  return videoTrailerKey ? (
-    <Box alignSelf="flex-start">
-      <Link onClick={onOpen}>
-        <Icon as={AiFillYoutube} boxSize="21px" color="red" mr="2px" verticalAlign="sub" />
-        <Text d="inline" fontSize="16px" fontWeight="500">
+  return videoId ? (
+    <Box alignSelf="center" mb="14px">
+      <Button onClick={onOpen} size="md" variant="outline" w={isMobile ? '100%' : 'unset'}>
+        <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
+        <Text d="inline" fontSize="14px" fontWeight="500">
           Watch Trailer
         </Text>
-      </Link>
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
         <ModalOverlay />
@@ -38,10 +38,10 @@ const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
           <ModalBody>
             {isMobile ? (
               <AspectRatio ratio={1}>
-                <YouTube opts={mobileOptions} videoId={videoTrailerKey} />
+                <YouTube opts={mobileOptions} videoId={videoId} />
               </AspectRatio>
             ) : (
-              <YouTube opts={desktopOptions} videoId={videoTrailerKey} />
+              <YouTube opts={desktopOptions} videoId={videoId} />
             )}
           </ModalBody>
         </ModalContent>
@@ -50,4 +50,4 @@ const VideoTrailerLink = ({ isMobile, videoTrailerKey }: Props) => {
   ) : null;
 };
 
-export default VideoTrailerLink;
+export default VideoTrailerButton;

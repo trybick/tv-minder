@@ -14,7 +14,7 @@ import { FaStar } from 'react-icons/fa';
 import { BasicShowInfo } from 'types/external';
 import { abbreviateNumber } from 'utils/formatting';
 import { fallbackImagePath, imagePath342 } from 'constants/strings';
-import VideoTrailerLink from '../myShowsTable/subcomponents/VideoTrailerLink';
+import VideoTrailerButton from '../myShowsTable/subcomponents/VideoTrailerButton';
 import FollowButton from './subcomponents/FollowButton';
 
 interface Props {
@@ -32,13 +32,11 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
     name,
     overview,
     posterPath,
-    seasonsAndEpisodes,
     videoTrailerKey,
     voteAverage,
     voteCount,
     yearsActive,
   } = showInfoForDisplay || {};
-  console.log('seasonsAndEpisodes:', seasonsAndEpisodes);
 
   return (
     <Flex gap="20px" m="20px auto 30px" maxW="800px" px={{ base: '20px', md: '30px' }}>
@@ -61,41 +59,42 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
           </chakra.span>
         </Heading>
 
-        {voteAverage && (
-          <Flex mb="14px">
-            <Icon alignSelf="center" as={FaStar} boxSize="27px" color="yellow.400" />
-            <Flex direction="column" ml="4px">
-              <Text fontSize="16px">
-                <chakra.span fontSize="17px" fontWeight="700">
-                  {voteAverage}
-                </chakra.span>{' '}
-                <chakra.span fontSize="sm">/ 10</chakra.span>
-              </Text>
-              <Flex>
-                <Text fontSize="xs" fontWeight="600">
-                  {abbreviateNumber(voteCount)}{' '}
+        <Flex>
+          {voteAverage ? (
+            <Flex mb="14px">
+              <Icon alignSelf="center" as={FaStar} boxSize="27px" color="yellow.400" />
+              <Flex direction="column" ml="4px">
+                <Text fontSize="16px">
+                  <chakra.span fontSize="17px" fontWeight="700">
+                    {voteAverage}
+                  </chakra.span>{' '}
+                  <chakra.span fontSize="sm">/ 10</chakra.span>
                 </Text>
-                <Icon as={BsFillPersonFill} boxSize="12px" m="auto 0" verticalAlign="middle" />
+                <Flex ml="2px">
+                  <Text fontSize="xs" fontWeight="600">
+                    {abbreviateNumber(voteCount)}{' '}
+                  </Text>
+                  <Icon as={BsFillPersonFill} boxSize="12px" m="auto 0" verticalAlign="middle" />
+                </Flex>
               </Flex>
             </Flex>
-          </Flex>
-        )}
-
-        <Flex gap="20px" mb={isMobile ? '16px' : '12px'}>
-          {genreNames && (
-            <Box>
-              {genreNames?.map(genre => (
-                <Tag key={genre} mr="5px" size="md">
-                  {genre}
-                </Tag>
-              ))}
-            </Box>
-          )}
-          <VideoTrailerLink isMobile={isMobile} videoTrailerKey={videoTrailerKey} />
+          ) : null}
         </Flex>
 
+        {genreNames && (
+          <Box mb="12px">
+            {genreNames?.map(genre => (
+              <Tag key={genre} mr="5px" size="md">
+                {genre}
+              </Tag>
+            ))}
+          </Box>
+        )}
+
+        <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
+
         {isMobile && (
-          <FollowButton showId={id} styles={{ mb: '16px', size: 'sm', width: '100%' }} />
+          <FollowButton showId={id} styles={{ mb: '16px', size: 'md', width: '100%' }} />
         )}
 
         {overview && <Text mb="12px">{overview}</Text>}
