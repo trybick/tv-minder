@@ -32,11 +32,13 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
     name,
     overview,
     posterPath,
+    seasonsAndEpisodes,
     videoTrailerKey,
     voteAverage,
     voteCount,
     yearsActive,
   } = showInfoForDisplay || {};
+  console.log('seasonsAndEpisodes:', seasonsAndEpisodes);
 
   return (
     <Flex gap="20px" m="20px auto 30px" maxW="800px" px={{ base: '20px', md: '30px' }}>
@@ -68,7 +70,9 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
                   <chakra.span fontSize="17px" fontWeight="700">
                     {voteAverage}
                   </chakra.span>{' '}
-                  <chakra.span fontSize="sm">/ 10</chakra.span>
+                  <chakra.span fontSize="sm" verticalAlign="text-bottom">
+                    / 10
+                  </chakra.span>
                 </Text>
                 <Flex ml="2px">
                   <Text fontSize="xs" fontWeight="600">
@@ -82,7 +86,7 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
         </Flex>
 
         {genreNames && (
-          <Box mb="12px">
+          <Box mb="14px">
             {genreNames?.map(genre => (
               <Tag key={genre} mr="5px" size="md">
                 {genre}
@@ -91,11 +95,10 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
           </Box>
         )}
 
-        <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
-
         {isMobile && (
-          <FollowButton showId={id} styles={{ mb: '16px', size: 'md', width: '100%' }} />
+          <FollowButton showId={id} styles={{ mb: '14px', size: 'md', width: '100%' }} />
         )}
+        <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
 
         {overview && <Text mb="12px">{overview}</Text>}
 
