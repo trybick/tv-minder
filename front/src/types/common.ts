@@ -7,3 +7,6 @@ export type DisclosureProps = {
 };
 
 export type ID = number;
+
+export type GenericStringObject = { [key: string]: any };
+export type GenericNumberObject = { [key: number]: any };

@@ -1,6 +1,14 @@
 import moment from 'moment';
-import { BasicShowInfo, Genre } from 'types/external';
+import { GenericNumberObject, GenericStringObject } from 'types/common';
+import {
+  BasicShowInfo,
+  EpisodeForDisplay,
+  EpisodeForSeason,
+  Genre,
+  SeasonWithEpisodes,
+} from 'types/external';
 import { addLeadingZero } from 'utils/formatting';
+import { isEmpty } from 'utils/object';
 
 type Status = 'Ended' | 'Returning' | 'New Episodes' | 'Premiering Soon';
 
@@ -12,8 +20,8 @@ export type StatusWithColor = {
 
 export const getStatusWithColor = (
   originalStatus: string,
-  lastEpisodeForDisplay: { [key: string]: any },
-  nextEpisodeForDisplay: { [key: string]: any }
+  lastEpisodeForDisplay: GenericStringObject,
+  nextEpisodeForDisplay: GenericStringObject
 ): StatusWithColor => {
   const hasCurrentlyActiveSeason =
     lastEpisodeForDisplay &&
@@ -82,6 +90,69 @@ export const getVideoTrailerKey = (videos: any): string | undefined => {
   return matchingVideo?.key || results[0]?.key || undefined;
 };
 
+const formatEpisodesForSeason = (episodes: GenericStringObject[]): EpisodeForSeason[] => {
+  if (isEmpty(episodes)) {
+    return [];
+  }
+  return episodes.map(episode => {
+    const {
+      air_date: airDate,
+      episode_number: episodeNumber,
+      id,
+      name,
+      overview,
+      still_path: stillPath,
+      vote_average: voteAverage,
+      vote_count: voteCount,
+      season_number: seasonNumber,
+    } = episode || {};
+
+    const voteAverageForDisplay = voteAverage ? voteAverage.toPrecision(2) : '-';
+
+    return {
+      airDate,
+      episodeNumber,
+      id,
+      name,
+      overview,
+      stillPath,
+      voteAverage: voteAverageForDisplay,
+      voteCount,
+      seasonNumber,
+    };
+  });
+};
+
+const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
+  if (isEmpty(seasons)) {
+    return [];
+  }
+  const camelCaseSeasons = Object.values(seasons)
+    .reverse()
+    .map(season => {
+      const {
+        air_date: airDate,
+        episodes,
+        id,
+        name,
+        overview,
+        poster_path: posterPath,
+        season_number: seasonNumber,
+      } = season || {};
+      return {
+        airDate,
+        episodes: formatEpisodesForSeason(episodes),
+        id,
+        name,
+        overview,
+        posterPath,
+        seasonNumber,
+      };
+    });
+
+  return camelCaseSeasons;
+};
+
 export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
   const {
     backdrop_path: backdropPath,
@@ -100,7 +171,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     number_of_seasons: numSeasons,
     overview,
     poster_path: posterPath,
-    seasonsAndEpisodes,
+    seasonsWithEpisodes,
     spoken_languages: spokenLanuages,
     status,
     tagline,
@@ -109,7 +180,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     vote_count: voteCount,
   } = show;
 
-  const lastEpisodeForDisplay = lastEpisodeToAir && {
+  const lastEpisodeForDisplay: EpisodeForDisplay = lastEpisodeToAir && {
     airDate: lastEpisodeToAir?.air_date,
     daysDiff: Math.abs(moment().startOf('day').diff(lastEpisodeToAir?.air_date, 'days')),
     episodeNumber: addLeadingZero(lastEpisodeToAir?.episode_number),
@@ -119,7 +190,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     timeFromNow: getTimeFromLastEpisode(lastEpisodeToAir?.air_date),
   };
 
-  const nextEpisodeForDisplay = nextEpisodeToAir && {
+  const nextEpisodeForDisplay: EpisodeForDisplay = nextEpisodeToAir && {
     airDate: nextEpisodeToAir?.air_date,
     daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir?.air_date, 'days')),
     episodeNumber: addLeadingZero(nextEpisodeToAir?.episode_number),
@@ -155,7 +226,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     numSeasons,
     overview,
     posterPath,
-    seasonsAndEpisodes,
+    seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes),
     statusWithColor,
     tagline,
     videoTrailerKey: getVideoTrailerKey(videos),

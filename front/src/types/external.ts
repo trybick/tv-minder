@@ -1,7 +1,6 @@
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { StatusWithColor } from 'store/tv/tvUtils';
 
-// Data returned from 'The Movie DB' API
 //
 // Search
 //
@@ -24,7 +23,7 @@ export type ShowSearchResult = {
 //
 // Basic Show Info
 //
-export type Episode = {
+export type EpisodeForDisplay = {
   airDate: string;
   daysDiff: string;
   episodeNumber: string;
@@ -39,6 +38,28 @@ export type Genre = {
   name: string;
 };
 
+export type EpisodeForSeason = {
+  airDate: string;
+  episodeNumber: number;
+  id: number;
+  name: string;
+  overview: string;
+  seasonNumber: number;
+  stillPath: string;
+  voteAverage: string;
+  voteCount: number;
+};
+
+export type SeasonWithEpisodes = {
+  airDate: string;
+  episodes: EpisodeForSeason[];
+  id: number;
+  name: string;
+  overview: string;
+  posterPath: string;
+  seasonNumber: number;
+};
+
 export type BasicShowInfo = {
   backdropPath: string;
   createdBy: string | undefined;
@@ -49,15 +70,15 @@ export type BasicShowInfo = {
   id: number;
   inProduction: boolean;
   lastAirDate: string;
-  lastEpisodeForDisplay: Episode;
+  lastEpisodeForDisplay: EpisodeForDisplay;
   name: string;
   network: string;
-  nextEpisodeForDisplay: Episode;
+  nextEpisodeForDisplay: EpisodeForDisplay;
   numEpisodes: number;
   numSeasons: number;
   overview: string;
   posterPath: string;
-  seasonsAndEpisodes: { [key: string]: any };
+  seasonsWithEpisodes: SeasonWithEpisodes[];
   statusWithColor: StatusWithColor;
   tagline: string;
   videoTrailerKey: string | undefined;
@@ -67,10 +88,8 @@ export type BasicShowInfo = {
 };
 
 //
-// Misc types
+// Popular Show
 //
-export type GoogleLoginResponses = GoogleLoginResponse | GoogleLoginResponseOffline;
-
 export type PopularShow = {
   id: number;
   backdropPath: string;
@@ -82,3 +101,8 @@ export type PopularShow = {
   voteAverage: string;
   voteCount: number;
 };
+
+//
+// Misc
+//
+export type GoogleLoginResponses = GoogleLoginResponse | GoogleLoginResponseOffline;
