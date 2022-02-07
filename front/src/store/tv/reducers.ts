@@ -1,4 +1,5 @@
 import { Action, AnyAction, Reducer } from 'redux';
+import { GenericNumberObject, GenericStringObject } from 'types/common';
 import {
   SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
   SAVE_BASIC_SHOW_INFO_FOR_SHOW,
@@ -11,10 +12,10 @@ import { SavedQuery } from './types';
 
 export interface TvState {
   savedQueries: SavedQuery[];
-  episodeData: { [key: number]: any };
-  basicShowInfo: { [key: number]: any };
+  episodeData: GenericNumberObject;
+  basicShowInfo: GenericNumberObject;
   calendarEpisodesForDisplay: any[];
-  popularShows: Array<{ [key: string]: any }>;
+  popularShows: GenericStringObject[];
 }
 
 const initialState = {

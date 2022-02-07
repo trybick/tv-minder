@@ -103,14 +103,14 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
   });
 };
 
-export const getBasicShowInfoWithSeasonsAndEpisodesForShow =
+export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
   (showId: number): AppThunk =>
   async (dispatch, getState) => {
     // If we already have the basic show info, season info, and cache is valid, do nothing
     const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
     const cacheAge = moment().diff(moment(cachedBasicShowInfo[showId]?._fetchedAt), 'days');
     const hasValidCache =
-      cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsAndEpisodes') &&
+      cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
       cacheAge < cacheDurationDays.myShows;
     if (hasValidCache) {
       return;
@@ -148,9 +148,9 @@ export const getBasicShowInfoWithSeasonsAndEpisodesForShow =
     seasonsResponse?.forEach((season: any) => {
       combinedData[showId] = {
         ...combinedData[showId],
-        seasonsAndEpisodes: {
-          ...combinedData[showId].seasonsAndEpisodes,
-          [season.name]: season,
+        seasonsWithEpisodes: {
+          ...combinedData[showId].seasonsWithEpisodes,
+          [season.season_number]: season,
         },
       };
     });

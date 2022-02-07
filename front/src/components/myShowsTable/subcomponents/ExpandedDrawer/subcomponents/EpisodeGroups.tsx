@@ -2,20 +2,20 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Badge, Button, chakra, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { NA } from 'constants/strings';
 import { BsArrowRightSquare } from 'react-icons/bs';
-import { Episode } from 'types/external';
+import { EpisodeForDisplay } from 'types/external';
 
 const ChakraRouterLink = chakra(RouterLink);
 
 interface Props {
-  lastEpisode: Episode;
-  nextEpisode: Episode;
+  lastEpisode: EpisodeForDisplay;
+  nextEpisode: EpisodeForDisplay;
   showId: number;
 }
 
 const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
   const badgeColorScheme = useColorModeValue('black', 'gray');
 
-  const getEpisodeText = (episode: Episode) => {
+  const getEpisodeText = (episode: EpisodeForDisplay) => {
     if (!episode?.seasonNumber) {
       return <span>{NA}</span>;
     }
