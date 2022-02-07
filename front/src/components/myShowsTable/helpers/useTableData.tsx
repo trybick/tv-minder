@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
-import { Button, Flex, Tag, Text, useMediaQuery } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
+import { Flex, IconButton, Link, Tag, Text, useMediaQuery } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
@@ -21,25 +22,27 @@ export const useTableData = () => {
             Name
           </Text>
         ),
-        Cell: ({ row }: Cell<BasicShowInfo>) => (
-          <Flex
-            {...(isMobile && {
-              ...row.getToggleRowExpandedProps(),
-            })}
-          >
-            <Button
-              {...(!isMobile && {
-                ...row.getToggleRowExpandedProps(),
-              })}
-              fontSize="md"
-              fontWeight={row.isExpanded ? 500 : 400}
-              leftIcon={row.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-              variant="ghost"
-            >
-              <Text isTruncated={!row.isExpanded}>{row.original.name}</Text>
-            </Button>
-          </Flex>
-        ),
+        Cell: ({ row }: Cell<BasicShowInfo>) => {
+          const { isExpanded, getToggleRowExpandedProps, original } = row;
+          const toggleRowExpandedProps = getToggleRowExpandedProps();
+          return (
+            <Flex {...(isMobile && { ...toggleRowExpandedProps })} align="center" gap="14px">
+              <IconButton
+                {...(!isMobile && { ...toggleRowExpandedProps })}
+                aria-label="Expand row"
+                icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                ml="-10px"
+                size="sm"
+                variant="outline"
+              />
+              <Link as={RouterLink} to={`/show/${original.id}`}>
+                <Text fontSize="md" isTruncated={!isExpanded}>
+                  {original.name}
+                </Text>
+              </Link>
+            </Flex>
+          );
+        },
       },
     ],
     [isMobile]
