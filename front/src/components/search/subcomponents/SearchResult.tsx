@@ -17,13 +17,7 @@ interface Props {
 }
 
 const SearchResult = ({ showToDisplay }: Props) => {
-  const {
-    first_air_date: firstAirDate,
-    id: showId,
-    name,
-    poster_path: posterPath,
-    vote_average: voteAverage,
-  } = showToDisplay;
+  const { first_air_date: firstAirDate, id: showId, name, poster_path: posterPath } = showToDisplay;
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
@@ -48,16 +42,6 @@ const SearchResult = ({ showToDisplay }: Props) => {
 
           <Flex mt="6px">
             <Text fontSize="14px">{yearForDisplay}</Text>
-
-            {voteAverage ? (
-              <Flex align="center" ml="10px">
-                <Badge colorScheme="green" fontSize="12px" variant="outline">
-                  {voteAverage}
-                </Badge>
-              </Flex>
-            ) : (
-              ''
-            )}
           </Flex>
         </Box>
       </Grid>
