@@ -25,15 +25,15 @@ const SeasonAccordionGroup = ({ showInfoForDisplay }: Props) => {
       <AccordionItem key={season.id}>
         <AccordionButton>
           <Box flex="1" textAlign="left">
-            <Text d="inline" fontWeight="600">
+            <Text d="inline" fontSize="lg" fontWeight="600">
               {season.name}
             </Text>{' '}
-            <Text d="inline" fontSize="sm">
+            <Text d="inline" fontSize="md">
               ({moment(season.airDate).year()})
             </Text>
           </Box>
           <Box mr="20px" textAlign="right">
-            <Text fontSize="sm">{season.episodes.length} Episodes</Text>
+            <Text fontSize="md">{season.episodes.length} Episodes</Text>
           </Box>
           <AccordionIcon />
         </AccordionButton>
@@ -45,10 +45,10 @@ const SeasonAccordionGroup = ({ showInfoForDisplay }: Props) => {
 
   return (
     <Flex direction="column" flex="1" mt="50px">
-      <Heading as="h3" fontSize="xl" ml="16px">
-        Seasons
+      <Heading as="h3" fontSize="2xl" ml="14px">
+        Seasons & Episodes
       </Heading>
-      <Accordion mt="18px" w="100%" allowToggle>
+      <Accordion mt="14px" w="100%" allowToggle>
         {createAccordionItems()}
       </Accordion>
     </Flex>

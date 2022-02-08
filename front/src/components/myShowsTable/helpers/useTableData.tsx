@@ -26,7 +26,7 @@ export const useTableData = () => {
           const { isExpanded, getToggleRowExpandedProps, original } = row;
           const toggleRowExpandedProps = getToggleRowExpandedProps();
           return (
-            <Flex {...(isMobile && { ...toggleRowExpandedProps })} align="center" gap="14px">
+            <Flex {...(isMobile && { ...toggleRowExpandedProps })} align="center" gap="16px">
               <IconButton
                 {...(!isMobile && { ...toggleRowExpandedProps })}
                 aria-label="Expand row"
@@ -34,6 +34,7 @@ export const useTableData = () => {
                 ml="-10px"
                 size="sm"
                 variant="outline"
+                isRound
               />
               <Link as={RouterLink} to={`/show/${original.id}`}>
                 <Text fontSize="md" isTruncated={!isExpanded}>

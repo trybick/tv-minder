@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   Box,
@@ -23,7 +24,6 @@ import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
-import { useHistory } from 'react-router-dom';
 
 const darkModeCalendarCss = css`
 .fc-col-header-cell,
