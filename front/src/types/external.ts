@@ -64,9 +64,9 @@ export type SeasonWithEpisodes = {
 export type BasicShowInfo = {
   backdropPath: string;
   createdBy: string | undefined;
-  episodeRunTime: number;
+  episodeRunTime: number | undefined;
   firstAirDate: string;
-  language: string;
+  language: string | undefined;
   genreNames: string[];
   id: number;
   inProduction: boolean;

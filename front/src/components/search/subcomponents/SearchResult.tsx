@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Badge, Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';

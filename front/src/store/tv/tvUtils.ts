@@ -219,7 +219,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
   return {
     backdropPath,
     createdBy: createdBy[0]?.name,
-    episodeRunTime: episodeRunTime.length && episodeRunTime[0],
+    episodeRunTime: (episodeRunTime?.length && episodeRunTime[0]) || undefined,
     firstAirDate,
     genreNames,
     language: spokenLanuages[0]?.english_name,
