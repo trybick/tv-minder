@@ -55,6 +55,7 @@ export type SeasonWithEpisodes = {
   episodes: EpisodeForSeason[];
   id: number;
   name: string;
+  nameForDisplay: string;
   overview: string;
   posterPath: string;
   seasonNumber: number;

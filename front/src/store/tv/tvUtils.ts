@@ -139,11 +139,19 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
         poster_path: posterPath,
         season_number: seasonNumber,
       } = season || {};
+      let nameForDisplay = name;
+
+      // If this season is not 'Specials', call it 'Season X'
+      if (seasonNumber !== 0) {
+        nameForDisplay = `Season ${seasonNumber}`;
+      }
+
       return {
         airDate,
         episodes: formatEpisodesForSeason(episodes),
         id,
         name,
+        nameForDisplay,
         overview,
         posterPath,
         seasonNumber,

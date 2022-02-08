@@ -26,7 +26,7 @@ const SeasonAccordionGroup = ({ showInfoForDisplay }: Props) => {
         <AccordionButton>
           <Box flex="1" textAlign="left">
             <Text d="inline" fontSize="lg" fontWeight="600">
-              {season.name}
+              {season.nameForDisplay}
             </Text>{' '}
             <Text d="inline" fontSize="md">
               ({moment(season.airDate).year()})
