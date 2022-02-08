@@ -14,7 +14,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
-import FullCalendar, { EventContentArg, FormatterInput } from '@fullcalendar/react';
+import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -23,6 +23,7 @@ import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
+import { useHistory } from 'react-router-dom';
 
 const darkModeCalendarCss = css`
 .fc-col-header-cell,
@@ -32,6 +33,7 @@ const darkModeCalendarCss = css`
 
 const CalendarPage = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
@@ -40,6 +42,11 @@ const CalendarPage = () => {
   useEffect(() => {
     dispatch(getEpisodesForCalendarAction());
   }, [dispatch, followedShows]);
+
+  const onEventClick = (eventInfo: EventClickArg) => {
+    const showId = eventInfo.event._def.extendedProps.showId;
+    history.push(`/show/${showId}`);
+  };
 
   const addPopoverToEvent = (eventInfo: EventContentArg) => (
     <Popover placement="top" trigger="hover">
@@ -79,6 +86,7 @@ const CalendarPage = () => {
           allDayContent={false}
           dayMaxEventRows={5}
           eventAllow={() => false} // do not allow dragging
+          eventClick={onEventClick}
           eventContent={addPopoverToEvent}
           events={calendarEpisodes}
           height="auto"
