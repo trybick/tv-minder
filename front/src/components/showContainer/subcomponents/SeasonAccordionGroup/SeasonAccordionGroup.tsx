@@ -38,7 +38,7 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel p={isMobile ? '10px 0 20px' : '10px 10px 20px'}>
+        <AccordionPanel p={isMobile ? '10px 0 5px' : '10px'}>
           <EpisodesTable episodes={season.episodes} isMobile={isMobile} />
         </AccordionPanel>
       </AccordionItem>
