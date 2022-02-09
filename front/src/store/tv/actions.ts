@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { AppThunk } from 'store';
-import { fetchEpisodeData } from 'gateway/getEpisodes';
+import { getEpisodesForCalendar } from 'gateway/getEpisodes';
 import { SavedQuery } from './types';
 import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
@@ -40,7 +40,7 @@ export const getEpisodesForCalendarAction = (): AppThunk => async (dispatch, get
   let fetchedData;
   const nonCachedIds = userFollowedShowsIds.filter(id => !validCachedIds.includes(id));
   if (nonCachedIds?.length) {
-    const { cache, fetchedEpisodeData } = await fetchEpisodeData(nonCachedIds);
+    const { cache, fetchedEpisodeData } = await getEpisodesForCalendar(nonCachedIds);
     fetchedData = fetchedEpisodeData;
     dispatch({
       type: SAVE_CALENDAR_EPISODES_CACHE,

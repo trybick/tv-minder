@@ -2,11 +2,6 @@ import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
 import { API } from 'constants/api';
 
-//
-// Our app calls searchShows
-// It uses a request creator for cancel tokens
-//
-
 type QueryParams = { api_key: string | undefined; query: string };
 
 export interface ReturnedSearchResult {
@@ -16,9 +11,7 @@ export interface ReturnedSearchResult {
   total_results: number;
 }
 
-const URL = `${API.THE_MOVIE_DB}/search/tv`;
-
-export const searchShows = async (
+export const searchShowsByQuery = async (
   query: string
 ): Promise<{
   results: ShowSearchResult[];
@@ -31,7 +24,7 @@ export const searchShows = async (
   };
 
   const { results, total_results: totalResults } =
-    (await makeCancellableRequest(URL, queryParams)) || emptyResult;
+    (await makeCancellableRequest(`${API.THE_MOVIE_DB}/search/tv`, queryParams)) || emptyResult;
 
   return { results, totalResults };
 };

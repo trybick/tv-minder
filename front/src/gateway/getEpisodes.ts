@@ -9,8 +9,8 @@ const queryParams = {
   api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
 };
 
-// Takes a list of showIds. Returns a list of episodes ready to display on calendar
-export const fetchEpisodeData = async (showIds: number[]) => {
+/** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */
+export const getEpisodesForCalendar = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);

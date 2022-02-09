@@ -3,7 +3,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
 import { Helmet } from 'react-helmet-async';
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { searchShows } from 'gateway/searchShows';
+import { searchShowsByQuery } from 'gateway/searchShowsByQuery';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
 import { selectSavedQueries } from 'store/tv/selectors';
@@ -72,7 +72,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
     if (isCached && getIsCacheValid(index)) {
       queryData = savedQueries[index];
     } else {
-      const { results, totalResults } = await searchShows(query);
+      const { results, totalResults } = await searchShowsByQuery(query);
       queryData = { query, results, timeSaved: moment(), totalResults };
       saveSearchQuery(queryData);
     }
