@@ -5,10 +5,11 @@ import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import { EpisodeForSeason } from 'types/external';
 
 interface Props {
+  isMobile: boolean;
   episodes: EpisodeForSeason[];
 }
 
-const EpisodesTable = ({ episodes }: Props) => {
+const EpisodesTable = ({ episodes, isMobile }: Props) => {
   const columns: Column<EpisodeForSeason>[] = useMemo(
     () => [
       {
@@ -24,6 +25,7 @@ const EpisodesTable = ({ episodes }: Props) => {
       },
       {
         id: 'airDate',
+        width: isMobile ? 80 : undefined,
         accessor: row => row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
         Header: () => <Text>Air Date</Text>,
       },
@@ -38,11 +40,13 @@ const EpisodesTable = ({ episodes }: Props) => {
         ),
       },
     ],
-    []
+    [isMobile]
   );
 
+  const initialState = isMobile ? { hiddenColumns: ['name'] } : undefined;
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<EpisodeForSeason>({ columns, data: episodes }, useFlexLayout);
+    useTable<EpisodeForSeason>({ columns, data: episodes, initialState }, useFlexLayout);
 
   return (
     <Table size="sm" {...getTableProps()}>

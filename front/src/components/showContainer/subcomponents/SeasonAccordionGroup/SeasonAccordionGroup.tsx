@@ -38,14 +38,14 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel p="10px 20px 20px">
-          <EpisodesTable episodes={season.episodes} />
+        <AccordionPanel p={isMobile ? '10px 0 20px' : '10px 10px 20px'}>
+          <EpisodesTable episodes={season.episodes} isMobile={isMobile} />
         </AccordionPanel>
       </AccordionItem>
     ));
 
   return (
-    <Flex direction="column" flex="1" mt="50px">
+    <Flex direction="column" flex="1" mt={isMobile ? '25px' : '50px'}>
       <Heading as="h3" fontSize="2xl" ml={isMobile ? '' : '14px'}>
         Seasons & Episodes
       </Heading>
