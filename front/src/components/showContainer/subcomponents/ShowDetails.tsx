@@ -28,7 +28,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
   return (
     <Box w="100%">
-      <Heading as="h3" fontSize="2xl" mb="8px">
+      <Heading as="h3" fontSize="3xl" mb="8px">
         {name}{' '}
         <chakra.span fontSize="xl" fontWeight="600">
           ({yearsActive})
@@ -36,7 +36,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
       </Heading>
 
       {voteAverage ? (
-        <Flex mb="14px">
+        <Flex mb="16px">
           <Icon alignSelf="center" as={FaStar} boxSize="27px" color="yellow.400" />
           <Flex direction="column" ml="4px">
             <Text fontSize="16px">
@@ -58,7 +58,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
       ) : null}
 
       {genreNames && (
-        <Box mb="14px">
+        <Box mb="16px">
           {genreNames?.map(genre => (
             <Tag key={genre} mr="5px" size="md">
               {genre}
