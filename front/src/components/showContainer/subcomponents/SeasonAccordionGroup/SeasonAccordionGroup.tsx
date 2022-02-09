@@ -14,16 +14,17 @@ import { BasicShowInfo } from 'types/external';
 import EpisodesTable from './subcomponents/EpisodesTable';
 
 interface Props {
+  isMobile: boolean;
   showInfoForDisplay: BasicShowInfo;
 }
 
-const SeasonAccordionGroup = ({ showInfoForDisplay }: Props) => {
+const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
   const { seasonsWithEpisodes } = showInfoForDisplay || {};
 
   const createAccordionItems = () =>
     seasonsWithEpisodes.map(season => (
       <AccordionItem key={season.id}>
-        <AccordionButton>
+        <AccordionButton px={isMobile ? '8px' : '16px'}>
           <Box flex="1" textAlign="left">
             <Text d="inline" fontSize="lg" fontWeight="600">
               {season.nameForDisplay}
@@ -45,7 +46,7 @@ const SeasonAccordionGroup = ({ showInfoForDisplay }: Props) => {
 
   return (
     <Flex direction="column" flex="1" mt="50px">
-      <Heading as="h3" fontSize="2xl" ml="14px">
+      <Heading as="h3" fontSize="2xl" ml={isMobile ? '' : '14px'}>
         Seasons & Episodes
       </Heading>
       <Accordion mt="14px" w="100%" allowToggle>

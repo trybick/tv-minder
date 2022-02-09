@@ -29,7 +29,7 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
         <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
       </Flex>
 
-      <SeasonAccordionGroup showInfoForDisplay={showInfoForDisplay} />
+      <SeasonAccordionGroup isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
     </>
   );
 };
