@@ -1,8 +1,8 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Heading, Image, Link } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { PopularShow as PopularShowType } from 'types/external';
 import { imagePath154 } from 'constants/strings';
-import FollowButton from './FollowButton';
+import FollowButton from 'components/common/FollowButton';
 
 interface Props {
   show: PopularShowType;
@@ -18,14 +18,14 @@ const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
         src={imagePath154 + posterPath}
       />
     </Link>
-    <Box p="8px 12px">
+    <Flex direction="column" p="8px 12px">
       <Link as={RouterLink} to={`/show/${id}`}>
         <Heading fontSize="sm" textAlign="center" isTruncated>
           {name}
         </Heading>
       </Link>
-      <FollowButton showId={id} />
-    </Box>
+      <FollowButton m="12px auto 6px" showId={id} size="sm" />
+    </Flex>
   </Box>
 );
 

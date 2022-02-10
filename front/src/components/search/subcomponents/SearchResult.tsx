@@ -4,7 +4,7 @@ import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
 import { fallbackImagePath } from 'constants/strings';
-import FollowButton from './FollowButton';
+import FollowButton from 'components/common/FollowButton';
 
 interface Props {
   followedShows: ID[];
@@ -37,7 +37,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
                 {name}
               </Heading>
             </Link>
-            <FollowButton showId={showId} />
+            <FollowButton showId={showId} size="sm" />
           </Flex>
 
           <Flex mt="6px">

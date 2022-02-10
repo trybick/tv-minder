@@ -4,7 +4,7 @@ import { FaStar } from 'react-icons/fa';
 import { BasicShowInfo } from 'types/external';
 import { abbreviateNumber } from 'utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
-import FollowButton from './FollowButton';
+import FollowButton from 'components/common/FollowButton';
 
 interface Props {
   isMobile: boolean;
@@ -67,7 +67,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         </Box>
       )}
 
-      {isMobile && <FollowButton showId={id} styles={{ mb: '14px', size: 'md', width: '100%' }} />}
+      {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
 
       <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
 

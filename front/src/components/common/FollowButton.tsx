@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { useFollowButton } from 'hooks/useFollowButton';
 
@@ -6,7 +6,7 @@ interface Props {
   showId: number;
 }
 
-export const FollowButton = ({ showId }: Props) => {
+export const FollowButton = ({ showId, ...rest }: Props & ButtonProps) => {
   const { isFollowed, isLoading, onFollowShow, onUnFollowShow } = useFollowButton(showId);
 
   return isFollowed ? (
@@ -15,11 +15,9 @@ export const FollowButton = ({ showId }: Props) => {
       color="white"
       isLoading={isLoading}
       leftIcon={<CheckIcon />}
-      m="12px auto 6px"
-      minW="108px"
       onClick={onUnFollowShow}
-      size="sm"
       variant="solid"
+      {...rest}
     >
       Following
     </Button>
@@ -28,11 +26,9 @@ export const FollowButton = ({ showId }: Props) => {
       colorScheme="cyan"
       isLoading={isLoading}
       leftIcon={<SmallAddIcon />}
-      m="12px auto 6px"
-      minW="108px"
       onClick={onFollowShow}
-      size="sm"
       variant="outline"
+      {...rest}
     >
       Follow
     </Button>

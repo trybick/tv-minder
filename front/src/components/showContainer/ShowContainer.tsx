@@ -1,7 +1,7 @@
 import { Flex, Image, useMediaQuery } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { imagePath342 } from 'constants/strings';
-import FollowButton from './subcomponents/FollowButton';
+import FollowButton from 'components/common/FollowButton';
 import ShowDetails from './subcomponents/ShowDetails';
 import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
 
