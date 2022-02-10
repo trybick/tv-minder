@@ -32,12 +32,12 @@ const SearchResult = ({ showToDisplay }: Props) => {
 
         <Box minW="0">
           <Flex justify="space-between">
-            <Link as={RouterLink} to={`/show/${showId}`}>
+            <Link as={RouterLink} minW="0" to={`/show/${showId}`}>
               <Heading mr="10px" size="md" isTruncated>
                 {name}
               </Heading>
             </Link>
-            <FollowButton showId={showId} size="sm" />
+            <FollowButton minW="91px" showId={showId} size="sm" />
           </Flex>
 
           <Flex mt="6px">

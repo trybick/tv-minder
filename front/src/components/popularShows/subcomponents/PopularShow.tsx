@@ -24,7 +24,7 @@ const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
           {name}
         </Heading>
       </Link>
-      <FollowButton m="12px auto 6px" showId={id} size="sm" />
+      <FollowButton m="12px auto 6px" minW="108px" showId={id} size="sm" />
     </Flex>
   </Box>
 );
