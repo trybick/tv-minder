@@ -21,10 +21,10 @@ interface Props {
 const UnfollowCloseButton = ({ showId, showName }: Props) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const onClose = () => setIsOpen(false);
   const cancelRef = useRef(null);
 
   const onUnfollowShow = () => {
+    setIsOpen(false);
     dispatch(removeFromFollowedShowsAction(showId));
   };
 
@@ -32,13 +32,18 @@ const UnfollowCloseButton = ({ showId, showName }: Props) => {
     <Flex align="center" h="100%">
       <CloseButton onClick={() => setIsOpen(true)} size="sm" />
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} isCentered>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={() => setIsOpen(false)}
+        isCentered
+      >
         <AlertDialogOverlay>
           <AlertDialogContent mx="20px">
             <AlertDialogHeader>Unfollow {showName}</AlertDialogHeader>
             <AlertDialogBody>Are you sure?</AlertDialogBody>
             <AlertDialogFooter>
-              <Button onClick={onClose} ref={cancelRef}>
+              <Button onClick={() => setIsOpen(false)} ref={cancelRef}>
                 Cancel
               </Button>
               <Button colorScheme="red" ml={3} onClick={onUnfollowShow}>
