@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Image, Link, Text } from '@chakra-ui/react';
-import noShowsImage from '../../images/woody.jpg';
+import noShowsImage from '../../images/tv-remote.jpg';
 
 const NoFollowShowsMessage = () => (
   <Box m="40px auto 0" maxW="400px">
