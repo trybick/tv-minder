@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ReactDOM from 'react-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import 'focus-visible/dist/focus-visible';
 import configureStore from 'store';
 import App from 'components/App';
@@ -15,6 +15,7 @@ const RenderedApp = (): JSX.Element => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ChakraProvider theme={theme}>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <App />
         </ChakraProvider>
       </PersistGate>
