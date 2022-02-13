@@ -94,7 +94,7 @@ const formatEpisodesForSeason = (episodes: GenericStringObject[]): EpisodeForSea
   if (isEmpty(episodes)) {
     return [];
   }
-  return episodes.map(episode => {
+  return episodes.map<EpisodeForSeason>(episode => {
     const {
       air_date: airDate,
       episode_number: episodeNumber,
@@ -127,9 +127,9 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
   if (isEmpty(seasons)) {
     return [];
   }
-  const camelCaseSeasons = Object.values(seasons)
+  const camelCaseSeasons: SeasonWithEpisodes[] = Object.values(seasons)
     .reverse()
-    .map(season => {
+    .map<SeasonWithEpisodes>(season => {
       const {
         air_date: airDate,
         episodes,
@@ -141,14 +141,14 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
       } = season || {};
       let nameForDisplay = name;
 
-      // If this season is not 'Specials', call it 'Season X'
+      // If this season is not 'Specials', call it 'Season N'
       if (seasonNumber !== 0) {
         nameForDisplay = `Season ${seasonNumber}`;
       }
 
       return {
         airDate,
-        episodes: formatEpisodesForSeason(episodes),
+        episodes: episodes.length && formatEpisodesForSeason(episodes),
         id,
         name,
         nameForDisplay,
@@ -158,7 +158,7 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
       };
     });
 
-  return camelCaseSeasons;
+  return camelCaseSeasons.filter(season => season.episodes.length);
 };
 
 export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
