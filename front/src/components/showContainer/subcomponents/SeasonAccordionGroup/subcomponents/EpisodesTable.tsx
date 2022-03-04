@@ -21,11 +21,12 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
       {
         id: 'name',
         accessor: 'name',
+        width: 100,
         Header: () => <Text>Title</Text>,
       },
       {
         id: 'airDate',
-        width: isMobile ? 80 : undefined,
+        width: 80,
         accessor: row => row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
         Header: () => <Text>Air Date</Text>,
       },
@@ -34,13 +35,13 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         width: 50,
         style: { textAlign: 'center' },
         accessor: row => row.voteAverage,
-        Header: () => <Text>Rating</Text>,
+        Header: () => <Text textAlign="center">Rating</Text>,
         Cell: ({ row }: Cell<EpisodeForSeason>) => (
           <Text textAlign="center">{row.original.voteAverage}</Text>
         ),
       },
     ],
-    [isMobile]
+    []
   );
 
   const initialState = isMobile ? { hiddenColumns: ['name'] } : undefined;
