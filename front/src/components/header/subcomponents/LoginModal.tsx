@@ -220,7 +220,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   `;
 
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={handleFormClose}>
+    <Modal isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
       <ModalContent bg={useColorModeValue('#fff', '#2D3748')}>
         <ModalHeader>Login</ModalHeader>

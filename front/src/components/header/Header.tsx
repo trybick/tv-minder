@@ -163,7 +163,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                 <ToggleColorModeButton />
                 <Menu>
                   <MenuButton aria-label="Page Options" ml="11px">
-                    <Avatar bg={avatarBackgroundColor} size="sm" />
+                    <Avatar bg={avatarBackgroundColor} name={email.charAt(0)} size="sm" />
                   </MenuButton>
                   <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>

@@ -152,7 +152,7 @@ const SignUpModal = ({
   `;
 
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent bg={useColorModeValue('#fff', '#2D3748')}>
         <ModalHeader>Create your account</ModalHeader>
