@@ -6,8 +6,9 @@ const DATABASE_URL = `mongodb+srv://tim-prod:${envConfig.DB_PASSWORD}@tv-minder-
 export default function connectToDatabase() {
   mongoose
     .connect(DATABASE_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // TODO: update mongoose, remove mongoose types, and try adding these back
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
       useCreateIndex: true,
       useFindAndModify: false,
     })

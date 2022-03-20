@@ -13,10 +13,11 @@
   },
   "homepage": "https://github.com/trybick/tv-minder#readme",
   "scripts": {
-    "postinstall": "(cd api && yarn); (cd front && yarn);",
+    "postinstall": "(cd api && yarn); ([ -d \"front\" ] && cd front && yarn || true);",
     "prepare": "husky install",
-    "serve": "yarn --cwd api serve",
-    "serve-stop": "yarn --cwd api serve-stop",
+    "heroku-prebuild": "rm -rf front",
+    "build": "yarn --cwd api build",
+    "serve:prod": "yarn --cwd api serve:prod",
     "start": "yarn --cwd front start",
     "start:local": "yarn --cwd front start:local"
   },
