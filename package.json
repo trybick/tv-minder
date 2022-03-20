@@ -17,7 +17,7 @@
     "prepare": "husky install",
     "heroku-prebuild": "rm -rf front",
     "build": "yarn --cwd api build",
-    "serve": "yarn --cwd api serve",
+    "serve:prod": "yarn --cwd api serve:prod",
     "start": "yarn --cwd front start",
     "start:local": "yarn --cwd front start:local"
   },
