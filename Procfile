@@ -1,1 +1,1 @@
-web: yarn serve
+web: yarn serve:prod

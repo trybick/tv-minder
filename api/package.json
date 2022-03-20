@@ -4,7 +4,9 @@
   "author": "Tim Rybicki",
   "license": "UNLICENSED",
   "scripts": {
-    "serve": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\""
+    "build": "npx tsc -p .",
+    "serve": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
+    "serve:prod": "node dist/index.js"
   },
   "_moduleAliases": {
     "config": "dist/config",
@@ -23,11 +25,7 @@
     "mongodb": "^4.0.0",
     "mongoose": "5.13.3",
     "nodemailer": "^6.6.3",
-    "ts-mongoose": "^0.0.24",
-    "module-alias": "^2.2.2",
-    "nodemon": "^2.0.12",
-    "tsc-watch": "^4.4.0",
-    "typescript": "^3.8.3"
+    "ts-mongoose": "^0.0.24"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -38,6 +36,10 @@
     "@types/nodemailer": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
     "@typescript-eslint/parser": "^4.28.3",
-    "eslint": "^7.30.0"
+    "eslint": "^7.30.0",
+    "module-alias": "^2.2.2",
+    "nodemon": "^2.0.12",
+    "tsc-watch": "^4.4.0",
+    "typescript": "^3.8.3"
   }
 }
