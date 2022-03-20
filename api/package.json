@@ -4,11 +4,7 @@
   "author": "Tim Rybicki",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
-    "serve": "docker-compose up",
-    "serve-build": "docker-compose build",
-    "serve-build-clean": "docker-compose build --no-cache",
-    "serve-stop": "docker-compose down"
+    "start": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\""
   },
   "_moduleAliases": {
     "config": "dist/config",
