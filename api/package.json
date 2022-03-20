@@ -4,6 +4,8 @@
   "author": "Tim Rybicki",
   "license": "UNLICENSED",
   "scripts": {
+    "lint": "eslint --fix --ext .tsx,.js,.ts .",
+    "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "build": "npx tsc -p .",
     "serve:local": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
     "serve:prod": "node dist/server.js"

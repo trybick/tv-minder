@@ -18,10 +18,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
   jwt.verify(
     providedToken,
     JWT_KEY!,
-    (
-      err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null,
-      decodedData: JWTData | undefined | {}
-    ) => {
+    (err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null, decodedData: any) => {
       const userId = (decodedData as JWTData)?.id;
 
       if (userId && !err) {
