@@ -4,15 +4,7 @@ import envConfig from 'config/env';
 const DATABASE_URL = `mongodb+srv://tim-prod:${envConfig.DB_PASSWORD}@tv-minder-cluster-rrvuj.mongodb.net/main?retryWrites=true&w=majority`;
 
 export default function connectToDatabase() {
-  mongoose
-    .connect(DATABASE_URL, {
-      // TODO: update mongoose, remove mongoose types, and try adding these back
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    })
-    .catch((err: Error) => console.log('mongoose error', err));
+  mongoose.connect(DATABASE_URL).catch((err: Error) => console.log('mongoose error', err));
 
   const db = mongoose.connection;
 
