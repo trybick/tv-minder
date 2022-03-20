@@ -16,7 +16,6 @@
     "postinstall": "(cd api && yarn); (cd front && yarn);",
     "prepare": "husky install",
     "serve": "yarn --cwd api serve",
-    "serve-stop": "yarn --cwd api serve-stop",
     "start": "yarn --cwd front start",
     "start:local": "yarn --cwd front start:local"
   },

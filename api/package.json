@@ -4,7 +4,7 @@
   "author": "Tim Rybicki",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\""
+    "serve": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\""
   },
   "_moduleAliases": {
     "config": "dist/config",
