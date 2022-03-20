@@ -5,7 +5,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "npx tsc -p .",
-    "serve": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
+    "serve:local": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
     "serve:prod": "node dist/server.js"
   },
   "_moduleAliases": {

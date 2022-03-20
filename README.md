@@ -2,7 +2,7 @@
 
 > Full-stack web application to keep track of your favorite shows
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c0c8f001-1839-4c79-a338-de51cf4cd991/deploy-status)](https://app.netlify.com/sites/tv-minder/deploys) ![Amazon ECS Badge](https://github.com/trybick/tv-minder/workflows/Deploy%20API%20to%20Amazon%20ECS/badge.svg) [![Validate front](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c0c8f001-1839-4c79-a338-de51cf4cd991/deploy-status)](https://app.netlify.com/sites/tv-minder/deploys) [![Validate front](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml)
 
 ## Demo
 
@@ -14,24 +14,24 @@
 
 **Front**: React, Redux, TypeScript, Chakra UI
 
-**API**: Node.js, Express, TypeScript, Docker, AWS ECS
+**API**: Node.js, Express, MongoDB Atlas, TypeScript
 
 ## Local Development
 
 #### Using the production API (quickest)
 
-This will start the front-end and use the production API for API requests.
+This will start the front-end and use the production API for API requests so you don't need to run the local API.
 
 ```bash
 yarn
 yarn start
 ```
 
-#### Or run the API locally if you need to
+#### Or run the API locally if preferred
 
 ```bash
 # Start the local API
-yarn serve
+yarn serve:local
 # Start the app
 yarn start:local
 ```
