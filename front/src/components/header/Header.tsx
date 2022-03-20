@@ -162,8 +162,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ToggleColorModeButton />
                 <Menu>
-                  <MenuButton aria-label="Page Options" ml="11px">
-                    <Avatar bg={avatarBackgroundColor} name={email.charAt(0)} size="sm" />
+                  <MenuButton aria-label="Page Options" ml="12px">
+                    <Avatar bg={avatarBackgroundColor} size="sm" />
                   </MenuButton>
                   <MenuList placement="bottom-end" zIndex={4}>
                     <MenuGroup title={email}>
