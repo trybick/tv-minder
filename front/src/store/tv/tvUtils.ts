@@ -217,13 +217,16 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     `${moment(firstAirDate).year()}-${
       status === 'Ended' ? moment(lastEpisodeToAir?.air_date).year() : ''
     }`;
+
+  const language = spokenLanuages.map((language: any) => language.english_name).join(', ');
+
   return {
     backdropPath,
     createdBy: createdBy[0]?.name,
     episodeRunTime: (episodeRunTime?.length && episodeRunTime[0]) || undefined,
     firstAirDate,
     genreNames,
-    language: spokenLanuages[0]?.english_name,
+    language,
     id,
     inProduction,
     lastAirDate,
