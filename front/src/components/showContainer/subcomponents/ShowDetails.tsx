@@ -30,9 +30,11 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
     <Box w="100%">
       <Heading as="h3" fontSize="3xl" mb="8px">
         {name}{' '}
-        <chakra.span fontSize="xl" fontWeight="600">
-          ({yearsActive})
-        </chakra.span>
+        {yearsActive && (
+          <chakra.span fontSize="xl" fontWeight="600">
+            ({yearsActive})
+          </chakra.span>
+        )}
       </Heading>
 
       {voteAverage ? (

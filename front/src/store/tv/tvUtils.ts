@@ -212,10 +212,11 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
   const genreNames: string[] = genres.slice(0, 2).map((genre: Genre) => genre.name);
 
-  const yearsActive = `${moment(firstAirDate).year()}-${
-    status === 'Ended' ? moment(lastEpisodeToAir?.air_date).year() : ''
-  }`;
-
+  const yearsActive =
+    firstAirDate &&
+    `${moment(firstAirDate).year()}-${
+      status === 'Ended' ? moment(lastEpisodeToAir?.air_date).year() : ''
+    }`;
   return {
     backdropPath,
     createdBy: createdBy[0]?.name,

@@ -12,20 +12,23 @@ interface Props {
 const ShowContainer = ({ showInfoForDisplay }: Props) => {
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const { id, posterPath } = showInfoForDisplay || {};
+  const hasEpisodes = showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
 
   return (
     <>
       <Flex gap="20px">
         {!isMobile && (
           <Flex direction="column" gap="12px">
-            <Image borderRadius="8px" src={imagePath342 + posterPath} />
+            {posterPath && <Image borderRadius="8px" src={imagePath342 + posterPath} />}
             <FollowButton showId={id} />
           </Flex>
         )}
         <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
       </Flex>
 
-      <SeasonAccordionGroup isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+      {hasEpisodes && (
+        <SeasonAccordionGroup isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+      )}
     </>
   );
 };
