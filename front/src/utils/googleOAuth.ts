@@ -27,13 +27,9 @@ export const handleGoogleLoginSuccess = (
       .post(`${API.TV_MINDER}/register`, {
         email,
         password: googleId,
+        isGoogleLogin: true,
       })
-      .catch(error => {
-        if (error.response) {
-          console.log('User already exists, continuing to Login.');
-        }
-      })
-      .finally(() => {
+      .then(() => {
         axios
           .post(`${API.TV_MINDER}/login`, {
             email,

@@ -8,44 +8,75 @@ import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
 
 export const registerUser = (req: Request, res: Response) => {
-  User.find({ email: req.body.email })
-    .exec()
-    .then((user) => {
-      if (user.length >= 1) {
-        res.status(409).json({
-          message: 'Email already registered',
-        });
-        throw 'Email already registered';
-      }
-    })
-    .then(() => {
-      if (!emailRegex.test(req.body.email)) {
-        res.status(422).json({
-          message: 'Email invalid',
-        });
-        throw 'Email invalid';
-      }
-    })
-    .then(() => {
-      bcrypt.hash(req.body.password, 10, (error, hash) => {
-        if (error) {
-          return res.status(500).json({ error });
+  if (req.body.isGoogleLogin) {
+    User.find({ email: req.body.email })
+      .exec()
+      .then((user) => {
+        if (!user.length) {
+          bcrypt.hash(req.body.password, 10, (error, hash) => {
+            if (error) {
+              return res.status(500).json({ error });
+            }
+            const newUser = new User({
+              email: req.body.email,
+              password: hash,
+              followedShows: req.body.unregisteredFollowedShows || [],
+            });
+            newUser.save().then(() => {
+              res.status(201).json({
+                message: 'Google user stored to database',
+              });
+            });
+          });
+        } else {
+          res.status(202).json({
+            message: 'Google user is already registered in database',
+          });
         }
-        const newUser = new User({
-          email: req.body.email,
-          password: hash,
-          followedShows: req.body.unregisteredFollowedShows || [],
-        });
-        newUser.save().then(() => {
-          res.status(201).json({
-            message: 'User created',
+      })
+      .catch((error: Error) => {
+        return res.status(500).json({ error });
+      });
+  } else {
+    User.find({ email: req.body.email })
+      .exec()
+      .then((user) => {
+        if (user.length) {
+          res.status(409).json({
+            message: 'Email already registered',
+          });
+          throw 'Email already registered';
+        }
+      })
+      .then(() => {
+        if (!emailRegex.test(req.body.email)) {
+          res.status(422).json({
+            message: 'Email invalid',
+          });
+          throw 'Email invalid';
+        }
+      })
+      .then(() => {
+        bcrypt.hash(req.body.password, 10, (error, hash) => {
+          if (error) {
+            return res.status(500).json({ error });
+          }
+          const newUser = new User({
+            email: req.body.email,
+            password: hash,
+            followedShows: req.body.unregisteredFollowedShows || [],
+          });
+          newUser.save().then(() => {
+            res.status(201).json({
+              message: 'User created',
+            });
           });
         });
+      })
+      .catch((error: Error) => {
+        return res.status(500).json({ error });
       });
-    })
-    .catch((error: Error) => {
-      return res.status(500).json({ error });
-    });
+  }
 };
 
 export const loginUser = (req: Request, res: Response) => {
