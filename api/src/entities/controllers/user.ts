@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from 'models/user';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import envConfig from 'config/env';
