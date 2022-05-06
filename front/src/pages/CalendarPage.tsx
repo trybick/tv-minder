@@ -91,6 +91,7 @@ const CalendarPage = () => {
           eventClick={onEventClick}
           eventContent={addPopoverToEvent}
           events={calendarEpisodes}
+          fixedWeekCount={false} // don't force showing additional weeks in calendar view
           height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
