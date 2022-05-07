@@ -6,7 +6,10 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import 'focus-visible/dist/focus-visible';
 import configureStore from 'store';
 import App from 'components/App';
+import { initSentry } from 'utils/sentry';
 import theme from './theme';
+
+initSentry();
 
 const { store, persistor } = configureStore();
 
