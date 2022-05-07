@@ -51,7 +51,7 @@ const CalendarPage = () => {
   const addPopoverToEvent = (eventInfo: EventContentArg) => (
     <Popover placement="top" trigger="hover">
       <PopoverTrigger>
-        <Text mx="6px" textAlign="center" isTruncated>
+        <Text mx="6px" textAlign={isMobile ? 'left' : 'center'} isTruncated>
           {eventInfo.event.title}
         </Text>
       </PopoverTrigger>
@@ -79,20 +79,20 @@ const CalendarPage = () => {
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
         m="15px auto 0"
-        maxW="1170px"
+        maxW="1180px"
         p={{ base: '0 15px 20px', md: '0 25px 20px' }}
-        w={{ base: '90%', md: 'unset' }}
+        w={{ base: '90%', md: '98%' }}
       >
         <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
         <FullCalendar
           allDayContent={false}
-          dayMaxEventRows={4}
+          dayMaxEventRows={5}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
           eventContent={addPopoverToEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
-          height="auto"
+          height={isMobile ? 'auto' : '84vh'}
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
           titleFormat={titleFormat}
