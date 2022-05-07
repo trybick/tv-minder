@@ -19,11 +19,11 @@
     ]
   },
   "scripts": {
-    "build": "CI= react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true CI= react-scripts build",
     "lint": "eslint --fix --ext .tsx,.js,.ts .",
     "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
-    "start": "cross-env PORT=4000 react-scripts start",
-    "start:local": "cross-env PORT=4000 REACT_APP_API=local react-scripts start",
+    "start": "cross-env PORT=4000 DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "start:local": "cross-env PORT=4000 REACT_APP_API=local DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "validate": "tsc --noEmit"
   },
   "lint-staged": {

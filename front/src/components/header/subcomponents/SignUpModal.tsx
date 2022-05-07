@@ -163,7 +163,7 @@ const SignUpModal = ({
           }}
         />
 
-        <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px" size="auto">
+        <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
           <GoogleLogin
             buttonText="Continue with Google"
             clientId={API.GOOGLE_0AUTH!}

@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
-import YouTube, { Options } from 'react-youtube';
+import YouTube from 'react-youtube';
 
 interface Props {
   isMobile?: boolean;
@@ -20,8 +20,8 @@ interface Props {
 
 const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const desktopOptions: Options = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
-  const mobileOptions: Options = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
+  const desktopOptions = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
+  const mobileOptions = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
 
   return videoId ? (
     <Box alignSelf="center" mb="16px">

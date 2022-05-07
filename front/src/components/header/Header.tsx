@@ -161,11 +161,11 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ToggleColorModeButton />
-                <Menu>
+                <Menu placement="bottom-end">
                   <MenuButton aria-label="Page Options" ml="12px">
                     <Avatar bg={avatarBackgroundColor} size="sm" />
                   </MenuButton>
-                  <MenuList placement="bottom-end" zIndex={4}>
+                  <MenuList zIndex={4}>
                     <MenuGroup title={email}>
                       <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
