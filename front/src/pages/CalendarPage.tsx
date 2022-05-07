@@ -86,7 +86,7 @@ const CalendarPage = () => {
         <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
         <FullCalendar
           allDayContent={false}
-          dayMaxEventRows={5}
+          dayMaxEventRows={4}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
           eventContent={addPopoverToEvent}
