@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as Sentry from '@sentry/browser';
 import { AppThunk } from 'store';
 import { ID } from 'types/common';
 import { API } from 'constants/api';
@@ -36,6 +37,7 @@ export const setHasLocalWarningToastBeenShownAction = (): AppThunk => dispatch =
 };
 
 export const setIsLoggedOutAction = (): AppThunk => dispatch => {
+  Sentry.configureScope(scope => scope.setUser(null));
   dispatch({
     type: SET_IS_LOGGED_IN_FALSE,
   });
@@ -44,6 +46,7 @@ export const setIsLoggedOutAction = (): AppThunk => dispatch => {
 export const setIsLoggedInAction =
   (email: string): AppThunk =>
   dispatch => {
+    Sentry.setUser({ email });
     dispatch({
       type: SET_IS_LOGGED_IN_TRUE,
       payload: email,
