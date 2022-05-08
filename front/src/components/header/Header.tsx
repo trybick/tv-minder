@@ -115,6 +115,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               h="28px"
               src={logo}
               verticalAlign="middle"
+              w="173px"
             />
           </Link>
         </Flex>
