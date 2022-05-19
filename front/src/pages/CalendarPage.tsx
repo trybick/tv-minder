@@ -26,10 +26,12 @@ import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
 
 const darkModeCalendarCss = css`
-.fc-col-header-cell,
-.fc-more-popover,
-.fc-list-day-cushion {
-  background-color: ${theme.colors.darkBlack} !important;`;
+  .fc-col-header-cell,
+  .fc-more-popover,
+  .fc-list-day-cushion {
+    background-color: ${theme.colors.darkBlack} !important;
+  }
+`;
 
 const CalendarPage = () => {
   const dispatch = useDispatch();
