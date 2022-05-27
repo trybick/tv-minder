@@ -26,10 +26,15 @@ import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
 
 const darkModeCalendarCss = css`
+  /* day of the week headers, "more" popover, mobile day of the week headers */
   .fc-col-header-cell,
   .fc-more-popover,
   .fc-list-day-cushion {
     background-color: ${theme.colors.darkBlack} !important;
+  }
+  /* event hover color on mobile */
+  .fc .fc-list-event:hover td {
+    background-color: ${theme.colors.black} !important;
   }
 `;
 
