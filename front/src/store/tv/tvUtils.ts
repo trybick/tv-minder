@@ -127,9 +127,8 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
   if (isEmpty(seasons)) {
     return [];
   }
-  const camelCaseSeasons: SeasonWithEpisodes[] = Object.values(seasons)
-    .reverse()
-    .map<SeasonWithEpisodes>(season => {
+  const camelCaseSeasons: SeasonWithEpisodes[] = Object.values(seasons).map<SeasonWithEpisodes>(
+    season => {
       const {
         air_date: airDate,
         episodes,
@@ -156,7 +155,8 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
         posterPath,
         seasonNumber,
       };
-    });
+    }
+  );
 
   return camelCaseSeasons.filter(season => season.episodes.length);
 };
