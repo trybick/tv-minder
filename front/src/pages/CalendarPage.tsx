@@ -91,7 +91,7 @@ const CalendarPage = () => {
           dayMaxEventRows={5}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
-          eventContent={addPopoverToEvent}
+          eventContent={isMobile ? undefined : addPopoverToEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
           height={isMobile ? 'auto' : '84vh'}
