@@ -29,9 +29,11 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
             <Text d="inline" fontSize="lg" fontWeight="600">
               {season.nameForDisplay}
             </Text>{' '}
-            <Text d="inline" fontSize="md">
-              ({moment(season.airDate).year()})
-            </Text>
+            {season.airDate && (
+              <Text d="inline" fontSize="md">
+                ({moment(season.airDate).year()})
+              </Text>
+            )}
           </Box>
           <Box mr="20px" textAlign="right">
             <Text fontSize="md">{season.episodes.length} Episodes</Text>
