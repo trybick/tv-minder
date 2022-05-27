@@ -158,6 +158,12 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
     }
   );
 
+  const specialsIndex = camelCaseSeasons.findIndex(season => season.seasonNumber === 0);
+  // Move 'Specials' season to end of seasons list
+  if (specialsIndex === 0 || specialsIndex) {
+    camelCaseSeasons.push(camelCaseSeasons.splice(specialsIndex, 1)[0]);
+  }
+
   return camelCaseSeasons.filter(season => season.episodes.length);
 };
 
