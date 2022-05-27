@@ -75,6 +75,12 @@ const CalendarPage = () => {
     </Popover>
   );
 
+  const formatMobileEvent = (eventInfo: EventContentArg) => (
+    <Text color="white" cursor="pointer">
+      {eventInfo.event.title}
+    </Text>
+  );
+
   const titleFormat: FormatterInput = {
     month: isMobile ? 'short' : 'long',
     year: 'numeric',
@@ -96,7 +102,7 @@ const CalendarPage = () => {
           dayMaxEventRows={5}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
-          eventContent={isMobile ? undefined : addPopoverToEvent}
+          eventContent={isMobile ? formatMobileEvent : addPopoverToEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
           height={isMobile ? 'auto' : '84vh'}
