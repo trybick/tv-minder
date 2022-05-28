@@ -47,7 +47,12 @@ const CalendarPage = () => {
   const { colorMode } = useColorMode();
 
   useEffect(() => {
-    dispatch(getEpisodesForCalendarAction());
+    const loadEpisodes = () =>
+      document.visibilityState === 'visible' && dispatch(getEpisodesForCalendarAction());
+    // Load episodes on first render and when browser tab gets re-focused
+    loadEpisodes();
+    window.addEventListener('visibilitychange', loadEpisodes);
+    return () => window.removeEventListener('visibilitychange', loadEpisodes);
   }, [dispatch, followedShows]);
 
   const onEventClick = (eventInfo: EventClickArg) => {
