@@ -54,6 +54,7 @@ export type SeasonWithEpisodes = {
   airDate: string;
   episodes: EpisodeForSeason[];
   id: number;
+  isSpecialsSeason: boolean;
   name: string;
   nameForDisplay: string;
   overview: string;

@@ -22,26 +22,26 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
   const { seasonsWithEpisodes } = showInfoForDisplay || {};
 
   const createAccordionItems = () =>
-    seasonsWithEpisodes.map(season => (
-      <AccordionItem key={season.id}>
+    seasonsWithEpisodes.map(({ airDate, episodes, id, isSpecialsSeason, nameForDisplay }) => (
+      <AccordionItem key={id}>
         <AccordionButton px={isMobile ? '8px' : '16px'}>
           <Box flex="1" textAlign="left">
             <Text d="inline" fontSize="lg" fontWeight="600">
-              {season.nameForDisplay}
+              {nameForDisplay}
             </Text>{' '}
-            {season.airDate && (
+            {!isSpecialsSeason && airDate && (
               <Text d="inline" fontSize="md">
-                ({moment(season.airDate).year()})
+                ({moment(airDate).year()})
               </Text>
             )}
           </Box>
           <Box mr="20px" textAlign="right">
-            <Text fontSize="md">{season.episodes.length} Episodes</Text>
+            <Text fontSize="md">{episodes.length} Episodes</Text>
           </Box>
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel p={isMobile ? '10px 0 5px' : '10px'}>
-          <EpisodesTable episodes={season.episodes} isMobile={isMobile} />
+          <EpisodesTable episodes={episodes} isMobile={isMobile} />
         </AccordionPanel>
       </AccordionItem>
     ));

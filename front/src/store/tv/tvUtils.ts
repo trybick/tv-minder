@@ -139,9 +139,9 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
         season_number: seasonNumber,
       } = season || {};
       let nameForDisplay = name;
+      const isSpecialsSeason = seasonNumber === 0;
 
-      // If this season is not 'Specials', call it 'Season N'
-      if (seasonNumber !== 0) {
+      if (!isSpecialsSeason) {
         nameForDisplay = `Season ${seasonNumber}`;
       }
 
@@ -149,6 +149,7 @@ const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
         airDate,
         episodes: episodes.length && formatEpisodesForSeason(episodes),
         id,
+        isSpecialsSeason,
         name,
         nameForDisplay,
         overview,
