@@ -18,6 +18,7 @@ import CalendarPage from 'pages/CalendarPage';
 import MyShowsPage from 'pages/MyShowsPage';
 import SettingsPage from 'pages/SettingsPage';
 import ShowPage from 'pages/ShowPage';
+import { ROUTES } from '../constants/routes';
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -48,21 +49,21 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
           <Header />
           <ErrorBoundary>
             <Switch>
-              <Route path="/" exact>
+              <Route path={ROUTES.HOME} exact>
                 <SearchPage />
               </Route>
-              <Route path="/calendar">
+              <Route path={ROUTES.CALENDAR}>
                 <CalendarPage />
               </Route>
-              <Route path="/my-shows">
+              <Route path={ROUTES.MY_SHOWS}>
                 <MyShowsPage />
               </Route>
-              <Route path="/settings">
+              <Route path={ROUTES.SETTINGS}>
                 <ProtectedRoute>
                   <SettingsPage />
                 </ProtectedRoute>
               </Route>
-              <Route path="/show/:showId">
+              <Route path={`${ROUTES.SHOW}/:showId`}>
                 <ShowPage />
               </Route>
             </Switch>

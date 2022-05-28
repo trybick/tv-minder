@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { Cell, Column } from 'react-table';
 import { Link as RouterLink } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text, useMediaQuery } from '@chakra-ui/react';
+import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BasicShowInfo } from 'types/external';
 import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
+import { ROUTES } from 'constants/routes';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
-import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
@@ -36,7 +37,7 @@ export const useTableData = () => {
                 variant="outline"
                 isRound
               />
-              <Link as={RouterLink} to={`/show/${original.id}`}>
+              <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
                 <Text fontSize="md" isTruncated={!isExpanded}>
                   {original.name}
                 </Text>

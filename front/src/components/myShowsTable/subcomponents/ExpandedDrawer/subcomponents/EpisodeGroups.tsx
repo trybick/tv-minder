@@ -3,6 +3,7 @@ import { Badge, Button, chakra, Flex, Text, useColorModeValue } from '@chakra-ui
 import { NA } from 'constants/strings';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { EpisodeForDisplay } from 'types/external';
+import { ROUTES } from 'constants/routes';
 
 const ChakraRouterLink = chakra(RouterLink);
 
@@ -50,7 +51,7 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
         {getEpisodeText(nextEpisode)}
       </Flex>
 
-      <ChakraRouterLink alignSelf="center" justifySelf="center" to={`/show/${showId}`}>
+      <ChakraRouterLink alignSelf="center" justifySelf="center" to={`${ROUTES.SHOW}/${showId}`}>
         <Button colorScheme="cyan" rightIcon={<BsArrowRightSquare />} size="md" variant="outline">
           View More
         </Button>
