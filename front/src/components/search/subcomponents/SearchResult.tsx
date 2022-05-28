@@ -3,6 +3,7 @@ import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
 import { ShowSearchResult } from 'types/external';
+import { ROUTES } from 'constants/routes';
 import { fallbackImagePath } from 'constants/strings';
 import FollowButton from 'components/common/FollowButton';
 
@@ -25,14 +26,14 @@ const SearchResult = ({ showToDisplay }: Props) => {
     <Box borderWidth="1px" mb={4} p={3} shadow="md">
       <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
         <Box w="50px">
-          <Link as={RouterLink} to={`/show/${showId}`}>
+          <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
             <Image borderRadius="6px" fallbackSrc={fallbackImagePath} src={posterSource} />
           </Link>
         </Box>
 
         <Box minW="0">
           <Flex justify="space-between">
-            <Link as={RouterLink} minW="0" to={`/show/${showId}`}>
+            <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
               <Heading mr="10px" size="md" isTruncated>
                 {name}
               </Heading>

@@ -1,5 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Image, Link, Text } from '@chakra-ui/react';
+import { ROUTES } from 'constants/routes';
 import noShowsImage from '../../images/tv-remote.jpg';
 
 const NoFollowShowsMessage = () => (
@@ -9,7 +10,7 @@ const NoFollowShowsMessage = () => (
       You are not following any shows yet.
     </Text>
     <Text color="blue.400" fontSize="4xl" fontWeight="500" textAlign="center">
-      <Link as={RouterLink} to="/">
+      <Link as={RouterLink} to={ROUTES.HOME}>
         Click here to start
       </Link>
     </Text>

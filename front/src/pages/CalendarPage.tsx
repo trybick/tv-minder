@@ -22,6 +22,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
+import { ROUTES } from 'constants/routes';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
 
@@ -57,7 +58,7 @@ const CalendarPage = () => {
 
   const onEventClick = (eventInfo: EventClickArg) => {
     const showId = eventInfo.event._def.extendedProps.showId;
-    history.push(`/show/${showId}`);
+    history.push(`${ROUTES.SHOW}/${showId}`);
   };
 
   const addPopoverToEvent = (eventInfo: EventContentArg) => (

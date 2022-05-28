@@ -1,6 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { HStack, Icon, Link, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
+import { ROUTES } from 'constants/routes';
 
 const NoFollowedShowsBanner = () => (
   <Stack
@@ -16,7 +17,7 @@ const NoFollowedShowsBanner = () => (
       <Icon as={FiAlertTriangle} fontSize="2xl" h="6" />
       <Text fontWeight="medium">
         New episodes will appear here!{' '}
-        <Link as={RouterLink} fontWeight={900} to="/">
+        <Link as={RouterLink} fontWeight={900} to={ROUTES.HOME}>
           Click here to follow a show.
         </Link>
       </Text>

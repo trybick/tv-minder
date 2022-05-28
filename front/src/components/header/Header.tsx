@@ -20,11 +20,12 @@ import {
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
+import { ROUTES } from 'constants/routes';
+import logo from 'images/logo.svg';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
-import logo from 'images/logo.svg';
 
 interface StateProps {
   email: string;
@@ -108,7 +109,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         wrap="wrap"
       >
         <Flex align="center" as="h1">
-          <Link onClick={closeHeader} to="/">
+          <Link onClick={closeHeader} to={ROUTES.HOME}>
             <Image
               alt="TV Minder logo"
               display="inline"
@@ -142,12 +143,12 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               mr: 'unset',
             })}
         >
-          <NavLink linkTo="/" text="Search" />
-          <NavLink linkTo="/calendar" text="Calendar" />
-          <NavLink linkTo="/my-shows" text="My Shows" />
+          <NavLink linkTo={ROUTES.HOME} text="Search" />
+          <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" />
+          <NavLink linkTo={ROUTES.MY_SHOWS} text="My Shows" />
           {isLoggedIn ? (
             <Box display={{ base: 'block', md: 'none' }}>
-              <NavLink linkTo="/settings" text="Settings" />
+              <NavLink linkTo={ROUTES.SETTINGS} text="Settings" />
             </Box>
           ) : null}
         </Box>
@@ -168,7 +169,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                   </MenuButton>
                   <MenuList zIndex={4}>
                     <MenuGroup title={email}>
-                      <MenuItem onClick={() => history.push('/settings')}>Settings</MenuItem>
+                      <MenuItem onClick={() => history.push(ROUTES.SETTINGS)}>Settings</MenuItem>
                       <MenuItem onClick={onLogout}>Logout</MenuItem>
                     </MenuGroup>
                   </MenuList>
