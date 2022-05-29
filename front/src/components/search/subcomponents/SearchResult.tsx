@@ -27,7 +27,12 @@ const SearchResult = ({ showToDisplay }: Props) => {
       <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
         <Box w="50px">
           <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
-            <Image borderRadius="6px" fallbackSrc={fallbackImagePath} src={posterSource} />
+            <Image
+              borderRadius="6px"
+              fallbackSrc={fallbackImagePath}
+              fallbackStrategy="onError"
+              src={posterSource}
+            />
           </Link>
         </Box>
 
