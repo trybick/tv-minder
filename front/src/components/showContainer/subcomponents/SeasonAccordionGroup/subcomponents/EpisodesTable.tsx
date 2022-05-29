@@ -36,6 +36,7 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         style: { textAlign: 'center' },
         accessor: row => row.voteAverage,
         Header: () => <Text textAlign="center">Rating</Text>,
+        // @ts-ignore
         Cell: ({ row }: Cell<EpisodeForSeason>) => (
           <Text textAlign="center">{row.original.voteAverage}</Text>
         ),

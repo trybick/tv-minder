@@ -13,6 +13,7 @@ export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
 
+  // @ts-ignore
   const columns: Column<BasicShowInfo>[] = useMemo(
     () => [
       {
@@ -57,6 +58,7 @@ export const useTableData = () => {
         Header: 'Status',
         accessor: row => row.statusWithColor.sortOrder,
         width: 119,
+        // @ts-ignore
         Cell: ({ row }: Cell<BasicShowInfo>) => {
           const { color, status } = row.original.statusWithColor;
           return (
@@ -87,6 +89,7 @@ export const useTableData = () => {
   columns.push({
     id: 'unfollow',
     width: 35,
+    // @ts-ignore
     Cell: ({ row }: Cell<BasicShowInfo>) => (
       <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
     ),
