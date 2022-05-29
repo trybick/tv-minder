@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createRoot } from 'react-dom/client';
@@ -14,6 +14,9 @@ initSentry();
 const { store, persistor } = configureStore();
 
 const RenderedApp = (): JSX.Element => (
+  // Add StrictMode back once this FullCalendar issue is resolved:
+  // https://github.com/fullcalendar/fullcalendar-react/issues/185
+  // <StrictMode>
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ChakraProvider theme={theme}>
@@ -22,6 +25,7 @@ const RenderedApp = (): JSX.Element => (
       </ChakraProvider>
     </PersistGate>
   </Provider>
+  // </StrictMode>
 );
 
 const container = document.getElementById('root');
