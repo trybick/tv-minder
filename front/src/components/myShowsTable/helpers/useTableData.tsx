@@ -20,7 +20,7 @@ export const useTableData = () => {
         id: 'name',
         accessor: 'name',
         Header: () => (
-          <Text d="inline" ml={isMobile ? '14px' : '38px'}>
+          <Text display="inline" ml={isMobile ? '14px' : '38px'}>
             Name
           </Text>
         ),
@@ -39,7 +39,7 @@ export const useTableData = () => {
                 isRound
               />
               <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
-                <Text fontSize="md" isTruncated={!isExpanded}>
+                <Text fontSize="md" noOfLines={!isExpanded ? 1 : undefined}>
                   {original.name}
                 </Text>
               </Link>
@@ -78,7 +78,7 @@ export const useTableData = () => {
         Cell: ({ row }: Cell<BasicShowInfo>) => (
           <Flex align="center" h="100%">
             <Tag {...row.getToggleRowExpandedProps()} fontWeight="400">
-              <Text isTruncated>{row.original.network || 'Unlisted'}</Text>
+              <Text noOfLines={1}>{row.original.network || 'Unlisted'}</Text>
             </Tag>
           </Flex>
         ),

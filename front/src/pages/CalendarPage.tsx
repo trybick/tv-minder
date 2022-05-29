@@ -65,7 +65,7 @@ const CalendarPage = () => {
     <Popover placement="top" trigger="hover">
       {/* @ts-ignore - React 18 issue. Check after upgrading to chakra version 2 */}
       <PopoverTrigger>
-        <Text mx="6px" textAlign={isMobile ? 'left' : 'center'} isTruncated>
+        <Text mx="6px" noOfLines={1} textAlign={isMobile ? 'left' : 'center'}>
           {eventInfo.event.title}
         </Text>
       </PopoverTrigger>

@@ -34,7 +34,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
         <Box minW="0">
           <Flex justify="space-between">
             <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
-              <Heading mr="10px" size="md" isTruncated>
+              <Heading mr="10px" noOfLines={1} size="md">
                 {name}
               </Heading>
             </Link>

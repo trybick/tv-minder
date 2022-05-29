@@ -23,7 +23,7 @@ const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
     </Link>
     <Flex direction="column" p="8px 12px">
       <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
-        <Heading fontSize="sm" textAlign="center" isTruncated>
+        <Heading fontSize="sm" noOfLines={1} textAlign="center">
           {name}
         </Heading>
       </Link>
