@@ -51,13 +51,17 @@ const CalendarPage = () => {
   const history = useHistory();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
+  console.log('calendarEpisodes in component:', calendarEpisodes);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
 
   useEffect(() => {
-    const loadEpisodes = () =>
-      document.visibilityState === 'visible' && dispatch(getEpisodesForCalendarAction());
+    const loadEpisodes = () => {
+      console.log('loading episodes');
+      console.log('calendarEpisodes before loading', calendarEpisodes);
+      return document.visibilityState === 'visible' && dispatch(getEpisodesForCalendarAction());
+    };
     // Load episodes on first render and when browser tab gets re-focused
     loadEpisodes();
     window.addEventListener('visibilitychange', loadEpisodes);
