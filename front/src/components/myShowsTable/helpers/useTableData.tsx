@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 import { Link as RouterLink } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text, useMediaQuery } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -13,7 +13,6 @@ export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
 
-  // @ts-ignore
   const columns: Column<BasicShowInfo>[] = useMemo(
     () => [
       {
@@ -24,7 +23,7 @@ export const useTableData = () => {
             Name
           </Text>
         ),
-        Cell: ({ row }: Cell<BasicShowInfo>) => {
+        Cell: ({ row }: CellProps<BasicShowInfo>) => {
           const { isExpanded, getToggleRowExpandedProps, original } = row;
           const toggleRowExpandedProps = getToggleRowExpandedProps();
           return (
@@ -58,8 +57,7 @@ export const useTableData = () => {
         Header: 'Status',
         accessor: row => row.statusWithColor.sortOrder,
         width: 119,
-        // @ts-ignore
-        Cell: ({ row }: Cell<BasicShowInfo>) => {
+        Cell: ({ row }: CellProps<BasicShowInfo>) => {
           const { color, status } = row.original.statusWithColor;
           return (
             <Flex align="center" h="100%">
@@ -75,7 +73,7 @@ export const useTableData = () => {
         Header: 'Network',
         width: 110,
         accessor: row => row.network,
-        Cell: ({ row }: Cell<BasicShowInfo>) => (
+        Cell: ({ row }: CellProps<BasicShowInfo>) => (
           <Flex align="center" h="100%">
             <Tag {...row.getToggleRowExpandedProps()} fontWeight="400">
               <Text noOfLines={1}>{row.original.network || 'Unlisted'}</Text>
@@ -89,8 +87,7 @@ export const useTableData = () => {
   columns.push({
     id: 'unfollow',
     width: 35,
-    // @ts-ignore
-    Cell: ({ row }: Cell<BasicShowInfo>) => (
+    Cell: ({ row }: CellProps<BasicShowInfo>) => (
       <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
     ),
   });

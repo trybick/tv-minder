@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Cell, Column, useFlexLayout, useTable } from 'react-table';
+import { CellProps, Column, useFlexLayout, useTable } from 'react-table';
 import moment from 'moment';
 import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import { EpisodeForSeason } from 'types/external';
@@ -36,8 +36,7 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         style: { textAlign: 'center' },
         accessor: row => row.voteAverage,
         Header: () => <Text textAlign="center">Rating</Text>,
-        // @ts-ignore
-        Cell: ({ row }: Cell<EpisodeForSeason>) => (
+        Cell: ({ row }: CellProps<EpisodeForSeason>) => (
           <Text textAlign="center">{row.original.voteAverage}</Text>
         ),
       },
