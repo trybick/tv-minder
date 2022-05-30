@@ -31,7 +31,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
               borderRadius="6px"
               fallbackSrc={fallbackImagePath}
               fallbackStrategy="onError"
-              src={posterSource}
+              src={posterSource || fallbackImagePath}
             />
           </Link>
         </Box>

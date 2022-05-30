@@ -20,7 +20,7 @@ const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
         fallbackSrc={fallbackImagePath}
         fallbackStrategy="onError"
         h="213px"
-        src={imagePath154 + posterPath}
+        src={posterPath ? imagePath154 + posterPath : fallbackImagePath}
         w="142px"
       />
     </Link>

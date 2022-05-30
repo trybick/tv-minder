@@ -25,7 +25,7 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
                 borderRadius="8px"
                 fallbackSrc={fallbackImagePathLarge}
                 fallbackStrategy="onError"
-                src={imagePath342 + posterPath}
+                src={posterPath ? imagePath342 + posterPath : fallbackImagePathLarge}
               />
             )}
             <FollowButton showId={id} />
