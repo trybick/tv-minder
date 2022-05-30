@@ -26,7 +26,7 @@ import { ROUTES } from 'constants/routes';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
 
-const darkModeCalendarCss = css`
+const darkModeCalendarStyling = css`
   /* day of the week headers, "more" popover, mobile day of the week headers */
   .fc-col-header-cell,
   .fc-more-popover,
@@ -39,6 +39,13 @@ const darkModeCalendarCss = css`
   }
 `;
 
+const eventPopoverStyling = css`
+  /* without this, 'display: -webkit-box' gets added which breaks the truncation  */
+  .calendarEventPopoverTrigger {
+    display: block !important;
+  }
+`;
+
 const CalendarPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -46,6 +53,7 @@ const CalendarPage = () => {
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const [isMobile] = useMediaQuery(['(max-width: 768px)']);
   const { colorMode } = useColorMode();
+  const isDarkMode = colorMode === 'dark';
 
   useEffect(() => {
     const loadEpisodes = () =>
@@ -64,7 +72,12 @@ const CalendarPage = () => {
   const addPopoverToEvent = (eventInfo: EventContentArg) => (
     <Popover placement="top" trigger="hover">
       <PopoverTrigger>
-        <Text mx="6px" textAlign={isMobile ? 'left' : 'center'} isTruncated>
+        <Text
+          className="calendarEventPopoverTrigger"
+          mx="6px"
+          noOfLines={1}
+          textAlign={isMobile ? 'left' : 'center'}
+        >
           {eventInfo.event.title}
         </Text>
       </PopoverTrigger>
@@ -102,7 +115,7 @@ const CalendarPage = () => {
         p={{ base: '0 15px 20px', md: '0 25px 20px' }}
         w={{ base: '90%', md: '98%' }}
       >
-        <Global styles={colorMode === 'dark' && darkModeCalendarCss} />
+        <Global styles={[eventPopoverStyling, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
           allDayContent={false}
           dayMaxEventRows={5}

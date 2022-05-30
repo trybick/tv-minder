@@ -77,8 +77,7 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
       // Get season data for each season for each show
       const fullSeasonData = await axios
         .all(latestSeasonsRequests)
-        // @ts-ignore
-        .then(res => res.map(res => res.data));
+        .then((res: any) => res.map((res: any) => res.data));
 
       // Store show name and ID on season object
       fullSeasonData.forEach((fullSeason: any) => {

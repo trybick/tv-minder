@@ -26,11 +26,11 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
       <AccordionItem key={id}>
         <AccordionButton px={isMobile ? '8px' : '16px'}>
           <Box flex="1" textAlign="left">
-            <Text d="inline" fontSize="lg" fontWeight="600">
+            <Text display="inline" fontSize="lg" fontWeight="600">
               {nameForDisplay}
             </Text>{' '}
             {!isSpecialsSeason && airDate && (
-              <Text d="inline" fontSize="md">
+              <Text display="inline" fontSize="md">
                 ({moment(airDate).year()})
               </Text>
             )}

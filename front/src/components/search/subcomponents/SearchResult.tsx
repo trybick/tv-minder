@@ -27,14 +27,19 @@ const SearchResult = ({ showToDisplay }: Props) => {
       <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
         <Box w="50px">
           <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
-            <Image borderRadius="6px" fallbackSrc={fallbackImagePath} src={posterSource} />
+            <Image
+              borderRadius="6px"
+              fallbackSrc={fallbackImagePath}
+              fallbackStrategy="onError"
+              src={posterSource}
+            />
           </Link>
         </Box>
 
         <Box minW="0">
           <Flex justify="space-between">
             <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
-              <Heading mr="10px" size="md" isTruncated>
+              <Heading mr="10px" noOfLines={1} size="md">
                 {name}
               </Heading>
             </Link>

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 import { Link as RouterLink } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text, useMediaQuery } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -19,11 +19,11 @@ export const useTableData = () => {
         id: 'name',
         accessor: 'name',
         Header: () => (
-          <Text d="inline" ml={isMobile ? '14px' : '38px'}>
+          <Text display="inline" ml={isMobile ? '14px' : '38px'}>
             Name
           </Text>
         ),
-        Cell: ({ row }: Cell<BasicShowInfo>) => {
+        Cell: ({ row }: CellProps<BasicShowInfo>) => {
           const { isExpanded, getToggleRowExpandedProps, original } = row;
           const toggleRowExpandedProps = getToggleRowExpandedProps();
           return (
@@ -38,7 +38,7 @@ export const useTableData = () => {
                 isRound
               />
               <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
-                <Text fontSize="md" isTruncated={!isExpanded}>
+                <Text fontSize="md" noOfLines={!isExpanded ? 1 : undefined}>
                   {original.name}
                 </Text>
               </Link>
@@ -57,7 +57,7 @@ export const useTableData = () => {
         Header: 'Status',
         accessor: row => row.statusWithColor.sortOrder,
         width: 119,
-        Cell: ({ row }: Cell<BasicShowInfo>) => {
+        Cell: ({ row }: CellProps<BasicShowInfo>) => {
           const { color, status } = row.original.statusWithColor;
           return (
             <Flex align="center" h="100%">
@@ -73,10 +73,10 @@ export const useTableData = () => {
         Header: 'Network',
         width: 110,
         accessor: row => row.network,
-        Cell: ({ row }: Cell<BasicShowInfo>) => (
+        Cell: ({ row }: CellProps<BasicShowInfo>) => (
           <Flex align="center" h="100%">
             <Tag {...row.getToggleRowExpandedProps()} fontWeight="400">
-              <Text isTruncated>{row.original.network || 'Unlisted'}</Text>
+              <Text noOfLines={1}>{row.original.network || 'Unlisted'}</Text>
             </Tag>
           </Flex>
         ),
@@ -87,7 +87,7 @@ export const useTableData = () => {
   columns.push({
     id: 'unfollow',
     width: 35,
-    Cell: ({ row }: Cell<BasicShowInfo>) => (
+    Cell: ({ row }: CellProps<BasicShowInfo>) => (
       <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
     ),
   });
