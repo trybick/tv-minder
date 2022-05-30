@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -15,6 +15,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
+import moment from 'moment';
 import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
@@ -51,22 +52,36 @@ const CalendarPage = () => {
   const history = useHistory();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
-  console.log('calendarEpisodes in component:', calendarEpisodes);
-  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
+  console.log('in component:', calendarEpisodes);
+  const calendarRef = useRef<FullCalendar | null>(null);
+  const [isMobile] = useMediaQuery('(max-width: 768px)');
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
 
+  // Load episodes on first render and when browser tab gets re-focused
   useEffect(() => {
     const loadEpisodes = () => {
-      console.log('loading episodes');
-      console.log('calendarEpisodes before loading', calendarEpisodes);
+      console.log(
+        'loading episodes, before loading:',
+        moment().format('hh:mm:ss dddd'),
+        calendarEpisodes
+      );
       return document.visibilityState === 'visible' && dispatch(getEpisodesForCalendarAction());
     };
-    // Load episodes on first render and when browser tab gets re-focused
     loadEpisodes();
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
   }, [dispatch, followedShows]);
+
+  // Change between mobile/desktop view of calendar
+  useEffect(() => {
+    const changeView = (view: string) => calendarRef.current?.getApi().changeView(view);
+    if (isMobile) {
+      changeView('listMonth');
+    } else {
+      changeView('dayGridMonth');
+    }
+  }, [isMobile]);
 
   const onEventClick = (eventInfo: EventClickArg) => {
     const showId = eventInfo.event._def.extendedProps.showId;
@@ -131,6 +146,7 @@ const CalendarPage = () => {
           height={isMobile ? 'auto' : '84vh'}
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
+          ref={calendarRef}
           titleFormat={titleFormat}
           editable // enable mouse pointer cursor
         />
