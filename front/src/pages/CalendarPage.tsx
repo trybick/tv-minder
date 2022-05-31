@@ -12,6 +12,7 @@ import {
   Portal,
   Text,
   useColorMode,
+  useColorModeValue,
   useMediaQuery,
 } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
@@ -52,28 +53,26 @@ const CalendarPage = () => {
   const history = useHistory();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
-  console.log('in component:', calendarEpisodes);
   const calendarRef = useRef<FullCalendar | null>(null);
   const [isMobile] = useMediaQuery('(max-width: 768px)');
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
+  const mobileEventColor = useColorModeValue('black', 'white');
 
   // Load episodes on first render and when browser tab gets re-focused
   useEffect(() => {
     const loadEpisodes = () => {
-      console.log(
-        'loading episodes, before loading:',
-        moment().format('hh:mm:ss dddd'),
-        calendarEpisodes
-      );
-      return document.visibilityState === 'visible' && dispatch(getEpisodesForCalendarAction());
+      if (document.visibilityState === 'visible') {
+        console.log(moment().format('hh:mm:ss dddd'), 'loading episodes:');
+        dispatch(getEpisodesForCalendarAction());
+      }
     };
     loadEpisodes();
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
   }, [dispatch, followedShows]);
 
-  // Change between mobile/desktop view of calendar
+  // Change calendar view type based on viewport
   useEffect(() => {
     const changeView = (view: string) => calendarRef.current?.getApi().changeView(view);
     if (isMobile) {
@@ -114,7 +113,7 @@ const CalendarPage = () => {
   );
 
   const formatMobileEvent = (eventInfo: EventContentArg) => (
-    <Text color="white" cursor="pointer">
+    <Text color={mobileEventColor} cursor="pointer">
       {eventInfo.event.title}
     </Text>
   );
@@ -130,9 +129,8 @@ const CalendarPage = () => {
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
         m="15px auto 0"
-        maxW="1180px"
         p={{ base: '0 15px 20px', md: '0 25px 20px' }}
-        w={{ base: '90%', md: '98%' }}
+        w={{ base: '90%', md: '99%', xl: '90%' }}
       >
         <Global styles={[eventPopoverStyling, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
