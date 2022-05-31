@@ -16,7 +16,7 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         id: 'episodeNumber',
         accessor: 'episodeNumber',
         width: 40,
-        Header: () => <Text>No.</Text>,
+        Header: () => <Text>Episode</Text>,
       },
       {
         id: 'name',

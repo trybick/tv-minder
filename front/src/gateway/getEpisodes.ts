@@ -3,7 +3,6 @@ import moment from 'moment';
 import { API } from 'constants/api';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
-import { addLeadingZero } from '../utils/formatting';
 
 const queryParams = {
   api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
@@ -144,7 +143,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       extendedProps: {
         showId,
       },
-      title: `${showName} S${addLeadingZero(seasonNumber)} E${addLeadingZero(episodeNumber)}`,
+      title: `${showName} - S${seasonNumber} E${episodeNumber}`,
     })
   );
 
