@@ -16,7 +16,6 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
-import moment from 'moment';
 import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
@@ -59,11 +58,9 @@ const CalendarPage = () => {
   const isDarkMode = colorMode === 'dark';
   const mobileEventColor = useColorModeValue('black', 'white');
 
-  // Load episodes on first render and when browser tab gets re-focused
   useEffect(() => {
     const loadEpisodes = () => {
       if (document.visibilityState === 'visible') {
-        console.log(moment().format('hh:mm:ss dddd'), 'loading episodes:');
         dispatch(getEpisodesForCalendarAction());
       }
     };
@@ -72,7 +69,6 @@ const CalendarPage = () => {
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
   }, [dispatch, followedShows]);
 
-  // Change calendar view type based on viewport
   useEffect(() => {
     const changeView = (view: string) => calendarRef.current?.getApi().changeView(view);
     if (isMobile) {
@@ -87,7 +83,7 @@ const CalendarPage = () => {
     history.push(`${ROUTES.SHOW}/${showId}`);
   };
 
-  const addPopoverToEvent = (eventInfo: EventContentArg) => (
+  const formatDesktopEvent = (eventInfo: EventContentArg) => (
     <Popover placement="top" trigger="hover">
       <PopoverTrigger>
         <Text
@@ -138,7 +134,7 @@ const CalendarPage = () => {
           dayMaxEventRows={5}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
-          eventContent={isMobile ? formatMobileEvent : addPopoverToEvent}
+          eventContent={isMobile ? formatMobileEvent : formatDesktopEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
           height={isMobile ? 'auto' : '84vh'}
