@@ -16,7 +16,7 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         id: 'episodeNumber',
         accessor: 'episodeNumber',
         width: 40,
-        Header: () => <Text>Episode</Text>,
+        Header: () => <Text>Num</Text>,
       },
       {
         id: 'name',
@@ -45,7 +45,6 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
   );
 
   const initialState = isMobile ? { hiddenColumns: ['name'] } : undefined;
-
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<EpisodeForSeason>({ columns, data: episodes, initialState }, useFlexLayout);
 
