@@ -16,7 +16,7 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         id: 'episodeNumber',
         accessor: 'episodeNumber',
         width: 40,
-        Header: () => <Text>Num</Text>,
+        Header: () => <Text>{isMobile ? 'Num' : 'Number'}</Text>,
       },
       {
         id: 'name',
@@ -41,7 +41,7 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
         ),
       },
     ],
-    []
+    [isMobile]
   );
 
   const initialState = isMobile ? { hiddenColumns: ['name'] } : undefined;

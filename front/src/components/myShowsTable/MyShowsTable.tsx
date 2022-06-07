@@ -7,7 +7,7 @@ import TableRow from './subcomponents/TableRow';
 import ExpandedDrawer from './subcomponents/ExpandedDrawer/ExpandedDrawer';
 
 const MyShowsTable = () => {
-  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
+  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
   const { data, columns } = useTableData();
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<BasicShowInfo>(

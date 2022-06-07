@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ExpandedDrawer = ({ isExpanded, row }: Props) => {
-  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
+  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
   const { lastEpisodeForDisplay, id, nextEpisodeForDisplay } = row.original;
   const cellBackgroundColor = useColorModeValue('#f7f5f5', '#252E41');
 

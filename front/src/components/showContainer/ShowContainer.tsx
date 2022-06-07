@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ShowContainer = ({ showInfoForDisplay }: Props) => {
-  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
+  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
   const { id, posterPath } = showInfoForDisplay || {};
   const hasEpisodes = showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
 

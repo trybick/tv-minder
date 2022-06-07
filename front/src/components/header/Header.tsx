@@ -67,7 +67,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
   const { colorMode } = useColorMode();
-  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
+  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
   const history = useHistory();
   const avatarBackgroundColor = useColorModeValue('#a0afbf', 'black');
 

@@ -11,7 +11,7 @@ import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
-  const [isMobile] = useMediaQuery(['(max-width: 768px)']);
+  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
 
   const columns: Column<BasicShowInfo>[] = useMemo(
     () => [

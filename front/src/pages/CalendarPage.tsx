@@ -53,7 +53,7 @@ const CalendarPage = () => {
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const calendarRef = useRef<FullCalendar | null>(null);
-  const [isMobile] = useMediaQuery('(max-width: 768px)');
+  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const mobileEventColor = useColorModeValue('black', 'white');
