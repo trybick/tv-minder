@@ -13,13 +13,13 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
@@ -53,7 +53,7 @@ const CalendarPage = () => {
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const calendarRef = useRef<FullCalendar | null>(null);
-  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
+  const isMobile = useIsMobile();
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === 'dark';
   const mobileEventColor = useColorModeValue('black', 'white');

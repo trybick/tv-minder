@@ -2,16 +2,17 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { CellProps, Column } from 'react-table';
 import { Link as RouterLink } from 'react-router-dom';
-import { Flex, IconButton, Link, Tag, Text, useMediaQuery } from '@chakra-ui/react';
+import { Flex, IconButton, Link, Tag, Text } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BasicShowInfo } from 'types/external';
 import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
+import { useIsMobile } from 'hooks/useIsMobile';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
-  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
+  const isMobile = useIsMobile();
 
   const columns: Column<BasicShowInfo>[] = useMemo(
     () => [

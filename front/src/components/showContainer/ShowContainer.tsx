@@ -1,5 +1,6 @@
-import { Flex, Image, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Image } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { imagePath342 } from 'constants/strings';
 import { fallbackImagePathLarge } from 'constants/strings';
 import FollowButton from 'components/common/FollowButton';
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const ShowContainer = ({ showInfoForDisplay }: Props) => {
-  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
+  const isMobile = useIsMobile();
   const { id, posterPath } = showInfoForDisplay || {};
   const hasEpisodes = showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
 

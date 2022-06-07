@@ -1,5 +1,6 @@
 import { useExpanded, useFlexLayout, useSortBy, useTable } from 'react-table';
-import { Table, Tbody, Thead, useMediaQuery } from '@chakra-ui/react';
+import { Table, Tbody, Thead } from '@chakra-ui/react';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { BasicShowInfo } from 'types/external';
 import { useTableData } from './helpers/useTableData';
 import TableHeader from './subcomponents/TableHeader';
@@ -7,7 +8,7 @@ import TableRow from './subcomponents/TableRow';
 import ExpandedDrawer from './subcomponents/ExpandedDrawer/ExpandedDrawer';
 
 const MyShowsTable = () => {
-  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
+  const isMobile = useIsMobile();
   const { data, columns } = useTableData();
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<BasicShowInfo>(

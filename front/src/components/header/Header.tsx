@@ -15,11 +15,11 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { ROUTES } from 'constants/routes';
 import logo from 'images/logo.svg';
 import LoginButton from './subcomponents/LoginButton';
@@ -67,7 +67,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const activeRoute = useLocation().pathname;
   const { colorMode } = useColorMode();
-  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
+  const isMobile = useIsMobile();
   const history = useHistory();
   const avatarBackgroundColor = useColorModeValue('#a0afbf', 'black');
 

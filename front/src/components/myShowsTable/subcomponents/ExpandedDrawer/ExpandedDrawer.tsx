@@ -1,6 +1,7 @@
 import { Row } from 'react-table';
-import { Flex, Grid, Td, Tr, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Grid, Td, Tr, useColorModeValue } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { BasicShowInfo } from 'types/external';
 import EpisodeGroups from './subcomponents/EpisodeGroups';
 
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const ExpandedDrawer = ({ isExpanded, row }: Props) => {
-  const [isMobile] = useMediaQuery('(max-width: 768px)', { ssr: false });
+  const isMobile = useIsMobile();
   const { lastEpisodeForDisplay, id, nextEpisodeForDisplay } = row.original;
   const cellBackgroundColor = useColorModeValue('#f7f5f5', '#252E41');
 
