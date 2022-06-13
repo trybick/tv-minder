@@ -10,20 +10,21 @@ import ExpandedDrawer from './subcomponents/ExpandedDrawer/ExpandedDrawer';
 const MyShowsTable = () => {
   const isMobile = useIsMobile();
   const { data, columns } = useTableData();
+  const initialState = {
+    sortBy: [
+      {
+        id: isMobile ? 'name' : 'status',
+        desc: false,
+      },
+    ],
+  };
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<BasicShowInfo>(
       {
         columns,
         data,
         autoResetSortBy: false,
-        initialState: {
-          sortBy: [
-            {
-              id: isMobile ? 'name' : 'status',
-              desc: false,
-            },
-          ],
-        },
+        initialState,
       },
       useSortBy,
       useExpanded,

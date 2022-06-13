@@ -7,19 +7,18 @@ import { ROUTES } from 'constants/routes';
 const ChakraRouterLink = chakra(RouterLink);
 
 interface Props {
+  isMobile?: boolean;
   lastEpisode: EpisodeForDisplay;
   nextEpisode: EpisodeForDisplay;
   showId: number;
 }
 
-const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
+const EpisodeGroups = ({ isMobile, lastEpisode, nextEpisode, showId }: Props) => {
   const badgeColorScheme = useColorModeValue('black', 'gray');
+  const noEpisodeData = !lastEpisode && !nextEpisode;
 
-  const getEpisodeText = (episode: EpisodeForDisplay) => {
-    if (!episode?.seasonNumber) {
-      return <Text fontWeight="500">No episode data</Text>;
-    }
-    return episode?.name ? (
+  const getEpisodeText = (episode: EpisodeForDisplay) =>
+    episode?.name ? (
       <Flex align="flex-start" direction="column">
         <Text fontSize="md" fontWeight="600" maxW="300px" mb="5px" noOfLines={1}>
           S{episode.seasonNumber} E{episode.episodeNumber} - {episode?.name}
@@ -32,22 +31,23 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
         </Text>
       </Flex>
     );
-  };
 
   return (
     <>
-      <Flex align="center" direction="column">
-        {getEpisodeText(lastEpisode)}
-        <Badge
-          colorScheme={badgeColorScheme}
-          fontSize="11px"
-          fontWeight="600"
-          justifySelf="center"
-          px="8px"
-        >
-          {lastEpisode?.timeFromNow}
-        </Badge>
-      </Flex>
+      {lastEpisode && (
+        <Flex align="center" direction="column">
+          {getEpisodeText(lastEpisode)}
+          <Badge
+            colorScheme={badgeColorScheme}
+            fontSize="11px"
+            fontWeight="600"
+            justifySelf="center"
+            px="8px"
+          >
+            Aired {lastEpisode?.timeFromNow}
+          </Badge>
+        </Flex>
+      )}
 
       {nextEpisode && (
         <Flex align="center" direction="column">
@@ -59,14 +59,25 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
             justifySelf="center"
             px="8px"
           >
-            {nextEpisode?.timeFromNow}
+            Airing {nextEpisode?.timeFromNow}
           </Badge>
         </Flex>
       )}
 
+      {noEpisodeData && (
+        <Flex align="center" direction="column">
+          <Text fontWeight="500">No episode data</Text>
+        </Flex>
+      )}
+
       <ChakraRouterLink alignSelf="center" justifySelf="center" to={`${ROUTES.SHOW}/${showId}`}>
-        <Button colorScheme="cyan" rightIcon={<BsArrowRightSquare />} size="sm" variant="outline">
-          More Episodes
+        <Button
+          colorScheme="cyan"
+          rightIcon={<BsArrowRightSquare />}
+          size={isMobile ? 'xs' : 'sm'}
+          variant="outline"
+        >
+          {noEpisodeData ? 'More Info' : 'More Episodes'}
         </Button>
       </ChakraRouterLink>
     </>
