@@ -37,23 +37,35 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
 
   return (
     <>
-      <Flex align="center" direction="column" gap="4px">
-        <Badge colorScheme={badgeColorScheme} fontSize="12px" fontWeight="600" justifySelf="center">
-          Last Episode {lastEpisode?.timeFromNow}
-        </Badge>
+      <Flex align="center" direction="column">
         {getEpisodeText(lastEpisode)}
+        <Badge
+          colorScheme={badgeColorScheme}
+          fontSize="12px"
+          fontWeight="600"
+          justifySelf="center"
+          px="8px"
+        >
+          {lastEpisode?.timeFromNow}
+        </Badge>
       </Flex>
 
-      <Flex align="center" direction="column" gap="4px">
-        <Badge colorScheme={badgeColorScheme} fontSize="12px" fontWeight="600" justifySelf="center">
-          Next Episode {nextEpisode?.timeFromNow}
-        </Badge>
+      <Flex align="center" direction="column">
         {getEpisodeText(nextEpisode)}
+        <Badge
+          colorScheme={badgeColorScheme}
+          fontSize="12px"
+          fontWeight="600"
+          justifySelf="center"
+          px="8px"
+        >
+          {nextEpisode?.timeFromNow}
+        </Badge>
       </Flex>
 
       <ChakraRouterLink alignSelf="center" justifySelf="center" to={`${ROUTES.SHOW}/${showId}`}>
-        <Button colorScheme="cyan" rightIcon={<BsArrowRightSquare />} size="md" variant="outline">
-          View More
+        <Button colorScheme="cyan" rightIcon={<BsArrowRightSquare />} size="sm" variant="outline">
+          More Episodes
         </Button>
       </ChakraRouterLink>
     </>
