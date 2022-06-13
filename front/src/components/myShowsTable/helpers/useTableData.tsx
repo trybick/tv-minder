@@ -57,8 +57,27 @@ export const useTableData = () => {
           </Text>
         ),
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
-          const { isExpanded, original } = row;
-          return (
+          const { isExpanded, getToggleRowExpandedProps, original } = row;
+          const toggleRowExpandedProps = getToggleRowExpandedProps();
+          return isMobile ? (
+            <Flex {...toggleRowExpandedProps} gap="14px">
+              <IconButton
+                {...toggleRowExpandedProps}
+                aria-label="Expand row"
+                icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                size="sm"
+                variant="outline"
+                isRound
+              />
+              <Flex align="center" gap="16px">
+                <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
+                  <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
+                    {original.name}
+                  </Text>
+                </Link>
+              </Flex>
+            </Flex>
+          ) : (
             <Flex align="center" gap="16px">
               <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
                 <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
