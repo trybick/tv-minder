@@ -22,7 +22,7 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
     }
     return episode?.name ? (
       <Flex align="flex-start" direction="column">
-        <Text fontSize="md" fontWeight="600" mb="5px">
+        <Text fontSize="md" fontWeight="600" maxW="300px" mb="5px" noOfLines={1}>
           S{episode.seasonNumber} E{episode.episodeNumber} - {episode?.name}
         </Text>
       </Flex>
@@ -50,18 +50,20 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
         </Badge>
       </Flex>
 
-      <Flex align="center" direction="column">
-        {getEpisodeText(nextEpisode)}
-        <Badge
-          colorScheme={badgeColorScheme}
-          fontSize="12px"
-          fontWeight="600"
-          justifySelf="center"
-          px="8px"
-        >
-          {nextEpisode?.timeFromNow}
-        </Badge>
-      </Flex>
+      {nextEpisode && (
+        <Flex align="center" direction="column">
+          {getEpisodeText(nextEpisode)}
+          <Badge
+            colorScheme={badgeColorScheme}
+            fontSize="12px"
+            fontWeight="600"
+            justifySelf="center"
+            px="8px"
+          >
+            {nextEpisode?.timeFromNow}
+          </Badge>
+        </Flex>
+      )}
 
       <ChakraRouterLink alignSelf="center" justifySelf="center" to={`${ROUTES.SHOW}/${showId}`}>
         <Button colorScheme="cyan" rightIcon={<BsArrowRightSquare />} size="sm" variant="outline">

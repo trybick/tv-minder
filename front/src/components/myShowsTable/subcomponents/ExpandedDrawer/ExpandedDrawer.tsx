@@ -46,7 +46,11 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
                   />
                 </Flex>
               ) : (
-                <Grid gap="20px" justifyItems="space-around" templateColumns="1fr 1fr 1fr">
+                <Grid
+                  gap="20px"
+                  justifyItems="space-around"
+                  templateColumns={nextEpisodeForDisplay ? '1fr 1fr 1fr' : '1fr 1fr'}
+                >
                   <EpisodeGroups
                     lastEpisode={lastEpisodeForDisplay}
                     nextEpisode={nextEpisodeForDisplay}
