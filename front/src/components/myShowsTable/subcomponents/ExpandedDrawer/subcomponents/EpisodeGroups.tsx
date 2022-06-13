@@ -1,6 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Badge, Button, chakra, Flex, Text, useColorModeValue } from '@chakra-ui/react';
-import { NA } from 'constants/strings';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { EpisodeForDisplay } from 'types/external';
 import { ROUTES } from 'constants/routes';
@@ -18,7 +17,7 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
 
   const getEpisodeText = (episode: EpisodeForDisplay) => {
     if (!episode?.seasonNumber) {
-      return <span>{NA}</span>;
+      return <Text fontWeight="500">No episode data</Text>;
     }
     return episode?.name ? (
       <Flex align="flex-start" direction="column">
@@ -41,7 +40,7 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
         {getEpisodeText(lastEpisode)}
         <Badge
           colorScheme={badgeColorScheme}
-          fontSize="12px"
+          fontSize="11px"
           fontWeight="600"
           justifySelf="center"
           px="8px"
@@ -55,7 +54,7 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
           {getEpisodeText(nextEpisode)}
           <Badge
             colorScheme={badgeColorScheme}
-            fontSize="12px"
+            fontSize="11px"
             fontWeight="600"
             justifySelf="center"
             px="8px"

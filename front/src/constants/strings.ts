@@ -7,5 +7,3 @@ export const fallbackImagePath = 'https://www.stevensegallery.com/g/82/123';
 export const fallbackImagePathLarge = 'https://www.stevensegallery.com/g/200/300';
 
 export const emailRegex = /^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$/;
-
-export const NA = 'n/a';
