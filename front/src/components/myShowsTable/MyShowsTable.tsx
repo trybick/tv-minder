@@ -19,7 +19,7 @@ const MyShowsTable = () => {
         initialState: {
           sortBy: [
             {
-              id: 'status',
+              id: isMobile ? 'name' : 'status',
               desc: false,
             },
           ],

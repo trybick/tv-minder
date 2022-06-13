@@ -51,7 +51,11 @@ export const useTableData = () => {
       {
         id: 'name',
         accessor: 'name',
-        Header: () => <Text display="inline">Name</Text>,
+        Header: () => (
+          <Text display="inline" ml={isMobile ? '-20px' : 0}>
+            Name
+          </Text>
+        ),
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
           const { isExpanded, original } = row;
           return (
