@@ -35,9 +35,9 @@ export const getStatusWithColor = (
   if (originalStatus === 'Ended') {
     return { status: 'Ended', color: 'red', sortOrder: 4 };
   } else if (isPremieringSoon) {
-    return { status: 'Premiering Soon', color: 'purple', sortOrder: 1 };
+    return { status: 'Premiering Soon', color: 'purple', sortOrder: 2 };
   } else if (hasCurrentlyActiveSeason) {
-    return { status: 'New Episodes', color: 'green', sortOrder: 2 };
+    return { status: 'New Episodes', color: 'green', sortOrder: 1 };
   } else {
     return { status: 'Returning', color: 'blue', sortOrder: 3 };
   }

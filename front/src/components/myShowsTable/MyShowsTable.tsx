@@ -12,7 +12,19 @@ const MyShowsTable = () => {
   const { data, columns } = useTableData();
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<BasicShowInfo>(
-      { columns, data, autoResetSortBy: false },
+      {
+        columns,
+        data,
+        autoResetSortBy: false,
+        initialState: {
+          sortBy: [
+            {
+              id: 'status',
+              desc: false,
+            },
+          ],
+        },
+      },
       useSortBy,
       useExpanded,
       useFlexLayout
