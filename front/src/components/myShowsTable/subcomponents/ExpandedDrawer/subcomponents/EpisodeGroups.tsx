@@ -1,6 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Badge, Button, chakra, Flex, Text, useColorModeValue } from '@chakra-ui/react';
-import { NA } from 'constants/strings';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { EpisodeForDisplay } from 'types/external';
 import { ROUTES } from 'constants/routes';
@@ -8,21 +7,20 @@ import { ROUTES } from 'constants/routes';
 const ChakraRouterLink = chakra(RouterLink);
 
 interface Props {
+  isMobile?: boolean;
   lastEpisode: EpisodeForDisplay;
   nextEpisode: EpisodeForDisplay;
   showId: number;
 }
 
-const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
+const EpisodeGroups = ({ isMobile, lastEpisode, nextEpisode, showId }: Props) => {
   const badgeColorScheme = useColorModeValue('black', 'gray');
+  const noEpisodeData = !lastEpisode && !nextEpisode;
 
-  const getEpisodeText = (episode: EpisodeForDisplay) => {
-    if (!episode?.seasonNumber) {
-      return <span>{NA}</span>;
-    }
-    return episode?.name ? (
+  const getEpisodeText = (episode: EpisodeForDisplay) =>
+    episode?.name ? (
       <Flex align="flex-start" direction="column">
-        <Text fontSize="md" fontWeight="600" mb="5px">
+        <Text fontSize="md" fontWeight="600" maxW="300px" mb="5px" noOfLines={1}>
           S{episode.seasonNumber} E{episode.episodeNumber} - {episode?.name}
         </Text>
       </Flex>
@@ -33,27 +31,53 @@ const EpisodeGroups = ({ lastEpisode, nextEpisode, showId }: Props) => {
         </Text>
       </Flex>
     );
-  };
 
   return (
     <>
-      <Flex align="center" direction="column" gap="4px">
-        <Badge colorScheme={badgeColorScheme} fontSize="12px" fontWeight="600" justifySelf="center">
-          Last Episode {lastEpisode?.timeFromNow}
-        </Badge>
-        {getEpisodeText(lastEpisode)}
-      </Flex>
+      {lastEpisode && (
+        <Flex align="center" direction="column">
+          {getEpisodeText(lastEpisode)}
+          <Badge
+            colorScheme={badgeColorScheme}
+            fontSize="11px"
+            fontWeight="600"
+            justifySelf="center"
+            px="8px"
+          >
+            Aired {lastEpisode?.timeFromNow}
+          </Badge>
+        </Flex>
+      )}
 
-      <Flex align="center" direction="column" gap="4px">
-        <Badge colorScheme={badgeColorScheme} fontSize="12px" fontWeight="600" justifySelf="center">
-          Next Episode {nextEpisode?.timeFromNow}
-        </Badge>
-        {getEpisodeText(nextEpisode)}
-      </Flex>
+      {nextEpisode && (
+        <Flex align="center" direction="column">
+          {getEpisodeText(nextEpisode)}
+          <Badge
+            colorScheme={badgeColorScheme}
+            fontSize="11px"
+            fontWeight="600"
+            justifySelf="center"
+            px="8px"
+          >
+            Airing {nextEpisode?.timeFromNow}
+          </Badge>
+        </Flex>
+      )}
+
+      {noEpisodeData && (
+        <Flex align="center" direction="column">
+          <Text fontWeight="500">No episode data</Text>
+        </Flex>
+      )}
 
       <ChakraRouterLink alignSelf="center" justifySelf="center" to={`${ROUTES.SHOW}/${showId}`}>
-        <Button colorScheme="cyan" rightIcon={<BsArrowRightSquare />} size="md" variant="outline">
-          View More
+        <Button
+          colorScheme="cyan"
+          rightIcon={<BsArrowRightSquare />}
+          size={isMobile ? 'xs' : 'sm'}
+          variant="outline"
+        >
+          {noEpisodeData ? 'More Info' : 'More Episodes'}
         </Button>
       </ChakraRouterLink>
     </>
