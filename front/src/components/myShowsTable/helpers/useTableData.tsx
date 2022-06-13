@@ -64,21 +64,25 @@ export const useTableData = () => {
               <IconButton
                 {...toggleRowExpandedProps}
                 aria-label="Expand row"
-                icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                icon={
+                  isExpanded ? (
+                    <ChevronDownIcon {...toggleRowExpandedProps} />
+                  ) : (
+                    <ChevronRightIcon {...toggleRowExpandedProps} />
+                  )
+                }
                 size="sm"
                 variant="outline"
                 isRound
               />
-              <Flex align="center" gap="16px">
-                <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
-                  <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
-                    {original.name}
-                  </Text>
-                </Link>
-              </Flex>
+              <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
+                <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
+                  {original.name}
+                </Text>
+              </Link>
             </Flex>
           ) : (
-            <Flex align="center" gap="16px">
+            <Flex>
               <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
                 <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
                   {original.name}
