@@ -21,14 +21,13 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
       <Flex gap="20px">
         {!isMobile && (
           <Flex direction="column" gap="12px">
-            {posterPath && (
-              <Image
-                borderRadius="8px"
-                fallbackSrc={fallbackImagePathLarge}
-                fallbackStrategy="onError"
-                src={posterPath ? imagePath342 + posterPath : fallbackImagePathLarge}
-              />
-            )}
+            <Image
+              borderRadius="8px"
+              fallbackSrc={fallbackImagePathLarge}
+              fallbackStrategy="onError"
+              src={posterPath ? imagePath342 + posterPath : fallbackImagePathLarge}
+            />
+
             <FollowButton showId={id} />
           </Flex>
         )}
