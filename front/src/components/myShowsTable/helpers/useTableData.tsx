@@ -60,7 +60,7 @@ export const useTableData = () => {
           const { isExpanded, getToggleRowExpandedProps, original } = row;
           const toggleRowExpandedProps = getToggleRowExpandedProps();
           return isMobile ? (
-            <Flex {...toggleRowExpandedProps} gap="14px">
+            <Flex {...toggleRowExpandedProps} align="center" gap="14px" h="100%">
               <IconButton
                 {...toggleRowExpandedProps}
                 aria-label="Expand row"
@@ -82,7 +82,7 @@ export const useTableData = () => {
               </Link>
             </Flex>
           ) : (
-            <Flex>
+            <Flex align="center" h="100%">
               <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
                 <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
                   {original.name}
