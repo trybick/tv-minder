@@ -16,22 +16,22 @@ import { ShowSearchResult } from 'types/external';
 import { maybePluralize } from 'utils/formatting';
 import SearchResult from './SearchResult';
 
-interface OwnProps {
+type OwnProps = {
   shows: ShowSearchResult[];
   totalResults: number;
-}
+};
 
-interface StateProps {
+type StateProps = {
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: number) => void;
-}
+};
 
 type Props = OwnProps & StateProps & DispatchProps;
 

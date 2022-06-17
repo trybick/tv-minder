@@ -14,13 +14,13 @@ import SearchContainer from 'components/search/SearchContainer';
 import SearchInput from 'components/search/subcomponents/SearchInput';
 import { useDebouncedFunction } from 'utils/debounce';
 
-interface StateProps {
+type StateProps = {
   savedQueries: SavedQuery[];
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   saveSearchQuery: (query: SavedQuery) => void;
-}
+};
 
 type Props = StateProps & DispatchProps;
 

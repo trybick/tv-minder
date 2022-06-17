@@ -5,7 +5,7 @@ import envConfig from 'config/env';
 
 const { JWT_KEY } = envConfig;
 
-export interface JWTData {
+export type JWTData = {
   email: string;
   exp: number;
   iat: number;

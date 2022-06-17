@@ -9,12 +9,12 @@ import {
 } from '@chakra-ui/react';
 import { Search2Icon, SmallCloseIcon } from '@chakra-ui/icons';
 import { PlainFunction } from 'types/common';
-interface Props {
+type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearInput: PlainFunction;
   inputRef: RefObject<HTMLInputElement>;
   inputValue: string;
-}
+};
 
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => {
   useEffect(() => {

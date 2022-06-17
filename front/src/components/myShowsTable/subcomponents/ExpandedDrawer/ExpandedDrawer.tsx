@@ -5,10 +5,10 @@ import { useIsMobile } from 'hooks/useIsMobile';
 import { BasicShowInfo } from 'types/external';
 import EpisodeGroups from './subcomponents/EpisodeGroups';
 
-interface Props {
+type Props = {
   isExpanded: boolean;
   row: Row<BasicShowInfo>;
-}
+};
 
 const ExpandedDrawer = ({ isExpanded, row }: Props) => {
   const isMobile = useIsMobile();

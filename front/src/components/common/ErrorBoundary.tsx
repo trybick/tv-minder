@@ -5,13 +5,13 @@ import { Box, Text } from '@chakra-ui/react';
 interface Props extends RouteComponentProps<any> {
   children: ReactNode;
 }
-interface States {
+type State = {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
-}
+};
 
-class ErrorBoundary extends Component<Props, States> {
+class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const { history } = this.props;

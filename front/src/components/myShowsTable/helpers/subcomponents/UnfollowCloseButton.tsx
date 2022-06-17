@@ -13,10 +13,10 @@ import {
 } from '@chakra-ui/react';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
 
-interface Props {
+type Props = {
   showId: number;
   showName: string;
-}
+};
 
 const UnfollowCloseButton = ({ showId, showName }: Props) => {
   const dispatch = useDispatch();

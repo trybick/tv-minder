@@ -6,10 +6,10 @@ import { abbreviateNumber } from 'utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
 import FollowButton from 'components/common/FollowButton';
 
-interface Props {
+type Props = {
   isMobile: boolean;
   showInfoForDisplay: BasicShowInfo;
-}
+};
 
 const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
   const {

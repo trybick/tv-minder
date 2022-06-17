@@ -6,12 +6,12 @@ import { ROUTES } from 'constants/routes';
 
 const ChakraRouterLink = chakra(RouterLink);
 
-interface Props {
+type Props = {
   isMobile?: boolean;
   lastEpisode: EpisodeForDisplay;
   nextEpisode: EpisodeForDisplay;
   showId: number;
-}
+};
 
 const EpisodeGroups = ({ isMobile, lastEpisode, nextEpisode, showId }: Props) => {
   const badgeColorScheme = useColorModeValue('black', 'gray');

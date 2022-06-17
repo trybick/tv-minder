@@ -4,10 +4,10 @@ import moment from 'moment';
 import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import { EpisodeForSeason } from 'types/external';
 
-interface Props {
+type Props = {
   isMobile: boolean;
   episodes: EpisodeForSeason[];
-}
+};
 
 const EpisodesTable = ({ episodes, isMobile }: Props) => {
   const columns: Column<EpisodeForSeason>[] = useMemo(

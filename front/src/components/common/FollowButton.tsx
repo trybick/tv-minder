@@ -2,9 +2,9 @@ import { Button, ButtonProps } from '@chakra-ui/react';
 import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { useFollowButton } from 'hooks/useFollowButton';
 
-interface Props {
+type Props = {
   showId: number;
-}
+};
 
 export const FollowButton = ({ showId, ...rest }: Props & ButtonProps) => {
   const { isFollowed, isLoading, onFollowShow, onUnFollowShow } = useFollowButton(showId);

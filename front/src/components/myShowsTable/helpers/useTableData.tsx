@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CellProps, Column } from 'react-table';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BasicShowInfo } from 'types/external';
@@ -17,13 +17,13 @@ export const useTableData = () => {
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
 
-  const onClickShowName = (showId: number) => {
-    dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW });
-    history.push(`${ROUTES.SHOW}/${showId}`);
-  };
+  const columns: Column<BasicShowInfo>[] = useMemo(() => {
+    const onClickShowName = (showId: number) => {
+      dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW });
+      history.push(`${ROUTES.SHOW}/${showId}`);
+    };
 
-  const columns: Column<BasicShowInfo>[] = useMemo(
-    () => [
+    return [
       {
         id: 'status',
         Header: () => (
@@ -110,9 +110,8 @@ export const useTableData = () => {
           );
         },
       },
-    ],
-    []
-  );
+    ];
+  }, [isMobile, dispatch, history]);
 
   if (isMobile) {
     columns.shift();

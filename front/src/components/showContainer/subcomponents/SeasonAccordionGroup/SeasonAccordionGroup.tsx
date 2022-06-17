@@ -13,10 +13,10 @@ import moment from 'moment';
 import { BasicShowInfo } from 'types/external';
 import EpisodesTable from './subcomponents/EpisodesTable';
 
-interface Props {
+type Props = {
   isMobile: boolean;
   showInfoForDisplay: BasicShowInfo;
-}
+};
 
 const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
   const { seasonsWithEpisodes } = showInfoForDisplay || {};

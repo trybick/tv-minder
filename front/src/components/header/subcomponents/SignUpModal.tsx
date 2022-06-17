@@ -33,18 +33,18 @@ import { emailRegex } from 'constants/strings';
 import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import handleErrors from 'utils/handleErrors';
 
-interface OwnProps {
+type OwnProps = {
   disclosureProps: DisclosureProps;
-}
+};
 
-interface StateProps {
+type StateProps = {
   unregisteredFollowedShows: ID[];
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   setIsLoggedIn: (email: string) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
-}
+};
 
 type Props = DispatchProps & StateProps & OwnProps;
 

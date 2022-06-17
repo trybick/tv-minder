@@ -2,9 +2,9 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import { PlainFunction } from 'types/common';
 import LoginModal from './LoginModal';
 
-interface Props {
+type Props = {
   closeHeader: PlainFunction;
-}
+};
 
 const LoginButton = ({ closeHeader }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

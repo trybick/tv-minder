@@ -13,10 +13,10 @@ import {
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
-interface Props {
+type Props = {
   isMobile?: boolean;
   videoId: string | undefined;
-}
+};
 
 const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

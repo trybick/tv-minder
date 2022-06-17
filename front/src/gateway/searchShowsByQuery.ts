@@ -4,12 +4,12 @@ import { API } from 'constants/api';
 
 type QueryParams = { api_key: string | undefined; query: string };
 
-export interface ReturnedSearchResult {
+export type ReturnedSearchResult = {
   page: number;
   results: ShowSearchResult[];
   total_pages: number;
   total_results: number;
-}
+};
 
 export const searchShowsByQuery = async (
   query: string

@@ -2,12 +2,12 @@ import { Cell } from 'react-table';
 import { TableRowProps, Td, Tr, useColorModeValue } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 
-interface Props {
+type Props = {
   cells: Cell<BasicShowInfo>[];
   isExpanded: boolean;
   isMobile?: boolean;
   rowProps: TableRowProps;
-}
+};
 
 const TableRow = ({ cells, isExpanded, isMobile, rowProps }: Props) => {
   const expandedBackgroundColor = useColorModeValue('#f7f5f5', '#252E41');

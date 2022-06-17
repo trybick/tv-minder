@@ -4,13 +4,13 @@ import { AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedOutAction } from 'store/user/actions';
 import { PlainFunction } from 'types/common';
 
-interface OwnProps {
+type OwnProps = {
   closeHeader: PlainFunction;
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   setIsLoggedOut: AppThunkPlainAction;
-}
+};
 
 type Props = OwnProps & DispatchProps;
 

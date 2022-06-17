@@ -20,13 +20,13 @@ import SettingsPage from 'pages/SettingsPage';
 import ShowPage from 'pages/ShowPage';
 import { ROUTES } from '../constants/routes';
 
-interface StateProps {
+type StateProps = {
   isLoggedIn: boolean;
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   fetchfollowedShows: AppThunkPlainAction;
-}
+};
 
 type Props = StateProps & DispatchProps;
 

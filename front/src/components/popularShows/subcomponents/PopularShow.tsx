@@ -6,9 +6,9 @@ import { ROUTES } from 'constants/routes';
 import { imagePath154 } from 'constants/strings';
 import FollowButton from 'components/common/FollowButton';
 
-interface Props {
+type Props = {
   show: PopularShowType;
-}
+};
 
 const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
   <Box borderRadius="8px" borderWidth="1px" mb="18px" minW="0" ml="20px" w="144px">

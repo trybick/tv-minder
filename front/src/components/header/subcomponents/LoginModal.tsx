@@ -34,14 +34,14 @@ import handleErrors from 'utils/handleErrors';
 import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import { DisclosureProps } from 'types/common';
 
-interface OwnProps {
+type OwnProps = {
   disclosureProps: DisclosureProps;
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   setIsLoggedIn: (email: string) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
-}
+};
 
 type Props = OwnProps & DispatchProps;
 

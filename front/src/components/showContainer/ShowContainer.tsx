@@ -7,9 +7,9 @@ import FollowButton from 'components/common/FollowButton';
 import ShowDetails from './subcomponents/ShowDetails';
 import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
 
-interface Props {
+type Props = {
   showInfoForDisplay: BasicShowInfo;
-}
+};
 
 const ShowContainer = ({ showInfoForDisplay }: Props) => {
   const isMobile = useIsMobile();

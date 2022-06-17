@@ -7,12 +7,12 @@ import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
 import { GoogleLoginResponses } from 'types/external';
 
-interface Props {
+type Props = {
   onClose: PlainFunction;
   setIsLoggedIn: (email: string) => void;
   toast: (props: UseToastOptions) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
-}
+};
 
 export const handleGoogleLoginSuccess = (
   response: GoogleLoginResponses,

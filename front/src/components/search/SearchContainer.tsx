@@ -4,12 +4,12 @@ import LoadingSpinner from 'components/common/LoadingSpinner';
 import PopularShows from 'components/popularShows/PopularShows';
 import SearchResults from './subcomponents/SearchResults';
 
-interface Props {
+type Props = {
   isInputDirty: boolean;
   isLoading: boolean;
   shows: ShowSearchResult[];
   totalResults: number;
-}
+};
 
 const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" justifyContent="center" m="0 auto">

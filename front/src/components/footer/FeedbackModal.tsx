@@ -18,9 +18,9 @@ import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
 
-interface Props {
+type Props = {
   disclosureProps: DisclosureProps;
-}
+};
 
 const FeedbackModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;

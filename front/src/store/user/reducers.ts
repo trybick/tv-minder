@@ -12,13 +12,13 @@ import {
 } from './actions';
 import { ID } from 'types/common';
 
-export interface UserState {
+export type UserState = {
   email: string;
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   unregisteredFollowedShows: ID[];
-}
+};
 
 const initialState = {
   email: '',

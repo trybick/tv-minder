@@ -27,14 +27,14 @@ import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
 
-interface StateProps {
+type StateProps = {
   email: string;
   isLoggedIn: boolean;
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   setIsLoggedOut: AppThunkPlainAction;
-}
+};
 
 type Props = StateProps & DispatchProps;
 

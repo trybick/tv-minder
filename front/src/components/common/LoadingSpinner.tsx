@@ -1,8 +1,8 @@
 import { Flex, Spinner } from '@chakra-ui/react';
 
-interface Props {
+type Props = {
   isFullScreen?: boolean;
-}
+};
 
 const LoadingSpinner = ({ isFullScreen }: Props) =>
   isFullScreen ? (

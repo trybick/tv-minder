@@ -3,9 +3,9 @@ import { chakra, Th, Tr } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 
-interface Props {
+type Props = {
   headerGroups: HeaderGroup<BasicShowInfo>[];
-}
+};
 
 const TableHeader = ({ headerGroups }: Props) => (
   <>

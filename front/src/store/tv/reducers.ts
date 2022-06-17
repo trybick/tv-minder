@@ -11,14 +11,14 @@ import {
 } from './actions';
 import { SavedQuery } from './types';
 
-export interface TvState {
+export type TvState = {
   savedQueries: SavedQuery[];
   episodeData: GenericNumberObject;
   basicShowInfo: GenericNumberObject;
   isLoadingBasicShowInfoForShow: boolean;
   calendarEpisodesForDisplay: any[];
   popularShows: GenericStringObject[];
-}
+};
 
 const initialState = {
   savedQueries: [],

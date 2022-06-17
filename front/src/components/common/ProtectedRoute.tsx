@@ -4,9 +4,9 @@ import { Redirect } from 'react-router-dom';
 import { selectIsLoggedIn } from 'store/user/selectors';
 import { ROUTES } from 'constants/routes';
 
-interface Props {
+type Props = {
   children: ReactNode;
-}
+};
 
 const ProtectedRoute = ({ children }: Props) => {
   const isUserLoggedIn = useSelector(selectIsLoggedIn);

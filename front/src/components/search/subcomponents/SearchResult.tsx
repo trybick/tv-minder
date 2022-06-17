@@ -7,7 +7,7 @@ import { ROUTES } from 'constants/routes';
 import { fallbackImagePath } from 'constants/strings';
 import FollowButton from 'components/common/FollowButton';
 
-interface Props {
+type Props = {
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
@@ -15,7 +15,7 @@ interface Props {
   removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
   saveToFollowedShows: (showId: number) => void;
-}
+};
 
 const SearchResult = ({ showToDisplay }: Props) => {
   const { first_air_date: firstAirDate, id: showId, name, poster_path: posterPath } = showToDisplay;
