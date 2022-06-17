@@ -6,6 +6,7 @@ import {
   SAVE_CALENDAR_EPISODES_CACHE,
   SAVE_POPULAR_SHOWS,
   SET_CURRENT_CALENDAR_EPISODES,
+  SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
   SET_SEARCH_QUERY,
 } from './actions';
 import { SavedQuery } from './types';
@@ -14,6 +15,7 @@ export interface TvState {
   savedQueries: SavedQuery[];
   episodeData: GenericNumberObject;
   basicShowInfo: GenericNumberObject;
+  isLoadingBasicShowInfoForShow: boolean;
   calendarEpisodesForDisplay: any[];
   popularShows: GenericStringObject[];
 }
@@ -22,6 +24,7 @@ const initialState = {
   savedQueries: [],
   episodeData: {},
   basicShowInfo: {},
+  isLoadingBasicShowInfoForShow: true,
   calendarEpisodesForDisplay: [],
   popularShows: [],
 };
@@ -55,6 +58,13 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
       return {
         ...state,
         basicShowInfo: { ...state.basicShowInfo, ...action.payload },
+        isLoadingBasicShowInfoForShow: false,
+      };
+    }
+    case SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW: {
+      return {
+        ...state,
+        isLoadingBasicShowInfoForShow: true,
       };
     }
     case SET_CURRENT_CALENDAR_EPISODES: {

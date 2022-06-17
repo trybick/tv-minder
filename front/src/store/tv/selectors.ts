@@ -7,6 +7,8 @@ import { mapShowInfoForDisplay } from './tvUtils';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
+export const selectIsLoadingBasicShowInfoForShow = (state: AppState) =>
+  state.tv.isLoadingBasicShowInfoForShow;
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;

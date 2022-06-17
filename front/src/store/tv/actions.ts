@@ -12,6 +12,7 @@ export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';
 export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
 export const SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS = 'SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS';
 export const SAVE_BASIC_SHOW_INFO_FOR_SHOW = 'SAVE_BASIC_SHOW_INFO_FOR_SHOW';
+export const SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW = 'SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW';
 export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
 
 export const saveSearchQueryAction =
@@ -117,6 +118,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
     }
 
     // If we don't have a valid cache, start by fetching the basic info
+    dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW });
     const basicInfo = await axios
       .get(`${API.THE_MOVIE_DB}/tv/${showId}`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },

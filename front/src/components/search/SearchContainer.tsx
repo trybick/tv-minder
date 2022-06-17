@@ -1,7 +1,8 @@
-import { Flex, Spinner, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { ShowSearchResult } from 'types/external';
-import SearchResults from './subcomponents/SearchResults';
+import LoadingSpinner from 'components/common/LoadingSpinner';
 import PopularShows from 'components/popularShows/PopularShows';
+import SearchResults from './subcomponents/SearchResults';
 
 interface Props {
   isInputDirty: boolean;
@@ -9,17 +10,6 @@ interface Props {
   shows: ShowSearchResult[];
   totalResults: number;
 }
-
-const LoadingSpinner = () => (
-  <Spinner
-    color="blue.500"
-    emptyColor="gray.200"
-    mt="26px"
-    size="xl"
-    speed="0.65s"
-    thickness="4px"
-  />
-);
 
 const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
   <Flex justify="center" justifyContent="center" m="0 auto">

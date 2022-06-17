@@ -7,21 +7,25 @@ import { AppState } from 'store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForShow } from 'store/tv/actions';
 import { mapShowInfoForDisplay } from 'store/tv/tvUtils';
 import { BasicShowInfo } from 'types/external';
+import LoadingSpinner from 'components/common/LoadingSpinner';
 import ShowContainer from 'components/showContainer/ShowContainer';
+import { selectIsLoadingBasicShowInfoForShow } from 'store/tv/selectors';
 
 const ShowPage = () => {
   const dispatch = useDispatch();
   const { showId } = useParams<{ showId: string }>();
   const showIdNum = +showId;
   const showInfo = useSelector((state: AppState) => state.tv.basicShowInfo[showIdNum]);
+  const isLoading = useSelector(selectIsLoadingBasicShowInfoForShow);
   const showInfoForDisplay: BasicShowInfo = showInfo && mapShowInfoForDisplay(showInfo);
 
   useEffect(() => {
     dispatch(getBasicShowInfoAndSeasonsWithEpisodesForShow(showIdNum));
   }, [dispatch, showIdNum]);
 
-  // This check is to avoid flashing the previous show on first render
-  return showIdNum === showInfo?.id ? (
+  return isLoading ? (
+    <LoadingSpinner isFullScreen />
+  ) : showIdNum === showInfo?.id ? (
     <Box m="20px auto 40px" maxW="800px" px={{ base: '20px', md: '30px' }}>
       <Helmet title={`${showInfoForDisplay.name} | TV Minder`} />
       <ShowContainer showInfoForDisplay={showInfoForDisplay} />
