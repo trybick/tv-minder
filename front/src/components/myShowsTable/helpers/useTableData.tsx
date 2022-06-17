@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CellProps, Column } from 'react-table';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BasicShowInfo } from 'types/external';
+import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from 'store/tv/actions';
 import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
 import { useIsMobile } from 'hooks/useIsMobile';
@@ -12,7 +13,14 @@ import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
+  const history = useHistory();
+  const dispatch = useDispatch();
   const isMobile = useIsMobile();
+
+  const onClickShowName = (showId: number) => {
+    dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW });
+    history.push(`${ROUTES.SHOW}/${showId}`);
+  };
 
   const columns: Column<BasicShowInfo>[] = useMemo(
     () => [
@@ -75,16 +83,26 @@ export const useTableData = () => {
                 variant="outline"
                 isRound
               />
-              <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
-                <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
+              <Link>
+                <Text
+                  fontSize="md"
+                  fontWeight="500"
+                  noOfLines={!isExpanded ? 1 : undefined}
+                  onClick={() => onClickShowName(original.id)}
+                >
                   {original.name}
                 </Text>
               </Link>
             </Flex>
           ) : (
             <Flex align="center" h="100%">
-              <Link as={RouterLink} to={`${ROUTES.SHOW}/${original.id}`}>
-                <Text fontSize="md" fontWeight="500" noOfLines={!isExpanded ? 1 : undefined}>
+              <Link>
+                <Text
+                  fontSize="md"
+                  fontWeight="500"
+                  noOfLines={!isExpanded ? 1 : undefined}
+                  onClick={() => onClickShowName(original.id)}
+                >
                   {original.name}
                 </Text>
               </Link>
@@ -93,7 +111,7 @@ export const useTableData = () => {
         },
       },
     ],
-    [isMobile]
+    []
   );
 
   if (isMobile) {

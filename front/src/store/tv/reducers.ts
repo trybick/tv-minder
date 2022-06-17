@@ -24,7 +24,7 @@ const initialState = {
   savedQueries: [],
   episodeData: {},
   basicShowInfo: {},
-  isLoadingBasicShowInfoForShow: true,
+  isLoadingBasicShowInfoForShow: false,
   calendarEpisodesForDisplay: [],
   popularShows: [],
 };
