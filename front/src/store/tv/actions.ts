@@ -114,11 +114,12 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
       cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
       cacheAge < cacheDurationDays.myShows;
     if (hasValidCache) {
+      dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: false });
       return;
     }
 
     // If we don't have a valid cache, start by fetching the basic info
-    dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW });
+    dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
     const basicInfo = await axios
       .get(`${API.THE_MOVIE_DB}/tv/${showId}`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },

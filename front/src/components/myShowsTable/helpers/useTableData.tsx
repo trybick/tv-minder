@@ -19,7 +19,7 @@ export const useTableData = () => {
 
   const columns: Column<BasicShowInfo>[] = useMemo(() => {
     const onClickShowName = (showId: number) => {
-      dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW });
+      dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
       history.push(`${ROUTES.SHOW}/${showId}`);
     };
 

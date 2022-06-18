@@ -64,7 +64,7 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
     case SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW: {
       return {
         ...state,
-        isLoadingBasicShowInfoForShow: true,
+        isLoadingBasicShowInfoForShow: action.payload,
       };
     }
     case SET_CURRENT_CALENDAR_EPISODES: {
