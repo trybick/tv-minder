@@ -24,7 +24,7 @@ const ShowPage = () => {
   }, [dispatch, showIdNum]);
 
   return isLoading ? (
-    <LoadingSpinner isFullScreen />
+    <LoadingSpinner delay={250} isFullScreen />
   ) : showIdNum === showInfo?.id ? (
     <Box m="20px auto 40px" maxW="800px" px={{ base: '20px', md: '30px' }}>
       <Helmet title={`${showInfoForDisplay.name} | TV Minder`} />
