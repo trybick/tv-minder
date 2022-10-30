@@ -141,7 +141,7 @@ export const requestOneTimeCode = (req: Request, res: Response) => {
         },
       });
       const mailOptions = {
-        from: 'admin@em9332.timr.dev',
+        from: 'admin@em792.timr.dev',
         to: user.email,
         subject: 'TV Minder: One-time code',
         text: 'Your one-time code is: ' + generatedCode.toString(),

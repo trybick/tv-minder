@@ -15,7 +15,7 @@ contactRoutes.post('/contact', (req, res) => {
     },
   });
   const email = {
-    from: 'admin@em9332.timr.dev',
+    from: 'admin@em792.timr.dev',
     to: 'devtimr@gmail.com',
     subject: 'TV Minder: New feedback',
     text,
