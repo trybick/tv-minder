@@ -28,32 +28,31 @@ export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = c
   selectPopularShows,
   shows =>
     shows &&
-    Object.values(shows)
-      ?.filter(show => show.original_language === 'en')
-      .map(show => {
-        const {
-          id,
-          backdrop_path: backdropPath,
-          fetchedAt,
-          name,
-          overview,
-          popularity,
-          poster_path: posterPath,
-          vote_average: voteAverage,
-          vote_count: voteCount,
-        } = show;
-        const voteAverageForDisplay = (voteAverage * 10).toString() + '%';
+    Object.values(shows)?.map(show => {
+      const {
+        id,
+        backdrop_path: backdropPath,
+        fetchedAt,
+        name,
+        overview,
+        popularity,
+        poster_path: posterPath,
+        vote_average: voteAverage,
+        vote_count: voteCount,
+      } = show;
 
-        return {
-          id,
-          backdropPath,
-          fetchedAt,
-          name,
-          overview,
-          popularity,
-          posterPath,
-          voteAverage: voteAverageForDisplay,
-          voteCount,
-        };
-      })
+      const voteAverageForDisplay = (voteAverage * 10).toString() + '%';
+
+      return {
+        id,
+        backdropPath,
+        fetchedAt,
+        name,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage: voteAverageForDisplay,
+        voteCount,
+      };
+    })
 );
