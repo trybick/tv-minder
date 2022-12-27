@@ -48,7 +48,12 @@ export const useTableData = () => {
                 isRound
               />
               <Flex align="center" h="100%" ml="10px">
-                <Tag {...row.getToggleRowExpandedProps()} colorScheme={color} fontWeight="400">
+                <Tag
+                  {...row.getToggleRowExpandedProps()}
+                  colorScheme={color}
+                  fontWeight="400"
+                  whiteSpace="nowrap"
+                >
                   {status}
                 </Tag>
               </Flex>
