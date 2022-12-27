@@ -10,9 +10,6 @@
     "serve:local": "tsc-watch --onSuccess \"nodemon ./dist/server.js\" --onFailure \"Compilation failed\"",
     "serve:prod": "node dist/server.js"
   },
-  "lint-staged": {
-    "*.{tsx,js,ts}": "eslint --cache --fix"
-  },
   "_moduleAliases": {
     "config": "dist/config",
     "entities": "dist/entities",

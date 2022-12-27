@@ -26,9 +26,6 @@
     "lint:fix": "eslint --fix --ext .tsx,.js,.ts .",
     "validate": "tsc --noEmit"
   },
-  "lint-staged": {
-    "*.{tsx,js,ts}": "eslint --cache --fix"
-  },
   "engines": {
     "npm": ">=6.0.0",
     "node": ">=14.0.0"
@@ -85,7 +82,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "lint-staged": "^12.4.1",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
   },
