@@ -174,10 +174,11 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
     moment().diff(moment(cachedPopularShows[0].fetchedAt), 'days');
   const isCacheValid = cachedPopularShows?.length && cacheDurationDays.popularShows > cacheAge;
 
-  // Fetch data if needed
   if (!isCacheValid) {
     axios
-      .get(`${API.THE_MOVIE_DB}/tv/popular`, {
+      // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
+      // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
+      .get(`${API.THE_MOVIE_DB}/trending/tv/week`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
       })
       .then(({ data: { results } }) => {
