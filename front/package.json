@@ -31,10 +31,10 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.4",
-    "@chakra-ui/react": "^2.2.4",
-    "@emotion/react": "11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@chakra-ui/icons": "^2.0.15",
+    "@chakra-ui/react": "^2.4.5",
+    "@emotion/react": "11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@fullcalendar/core": "^5.11.2",
     "@fullcalendar/daygrid": "^5.11.2",
     "@fullcalendar/interaction": "^5.11.2",
@@ -63,27 +63,27 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.0",
-    "reselect": "^4.1.6"
+    "redux-thunk": "^2.4.2",
+    "reselect": "^4.1.7"
   },
   "devDependencies": {
-    "@types/node": "^17.0.31",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.5",
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
     "@types/react-redux": "^7.1.20",
     "@types/react-router-dom": "^5.1.4",
     "@types/react-table": "^7.7.12",
     "@types/react-truncate": "^2.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
-    "@typescript-eslint/parser": "^5.31.0",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.20.0",
+    "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "prettier": "^2.8.1",
+    "typescript": "^4.9.4"
   },
   "resolutions": {
     "body-scroll-lock": "3.0.3"
