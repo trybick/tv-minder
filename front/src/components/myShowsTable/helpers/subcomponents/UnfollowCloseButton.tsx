@@ -40,14 +40,14 @@ const UnfollowCloseButton = ({ showId, showName }: Props) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent mx="20px">
-            <AlertDialogHeader>Unfollow {showName}</AlertDialogHeader>
-            <AlertDialogBody>Are you sure?</AlertDialogBody>
+            <AlertDialogHeader>{showName}</AlertDialogHeader>
+            <AlertDialogBody>Do you want to unfollow this show?</AlertDialogBody>
             <AlertDialogFooter>
               <Button onClick={() => setIsOpen(false)} ref={cancelRef}>
                 Cancel
               </Button>
               <Button colorScheme="red" ml={3} onClick={onUnfollowShow}>
-                Unfollow
+                OK
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
