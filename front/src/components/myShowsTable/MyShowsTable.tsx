@@ -1,13 +1,16 @@
+import { useSelector } from 'react-redux';
 import { useExpanded, useFlexLayout, useSortBy, useTable } from 'react-table';
 import { Table, Tbody, Thead } from '@chakra-ui/react';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { BasicShowInfo } from 'types/external';
+import { selectMyShowsTableExpandedRow } from 'store/tv/selectors';
 import { useTableData } from './helpers/useTableData';
 import TableHeader from './subcomponents/TableHeader';
 import TableRow from './subcomponents/TableRow';
 import ExpandedDrawer from './subcomponents/ExpandedDrawer/ExpandedDrawer';
 
 const MyShowsTable = () => {
+  const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
   const isMobile = useIsMobile();
   const { data, columns } = useTableData();
   const initialState = {
@@ -47,7 +50,11 @@ const MyShowsTable = () => {
               key={`row-${i}`}
               rowProps={row.getRowProps()}
             />,
-            <ExpandedDrawer isExpanded={row.isExpanded} key={`expanded-${i}`} row={row} />,
+            <ExpandedDrawer
+              isExpanded={row.original.id === myShowsTableExpandedRow}
+              key={`expanded-${i}`}
+              row={row}
+            />,
           ];
         })}
       </Tbody>

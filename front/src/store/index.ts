@@ -24,7 +24,7 @@ export type AppState = {
 const rootPersistConfig = {
   key: 'root',
   storage: localforage,
-  blacklist: ['user'],
+  blacklist: ['user', 'tv'],
 };
 
 const userPersistConfig = {
@@ -36,6 +36,7 @@ const userPersistConfig = {
 const tvPersistConfig = {
   key: 'tv',
   storage: localforage,
+  blacklist: ['myShowsTableExpandedRow'],
 };
 
 const rootReducer = combineReducers({

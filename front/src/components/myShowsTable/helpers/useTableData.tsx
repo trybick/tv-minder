@@ -5,7 +5,10 @@ import { useHistory } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BasicShowInfo } from 'types/external';
-import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from 'store/tv/actions';
+import {
+  expandMyShowsTableRowAction,
+  SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+} from 'store/tv/actions';
 import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
 import { useIsMobile } from 'hooks/useIsMobile';
@@ -43,6 +46,7 @@ export const useTableData = () => {
                 {...(!isMobile && { ...toggleRowExpandedProps })}
                 aria-label="Expand row"
                 icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                onClick={() => dispatch(expandMyShowsTableRowAction(row.original.id))}
                 size="sm"
                 variant="outline"
                 isRound

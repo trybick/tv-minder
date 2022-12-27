@@ -14,6 +14,7 @@ export const SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS = 'SAVE_BASIC_SHOW_INFO_FOR
 export const SAVE_BASIC_SHOW_INFO_FOR_SHOW = 'SAVE_BASIC_SHOW_INFO_FOR_SHOW';
 export const SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW = 'SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW';
 export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
+export const EXPAND_MY_SHOWS_TABLE_ROW = 'EXPAND_MY_SHOWS_TABLE_ROW';
 
 export const saveSearchQueryAction =
   (query: SavedQuery): AppThunk =>
@@ -191,3 +192,12 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
       .catch(handleErrors);
   }
 };
+
+export const expandMyShowsTableRowAction =
+  (showId: number): AppThunk =>
+  dispatch => {
+    dispatch({
+      type: EXPAND_MY_SHOWS_TABLE_ROW,
+      payload: showId,
+    });
+  };
