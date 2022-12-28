@@ -45,10 +45,11 @@ const MyShowsTable = () => {
           return [
             <TableRow
               cells={row.cells}
-              isExpanded={row.isExpanded}
+              isExpanded={row.original.id === myShowsTableExpandedRow}
               isMobile={isMobile}
               key={`row-${i}`}
               rowProps={row.getRowProps()}
+              showId={row.original.id}
             />,
             <ExpandedDrawer
               isExpanded={row.original.id === myShowsTableExpandedRow}

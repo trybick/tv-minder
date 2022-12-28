@@ -5,11 +5,11 @@ import { useHistory } from 'react-router-dom';
 import { Flex, IconButton, Link, Tag, Text } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BasicShowInfo } from 'types/external';
+import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from 'store/tv/actions';
 import {
-  expandMyShowsTableRowAction,
-  SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
-} from 'store/tv/actions';
-import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
+  selectBasicShowInfoForFollowedShows,
+  selectMyShowsTableExpandedRow,
+} from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
 import { useIsMobile } from 'hooks/useIsMobile';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
@@ -37,27 +37,24 @@ export const useTableData = () => {
         accessor: row => row.statusWithColor.sortOrder,
         width: 119,
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
-          const { isExpanded, getToggleRowExpandedProps, original } = row;
+          // Need the 'useSelector' in this scope or 'isExpanded' won't update
+          const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
+          const { getToggleRowExpandedProps, original } = row;
           const { color, status } = original.statusWithColor;
           const toggleRowExpandedProps = getToggleRowExpandedProps();
+          const isExpanded = myShowsTableExpandedRow === original.id;
           return (
             <Flex {...(isMobile && { ...toggleRowExpandedProps })} align="center" gap="16px">
               <IconButton
                 {...(!isMobile && { ...toggleRowExpandedProps })}
                 aria-label="Expand row"
                 icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-                onClick={() => dispatch(expandMyShowsTableRowAction(row.original.id))}
                 size="sm"
                 variant="outline"
                 isRound
               />
               <Flex align="center" h="100%" ml="10px">
-                <Tag
-                  {...row.getToggleRowExpandedProps()}
-                  colorScheme={color}
-                  fontWeight="400"
-                  whiteSpace="nowrap"
-                >
+                <Tag colorScheme={color} fontWeight="400" whiteSpace="nowrap">
                   {status}
                 </Tag>
               </Flex>
@@ -131,8 +128,8 @@ export const useTableData = () => {
       width: 110,
       accessor: row => row.network,
       Cell: ({ row }: CellProps<BasicShowInfo>) => (
-        <Flex align="center" h="100%">
-          <Tag {...row.getToggleRowExpandedProps()} fontWeight="400">
+        <Flex align="center" cursor="default" h="100%">
+          <Tag fontWeight="400">
             <Text noOfLines={1}>{row.original.network || 'Unlisted'}</Text>
           </Tag>
         </Flex>
