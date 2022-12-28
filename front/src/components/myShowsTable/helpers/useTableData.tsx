@@ -71,8 +71,10 @@ export const useTableData = () => {
           </Text>
         ),
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
-          const { isExpanded, getToggleRowExpandedProps, original } = row;
+          const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
+          const { getToggleRowExpandedProps, original } = row;
           const toggleRowExpandedProps = getToggleRowExpandedProps();
+          const isExpanded = myShowsTableExpandedRow === original.id;
           return isMobile ? (
             <Flex {...toggleRowExpandedProps} align="center" gap="14px" h="100%">
               <IconButton
@@ -128,7 +130,7 @@ export const useTableData = () => {
       width: 110,
       accessor: row => row.network,
       Cell: ({ row }: CellProps<BasicShowInfo>) => (
-        <Flex align="center" cursor="default" h="100%">
+        <Flex align="center" cursor="default" h="100%" width="fit-content">
           <Tag fontWeight="400">
             <Text noOfLines={1}>{row.original.network || 'Unlisted'}</Text>
           </Tag>

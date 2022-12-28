@@ -194,7 +194,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
 };
 
 export const expandMyShowsTableRowAction =
-  (showId: number): AppThunk =>
+  (showId: number | null): AppThunk =>
   dispatch => {
     dispatch({
       type: EXPAND_MY_SHOWS_TABLE_ROW,
