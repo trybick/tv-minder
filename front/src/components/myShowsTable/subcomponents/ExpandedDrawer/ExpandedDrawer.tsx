@@ -17,10 +17,9 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
 
   const motionProps = {
     animate: 'open',
-    exit: 'collapsed',
     initial: 'collapsed',
     key: 'content',
-    transition: { duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] },
+    transition: { duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] },
     variants: {
       open: { opacity: 1, height: 'auto' },
       collapsed: { opacity: 0, height: 0 },
