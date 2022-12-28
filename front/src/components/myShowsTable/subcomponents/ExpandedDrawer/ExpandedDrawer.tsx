@@ -34,7 +34,7 @@ const ExpandedDrawer = ({ isExpanded, row }: Props) => {
           <Td
             bg={cellBackgroundColor}
             colSpan={row.allCells.length}
-            p={isMobile ? '0 20px 20px' : '10px 60px 25px'}
+            p={isMobile ? '0 20px 20px' : '12px 60px 32px'}
           >
             <motion.section {...motionProps}>
               {isMobile ? (
