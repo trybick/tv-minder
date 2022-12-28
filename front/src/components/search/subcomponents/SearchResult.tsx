@@ -12,9 +12,9 @@ type Props = {
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
-  removeFromFollowedShows: (showId: number) => void;
+  removeFromFollowedShows: (showId: ID) => void;
   setHasLocalWarningToastBeenShown: AppThunkPlainAction;
-  saveToFollowedShows: (showId: number) => void;
+  saveToFollowedShows: (showId: ID) => void;
 };
 
 const SearchResult = ({ showToDisplay }: Props) => {

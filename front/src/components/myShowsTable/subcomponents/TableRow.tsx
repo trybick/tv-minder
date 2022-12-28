@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Cell } from 'react-table';
 import { TableRowProps, Td, Tr, useColorModeValue } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
+import { ID } from 'types/common';
 import { expandMyShowsTableRowAction } from 'store/tv/actions';
 
 type Props = {
@@ -9,7 +10,7 @@ type Props = {
   isExpanded: boolean;
   isMobile?: boolean;
   rowProps: TableRowProps;
-  showId: number;
+  showId: ID;
 };
 
 const TableRow = ({ cells, isExpanded, isMobile, rowProps, showId }: Props) => {

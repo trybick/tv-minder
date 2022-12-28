@@ -6,6 +6,7 @@ import { SavedQuery } from './types';
 import { API } from 'constants/api';
 import handleErrors from 'utils/handleErrors';
 import cacheDurationDays from 'utils/cacheDurations';
+import { ID } from 'types/common';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';
@@ -61,7 +62,7 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
   const { followedShows, isLoggedIn, unregisteredFollowedShows } = getState().user;
   const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
   const followedShowsSource = isLoggedIn ? followedShows : unregisteredFollowedShows;
-  const combinedData: { [key: number]: any } = {};
+  const combinedData: { [key: ID]: any } = {};
 
   // Get cached data and add to combinedData
   const cachedIds = cachedBasicShowInfo && Object.keys(cachedBasicShowInfo);
@@ -106,7 +107,7 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
 };
 
 export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
-  (showId: number): AppThunk =>
+  (showId: ID): AppThunk =>
   async (dispatch, getState) => {
     // If we already have the basic show info, season info, and cache is valid, do nothing
     const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
@@ -194,7 +195,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
 };
 
 export const expandMyShowsTableRowAction =
-  (showId: number | null): AppThunk =>
+  (showId: ID | null): AppThunk =>
   dispatch => {
     dispatch({
       type: EXPAND_MY_SHOWS_TABLE_ROW,

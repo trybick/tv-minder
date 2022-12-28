@@ -55,7 +55,7 @@ export const setIsLoggedInAction =
 
 // If logged in, add show to state and update API. Else just add to state
 export const saveToFollowedShowsAction =
-  (showId: number): AppThunk =>
+  (showId: ID): AppThunk =>
   (dispatch, getState) => {
     const { isLoggedIn } = getState().user;
 
@@ -86,7 +86,7 @@ export const saveToFollowedShowsAction =
 
 // If logged in, remove show from state and update API. Else just remove from state
 export const removeFromFollowedShowsAction =
-  (showId: number): AppThunk =>
+  (showId: ID): AppThunk =>
   (dispatch, getState) => {
     const { isLoggedIn } = getState().user;
 

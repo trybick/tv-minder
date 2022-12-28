@@ -1,5 +1,6 @@
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { StatusWithColor } from 'store/tv/tvUtils';
+import { ID } from 'types/common';
 
 //
 // Search
@@ -7,8 +8,8 @@ import { StatusWithColor } from 'store/tv/tvUtils';
 export type ShowSearchResult = {
   backdrop_path: string;
   first_air_date: '1965-09-14';
-  genre_ids: number[];
-  id: number;
+  genre_ids: ID[];
+  id: ID;
   name: string;
   origin_country: string[];
   original_language: string;
@@ -34,14 +35,14 @@ export type EpisodeForDisplay = {
 };
 
 export type Genre = {
-  id: number;
+  id: ID;
   name: string;
 };
 
 export type EpisodeForSeason = {
   airDate: string;
   episodeNumber: number;
-  id: number;
+  id: ID;
   name: string;
   overview: string;
   seasonNumber: number;
@@ -53,7 +54,7 @@ export type EpisodeForSeason = {
 export type SeasonWithEpisodes = {
   airDate: string;
   episodes: EpisodeForSeason[];
-  id: number;
+  id: ID;
   isSpecialsSeason: boolean;
   name: string;
   nameForDisplay: string;
@@ -69,7 +70,7 @@ export type BasicShowInfo = {
   firstAirDate: string;
   language: string | undefined;
   genreNames: string[];
-  id: number;
+  id: ID;
   inProduction: boolean;
   lastAirDate: string;
   lastEpisodeForDisplay: EpisodeForDisplay;
@@ -93,7 +94,7 @@ export type BasicShowInfo = {
 // Popular Show
 //
 export type PopularShow = {
-  id: number;
+  id: ID;
   backdropPath: string;
   fetchedAt: string;
   name: string;

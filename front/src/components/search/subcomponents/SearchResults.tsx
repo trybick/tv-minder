@@ -80,8 +80,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  removeFromFollowedShows: (showId: number) => dispatch(removeFromFollowedShowsAction(showId)),
-  saveToFollowedShows: (showId: number) => dispatch(saveToFollowedShowsAction(showId)),
+  removeFromFollowedShows: (showId: ID) => dispatch(removeFromFollowedShowsAction(showId)),
+  saveToFollowedShows: (showId: ID) => dispatch(saveToFollowedShowsAction(showId)),
   setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
 });
 

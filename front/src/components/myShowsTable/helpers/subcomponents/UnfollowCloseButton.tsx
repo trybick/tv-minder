@@ -12,9 +12,10 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
+import { ID } from 'types/common';
 
 type Props = {
-  showId: number;
+  showId: ID;
   showName: string;
 };
 

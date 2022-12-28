@@ -2,6 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Badge, Button, chakra, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { EpisodeForDisplay } from 'types/external';
+import { ID } from 'types/common';
 import { ROUTES } from 'constants/routes';
 
 const ChakraRouterLink = chakra(RouterLink);
@@ -10,7 +11,7 @@ type Props = {
   isMobile?: boolean;
   lastEpisode: EpisodeForDisplay;
   nextEpisode: EpisodeForDisplay;
-  showId: number;
+  showId: ID;
 };
 
 const EpisodeGroups = ({ isMobile, lastEpisode, nextEpisode, showId }: Props) => {

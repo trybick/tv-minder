@@ -10,6 +10,7 @@ import {
   selectBasicShowInfoForFollowedShows,
   selectMyShowsTableExpandedRow,
 } from 'store/tv/selectors';
+import { ID } from 'types/common';
 import { ROUTES } from 'constants/routes';
 import { useIsMobile } from 'hooks/useIsMobile';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
@@ -21,7 +22,7 @@ export const useTableData = () => {
   const isMobile = useIsMobile();
 
   const columns: Column<BasicShowInfo>[] = useMemo(() => {
-    const onClickShowName = (showId: number) => {
+    const onClickShowName = (showId: ID) => {
       dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
       history.push(`${ROUTES.SHOW}/${showId}`);
     };

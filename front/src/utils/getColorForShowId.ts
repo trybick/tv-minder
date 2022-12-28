@@ -1,5 +1,7 @@
+import { ID } from 'types/common';
+
 // Takes a list of showIds. Returns a list of persistent unique colors
-export const getUniqueColorsForShowIds = (showIds: number[]) => {
+export const getUniqueColorsForShowIds = (showIds: ID[]) => {
   const usedIndicies: { [key: number]: boolean } = {};
 
   const listOfIndicies = showIds.map(id => {

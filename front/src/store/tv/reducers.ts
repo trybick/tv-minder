@@ -1,5 +1,5 @@
 import { Action, AnyAction, Reducer } from 'redux';
-import { GenericNumberObject, GenericStringObject } from 'types/common';
+import { GenericNumberObject, GenericStringObject, ID } from 'types/common';
 import {
   EXPAND_MY_SHOWS_TABLE_ROW,
   SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
@@ -19,7 +19,7 @@ export type TvState = {
   isLoadingBasicShowInfoForShow: boolean;
   calendarEpisodesForDisplay: any[];
   popularShows: GenericStringObject[];
-  myShowsTableExpandedRow: number | null;
+  myShowsTableExpandedRow: ID | null;
 };
 
 const initialState = {

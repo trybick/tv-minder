@@ -3,13 +3,14 @@ import moment from 'moment';
 import { API } from 'constants/api';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
+import { ID } from 'types/common';
 
 const queryParams = {
   api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
 };
 
 /** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */
-export const getEpisodesForCalendar = async (showIds: number[]) => {
+export const getEpisodesForCalendar = async (showIds: ID[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);
@@ -18,7 +19,7 @@ export const getEpisodesForCalendar = async (showIds: number[]) => {
   return { cache, fetchedEpisodeData };
 };
 
-const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
+const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
   // List of requests for each show's basic info
   const basicInfoRequests = showIds.map((showId: any) =>
     axios.get(`${API.THE_MOVIE_DB}/tv/${showId}`, { params: queryParams })
@@ -69,7 +70,7 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
       const { id, name, latestSeasons } = latestSeasonsForShow;
 
       // List of requests for each season(s) for each show
-      const latestSeasonsRequests = latestSeasons.map((seasonNum: number) =>
+      const latestSeasonsRequests = latestSeasons.map((seasonNum: ID) =>
         axios.get(`${API.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, { params: queryParams })
       );
 
@@ -102,7 +103,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   );
 
   // Calculate unique color based on showId
-  const listOfShowIds: number[] = showSeasonObject.map((show: any) => show.showId);
+  const listOfShowIds: ID[] = showSeasonObject.map((show: any) => show.showId);
   const uniqueColorList = getUniqueColorsForShowIds(listOfShowIds);
   const showSeasonWithColors = showSeasonObject.map((show: any, i: any) => ({
     ...show,
@@ -151,8 +152,8 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 };
 
 // Create a cache object which will be persisted to the redux store
-const createCache = (episodesData: any, showIds: number[]) => {
-  const cache: { [key: number]: any } = {};
+const createCache = (episodesData: any, showIds: ID[]) => {
+  const cache: { [key: ID]: any } = {};
 
   episodesData.forEach((episode: any) => {
     const { showId } = episode.extendedProps;

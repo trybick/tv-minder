@@ -1,9 +1,10 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
 import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { useFollowButton } from 'hooks/useFollowButton';
+import { ID } from 'types/common';
 
 type Props = {
-  showId: number;
+  showId: ID;
 };
 
 export const FollowButton = ({ showId, ...rest }: Props & ButtonProps) => {
