@@ -29,45 +29,10 @@ export const useTableData = () => {
 
     return [
       {
-        id: 'status',
-        Header: () => (
-          <Text display="inline" ml={isMobile ? '34px' : '58px'}>
-            Status
-          </Text>
-        ),
-        accessor: row => row.statusWithColor.sortOrder,
-        width: 119,
-        Cell: ({ row }: CellProps<BasicShowInfo>) => {
-          // Need the 'useSelector' in this scope or 'isExpanded' won't update
-          const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
-          const { getToggleRowExpandedProps, original } = row;
-          const { color, status } = original.statusWithColor;
-          const toggleRowExpandedProps = getToggleRowExpandedProps();
-          const isExpanded = myShowsTableExpandedRow === original.id;
-          return (
-            <Flex {...(isMobile && { ...toggleRowExpandedProps })} align="center" gap="16px">
-              <IconButton
-                {...(!isMobile && { ...toggleRowExpandedProps })}
-                aria-label="Expand row"
-                icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-                size="sm"
-                variant="outline"
-                isRound
-              />
-              <Flex align="center" h="100%" ml="10px">
-                <Tag colorScheme={color} fontWeight="400" whiteSpace="nowrap">
-                  {status}
-                </Tag>
-              </Flex>
-            </Flex>
-          );
-        },
-      },
-      {
         id: 'name',
         accessor: 'name',
         Header: () => (
-          <Text display="inline" ml={isMobile ? '-20px' : 0}>
+          <Text display="inline" ml={isMobile ? '34px' : '58px'}>
             Name
           </Text>
         ),
@@ -104,17 +69,47 @@ export const useTableData = () => {
               </Link>
             </Flex>
           ) : (
+            <Flex align="center" gap="16px">
+              <IconButton
+                aria-label="Expand row"
+                icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                size="sm"
+                variant="outline"
+                isRound
+              />
+              <Flex align="center" h="100%" ml="10px">
+                <Link>
+                  <Text
+                    fontSize="md"
+                    fontWeight="500"
+                    noOfLines={!isExpanded ? 1 : undefined}
+                    onClick={() => onClickShowName(original.id)}
+                  >
+                    {original.name}
+                  </Text>
+                </Link>
+              </Flex>
+            </Flex>
+          );
+        },
+      },
+      {
+        id: 'status',
+        Header: () => (
+          <Text display="inline" ml={isMobile ? '-20px' : 0}>
+            Status
+          </Text>
+        ),
+        accessor: row => row.statusWithColor.sortOrder,
+        width: 119,
+        Cell: ({ row }: CellProps<BasicShowInfo>) => {
+          const { original } = row;
+          const { color, status } = original.statusWithColor;
+          return (
             <Flex align="center" h="100%">
-              <Link>
-                <Text
-                  fontSize="md"
-                  fontWeight="500"
-                  noOfLines={!isExpanded ? 1 : undefined}
-                  onClick={() => onClickShowName(original.id)}
-                >
-                  {original.name}
-                </Text>
-              </Link>
+              <Tag colorScheme={color} fontWeight="400" whiteSpace="nowrap">
+                {status}
+              </Tag>
             </Flex>
           );
         },
@@ -123,7 +118,7 @@ export const useTableData = () => {
   }, [isMobile, dispatch, history]);
 
   if (isMobile) {
-    columns.shift();
+    columns.splice(1);
   } else {
     columns.push({
       id: 'network',
