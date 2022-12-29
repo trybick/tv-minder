@@ -10,7 +10,7 @@ import {
 import { addLeadingZero } from 'utils/formatting';
 import { isEmpty } from 'utils/object';
 
-type Status = 'Ended' | 'Returning' | 'New Episodes' | 'Premiering Soon';
+type Status = 'Ended' | 'Will Return' | 'New Episodes' | 'Coming Soon';
 
 export type StatusWithColor = {
   status: Status;
@@ -35,11 +35,11 @@ export const getStatusWithColor = (
   if (originalStatus === 'Ended') {
     return { status: 'Ended', color: 'red', sortOrder: 4 };
   } else if (isPremieringSoon) {
-    return { status: 'Premiering Soon', color: 'purple', sortOrder: 2 };
+    return { status: 'Coming Soon', color: 'purple', sortOrder: 2 };
   } else if (hasCurrentlyActiveSeason) {
     return { status: 'New Episodes', color: 'green', sortOrder: 1 };
   } else {
-    return { status: 'Returning', color: 'blue', sortOrder: 3 };
+    return { status: 'Will Return', color: 'blue', sortOrder: 3 };
   }
 };
 
