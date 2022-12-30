@@ -107,7 +107,7 @@ const formatEpisodesForSeason = (episodes: GenericStringObject[]): EpisodeForSea
       season_number: seasonNumber,
     } = episode || {};
 
-    const voteAverageForDisplay = voteAverage ? voteAverage.toPrecision(2) : '-';
+    const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
 
     return {
       airDate,
@@ -227,6 +227,8 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
   const language = spokenLanuages.map((language: any) => language.english_name).join(', ');
 
+  const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
+
   return {
     backdropPath,
     createdBy: createdBy[0]?.name,
@@ -249,7 +251,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     statusWithColor,
     tagline,
     videoTrailerKey: getVideoTrailerKey(videos),
-    voteAverage,
+    voteAverage: voteAverageForDisplay,
     voteCount,
     yearsActive,
   };
