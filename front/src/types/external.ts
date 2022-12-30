@@ -95,14 +95,9 @@ export type BasicShowInfo = {
 //
 export type PopularShow = {
   id: ID;
-  backdropPath: string;
   fetchedAt: string;
   name: string;
-  overview: string;
-  popularity: number;
   posterPath: string;
-  voteAverage: string;
-  voteCount: number;
 };
 
 //
