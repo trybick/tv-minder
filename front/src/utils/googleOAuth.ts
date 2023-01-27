@@ -8,7 +8,7 @@ import { PlainFunction } from 'types/common';
 
 const getGoogleUserDetails = async (response: TokenResponse) => {
   if (!('access_token' in response) || !(typeof response.access_token === 'string')) {
-    throw Error('access token field missing');
+    throw Error('Expected field access_token from google response');
   }
   const userInfo = await axios.get(API.GOOGLE_USER_INFO, {
     headers: { Authorization: `Bearer ${response.access_token}` },

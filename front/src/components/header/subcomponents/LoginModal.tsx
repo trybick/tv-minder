@@ -257,11 +257,9 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           }}
         />
         {formOption === 0 && (
-          <>
-            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
-              <GoogleButton onClick={() => handleClickGoogleLogin()} />
-            </Flex>
-          </>
+          <Flex justifyContent="center" mt="10px">
+            <GoogleButton onClick={() => handleClickGoogleLogin()} />
+          </Flex>
         )}
 
         <Box as="form" onSubmit={onSubmit}>
