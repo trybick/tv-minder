@@ -25,13 +25,13 @@ import {
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
-import { GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API } from 'constants/api';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
-import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
+import { handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import { DisclosureProps } from 'types/common';
 
 type OwnProps = {
@@ -219,6 +219,26 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     }
   `;
 
+  const onGoogleLoginFailure = () => {
+    console.error('Google Login error');
+    toast({
+      title: 'Error in login',
+      description: 'Could not login in. Please try again.',
+      status: 'error',
+      isClosable: true,
+    });
+  };
+
+  const onGoogleLoginSuccess = (response: CredentialResponse) => {
+    handleGoogleLoginSuccess({
+      response,
+      setIsLoggedIn,
+      unregisteredClearFollowedShows,
+      onClose,
+      toast,
+    });
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
@@ -234,24 +254,8 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           <>
             <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
               <GoogleLogin
-                onError={() => {
-                  console.error('Google Login error');
-                  toast({
-                    title: 'Error in login',
-                    description: 'Could not login in. Please try again.',
-                    status: 'error',
-                    isClosable: true,
-                  });
-                }}
-                onSuccess={response => {
-                  handleGoogleLoginSuccess({
-                    response,
-                    setIsLoggedIn,
-                    unregisteredClearFollowedShows,
-                    onClose,
-                    toast,
-                  });
-                }}
+                onError={onGoogleLoginFailure}
+                onSuccess={onGoogleLoginSuccess}
                 theme="filled_blue"
               />
             </Flex>

@@ -29,7 +29,7 @@ import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
 import { API } from 'constants/api';
 import { emailRegex } from 'constants/strings';
-import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
+import { handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import handleErrors from 'utils/handleErrors';
 
 type OwnProps = {
