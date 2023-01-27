@@ -234,7 +234,15 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           <>
             <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
               <GoogleLogin
-                onError={() => console.error('Google Login error')}
+                onError={() => {
+                  console.error('Google Login error');
+                  toast({
+                    title: 'Error in login',
+                    description: 'Could not login in. Please try again.',
+                    status: 'error',
+                    isClosable: true,
+                  });
+                }}
                 onSuccess={response => {
                   handleGoogleLoginSuccess(response, {
                     setIsLoggedIn,

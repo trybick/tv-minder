@@ -53,13 +53,3 @@ export const handleGoogleLoginSuccess = (
       });
   }
 };
-
-export const handleGoogleLoginFailure = (error: Error, toast: Props['toast']) => {
-  console.log(error);
-  toast({
-    title: 'Error in login',
-    description: 'Could not login in. Please try again.',
-    status: 'error',
-    isClosable: true,
-  });
-};
