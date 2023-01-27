@@ -23,7 +23,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';

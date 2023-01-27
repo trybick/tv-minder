@@ -21,39 +21,36 @@ export const handleGoogleLoginSuccess = (
   if ('credential' in response && typeof response.credential === 'string') {
     const base64Payload = response.credential.split('.')[1];
     const bufferPayload = Buffer.from(base64Payload, 'base64');
-    const { email, jti } = JSON.parse(bufferPayload.toString());
+    const { email, sub: googleId } = JSON.parse(bufferPayload.toString());
 
-    // const email = response.profileObj.email;
-    // const googleId = response.profileObj.googleId;
-
-    // axios
-    //   .post(`${API.TV_MINDER}/register`, {
-    //     email,
-    //     password: googleId,
-    //     isGoogleLogin: true,
-    //   })
-    //   .then(() => {
-    //     axios
-    //       .post(`${API.TV_MINDER}/login`, {
-    //         email,
-    //         password: googleId,
-    //       })
-    //       .then(res => {
-    //         localStorage.setItem('jwt', res.data.token);
-    //         onClose();
-    //         setIsLoggedIn(res.data.email);
-    //         unregisteredClearFollowedShows();
-    //         toast({
-    //           title: 'Login Successful',
-    //           description: 'You are now logged in with Google.',
-    //           status: 'success',
-    //           isClosable: true,
-    //         });
-    //       })
-    //       .catch((error: any) => {
-    //         handleErrors(error);
-    //       });
-    //   });
+    axios
+      .post(`${API.TV_MINDER}/register`, {
+        email,
+        password: googleId,
+        isGoogleLogin: true,
+      })
+      .then(() => {
+        axios
+          .post(`${API.TV_MINDER}/login`, {
+            email,
+            password: googleId,
+          })
+          .then(res => {
+            localStorage.setItem('jwt', res.data.token);
+            onClose();
+            setIsLoggedIn(res.data.email);
+            unregisteredClearFollowedShows();
+            toast({
+              title: 'Login Successful',
+              description: 'You are now logged in with Google.',
+              status: 'success',
+              isClosable: true,
+            });
+          })
+          .catch((error: any) => {
+            handleErrors(error);
+          });
+      });
   }
 };
 
