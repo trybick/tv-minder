@@ -1,4 +1,3 @@
-import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { StatusWithColor } from 'store/tv/tvUtils';
 import { ID } from 'types/common';
 
@@ -99,8 +98,3 @@ export type PopularShow = {
   name: string;
   posterPath: string;
 };
-
-//
-// Misc
-//
-export type GoogleLoginResponses = GoogleLoginResponse | GoogleLoginResponseOffline;

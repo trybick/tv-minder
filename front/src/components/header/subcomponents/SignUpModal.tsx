@@ -164,7 +164,7 @@ const SignUpModal = ({
         />
 
         <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
-          <GoogleLogin
+          {/* <GoogleLogin
             buttonText="Continue with Google"
             clientId={API.GOOGLE_0AUTH!}
             onFailure={error => handleGoogleLoginFailure(error, toast)}
@@ -178,7 +178,7 @@ const SignUpModal = ({
             }
             theme="dark"
             type="submit"
-          />
+          /> */}
         </Flex>
 
         <Box as="form" onSubmit={onSubmit}>

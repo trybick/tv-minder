@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
-import GoogleLogin from 'react-google-login';
+import { GoogleLogin } from '@react-oauth/google';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API } from 'constants/api';
@@ -231,25 +231,22 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           }}
         />
         {formOption === 0 && (
-          <Box>
+          <>
             <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
               <GoogleLogin
-                buttonText="Continue with Google"
-                clientId={API.GOOGLE_0AUTH!}
-                onFailure={error => handleGoogleLoginFailure(error, toast)}
-                onSuccess={response =>
+                onError={() => console.error('Google Login error')}
+                onSuccess={response => {
                   handleGoogleLoginSuccess(response, {
                     setIsLoggedIn,
                     unregisteredClearFollowedShows,
                     onClose,
                     toast,
-                  })
-                }
-                theme="dark"
-                type="submit"
+                  });
+                }}
+                theme="filled_blue"
               />
             </Flex>
-          </Box>
+          </>
         )}
 
         <Box as="form" onSubmit={onSubmit}>

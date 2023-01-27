@@ -1,11 +1,11 @@
 import { UseToastOptions } from '@chakra-ui/react';
-import { GoogleLoginResponse } from 'react-google-login';
-import { API } from 'constants/api';
+import { CredentialResponse } from '@react-oauth/google';
 import axios from 'axios';
+import { Buffer } from 'buffer';
+import { API } from 'constants/api';
 import handleErrors from './handleErrors';
 import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
-import { GoogleLoginResponses } from 'types/external';
 
 type Props = {
   onClose: PlainFunction;
@@ -15,42 +15,45 @@ type Props = {
 };
 
 export const handleGoogleLoginSuccess = (
-  response: GoogleLoginResponses,
+  response: CredentialResponse,
   { onClose, setIsLoggedIn, toast, unregisteredClearFollowedShows }: Props
 ) => {
-  const isValidGoogleResponse = (response: GoogleLoginResponses): response is GoogleLoginResponse =>
-    'googleId' in response;
-  if (isValidGoogleResponse(response)) {
-    const email = response.profileObj.email;
-    const googleId = response.profileObj.googleId;
-    axios
-      .post(`${API.TV_MINDER}/register`, {
-        email,
-        password: googleId,
-        isGoogleLogin: true,
-      })
-      .then(() => {
-        axios
-          .post(`${API.TV_MINDER}/login`, {
-            email,
-            password: googleId,
-          })
-          .then(res => {
-            localStorage.setItem('jwt', res.data.token);
-            onClose();
-            setIsLoggedIn(res.data.email);
-            unregisteredClearFollowedShows();
-            toast({
-              title: 'Login Successful',
-              description: 'You are now logged in with Google.',
-              status: 'success',
-              isClosable: true,
-            });
-          })
-          .catch((error: any) => {
-            handleErrors(error);
-          });
-      });
+  if ('credential' in response && typeof response.credential === 'string') {
+    const base64Payload = response.credential.split('.')[1];
+    const bufferPayload = Buffer.from(base64Payload, 'base64');
+    const { email, jti } = JSON.parse(bufferPayload.toString());
+
+    // const email = response.profileObj.email;
+    // const googleId = response.profileObj.googleId;
+
+    // axios
+    //   .post(`${API.TV_MINDER}/register`, {
+    //     email,
+    //     password: googleId,
+    //     isGoogleLogin: true,
+    //   })
+    //   .then(() => {
+    //     axios
+    //       .post(`${API.TV_MINDER}/login`, {
+    //         email,
+    //         password: googleId,
+    //       })
+    //       .then(res => {
+    //         localStorage.setItem('jwt', res.data.token);
+    //         onClose();
+    //         setIsLoggedIn(res.data.email);
+    //         unregisteredClearFollowedShows();
+    //         toast({
+    //           title: 'Login Successful',
+    //           description: 'You are now logged in with Google.',
+    //           status: 'success',
+    //           isClosable: true,
+    //         });
+    //       })
+    //       .catch((error: any) => {
+    //         handleErrors(error);
+    //       });
+    //   });
   }
 };
 
