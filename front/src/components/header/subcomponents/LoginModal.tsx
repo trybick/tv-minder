@@ -256,7 +256,8 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               <GoogleLogin
                 onError={onGoogleLoginFailure}
                 onSuccess={onGoogleLoginSuccess}
-                theme="filled_blue"
+                theme="filled_black"
+                useOneTap
               />
             </Flex>
           </>
