@@ -6,6 +6,17 @@ import handleErrors from './handleErrors';
 import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
 
+const getGoogleUserDetails = async (response: TokenResponse) => {
+  if (!('access_token' in response) || !(typeof response.access_token === 'string')) {
+    throw Error('access token field missing');
+  }
+  const userInfo = await axios.get(API.GOOGLE_USER_INFO, {
+    headers: { Authorization: `Bearer ${response.access_token}` },
+  });
+  const { email, sub: googleId } = userInfo.data;
+  return { email, googleId };
+};
+
 export const handleGoogleLoginSuccess = async ({
   response,
   onClose,
@@ -19,14 +30,7 @@ export const handleGoogleLoginSuccess = async ({
   toast: (props: UseToastOptions) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
 }) => {
-  if (!('access_token' in response) || !(typeof response.access_token === 'string')) {
-    throw Error('access token field missing');
-  }
-  const userInfo = await axios.get(API.GOOGLE_USER_INFO, {
-    headers: { Authorization: `Bearer ${response.access_token}` },
-  });
-  const { email, sub: googleId } = userInfo.data;
-
+  const { email, googleId } = await getGoogleUserDetails(response);
   axios
     .post(`${API.TV_MINDER}/register`, {
       email,
