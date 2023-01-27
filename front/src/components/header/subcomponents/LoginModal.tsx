@@ -25,7 +25,8 @@ import {
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import GoogleButton from 'react-google-button';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API } from 'constants/api';
@@ -219,7 +220,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     }
   `;
 
-  const onGoogleLoginFailure = () => {
+  const onGoogleLoginError = () => {
     console.error('Google Login error');
     toast({
       title: 'Error in login',
@@ -229,7 +230,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     });
   };
 
-  const onGoogleLoginSuccess = (response: CredentialResponse) => {
+  const onGoogleLoginSuccess = (response: TokenResponse) => {
     handleGoogleLoginSuccess({
       response,
       setIsLoggedIn,
@@ -238,6 +239,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       toast,
     });
   };
+
+  const handleClickGoogleLogin = useGoogleLogin({
+    onError: onGoogleLoginError,
+    onSuccess: onGoogleLoginSuccess,
+  });
 
   return (
     <Modal isOpen={isOpen} onClose={handleFormClose}>
@@ -253,12 +259,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         {formOption === 0 && (
           <>
             <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
-              <GoogleLogin
-                onError={onGoogleLoginFailure}
-                onSuccess={onGoogleLoginSuccess}
-                theme="filled_black"
-                useOneTap
-              />
+              <GoogleButton onClick={() => handleClickGoogleLogin()} />
             </Flex>
           </>
         )}
