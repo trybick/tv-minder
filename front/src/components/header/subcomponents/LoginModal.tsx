@@ -244,7 +244,8 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   });
                 }}
                 onSuccess={response => {
-                  handleGoogleLoginSuccess(response, {
+                  handleGoogleLoginSuccess({
+                    response,
                     setIsLoggedIn,
                     unregisteredClearFollowedShows,
                     onClose,

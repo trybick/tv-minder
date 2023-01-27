@@ -7,13 +7,6 @@ import handleErrors from './handleErrors';
 import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
 
-type Props = {
-  onClose: PlainFunction;
-  setIsLoggedIn: (email: string) => void;
-  toast: (props: UseToastOptions) => void;
-  unregisteredClearFollowedShows: AppThunkPlainAction;
-};
-
 const decodeGooglePayload = (credential: string) => {
   const base64Payload = credential.split('.')[1];
   const bufferPayload = Buffer.from(base64Payload, 'base64');
@@ -21,10 +14,19 @@ const decodeGooglePayload = (credential: string) => {
   return { email, googleId };
 };
 
-export const handleGoogleLoginSuccess = (
-  response: CredentialResponse,
-  { onClose, setIsLoggedIn, toast, unregisteredClearFollowedShows }: Props
-) => {
+export const handleGoogleLoginSuccess = ({
+  response,
+  onClose,
+  setIsLoggedIn,
+  toast,
+  unregisteredClearFollowedShows,
+}: {
+  response: CredentialResponse;
+  onClose: PlainFunction;
+  setIsLoggedIn: (email: string) => void;
+  toast: (props: UseToastOptions) => void;
+  unregisteredClearFollowedShows: AppThunkPlainAction;
+}) => {
   if (!('credential' in response) || !(typeof response.credential === 'string')) {
     throw Error('credential field missing');
   }
