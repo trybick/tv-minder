@@ -230,13 +230,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           }}
         />
         {formOption === 0 && (
-          <Flex justifyContent="center" mt="10px">
-            <GoogleLoginButton
-              onClose={onClose}
-              setIsLoggedIn={setIsLoggedIn}
-              unregisteredClearFollowedShows={unregisteredClearFollowedShows}
-            />
-          </Flex>
+          <GoogleLoginButton
+            onClose={onClose}
+            setIsLoggedIn={setIsLoggedIn}
+            unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+          />
         )}
 
         <Box as="form" onSubmit={onSubmit}>

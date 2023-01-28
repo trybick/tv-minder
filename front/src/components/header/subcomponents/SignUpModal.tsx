@@ -30,6 +30,7 @@ import { DisclosureProps, ID } from 'types/common';
 import { API } from 'constants/api';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
+import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -161,23 +162,11 @@ const SignUpModal = ({
           }}
         />
 
-        <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
-          {/* <GoogleLogin
-            buttonText="Continue with Google"
-            clientId={API.GOOGLE_0AUTH!}
-            onFailure={error => handleGoogleLoginFailure(error, toast)}
-            onSuccess={response =>
-              handleGoogleLoginSuccess(response, {
-                setIsLoggedIn,
-                unregisteredClearFollowedShows,
-                onClose,
-                toast,
-              })
-            }
-            theme="dark"
-            type="submit"
-          /> */}
-        </Flex>
+        <GoogleLoginButton
+          onClose={onClose}
+          setIsLoggedIn={setIsLoggedIn}
+          unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+        />
 
         <Box as="form" onSubmit={onSubmit}>
           <ModalBody pb={6}>
