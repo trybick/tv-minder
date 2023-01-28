@@ -25,15 +25,13 @@ import {
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
-import GoogleButton from 'react-google-button';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API } from 'constants/api';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
-import { handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import { DisclosureProps } from 'types/common';
+import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -65,6 +63,21 @@ const formSchema = {
     required: 'One time code is required',
   },
 };
+
+const Separator = styled(Flex)`
+  &:before,
+  &:after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid grey;
+  }
+  &:before {
+    margin-right: 15px;
+  }
+  &:after {
+    margin-left: 15px;
+  }
+`;
 
 const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
   // Modal
@@ -205,46 +218,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     return buttonText;
   };
 
-  const Separator = styled(Flex)`
-    &:before,
-    &:after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid grey;
-    }
-    &:before {
-      margin-right: 15px;
-    }
-    &:after {
-      margin-left: 15px;
-    }
-  `;
-
-  const onGoogleLoginError = () => {
-    console.error('Google Login error');
-    toast({
-      title: 'Error in login',
-      description: 'Could not login in. Please try again.',
-      status: 'error',
-      isClosable: true,
-    });
-  };
-
-  const onGoogleLoginSuccess = (response: TokenResponse) => {
-    handleGoogleLoginSuccess({
-      response,
-      setIsLoggedIn,
-      unregisteredClearFollowedShows,
-      onClose,
-      toast,
-    });
-  };
-
-  const handleClickGoogleLogin = useGoogleLogin({
-    onError: onGoogleLoginError,
-    onSuccess: onGoogleLoginSuccess,
-  });
-
   return (
     <Modal isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
@@ -258,7 +231,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         />
         {formOption === 0 && (
           <Flex justifyContent="center" mt="10px">
-            <GoogleButton onClick={() => handleClickGoogleLogin()} />
+            <GoogleLoginButton
+              onClose={onClose}
+              setIsLoggedIn={setIsLoggedIn}
+              unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+            />
           </Flex>
         )}
 
