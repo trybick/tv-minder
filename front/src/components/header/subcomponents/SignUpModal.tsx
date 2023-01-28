@@ -23,15 +23,14 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
 import { API } from 'constants/api';
 import { emailRegex } from 'constants/strings';
-import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import handleErrors from 'utils/handleErrors';
+import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -163,23 +162,11 @@ const SignUpModal = ({
           }}
         />
 
-        <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
-          <GoogleLogin
-            buttonText="Continue with Google"
-            clientId={API.GOOGLE_0AUTH!}
-            onFailure={error => handleGoogleLoginFailure(error, toast)}
-            onSuccess={response =>
-              handleGoogleLoginSuccess(response, {
-                setIsLoggedIn,
-                unregisteredClearFollowedShows,
-                onClose,
-                toast,
-              })
-            }
-            theme="dark"
-            type="submit"
-          />
-        </Flex>
+        <GoogleLoginButton
+          onClose={onClose}
+          setIsLoggedIn={setIsLoggedIn}
+          unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+        />
 
         <Box as="form" onSubmit={onSubmit}>
           <ModalBody pb={6}>

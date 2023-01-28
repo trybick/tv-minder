@@ -32,12 +32,12 @@ type Props = StateProps & DispatchProps;
 
 const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   useEffect(() => {
+    if (isLoggedIn) {
+      fetchfollowedShows();
+    }
     if (process.env.NODE_ENV !== 'development') {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.pageview(window.location.pathname);
-    }
-    if (isLoggedIn) {
-      fetchfollowedShows();
     }
   }, [isLoggedIn, fetchfollowedShows]);
 

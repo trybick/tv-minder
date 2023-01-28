@@ -25,14 +25,13 @@ import {
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
-import GoogleLogin from 'react-google-login';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { API } from 'constants/api';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
-import { handleGoogleLoginFailure, handleGoogleLoginSuccess } from 'utils/googleOAuth';
 import { DisclosureProps } from 'types/common';
+import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -64,6 +63,21 @@ const formSchema = {
     required: 'One time code is required',
   },
 };
+
+const Separator = styled(Flex)`
+  &:before,
+  &:after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid grey;
+  }
+  &:before {
+    margin-right: 15px;
+  }
+  &:after {
+    margin-left: 15px;
+  }
+`;
 
 const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
   // Modal
@@ -204,21 +218,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     return buttonText;
   };
 
-  const Separator = styled(Flex)`
-    &:before,
-    &:after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid grey;
-    }
-    &:before {
-      margin-right: 15px;
-    }
-    &:after {
-      margin-left: 15px;
-    }
-  `;
-
   return (
     <Modal isOpen={isOpen} onClose={handleFormClose}>
       <ModalOverlay />
@@ -231,25 +230,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
           }}
         />
         {formOption === 0 && (
-          <Box>
-            <Flex flex={2} justifyContent={'space-around'} marginBottom={2} mt="10px">
-              <GoogleLogin
-                buttonText="Continue with Google"
-                clientId={API.GOOGLE_0AUTH!}
-                onFailure={error => handleGoogleLoginFailure(error, toast)}
-                onSuccess={response =>
-                  handleGoogleLoginSuccess(response, {
-                    setIsLoggedIn,
-                    unregisteredClearFollowedShows,
-                    onClose,
-                    toast,
-                  })
-                }
-                theme="dark"
-                type="submit"
-              />
-            </Flex>
-          </Box>
+          <GoogleLoginButton
+            onClose={onClose}
+            setIsLoggedIn={setIsLoggedIn}
+            unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+          />
         )}
 
         <Box as="form" onSubmit={onSubmit}>
