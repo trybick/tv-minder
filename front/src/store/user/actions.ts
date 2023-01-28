@@ -44,12 +44,12 @@ export const setIsLoggedOutAction = (): AppThunk => dispatch => {
 };
 
 export const setIsLoggedInAction =
-  (email: string): AppThunk =>
+  (email: string, isGoogleUser = false): AppThunk =>
   dispatch => {
     Sentry.setUser({ email });
     dispatch({
       type: SET_IS_LOGGED_IN_TRUE,
-      payload: email,
+      payload: { email, isGoogleUser },
     });
   };
 

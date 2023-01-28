@@ -246,7 +246,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedIn: (email: string) => dispatch(setIsLoggedInAction(email)),
+  setIsLoggedIn: (email: string, isGoogleUser = false) =>
+    dispatch(setIsLoggedInAction(email, isGoogleUser)),
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 

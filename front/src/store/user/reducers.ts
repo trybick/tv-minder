@@ -14,6 +14,7 @@ import { ID } from 'types/common';
 
 export type UserState = {
   email: string;
+  isGoogleUser: boolean;
   followedShows: ID[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
@@ -22,6 +23,7 @@ export type UserState = {
 
 const initialState = {
   email: '',
+  isGoogleUser: false,
   followedShows: [],
   hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
@@ -65,7 +67,8 @@ export const userReducer: Reducer<UserState, Action> = (
       return {
         ...state,
         isLoggedIn: true,
-        email: action.payload,
+        email: action.payload.email,
+        isGoogleUser: action.payload?.isGoogleUser,
       };
     }
     case SET_HAS_LOCAL_WARNING_TOAST_BEEN_SHOWN: {

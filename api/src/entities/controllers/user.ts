@@ -8,7 +8,7 @@ import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
 
 export const registerUser = (req: Request, res: Response) => {
-  if (req.body.isGoogleLogin) {
+  if (req.body.isGoogleUser) {
     User.find({ email: req.body.email })
       .exec()
       .then((user) => {
@@ -88,7 +88,6 @@ export const loginUser = (req: Request, res: Response) => {
           message: 'Auth failed on user verify',
         });
       }
-
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (!result || err) {
           return res.status(401).json({
@@ -111,6 +110,7 @@ export const loginUser = (req: Request, res: Response) => {
           message: 'Auth successful',
           token,
           email: user.email,
+          isGoogleUser: req.body?.isGoogleUser,
         });
       });
     })

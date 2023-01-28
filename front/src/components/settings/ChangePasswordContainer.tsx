@@ -12,7 +12,7 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
-import { selectUserEmail } from 'store/user/selectors';
+import { selectIsGoogleUser, selectUserEmail } from 'store/user/selectors';
 import ENDPOINTS from 'constants/endpoints';
 
 type FormDataType = {
@@ -24,6 +24,7 @@ type FormDataType = {
 const ChangePasswordContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const email = useSelector(selectUserEmail);
+  const isGoogleUser = useSelector(selectIsGoogleUser);
   const toast = useToast();
   const { getValues, handleSubmit, errors, register } = useForm<FormDataType>();
 
@@ -98,21 +99,26 @@ const ChangePasswordContainer = () => {
       <Heading as="h4" fontSize="1.8rem" textAlign="center">
         Change Password
       </Heading>
+      {isGoogleUser && (
+        <Heading as="h6" fontSize="1rem" fontStyle="italic" mt="14px" textAlign="center">
+          Not available for Google accounts
+        </Heading>
+      )}
 
       <Box as="form" onSubmit={onSubmit}>
-        <FormControl isInvalid={!!errors.oldPassword}>
+        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors.oldPassword}>
           <FormLabel mt="1.5rem" w="100%">
             Current Password
           </FormLabel>
           <Input name="oldPassword" ref={register(formSchema.oldPassword)} type="password" />
         </FormControl>
-        <FormControl isInvalid={!!errors.newPassword}>
+        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors.newPassword}>
           <FormLabel mt="1rem" w="100%">
             New Password
           </FormLabel>
           <Input name="newPassword" ref={register(formSchema.newPassword)} type="password" />
         </FormControl>
-        <FormControl isInvalid={!!errors.newPasswordConfirmation}>
+        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors.newPasswordConfirmation}>
           <FormLabel mt="1rem" w="100%">
             Confirm New Password
           </FormLabel>
@@ -124,7 +130,15 @@ const ChangePasswordContainer = () => {
           <FormErrorMessage>{formErrorForDisplay}</FormErrorMessage>
         </FormControl>
 
-        <Button bg="primary" color="white" isLoading={isLoading} mt={4} type="submit" width="100%">
+        <Button
+          bg="primary"
+          color="white"
+          isDisabled={isGoogleUser}
+          isLoading={isLoading}
+          mt={4}
+          type="submit"
+          width="100%"
+        >
           Submit
         </Button>
       </Box>

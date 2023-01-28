@@ -342,7 +342,8 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 const mapStateToProps: MapStateToProps<{}, OwnProps, AppState> = () => ({});
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedIn: (email: string) => dispatch(setIsLoggedInAction(email)),
+  setIsLoggedIn: (email: string, isGoogleUser = false) =>
+    dispatch(setIsLoggedInAction(email, isGoogleUser)),
   unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
 });
 

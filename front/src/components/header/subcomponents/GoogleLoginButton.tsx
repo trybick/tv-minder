@@ -9,7 +9,7 @@ import ENDPOINTS from 'constants/endpoints';
 
 type Props = {
   onClose: PlainFunction;
-  setIsLoggedIn: (email: string) => void;
+  setIsLoggedIn: (email: string, isGoogleUser?: boolean) => void;
   unregisteredClearFollowedShows: AppThunkPlainAction;
 };
 
@@ -44,18 +44,19 @@ const GoogleLoginButton = (props: Props) => {
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
         email,
         password: googleId,
-        isGoogleLogin: true,
+        isGoogleUser: true,
       })
       .then(() => {
         axios
           .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
             email,
             password: googleId,
+            isGoogleUser: true,
           })
           .then(res => {
             localStorage.setItem('jwt', res.data.token);
             onClose();
-            setIsLoggedIn(res.data.email);
+            setIsLoggedIn(res.data.email, true);
             unregisteredClearFollowedShows();
             toast({
               title: 'Login Successful',
