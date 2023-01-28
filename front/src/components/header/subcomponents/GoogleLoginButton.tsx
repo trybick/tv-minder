@@ -5,7 +5,7 @@ import { Flex, useToast } from '@chakra-ui/react';
 import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
 import handleErrors from 'utils/handleErrors';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 
 type Props = {
   onClose: PlainFunction;
@@ -31,7 +31,7 @@ const GoogleLoginButton = (props: Props) => {
     if (!('access_token' in response) || !(typeof response.access_token === 'string')) {
       throw Error('Expected field access_token from google response');
     }
-    const userInfo = await axios.get(API.GOOGLE_USER_INFO, {
+    const userInfo = await axios.get(ENDPOINTS.GOOGLE_USER_INFO, {
       headers: { Authorization: `Bearer ${response.access_token}` },
     });
     const { email, sub: googleId } = userInfo.data;
@@ -41,14 +41,14 @@ const GoogleLoginButton = (props: Props) => {
   const onGoogleLoginSuccess = async (response: TokenResponse) => {
     const { email, googleId } = await getGoogleUserDetails(response);
     axios
-      .post(`${API.TV_MINDER}/register`, {
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
         email,
         password: googleId,
         isGoogleLogin: true,
       })
       .then(() => {
         axios
-          .post(`${API.TV_MINDER}/login`, {
+          .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
             email,
             password: googleId,
           })

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { AppThunk } from 'store';
 import { getEpisodesForCalendar } from 'gateway/getEpisodes';
 import { SavedQuery } from './types';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 import cacheDurationDays from 'utils/cacheDurations';
 import { ID } from 'types/common';
@@ -81,7 +81,7 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
   const nonCachedIds = followedShowsSource?.filter(id => !validCachedIds?.includes(id));
   if (nonCachedIds) {
     const requests = nonCachedIds?.map(id =>
-      axios.get(`${API.THE_MOVIE_DB}/tv/${id}`, {
+      axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
       })
     );
@@ -123,7 +123,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
     // If we don't have a valid cache, start by fetching the basic info
     dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
     const basicInfo = await axios
-      .get(`${API.THE_MOVIE_DB}/tv/${showId}`, {
+      .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
       })
       .then(res => res.data)
@@ -140,7 +140,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
     // Fetch full seasons and episodes data
     const seasonNumbers: number[] = basicInfo.seasons?.map((season: any) => season.season_number);
     const seasonsRequests = seasonNumbers?.map(seasonNumber =>
-      axios.get(`${API.THE_MOVIE_DB}/tv/${showId}/season/${seasonNumber}`, {
+      axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}/season/${seasonNumber}`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
       })
     );
@@ -180,7 +180,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
     axios
       // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
       // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
-      .get(`${API.THE_MOVIE_DB}/trending/tv/week`, {
+      .get(`${ENDPOINTS.THE_MOVIE_DB}/trending/tv/week`, {
         params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
       })
       .then(({ data: { results } }) => {

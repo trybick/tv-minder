@@ -13,7 +13,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { selectUserEmail } from 'store/user/selectors';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 
 type FormDataType = {
   oldPassword: string;
@@ -54,7 +54,7 @@ const ChangePasswordContainer = () => {
     setIsLoading(true);
     axios
       .post(
-        `${API.TV_MINDER}/changepassword`,
+        `${ENDPOINTS.TV_MINDER_SERVER}/changepassword`,
         {
           email,
           oldPassword,

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
 import { ID } from 'types/common';
@@ -22,7 +22,7 @@ export const getEpisodesForCalendar = async (showIds: ID[]) => {
 const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
   // List of requests for each show's basic info
   const basicInfoRequests = showIds.map((showId: any) =>
-    axios.get(`${API.THE_MOVIE_DB}/tv/${showId}`, { params: queryParams })
+    axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, { params: queryParams })
   );
 
   // Get each show's basic info
@@ -71,7 +71,7 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 
       // List of requests for each season(s) for each show
       const latestSeasonsRequests = latestSeasons.map((seasonNum: ID) =>
-        axios.get(`${API.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, { params: queryParams })
+        axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, { params: queryParams })
       );
 
       // Get season data for each season for each show

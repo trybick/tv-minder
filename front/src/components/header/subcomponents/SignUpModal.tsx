@@ -27,7 +27,7 @@ import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
 import GoogleLoginButton from './GoogleLoginButton';
@@ -97,13 +97,13 @@ const SignUpModal = ({
   const onSubmit = handleSubmit(({ email, password }) => {
     setIsLoading(true);
     axios
-      .post(`${API.TV_MINDER}/register`, {
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
         email,
         password,
         unregisteredFollowedShows,
       })
       .then(() => {
-        return axios.post(`${API.TV_MINDER}/login`, {
+        return axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
           email,
           password,
         });

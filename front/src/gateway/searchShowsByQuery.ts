@@ -1,6 +1,6 @@
 import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 
 type QueryParams = { api_key: string | undefined; query: string };
 
@@ -24,7 +24,8 @@ export const searchShowsByQuery = async (
   };
 
   const { results, total_results: totalResults } =
-    (await makeCancellableRequest(`${API.THE_MOVIE_DB}/search/tv`, queryParams)) || emptyResult;
+    (await makeCancellableRequest(`${ENDPOINTS.THE_MOVIE_DB}/search/tv`, queryParams)) ||
+    emptyResult;
 
   return { results, totalResults };
 };

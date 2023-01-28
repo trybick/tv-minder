@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { FiSend } from 'react-icons/fi';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
 
@@ -37,7 +37,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     await axios
-      .post(`${API.TV_MINDER}/contact`, {
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, {
         text: value,
       })
       .then(() => {

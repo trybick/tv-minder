@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as Sentry from '@sentry/browser';
 import { AppThunk } from 'store';
 import { ID } from 'types/common';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
@@ -19,7 +19,7 @@ export const fetchfollowedShowsAction = (): AppThunk => dispatch =>
   axios
     .get<{
       followedShows: ID[];
-    }>(`${API.TV_MINDER}/follow`, {
+    }>(`${ENDPOINTS.TV_MINDER_SERVER}/follow`, {
       params: { token: localStorage.getItem('jwt') },
     })
     .then(({ data }) => {
@@ -62,7 +62,7 @@ export const saveToFollowedShowsAction =
     if (isLoggedIn) {
       axios
         .post(
-          `${API.TV_MINDER}/follow`,
+          `${ENDPOINTS.TV_MINDER_SERVER}/follow`,
           {
             showId,
             token: localStorage.getItem('jwt'),
@@ -92,7 +92,7 @@ export const removeFromFollowedShowsAction =
 
     if (isLoggedIn) {
       axios
-        .delete(`${API.TV_MINDER}/follow`, {
+        .delete(`${ENDPOINTS.TV_MINDER_SERVER}/follow`, {
           data: {
             showId,
             token: localStorage.getItem('jwt'),

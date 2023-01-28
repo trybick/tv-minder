@@ -27,7 +27,7 @@ import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
-import { API } from 'constants/api';
+import ENDPOINTS from 'constants/endpoints';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
@@ -115,7 +115,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const handleLogin = (email: string, password: string) => {
     axios
-      .post(`${API.TV_MINDER}/login`, {
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
         email,
         password,
       })
@@ -141,7 +141,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const requestGenerateOneTimeCode = (email: string) => {
     axios
-      .post(`${API.TV_MINDER}/requestonetimecode`, { email })
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/requestonetimecode`, { email })
       .then(() => {
         setIsLoading(false);
         setFormOption(2);
@@ -161,7 +161,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const requestVerifyOneTimeCode = (email: string, oneTimeCode: string) => {
     axios
-      .post(`${API.TV_MINDER}/verifyonetimecode`, { email, oneTimeCode })
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/verifyonetimecode`, { email, oneTimeCode })
       .then(() => {
         setIsLoading(false);
         setFormOption(3);
@@ -181,7 +181,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const requestChangePassword = (email: string, password: string) => {
     axios
-      .post(`${API.TV_MINDER}/changepasswordforreset`, { email, password })
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/changepasswordforreset`, { email, password })
       .then(() => {
         setIsLoading(false);
         setFormOption(0);
