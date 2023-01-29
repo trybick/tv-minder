@@ -69,8 +69,6 @@ const SignUpModal = ({
   const { clearError, errors, handleSubmit, reset, setError, register, watch } =
     useForm<FormData>();
   const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
-  const watchedPassword = useRef({});
-  watchedPassword.current = watch('password', '');
 
   // Password fields
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -90,7 +88,7 @@ const SignUpModal = ({
     },
     confirmPassword: {
       validate: (value: FormData['confirmPassword']) =>
-        value === watchedPassword.current || 'The passwords do not match',
+        value === watch('password') || 'The passwords do not match',
     },
   };
 
