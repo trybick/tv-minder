@@ -3,7 +3,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Flex } from '@chakra-ui/react';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/selectors';
@@ -37,7 +37,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     }
     if (process.env.NODE_ENV !== 'development') {
       ReactGA.initialize(gAnalyticsID);
-      ReactGA.pageview(window.location.pathname);
+      ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
     }
   }, [isLoggedIn, fetchfollowedShows]);
 

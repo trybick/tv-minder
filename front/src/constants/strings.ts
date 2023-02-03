@@ -1,4 +1,4 @@
-export const gAnalyticsID = 'UA-156066902-04';
+export const gAnalyticsID = 'G-JBXPD1C4QP';
 
 export const imagePath154 = 'https://image.tmdb.org/t/p/w154';
 export const imagePath342 = 'https://image.tmdb.org/t/p/w342';
