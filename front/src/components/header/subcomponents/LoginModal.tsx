@@ -31,6 +31,7 @@ import ENDPOINTS from 'constants/endpoints';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
+import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
@@ -84,6 +85,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
   const toast = useToast();
+  useCloseModalOnPressEscape({ onClose });
 
   // Form
   const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();

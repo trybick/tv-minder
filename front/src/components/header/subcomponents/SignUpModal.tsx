@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -30,6 +30,7 @@ import { DisclosureProps, ID } from 'types/common';
 import ENDPOINTS from 'constants/endpoints';
 import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
+import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
@@ -64,6 +65,7 @@ const SignUpModal = ({
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  useCloseModalOnPressEscape({ onClose });
 
   // Form
   const { clearError, errors, handleSubmit, reset, setError, register, watch } =
