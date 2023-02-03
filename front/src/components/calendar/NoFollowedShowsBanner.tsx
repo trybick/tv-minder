@@ -16,10 +16,11 @@ const NoFollowedShowsBanner = () => (
     <HStack spacing="3">
       <Icon as={FiAlertTriangle} fontSize="2xl" h="6" />
       <Text fontWeight="medium">
-        New episodes will appear here!{' '}
-        <Link as={RouterLink} fontWeight={900} to={ROUTES.HOME}>
-          Click here to follow a show.
+        TV shows will appear on your calendar! Start adding shows to your calendar{' '}
+        <Link as={RouterLink} fontWeight={900} to={ROUTES.HOME} textDecoration="underline">
+          here
         </Link>
+        .
       </Text>
     </HStack>
   </Stack>
