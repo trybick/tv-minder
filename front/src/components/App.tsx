@@ -35,7 +35,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     if (isLoggedIn) {
       fetchfollowedShows();
     }
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'production') {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
     }
