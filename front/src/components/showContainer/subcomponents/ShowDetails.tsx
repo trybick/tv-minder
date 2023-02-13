@@ -69,9 +69,9 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         </Box>
       )}
 
-      {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
-
       <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
+
+      {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
 
       {overview && <Text mb="12px">{overview}</Text>}
 

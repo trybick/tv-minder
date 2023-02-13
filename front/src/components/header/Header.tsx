@@ -130,7 +130,6 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
         <Box
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
-          mr="auto"
           pl="10px"
           pt="10px"
           w={{ base: 'full', md: 'auto' }}
@@ -183,9 +182,9 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             </>
           ) : (
             <Flex justify="flex-end">
-              <SignUpButton closeHeader={closeHeader} />
+              <ToggleColorModeButton mr="14px" />
               <LoginButton closeHeader={closeHeader} />
-              <ToggleColorModeButton />
+              <SignUpButton closeHeader={closeHeader} />
             </Flex>
           )}
         </Box>

@@ -17,7 +17,7 @@ const SignUpButton = ({ closeHeader }: Props) => {
 
   return (
     <>
-      <Button bg="primary" color="white" onClick={handleClick} variant="solid">
+      <Button bg="primary" color="white" ml="12px" onClick={handleClick} variant="solid">
         Sign Up
       </Button>
       <SignUpModal disclosureProps={disclosureProps} />
