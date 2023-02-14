@@ -107,7 +107,7 @@ export const useTableData = () => {
           const { color, status } = original.statusWithColor;
           return (
             <Flex align="center" h="100%">
-              <Tag colorScheme={color} fontWeight="400" whiteSpace="nowrap">
+              <Tag colorScheme={color} justifyContent="center" whiteSpace="nowrap" width="117px">
                 {status}
               </Tag>
             </Flex>
