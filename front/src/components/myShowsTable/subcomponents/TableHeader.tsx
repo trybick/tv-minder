@@ -14,7 +14,10 @@ const TableHeader = ({ headerGroups }: Props) => (
         {headerGroup.headers.map(column => (
           <Th
             {...column.getHeaderProps(column.getSortByToggleProps())}
+            display="flex"
             fontSize={14}
+            h="55px"
+            justifyContent={column.id === 'name' ? '' : 'center'}
             key={column.id}
           >
             {column.render('Header')}

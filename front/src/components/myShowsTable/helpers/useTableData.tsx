@@ -95,18 +95,14 @@ export const useTableData = () => {
       },
       {
         id: 'status',
-        Header: () => (
-          <Text display="inline" ml={isMobile ? '-20px' : 0}>
-            Status
-          </Text>
-        ),
+        Header: () => <Text ml={isMobile ? '-20px' : 0}>Status</Text>,
         accessor: row => row.statusWithColor.sortOrder,
         width: 119,
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
           const { original } = row;
           const { color, status } = original.statusWithColor;
           return (
-            <Flex align="center" h="100%">
+            <Flex align="center" cursor="default" h="100%" justifyContent="center" w="100%">
               <Tag colorScheme={color} justifyContent="center" whiteSpace="nowrap" width="117px">
                 {status}
               </Tag>
@@ -122,14 +118,14 @@ export const useTableData = () => {
   } else {
     columns.push({
       id: 'network',
-      Header: 'Network',
+      Header: () => <Text>Network</Text>,
       width: 110,
       accessor: row => row.network,
       Cell: ({ row }: CellProps<BasicShowInfo>) => (
-        <Flex align="center" cursor="default" h="100%" width="fit-content">
-          <Tag fontWeight="400">
-            <Text noOfLines={1}>{row.original.network || 'Unlisted'}</Text>
-          </Tag>
+        <Flex align="center" cursor="default" h="100%" justifyContent="center" width="100%">
+          <Text fontWeight="600" noOfLines={1}>
+            {row.original.network || 'Unlisted'}
+          </Text>
         </Flex>
       ),
     });
