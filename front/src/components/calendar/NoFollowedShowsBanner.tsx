@@ -17,7 +17,7 @@ const NoFollowedShowsBanner = () => (
       <Icon as={FiAlertTriangle} fontSize="2xl" h="6" />
       <Text fontWeight="medium">
         TV shows will appear on your calendar! Start adding shows to your calendar{' '}
-        <Link as={RouterLink} fontWeight={900} to={ROUTES.HOME} textDecoration="underline">
+        <Link as={RouterLink} fontWeight={900} textDecoration="underline" to={ROUTES.HOME}>
           here
         </Link>
         .

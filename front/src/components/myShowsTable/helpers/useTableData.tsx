@@ -1,16 +1,30 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CellProps, Column } from 'react-table';
+import { CellProps, Column, HeaderProps } from 'react-table';
 import { useHistory } from 'react-router-dom';
-import { Flex, IconButton, Link, Tag, Text } from '@chakra-ui/react';
+import {
+  chakra,
+  Flex,
+  Icon,
+  IconButton,
+  Link,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Tag,
+  Text,
+} from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { BiInfoCircle } from 'react-icons/bi';
 import { BasicShowInfo } from 'types/external';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from 'store/tv/actions';
 import {
   selectBasicShowInfoForFollowedShows,
   selectMyShowsTableExpandedRow,
 } from 'store/tv/selectors';
-import { ID } from 'types/common';
+import { ID, PlainFunction } from 'types/common';
 import { ROUTES } from 'constants/routes';
 import { useIsMobile } from 'hooks/useIsMobile';
 import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
@@ -31,8 +45,8 @@ export const useTableData = () => {
       {
         id: 'name',
         accessor: 'name',
-        Header: () => (
-          <Text display="inline" ml={isMobile ? '34px' : '58px'}>
+        Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
+          <Text cursor="pointer" ml={isMobile ? '34px' : '58px'} onClick={onClick}>
             Name
           </Text>
         ),
@@ -95,7 +109,71 @@ export const useTableData = () => {
       },
       {
         id: 'status',
-        Header: () => <Text ml={isMobile ? '-20px' : 0}>Status</Text>,
+        Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
+          <Flex align="center">
+            <Text cursor="pointer" ml={isMobile ? '-20px' : 0} onClick={onClick}>
+              Status
+            </Text>
+            <Popover placement="bottom" trigger="click">
+              <PopoverTrigger>
+                <chakra.button display="flex">
+                  <Icon as={BiInfoCircle} boxSize="17px" ml="3px" />
+                </chakra.button>
+              </PopoverTrigger>
+              <PopoverContent minW={{ base: '100%', md: 'max-content' }} textTransform="none">
+                <PopoverArrow />
+                <PopoverBody padding="14px">
+                  <Flex flexDirection="column" gap="20px">
+                    <Flex align="center" gap="10px">
+                      <Tag
+                        colorScheme="green"
+                        justifyContent="center"
+                        whiteSpace="nowrap"
+                        width="136px"
+                      >
+                        Active Season
+                      </Tag>
+                      <Text fontWeight="600">New episodes currently airing</Text>
+                    </Flex>
+                    <Flex align="center" gap="10px">
+                      <Tag
+                        colorScheme="purple"
+                        justifyContent="center"
+                        whiteSpace="nowrap"
+                        width="136px"
+                      >
+                        Premiering Soon
+                      </Tag>
+                      <Text fontWeight="600">New season coming soon</Text>
+                    </Flex>
+                    <Flex align="center" gap="10px">
+                      <Tag
+                        colorScheme="blue"
+                        justifyContent="center"
+                        whiteSpace="nowrap"
+                        width="136px"
+                      >
+                        In Production
+                      </Tag>
+                      <Text fontWeight="600">New season will be released in future</Text>
+                    </Flex>
+                    <Flex align="center" gap="10px">
+                      <Tag
+                        colorScheme="red"
+                        justifyContent="center"
+                        whiteSpace="nowrap"
+                        width="136px"
+                      >
+                        Ended
+                      </Tag>
+                      <Text fontWeight="600">Production has stopped permanently</Text>
+                    </Flex>
+                  </Flex>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </Flex>
+        ),
         accessor: row => row.statusWithColor.sortOrder,
         width: 119,
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
@@ -103,7 +181,7 @@ export const useTableData = () => {
           const { color, status } = original.statusWithColor;
           return (
             <Flex align="center" cursor="default" h="100%" justifyContent="center" w="100%">
-              <Tag colorScheme={color} justifyContent="center" whiteSpace="nowrap" width="117px">
+              <Tag colorScheme={color} justifyContent="center" w="126px" whiteSpace="nowrap">
                 {status}
               </Tag>
             </Flex>
@@ -118,7 +196,11 @@ export const useTableData = () => {
   } else {
     columns.push({
       id: 'network',
-      Header: () => <Text>Network</Text>,
+      Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
+        <Text cursor="pointer" onClick={onClick}>
+          Network
+        </Text>
+      ),
       width: 110,
       accessor: row => row.network,
       Cell: ({ row }: CellProps<BasicShowInfo>) => (
