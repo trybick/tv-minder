@@ -13,21 +13,13 @@ const MyShowsTable = () => {
   const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
   const isMobile = useIsMobile();
   const { data, columns } = useTableData();
-  const initialState = {
-    sortBy: [
-      {
-        id: 'name',
-        desc: false,
-      },
-    ],
-  };
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<BasicShowInfo>(
       {
         columns,
         data,
         autoResetSortBy: false,
-        initialState,
       },
       useSortBy,
       useExpanded,

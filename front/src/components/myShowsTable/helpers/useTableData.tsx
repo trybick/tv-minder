@@ -44,7 +44,7 @@ export const useTableData = () => {
     return [
       {
         id: 'name',
-        accessor: 'name',
+        accessor: name => name.toString(),
         Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
           <Text cursor="pointer" ml={isMobile ? '34px' : '58px'} onClick={onClick}>
             Name
@@ -117,7 +117,7 @@ export const useTableData = () => {
             <Popover placement="bottom" trigger="click">
               <PopoverTrigger>
                 <chakra.button display="flex">
-                  <Icon as={BiInfoCircle} boxSize="17px" ml="3px" />
+                  <Icon as={BiInfoCircle} boxSize="16px" ml="3px" />
                 </chakra.button>
               </PopoverTrigger>
               <PopoverContent minW={{ base: '100%', md: 'max-content' }} textTransform="none">

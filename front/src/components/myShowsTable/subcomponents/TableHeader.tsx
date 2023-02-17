@@ -43,9 +43,9 @@ const TableHeader = ({ headerGroups }: Props) => {
                   <chakra.span cursor="pointer" ml="3px" onClick={onClick.onClick}>
                     {column.isSorted ? (
                       column.isSortedDesc ? (
-                        <TriangleDownIcon boxSize="16px" verticalAlign="text-bottom" />
+                        <TriangleDownIcon boxSize="15px" verticalAlign="text-bottom" />
                       ) : (
-                        <TriangleUpIcon boxSize="16px" verticalAlign="text-bottom" />
+                        <TriangleUpIcon boxSize="15px" verticalAlign="text-bottom" />
                       )
                     ) : null}
                   </chakra.span>
