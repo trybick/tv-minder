@@ -2,7 +2,6 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
 import { Helmet } from 'react-helmet-async';
-import { Box, useColorModeValue } from '@chakra-ui/react';
 import { searchShowsByQuery } from 'gateway/searchShowsByQuery';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
@@ -87,13 +86,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   };
 
   return (
-    <Box
-      bg={useColorModeValue('#FAFAFA', '#252E41')}
-      borderRadius="15px"
-      flex="1"
-      m={{ base: '0 0 20px', md: '25px 0 25px' }}
-      p={{ base: '0 15px 25px', md: '25px 15px 20px' }}
-    >
+    <>
       <Helmet title="Search | TV Minder" />
       <SearchInput
         handleChange={handleChange}
@@ -107,7 +100,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
         shows={shows}
         totalResults={totalResults}
       />
-    </Box>
+    </>
   );
 };
 

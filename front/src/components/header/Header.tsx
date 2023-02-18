@@ -1,9 +1,10 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   Flex,
   Image,
@@ -12,8 +13,6 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-  Text,
-  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -53,7 +52,6 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
       }
     }
     document.addEventListener('mousedown', closeHeaderOnOutsideClick);
-
     return () => {
       document.removeEventListener('mousedown', closeHeaderOnOutsideClick);
     };
@@ -65,8 +63,6 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
 const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const wrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
-  const activeRoute = useLocation().pathname;
-  const { colorMode } = useColorMode();
   const isMobile = useIsMobile();
   const history = useHistory();
   const avatarBackgroundColor = useColorModeValue('#a0afbf', 'black');
@@ -77,26 +73,20 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
     setIsLoggedOut();
   };
 
-  const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => {
-    const isActive = activeRoute === linkTo;
-    return (
-      <Link onClick={closeHeader} to={linkTo}>
-        <Text
-          borderColor={isActive ? `mode.${colorMode}.secondary` : ''}
-          color={isActive ? `mode.${colorMode}.secondary` : `mode.${colorMode}.primary`}
-          cursor="pointer"
-          display="block"
-          fontSize="1.2rem"
-          fontWeight={isActive ? '600' : '500'}
-          mr={1}
-          mt={{ base: 4, md: 0 }}
-          p={{ base: 0, md: '0 12px 5px' }}
-        >
-          {text}
-        </Text>
-      </Link>
-    );
-  };
+  const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => (
+    <Button
+      as={Link}
+      color="primary"
+      colorScheme="blue"
+      fontSize="1.1rem"
+      fontWeight="600"
+      onClick={closeHeader}
+      to={linkTo}
+      variant="ghost"
+    >
+      {text}
+    </Button>
+  );
 
   return (
     <>
@@ -108,7 +98,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         ref={wrapperRef}
         wrap="wrap"
       >
-        <Flex align="center" as="h1">
+        <Flex align="center" as="h1" m={{ base: '0 auto', md: 'unset' }}>
           <Link onClick={closeHeader} to={ROUTES.HOME}>
             <Image
               alt="TV Minder logo"
@@ -130,6 +120,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
         <Box
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
+          gap="10px"
           pl="10px"
           pt="10px"
           w={{ base: 'full', md: 'auto' }}
@@ -163,7 +154,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ToggleColorModeButton />
                 <Menu placement="bottom-end">
-                  <MenuButton aria-label="Page Options" ml="12px">
+                  <MenuButton aria-label="Page Options">
                     <Avatar bg={avatarBackgroundColor} size="sm" />
                   </MenuButton>
                   <MenuList zIndex={4}>
@@ -176,13 +167,13 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               </Box>
 
               <Box display={{ base: 'block', md: 'none' }}>
-                <LogoutButton closeHeader={closeHeader} />
                 <ToggleColorModeButton />
+                <LogoutButton closeHeader={closeHeader} />
               </Box>
             </>
           ) : (
             <Flex justify="flex-end">
-              <ToggleColorModeButton mr="14px" />
+              <ToggleColorModeButton />
               <LoginButton closeHeader={closeHeader} />
               <SignUpButton closeHeader={closeHeader} />
             </Flex>
