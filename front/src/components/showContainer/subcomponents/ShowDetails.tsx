@@ -19,6 +19,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
     id,
     language,
     name,
+    network,
     overview,
     videoTrailerKey,
     voteAverage,
@@ -75,9 +76,14 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       {overview && <Text mb="12px">{overview}</Text>}
 
-      {createdBy && (
+      {network && (
         <Text fontSize="15px">
-          <chakra.span fontWeight="600">Created by:</chakra.span> {createdBy}
+          <chakra.span fontWeight="600">Network:</chakra.span> {network}
+        </Text>
+      )}
+      {episodeRunTime && (
+        <Text fontSize="15px">
+          <chakra.span fontWeight="600">Run time:</chakra.span> {episodeRunTime} mins
         </Text>
       )}
       {language && (
@@ -85,9 +91,9 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
           <chakra.span fontWeight="600">Language:</chakra.span> {language}
         </Text>
       )}
-      {episodeRunTime && (
+      {createdBy && (
         <Text fontSize="15px">
-          <chakra.span fontWeight="600">Run time:</chakra.span> {episodeRunTime} mins
+          <chakra.span fontWeight="600">Created by:</chakra.span> {createdBy}
         </Text>
       )}
     </Box>
