@@ -2,18 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import {
-  Box,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
-  Text,
-  useColorMode,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -24,8 +13,9 @@ import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
-import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import theme from 'theme';
+import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
+import CalendarEventPopover from 'components/calendar/CalendarEventPopover';
 
 const darkModeCalendarStyling = css`
   /* day of the week headers, "more" popover, mobile day of the week headers */
@@ -83,30 +73,26 @@ const CalendarPage = () => {
     history.push(`${ROUTES.SHOW}/${showId}`);
   };
 
-  const formatDesktopEvent = (eventInfo: EventContentArg) => (
-    <Popover placement="top" trigger="hover">
-      <PopoverTrigger>
-        <Text
-          className="calendarEventPopoverTrigger"
-          mx="6px"
-          noOfLines={1}
-          textAlign={isMobile ? 'left' : 'center'}
-        >
-          {eventInfo.event.title}
-        </Text>
-      </PopoverTrigger>
-      <Portal>
-        <PopoverContent bg={eventInfo.backgroundColor} w="unset" zIndex={4}>
-          <PopoverArrow bg={eventInfo.backgroundColor} />
-          <PopoverBody>
-            <Text color="white" fontSize="sm">
-              {eventInfo.event.title}
-            </Text>
-          </PopoverBody>
-        </PopoverContent>
-      </Portal>
-    </Popover>
-  );
+  const formatDesktopEvent = (eventInfo: EventClickArg & { backgroundColor: string }) => {
+    const { backgroundColor } = eventInfo;
+    const { title } = eventInfo.event;
+    const { episodeName, network, overview, runtime, seasonAndEpisodeNumers, showId, showName } =
+      eventInfo.event._def.extendedProps;
+
+    return (
+      <CalendarEventPopover
+        backgroundColor={backgroundColor}
+        episodeName={episodeName}
+        network={network}
+        overview={overview}
+        runtime={runtime}
+        seasonAndEpisodeNumers={seasonAndEpisodeNumers}
+        showId={showId}
+        showName={showName}
+        title={title}
+      />
+    );
+  };
 
   const formatMobileEvent = (eventInfo: EventContentArg) => (
     <Text color={mobileEventColor} cursor="pointer">

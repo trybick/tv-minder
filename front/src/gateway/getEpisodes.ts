@@ -38,6 +38,7 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
       last_episode_to_air: lastEpisodeToAir,
       id,
       name,
+      networks,
       next_episode_to_air: nextEpisodeToAir,
       status,
     } = showInfo;
@@ -58,7 +59,7 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
       ? [lastSeasonNumberToAir]
       : [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(Boolean);
 
-    return { latestSeasons, id, name };
+    return { latestSeasons, id, name, network: networks[0]?.name };
   });
 
   return latestSeasons.filter(Boolean);
@@ -67,7 +68,7 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
 const getFullSeasonData = async (latestAiredSeasons: any[]) => {
   const fullSeasonDataForLatestSeasons = latestAiredSeasons.map(
     async (latestSeasonsForShow: any) => {
-      const { id, name, latestSeasons } = latestSeasonsForShow;
+      const { id, name, latestSeasons, network } = latestSeasonsForShow;
 
       // List of requests for each season(s) for each show
       const latestSeasonsRequests = latestSeasons.map((seasonNum: ID) =>
@@ -79,10 +80,11 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
         .all(latestSeasonsRequests)
         .then((res: any) => res.map((res: any) => res.data));
 
-      // Store show name and ID on season object
+      // Store more props on season object
       fullSeasonData.forEach((fullSeason: any) => {
         fullSeason.name = name;
         fullSeason.showId = id;
+        fullSeason.network = network;
       });
 
       return fullSeasonData;
@@ -95,9 +97,10 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // Attach extra properties to each season object
   const showSeasonObject = fullSeasonDataForLatestSeasons.flat().map((season: any) =>
-    (({ episodes, name, showId }) => ({
+    (({ episodes, name, network, showId }) => ({
       episodes,
       name,
+      network,
       showId,
     }))(season)
   );
@@ -111,11 +114,12 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   }));
 
   // Add extra properties on to each episode
-  const flattenedEpisodeList = showSeasonWithColors.flatMap((show: any) => {
-    const { color, episodes, name, showId } = show;
+  const flattenedEpisodeList = showSeasonWithColors.flatMap((season: any) => {
+    const { color, episodes, name, network, showId } = season;
     return episodes.map((episode: any) => ({
       ...episode,
       color,
+      network,
       showId,
       showName: name,
     }));
@@ -135,15 +139,25 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       air_date: airDate,
       color,
       episode_number: episodeNumber,
+      name: episodeName,
+      network,
+      overview = '',
+      runtime = '',
       season_number: seasonNumber,
       showId,
       showName,
     }) => ({
       color,
       date: airDate,
+      episodeName,
       extendedProps: {
         showId,
       },
+      network,
+      overview,
+      runtime,
+      showName,
+      seasonAndEpisodeNumers: `S${seasonNumber} E${episodeNumber}`,
       title: `${showName} - S${seasonNumber} E${episodeNumber}`,
     })
   );
