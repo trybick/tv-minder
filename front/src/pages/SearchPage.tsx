@@ -12,6 +12,7 @@ import cacheDurationDays from 'utils/cacheDurations';
 import SearchContainer from 'components/search/SearchContainer';
 import SearchInput from 'components/search/subcomponents/SearchInput';
 import { useDebouncedFunction } from 'utils/debounce';
+import { Box } from '@chakra-ui/react';
 
 type StateProps = {
   savedQueries: SavedQuery[];
@@ -86,7 +87,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   };
 
   return (
-    <>
+    <Box p={{ base: '0 10px 25px', md: '25px 15px 20px' }}>
       <Helmet title="Search | TV Minder" />
       <SearchInput
         handleChange={handleChange}
@@ -100,7 +101,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
         shows={shows}
         totalResults={totalResults}
       />
-    </>
+    </Box>
   );
 };
 
