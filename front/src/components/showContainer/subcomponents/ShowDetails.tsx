@@ -1,10 +1,10 @@
 import { Box, chakra, Flex, Heading, Icon, Tag, Text } from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
-import { GrChannel } from 'react-icons/gr';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
 import { TfiWrite } from 'react-icons/tfi';
+import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { BasicShowInfo } from 'types/external';
 import { abbreviateNumber } from 'utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
@@ -78,30 +78,32 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
 
-      {network && (
-        <Flex align="center" gap="6px">
-          <Icon alignSelf="center" as={GrChannel} boxSize="17px" />
-          <Text fontSize="15px">{network}</Text>
-        </Flex>
-      )}
-      {episodeRunTime && (
-        <Flex align="center" gap="6px">
-          <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
-          <Text fontSize="15px">{episodeRunTime} mins</Text>
-        </Flex>
-      )}
-      {language && (
-        <Flex align="center" gap="6px">
-          <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
-          <Text fontSize="15px">{language}</Text>
-        </Flex>
-      )}
-      {createdBy && (
-        <Flex align="center" gap="6px">
-          <Icon alignSelf="center" as={TfiWrite} boxSize="18px" />
-          <Text fontSize="15px">{createdBy}</Text>
-        </Flex>
-      )}
+      <Flex direction="column" gap="3px">
+        {network && (
+          <Flex align="center" gap="6px">
+            <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="18px" />
+            <Text fontSize="15px">{network}</Text>
+          </Flex>
+        )}
+        {episodeRunTime && (
+          <Flex align="center" gap="6px">
+            <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
+            <Text fontSize="15px">{episodeRunTime} mins</Text>
+          </Flex>
+        )}
+        {language && (
+          <Flex align="center" gap="6px">
+            <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
+            <Text fontSize="15px">{language}</Text>
+          </Flex>
+        )}
+        {createdBy && (
+          <Flex align="center" gap="6px">
+            <Icon alignSelf="center" as={TfiWrite} boxSize="18px" />
+            <Text fontSize="15px">{createdBy}</Text>
+          </Flex>
+        )}
+      </Flex>
 
       {overview && <Text mt="12px">{overview}</Text>}
     </Box>

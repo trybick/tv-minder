@@ -27,10 +27,11 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
     <Box alignSelf="center" mb="16px">
       <Button
         borderColor="#bebebe"
+        height="38px"
         onClick={onOpen}
-        size="md"
         variant="outline"
         w={isMobile ? '100%' : 'unset'}
+        width="140px"
       >
         <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
         <Text display="inline" fontSize="14px" fontWeight="500">
