@@ -1,6 +1,10 @@
 import { Box, chakra, Flex, Heading, Icon, Tag, Text } from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
+import { GrChannel } from 'react-icons/gr';
+import { IoIosTimer } from 'react-icons/io';
+import { TbLanguage } from 'react-icons/tb';
+import { TfiWrite } from 'react-icons/tfi';
 import { BasicShowInfo } from 'types/external';
 import { abbreviateNumber } from 'utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
@@ -60,6 +64,8 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         </Flex>
       ) : null}
 
+      <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
+
       {genreNames && (
         <Box mb="16px">
           {genreNames?.map(genre => (
@@ -70,32 +76,34 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         </Box>
       )}
 
-      <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
-
       {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
 
-      {overview && <Text mb="12px">{overview}</Text>}
-
       {network && (
-        <Text fontSize="15px">
-          <chakra.span fontWeight="600">Network:</chakra.span> {network}
-        </Text>
+        <Flex align="center" gap="6px">
+          <Icon alignSelf="center" as={GrChannel} boxSize="17px" />
+          <Text fontSize="15px">{network}</Text>
+        </Flex>
       )}
       {episodeRunTime && (
-        <Text fontSize="15px">
-          <chakra.span fontWeight="600">Run time:</chakra.span> {episodeRunTime} mins
-        </Text>
+        <Flex align="center" gap="6px">
+          <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
+          <Text fontSize="15px">{episodeRunTime} mins</Text>
+        </Flex>
       )}
       {language && (
-        <Text fontSize="15px">
-          <chakra.span fontWeight="600">Language:</chakra.span> {language}
-        </Text>
+        <Flex align="center" gap="6px">
+          <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
+          <Text fontSize="15px">{language}</Text>
+        </Flex>
       )}
       {createdBy && (
-        <Text fontSize="15px">
-          <chakra.span fontWeight="600">Created by:</chakra.span> {createdBy}
-        </Text>
+        <Flex align="center" gap="6px">
+          <Icon alignSelf="center" as={TfiWrite} boxSize="18px" />
+          <Text fontSize="15px">{createdBy}</Text>
+        </Flex>
       )}
+
+      {overview && <Text mt="12px">{overview}</Text>}
     </Box>
   );
 };
