@@ -36,7 +36,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
       <Heading as="h3" fontSize="3xl" mb="8px">
         {name}{' '}
         {yearsActive && (
-          <chakra.span fontSize="xl" fontWeight="600">
+          <chakra.span fontSize="2xl" fontWeight="600">
             ({yearsActive})
           </chakra.span>
         )}
@@ -105,7 +105,14 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         )}
       </Flex>
 
-      {overview && <Text mt="12px">{overview}</Text>}
+      {overview && (
+        <Flex direction="column" mt="18px">
+          <Heading as="h5" fontSize="19px" mb="4px">
+            Overview
+          </Heading>
+          <Text>{overview}</Text>
+        </Flex>
+      )}
     </Box>
   );
 };

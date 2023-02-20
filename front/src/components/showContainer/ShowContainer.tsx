@@ -18,7 +18,7 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
 
   return (
     <>
-      <Flex gap="20px">
+      <Flex gap="22px">
         {!isMobile && (
           <Flex direction="column" gap="12px">
             <Image

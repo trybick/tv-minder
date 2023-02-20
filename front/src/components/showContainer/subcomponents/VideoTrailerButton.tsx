@@ -24,7 +24,7 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const mobileOptions = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
 
   return videoId ? (
-    <Box alignSelf="center" mb="16px">
+    <Box alignSelf="center" mb="17px">
       <Button
         borderColor="#bebebe"
         height="38px"

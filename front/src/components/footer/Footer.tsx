@@ -24,7 +24,7 @@ const Footer = () => {
         alignItems="center"
         fontSize=".85rem"
         justifyContent="space-between"
-        p={{ base: '1.4rem', sm: '1rem 2rem' }}
+        p={{ base: '1.4rem', sm: '1.2rem 2rem' }}
       >
         <Flex flexDirection="column" gap="3px">
           <Text fontSize="11px" fontWeight="600">
