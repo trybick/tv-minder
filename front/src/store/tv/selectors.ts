@@ -3,8 +3,8 @@ import { createSelector } from 'reselect';
 import { AppState } from 'store';
 import { BasicShowInfo, PopularShow } from 'types/external';
 import { selectFollowedShows } from 'store/user/selectors';
+import { useGetShowIdFromParams } from 'hooks/useGetShowIdFromParams';
 import { mapShowInfoForDisplay } from './tvUtils';
-import { useParams } from 'react-router-dom';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
@@ -44,9 +44,8 @@ export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = c
 export const selectCurrentShowInfo: Selector<AppState, BasicShowInfo> = createSelector(
   selectBasicShowInfo,
   basicShowInfo => {
-    const { showId } = useParams<{ showId: string }>();
-    const showIdNum = +showId;
-    const currentShow = basicShowInfo[showIdNum];
+    const showId = useGetShowIdFromParams();
+    const currentShow = basicShowInfo[showId];
     return mapShowInfoForDisplay(currentShow);
   }
 );
