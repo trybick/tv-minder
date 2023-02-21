@@ -1,4 +1,4 @@
-import { Flex, Image } from '@chakra-ui/react';
+import { Flex, Grid, Image } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { imagePath342 } from 'constants/strings';
@@ -18,8 +18,12 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
 
   return (
     <>
-      <Flex gap="22px">
-        {!isMobile && (
+      {isMobile ? (
+        <Flex gap="22px">
+          <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+        </Flex>
+      ) : (
+        <Grid gap="22px" gridTemplateColumns=".8fr 1fr">
           <Flex direction="column" gap="12px">
             <Image
               borderRadius="8px"
@@ -27,12 +31,11 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
               fallbackStrategy="onError"
               src={posterPath ? imagePath342 + posterPath : fallbackImagePathLarge}
             />
-
             <FollowButton showId={id} />
           </Flex>
-        )}
-        <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
-      </Flex>
+          <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+        </Grid>
+      )}
 
       {hasEpisodes && (
         <SeasonAccordionGroup isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
