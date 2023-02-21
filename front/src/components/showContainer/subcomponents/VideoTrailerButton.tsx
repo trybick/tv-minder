@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalOverlay,
   Text,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
@@ -22,19 +23,18 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const desktopOptions = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
   const mobileOptions = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
+  const textColor = useColorModeValue('darkBlack', 'white');
 
   return videoId ? (
-    <Box alignSelf="center" mb="17px">
+    <Box alignSelf="center" mb={isMobile ? '16px' : ''} mt={isMobile ? '' : '17px'}>
       <Button
-        borderColor="#bebebe"
-        height="38px"
+        fontSize="16px"
         onClick={onOpen}
-        variant="outline"
+        variant={isMobile ? 'outline' : 'link'}
         w={isMobile ? '100%' : 'unset'}
-        width="140px"
       >
         <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
-        <Text display="inline" fontSize="14px" fontWeight="500">
+        <Text color={textColor} display="inline" fontSize="15px" fontWeight="600">
           Watch Trailer
         </Text>
       </Button>

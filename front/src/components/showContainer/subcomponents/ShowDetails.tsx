@@ -3,7 +3,6 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
-import { TfiWrite } from 'react-icons/tfi';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { BasicShowInfo } from 'types/external';
 import { abbreviateNumber } from 'utils/formatting';
@@ -17,7 +16,6 @@ type Props = {
 
 const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
   const {
-    createdBy,
     episodeRunTime,
     genreNames,
     id,
@@ -64,10 +62,8 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         </Flex>
       ) : null}
 
-      <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
-
       {genreNames && (
-        <Box mb="16px">
+        <Box mb="18px">
           {genreNames?.map(genre => (
             <Tag key={genre} mr="5px" size="md">
               {genre}
@@ -78,7 +74,9 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
 
-      <Flex direction="column" gap="3px">
+      <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
+
+      <Flex direction="column" gap="3px" mt="6px">
         {network && (
           <Flex align="center" gap="6px">
             <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="18px" />
@@ -97,16 +95,10 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
             <Text fontSize="15px">{language}</Text>
           </Flex>
         )}
-        {createdBy && (
-          <Flex align="center" gap="6px">
-            <Icon alignSelf="center" as={TfiWrite} boxSize="18px" />
-            <Text fontSize="15px">{createdBy}</Text>
-          </Flex>
-        )}
       </Flex>
 
       {overview && (
-        <Flex direction="column" mt="18px">
+        <Flex direction="column" mt="14px">
           <Heading as="h5" fontSize="19px" mb="4px">
             Overview
           </Heading>
