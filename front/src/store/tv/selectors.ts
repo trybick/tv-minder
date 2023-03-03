@@ -46,6 +46,6 @@ export const selectCurrentShowInfo: Selector<AppState, BasicShowInfo> = createSe
   basicShowInfo => {
     const showId = useGetShowIdFromParams();
     const currentShow = basicShowInfo[showId];
-    return mapShowInfoForDisplay(currentShow);
+    return currentShow?.id && mapShowInfoForDisplay(currentShow);
   }
 );
