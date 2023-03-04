@@ -5,6 +5,7 @@ import { Box, Text } from '@chakra-ui/react';
 interface Props extends RouteComponentProps<any> {
   children: ReactNode;
 }
+
 type State = {
   hasError: boolean;
   error: Error | null;
@@ -36,25 +37,21 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    const { error, errorInfo, hasError } = this.state;
+    const { children } = this.props;
+    const { hasError } = this.state;
 
-    if (hasError) {
-      return (
-        <Box>
-          <Text color={'#034A85'} fontSize="5xl" p={8} textAlign="center">
-            Something Went Wrong
-          </Text>
-          <Text color={'#034A85'} fontSize="md" p={3} textAlign="center">
-            {typeof error === 'object' && error !== null ? JSON.stringify(error) : ''}
-          </Text>
-          <Text color={'#034A85'} fontSize="md" p={3}>
-            {typeof errorInfo === 'object' && errorInfo !== null ? JSON.stringify(errorInfo) : ''}
-          </Text>
-        </Box>
-      );
-    }
-
-    return this.props.children;
+    return hasError ? (
+      <Box>
+        <Text color="#034A85" fontSize="5xl" p={8} textAlign="center">
+          Something went wrong
+        </Text>
+        <Text color="#034A85" fontSize="2xl" textAlign="center">
+          This has been recorded and we are working on it.
+        </Text>
+      </Box>
+    ) : (
+      children
+    );
   }
 }
 
