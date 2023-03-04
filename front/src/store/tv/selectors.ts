@@ -2,8 +2,8 @@ import { Selector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { AppState } from 'store';
 import { BasicShowInfo, PopularShow } from 'types/external';
+import { ID } from 'types/common';
 import { selectFollowedShows } from 'store/user/selectors';
-import { useGetShowIdFromParams } from 'hooks/useGetShowIdFromParams';
 import { mapShowInfoForDisplay } from './tvUtils';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
@@ -41,11 +41,19 @@ export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = c
     })
 );
 
+export const getCurrentShowId = (): ID => {
+  const id = window.location.pathname.split('/')[2];
+  if (!id) {
+    throw Error('Error finding show ID');
+  }
+  return +id;
+};
+
 export const selectCurrentShowInfo: Selector<AppState, BasicShowInfo> = createSelector(
   selectBasicShowInfo,
-  basicShowInfo => {
-    const showId = useGetShowIdFromParams();
-    const currentShow = basicShowInfo[showId];
+  getCurrentShowId,
+  (basicShowInfo, currentShowId) => {
+    const currentShow = basicShowInfo[currentShowId];
     return currentShow?.id && mapShowInfoForDisplay(currentShow);
   }
 );

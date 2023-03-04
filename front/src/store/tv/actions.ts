@@ -106,7 +106,7 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
   });
 };
 
-export const getBasicShowInfoAndSeasonsWithEpisodesForShow =
+export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
   (showId: ID): AppThunk =>
   async (dispatch, getState) => {
     // If we already have the basic show info, season info, and cache is valid, do nothing
