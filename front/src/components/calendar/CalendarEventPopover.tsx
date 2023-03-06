@@ -79,7 +79,7 @@ const CalendarEventPopover = (props: Props) => {
               </Text>
             )}
             {overview && (
-              <Flex flexDirection="column" mt="12px">
+              <Flex flexDirection="column" mt="6px">
                 <Button
                   alignSelf="flex-start"
                   fontWeight="700"
@@ -94,7 +94,7 @@ const CalendarEventPopover = (props: Props) => {
                   size="sm"
                   variant="link"
                 >
-                  {isOverviewDisplayed ? 'Hide Summary' : 'View Summary'}
+                  Summary
                 </Button>
                 <Collapse in={isOverviewDisplayed} animateOpacity>
                   <Text color="white" fontSize="sm" mt="6px">
