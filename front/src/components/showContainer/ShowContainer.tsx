@@ -13,13 +13,14 @@ type Props = {
 
 const ShowContainer = ({ showInfoForDisplay }: Props) => {
   const isMobile = useIsMobile();
-  const { id, posterPath } = showInfoForDisplay || {};
+  const { backdropPath, id, posterPath } = showInfoForDisplay || {};
   const hasEpisodes = showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
 
   return (
     <>
       {isMobile ? (
-        <Flex gap="22px">
+        <Flex direction="column" gap="12px">
+          <Image borderRadius="6px" src={imagePath342 + backdropPath} />
           <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
         </Flex>
       ) : (
