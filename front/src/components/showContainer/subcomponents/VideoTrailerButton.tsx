@@ -26,7 +26,7 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const textColor = useColorModeValue('darkBlack', 'white');
 
   return videoId ? (
-    <Box alignSelf="center" mb={isMobile ? '16px' : ''} mt={isMobile ? '' : '17px'}>
+    <Box alignSelf="center" mb={isMobile ? '16px' : '9px'} mt={isMobile ? '' : '20px'}>
       <Button
         fontSize="16px"
         onClick={onOpen}
@@ -35,7 +35,7 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
       >
         <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
         <Text color={textColor} display="inline" fontSize="15px" fontWeight="600">
-          Watch Trailer
+          Play Trailer
         </Text>
       </Button>
 

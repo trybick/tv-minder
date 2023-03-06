@@ -31,7 +31,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
   return (
     <Box w="100%">
-      <Heading as="h3" fontSize="3xl" mb="8px">
+      <Heading as="h3" fontSize="3xl" mb="7px">
         {name}{' '}
         {yearsActive && (
           <chakra.span fontSize="2xl" fontWeight="600">
@@ -41,7 +41,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
       </Heading>
 
       {voteAverage ? (
-        <Flex mb="16px">
+        <Flex mb="18px">
           <Icon alignSelf="center" as={FaStar} boxSize="27px" color="yellow.400" />
           <Flex direction="column" ml="4px">
             <Text fontSize="16px">
@@ -76,7 +76,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
 
-      <Flex direction="column" gap="3px" mt="6px">
+      <Flex direction="column" gap="4px" mt="6px">
         {network && (
           <Flex align="center" gap="6px">
             <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="18px" />
@@ -98,8 +98,8 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
       </Flex>
 
       {overview && (
-        <Flex direction="column" mt="14px">
-          <Heading as="h5" fontSize="19px" mb="4px">
+        <Flex direction="column" mt="18px">
+          <Heading as="h5" fontSize="18px" mb="4px">
             Overview
           </Heading>
           <Text>{overview}</Text>
