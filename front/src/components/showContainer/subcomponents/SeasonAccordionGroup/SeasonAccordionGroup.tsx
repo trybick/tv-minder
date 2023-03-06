@@ -47,8 +47,8 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
     ));
 
   return (
-    <Flex direction="column" flex="1" mt={isMobile ? '25px' : '50px'}>
-      <Heading as="h3" fontSize="2xl" ml={isMobile ? '' : '14px'}>
+    <Flex direction="column" flex="1" mt={isMobile ? '18px' : '50px'}>
+      <Heading as="h4" fontSize={isMobile ? 'xl' : '2xl'} ml={isMobile ? '' : '14px'}>
         Episodes
       </Heading>
       <Accordion mt="14px" w="100%" allowToggle>

@@ -26,7 +26,7 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const textColor = useColorModeValue('darkBlack', 'white');
 
   return videoId ? (
-    <Box alignSelf="center" mb={isMobile ? '16px' : '9px'} mt={isMobile ? '' : '20px'}>
+    <Box alignSelf="center" mb={isMobile ? '20px' : '9px'} mt={isMobile ? '' : '20px'}>
       <Button
         fontSize="16px"
         onClick={onOpen}

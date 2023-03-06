@@ -99,7 +99,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       {overview && (
         <Flex direction="column" mt="18px">
-          <Heading as="h5" fontSize="18px" mb="4px">
+          <Heading as="h4" fontSize={isMobile ? 'xl' : '18px'} mb="4px">
             Overview
           </Heading>
           <Text>{overview}</Text>
