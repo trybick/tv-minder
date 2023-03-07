@@ -15,7 +15,7 @@ import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
 import theme from 'theme';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
-import CalendarEventPopover from 'components/calendar/CalendarEventPopover';
+import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEvent';
 
 const darkModeCalendarStyling = css`
   /* day of the week headers, "more" popover, mobile day of the week headers */
@@ -87,7 +87,7 @@ const CalendarPage = () => {
       eventInfo.event._def.extendedProps;
 
     return (
-      <CalendarEventPopover
+      <DesktopCalendarEvent
         backgroundColor={backgroundColor}
         episodeName={episodeName}
         network={network}
