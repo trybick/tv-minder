@@ -49,7 +49,13 @@ const CalendarEventPopover = (props: Props) => {
   return (
     <Popover onClose={hideOverview} placement="right" trigger="hover">
       <PopoverTrigger>
-        <Text className="calendarEventPopoverTrigger" noOfLines={1} px="6px" textAlign="center">
+        <Text
+          className="calendarEventPopoverTrigger"
+          fontSize="md"
+          noOfLines={1}
+          px="6px"
+          textAlign="center"
+        >
           {title}
         </Text>
       </PopoverTrigger>
