@@ -30,7 +30,14 @@ const darkModeCalendarStyling = css`
   }
 `;
 
-const eventPopoverStyling = css`
+const eventStyles = css`
+  /* Add vertical space between calendar events */
+  .fc-daygrid-event-harness {
+    margin-bottom: 6px;
+  }
+`;
+
+const eventPopoverStyles = css`
   /* without this, 'display: -webkit-box' gets added which breaks the truncation  */
   .calendarEventPopoverTrigger {
     display: block !important;
@@ -114,7 +121,7 @@ const CalendarPage = () => {
         p={{ base: '0 15px 20px', md: '10px 25px 20px' }}
         w={{ base: '90%', md: '99%', xl: '90%' }}
       >
-        <Global styles={[eventPopoverStyling, isDarkMode && darkModeCalendarStyling]} />
+        <Global styles={[eventStyles, eventPopoverStyles, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
           allDayContent={false}
           dayMaxEventRows={5}

@@ -53,7 +53,7 @@ const CalendarEventPopover = (props: Props) => {
           className="calendarEventPopoverTrigger"
           fontSize="md"
           noOfLines={1}
-          px="6px"
+          p="4px 6px"
           textAlign="center"
         >
           {title}
