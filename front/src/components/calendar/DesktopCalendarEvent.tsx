@@ -3,6 +3,7 @@ import {
   Button,
   Collapse,
   Flex,
+  Icon,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -13,6 +14,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { HiOutlineVideoCamera } from 'react-icons/hi';
+import { IoIosTimer } from 'react-icons/io';
 import { ROUTES } from 'constants/routes';
 
 type Props = {
@@ -77,16 +80,33 @@ const DesktopCalendarEvent = (props: Props) => {
             >
               {showName}
             </Button>
-            <Text color="white" fontSize="md" mb="4px">
+            <Text color="white" fontSize="md" mb="6px">
               {seasonAndEpisodeNumers}: {episodeName}
             </Text>
-            {(network || runtime) && (
-              <Text color="white" fontSize="sm" fontWeight="500">
-                {network && runtime ? `${network} | ${runtime} mins` : network || `${runtime} mins`}
-              </Text>
-            )}
+
+            {network || runtime ? (
+              <Flex flexWrap="wrap" gap="2px 8px">
+                {network && (
+                  <Flex align="center" gap="3px">
+                    <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="14px" />
+                    <Text color="white" fontSize="13px" fontWeight="500">
+                      {network}
+                    </Text>
+                  </Flex>
+                )}
+                {runtime && (
+                  <Flex align="center" gap="2px">
+                    <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" />
+                    <Text color="white" fontSize="13px" fontWeight="500">
+                      {runtime} mins
+                    </Text>
+                  </Flex>
+                )}
+              </Flex>
+            ) : null}
+
             {overview && (
-              <Flex flexDirection="column" mt="6px">
+              <Flex flexDirection="column" mt="9px">
                 <Button
                   alignSelf="flex-start"
                   fontWeight="700"
