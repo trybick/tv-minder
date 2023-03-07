@@ -78,9 +78,10 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
       as={Link}
       color="primary"
       colorScheme="blue"
-      fontSize="1.1rem"
+      fontSize="1.2rem"
       fontWeight="600"
       onClick={closeHeader}
+      p={isMobile ? 0 : '16px'}
       to={linkTo}
       variant="ghost"
     >
@@ -94,7 +95,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         align="center"
         as="nav"
         justify="space-between"
-        p="14px 1.6rem 7px"
+        p="15px 1.6rem 9px"
         ref={wrapperRef}
         wrap="wrap"
       >
@@ -103,10 +104,10 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <Image
               alt="TV Minder logo"
               display="inline"
-              h="28px"
+              h="30px"
+              mt="6px"
               src={logo}
               verticalAlign="middle"
-              w="173px"
             />
           </Link>
         </Flex>
@@ -121,8 +122,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         <Box
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
           gap="10px"
-          pl="10px"
-          pt="10px"
+          pt="6px"
           w={{ base: 'full', md: 'auto' }}
           {...(isOpen &&
             isMobile && {
