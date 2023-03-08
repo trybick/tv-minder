@@ -36,7 +36,6 @@ const userPersistConfig = {
 const tvPersistConfig = {
   key: 'tv',
   storage: localforage,
-  blacklist: ['myShowsTableExpandedRow'],
 };
 
 const rootReducer = combineReducers({

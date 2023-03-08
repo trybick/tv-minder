@@ -6,7 +6,7 @@ import {
   chakra,
   Flex,
   Icon,
-  IconButton,
+  Image,
   Link,
   Popover,
   PopoverArrow,
@@ -16,18 +16,16 @@ import {
   Tag,
   Text,
 } from '@chakra-ui/react';
-import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BiInfoCircle } from 'react-icons/bi';
 import { BasicShowInfo } from 'types/external';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from 'store/tv/actions';
-import {
-  selectBasicShowInfoForFollowedShows,
-  selectMyShowsTableExpandedRow,
-} from 'store/tv/selectors';
+import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import { ID, PlainFunction } from 'types/common';
 import { ROUTES } from 'constants/routes';
+import { fallbackImagePath, imagePath154 } from 'constants/strings';
+import { maybePluralize } from 'utils/formatting';
 import { useIsMobile } from 'hooks/useIsMobile';
-import UnfollowCloseButton from './subcomponents/UnfollowCloseButton';
+import UnfollowCloseButton from '../UnfollowCloseButton';
 
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
@@ -46,62 +44,55 @@ export const useTableData = () => {
         id: 'name',
         accessor: name => name.toString(),
         Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
-          <Text cursor="pointer" ml={isMobile ? '34px' : '58px'} onClick={onClick}>
-            Name
+          <Text cursor="pointer" ml={isMobile ? '-20px' : '94px'} onClick={onClick}>
+            TV Show
           </Text>
         ),
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
-          const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
-          const { getToggleRowExpandedProps, original } = row;
-          const toggleRowExpandedProps = getToggleRowExpandedProps();
-          const isExpanded = myShowsTableExpandedRow === original.id;
+          const { id, name, numEpisodes, numSeasons, posterPath } = row.original;
+
           return isMobile ? (
-            <Flex {...toggleRowExpandedProps} align="center" gap="14px" h="100%">
-              <IconButton
-                {...toggleRowExpandedProps}
-                aria-label="Expand row"
-                icon={
-                  isExpanded ? (
-                    <ChevronDownIcon {...toggleRowExpandedProps} />
-                  ) : (
-                    <ChevronRightIcon {...toggleRowExpandedProps} />
-                  )
-                }
-                size="sm"
-                variant="outline"
-                isRound
-              />
+            <Flex align="center" gap="14px" h="100%">
               <Link>
                 <Text
                   fontSize="md"
                   fontWeight="500"
-                  noOfLines={!isExpanded ? 1 : undefined}
-                  onClick={() => onClickShowName(original.id)}
+                  noOfLines={1}
+                  onClick={() => onClickShowName(id)}
                 >
-                  {original.name}
+                  {name}
                 </Text>
               </Link>
             </Flex>
           ) : (
-            <Flex align="center" gap="16px">
-              <IconButton
-                aria-label="Expand row"
-                icon={isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-                size="sm"
-                variant="outline"
-                isRound
+            <Flex align="center" gap="20px">
+              <Image
+                alt={`${name}-image`}
+                borderRadius="5px"
+                cursor="pointer"
+                fallbackSrc={fallbackImagePath}
+                fallbackStrategy="onError"
+                h="150px"
+                onClick={() => onClickShowName(id)}
+                src={posterPath ? imagePath154 + posterPath : fallbackImagePath}
               />
-              <Flex align="center" h="100%" ml="10px">
-                <Link>
+              <Flex direction="column" h="100%">
+                <Link mb="5px">
                   <Text
-                    fontSize="md"
+                    fontSize="22px"
                     fontWeight="500"
-                    noOfLines={!isExpanded ? 1 : undefined}
-                    onClick={() => onClickShowName(original.id)}
+                    noOfLines={1}
+                    onClick={() => onClickShowName(id)}
                   >
-                    {original.name}
+                    {name}
                   </Text>
                 </Link>
+                <Text fontSize="15px">
+                  {numSeasons} {maybePluralize(numSeasons, 'season')}
+                </Text>
+                <Text fontSize="15px">
+                  {numEpisodes} {maybePluralize(numEpisodes, 'episode')}
+                </Text>
               </Flex>
             </Flex>
           );
@@ -117,7 +108,7 @@ export const useTableData = () => {
             <Popover placement="bottom" trigger="click">
               <PopoverTrigger>
                 <chakra.button display="flex">
-                  <Icon as={BiInfoCircle} boxSize="16px" ml="3px" />
+                  <Icon as={BiInfoCircle} boxSize="15px" ml="2px" />
                 </chakra.button>
               </PopoverTrigger>
               <PopoverContent minW={{ base: '100%', md: 'max-content' }} textTransform="none">
@@ -181,45 +172,60 @@ export const useTableData = () => {
           const { color, status } = original.statusWithColor;
           return (
             <Flex align="center" cursor="default" h="100%" justifyContent="center" w="100%">
-              <Tag colorScheme={color} justifyContent="center" w="126px" whiteSpace="nowrap">
+              <Tag
+                colorScheme={color}
+                justifyContent="center"
+                size="lg"
+                w="147px"
+                whiteSpace="nowrap"
+              >
                 {status}
               </Tag>
             </Flex>
           );
         },
       },
+      {
+        id: 'network',
+        Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
+          <Text cursor="pointer" onClick={onClick}>
+            Network
+          </Text>
+        ),
+        width: isMobile ? 100 : 110,
+        accessor: row => row.network,
+        Cell: ({ row }: CellProps<BasicShowInfo>) => (
+          <Flex
+            align="center"
+            cursor="default"
+            h="100%"
+            justifyContent={isMobile ? 'left' : 'center'}
+            width="100%"
+          >
+            <Text
+              fontSize={isMobile ? 'md' : 'lg'}
+              fontWeight={isMobile ? '400' : '600'}
+              noOfLines={1}
+            >
+              {row.original.network || 'Unlisted'}
+            </Text>
+          </Flex>
+        ),
+      },
+      {
+        id: 'unfollow',
+        width: 35,
+        Cell: ({ row }: CellProps<BasicShowInfo>) => (
+          <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
+        ),
+      },
     ];
   }, [isMobile, dispatch, history]);
 
   if (isMobile) {
-    columns.splice(1);
-  } else {
-    columns.push({
-      id: 'network',
-      Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
-        <Text cursor="pointer" onClick={onClick}>
-          Network
-        </Text>
-      ),
-      width: 110,
-      accessor: row => row.network,
-      Cell: ({ row }: CellProps<BasicShowInfo>) => (
-        <Flex align="center" cursor="default" h="100%" justifyContent="center" width="100%">
-          <Text fontWeight="600" noOfLines={1}>
-            {row.original.network || 'Unlisted'}
-          </Text>
-        </Flex>
-      ),
-    });
+    // Remove 'Status' column
+    columns.splice(1, 1);
   }
-
-  columns.push({
-    id: 'unfollow',
-    width: 35,
-    Cell: ({ row }: CellProps<BasicShowInfo>) => (
-      <UnfollowCloseButton showId={row.original.id} showName={row.original.name} />
-    ),
-  });
 
   return { data, columns };
 };

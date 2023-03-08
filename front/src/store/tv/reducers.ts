@@ -1,7 +1,6 @@
 import { Action, AnyAction, Reducer } from 'redux';
-import { GenericNumberObject, GenericStringObject, ID } from 'types/common';
+import { GenericNumberObject, GenericStringObject } from 'types/common';
 import {
-  EXPAND_MY_SHOWS_TABLE_ROW,
   SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
   SAVE_BASIC_SHOW_INFO_FOR_SHOW,
   SAVE_CALENDAR_EPISODES_CACHE,
@@ -19,7 +18,6 @@ export type TvState = {
   isLoadingBasicShowInfoForShow: boolean;
   calendarEpisodesForDisplay: any[];
   popularShows: GenericStringObject[];
-  myShowsTableExpandedRow: ID | null;
 };
 
 const initialState = {
@@ -29,7 +27,6 @@ const initialState = {
   isLoadingBasicShowInfoForShow: false,
   calendarEpisodesForDisplay: [],
   popularShows: [],
-  myShowsTableExpandedRow: null,
 };
 
 export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
@@ -80,13 +77,6 @@ export const tvReducer: Reducer<TvState, Action> = (state = initialState, action
       return {
         ...state,
         popularShows: action.payload,
-      };
-    }
-    case EXPAND_MY_SHOWS_TABLE_ROW: {
-      return {
-        ...state,
-        myShowsTableExpandedRow:
-          state.myShowsTableExpandedRow === action.payload ? null : action.payload,
       };
     }
     default:
