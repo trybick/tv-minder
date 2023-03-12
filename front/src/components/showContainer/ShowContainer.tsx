@@ -1,7 +1,7 @@
 import { Flex, Grid, Image } from '@chakra-ui/react';
 import { BasicShowInfo } from 'types/external';
 import { useIsMobile } from 'hooks/useIsMobile';
-import { imagePath342 } from 'constants/strings';
+import { imagePath342, imagePath780 } from 'constants/strings';
 import { fallbackImagePathLarge } from 'constants/strings';
 import FollowButton from 'components/common/FollowButton';
 import ShowDetails from './subcomponents/ShowDetails';
@@ -20,7 +20,17 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
     <>
       {isMobile ? (
         <Flex direction="column" gap="12px">
-          <Image borderRadius="6px" src={imagePath342 + backdropPath} />
+          <Image
+            // This styling lets the image extend beyond parent to be 100vw
+            left="50%"
+            maxW="100vw"
+            ml="-50vw"
+            mr="-50vw"
+            position="relative"
+            right="50%"
+            src={imagePath780 + backdropPath}
+            width="100vw"
+          />
           <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
         </Flex>
       ) : (

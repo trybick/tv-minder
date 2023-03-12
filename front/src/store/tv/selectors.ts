@@ -13,7 +13,6 @@ export const selectIsLoadingBasicShowInfoForShow = (state: AppState) =>
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
-export const selectMyShowsTableExpandedRow = (state: AppState) => state.tv.myShowsTableExpandedRow;
 
 export const selectBasicShowInfoForFollowedShows: Selector<AppState, BasicShowInfo[]> =
   createSelector(selectBasicShowInfo, selectFollowedShows, (showInfo, followedShows) => {

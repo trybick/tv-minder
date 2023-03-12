@@ -1,16 +1,11 @@
-import { useSelector } from 'react-redux';
-import { useExpanded, useFlexLayout, useSortBy, useTable } from 'react-table';
-import { Table, Tbody, Thead } from '@chakra-ui/react';
+import { useFlexLayout, useSortBy, useTable } from 'react-table';
+import { Table, Tbody, Td, Thead, Tr } from '@chakra-ui/react';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { BasicShowInfo } from 'types/external';
-import { selectMyShowsTableExpandedRow } from 'store/tv/selectors';
 import { useTableData } from './helpers/useTableData';
-import TableHeader from './subcomponents/TableHeader';
-import TableRow from './subcomponents/TableRow';
-import ExpandedDrawer from './subcomponents/ExpandedDrawer/ExpandedDrawer';
+import TableHeader from './TableHeader';
 
 const MyShowsTable = () => {
-  const myShowsTableExpandedRow = useSelector(selectMyShowsTableExpandedRow);
   const isMobile = useIsMobile();
   const { data, columns } = useTableData();
 
@@ -22,7 +17,6 @@ const MyShowsTable = () => {
         autoResetSortBy: false,
       },
       useSortBy,
-      useExpanded,
       useFlexLayout
     );
 
@@ -34,21 +28,20 @@ const MyShowsTable = () => {
       <Tbody {...getTableBodyProps()}>
         {rows.map((row, i) => {
           prepareRow(row);
-          return [
-            <TableRow
-              cells={row.cells}
-              isExpanded={row.original.id === myShowsTableExpandedRow}
-              isMobile={isMobile}
-              key={`row-${i}`}
-              rowProps={row.getRowProps()}
-              showId={row.original.id}
-            />,
-            <ExpandedDrawer
-              isExpanded={row.original.id === myShowsTableExpandedRow}
-              key={`expanded-${i}`}
-              row={row}
-            />,
-          ];
+          return (
+            <Tr {...row.getRowProps()} key={`row-${i}`}>
+              {row.cells.map((cell, i) => (
+                <Td
+                  {...cell.getCellProps()}
+                  fontSize={14}
+                  key={`cell-${i}`}
+                  px={isMobile ? '14px' : '32px'}
+                >
+                  {cell.render('Cell')}
+                </Td>
+              ))}
+            </Tr>
+          );
         })}
       </Tbody>
     </Table>
