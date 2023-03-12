@@ -45,7 +45,7 @@ export const useTableData = () => {
         accessor: name => name.toString(),
         Header: ({ onClick }: HeaderProps<BasicShowInfo> & { onClick?: PlainFunction }) => (
           <Text cursor="pointer" ml={isMobile ? '-20px' : '94px'} onClick={onClick}>
-            TV Show
+            Show
           </Text>
         ),
         Cell: ({ row }: CellProps<BasicShowInfo>) => {
@@ -77,7 +77,7 @@ export const useTableData = () => {
                 src={posterPath ? imagePath154 + posterPath : fallbackImagePath}
               />
               <Flex direction="column" h="100%">
-                <Link mb="5px">
+                <Link mb="8px">
                   <Text
                     fontSize="22px"
                     fontWeight="500"
@@ -87,7 +87,7 @@ export const useTableData = () => {
                     {name}
                   </Text>
                 </Link>
-                <Text fontSize="15px">
+                <Text fontSize="15px" lineHeight="21px">
                   {numSeasons} {maybePluralize(numSeasons, 'season')}
                 </Text>
                 <Text fontSize="15px">
@@ -174,8 +174,10 @@ export const useTableData = () => {
             <Flex align="center" cursor="default" h="100%" justifyContent="center" w="100%">
               <Tag
                 colorScheme={color}
+                fontSize="15px"
                 justifyContent="center"
-                size="lg"
+                py="4px"
+                size="md"
                 w="147px"
                 whiteSpace="nowrap"
               >
@@ -202,11 +204,7 @@ export const useTableData = () => {
             justifyContent={isMobile ? 'left' : 'center'}
             width="100%"
           >
-            <Text
-              fontSize={isMobile ? 'md' : 'lg'}
-              fontWeight={isMobile ? '400' : '600'}
-              noOfLines={1}
-            >
+            <Text fontSize="md" fontWeight={isMobile ? '400' : '600'} noOfLines={1}>
               {row.original.network || 'Unlisted'}
             </Text>
           </Flex>
