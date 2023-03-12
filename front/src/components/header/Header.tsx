@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
 import {
   Avatar,
@@ -65,6 +65,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
   const isMobile = useIsMobile();
   const history = useHistory();
+  const location = useLocation();
+  const isShowPage = location.pathname.includes('/show/');
   const avatarBackgroundColor = useColorModeValue('#a0afbf', 'black');
 
   const onLogout = () => {
@@ -95,7 +97,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         align="center"
         as="nav"
         justify="space-between"
-        p="15px 1.6rem 9px"
+        p={isMobile ? '17px 1.6rem 9px' : '15px 1.6rem 9px'}
         ref={wrapperRef}
         wrap="wrap"
       >
@@ -105,7 +107,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               alt="TV Minder logo"
               display="inline"
               h="30px"
-              mt="6px"
+              mt={isMobile ? '' : '6px'}
               src={logo}
               verticalAlign="middle"
             />
@@ -181,7 +183,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         </Box>
       </Flex>
 
-      <Divider mt="6px" />
+      {(!isMobile || (isMobile && !isShowPage)) && <Divider mt="6px" />}
     </>
   );
 };

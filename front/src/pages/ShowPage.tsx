@@ -10,12 +10,14 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingBasicShowInfoForShow,
 } from 'store/tv/selectors';
+import { useIsMobile } from 'hooks/useIsMobile';
 
 const ShowPage = () => {
   const dispatch = useDispatch();
   const showId = getCurrentShowId();
   const isLoading = useSelector(selectIsLoadingBasicShowInfoForShow);
   const showInfoForDisplay = useSelector(selectCurrentShowInfo);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     dispatch(getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow(showId));
@@ -24,7 +26,11 @@ const ShowPage = () => {
   return isLoading || !showInfoForDisplay?.id || showId !== showInfoForDisplay?.id ? (
     <LoadingSpinner delay={250} isFullScreen />
   ) : (
-    <Box m="24px auto 40px" maxW="800px" px={{ base: '20px', md: '30px' }}>
+    <Box
+      m={isMobile ? '12px auto 40px' : '24px auto 40px'}
+      maxW="800px"
+      px={{ base: '20px', md: '30px' }}
+    >
       <Helmet title={`${showInfoForDisplay.name} | TV Minder`} />
       <ShowContainer showInfoForDisplay={showInfoForDisplay} />
     </Box>

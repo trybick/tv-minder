@@ -220,8 +220,8 @@ export const useTableData = () => {
     ];
   }, [isMobile, dispatch, history]);
 
+  // Remove 'Status' column on mobile
   if (isMobile) {
-    // Remove 'Status' column
     columns.splice(1, 1);
   }
 
