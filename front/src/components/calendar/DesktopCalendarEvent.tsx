@@ -53,11 +53,11 @@ const DesktopCalendarEvent = (props: Props) => {
     <Popover onClose={hideOverview} placement="right" trigger="hover">
       <PopoverTrigger>
         <Text
-          // This classNames ties into a global style which prevents the truncation from breaking
+          // This className ties into a global style which prevents the truncation from breaking
           className="calendarEventPopoverTrigger"
           fontSize="md"
           noOfLines={1}
-          p="4px 6px"
+          p="1px 6px"
           textAlign="center"
         >
           {title}

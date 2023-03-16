@@ -33,7 +33,7 @@ const darkModeCalendarStyling = css`
 const eventStyles = css`
   /* Add vertical space between calendar events */
   .fc-daygrid-event-harness {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 `;
 
