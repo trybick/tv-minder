@@ -82,8 +82,9 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
       colorScheme="blue"
       fontSize="1.2rem"
       fontWeight="600"
+      mr={isMobile ? '-16px' : 0}
       onClick={closeHeader}
-      p={isMobile ? 0 : '16px'}
+      p={isMobile ? '16px ' : '16px'}
       to={linkTo}
       variant="ghost"
     >
