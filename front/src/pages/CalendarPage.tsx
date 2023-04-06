@@ -124,13 +124,13 @@ const CalendarPage = () => {
         <Global styles={[eventStyles, eventPopoverStyles, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
           allDayContent={false}
-          dayMaxEventRows={5}
+          dayMaxEventRows={3}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
           eventContent={isMobile ? formatMobileEvent : formatDesktopEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
-          height={isMobile ? 'auto' : '84vh'}
+          height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
           ref={calendarRef}

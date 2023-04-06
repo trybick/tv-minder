@@ -34,7 +34,6 @@ export const getUniqueColorsForShowIds = (showIds: ID[]) => {
 
 const colors = [
   '#0023b8',
-  '#00efd4',
   '#01ac53',
   '#05d371',
   '#06f43a',
@@ -44,7 +43,6 @@ const colors = [
   '#0d5ac1',
   '#0f525f',
   '#0f5997',
-  '#10e5b1',
   '#1350ce',
   '#14a9ad',
   '#15b9ee',
