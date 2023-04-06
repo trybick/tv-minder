@@ -139,6 +139,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       air_date: airDate,
       color,
       episode_number: episodeNumber,
+      id: episodeId,
       name: episodeName,
       network,
       overview = '',
@@ -149,7 +150,9 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     }) => ({
       color,
       date: airDate,
+      episodeId,
       episodeName,
+      episodeNumber,
       extendedProps: {
         showId,
       },
@@ -160,6 +163,42 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       seasonAndEpisodeNumers: `S${seasonNumber} E${episodeNumber}`,
       title: `${showName} - S${seasonNumber} E${episodeNumber}`,
     })
+  );
+
+  // Move duplicates to new array
+  const duplicates: any = [];
+  episodesForDisplay.reduce((prev, next) => {
+    if (prev?.showName === next.showName && prev?.date === next.date) {
+      if (prev.episodeNumber === 1) {
+        duplicates.push(prev);
+      }
+      duplicates.push(next);
+    }
+    return next;
+  });
+
+  // Combine the duplicates into single objects for same day episodes
+  console.log('d', duplicates);
+  const episodeNumbersByShowName = duplicates.reduce((accumulator: any, currentObject: any) => {
+    if (!accumulator[currentObject.showName]) {
+      accumulator[currentObject.showName] = [currentObject.episodeNumber];
+    } else {
+      accumulator[currentObject.showName].push(currentObject.episodeNumber);
+    }
+    return accumulator;
+  }, []);
+  Object.keys(episodeNumbersByShowName).forEach(key => {
+    if (episodeNumbersByShowName[key].length < 3) {
+      delete episodeNumbersByShowName[key];
+    }
+  });
+
+  console.log('episodeNumbersByShowName:', episodeNumbersByShowName);
+
+  // Remove the duplicates from original array
+  const duplicateEpisodeIDs = duplicates.map((dup: any) => dup.episodeId);
+  const deDupEpisodes = episodesForDisplay.filter(
+    episode => !duplicateEpisodeIDs.includes(episode.episodeId)
   );
 
   return episodesForDisplay;
