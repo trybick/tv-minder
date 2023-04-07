@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import ENDPOINTS from 'constants/endpoints';
+import { formatSameDayEpisodes } from 'store/tv/tvUtils';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
 import { ID } from 'types/common';
@@ -167,55 +168,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     })
   );
 
-  // Move episode objects with same show name and date to new array
-  const sameDayEpisodes: CalendarEpisode[] = [];
-  episodesForDisplay.reduce((prev, next) => {
-    if (prev?.showName === next.showName && prev?.date === next.date) {
-      if (prev.episodeNumber === 1) {
-        sameDayEpisodes.push(prev);
-      }
-      sameDayEpisodes.push(next);
-    }
-    return next;
-  });
-
-  // Create object with shape of { [showId-airDate]: [{Episode1}, {Episode2}]}
-  const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce(
-    (acc: Record<string, CalendarEpisode[]>, next) => {
-      if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
-        acc[`${next.extendedProps.showId}-${next.date}`] = [next];
-      } else {
-        acc[`${next.extendedProps.showId}-${next.date}`].push(next);
-      }
-      return acc;
-    },
-    {}
-  );
-
-  // Create an array of 'same day' episodes ready for calendar to accept
-  const formattedSameDayEpisodes: CalendarEpisode[] = [];
-  Object.entries(sameDayEpisodesByIDAndDate).forEach(([key, episodes]) => {
-    if (episodes.length <= 2) {
-      return delete sameDayEpisodesByIDAndDate[key];
-    }
-    const baseEpisode = episodes[0];
-    const episodeNumbers = episodes.map(episode => episode.episodeNumber);
-    const seasonNumber = baseEpisode.seasonNumber;
-    const lowest = Math.min(...episodeNumbers);
-    const highest = Math.max(...episodeNumbers);
-    const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowest}-${highest}`;
-    baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
-    baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
-    formattedSameDayEpisodes.push(baseEpisode);
-  });
-
-  // Remove the 'same day episodes' from original array
-  const sameDayEpisodeIDs = sameDayEpisodes.map(episode => episode.episodeId);
-  const episodesWithoutSameDay = episodesForDisplay.filter(
-    episode => !sameDayEpisodeIDs.includes(episode.episodeId)
-  );
-
-  return episodesWithoutSameDay.concat(formattedSameDayEpisodes);
+  return formatSameDayEpisodes(episodesForDisplay);
 };
 
 // Create a cache object which will be persisted to the redux store

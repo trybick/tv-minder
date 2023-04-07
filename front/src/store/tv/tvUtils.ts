@@ -2,6 +2,7 @@ import moment from 'moment';
 import { GenericNumberObject, GenericStringObject } from 'types/common';
 import {
   BasicShowInfo,
+  CalendarEpisode,
   EpisodeForDisplay,
   EpisodeForSeason,
   Genre,
@@ -255,4 +256,58 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     voteCount,
     yearsActive,
   };
+};
+
+// Example: Netflix has a show where the whole episode airs on one day. Instead of showing an
+// individual event for each episode, this function allows us to show one event titled 'S1 E1-E10'.
+export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => {
+  // Move episode objects with same show name and date to new array
+  const sameDayEpisodes: CalendarEpisode[] = [];
+  episodesForDisplay.reduce((prev, next) => {
+    if (prev?.showName === next.showName && prev?.date === next.date) {
+      if (prev.episodeNumber === 1) {
+        sameDayEpisodes.push(prev);
+      }
+      sameDayEpisodes.push(next);
+    }
+    return next;
+  });
+
+  // Create object grouping episodes by unique show and date
+  const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce(
+    (acc: Record<string, CalendarEpisode[]>, next) => {
+      if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
+        acc[`${next.extendedProps.showId}-${next.date}`] = [next];
+      } else {
+        acc[`${next.extendedProps.showId}-${next.date}`].push(next);
+      }
+      return acc;
+    },
+    {}
+  );
+
+  // Create an array of 'same day' episodes ready for calendar to accept
+  const formattedSameDayEpisodes: CalendarEpisode[] = [];
+  Object.entries(sameDayEpisodesByIDAndDate).forEach(([key, episodes]) => {
+    if (episodes.length <= 2) {
+      return delete sameDayEpisodesByIDAndDate[key];
+    }
+    const baseEpisode = episodes[0];
+    const episodeNumbers = episodes.map(episode => episode.episodeNumber);
+    const seasonNumber = baseEpisode.seasonNumber;
+    const lowest = Math.min(...episodeNumbers);
+    const highest = Math.max(...episodeNumbers);
+    const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowest}-${highest}`;
+    baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
+    baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
+    formattedSameDayEpisodes.push(baseEpisode);
+  });
+
+  // Remove the 'same day episodes' from original array
+  const sameDayEpisodeIDs = sameDayEpisodes.map(episode => episode.episodeId);
+  const episodesWithoutSameDay = episodesForDisplay.filter(
+    episode => !sameDayEpisodeIDs.includes(episode.episodeId)
+  );
+
+  return episodesWithoutSameDay.concat(formattedSameDayEpisodes);
 };
