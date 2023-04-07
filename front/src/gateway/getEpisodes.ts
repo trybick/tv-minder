@@ -161,7 +161,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       runtime,
       seasonNumber,
       showName,
-      seasonAndEpisodeNumers: `S${seasonNumber} E${episodeNumber}`,
+      seasonAndEpisodeNumbers: `S${seasonNumber} E${episodeNumber}`,
       title: `${showName} - S${seasonNumber} E${episodeNumber}`,
     })
   );
@@ -187,13 +187,24 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     }
     return acc;
   }, {});
-  console.log('sameDayEpisodesByIDAndDate:', sameDayEpisodesByIDAndDate);
 
-  // Remove any shows that are only repeated twice or less
+  // Create a formatted 'same day' episode object
+  const formattedSameDayEpisodes: any[] = [];
   Object.keys(sameDayEpisodesByIDAndDate).forEach(key => {
-    if (sameDayEpisodesByIDAndDate[key].length < 3) {
-      delete sameDayEpisodesByIDAndDate[key];
+    if (sameDayEpisodesByIDAndDate[key].length <= 2) {
+      return delete sameDayEpisodesByIDAndDate[key];
     }
+    const episodeNumbers = sameDayEpisodesByIDAndDate[key].map(
+      (episode: any) => episode.episodeNumber
+    );
+    const seasonNumber = sameDayEpisodesByIDAndDate[key][0].seasonNumber;
+    const lowest = Math.min(...episodeNumbers);
+    const highest = Math.max(...episodeNumbers);
+    const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowest}-${highest}`;
+    const baseEpisode = sameDayEpisodesByIDAndDate[key][0];
+    baseEpisode.title = `${sameDayEpisodesByIDAndDate[key][0].showName} - ${seasonAndEpisodeNumbers}`;
+    baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
+    formattedSameDayEpisodes.push(baseEpisode);
   });
 
   // Remove the 'same day episodes' from original array
@@ -201,9 +212,11 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   const episodesWithoutSameDay = episodesForDisplay.filter(
     episode => !sameDayEpisodeIDs.includes(episode.episodeId)
   );
-  console.log('episodesWithoutSameDay:', episodesWithoutSameDay);
 
-  return episodesForDisplay;
+  // @ts-ignore
+  const final = episodesWithoutSameDay.concat(formattedSameDayEpisodes);
+
+  return final;
 };
 
 // Create a cache object which will be persisted to the redux store

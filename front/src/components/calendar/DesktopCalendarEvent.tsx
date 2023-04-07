@@ -24,7 +24,7 @@ type Props = {
   network: string;
   overview: string;
   runtime: number;
-  seasonAndEpisodeNumers: string;
+  seasonAndEpisodeNumbers: string;
   showName: string;
   showId: number;
   title: string;
@@ -37,7 +37,7 @@ const DesktopCalendarEvent = (props: Props) => {
     network,
     overview,
     runtime,
-    seasonAndEpisodeNumers,
+    seasonAndEpisodeNumbers,
     showId,
     showName,
     title,
@@ -81,7 +81,7 @@ const DesktopCalendarEvent = (props: Props) => {
               {showName}
             </Button>
             <Text color="white" fontSize="md" mb="6px">
-              {seasonAndEpisodeNumers}: {episodeName}
+              {seasonAndEpisodeNumbers}: {episodeName}
             </Text>
 
             {network || runtime ? (

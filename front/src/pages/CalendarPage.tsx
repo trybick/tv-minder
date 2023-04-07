@@ -83,7 +83,7 @@ const CalendarPage = () => {
   const formatDesktopEvent = (eventInfo: EventClickArg & { backgroundColor: string }) => {
     const { backgroundColor } = eventInfo;
     const { title } = eventInfo.event;
-    const { episodeName, network, overview, runtime, seasonAndEpisodeNumers, showId, showName } =
+    const { episodeName, network, overview, runtime, seasonAndEpisodeNumbers, showId, showName } =
       eventInfo.event._def.extendedProps;
 
     return (
@@ -93,7 +93,7 @@ const CalendarPage = () => {
         network={network}
         overview={overview}
         runtime={runtime}
-        seasonAndEpisodeNumers={seasonAndEpisodeNumers}
+        seasonAndEpisodeNumbers={seasonAndEpisodeNumbers}
         showId={showId}
         showName={showName}
         title={title}
