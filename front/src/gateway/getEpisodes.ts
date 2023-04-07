@@ -159,47 +159,49 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       network,
       overview,
       runtime,
+      seasonNumber,
       showName,
       seasonAndEpisodeNumers: `S${seasonNumber} E${episodeNumber}`,
       title: `${showName} - S${seasonNumber} E${episodeNumber}`,
     })
   );
 
-  // Move duplicates to new array
-  const duplicates: any = [];
+  // Move episode objects with same show name and date to new array
+  const sameDayEpisodes: any = [];
   episodesForDisplay.reduce((prev, next) => {
     if (prev?.showName === next.showName && prev?.date === next.date) {
       if (prev.episodeNumber === 1) {
-        duplicates.push(prev);
+        sameDayEpisodes.push(prev);
       }
-      duplicates.push(next);
+      sameDayEpisodes.push(next);
     }
     return next;
   });
 
-  // Combine the duplicates into single objects for same day episodes
-  console.log('d', duplicates);
-  const episodeNumbersByShowName = duplicates.reduce((accumulator: any, currentObject: any) => {
-    if (!accumulator[currentObject.showName]) {
-      accumulator[currentObject.showName] = [currentObject.episodeNumber];
+  // Create object with key of 'ShowID-Date' and value of {Episode}[]
+  const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce((acc: any, next: any) => {
+    if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
+      acc[`${next.extendedProps.showId}-${next.date}`] = [next];
     } else {
-      accumulator[currentObject.showName].push(currentObject.episodeNumber);
+      acc[`${next.extendedProps.showId}-${next.date}`].push(next);
     }
-    return accumulator;
-  }, []);
-  Object.keys(episodeNumbersByShowName).forEach(key => {
-    if (episodeNumbersByShowName[key].length < 3) {
-      delete episodeNumbersByShowName[key];
+    return acc;
+  }, {});
+  console.log('sameDayEpisodesByIDAndDate:', sameDayEpisodesByIDAndDate);
+
+  // Remove any shows that are only repeated twice or less
+  Object.keys(sameDayEpisodesByIDAndDate).forEach(key => {
+    if (sameDayEpisodesByIDAndDate[key].length < 3) {
+      delete sameDayEpisodesByIDAndDate[key];
     }
   });
 
-  console.log('episodeNumbersByShowName:', episodeNumbersByShowName);
-
-  // Remove the duplicates from original array
-  const duplicateEpisodeIDs = duplicates.map((dup: any) => dup.episodeId);
-  const deDupEpisodes = episodesForDisplay.filter(
-    episode => !duplicateEpisodeIDs.includes(episode.episodeId)
+  // Remove the 'same day episodes' from original array
+  const sameDayEpisodeIDs = sameDayEpisodes.map((dup: any) => dup.episodeId);
+  const episodesWithoutSameDay = episodesForDisplay.filter(
+    episode => !sameDayEpisodeIDs.includes(episode.episodeId)
   );
+  console.log('episodesWithoutSameDay:', episodesWithoutSameDay);
 
   return episodesForDisplay;
 };
