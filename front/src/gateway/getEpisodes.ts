@@ -4,6 +4,7 @@ import ENDPOINTS from 'constants/endpoints';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
 import { ID } from 'types/common';
+import { CalendarEpisode } from 'types/external';
 
 const queryParams = {
   api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
@@ -134,7 +135,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   );
 
   // Create properties ready for calendar to accept
-  const episodesForDisplay = recentEpisodes?.map(
+  const episodesForDisplay: CalendarEpisode[] = recentEpisodes?.map(
     ({
       air_date: airDate,
       color,
@@ -167,7 +168,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   );
 
   // Move episode objects with same show name and date to new array
-  const sameDayEpisodes: any = [];
+  const sameDayEpisodes: CalendarEpisode[] = [];
   episodesForDisplay.reduce((prev, next) => {
     if (prev?.showName === next.showName && prev?.date === next.date) {
       if (prev.episodeNumber === 1) {
@@ -178,45 +179,43 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     return next;
   });
 
-  // Create object with key of 'ShowID-Date' and value of {Episode}[]
-  const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce((acc: any, next: any) => {
-    if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
-      acc[`${next.extendedProps.showId}-${next.date}`] = [next];
-    } else {
-      acc[`${next.extendedProps.showId}-${next.date}`].push(next);
-    }
-    return acc;
-  }, {});
+  // Create object with shape of { [showId-airDate]: [{Episode1}, {Episode2}]}
+  const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce(
+    (acc: Record<string, CalendarEpisode[]>, next) => {
+      if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
+        acc[`${next.extendedProps.showId}-${next.date}`] = [next];
+      } else {
+        acc[`${next.extendedProps.showId}-${next.date}`].push(next);
+      }
+      return acc;
+    },
+    {}
+  );
 
-  // Create a formatted 'same day' episode object
-  const formattedSameDayEpisodes: any[] = [];
-  Object.keys(sameDayEpisodesByIDAndDate).forEach(key => {
-    if (sameDayEpisodesByIDAndDate[key].length <= 2) {
+  // Create an array of 'same day' episodes ready for calendar to accept
+  const formattedSameDayEpisodes: CalendarEpisode[] = [];
+  Object.entries(sameDayEpisodesByIDAndDate).forEach(([key, episodes]) => {
+    if (episodes.length <= 2) {
       return delete sameDayEpisodesByIDAndDate[key];
     }
-    const episodeNumbers = sameDayEpisodesByIDAndDate[key].map(
-      (episode: any) => episode.episodeNumber
-    );
-    const seasonNumber = sameDayEpisodesByIDAndDate[key][0].seasonNumber;
+    const baseEpisode = episodes[0];
+    const episodeNumbers = episodes.map(episode => episode.episodeNumber);
+    const seasonNumber = baseEpisode.seasonNumber;
     const lowest = Math.min(...episodeNumbers);
     const highest = Math.max(...episodeNumbers);
     const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowest}-${highest}`;
-    const baseEpisode = sameDayEpisodesByIDAndDate[key][0];
-    baseEpisode.title = `${sameDayEpisodesByIDAndDate[key][0].showName} - ${seasonAndEpisodeNumbers}`;
     baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
+    baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
     formattedSameDayEpisodes.push(baseEpisode);
   });
 
   // Remove the 'same day episodes' from original array
-  const sameDayEpisodeIDs = sameDayEpisodes.map((dup: any) => dup.episodeId);
+  const sameDayEpisodeIDs = sameDayEpisodes.map(episode => episode.episodeId);
   const episodesWithoutSameDay = episodesForDisplay.filter(
     episode => !sameDayEpisodeIDs.includes(episode.episodeId)
   );
 
-  // @ts-ignore
-  const final = episodesWithoutSameDay.concat(formattedSameDayEpisodes);
-
-  return final;
+  return episodesWithoutSameDay.concat(formattedSameDayEpisodes);
 };
 
 // Create a cache object which will be persisted to the redux store

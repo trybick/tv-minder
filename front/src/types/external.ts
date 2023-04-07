@@ -98,3 +98,20 @@ export type PopularShow = {
   name: string;
   posterPath: string;
 };
+
+// Calendar
+export type CalendarEpisode = {
+  color: string;
+  date: string;
+  episodeId: number;
+  episodeName: string;
+  episodeNumber: number;
+  extendedProps: { showId: number };
+  network: string;
+  overview: string;
+  runtime: number;
+  seasonAndEpisodeNumbers: string;
+  seasonNumber: number;
+  showName: string;
+  title: string;
+};
