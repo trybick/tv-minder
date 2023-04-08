@@ -265,16 +265,19 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
   const sameDayEpisodes: CalendarEpisode[] = [];
   episodesForDisplay.reduce((prev, next) => {
     if (prev?.showName === next.showName && prev?.date === next.date) {
-      if (prev.episodeNumber === 1) {
-        sameDayEpisodes.push(prev);
-      }
-      sameDayEpisodes.push(next);
+      sameDayEpisodes.push(prev, next);
     }
     return next;
   });
 
+  // Remove duplicates
+  const sameDayEpisodeIDs = Array.from(new Set(sameDayEpisodes.map(episode => episode.episodeId)));
+  const uniqueSameDayEpisodes = sameDayEpisodes.filter(
+    ({ episodeId }, index) => !sameDayEpisodeIDs.includes(episodeId, index + 1)
+  );
+
   // Create object grouping episodes by unique show and date
-  const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce(
+  const sameDayEpisodesByIDAndDate = uniqueSameDayEpisodes.reduce(
     (acc: Record<string, CalendarEpisode[]>, next) => {
       if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
         acc[`${next.extendedProps.showId}-${next.date}`] = [next];
@@ -286,12 +289,9 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
     {}
   );
 
-  // Create an array of 'same day' episodes ready for calendar to accept
+  // Create an array of 'same day episodes' ready for calendar to accept
   const formattedSameDayEpisodes: CalendarEpisode[] = [];
-  Object.entries(sameDayEpisodesByIDAndDate).forEach(([key, episodes]) => {
-    if (episodes.length <= 2) {
-      return delete sameDayEpisodesByIDAndDate[key];
-    }
+  Object.values(sameDayEpisodesByIDAndDate).forEach(episodes => {
     const baseEpisode = episodes[0];
     const episodeNumbers = episodes.map(episode => episode.episodeNumber);
     const seasonNumber = baseEpisode.seasonNumber;
@@ -300,11 +300,11 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
     const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowest}-${highest}`;
     baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
     baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
+    baseEpisode.isMulti = true;
     formattedSameDayEpisodes.push(baseEpisode);
   });
 
   // Remove the 'same day episodes' from original array
-  const sameDayEpisodeIDs = sameDayEpisodes.map(episode => episode.episodeId);
   const episodesWithoutSameDay = episodesForDisplay.filter(
     episode => !sameDayEpisodeIDs.includes(episode.episodeId)
   );
