@@ -258,8 +258,8 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
   };
 };
 
-// Example: Netflix has a show where the whole episode airs on one day. Instead of showing an
-// individual event for each episode, this function allows us to show one event titled 'S1 E1-E10'.
+// Example: Netflix has a show where the whole episode airs on one day. Instead of showing multiple
+// individual events, show one event. Example: 'S1 E1-E10'.
 export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => {
   // Move episode objects with same show name and date to new array
   const sameDayEpisodes: CalendarEpisode[] = [];
