@@ -301,6 +301,7 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
     baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
     baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
     baseEpisode.isMultiEvent = true;
+    baseEpisode.multiEventSpanAmount = episodeNumbers.length;
     formattedSameDayEpisodes.push(baseEpisode);
   });
 

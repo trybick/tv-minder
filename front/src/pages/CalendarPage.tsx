@@ -86,6 +86,7 @@ const CalendarPage = () => {
     const {
       episodeName,
       isMultiEvent,
+      multiEventSpanAmount,
       network,
       overview,
       runtime,
@@ -99,6 +100,7 @@ const CalendarPage = () => {
         backgroundColor={backgroundColor}
         episodeName={episodeName}
         isMultiEvent={isMultiEvent}
+        multiEventSpanAmount={multiEventSpanAmount}
         network={network}
         overview={overview}
         runtime={runtime}

@@ -108,6 +108,7 @@ export type CalendarEpisode = {
   episodeNumber: number;
   extendedProps: { showId: number };
   isMultiEvent?: boolean;
+  multiEventSpanAmount?: number;
   network: string;
   overview: string;
   runtime: number;

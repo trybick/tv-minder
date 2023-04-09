@@ -14,6 +14,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { TbBoxMultiple } from 'react-icons/tb';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { ROUTES } from 'constants/routes';
@@ -22,6 +23,7 @@ type Props = {
   backgroundColor: string;
   episodeName: string;
   isMultiEvent: boolean;
+  multiEventSpanAmount: number;
   network: string;
   overview: string;
   runtime: number;
@@ -36,6 +38,7 @@ const DesktopCalendarEvent = (props: Props) => {
     backgroundColor,
     episodeName,
     isMultiEvent,
+    multiEventSpanAmount,
     network,
     overview,
     runtime,
@@ -83,11 +86,20 @@ const DesktopCalendarEvent = (props: Props) => {
               {showName}
             </Button>
             <Text color="white" fontSize="md" mb="6px">
-              {seasonAndEpisodeNumbers}: {episodeName}
+              {seasonAndEpisodeNumbers}
+              {!isMultiEvent && `: ${{ episodeName }}`}
             </Text>
 
-            {network || runtime ? (
+            {network || runtime || isMultiEvent ? (
               <Flex flexWrap="wrap" gap="2px 8px">
+                {isMultiEvent && (
+                  <Flex align="center" gap="2px">
+                    <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" />
+                    <Text color="white" fontSize="13px" fontWeight="500">
+                      {`${multiEventSpanAmount} episodes`}
+                    </Text>
+                  </Flex>
+                )}
                 {network && (
                   <Flex align="center" gap="3px">
                     <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="14px" />
@@ -96,7 +108,7 @@ const DesktopCalendarEvent = (props: Props) => {
                     </Text>
                   </Flex>
                 )}
-                {runtime && (
+                {runtime && !isMultiEvent && (
                   <Flex align="center" gap="2px">
                     <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" />
                     <Text color="white" fontSize="13px" fontWeight="500">
