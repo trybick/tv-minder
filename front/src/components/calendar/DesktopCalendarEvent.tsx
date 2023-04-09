@@ -57,16 +57,17 @@ const DesktopCalendarEvent = (props: Props) => {
   return (
     <Popover onClose={hideOverview} placement="right" trigger="hover">
       <PopoverTrigger>
-        <Text
-          // This className ties into a global style which prevents the truncation from breaking
-          className="calendarEventPopoverTrigger"
-          fontSize="md"
-          noOfLines={1}
-          p="1px 6px"
-          textAlign="center"
-        >
-          {title}
-        </Text>
+        <Flex alignItems="center" p="1px 6px">
+          {isMultiEvent && <Icon as={TbBoxMultiple} boxSize="14px" mr="3px" />}
+          <Text
+            // This className ties into a global style which prevents the truncation from breaking
+            className="calendarEventPopoverTrigger"
+            fontSize="md"
+            noOfLines={1}
+          >
+            {title}
+          </Text>
+        </Flex>
       </PopoverTrigger>
       <Portal>
         <PopoverContent bg={backgroundColor} maxWidth="240px" zIndex={4}>
