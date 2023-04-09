@@ -21,6 +21,7 @@ import { ROUTES } from 'constants/routes';
 type Props = {
   backgroundColor: string;
   episodeName: string;
+  isMultiEvent: boolean;
   network: string;
   overview: string;
   runtime: number;
@@ -34,6 +35,7 @@ const DesktopCalendarEvent = (props: Props) => {
   const {
     backgroundColor,
     episodeName,
+    isMultiEvent,
     network,
     overview,
     runtime,
@@ -105,7 +107,7 @@ const DesktopCalendarEvent = (props: Props) => {
               </Flex>
             ) : null}
 
-            {overview && (
+            {overview && !isMultiEvent && (
               <Flex flexDirection="column" mt="9px">
                 <Button
                   alignSelf="flex-start"

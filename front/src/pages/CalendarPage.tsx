@@ -83,13 +83,22 @@ const CalendarPage = () => {
   const formatDesktopEvent = (eventInfo: EventClickArg & { backgroundColor: string }) => {
     const { backgroundColor } = eventInfo;
     const { title } = eventInfo.event;
-    const { episodeName, network, overview, runtime, seasonAndEpisodeNumbers, showId, showName } =
-      eventInfo.event._def.extendedProps;
+    const {
+      episodeName,
+      isMultiEvent,
+      network,
+      overview,
+      runtime,
+      seasonAndEpisodeNumbers,
+      showId,
+      showName,
+    } = eventInfo.event._def.extendedProps;
 
     return (
       <DesktopCalendarEvent
         backgroundColor={backgroundColor}
         episodeName={episodeName}
+        isMultiEvent={isMultiEvent}
         network={network}
         overview={overview}
         runtime={runtime}
