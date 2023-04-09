@@ -118,8 +118,9 @@ const CalendarPage = () => {
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
         m="15px auto 0"
-        p={{ base: '0 15px 20px', md: '10px 25px 20px' }}
-        w={{ base: '90%', md: '99%', xl: '90%' }}
+        maxW="1600px"
+        p={{ base: '0 15px 20px', md: '10px 30px' }}
+        w={{ base: '90%', md: '100%' }}
       >
         <Global styles={[eventStyles, eventPopoverStyles, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
