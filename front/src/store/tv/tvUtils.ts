@@ -258,7 +258,7 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
   };
 };
 
-// Example: Netflix has a show where the whole episode airs on one day. Instead of showing multiple
+// Example: Netflix has a show where the whole season airs on one day. Instead of showing multiple
 // individual events, show one event. Example: 'S1 E1-E10'.
 export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => {
   // Move episode objects with same show name and date to new array
@@ -295,9 +295,9 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
     const baseEpisode = episodes[0];
     const episodeNumbers = episodes.map(episode => episode.episodeNumber);
     const seasonNumber = baseEpisode.seasonNumber;
-    const lowest = Math.min(...episodeNumbers);
-    const highest = Math.max(...episodeNumbers);
-    const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowest}-${highest}`;
+    const lowestEpisode = Math.min(...episodeNumbers);
+    const highestEpisode = Math.max(...episodeNumbers);
+    const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowestEpisode}-${highestEpisode}`;
     baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
     baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
     baseEpisode.isMulti = true;
