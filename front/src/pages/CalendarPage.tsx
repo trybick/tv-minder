@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
+import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
@@ -112,11 +113,18 @@ const CalendarPage = () => {
     );
   };
 
-  const formatMobileEvent = (eventInfo: EventContentArg) => (
-    <Text color={mobileEventColor} cursor="pointer">
-      {eventInfo.event.title}
-    </Text>
-  );
+  const formatMobileEvent = (eventInfo: EventContentArg) => {
+    const { title } = eventInfo.event;
+    const { isMultiEvent } = eventInfo.event.extendedProps;
+    return (
+      <Flex>
+        {isMultiEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
+        <Text color={mobileEventColor} cursor="pointer">
+          {title}
+        </Text>
+      </Flex>
+    );
+  };
 
   const titleFormat: FormatterInput = {
     month: isMobile ? 'short' : 'long',
