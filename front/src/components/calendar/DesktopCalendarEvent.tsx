@@ -88,7 +88,7 @@ const DesktopCalendarEvent = (props: Props) => {
             </Button>
             <Text color="white" fontSize="md" mb="6px">
               {seasonAndEpisodeNumbers}
-              {!isMultiEvent && `: ${{ episodeName }}`}
+              {!isMultiEvent && `: ${episodeName}`}
             </Text>
 
             {network || runtime || isMultiEvent ? (
