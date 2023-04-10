@@ -155,13 +155,11 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       episodeId,
       episodeName,
       episodeNumber,
-      extendedProps: {
-        showId,
-      },
       network,
       overview,
       runtime,
       seasonNumber,
+      showId,
       showName,
       seasonAndEpisodeNumbers: `S${seasonNumber} E${episodeNumber}`,
       title: `${showName} - S${seasonNumber} E${episodeNumber}`,
@@ -176,7 +174,7 @@ const createCache = (episodesData: any, showIds: ID[]) => {
   const cache: { [key: ID]: any } = {};
 
   episodesData.forEach((episode: any) => {
-    const { showId } = episode.extendedProps;
+    const { showId } = episode;
     if (cache.hasOwnProperty(showId)) {
       cache[showId].episodes.push(episode);
     } else {

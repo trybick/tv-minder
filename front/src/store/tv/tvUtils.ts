@@ -279,10 +279,10 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
   // Create object grouping episodes by unique show and date
   const sameDayEpisodesByIDAndDate = sameDayEpisodes.reduce(
     (acc: Record<string, CalendarEpisode[]>, next) => {
-      if (!acc[`${next.extendedProps.showId}-${next.date}`]) {
-        acc[`${next.extendedProps.showId}-${next.date}`] = [next];
+      if (!acc[`${next.showId}-${next.date}`]) {
+        acc[`${next.showId}-${next.date}`] = [next];
       } else {
-        acc[`${next.extendedProps.showId}-${next.date}`].push(next);
+        acc[`${next.showId}-${next.date}`].push(next);
       }
       return acc;
     },
