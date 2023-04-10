@@ -299,7 +299,7 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
     const highestEpisode = Math.max(...episodeNumbers);
     const seasonAndEpisodeNumbers = `S${seasonNumber} E${lowestEpisode}-${highestEpisode}`;
     baseEpisode.seasonAndEpisodeNumbers = seasonAndEpisodeNumbers;
-    baseEpisode.title = `${baseEpisode.showName} - ${seasonAndEpisodeNumbers}`;
+    baseEpisode.title = `${baseEpisode.showName}: ${seasonAndEpisodeNumbers}`;
     baseEpisode.isMultiEvent = true;
     baseEpisode.multiEventSpanAmount = episodeNumbers.length;
     formattedSameDayEpisodes.push(baseEpisode);
