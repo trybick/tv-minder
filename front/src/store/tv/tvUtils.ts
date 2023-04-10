@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { GenericNumberObject, GenericStringObject } from 'types/common';
 import {
   BasicShowInfo,
   CalendarEpisode,
@@ -21,8 +20,8 @@ export type StatusWithColor = {
 
 export const getStatusWithColor = (
   originalStatus: string,
-  lastEpisodeForDisplay: GenericStringObject,
-  nextEpisodeForDisplay: GenericStringObject
+  lastEpisodeForDisplay: Record<string, any>,
+  nextEpisodeForDisplay: Record<string, any>
 ): StatusWithColor => {
   const hasCurrentlyActiveSeason =
     lastEpisodeForDisplay &&
@@ -91,7 +90,7 @@ export const getVideoTrailerKey = (videos: any): string | undefined => {
   return matchingVideo?.key || results[0]?.key || undefined;
 };
 
-const formatEpisodesForSeason = (episodes: GenericStringObject[]): EpisodeForSeason[] => {
+const formatEpisodesForSeason = (episodes: Record<string, any>[]): EpisodeForSeason[] => {
   if (isEmpty(episodes)) {
     return [];
   }
@@ -124,7 +123,7 @@ const formatEpisodesForSeason = (episodes: GenericStringObject[]): EpisodeForSea
   });
 };
 
-const formatSeasons = (seasons: GenericNumberObject): SeasonWithEpisodes[] => {
+const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
   if (isEmpty(seasons)) {
     return [];
   }
