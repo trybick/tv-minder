@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { AppThunk } from 'store';
-import { getEpisodesForCalendar } from 'gateway/getEpisodes';
+import { getEpisodesForCalendar } from 'gateway/getEpisodesForCalendar';
 import { SavedQuery } from './types';
 import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
