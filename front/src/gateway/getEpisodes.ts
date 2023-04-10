@@ -1,9 +1,11 @@
 import axios from 'axios';
 import moment from 'moment';
 import ENDPOINTS from 'constants/endpoints';
+import { formatSameDayEpisodes } from 'store/tv/tvUtils';
 import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
 import handleErrors from 'utils/handleErrors';
 import { ID } from 'types/common';
+import { CalendarEpisode } from 'types/external';
 
 const queryParams = {
   api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
@@ -134,11 +136,12 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   );
 
   // Create properties ready for calendar to accept
-  const episodesForDisplay = recentEpisodes?.map(
+  const episodesForDisplay: CalendarEpisode[] = recentEpisodes?.map(
     ({
       air_date: airDate,
       color,
       episode_number: episodeNumber,
+      id: episodeId,
       name: episodeName,
       network,
       overview = '',
@@ -149,20 +152,21 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     }) => ({
       color,
       date: airDate,
+      episodeId,
       episodeName,
-      extendedProps: {
-        showId,
-      },
+      episodeNumber,
       network,
       overview,
       runtime,
+      seasonNumber,
+      showId,
       showName,
-      seasonAndEpisodeNumers: `S${seasonNumber} E${episodeNumber}`,
-      title: `${showName} - S${seasonNumber} E${episodeNumber}`,
+      seasonAndEpisodeNumbers: `S${seasonNumber} E${episodeNumber}`,
+      title: `${showName}: S${seasonNumber} E${episodeNumber}`,
     })
   );
 
-  return episodesForDisplay;
+  return formatSameDayEpisodes(episodesForDisplay);
 };
 
 // Create a cache object which will be persisted to the redux store
@@ -170,7 +174,7 @@ const createCache = (episodesData: any, showIds: ID[]) => {
   const cache: { [key: ID]: any } = {};
 
   episodesData.forEach((episode: any) => {
-    const { showId } = episode.extendedProps;
+    const { showId } = episode;
     if (cache.hasOwnProperty(showId)) {
       cache[showId].episodes.push(episode);
     } else {

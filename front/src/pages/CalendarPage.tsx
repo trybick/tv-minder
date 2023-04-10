@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
+import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar, { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
@@ -76,24 +77,35 @@ const CalendarPage = () => {
   }, [isMobile]);
 
   const onEventClick = (eventInfo: EventClickArg) => {
-    const showId = eventInfo.event._def.extendedProps.showId;
+    const showId = eventInfo.event.extendedProps.showId;
     history.push(`${ROUTES.SHOW}/${showId}`);
   };
 
   const formatDesktopEvent = (eventInfo: EventClickArg & { backgroundColor: string }) => {
     const { backgroundColor } = eventInfo;
     const { title } = eventInfo.event;
-    const { episodeName, network, overview, runtime, seasonAndEpisodeNumers, showId, showName } =
-      eventInfo.event._def.extendedProps;
+    const {
+      episodeName,
+      isMulipleEvent,
+      multipleEventSpanAmount,
+      network,
+      overview,
+      runtime,
+      seasonAndEpisodeNumbers,
+      showId,
+      showName,
+    } = eventInfo.event.extendedProps;
 
     return (
       <DesktopCalendarEvent
         backgroundColor={backgroundColor}
         episodeName={episodeName}
+        isMulipleEvent={isMulipleEvent}
+        multipleEventSpanAmount={multipleEventSpanAmount}
         network={network}
         overview={overview}
         runtime={runtime}
-        seasonAndEpisodeNumers={seasonAndEpisodeNumers}
+        seasonAndEpisodeNumbers={seasonAndEpisodeNumbers}
         showId={showId}
         showName={showName}
         title={title}
@@ -101,11 +113,18 @@ const CalendarPage = () => {
     );
   };
 
-  const formatMobileEvent = (eventInfo: EventContentArg) => (
-    <Text color={mobileEventColor} cursor="pointer">
-      {eventInfo.event.title}
-    </Text>
-  );
+  const formatMobileEvent = (eventInfo: EventContentArg) => {
+    const { title } = eventInfo.event;
+    const { isMulipleEvent } = eventInfo.event.extendedProps;
+    return (
+      <Flex>
+        {isMulipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
+        <Text color={mobileEventColor} cursor="pointer">
+          {title}
+        </Text>
+      </Flex>
+    );
+  };
 
   const titleFormat: FormatterInput = {
     month: isMobile ? 'short' : 'long',
@@ -118,8 +137,9 @@ const CalendarPage = () => {
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
         m="15px auto 0"
-        p={{ base: '0 15px 20px', md: '10px 25px 20px' }}
-        w={{ base: '90%', md: '99%', xl: '90%' }}
+        maxW="1600px"
+        p={{ base: '0 15px 20px', md: '10px 30px' }}
+        w={{ base: '90%', md: '100%' }}
       >
         <Global styles={[eventStyles, eventPopoverStyles, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
