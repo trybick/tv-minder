@@ -22,8 +22,8 @@ import { ROUTES } from 'constants/routes';
 type Props = {
   backgroundColor: string;
   episodeName: string;
-  isMultiEvent: boolean;
-  multiEventSpanAmount: number;
+  isMulipleEvent: boolean;
+  multipleEventSpanAmount: number;
   network: string;
   overview: string;
   runtime: number;
@@ -37,8 +37,8 @@ const DesktopCalendarEvent = (props: Props) => {
   const {
     backgroundColor,
     episodeName,
-    isMultiEvent,
-    multiEventSpanAmount,
+    isMulipleEvent,
+    multipleEventSpanAmount,
     network,
     overview,
     runtime,
@@ -58,7 +58,7 @@ const DesktopCalendarEvent = (props: Props) => {
     <Popover onClose={hideOverview} placement="right" trigger="hover">
       <PopoverTrigger>
         <Flex alignItems="center" p="1px 6px">
-          {isMultiEvent && <Icon as={TbBoxMultiple} boxSize="14px" mr="3px" />}
+          {isMulipleEvent && <Icon as={TbBoxMultiple} mr="3px" />}
           <Text
             // This className ties into a global style which prevents the truncation from breaking
             className="calendarEventPopoverTrigger"
@@ -88,16 +88,16 @@ const DesktopCalendarEvent = (props: Props) => {
             </Button>
             <Text color="white" fontSize="md" mb="6px">
               {seasonAndEpisodeNumbers}
-              {!isMultiEvent && `: ${episodeName}`}
+              {!isMulipleEvent && `: ${episodeName}`}
             </Text>
 
-            {network || runtime || isMultiEvent ? (
+            {network || runtime || isMulipleEvent ? (
               <Flex flexWrap="wrap" gap="2px 8px">
-                {isMultiEvent && (
+                {isMulipleEvent && (
                   <Flex align="center" gap="2px">
                     <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" />
                     <Text color="white" fontSize="13px" fontWeight="500">
-                      {`${multiEventSpanAmount} episodes`}
+                      {`${multipleEventSpanAmount} episodes`}
                     </Text>
                   </Flex>
                 )}
@@ -109,7 +109,7 @@ const DesktopCalendarEvent = (props: Props) => {
                     </Text>
                   </Flex>
                 )}
-                {runtime && !isMultiEvent && (
+                {runtime && !isMulipleEvent && (
                   <Flex align="center" gap="2px">
                     <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" />
                     <Text color="white" fontSize="13px" fontWeight="500">
@@ -120,7 +120,7 @@ const DesktopCalendarEvent = (props: Props) => {
               </Flex>
             ) : null}
 
-            {overview && !isMultiEvent && (
+            {overview && !isMulipleEvent && (
               <Flex flexDirection="column" mt="9px">
                 <Button
                   alignSelf="flex-start"

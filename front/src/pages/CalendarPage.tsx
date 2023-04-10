@@ -86,8 +86,8 @@ const CalendarPage = () => {
     const { title } = eventInfo.event;
     const {
       episodeName,
-      isMultiEvent,
-      multiEventSpanAmount,
+      isMulipleEvent,
+      multipleEventSpanAmount,
       network,
       overview,
       runtime,
@@ -100,8 +100,8 @@ const CalendarPage = () => {
       <DesktopCalendarEvent
         backgroundColor={backgroundColor}
         episodeName={episodeName}
-        isMultiEvent={isMultiEvent}
-        multiEventSpanAmount={multiEventSpanAmount}
+        isMulipleEvent={isMulipleEvent}
+        multipleEventSpanAmount={multipleEventSpanAmount}
         network={network}
         overview={overview}
         runtime={runtime}
@@ -115,10 +115,10 @@ const CalendarPage = () => {
 
   const formatMobileEvent = (eventInfo: EventContentArg) => {
     const { title } = eventInfo.event;
-    const { isMultiEvent } = eventInfo.event.extendedProps;
+    const { isMulipleEvent } = eventInfo.event.extendedProps;
     return (
       <Flex>
-        {isMultiEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
+        {isMulipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
         <Text color={mobileEventColor} cursor="pointer">
           {title}
         </Text>
