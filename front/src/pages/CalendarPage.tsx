@@ -77,7 +77,7 @@ const CalendarPage = () => {
   }, [isMobile]);
 
   const onEventClick = (eventInfo: EventClickArg) => {
-    const showId = eventInfo.event._def.extendedProps.showId;
+    const showId = eventInfo.event.extendedProps.showId;
     history.push(`${ROUTES.SHOW}/${showId}`);
   };
 
@@ -94,7 +94,7 @@ const CalendarPage = () => {
       seasonAndEpisodeNumbers,
       showId,
       showName,
-    } = eventInfo.event._def.extendedProps;
+    } = eventInfo.event.extendedProps;
 
     return (
       <DesktopCalendarEvent
