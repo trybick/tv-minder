@@ -31,6 +31,8 @@ type Props = {
   showName: string;
   showId: number;
   title: string;
+  episodeNumber: number;
+  seasonNumber: number;
 };
 
 const DesktopCalendarEvent = (props: Props) => {
@@ -46,6 +48,8 @@ const DesktopCalendarEvent = (props: Props) => {
     showId,
     showName,
     title,
+    seasonNumber,
+    episodeNumber,
   } = props;
   const {
     isOpen: isOverviewDisplayed,
@@ -75,20 +79,19 @@ const DesktopCalendarEvent = (props: Props) => {
           <PopoverBody p="16px">
             <Button
               color="white"
-              fontSize="lg"
-              fontWeight="600"
-              mb="2px"
+              fontSize="sm"
+              mb="4px"
+              mx="auto"
               onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}
-              textAlign="left"
-              userSelect="auto"
               variant="link"
-              whiteSpace="normal"
             >
               {showName}
             </Button>
-            <Text color="white" fontSize="md" mb="6px">
-              {seasonAndEpisodeNumbers}
-              {!isMulipleEvent && `: ${episodeName}`}
+            <Text color="white" fontSize="lg" fontWeight="600" mb="2px">
+              Season {seasonNumber} Episode {episodeNumber}
+            </Text>
+            <Text color="white" fontSize="sm" fontStyle="italic" mb="8px">
+              {!isMulipleEvent && episodeName}
             </Text>
 
             {network || runtime || isMulipleEvent ? (

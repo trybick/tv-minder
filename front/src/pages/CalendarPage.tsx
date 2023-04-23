@@ -95,18 +95,22 @@ const CalendarPage = () => {
       seasonAndEpisodeNumbers,
       showId,
       showName,
+      seasonNumber,
+      episodeNumber,
     } = eventInfo.event.extendedProps;
 
     return (
       <DesktopCalendarEvent
         backgroundColor={backgroundColor}
         episodeName={episodeName}
+        episodeNumber={episodeNumber}
         isMulipleEvent={isMulipleEvent}
         multipleEventSpanAmount={multipleEventSpanAmount}
         network={network}
         overview={overview}
         runtime={runtime}
         seasonAndEpisodeNumbers={seasonAndEpisodeNumbers}
+        seasonNumber={seasonNumber}
         showId={showId}
         showName={showName}
         title={title}
