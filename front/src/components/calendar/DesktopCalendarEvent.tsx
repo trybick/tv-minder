@@ -70,7 +70,6 @@ const DesktopCalendarEvent = (props: Props) => {
               color="white"
               fontSize="sm"
               mb="4px"
-              mx="auto"
               onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}
               variant="link"
             >

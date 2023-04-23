@@ -5,14 +5,12 @@ import { createRoot } from 'react-dom/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import 'focus-visible/dist/focus-visible';
-import configureStore from 'store';
+import { persistor, store } from 'store';
 import App from 'components/App';
 import { initSentry } from 'utils/sentry';
 import theme from './theme';
 
 initSentry();
-
-const { store, persistor } = configureStore();
 
 const WrappedApp = (): JSX.Element => (
   <StrictMode>

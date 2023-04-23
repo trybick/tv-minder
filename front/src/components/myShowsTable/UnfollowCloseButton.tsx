@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,6 +10,7 @@ import {
   CloseButton,
   Flex,
 } from '@chakra-ui/react';
+import { useAppDispatch } from 'store';
 import { removeFromFollowedShowsAction } from 'store/user/actions';
 import { ID } from 'types/common';
 
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const UnfollowCloseButton = ({ showId, showName }: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef(null);
 

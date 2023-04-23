@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
@@ -11,6 +11,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useIsMobile } from 'hooks/useIsMobile';
+import { useAppDispatch } from 'store';
 import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
@@ -47,7 +48,7 @@ const eventPopoverStyles = css`
 `;
 
 const CalendarPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);

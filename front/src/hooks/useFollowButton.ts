@@ -1,7 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { localWarningToastMessage } from 'constants/toasts';
+import { useAppDispatch } from 'store';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
@@ -15,7 +16,7 @@ import {
 import { ID } from 'types/common';
 
 export const useFollowButton = (showId: ID) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const followedShows = useSelector(selectFollowedShows);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const hasLocalWarningToastBeenShown = useSelector(selectHasLocalWarningToastBeenShown);

@@ -1,7 +1,14 @@
-import { Action, AnyAction, applyMiddleware, combineReducers, createStore, Store } from 'redux';
+import {
+  Action,
+  AnyAction,
+  applyMiddleware,
+  combineReducers,
+  legacy_createStore as createStore,
+} from 'redux';
+import { useDispatch } from 'react-redux';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { Persistor, persistReducer, persistStore } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import localforage from 'localforage';
 import { userReducer, UserState } from './user/reducers';
 import { tvReducer, TvState } from './tv/reducers';
@@ -15,6 +22,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 export type AppThunkDispatch = ThunkDispatch<AppState, void, AnyAction>;
 export type AppThunkPlainAction = PlainFunction;
+
+export const useAppDispatch: () => AppThunkDispatch = useDispatch;
 
 export type AppState = {
   user: UserState;
@@ -44,18 +53,8 @@ const rootReducer = combineReducers({
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
-
 const middlewares = [thunk];
 const appliedMiddleware = applyMiddleware(...middlewares);
 
-export default (): {
-  store: Store<any, Action<any>> & {
-    dispatch: unknown;
-  };
-  persistor: Persistor;
-} => {
-  const store = createStore(persistedReducer, composeWithDevTools(appliedMiddleware));
-  const persistor = persistStore(store);
-
-  return { store, persistor };
-};
+export const store = createStore(persistedReducer, composeWithDevTools(appliedMiddleware));
+export const persistor = persistStore(store);

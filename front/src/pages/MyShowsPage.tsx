@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Box } from '@chakra-ui/react';
+import { useAppDispatch } from 'store';
 import { getBasicShowInfoForFollowedShows } from 'store/tv/actions';
 import { selectFollowedShows } from 'store/user/selectors';
 import MyShowsTable from 'components/myShowsTable/MyShowsTable';
 import NoFollowShowsMessage from 'components/myShowsTable/NoFollowShowsMessage';
 
 const MyShowsPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const followedShows = useSelector(selectFollowedShows);
 
   useEffect(() => {

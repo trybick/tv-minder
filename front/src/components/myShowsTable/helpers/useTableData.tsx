@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { CellProps, Column, HeaderProps } from 'react-table';
 import { useHistory } from 'react-router-dom';
 import {
@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { BiInfoCircle } from 'react-icons/bi';
 import { BasicShowInfo } from 'types/external';
+import { useAppDispatch } from 'store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from 'store/tv/actions';
 import { selectBasicShowInfoForFollowedShows } from 'store/tv/selectors';
 import { ID, PlainFunction } from 'types/common';
@@ -30,7 +31,7 @@ import UnfollowCloseButton from '../UnfollowCloseButton';
 export const useTableData = () => {
   const data = useSelector(selectBasicShowInfoForFollowedShows);
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
 
   const columns: Column<BasicShowInfo>[] = useMemo(() => {

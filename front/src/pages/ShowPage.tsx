@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Box } from '@chakra-ui/react';
+import { useAppDispatch } from 'store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from 'store/tv/actions';
 import LoadingSpinner from 'components/common/LoadingSpinner';
 import ShowContainer from 'components/showContainer/ShowContainer';
@@ -13,7 +14,7 @@ import {
 import { useIsMobile } from 'hooks/useIsMobile';
 
 const ShowPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const showId = getCurrentShowId();
   const isLoading = useSelector(selectIsLoadingBasicShowInfoForShow);
   const showInfoForDisplay = useSelector(selectCurrentShowInfo);

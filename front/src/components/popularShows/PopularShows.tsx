@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import { css } from '@emotion/react';
+import { useAppDispatch } from 'store';
 import { getPopularShowsAction } from 'store/tv/actions';
 import { selectPopularShowsForDisplay } from 'store/tv/selectors';
 import PopularShow from './subcomponents/PopularShow';
@@ -24,7 +25,7 @@ const fadeCss = css`
 `;
 
 const PopularShows = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const popularShows = useSelector(selectPopularShowsForDisplay);
   useEffect(() => {
     dispatch(getPopularShowsAction());
