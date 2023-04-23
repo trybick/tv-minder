@@ -82,41 +82,9 @@ const CalendarPage = () => {
     history.push(`${ROUTES.SHOW}/${showId}`);
   };
 
-  const formatDesktopEvent = (eventInfo: EventClickArg & { backgroundColor: string }) => {
-    const { backgroundColor } = eventInfo;
-    const { title } = eventInfo.event;
-    const {
-      episodeName,
-      isMulipleEvent,
-      multipleEventSpanAmount,
-      network,
-      overview,
-      runtime,
-      seasonAndEpisodeNumbers,
-      showId,
-      showName,
-      seasonNumber,
-      episodeNumber,
-    } = eventInfo.event.extendedProps;
-
-    return (
-      <DesktopCalendarEvent
-        backgroundColor={backgroundColor}
-        episodeName={episodeName}
-        episodeNumber={episodeNumber}
-        isMulipleEvent={isMulipleEvent}
-        multipleEventSpanAmount={multipleEventSpanAmount}
-        network={network}
-        overview={overview}
-        runtime={runtime}
-        seasonAndEpisodeNumbers={seasonAndEpisodeNumbers}
-        seasonNumber={seasonNumber}
-        showId={showId}
-        showName={showName}
-        title={title}
-      />
-    );
-  };
+  const formatDesktopEvent = (eventInfo: EventContentArg & { backgroundColor: string }) => (
+    <DesktopCalendarEvent eventInfo={eventInfo} />
+  );
 
   const formatMobileEvent = (eventInfo: EventContentArg) => {
     const { title } = eventInfo.event;

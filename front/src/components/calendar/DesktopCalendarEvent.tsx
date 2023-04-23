@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { EventContentArg } from '@fullcalendar/core';
 import {
   Button,
   Collapse,
@@ -20,37 +21,25 @@ import { IoIosTimer } from 'react-icons/io';
 import { ROUTES } from 'constants/routes';
 
 type Props = {
-  backgroundColor: string;
-  episodeName: string;
-  isMulipleEvent: boolean;
-  multipleEventSpanAmount: number;
-  network: string;
-  overview: string;
-  runtime: number;
-  seasonAndEpisodeNumbers: string;
-  showName: string;
-  showId: number;
-  title: string;
-  episodeNumber: number;
-  seasonNumber: number;
+  eventInfo: EventContentArg & { backgroundColor: string };
 };
 
 const DesktopCalendarEvent = (props: Props) => {
+  const { eventInfo } = props;
+  const { backgroundColor } = eventInfo;
+  const { title } = eventInfo.event;
   const {
-    backgroundColor,
     episodeName,
     isMulipleEvent,
     multipleEventSpanAmount,
     network,
     overview,
     runtime,
-    seasonAndEpisodeNumbers,
     showId,
     showName,
-    title,
     seasonNumber,
     episodeNumber,
-  } = props;
+  } = eventInfo.event.extendedProps;
   const {
     isOpen: isOverviewDisplayed,
     onToggle: toggleIsOverviewDisplayed,
