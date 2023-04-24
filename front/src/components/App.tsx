@@ -36,11 +36,11 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     if (isLoggedIn) {
       fetchfollowedShows();
     }
-    if (import.meta.env.PROD) {
+    if (import.meta.env.MODE === 'production') {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+      initSentry();
     }
-    initSentry();
   }, [isLoggedIn, fetchfollowedShows]);
 
   return (
