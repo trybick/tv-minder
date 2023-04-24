@@ -19,9 +19,10 @@
     ]
   },
   "scripts": {
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
-    "start": "cross-env PORT=4000 DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "start:local": "cross-env PORT=4000 REACT_APP_API=local DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "build": "vite build",
+    "serve": "vite preview",
+    "start": "vite",
+    "start:local": "cross-env VITE_API=local vite",
     "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "lint:fix": "eslint --fix --ext .tsx,.js,.ts .",
     "validate": "tsc --noEmit"
@@ -57,7 +58,6 @@
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
     "react-truncate": "^2.4.0",
     "react-youtube": "^10.1.0",
@@ -76,6 +76,7 @@
     "@types/react-truncate": "^2.3.4",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
@@ -83,7 +84,9 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.7",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vite": "^4.3.1",
+    "vite-plugin-svgr": "^2.4.0"
   },
   "resolutions": {
     "body-scroll-lock": "3.0.3"

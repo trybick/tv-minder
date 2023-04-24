@@ -81,7 +81,7 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
   if (nonCachedIds) {
     const requests = nonCachedIds?.map(id =>
       axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}`, {
-        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
+        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
       })
     );
 
@@ -123,7 +123,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
     const basicInfo = await axios
       .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, {
-        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
+        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
       })
       .then(res => res.data)
       .catch(handleErrors);
@@ -140,7 +140,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const seasonNumbers: number[] = basicInfo.seasons?.map((season: any) => season.season_number);
     const seasonsRequests = seasonNumbers?.map(seasonNumber =>
       axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}/season/${seasonNumber}`, {
-        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
+        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
       })
     );
     const seasonsResponse = await axios
@@ -180,7 +180,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
       // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
       // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
       .get(`${ENDPOINTS.THE_MOVIE_DB}/trending/tv/week`, {
-        params: { api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY },
+        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
       })
       .then(({ data: { results } }) => {
         const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));

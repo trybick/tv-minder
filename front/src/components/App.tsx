@@ -18,7 +18,8 @@ import CalendarPage from 'pages/CalendarPage';
 import MyShowsPage from 'pages/MyShowsPage';
 import SettingsPage from 'pages/SettingsPage';
 import ShowPage from 'pages/ShowPage';
-import { ROUTES } from '../constants/routes';
+import { ROUTES } from 'constants/routes';
+import { initSentry } from 'utils/sentry';
 
 type StateProps = {
   isLoggedIn: boolean;
@@ -35,10 +36,11 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
     if (isLoggedIn) {
       fetchfollowedShows();
     }
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
     }
+    initSentry();
   }, [isLoggedIn, fetchfollowedShows]);
 
   return (
