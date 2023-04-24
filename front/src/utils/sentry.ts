@@ -4,7 +4,7 @@ import { BrowserTracing } from '@sentry/tracing';
 const dsn = 'https://a573ad66c244456eb251808c6d79d851@o367043.ingest.sentry.io/6386089';
 
 export const initSentry = () => {
-  if (process.env.NODE_ENV !== 'development') {
+  if (import.meta.env.NODE_ENV !== 'development') {
     Sentry.init({
       dsn,
       integrations: [new BrowserTracing()],

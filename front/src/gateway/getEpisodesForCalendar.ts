@@ -8,7 +8,7 @@ import { ID } from 'types/common';
 import { CalendarEpisode } from 'types/external';
 
 const queryParams = {
-  api_key: process.env.REACT_APP_THE_MOVIE_DB_KEY,
+  api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
 };
 
 /** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */

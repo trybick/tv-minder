@@ -22,7 +22,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "start": "vite",
-    "start:local": "cross-env REACT_APP_API=local vite",
+    "start:local": "cross-env VITE_API=local vite",
     "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "lint:fix": "eslint --fix --ext .tsx,.js,.ts .",
     "validate": "tsc --noEmit"

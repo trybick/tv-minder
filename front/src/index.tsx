@@ -16,7 +16,7 @@ const WrappedApp = (): JSX.Element => (
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID!}>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!}>
           <ChakraProvider theme={theme}>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             <App />

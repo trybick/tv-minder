@@ -38,7 +38,7 @@ yarn start:local
 
 #### ENV Files
 
-- All ENV files on the frontend are checked into git, except for the google OAuth token. If you need to use Google OAuth locally, then create a file `front/.env.local` which contains `REACT_APP_GOOGLE_OAUTH_CLIENT_ID`.
+- All ENV files on the frontend are checked into git, except for the google OAuth token. If you need to use Google OAuth locally, then create a file `front/.env.local` which contains `VITE_GOOGLE_OAUTH_CLIENT_ID`.
 
 ## Contributing 😎
 
