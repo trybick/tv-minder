@@ -3,16 +3,22 @@ import {
   AnyAction,
   applyMiddleware,
   combineReducers,
+  compose,
   legacy_createStore as createStore,
 } from 'redux';
 import { useDispatch } from 'react-redux';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistReducer, persistStore } from 'redux-persist';
 import localforage from 'localforage';
 import { userReducer, UserState } from './user/reducers';
 import { tvReducer, TvState } from './tv/reducers';
 import { PlainFunction } from 'types/common';
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -53,8 +59,7 @@ const rootReducer = combineReducers({
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
-const middlewares = [thunk];
-const appliedMiddleware = applyMiddleware(...middlewares);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(persistedReducer, composeWithDevTools(appliedMiddleware));
+export const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk)));
 export const persistor = persistStore(store);
