@@ -1,6 +1,7 @@
 import axios, { CancelTokenSource } from 'axios';
 import { ShowSearchResult } from 'types/external';
 import ENDPOINTS from 'constants/endpoints';
+import handleErrors from 'utils/handleErrors';
 
 type QueryParams = { api_key: string | undefined; query: string };
 
@@ -48,11 +49,7 @@ const makeCancellableRequestCreator = () => {
         params: queryParams,
       })
       .then(res => res.data)
-      .catch((err: Error) => {
-        if (!axios.isCancel(err)) {
-          console.log('Axios error', err.message);
-        }
-      });
+      .catch(handleErrors);
   };
 };
 

@@ -12,7 +12,7 @@
 
 ## Technologies
 
-**Front**: React, Redux, TypeScript, Chakra UI
+**Front**: Vite, React, Redux, TypeScript, Chakra UI
 
 **API**: Node.js, Express, MongoDB Atlas, TypeScript
 
