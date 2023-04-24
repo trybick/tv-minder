@@ -4,13 +4,13 @@
     <!-- React App Tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/public/favicon.ico" />
-    <link rel="manifest" href="/public/manifest.json" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#0099da" />
 
     <!-- Cloudfare Web Analytics. Active only in production. -->
     <script type="text/javascript">
-      if ('%NODE_ENV%' === 'production') {
+      if ('%PROD%' === true) {
         document.write(
           `<script type="text/javascript" defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "45a3988998d64c248f8f49a7b545013d"}'><\/script>`
         );
@@ -24,20 +24,20 @@
     <!-- Google / Search Engine Tags -->
     <meta itemprop="name" content="TV Minder" />
     <meta itemprop="description" content="Track when your favorite shows are airing" />
-    <meta itemprop="image" content="/public/meta-logo.png" />
+    <meta itemprop="image" content="/meta-logo.png" />
 
     <!-- Facebook Meta Tags -->
     <meta property="og:url" content="https://tv-minder.com" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="TV Minder" />
     <meta property="og:description" content="Track when your favorite shows are airing" />
-    <meta property="og:image" content="/public/meta-logo.png" />
+    <meta property="og:image" content="/meta-logo.png" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="TV Minder" />
     <meta name="twitter:description" content="Track when your favorite shows are airing" />
-    <meta name="twitter:image" content="/public/meta-logo.png" />
+    <meta name="twitter:image" content="/meta-logo.png" />
 
     <!-- Meta Tags Generated via http://heymeta.com -->
   </head>
