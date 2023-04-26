@@ -161,7 +161,7 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       seasonNumber,
       showId,
       showName,
-      seasonAndEpisodeNumbers: `S${seasonNumber} E${episodeNumber}`,
+      seasonAndEpisodeNumbersFull: `Season ${seasonNumber} Episode ${episodeNumber}`,
       title: `${showName}: S${seasonNumber} E${episodeNumber}`,
     })
   );

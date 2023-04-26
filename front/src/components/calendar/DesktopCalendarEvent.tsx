@@ -37,8 +37,7 @@ const DesktopCalendarEvent = (props: Props) => {
     runtime,
     showId,
     showName,
-    seasonNumber,
-    episodeNumber,
+    seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
   const {
     isOpen: isOverviewDisplayed,
@@ -69,14 +68,14 @@ const DesktopCalendarEvent = (props: Props) => {
             <Button
               color="white"
               fontSize="sm"
-              mb="4px"
+              mb="3px"
               onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}
               variant="link"
             >
               {showName}
             </Button>
             <Text color="white" fontSize="lg" fontWeight="600" mb="2px">
-              Season {seasonNumber} Episode {episodeNumber}
+              {seasonAndEpisodeNumbersFull}
             </Text>
             <Text color="white" fontSize="sm" fontStyle="italic" mb="8px">
               {!isMulipleEvent && episodeName}
@@ -115,7 +114,7 @@ const DesktopCalendarEvent = (props: Props) => {
               <Flex flexDirection="column" mt="9px">
                 <Button
                   alignSelf="flex-start"
-                  fontWeight="700"
+                  fontWeight="600"
                   onClick={toggleIsOverviewDisplayed}
                   rightIcon={
                     isOverviewDisplayed ? (
@@ -127,7 +126,7 @@ const DesktopCalendarEvent = (props: Props) => {
                   size="sm"
                   variant="link"
                 >
-                  Summary
+                  Episode Summary
                 </Button>
                 <Collapse in={isOverviewDisplayed} animateOpacity>
                   <Text color="white" fontSize="sm" mt="6px">
