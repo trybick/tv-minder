@@ -37,8 +37,6 @@ const DesktopCalendarEvent = (props: Props) => {
     runtime,
     showId,
     showName,
-    seasonNumber,
-    episodeNumber,
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
   const {
