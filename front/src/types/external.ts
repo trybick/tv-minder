@@ -111,7 +111,7 @@ export type CalendarEpisode = {
   network: string;
   overview: string;
   runtime: number;
-  seasonAndEpisodeNumbers: string;
+  seasonAndEpisodeNumbersFull?: string;
   seasonNumber: number;
   showId: number;
   showName: string;
