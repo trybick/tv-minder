@@ -85,7 +85,7 @@ const DesktopCalendarEvent = (props: Props) => {
               <Flex flexWrap="wrap" gap="2px 8px">
                 {isMulipleEvent && (
                   <Flex align="center" gap="2px">
-                    <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" />
+                    <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" color="#fff" />
                     <Text color="white" fontSize="13px" fontWeight="500">
                       {`${multipleEventSpanAmount} episodes`}
                     </Text>
@@ -93,7 +93,12 @@ const DesktopCalendarEvent = (props: Props) => {
                 )}
                 {network && (
                   <Flex align="center" gap="3px">
-                    <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="14px" />
+                    <Icon
+                      alignSelf="center"
+                      as={HiOutlineVideoCamera}
+                      boxSize="14px"
+                      color="#fff"
+                    />
                     <Text color="white" fontSize="13px" fontWeight="500">
                       {network}
                     </Text>
@@ -101,7 +106,7 @@ const DesktopCalendarEvent = (props: Props) => {
                 )}
                 {runtime && !isMulipleEvent && (
                   <Flex align="center" gap="2px">
-                    <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" />
+                    <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" color="#fff" />
                     <Text color="white" fontSize="13px" fontWeight="500">
                       {runtime} mins
                     </Text>
@@ -114,7 +119,8 @@ const DesktopCalendarEvent = (props: Props) => {
               <Flex flexDirection="column" mt="9px">
                 <Button
                   alignSelf="flex-start"
-                  fontWeight="600"
+                  color="white"
+                  fontWeight="500"
                   onClick={toggleIsOverviewDisplayed}
                   rightIcon={
                     isOverviewDisplayed ? (
