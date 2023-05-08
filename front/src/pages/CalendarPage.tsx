@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import moment from 'moment';
 import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import { TbBoxMultiple } from 'react-icons/tb';
@@ -126,6 +127,7 @@ const CalendarPage = () => {
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
           height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
+          key={moment().format('MM-DD-YYYY')} // refresh 'today' date highlight when needed
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
           ref={calendarRef}
           titleFormat={titleFormat}
