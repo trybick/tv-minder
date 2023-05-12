@@ -34,16 +34,16 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
-    setIsLoading(true);
-    setIsInputDirty(true);
     setInputValue(searchValue);
 
-    if (searchValue) {
+    if (searchValue?.length > 2) {
+      setIsLoading(true);
+      setIsInputDirty(true);
       handleSearch(searchValue);
     } else {
       setIsLoading(false);
-      setShows([]);
       setIsInputDirty(false);
+      setShows([]);
     }
   };
 
