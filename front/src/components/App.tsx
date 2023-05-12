@@ -15,7 +15,7 @@ import ProtectedRoute from 'components/common/ProtectedRoute';
 import ErrorBoundary from 'components/common/ErrorBoundary';
 import SearchPage from 'pages/SearchPage';
 import CalendarPage from 'pages/CalendarPage';
-import MyShowsPage from 'pages/MyShowsPage';
+import FollowingPage from 'pages/FollowingPage';
 import SettingsPage from 'pages/SettingsPage';
 import ShowPage from 'pages/ShowPage';
 import { ROUTES } from 'constants/routes';
@@ -57,8 +57,8 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
               <Route path={ROUTES.CALENDAR}>
                 <CalendarPage />
               </Route>
-              <Route path={ROUTES.MY_SHOWS}>
-                <MyShowsPage />
+              <Route path={ROUTES.FOLLOWING}>
+                <FollowingPage />
               </Route>
               <Route path={ROUTES.SETTINGS}>
                 <ProtectedRoute>

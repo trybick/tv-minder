@@ -7,7 +7,7 @@ import {
 } from 'store/tv/selectors';
 import Show from './Show';
 
-const MyShowsList = () => {
+const FollowingList = () => {
   const activeSeasonShows = useSelector(selectActiveSeasonShows);
   const inProductionShows = useSelector(selectInProductionShows);
   const endedShows = useSelector(selectEndedShows);
@@ -71,4 +71,4 @@ const MyShowsList = () => {
   );
 };
 
-export default MyShowsList;
+export default FollowingList;

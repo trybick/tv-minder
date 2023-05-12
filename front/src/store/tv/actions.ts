@@ -69,7 +69,7 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
     cachedBasicShowInfo &&
     followedShowsSource?.filter(id => {
       const cacheAge = moment().diff(moment(cachedBasicShowInfo[id]?._fetchedAt), 'days');
-      return cachedIds?.includes(String(id)) && cacheAge < cacheDurationDays.myShows;
+      return cachedIds?.includes(String(id)) && cacheAge < cacheDurationDays.following;
     });
   validCachedIds &&
     validCachedIds.forEach(id => {
@@ -113,7 +113,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const cacheAge = moment().diff(moment(cachedBasicShowInfo[showId]?._fetchedAt), 'days');
     const hasValidCache =
       cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
-      cacheAge < cacheDurationDays.myShows;
+      cacheAge < cacheDurationDays.following;
     if (hasValidCache) {
       dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: false });
       return;
