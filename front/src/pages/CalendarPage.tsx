@@ -111,7 +111,7 @@ const CalendarPage = () => {
       <Helmet title="Calendar | TV Minder" />
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
-        m="15px auto 0"
+        m="15px auto"
         maxW="1600px"
         p={{ base: '0 15px 20px', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
@@ -119,13 +119,11 @@ const CalendarPage = () => {
         <Global styles={[eventStyles, eventPopoverStyles, isDarkMode && darkModeCalendarStyling]} />
         <FullCalendar
           allDayContent={false}
-          dayMaxEventRows={3}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
           eventContent={isMobile ? formatMobileEvent : formatDesktopEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
-          height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           key={moment().format('MM-DD-YYYY')} // refresh 'today' date highlight when needed
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
