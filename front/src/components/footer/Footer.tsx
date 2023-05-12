@@ -27,11 +27,11 @@ const Footer = () => {
         p={{ base: '1.4rem', sm: '1.2rem 2rem' }}
       >
         <Flex flexDirection="column" gap="3px">
-          <Text fontSize="11px" fontWeight="600">
+          <Text fontSize="10px" fontWeight="600">
             Data provided by
           </Text>
           <Link href="https://www.themoviedb.org/" isExternal>
-            <Image alt="The Movie DB logo" h="13px" src={TMDBLogo} />
+            <Image alt="The Movie DB logo" h="11px" src={TMDBLogo} />
           </Link>
         </Flex>
 

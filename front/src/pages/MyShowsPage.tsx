@@ -5,8 +5,8 @@ import { Box } from '@chakra-ui/react';
 import { useAppDispatch } from 'store';
 import { getBasicShowInfoForFollowedShows } from 'store/tv/actions';
 import { selectFollowedShows } from 'store/user/selectors';
-import MyShowsTable from 'components/myShowsTable/MyShowsTable';
-import NoFollowShowsMessage from 'components/myShowsTable/NoFollowShowsMessage';
+import MyShowsList from 'components/myShows/MyShowsList';
+import NoFollowedShowsMessage from 'components/myShows/NoFollowedShowsMessage';
 
 const MyShowsPage = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ const MyShowsPage = () => {
   return (
     <Box m="0 auto 30px" maxW="1170px" w="90%">
       <Helmet title="My Shows | TV Minder" />
-      {followedShows.length ? <MyShowsTable /> : <NoFollowShowsMessage />}
+      {followedShows.length ? <MyShowsList /> : <NoFollowedShowsMessage />}
     </Box>
   );
 };

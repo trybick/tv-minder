@@ -138,7 +138,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         >
           <NavLink linkTo={ROUTES.HOME} text="Search" />
           <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" />
-          <NavLink linkTo={ROUTES.MY_SHOWS} text="My Shows" />
+          <NavLink linkTo={ROUTES.MY_SHOWS} text="Following" />
           {isLoggedIn ? (
             <Box display={{ base: 'block', md: 'none' }}>
               <NavLink linkTo={ROUTES.SETTINGS} text="Settings" />
@@ -148,9 +148,12 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
         <Box
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
+          justifyContent={{ base: 'flex-start', md: 'flex-end' }}
           mt={{ base: 4, md: 0 }}
           textAlign={{ base: isOpen && isLoggedIn ? 'right' : 'left', md: 'left' }}
-          w={{ base: 'full', md: 'auto' }}
+          // Setting the width of this div to 186px matches the width of the TV Minder Logo image
+          // which allows the Nav Links to be in the center of the screen
+          w={{ base: 'full', md: '186px' }}
         >
           {isLoggedIn ? (
             <>
