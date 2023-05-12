@@ -68,6 +68,7 @@ const DesktopCalendarEvent = (props: Props) => {
             <Button
               color="white"
               fontSize="sm"
+              justifyContent="unset"
               mb="3px"
               onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}
               variant="link"

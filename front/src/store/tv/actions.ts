@@ -128,6 +128,10 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
       .then(res => res.data)
       .catch(handleErrors);
 
+    if (!basicInfo) {
+      return;
+    }
+
     // Create an object to allow merging basic info with season info
     const combinedData = {
       [showId]: {

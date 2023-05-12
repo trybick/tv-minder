@@ -3,7 +3,7 @@ import { Box, Image, Link, Text } from '@chakra-ui/react';
 import { ROUTES } from 'constants/routes';
 import noShowsImage from '../../images/tv-remote.jpg';
 
-const NoFollowShowsMessage = () => (
+const NoFollowedShowsMessage = () => (
   <Box m="40px auto 0" maxW="400px">
     <Image borderRadius="6px" h="266.7px" mb="14px" src={noShowsImage} />
     <Text fontSize="lg" fontWeight="500" mb="2px" textAlign="center">
@@ -17,4 +17,4 @@ const NoFollowShowsMessage = () => (
   </Box>
 );
 
-export default NoFollowShowsMessage;
+export default NoFollowedShowsMessage;

@@ -25,6 +25,21 @@ export const selectBasicShowInfoForFollowedShows: Selector<AppState, BasicShowIn
       ?.sort((a, b) => a.name.localeCompare(b.name));
   });
 
+export const selectActiveSeasonShows: Selector<AppState, BasicShowInfo[]> = createSelector(
+  selectBasicShowInfoForFollowedShows,
+  basicShowInfo => basicShowInfo.filter(show => show.statusWithColor.status === 'Active Season')
+);
+
+export const selectInProductionShows: Selector<AppState, BasicShowInfo[]> = createSelector(
+  selectBasicShowInfoForFollowedShows,
+  basicShowInfo => basicShowInfo.filter(show => show.statusWithColor.status === 'In Production')
+);
+
+export const selectEndedShows: Selector<AppState, BasicShowInfo[]> = createSelector(
+  selectBasicShowInfoForFollowedShows,
+  basicShowInfo => basicShowInfo.filter(show => show.statusWithColor.status === 'Ended')
+);
+
 export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
   selectPopularShows,
   shows =>
