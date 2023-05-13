@@ -21,7 +21,24 @@ import theme from 'theme';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEvent';
 
-const darkModeCalendarStyling = css`
+const calendarStyles = css`
+  /* Add vertical space between calendar events */
+  .fc-daygrid-event-harness {
+    margin-bottom: 4px;
+  }
+
+  /* Without this, 'display: -webkit-box' gets added which breaks the truncation  */
+  .calendarEventPopoverTrigger {
+    display: block !important;
+  }
+
+  /* Setting this height along with <FullCalendar height="auto" /> seems like a good balance */
+  .fc-scrollgrid tbody tr {
+    height: 170px;
+  }
+`;
+
+const darkModeCalendarStyles = css`
   /* day of the week headers, "more" popover, mobile day of the week headers */
   .fc-col-header-cell,
   .fc-more-popover,
@@ -31,20 +48,6 @@ const darkModeCalendarStyling = css`
   /* event hover color on mobile */
   .fc .fc-list-event:hover td {
     background-color: ${theme.colors.black} !important;
-  }
-`;
-
-const eventStyles = css`
-  /* Add vertical space between calendar events */
-  .fc-daygrid-event-harness {
-    margin-bottom: 4px;
-  }
-`;
-
-const eventPopoverStyles = css`
-  /* without this, 'display: -webkit-box' gets added which breaks the truncation  */
-  .calendarEventPopoverTrigger {
-    display: block !important;
   }
 `;
 
@@ -111,19 +114,21 @@ const CalendarPage = () => {
       <Helmet title="Calendar | TV Minder" />
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
-        m="15px auto"
+        m="15px auto 20px"
         maxW="1600px"
         p={{ base: '0 15px 20px', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        <Global styles={[eventStyles, eventPopoverStyles, isDarkMode && darkModeCalendarStyling]} />
+        <Global styles={[calendarStyles, isDarkMode && darkModeCalendarStyles]} />
         <FullCalendar
           allDayContent={false}
+          dayMaxEventRows={4}
           eventAllow={() => false} // do not allow dragging
           eventClick={onEventClick}
           eventContent={isMobile ? formatMobileEvent : formatDesktopEvent}
           events={calendarEpisodes}
           fixedWeekCount={false} // don't force showing additional weeks in calendar view
+          height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           key={moment().format('MM-DD-YYYY')} // refresh 'today' date highlight when needed
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
