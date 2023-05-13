@@ -36,7 +36,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
       w={['100%', 'sm', 'md', 'lg']}
     >
       <InputGroup display="flex">
-        <InputLeftElement top="9px">
+        <InputLeftElement ml="3px" top="9px">
           <Search2Icon color="gray.300" />
         </InputLeftElement>
         <Input
@@ -53,7 +53,7 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
           autoFocus
         />
         {inputValue && (
-          <InputRightElement right="5px" top="10px">
+          <InputRightElement right="6px" top="10px">
             <IconButton
               aria-label="Clear input"
               icon={<SmallCloseIcon boxSize="20px" />}
