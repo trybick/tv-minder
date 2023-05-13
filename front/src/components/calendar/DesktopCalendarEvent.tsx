@@ -50,7 +50,7 @@ const DesktopCalendarEvent = (props: Props) => {
     <Popover onClose={hideOverview} placement="right" trigger="hover">
       <PopoverTrigger>
         <Flex alignItems="center" p="1px 6px">
-          {isMulipleEvent && <Icon as={TbBoxMultiple} mr="3px" />}
+          {isMulipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
           <Text
             // This className ties into a global style which prevents the truncation from breaking
             className="calendarEventPopoverTrigger"
@@ -69,13 +69,14 @@ const DesktopCalendarEvent = (props: Props) => {
               color="white"
               fontSize="sm"
               justifyContent="unset"
-              mb="3px"
+              mb="4px"
               onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}
               variant="link"
+              whiteSpace="unset"
             >
-              {showName}
+              <Text noOfLines={1}>{showName}</Text>
             </Button>
-            <Text color="white" fontSize="lg" fontWeight="600" mb="2px">
+            <Text color="white" fontSize="lg" fontWeight="600" mb="3px">
               {seasonAndEpisodeNumbersFull}
             </Text>
             <Text color="white" fontSize="sm" fontStyle="italic" mb="8px">
