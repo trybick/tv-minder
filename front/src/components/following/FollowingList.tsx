@@ -1,73 +1,53 @@
 import { useSelector } from 'react-redux';
-import { Flex, Grid, Heading } from '@chakra-ui/react';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useIsMobile } from 'hooks/useIsMobile';
 import {
   selectActiveSeasonShows,
+  selectBasicShowInfoForFollowedShows,
   selectEndedShows,
   selectInProductionShows,
 } from 'store/tv/selectors';
-import Show from './Show';
+import SubSectionOfShows from './SubSectionOfShows';
 
 const FollowingList = () => {
+  const isMobile = useIsMobile();
+  const allFollowedShows = useSelector(selectBasicShowInfoForFollowedShows);
   const activeSeasonShows = useSelector(selectActiveSeasonShows);
   const inProductionShows = useSelector(selectInProductionShows);
   const endedShows = useSelector(selectEndedShows);
 
   return (
-    <Flex direction="column" mt="28px">
-      {activeSeasonShows?.length ? (
-        <>
-          <Heading as="h4" fontSize="23px" mb="20px" textAlign="center">
-            Currently Airing
-          </Heading>
-          <Grid
-            gap="30px 22px"
-            gridTemplateColumns="repeat(auto-fit, 155px)"
-            justifyContent="center"
-            mb="38px"
-          >
-            {activeSeasonShows.map(show => (
-              <Show key={show.id} show={show} />
-            ))}
-          </Grid>
-        </>
-      ) : null}
-
-      {inProductionShows?.length ? (
-        <>
-          <Heading as="h4" fontSize="23px" mb="20px" textAlign="center">
-            In Production
-          </Heading>
-          <Grid
-            gap="30px 22px"
-            gridTemplateColumns="repeat(auto-fit, 155px)"
-            justifyContent="center"
-            mb="38px"
-          >
-            {inProductionShows.map(show => (
-              <Show key={show.id} show={show} />
-            ))}
-          </Grid>
-        </>
-      ) : null}
-
-      {endedShows?.length ? (
-        <>
-          <Heading as="h4" fontSize="23px" mb="20px" textAlign="center">
-            Ended
-          </Heading>
-          <Grid
-            gap="30px 22px"
-            gridTemplateColumns="repeat(auto-fit, 155px)"
-            justifyContent="center"
-            mb="38px"
-          >
-            {endedShows.map(show => (
-              <Show key={show.id} show={show} />
-            ))}
-          </Grid>
-        </>
-      ) : null}
-    </Flex>
+    <Tabs
+      align="center"
+      mt={isMobile ? '20px' : '32px'}
+      px={isMobile ? '10px' : 'unset'}
+      variant={isMobile ? 'enclosed' : 'solid-rounded'}
+    >
+      <TabList mb="18px">
+        <Tab mr="4px">All Shows</Tab>
+        <Tab isDisabled={!activeSeasonShows.length} mr="4px">
+          Airing Now
+        </Tab>
+        <Tab isDisabled={!inProductionShows.length} mr="4px">
+          In Production
+        </Tab>
+        <Tab isDisabled={!endedShows.length}>Ended</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <SubSectionOfShows isMobile={isMobile} shows={allFollowedShows} />
+        </TabPanel>
+        <TabPanel>
+          <SubSectionOfShows isMobile={isMobile} shows={activeSeasonShows} />
+        </TabPanel>
+        <TabPanel>
+          <SubSectionOfShows isMobile={isMobile} shows={inProductionShows} />
+        </TabPanel>
+        <TabPanel>
+          <SubSectionOfShows isMobile={isMobile} shows={endedShows} />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 };
 
