@@ -32,7 +32,7 @@ const Show = (props: Props) => {
         />
       </Link>
       <Flex direction="column" p="10px">
-        <Text fontSize="15px" fontWeight="700" noOfLines={1} textAlign="center">
+        <Text fontSize="16px" fontWeight="500" noOfLines={1}>
           <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
             {name}
           </Link>
