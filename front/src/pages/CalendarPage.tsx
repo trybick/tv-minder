@@ -33,7 +33,7 @@ const calendarStyles = css`
   }
 
   /* Setting this height along with <FullCalendar height="auto" /> seems like a good balance */
-  .fc-scrollgrid tbody tr {
+  .fc-scrollgrid tbody:not(:first-child) tr {
     height: 170px;
   }
 `;
