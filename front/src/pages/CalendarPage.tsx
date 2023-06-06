@@ -116,7 +116,7 @@ const CalendarPage = () => {
       <Box
         m="15px auto 20px"
         maxW="1600px"
-        p={{ base: '0 15px 20px', md: '10px 30px' }}
+        p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
         <Global styles={[calendarStyles, isDarkMode && darkModeCalendarStyles]} />
