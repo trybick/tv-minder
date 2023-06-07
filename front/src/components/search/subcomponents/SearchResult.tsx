@@ -54,7 +54,13 @@ const SearchResult = ({ showToDisplay }: Props) => {
                 {yearForDisplay}
               </Text>
             </Box>
-            <FollowButton minW="91px" ml="auto" showId={showId} size="sm" />
+            <FollowButton
+              followedWidth="110px"
+              ml="auto"
+              showId={showId}
+              size="sm"
+              unfollowedWidth="91px"
+            />
           </Flex>
 
           <Text fontSize="14px" mt="8px" noOfLines={3}>

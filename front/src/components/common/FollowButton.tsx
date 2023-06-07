@@ -5,9 +5,16 @@ import { ID } from 'types/common';
 
 type Props = {
   showId: ID;
+  unfollowedWidth?: string;
+  followedWidth?: string;
 };
 
-export const FollowButton = ({ showId, ...rest }: Props & ButtonProps) => {
+export const FollowButton = ({
+  showId,
+  followedWidth,
+  unfollowedWidth,
+  ...rest
+}: Props & ButtonProps) => {
   const { isFollowed, isLoading, onFollowShow, onUnFollowShow } = useFollowButton(showId);
 
   return isFollowed ? (
@@ -18,6 +25,7 @@ export const FollowButton = ({ showId, ...rest }: Props & ButtonProps) => {
       leftIcon={<CheckIcon />}
       onClick={onUnFollowShow}
       variant="solid"
+      {...(followedWidth && { minW: followedWidth })}
       {...rest}
     >
       Following
@@ -29,6 +37,7 @@ export const FollowButton = ({ showId, ...rest }: Props & ButtonProps) => {
       leftIcon={<SmallAddIcon />}
       onClick={onFollowShow}
       variant="outline"
+      {...(unfollowedWidth && { minW: unfollowedWidth })}
       {...rest}
     >
       Follow
