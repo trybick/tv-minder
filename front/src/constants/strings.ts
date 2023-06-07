@@ -1,10 +1,13 @@
+import placeholderImage from 'images/placeholder-image.png';
+import placeholderImageLarge from 'images/placeholder-image-large.png';
+
 export const gAnalyticsID = 'G-JBXPD1C4QP';
 
 export const imagePath154 = 'https://image.tmdb.org/t/p/w154';
 export const imagePath342 = 'https://image.tmdb.org/t/p/w342';
 export const imagePath780 = 'https://image.tmdb.org/t/p/w780';
 
-export const fallbackImagePath = 'https://www.stevensegallery.com/g/82/123';
-export const fallbackImagePathLarge = 'https://www.stevensegallery.com/g/200/300';
+export const fallbackImagePath = placeholderImage;
+export const fallbackImagePathLarge = placeholderImageLarge;
 
 export const emailRegex = /^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$/;
