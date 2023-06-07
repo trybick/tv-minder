@@ -18,14 +18,20 @@ type Props = {
 };
 
 const SearchResult = ({ showToDisplay }: Props) => {
-  const { first_air_date: firstAirDate, id: showId, name, poster_path: posterPath } = showToDisplay;
+  const {
+    first_air_date: firstAirDate,
+    id: showId,
+    name,
+    overview,
+    poster_path: posterPath,
+  } = showToDisplay;
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   return (
-    <Box borderWidth="1px" mb={4} p={3} shadow="md">
-      <Grid alignItems="center" gap={6} templateColumns="50px 1fr">
-        <Box w="50px">
+    <Box borderRadius="6px" borderWidth="1px" mb={4} p="14px" shadow="md">
+      <Grid gap={4} templateColumns="100px 1fr">
+        <Box w="100px">
           <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
             <Image
               borderRadius="6px"
@@ -36,20 +42,25 @@ const SearchResult = ({ showToDisplay }: Props) => {
           </Link>
         </Box>
 
-        <Box minW="0">
-          <Flex justify="space-between">
-            <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
-              <Heading mr="10px" noOfLines={1} size="md">
-                {name}
-              </Heading>
-            </Link>
-            <FollowButton minW="91px" showId={showId} size="sm" />
+        <Flex direction="column" justifyContent="space-evenly" minW="0">
+          <Flex w="100%">
+            <Box>
+              <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
+                <Heading alignSelf="center" mr="10px" noOfLines={2} size="md">
+                  {name}
+                </Heading>
+              </Link>
+              <Text fontSize="15px" fontWeight="400" mt="2px">
+                {yearForDisplay}
+              </Text>
+            </Box>
+            <FollowButton minW="91px" ml="auto" showId={showId} size="sm" />
           </Flex>
 
-          <Flex mt="6px">
-            <Text fontSize="14px">{yearForDisplay}</Text>
-          </Flex>
-        </Box>
+          <Text fontSize="14px" mt="8px" noOfLines={3}>
+            {overview}
+          </Text>
+        </Flex>
       </Grid>
     </Box>
   );
