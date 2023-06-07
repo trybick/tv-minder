@@ -55,7 +55,7 @@ const SearchResults = ({
         </Tag>
       </Box>
 
-      <Stack m="0 auto" spacing={4} w={{ base: '96%', md: '500px' }}>
+      <Stack m="0 auto" spacing={5} w={{ base: '96%', md: '500px' }}>
         {shows.map(show => (
           <SearchResult
             followedShows={followedShows}

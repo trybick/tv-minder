@@ -29,7 +29,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
   const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   return (
-    <Box borderRadius="6px" borderWidth="1px" mb={4} p="14px" shadow="md">
+    <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">
       <Grid gap={4} templateColumns="100px 1fr">
         <Box w="100px">
           <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
