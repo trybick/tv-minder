@@ -11,7 +11,7 @@ type Props = {
 };
 
 const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
-  <Box borderRadius="8px" borderWidth="1px" mb="18px" minW="0" ml="20px" w="144px">
+  <Box borderRadius="8px" borderWidth="1px" w="144px">
     <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
       <Image
         alt={`popular-show-${name}`}
