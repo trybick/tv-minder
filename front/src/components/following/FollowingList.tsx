@@ -23,8 +23,8 @@ const FollowingList = () => {
       px={isMobile ? '10px' : 'unset'}
       variant={isMobile ? 'enclosed' : 'solid-rounded'}
     >
-      <TabList mb="18px">
-        <Tab mr="4px">All Shows</Tab>
+      <TabList mb="19px">
+        <Tab mr="4px">All</Tab>
         <Tab isDisabled={!activeSeasonShows.length} mr="4px">
           Airing Now
         </Tab>

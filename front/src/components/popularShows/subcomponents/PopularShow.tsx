@@ -3,15 +3,22 @@ import { Box, Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { PopularShow as PopularShowType } from 'types/external';
 import { fallbackImagePath } from 'constants/strings';
 import { ROUTES } from 'constants/routes';
-import { imagePath154 } from 'constants/strings';
+import { imagePath342 } from 'constants/strings';
 import FollowButton from 'components/common/FollowButton';
 
 type Props = {
   show: PopularShowType;
+  isMobile: boolean;
 };
 
-const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
-  <Box borderRadius="8px" borderWidth="1px" mb="18px" minW="0" ml="20px" w="144px">
+const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
+  <Box
+    borderRadius="8px"
+    borderWidth="1px"
+    flexGrow="1"
+    maxW="270px"
+    w={isMobile ? '140px' : '190px'}
+  >
     <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
       <Image
         alt={`popular-show-${name}`}
@@ -19,18 +26,17 @@ const PopularShow = ({ show: { id, name, posterPath } }: Props) => (
         cursor="pointer"
         fallbackSrc={fallbackImagePath}
         fallbackStrategy="onError"
-        h="213px"
-        src={posterPath ? imagePath154 + posterPath : fallbackImagePath}
-        w="142px"
+        src={posterPath ? imagePath342 + posterPath : fallbackImagePath}
+        w="100%"
       />
     </Link>
-    <Flex direction="column" p="8px 12px">
+    <Flex direction="column" mt="5px" p="8px 12px">
       <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
-        <Heading fontSize="sm" noOfLines={1} textAlign="center">
+        <Heading fontSize="md" noOfLines={1} textAlign="center">
           {name}
         </Heading>
       </Link>
-      <FollowButton m="12px auto 6px" minW="108px" showId={id} size="sm" />
+      <FollowButton m="14px auto 9px" minW="108px" showId={id} size={isMobile ? 'sm' : 'md'} />
     </Flex>
   </Box>
 );
