@@ -13,6 +13,7 @@ export const selectIsLoadingBasicShowInfoForShow = (state: AppState) =>
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
+export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
 
 export const selectBasicShowInfoForFollowedShows: Selector<AppState, BasicShowInfo[]> =
   createSelector(selectBasicShowInfo, selectFollowedShows, (showInfo, followedShows) => {
@@ -42,6 +43,21 @@ export const selectEndedShows: Selector<AppState, BasicShowInfo[]> = createSelec
 
 export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
   selectPopularShows,
+  shows =>
+    shows &&
+    Object.values(shows)?.map(show => {
+      const { id, fetchedAt, name, poster_path: posterPath } = show;
+      return {
+        id,
+        fetchedAt,
+        name,
+        posterPath,
+      };
+    })
+);
+
+export const selectTopRatedShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
+  selectTopRatedShows,
   shows =>
     shows &&
     Object.values(shows)?.map(show => {

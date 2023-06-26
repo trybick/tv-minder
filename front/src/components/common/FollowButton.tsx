@@ -34,7 +34,7 @@ export const FollowButton = ({
     <Button
       colorScheme="cyan"
       isLoading={isLoading}
-      leftIcon={<SmallAddIcon />}
+      leftIcon={<SmallAddIcon fontSize="22px" marginInlineEnd="-0.2rem" />}
       onClick={onFollowShow}
       variant="outline"
       {...(unfollowedWidth && { minW: unfollowedWidth })}

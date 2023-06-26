@@ -136,7 +136,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               mr: 'unset',
             })}
         >
-          <NavLink linkTo={ROUTES.HOME} text="Search" />
+          <NavLink linkTo={ROUTES.HOME} text="Discover" />
           <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" />
           <NavLink linkTo={ROUTES.FOLLOWING} text="Following" />
           {isLoggedIn ? (

@@ -15,6 +15,7 @@ export const SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS = 'SAVE_BASIC_SHOW_INFO_FOR
 export const SAVE_BASIC_SHOW_INFO_FOR_SHOW = 'SAVE_BASIC_SHOW_INFO_FOR_SHOW';
 export const SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW = 'SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW';
 export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
+export const SAVE_TOP_RATED_SHOWS = 'SAVE_TOP_RATED_SHOWS';
 
 export const saveSearchQueryAction =
   (query: SavedQuery): AppThunk =>
@@ -183,6 +184,12 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
     axios
       // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
       // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
+      // Full possibly useful endpoints status:
+      //   - /trending = useful, current Popular Shows list
+      //   - /top-rated = useful and accurate
+      //   - /popular = not useful, foreign shows
+      //   - /airing_today = not useful, foreign shows
+      //   - /on_the_air = not useful, foreign shows
       .get(`${ENDPOINTS.THE_MOVIE_DB}/trending/tv/week`, {
         params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
       })
@@ -190,6 +197,30 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
         const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
         dispatch({
           type: SAVE_POPULAR_SHOWS,
+          payload: dataWithTimestamp,
+        });
+      })
+      .catch(handleErrors);
+  }
+};
+
+export const getTopRatedShowsAction = (): AppThunk => (dispatch, getState) => {
+  const { topRatedShows: cachedTopRatedShows } = getState().tv;
+  const cacheAge =
+    cachedTopRatedShows?.length &&
+    cachedTopRatedShows[0].fetchedAt &&
+    moment().diff(moment(cachedTopRatedShows[0].fetchedAt), 'days');
+  const isCacheValid = cachedTopRatedShows?.length && cacheDurationDays.popularShows > cacheAge;
+
+  if (!isCacheValid) {
+    axios
+      .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/top_rated`, {
+        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
+      })
+      .then(({ data: { results } }) => {
+        const dataWithTimestamp = results.map((show: any) => ({ ...show, fetchedAt: moment() }));
+        dispatch({
+          type: SAVE_TOP_RATED_SHOWS,
           payload: dataWithTimestamp,
         });
       })
