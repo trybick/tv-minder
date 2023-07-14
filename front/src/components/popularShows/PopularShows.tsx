@@ -7,6 +7,7 @@ import {
   Flex,
   Heading,
   useBreakpointValue,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
@@ -53,13 +54,13 @@ const PopularShows = () => {
     <Box m="18px 0 30px" maxW="1500px" w="95%">
       <Heading
         as="h2"
-        fontSize="1.9rem"
+        color={useColorModeValue('cyan.600', 'cyan.200')}
+        fontSize="1.8rem"
         fontWeight="600"
-        mb="22px"
-        mx="4px"
-        textAlign={isMobile ? 'center' : 'left'}
+        mb="28px"
+        textAlign="center"
       >
-        Popular Shows
+        Popular TV Shows
       </Heading>
       <Flex
         gap="34px 30px"
@@ -94,25 +95,26 @@ const PopularShows = () => {
       </Flex>
       <Flex>
         <Button
-          mt="20px"
+          colorScheme="cyan"
+          mt="30px"
           mx="auto"
           onClick={onTogglePopular}
           rightIcon={isPopularExpanded ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
         >
-          {isPopularExpanded ? 'Less ' : 'More Popular Shows'}
+          {isPopularExpanded ? 'Show Less ' : 'Show More'}
         </Button>
       </Flex>
 
       <Heading
         as="h2"
-        fontSize="1.9rem"
+        color={useColorModeValue('cyan.600', 'cyan.200')}
+        fontSize="1.8rem"
         fontWeight="600"
-        mb="22px"
-        mt={isMobile ? '40px' : '30px'}
-        mx="4px"
-        textAlign={isMobile ? 'center' : 'left'}
+        mb="28px"
+        mt={isMobile ? '40px' : '50px'}
+        textAlign="center"
       >
-        Top Rated Shows
+        Top Rated TV Shows
       </Heading>
       <Flex
         gap="34px 30px"
@@ -147,12 +149,13 @@ const PopularShows = () => {
       </Flex>
       <Flex>
         <Button
-          mt="20px"
+          colorScheme="cyan"
+          mt="30px"
           mx="auto"
           onClick={onToggleTopRated}
           rightIcon={isTopRatedExpanded ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
         >
-          {isTopRatedExpanded ? 'Less' : 'More Top Rated Shows'}
+          {isTopRatedExpanded ? 'Show Less' : 'Show More'}
         </Button>
       </Flex>
     </Box>
