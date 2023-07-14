@@ -12,7 +12,7 @@ import {
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import styled from '@emotion/styled';
 import { useAppDispatch } from 'store';
-import { getPopularShowsAction } from 'store/tv/actions';
+import { getPopularShowsAction, getTopRatedShowsAction } from 'store/tv/actions';
 import { selectPopularShowsForDisplay, selectTopRatedShowsForDisplay } from 'store/tv/selectors';
 import PopularShow from './subcomponents/PopularShow';
 import { useIsMobile } from '../../hooks/useIsMobile';
@@ -26,10 +26,12 @@ const PopularShows = () => {
   const popularShows = useSelector(selectPopularShowsForDisplay);
   const topRatedShows = useSelector(selectTopRatedShowsForDisplay);
   const isMobile = useIsMobile();
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen: isPopularExpanded, onToggle: onTogglePopular } = useDisclosure();
+  const { isOpen: isTopRatedExpanded, onToggle: onToggleTopRated } = useDisclosure();
 
   useEffect(() => {
     dispatch(getPopularShowsAction());
+    dispatch(getTopRatedShowsAction());
   }, [dispatch]);
 
   const numberShowsInFirstRow =
@@ -43,7 +45,9 @@ const PopularShows = () => {
       },
       { ssr: false }
     ) || 2;
-  const numberRowsToRender = Math.ceil(popularShows.length / numberShowsInFirstRow) - 1;
+  const numberRowsToRender = popularShows?.length
+    ? Math.ceil(popularShows.length / numberShowsInFirstRow) - 1
+    : 2;
 
   return (
     <Box m="18px 0 30px" maxW="1500px" w="95%">
@@ -66,7 +70,7 @@ const PopularShows = () => {
         {popularShows?.slice(0, numberShowsInFirstRow).map(show => (
           <PopularShow isMobile={isMobile} key={show.id} show={show} />
         ))}
-        <StyledCollapse in={isOpen}>
+        <StyledCollapse in={isPopularExpanded}>
           {[...Array(numberRowsToRender).keys()].map(i => (
             <Flex
               _notLast={{
@@ -92,10 +96,10 @@ const PopularShows = () => {
         <Button
           mt="20px"
           mx="auto"
-          onClick={onToggle}
-          rightIcon={isOpen ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
+          onClick={onTogglePopular}
+          rightIcon={isPopularExpanded ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
         >
-          {isOpen ? 'Less ' : 'More Popular Shows'}
+          {isPopularExpanded ? 'Less ' : 'More Popular Shows'}
         </Button>
       </Flex>
 
@@ -119,7 +123,7 @@ const PopularShows = () => {
         {topRatedShows?.slice(0, numberShowsInFirstRow).map(show => (
           <PopularShow isMobile={isMobile} key={show.id} show={show} />
         ))}
-        <StyledCollapse in={isOpen}>
+        <StyledCollapse in={isTopRatedExpanded}>
           {[...Array(numberRowsToRender).keys()].map(i => (
             <Flex
               _notLast={{
@@ -145,10 +149,10 @@ const PopularShows = () => {
         <Button
           mt="20px"
           mx="auto"
-          onClick={onToggle}
-          rightIcon={isOpen ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
+          onClick={onToggleTopRated}
+          rightIcon={isTopRatedExpanded ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
         >
-          {isOpen ? 'Less' : 'More Top Rated Shows'}
+          {isTopRatedExpanded ? 'Less' : 'More Top Rated Shows'}
         </Button>
       </Flex>
     </Box>

@@ -2,7 +2,7 @@
 const cacheDurationDays = {
   calendar: 1,
   following: 1,
-  popularShows: 5,
+  popularShows: 3,
   search: 5,
 };
 
