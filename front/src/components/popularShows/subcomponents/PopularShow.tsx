@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Flex, Heading, Image, Link } from '@chakra-ui/react';
+import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { PopularShow as PopularShowType } from 'types/external';
 import { fallbackImagePath } from 'constants/strings';
 import { ROUTES } from 'constants/routes';
@@ -12,10 +12,12 @@ type Props = {
 };
 
 const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
-  <Box
+  <Flex
     borderRadius="8px"
     borderWidth="1px"
+    direction="column"
     flexGrow="1"
+    justifyContent="space-between"
     maxW="270px"
     w={isMobile ? '140px' : '190px'}
   >
@@ -38,7 +40,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
       </Link>
       <FollowButton m="14px auto 9px" minW="108px" showId={id} size={isMobile ? 'sm' : 'md'} />
     </Flex>
-  </Box>
+  </Flex>
 );
 
 export default PopularShow;
