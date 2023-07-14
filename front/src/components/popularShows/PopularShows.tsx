@@ -95,6 +95,7 @@ const PopularShows = () => {
       </Flex>
       <Flex>
         <Button
+          color={useColorModeValue('white', 'gray.800')}
           colorScheme="cyan"
           mt="30px"
           mx="auto"
@@ -149,6 +150,7 @@ const PopularShows = () => {
       </Flex>
       <Flex>
         <Button
+          color={useColorModeValue('white', 'gray.800')}
           colorScheme="cyan"
           mt="30px"
           mx="auto"
