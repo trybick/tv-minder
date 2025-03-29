@@ -73,8 +73,5 @@
     "typescript": "^5.0.4",
     "vite": "^4.3.5",
     "vite-plugin-svgr": "^3.2.0"
-  },
-  "resolutions": {
-    "body-scroll-lock": "3.0.3"
   }
 }
