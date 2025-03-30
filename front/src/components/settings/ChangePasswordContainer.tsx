@@ -15,7 +15,7 @@ import {
 import { selectIsGoogleUser, selectUserEmail } from 'store/user/selectors';
 import ENDPOINTS from 'constants/endpoints';
 
-type FormDataType = {
+type FormData = {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirmation: string;
@@ -26,7 +26,7 @@ const ChangePasswordContainer = () => {
   const email = useSelector(selectUserEmail);
   const isGoogleUser = useSelector(selectIsGoogleUser);
   const toast = useToast();
-  const { getValues, handleSubmit, errors, register } = useForm<FormDataType>();
+  const { getValues, handleSubmit, errors, register } = useForm<FormData>();
 
   const formSchema = {
     oldPassword: {
@@ -51,7 +51,7 @@ const ChangePasswordContainer = () => {
     errors['newPassword']?.message ||
     errors['newPasswordConfirmation']?.message;
 
-  const onSubmit = handleSubmit(({ oldPassword, newPassword }) => {
+  const onSubmit = handleSubmit(({ oldPassword, newPassword }: FormData) => {
     setIsLoading(true);
     axios
       .post(

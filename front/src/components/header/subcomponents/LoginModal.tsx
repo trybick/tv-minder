@@ -97,7 +97,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
 
-  const onSubmit = handleSubmit(({ email, password, oneTimeCode }) => {
+  const onSubmit = handleSubmit(({ email, password, oneTimeCode }: FormData) => {
     setIsLoading(true);
     switch (formOption) {
       case 0:

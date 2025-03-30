@@ -94,7 +94,7 @@ const SignUpModal = ({
     },
   };
 
-  const onSubmit = handleSubmit(({ email, password }) => {
+  const onSubmit = handleSubmit(({ email, password }: FormData) => {
     setIsLoading(true);
     axios
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
