@@ -106,19 +106,19 @@ const ChangePasswordContainer = () => {
       )}
 
       <Box as="form" onSubmit={onSubmit}>
-        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors.oldPassword}>
+        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors?.oldPassword}>
           <FormLabel mt="1.5rem" w="100%">
             Current Password
           </FormLabel>
           <Input name="oldPassword" ref={register(formSchema.oldPassword)} type="password" />
         </FormControl>
-        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors.newPassword}>
+        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors?.newPassword}>
           <FormLabel mt="1rem" w="100%">
             New Password
           </FormLabel>
           <Input name="newPassword" ref={register(formSchema.newPassword)} type="password" />
         </FormControl>
-        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors.newPasswordConfirmation}>
+        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors?.newPasswordConfirmation}>
           <FormLabel mt="1rem" w="100%">
             Confirm New Password
           </FormLabel>

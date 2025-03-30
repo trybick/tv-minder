@@ -28,7 +28,6 @@ import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
 import ENDPOINTS from 'constants/endpoints';
-import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
 import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
@@ -68,31 +67,12 @@ const SignUpModal = ({
   useCloseModalOnPressEscape({ onClose });
 
   // Form
-  const { clearError, errors, handleSubmit, reset, setError, register, watch } =
-    useForm<FormData>();
+  const { clearError, errors, handleSubmit, reset, setError, register } = useForm<FormData>();
   const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   // Password fields
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
-
-  const formSchema = {
-    email: {
-      required: { value: true, message: 'Email is required' },
-      pattern: { value: emailRegex, message: 'Please enter a valid email' },
-    },
-    password: {
-      required: 'Password is required',
-      minLength: {
-        value: 1,
-        message: 'Password must have at least 1 characters',
-      },
-    },
-    confirmPassword: {
-      validate: (value: FormData['confirmPassword']) =>
-        value === watch('password') || 'The passwords do not match',
-    },
-  };
 
   const onSubmit = handleSubmit(({ email, password }: FormData) => {
     setIsLoading(true);
@@ -174,27 +154,25 @@ const SignUpModal = ({
               OR
             </Separator>
 
-            <FormControl isInvalid={Boolean(errors.email)}>
+            <FormControl isInvalid={Boolean(errors?.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 name="email"
                 placeholder="Email"
-                ref={(emailInput: HTMLInputElement) => {
-                  register(emailInput, formSchema.email);
-                  emailRef.current = emailInput;
-                }}
+                ref={emailRef}
+                {...register('email')}
                 autoFocus
               />
-              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={Boolean(errors.password)} mt={4}>
+            <FormControl isInvalid={Boolean(errors?.password)} mt={4}>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
                   name="password"
                   placeholder="Password"
-                  ref={register(formSchema.password)}
+                  {...register('password')}
                   type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement w="4.5rem">
@@ -203,16 +181,16 @@ const SignUpModal = ({
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={Boolean(errors.confirmPassword)} mt={4}>
+            <FormControl isInvalid={Boolean(errors?.confirmPassword)} mt={4}>
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <Input
                   name="confirmPassword"
                   placeholder="Confirm Password"
-                  ref={register(formSchema.confirmPassword)}
+                  {...register('confirmPassword')}
                   type={passwordVisible ? 'text' : 'password'}
                 />
                 <InputRightElement w="4.5rem">
@@ -221,11 +199,11 @@ const SignUpModal = ({
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors?.confirmPassword?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={Boolean(errors.signUp)} mt={4}>
-              <FormErrorMessage>{errors.signUp?.message}</FormErrorMessage>
+            <FormControl isInvalid={Boolean(errors?.signUp)} mt={4}>
+              <FormErrorMessage>{errors?.signUp?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 
