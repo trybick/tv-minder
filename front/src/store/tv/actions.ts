@@ -72,14 +72,16 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
       const cacheAge = moment().diff(moment(cachedBasicShowInfo[id]?._fetchedAt), 'days');
       return cachedIds?.includes(String(id)) && cacheAge < cacheDurationDays.following;
     });
-  validCachedIds &&
+
+  if (validCachedIds?.length) {
     validCachedIds.forEach(id => {
       combinedData[id] = cachedBasicShowInfo[id];
     });
+  }
 
   // Fetch data for ids that are not cached and add to combinedData
   const nonCachedIds = followedShowsSource?.filter(id => !validCachedIds?.includes(id));
-  if (nonCachedIds) {
+  if (nonCachedIds?.length) {
     const requests = nonCachedIds?.map(id =>
       axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}`, {
         params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY, append_to_response: 'videos' },
@@ -91,13 +93,14 @@ export const getBasicShowInfoForFollowedShows = (): AppThunk => async (dispatch,
       .then(res => res.map(res => res.data))
       .catch(handleErrors);
 
-    responses &&
+    if (responses) {
       responses.forEach((res: any) => {
         combinedData[res.id] = {
           ...res,
           _fetchedAt: moment(),
         };
       });
+    }
   }
 
   dispatch({

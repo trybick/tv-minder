@@ -55,6 +55,7 @@ export default defineConfig([
       '@typescript-eslint/ban-types': 0,
       'react/jsx-uses-react': 0,
       'react/react-in-jsx-scope': 0,
+      '@typescript-eslint/no-empty-object-type': 0,
 
       'react/jsx-sort-props': [
         1,
