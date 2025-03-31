@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import moment from 'moment';
 import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
@@ -111,7 +110,7 @@ const CalendarPage = () => {
 
   return (
     <>
-      <Helmet title="Calendar | TV Minder" />
+      <title>Calendar | TV Minder</title>
       {!followedShows.length && <NoFollowedShowsBanner />}
       <Box
         m="15px auto 20px"

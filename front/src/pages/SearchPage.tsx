@@ -1,7 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import moment from 'moment';
-import { Helmet } from 'react-helmet-async';
 import { searchShowsByQuery } from 'gateway/searchShowsByQuery';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
@@ -88,7 +87,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
 
   return (
     <Box p={{ base: '0 10px 25px', md: '25px 15px 20px' }}>
-      <Helmet title="Search | TV Minder" />
+      <title>Search | TV Minder</title>
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

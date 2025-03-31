@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
 import { Flex } from '@chakra-ui/react';
 import ReactGA from 'react-ga4';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -44,37 +43,35 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   }, [isLoggedIn, fetchfollowedShows]);
 
   return (
-    <HelmetProvider>
-      <Router>
-        <ScrollToTop />
-        <Flex direction="column" minH="97vh">
-          <Header />
-          <ErrorBoundary>
-            <Switch>
-              <Route path={ROUTES.HOME} exact>
-                <SearchPage />
-              </Route>
-              <Route path={ROUTES.CALENDAR}>
-                <CalendarPage />
-              </Route>
-              <Route path={ROUTES.FOLLOWING}>
-                <FollowingPage />
-              </Route>
-              <Route path={ROUTES.SETTINGS}>
-                <ProtectedRoute>
-                  <SettingsPage />
-                </ProtectedRoute>
-              </Route>
-              <Route path={`${ROUTES.SHOW}/:showId`}>
-                <ShowPage />
-              </Route>
-            </Switch>
-          </ErrorBoundary>
-        </Flex>
+    <Router>
+      <ScrollToTop />
+      <Flex direction="column" minH="97vh">
+        <Header />
+        <ErrorBoundary>
+          <Switch>
+            <Route path={ROUTES.HOME} exact>
+              <SearchPage />
+            </Route>
+            <Route path={ROUTES.CALENDAR}>
+              <CalendarPage />
+            </Route>
+            <Route path={ROUTES.FOLLOWING}>
+              <FollowingPage />
+            </Route>
+            <Route path={ROUTES.SETTINGS}>
+              <ProtectedRoute>
+                <SettingsPage />
+              </ProtectedRoute>
+            </Route>
+            <Route path={`${ROUTES.SHOW}/:showId`}>
+              <ShowPage />
+            </Route>
+          </Switch>
+        </ErrorBoundary>
+      </Flex>
 
-        <Footer />
-      </Router>
-    </HelmetProvider>
+      <Footer />
+    </Router>
   );
 };
 
