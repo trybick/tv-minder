@@ -87,7 +87,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
 
   return (
     <Box p={{ base: '0 10px 25px', md: '25px 15px 20px' }}>
-      <title>Search | TV Minder</title>
+      <title>Discover | TV Minder</title>
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}
