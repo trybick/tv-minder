@@ -60,7 +60,6 @@
     "@types/react-dom": "^19.0.4",
     "@types/react-router-dom": "^5.1.4",
     "@types/react-table": "^7.7.20",
-    "@types/react-truncate": "^2.3.7",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
     "@vitejs/plugin-react": "^4.3.4",
