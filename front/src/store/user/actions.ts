@@ -37,7 +37,7 @@ export const setHasLocalWarningToastBeenShownAction = (): AppThunk => dispatch =
 };
 
 export const setIsLoggedOutAction = (): AppThunk => dispatch => {
-  Sentry.configureScope(scope => scope.setUser(null));
+  Sentry.getCurrentScope().setUser(null);
   dispatch({
     type: SET_IS_LOGGED_IN_FALSE,
   });
