@@ -19,7 +19,9 @@ type Props = {
 const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => {
   useEffect(() => {
     function clearOnEsc(event: KeyboardEvent) {
-      event.key === 'Escape' && handleClearInput();
+      if (event.key === 'Escape') {
+        handleClearInput();
+      }
     }
     document.addEventListener('keydown', clearOnEsc, false);
     return () => {

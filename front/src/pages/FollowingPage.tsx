@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet-async';
 import { Box } from '@chakra-ui/react';
 import { useAppDispatch } from 'store';
 import { getBasicShowInfoForFollowedShows } from 'store/tv/actions';
@@ -19,10 +18,12 @@ const FollowingPage = () => {
   }, [dispatch, followedShows]);
 
   return (
-    <Box m="0 auto 30px" maxW="1170px" w={isMobile ? 'unset' : '90%'}>
-      <Helmet title="Following | TV Minder" />
-      {followedShows.length ? <FollowingList /> : <NoFollowedShowsMessage />}
-    </Box>
+    <>
+      <title>Following | TV Minder</title>
+      <Box m="0 auto 30px" maxW="1170px" w={isMobile ? 'unset' : '90%'}>
+        {followedShows.length ? <FollowingList /> : <NoFollowedShowsMessage />}
+      </Box>
+    </>
   );
 };
 

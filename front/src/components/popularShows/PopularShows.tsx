@@ -68,9 +68,9 @@ const PopularShows = () => {
         mt="14px"
         wrap="wrap"
       >
-        {popularShows?.slice(0, numberShowsInFirstRow).map(show => (
-          <PopularShow isMobile={isMobile} key={show.id} show={show} />
-        ))}
+        {popularShows
+          ?.slice(0, numberShowsInFirstRow)
+          .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
         <StyledCollapse in={isPopularExpanded}>
           {[...Array(numberRowsToRender).keys()].map(i => (
             <Flex
@@ -86,9 +86,7 @@ const PopularShows = () => {
                   (i + 1) * numberShowsInFirstRow,
                   (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                 )
-                .map(show => (
-                  <PopularShow isMobile={isMobile} key={show.id} show={show} />
-                ))}
+                .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
             </Flex>
           ))}
         </StyledCollapse>
@@ -123,9 +121,9 @@ const PopularShows = () => {
         mt="14px"
         wrap="wrap"
       >
-        {topRatedShows?.slice(0, numberShowsInFirstRow).map(show => (
-          <PopularShow isMobile={isMobile} key={show.id} show={show} />
-        ))}
+        {topRatedShows
+          ?.slice(0, numberShowsInFirstRow)
+          .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
         <StyledCollapse in={isTopRatedExpanded}>
           {[...Array(numberRowsToRender).keys()].map(i => (
             <Flex
@@ -141,9 +139,7 @@ const PopularShows = () => {
                   (i + 1) * numberShowsInFirstRow,
                   (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                 )
-                .map(show => (
-                  <PopularShow isMobile={isMobile} key={show.id} show={show} />
-                ))}
+                .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
             </Flex>
           ))}
         </StyledCollapse>

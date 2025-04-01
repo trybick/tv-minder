@@ -1,12 +1,15 @@
-import { Helmet } from 'react-helmet-async';
 import { Box } from '@chakra-ui/react';
 import ChangePasswordContainer from 'components/settings/ChangePasswordContainer';
 
-const SettingsPage = () => (
-  <Box mt="25px" textAlign="center">
-    <Helmet title="Settings | TV Minder" />
-    <ChangePasswordContainer />
-  </Box>
-);
+const SettingsPage = () => {
+  return (
+    <>
+      <title>Settings | TV Minder</title>
+      <Box mt="25px" textAlign="center">
+        <ChangePasswordContainer />
+      </Box>
+    </>
+  );
+};
 
 export default SettingsPage;

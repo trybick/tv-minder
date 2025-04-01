@@ -97,7 +97,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
 
-  const onSubmit = handleSubmit(({ email, password, oneTimeCode }) => {
+  const onSubmit = handleSubmit(({ email, password, oneTimeCode }: FormData) => {
     setIsLoading(true);
     switch (formOption) {
       case 0:
@@ -247,25 +247,25 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
               </Separator>
             )}
 
-            <FormControl isInvalid={Boolean(errors.email)}>
+            <FormControl isInvalid={Boolean(errors?.email)}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 isDisabled={formOption === 2 || formOption === 3}
                 name="email"
                 placeholder="Email"
-                ref={register(formSchema.email)}
+                {...register('email')}
                 autoFocus
               />
-              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
             </FormControl>
             {(formOption === 0 || formOption === 3) && (
-              <FormControl isInvalid={Boolean(errors.password)} mt={4}>
+              <FormControl isInvalid={Boolean(errors?.password)} mt={4}>
                 <FormLabel> {formOption === 3 && 'New'} Password</FormLabel>
                 <InputGroup>
                   <Input
                     name="password"
                     placeholder="Password"
-                    ref={register(formSchema.password)}
+                    {...register('password')}
                     type={passwordVisible ? 'text' : 'password'}
                   />
                   <InputRightElement w="4.5rem">
@@ -274,22 +274,22 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+                <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
               </FormControl>
             )}
             {formOption === 2 && (
-              <FormControl isInvalid={Boolean(errors.password)} mt={4}>
+              <FormControl isInvalid={Boolean(errors?.password)} mt={4}>
                 <FormLabel>Enter Verification Code</FormLabel>
                 <Input
                   name="oneTimeCode"
                   placeholder="One Time Code"
-                  ref={register(formSchema.oneTimeCode)}
+                  {...register('oneTimeCode')}
                 />
-                <FormErrorMessage>{errors.oneTimeCode?.message}</FormErrorMessage>
+                <FormErrorMessage>{errors?.oneTimeCode?.message}</FormErrorMessage>
               </FormControl>
             )}
-            <FormControl isInvalid={Boolean(errors.login)} mt={4}>
-              <FormErrorMessage>{errors.login?.message}</FormErrorMessage>
+            <FormControl isInvalid={Boolean(errors?.login)} mt={4}>
+              <FormErrorMessage>{errors?.login?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 
