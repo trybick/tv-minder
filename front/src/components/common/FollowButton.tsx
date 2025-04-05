@@ -1,7 +1,8 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
-import { CheckIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { useFollowButton } from 'hooks/useFollowButton';
 import { ID } from 'types/common';
+import { IoMdAdd } from 'react-icons/io';
+import { FaCheck } from 'react-icons/fa6';
 
 type Props = {
   showId: ID;
@@ -21,25 +22,25 @@ export const FollowButton = ({
     <Button
       bg="primary"
       color="white"
-      isLoading={isLoading}
-      leftIcon={<CheckIcon />}
+      loading={isLoading}
       onClick={onUnFollowShow}
       variant="solid"
       {...(followedWidth && { minW: followedWidth })}
       {...rest}
     >
+      <FaCheck />
       Following
     </Button>
   ) : (
     <Button
-      colorScheme="cyan"
-      isLoading={isLoading}
-      leftIcon={<SmallAddIcon fontSize="22px" marginInlineEnd="-0.2rem" />}
+      colorPalette="cyan"
+      loading={isLoading}
       onClick={onFollowShow}
       variant="outline"
       {...(unfollowedWidth && { minW: unfollowedWidth })}
       {...rest}
     >
+      <IoMdAdd fontSize="22px" style={{ marginInlineEnd: '-0.2rem' }} />
       Follow
     </Button>
   );

@@ -1,20 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Image,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Image, Menu, Separator } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
@@ -25,7 +12,7 @@ import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
-
+import { useColorModeValue } from 'components/ui/color-mode';
 type StateProps = {
   email: string;
   isLoggedIn: boolean;
@@ -79,7 +66,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
     <Button
       as={Link}
       color="primary"
-      colorScheme="blue"
+      colorPalette="blue"
       fontSize="1.2rem"
       fontWeight="600"
       mr={isMobile ? '-16px' : 0}
@@ -159,17 +146,25 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ToggleColorModeButton />
-                <Menu placement="bottom-end">
-                  <MenuButton aria-label="Page Options">
-                    <Avatar bg={avatarBackgroundColor} size="sm" />
-                  </MenuButton>
-                  <MenuList zIndex={4}>
-                    <MenuGroup title={email}>
-                      <MenuItem onClick={() => history.push(ROUTES.SETTINGS)}>Settings</MenuItem>
-                      <MenuItem onClick={onLogout}>Logout</MenuItem>
-                    </MenuGroup>
-                  </MenuList>
-                </Menu>
+                <Menu.Root positioning={{ placement: 'bottom-end' }}>
+                  <Menu.Trigger aria-label="Page Options">
+                    <Button>
+                      <Avatar.Root bg={avatarBackgroundColor} size="sm" />
+                    </Button>
+                  </Menu.Trigger>
+                  <Menu.Positioner>
+                    <Menu.Content zIndex={4}>
+                      <Menu.ItemGroup title={email}>
+                        <Menu.Item onClick={() => history.push(ROUTES.SETTINGS)} value="settings">
+                          Settings
+                        </Menu.Item>
+                        <Menu.Item onClick={onLogout} value="logout">
+                          Logout
+                        </Menu.Item>
+                      </Menu.ItemGroup>
+                    </Menu.Content>
+                  </Menu.Positioner>
+                </Menu.Root>
               </Box>
 
               <Box display={{ base: 'block', md: 'none' }}>
@@ -187,7 +182,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         </Box>
       </Flex>
 
-      {(!isMobile || (isMobile && !isShowPage)) && <Divider mt="6px" />}
+      {(!isMobile || (isMobile && !isShowPage)) && <Separator mt="6px" />}
     </>
   );
 };

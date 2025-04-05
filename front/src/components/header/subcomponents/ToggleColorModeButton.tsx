@@ -1,6 +1,6 @@
-import { IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-
+import { IconButton } from '@chakra-ui/react';
+import { IoMoon, IoSunny } from 'react-icons/io5';
+import { useColorMode, useColorModeValue } from 'components/ui/color-mode';
 const ToggleColorModeButton = () => {
   const { toggleColorMode } = useColorMode();
 
@@ -8,11 +8,12 @@ const ToggleColorModeButton = () => {
     <IconButton
       alignSelf="center"
       aria-label="toggle color mode"
-      icon={useColorModeValue(<MoonIcon />, <SunIcon />)}
       mr="14px"
       onClick={toggleColorMode}
       size="sm"
-    />
+    >
+      {useColorModeValue(<IoMoon />, <IoSunny />)}
+    </IconButton>
   );
 };
 

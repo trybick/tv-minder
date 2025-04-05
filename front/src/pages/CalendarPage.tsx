@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar from '@fullcalendar/react';
@@ -18,7 +18,8 @@ import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
 import theme from 'theme';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
-import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEvent';
+import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEventPopover';
+import { useColorMode, useColorModeValue } from 'components/ui/color-mode';
 
 const calendarStyles = css`
   /* Add vertical space between calendar events */

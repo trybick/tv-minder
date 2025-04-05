@@ -19,6 +19,7 @@ import SettingsPage from 'pages/SettingsPage';
 import ShowPage from 'pages/ShowPage';
 import { ROUTES } from 'constants/routes';
 import { initSentry } from 'utils/sentry';
+import { Toaster } from './ui/toaster';
 
 type StateProps = {
   isLoggedIn: boolean;
@@ -45,6 +46,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   return (
     <Router>
       <ScrollToTop />
+      <Toaster />
       <Flex direction="column" minH="97vh">
         <Header />
         <ErrorBoundary>

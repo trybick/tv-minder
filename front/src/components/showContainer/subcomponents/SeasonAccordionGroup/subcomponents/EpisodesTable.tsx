@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { CellProps, Column, useFlexLayout, useTable } from 'react-table';
 import moment from 'moment';
-import { Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Table, Text } from '@chakra-ui/react';
 import { EpisodeForSeason } from 'types/external';
 
 type Props = {
@@ -49,33 +49,33 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
     useTable<EpisodeForSeason>({ columns, data: episodes, initialState }, useFlexLayout);
 
   return (
-    <Table size="sm" {...getTableProps()}>
-      <Thead>
+    <Table.Root size="sm" {...getTableProps()}>
+      <Table.Header>
         {headerGroups.map((headerGroup, i) => (
-          <Tr {...headerGroup.getHeaderGroupProps()} key={`episode-headerGroup-${i}`}>
+          <Table.Row {...headerGroup.getHeaderGroupProps()} key={`episode-headerGroup-${i}`}>
             {headerGroup.headers.map(column => (
-              <Th {...column.getHeaderProps()} key={column.id}>
+              <Table.ColumnHeader {...column.getHeaderProps()} key={column.id}>
                 {column.render('Header')}
-              </Th>
+              </Table.ColumnHeader>
             ))}
-          </Tr>
+          </Table.Row>
         ))}
-      </Thead>
-      <Tbody {...getTableBodyProps()}>
+      </Table.Header>
+      <Table.Body {...getTableBodyProps()}>
         {rows.map((row, i) => {
           prepareRow(row);
           return [
-            <Tr {...row.getRowProps()} key={`episode-row-${i}`}>
+            <Table.Row {...row.getRowProps()} key={`episode-row-${i}`}>
               {row.cells.map((cell, i) => (
-                <Td {...cell.getCellProps()} key={`episode-cell-${i}`}>
+                <Table.Cell {...cell.getCellProps()} key={`episode-cell-${i}`}>
                   {cell.render('Cell')}
-                </Td>
+                </Table.Cell>
               ))}
-            </Tr>,
+            </Table.Row>,
           ];
         })}
-      </Tbody>
-    </Table>
+      </Table.Body>
+    </Table.Root>
   );
 };
 
