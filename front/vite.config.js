@@ -1,10 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
 import path from 'path';
-import dns from 'dns';
-
-dns.setDefaultResultOrder('verbatim');
 
 export default defineConfig(() => {
   return {
@@ -31,6 +27,6 @@ export default defineConfig(() => {
         utils: path.resolve(__dirname, './src/utils'),
       },
     },
-    plugins: [react(), svgr({ svgrOptions: { icon: true } })],
+    plugins: [react()],
   };
 });

@@ -4,4 +4,4 @@
   build = "build/"
 
 [context.production]
-  environment = { NODE_VERSION = "14.18.0" }
+  environment = { NODE_VERSION = "22.14.0" }

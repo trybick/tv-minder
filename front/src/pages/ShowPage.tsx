@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet-async';
 import { Box } from '@chakra-ui/react';
 import { useAppDispatch } from 'store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from 'store/tv/actions';
@@ -27,14 +26,16 @@ const ShowPage = () => {
   return isLoading || !showInfoForDisplay?.id || showId !== showInfoForDisplay?.id ? (
     <LoadingSpinner delay={250} isFullScreen />
   ) : (
-    <Box
-      m={isMobile ? '12px auto 40px' : '24px auto 40px'}
-      maxW="800px"
-      px={{ base: '20px', md: '30px' }}
-    >
-      <Helmet title={`${showInfoForDisplay.name} | TV Minder`} />
-      <ShowContainer showInfoForDisplay={showInfoForDisplay} />
-    </Box>
+    <>
+      <title>{showInfoForDisplay.name} | TV Minder</title>
+      <Box
+        m={isMobile ? '12px auto 40px' : '24px auto 40px'}
+        maxW="800px"
+        px={{ base: '20px', md: '30px' }}
+      >
+        <ShowContainer showInfoForDisplay={showInfoForDisplay} />
+      </Box>
+    </>
   );
 };
 

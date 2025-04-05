@@ -7,8 +7,8 @@ import {
   legacy_createStore as createStore,
 } from 'redux';
 import { useDispatch } from 'react-redux';
-import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { persistReducer, persistStore } from 'redux-persist';
+import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk';
 import localforage from 'localforage';
 import { userReducer, UserState } from './user/reducers';
 import { tvReducer, TvState } from './tv/reducers';
