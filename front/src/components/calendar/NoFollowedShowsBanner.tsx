@@ -1,7 +1,8 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { HStack, Icon, Link, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { HStack, Icon, Link, Stack, Text } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ROUTES } from 'constants/routes';
+import { useColorModeValue } from 'components/ui/color-mode';
 
 const NoFollowedShowsBanner = () => (
   <Stack
@@ -13,7 +14,7 @@ const NoFollowedShowsBanner = () => (
     px={{ base: '3', md: '6', lg: '8' }}
     py="4"
   >
-    <HStack spacing="3">
+    <HStack gap="3">
       <Icon as={FiAlertTriangle} fontSize="2xl" h="6" />
       <Text fontWeight="medium">
         TV shows will appear on your calendar! Start adding shows to your calendar{' '}

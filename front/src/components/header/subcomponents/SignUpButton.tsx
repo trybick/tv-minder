@@ -7,8 +7,8 @@ type Props = {
 };
 
 const SignUpButton = ({ closeHeader }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const disclosureProps = { isOpen, onOpen, onClose };
+  const { open, onOpen, onClose } = useDisclosure();
+  const disclosureProps = { isOpen: open, onOpen, onClose };
 
   const handleClick = () => {
     closeHeader();

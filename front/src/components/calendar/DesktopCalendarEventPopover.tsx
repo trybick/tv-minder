@@ -2,7 +2,6 @@ import { useHistory } from 'react-router-dom';
 import { EventContentArg } from '@fullcalendar/core';
 import {
   Button,
-  Collapse,
   Flex,
   Icon,
   Popover,
@@ -12,9 +11,7 @@ import {
   PopoverTrigger,
   Portal,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { TbBoxMultiple } from 'react-icons/tb';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
@@ -33,21 +30,15 @@ const DesktopCalendarEvent = (props: Props) => {
     isMulipleEvent,
     multipleEventSpanAmount,
     network,
-    overview,
     runtime,
     showId,
     showName,
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
-  const {
-    isOpen: isOverviewDisplayed,
-    onToggle: toggleIsOverviewDisplayed,
-    onClose: hideOverview,
-  } = useDisclosure();
   const history = useHistory();
 
   return (
-    <Popover onClose={hideOverview} placement="right" trigger="hover">
+    <Popover placement="right" trigger="hover">
       <PopoverTrigger>
         <Flex alignItems="center" p="1px 6px">
           {isMulipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
@@ -55,7 +46,7 @@ const DesktopCalendarEvent = (props: Props) => {
             // This className ties into a global style which prevents the truncation from breaking
             className="calendarEventPopoverTrigger"
             fontSize="md"
-            noOfLines={1}
+            lineClamp={1}
           >
             {title}
           </Text>
@@ -74,7 +65,7 @@ const DesktopCalendarEvent = (props: Props) => {
               variant="link"
               whiteSpace="unset"
             >
-              <Text noOfLines={1}>{showName}</Text>
+              <Text lineClamp={1}>{showName}</Text>
             </Button>
             <Text color="white" fontSize="lg" fontWeight="600" mb="3px">
               {seasonAndEpisodeNumbersFull}
@@ -116,33 +107,6 @@ const DesktopCalendarEvent = (props: Props) => {
                 )}
               </Flex>
             ) : null}
-
-            {overview && !isMulipleEvent && (
-              <Flex flexDirection="column" mt="9px">
-                <Button
-                  alignSelf="flex-start"
-                  color="white"
-                  fontWeight="500"
-                  onClick={toggleIsOverviewDisplayed}
-                  rightIcon={
-                    isOverviewDisplayed ? (
-                      <ChevronUpIcon boxSize="16px" ml="-8px" />
-                    ) : (
-                      <ChevronDownIcon boxSize="16px" ml="-8px" />
-                    )
-                  }
-                  size="sm"
-                  variant="link"
-                >
-                  Episode Summary
-                </Button>
-                <Collapse in={isOverviewDisplayed} animateOpacity>
-                  <Text color="white" fontSize="sm" mt="6px">
-                    {overview}
-                  </Text>
-                </Collapse>
-              </Flex>
-            )}
           </PopoverBody>
         </PopoverContent>
       </Portal>

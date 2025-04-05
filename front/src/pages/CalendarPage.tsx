@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar from '@fullcalendar/react';
@@ -16,9 +16,9 @@ import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
-import theme from 'theme';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
-import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEvent';
+import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEventPopover';
+import { useColorMode, useColorModeValue } from 'components/ui/color-mode';
 
 const calendarStyles = css`
   /* Add vertical space between calendar events */
@@ -42,11 +42,11 @@ const darkModeCalendarStyles = css`
   .fc-col-header-cell,
   .fc-more-popover,
   .fc-list-day-cushion {
-    background-color: ${theme.colors.darkBlack} !important;
+    background-color: #1a202c !important;
   }
   /* event hover color on mobile */
   .fc .fc-list-event:hover td {
-    background-color: ${theme.colors.black} !important;
+    background-color: #333333 !important;
   }
 `;
 

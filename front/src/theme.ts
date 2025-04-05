@@ -1,25 +1,30 @@
-import { Colors, extendTheme, ThemeConfig } from '@chakra-ui/react';
+import { createSystem, defaultConfig } from '@chakra-ui/react';
 
-const config: ThemeConfig = {
-  initialColorMode: 'dark',
-};
+// After updating theme, run this command to update autocomplete typings
+// npx @chakra-ui/cli typegen ./src/theme.ts
 
-const colors: Colors = {
-  black: '#333333',
-  darkBlack: '#1A202C',
-  white: '#fff',
-  primary: '#0099DB',
-  secondary: '#034A85',
-  mode: {
-    light: {
-      primary: '#659bc7',
-      secondary: '#034A85',
-    },
-    dark: {
-      primary: '#659bc7',
-      secondary: '#0099DB',
+const system = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      colors: {
+        black: { value: '#333333' },
+        darkBlack: { value: '#1A202C' },
+        white: { value: '#fff' },
+        primary: { value: '#0099DB' },
+        secondary: { value: '#034A85' },
+        mode: {
+          light: {
+            primary: { value: '#659bc7' },
+            secondary: { value: '#034A85' },
+          },
+          dark: {
+            primary: { value: '#659bc7' },
+            secondary: { value: '#0099DB' },
+          },
+        },
+      },
     },
   },
-};
+});
 
-export default extendTheme({ config, colors });
+export default system;
