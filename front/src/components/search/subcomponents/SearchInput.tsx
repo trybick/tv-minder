@@ -1,13 +1,6 @@
 import { ChangeEvent, RefObject, useEffect } from 'react';
-import {
-  Flex,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-} from '@chakra-ui/react';
-import { Search2Icon, SmallCloseIcon } from '@chakra-ui/icons';
+import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
+import { IoClose, IoSearch } from 'react-icons/io5';
 import { PlainFunction } from 'types/common';
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -37,11 +30,30 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
       p="0 25px"
       w={['100%', 'sm', 'md', 'lg']}
     >
-      <InputGroup display="flex">
-        <InputLeftElement ml="3px" top="9px">
-          <Search2Icon color="gray.300" />
-        </InputLeftElement>
+      <InputGroup
+        display="flex"
+        endElement={
+          inputValue && (
+            <IconButton
+              aria-label="Clear input"
+              onClick={handleClearInput}
+              size="sm"
+              variant="plain"
+            >
+              <IoClose size="19px" />
+            </IconButton>
+          )
+        }
+        startElement={
+          <IoSearch color="gray.300" size="19px" style={{ marginLeft: '3px', top: '9px' }} />
+        }
+      >
         <Input
+          _focusVisible={{
+            borderColor: '#63b3ed',
+            boxShadow: '#63b3ed 0 1px 0',
+            outline: 'none',
+          }}
           border="2px solid #0099DB"
           borderRadius="5px"
           fontSize="18px"
@@ -51,20 +63,9 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
           ref={inputRef}
           size="sm"
           value={inputValue}
-          variant="flushed"
+          variant="outline"
           autoFocus
         />
-        {inputValue && (
-          <InputRightElement right="6px" top="10px">
-            <IconButton
-              aria-label="Clear input"
-              icon={<SmallCloseIcon boxSize="20px" />}
-              onClick={handleClearInput}
-              size="sm"
-              variant="ghost"
-            />
-          </InputRightElement>
-        )}
       </InputGroup>
     </Flex>
   );

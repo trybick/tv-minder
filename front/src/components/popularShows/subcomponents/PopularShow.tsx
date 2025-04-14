@@ -26,15 +26,14 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
         alt={`popular-show-${name}`}
         borderRadius="8px 8px 0 0"
         cursor="pointer"
-        fallbackSrc={fallbackImagePath}
-        fallbackStrategy="onError"
+        onError={e => (e.currentTarget.src = fallbackImagePath)}
         src={posterPath ? imagePath342 + posterPath : fallbackImagePath}
         w="100%"
       />
     </Link>
     <Flex direction="column" mt="5px" p="8px 12px">
-      <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
-        <Heading fontSize="md" noOfLines={1} textAlign="center">
+      <Link as={RouterLink} m="0 auto" to={`${ROUTES.SHOW}/${id}`}>
+        <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
           {name}
         </Heading>
       </Link>

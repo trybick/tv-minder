@@ -1,14 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Flex,
-  Heading,
-  Text,
-} from '@chakra-ui/react';
+import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import { BasicShowInfo } from 'types/external';
 import EpisodesTable from './subcomponents/EpisodesTable';
@@ -23,8 +13,8 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
 
   const createAccordionItems = () =>
     seasonsWithEpisodes.map(({ airDate, episodes, id, isSpecialsSeason, nameForDisplay }) => (
-      <AccordionItem key={id}>
-        <AccordionButton px={isMobile ? '8px' : '16px'}>
+      <Accordion.Item key={id} value={id.toString()}>
+        <Accordion.ItemTrigger cursor="pointer" px={isMobile ? '8px' : '16px'}>
           <Box flex="1" textAlign="left">
             <Text display="inline" fontSize="lg" fontWeight="600">
               {nameForDisplay}
@@ -38,12 +28,12 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
           <Box mr="20px" textAlign="right">
             <Text fontSize="md">{episodes.length} Episodes</Text>
           </Box>
-          <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel p={isMobile ? '10px 0 5px' : '10px'}>
+          <Accordion.ItemIndicator />
+        </Accordion.ItemTrigger>
+        <Accordion.ItemContent p={isMobile ? '10px 0 5px' : '10px'}>
           <EpisodesTable episodes={episodes} isMobile={isMobile} />
-        </AccordionPanel>
-      </AccordionItem>
+        </Accordion.ItemContent>
+      </Accordion.Item>
     ));
 
   return (
@@ -51,9 +41,9 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
       <Heading as="h4" fontSize={isMobile ? 'xl' : '2xl'} ml={isMobile ? '' : '14px'}>
         Episodes
       </Heading>
-      <Accordion mt="14px" w="100%" allowToggle>
+      <Accordion.Root mt="14px" w="100%" collapsible>
         {createAccordionItems()}
-      </Accordion>
+      </Accordion.Root>
     </Flex>
   );
 };

@@ -1,11 +1,11 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Icon,
   Image,
   Link,
+  Separator,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -14,12 +14,12 @@ import TMDBLogo from 'images/TMDB-logo.svg';
 import FeedbackModal from './FeedbackModal';
 
 const Footer = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const disclosureProps = { isOpen, onOpen, onClose };
+  const { open, onOpen, onClose } = useDisclosure();
+  const disclosureProps = { isOpen: open, onOpen, onClose };
 
   return (
     <Box mb="6px">
-      <Divider />
+      <Separator />
       <Flex
         alignItems="center"
         fontSize=".85rem"
@@ -30,7 +30,7 @@ const Footer = () => {
           <Text fontSize="10px" fontWeight="600">
             Data provided by
           </Text>
-          <Link href="https://www.themoviedb.org/" isExternal>
+          <Link href="https://www.themoviedb.org/" rel="noopener noreferrer" target="_blank">
             <Image alt="The Movie DB logo" h="11px" src={TMDBLogo} />
           </Link>
         </Flex>
@@ -39,20 +39,15 @@ const Footer = () => {
           aria-label="GitHub"
           display="flex"
           href="https://github.com/trybick/tv-minder"
-          isExternal
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <Icon as={FaGithub} h="1.7rem" transition="color 0.2s" w="1.3rem" />
         </Link>
 
-        <Button
-          bg="primary"
-          color="white"
-          // ml="auto"
-          onClick={onOpen}
-          rightIcon={<FaRegComment />}
-          size="sm"
-        >
+        <Button bg="primary" color="white" onClick={onOpen} size="sm">
           Feedback
+          <FaRegComment />
         </Button>
         <FeedbackModal disclosureProps={disclosureProps} />
       </Flex>

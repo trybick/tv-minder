@@ -35,8 +35,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
           <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
             <Image
               borderRadius="6px"
-              fallbackSrc={fallbackImagePath}
-              fallbackStrategy="onError"
+              onError={e => (e.currentTarget.src = fallbackImagePath)}
               src={posterSource || fallbackImagePath}
             />
           </Link>
@@ -46,7 +45,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
           <Flex w="100%">
             <Box>
               <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
-                <Heading alignSelf="center" mr="10px" noOfLines={2} size="md">
+                <Heading alignSelf="center" lineClamp={2} mr="10px" size="md">
                   {name}
                 </Heading>
               </Link>
@@ -63,7 +62,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
             />
           </Flex>
 
-          <Text fontSize="14px" mt="8px" noOfLines={3}>
+          <Text fontSize="14px" lineClamp={3} mt="8px">
             {overview}
           </Text>
         </Flex>

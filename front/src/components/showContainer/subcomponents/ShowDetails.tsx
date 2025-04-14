@@ -65,9 +65,9 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
       {genreNames && (
         <Box mb="18px">
           {genreNames?.map(genre => (
-            <Tag key={genre} mr="5px" size="md">
+            <Tag.Root colorPalette="gray" key={genre} mr="5px" size="lg">
               {genre}
-            </Tag>
+            </Tag.Root>
           ))}
         </Box>
       )}
@@ -76,7 +76,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
 
-      <Flex direction="column" gap="4px" mt="6px">
+      <Flex direction="column" gap="4px" mt="18px">
         {network && (
           <Flex align="center" gap="6px">
             <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="18px" />
@@ -99,7 +99,7 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       {overview && (
         <Flex direction="column" mt="18px">
-          <Heading as="h4" fontSize={isMobile ? 'xl' : '18px'} mb="4px">
+          <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
             Overview
           </Heading>
           <Text>{overview}</Text>

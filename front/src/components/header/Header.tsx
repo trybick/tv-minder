@@ -1,20 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { connect, MapStateToProps } from 'react-redux';
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Image,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Image, Menu, Portal, Separator } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
@@ -24,7 +11,9 @@ import logo from 'images/logo.svg';
 import LoginButton from './subcomponents/LoginButton';
 import SignUpButton from './subcomponents/SignUpButton';
 import LogoutButton from './subcomponents/LogoutButton';
-import ToggleColorModeButton from './subcomponents/ToggleColorModeButton';
+import { ColorModeButton } from 'components/ui/color-mode';
+import { VscSettingsGear } from 'react-icons/vsc';
+import { SlLogout } from 'react-icons/sl';
 
 type StateProps = {
   email: string;
@@ -67,7 +56,6 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const history = useHistory();
   const location = useLocation();
   const isShowPage = location.pathname.includes('/show/');
-  const avatarBackgroundColor = useColorModeValue('#a0afbf', 'black');
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -77,16 +65,20 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
 
   const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => (
     <Button
+      _hover={{
+        textDecoration: 'underline',
+        textUnderlineOffset: '2px',
+      }}
       as={Link}
       color="primary"
-      colorScheme="blue"
+      colorPalette="blue"
       fontSize="1.2rem"
       fontWeight="600"
       mr={isMobile ? '-16px' : 0}
       onClick={closeHeader}
       p={isMobile ? '16px ' : '16px'}
       to={linkTo}
-      variant="ghost"
+      variant="plain"
     >
       {text}
     </Button>
@@ -138,7 +130,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         >
           <NavLink linkTo={ROUTES.HOME} text="Discover" />
           <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" />
-          <NavLink linkTo={ROUTES.FOLLOWING} text="Following" />
+          {isLoggedIn && <NavLink linkTo={ROUTES.FOLLOWING} text="Manage" />}
+
           {isLoggedIn ? (
             <Box display={{ base: 'block', md: 'none' }}>
               <NavLink linkTo={ROUTES.SETTINGS} text="Settings" />
@@ -158,28 +151,43 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           {isLoggedIn ? (
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
-                <ToggleColorModeButton />
-                <Menu placement="bottom-end">
-                  <MenuButton aria-label="Page Options">
-                    <Avatar bg={avatarBackgroundColor} size="sm" />
-                  </MenuButton>
-                  <MenuList zIndex={4}>
-                    <MenuGroup title={email}>
-                      <MenuItem onClick={() => history.push(ROUTES.SETTINGS)}>Settings</MenuItem>
-                      <MenuItem onClick={onLogout}>Logout</MenuItem>
-                    </MenuGroup>
-                  </MenuList>
-                </Menu>
+                <ColorModeButton mr="8px" />
+                <Menu.Root positioning={{ placement: 'bottom-end' }}>
+                  <Menu.Trigger aria-label="Page Options" cursor="pointer">
+                    <Avatar.Root size="sm">
+                      <Avatar.Fallback />
+                    </Avatar.Root>
+                  </Menu.Trigger>
+                  <Portal>
+                    <Menu.Positioner>
+                      <Menu.Content zIndex={4}>
+                        <Menu.Item
+                          cursor="pointer"
+                          onClick={() => history.push(ROUTES.SETTINGS)}
+                          p="10px"
+                          value="settings"
+                        >
+                          <VscSettingsGear />
+                          Settings
+                        </Menu.Item>
+                        <Menu.Item cursor="pointer" onClick={onLogout} p="10px" value="logout">
+                          <SlLogout />
+                          Logout
+                        </Menu.Item>
+                      </Menu.Content>
+                    </Menu.Positioner>
+                  </Portal>
+                </Menu.Root>
               </Box>
 
               <Box display={{ base: 'block', md: 'none' }}>
-                <ToggleColorModeButton />
+                <ColorModeButton mr="8px" />
                 <LogoutButton closeHeader={closeHeader} />
               </Box>
             </>
           ) : (
-            <Flex justify="flex-end">
-              <ToggleColorModeButton />
+            <Flex alignItems="center" justify="flex-end">
+              <ColorModeButton mr="8px" />
               <LoginButton closeHeader={closeHeader} />
               <SignUpButton closeHeader={closeHeader} />
             </Flex>
@@ -187,7 +195,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         </Box>
       </Flex>
 
-      {(!isMobile || (isMobile && !isShowPage)) && <Divider mt="6px" />}
+      {(!isMobile || (isMobile && !isShowPage)) && <Separator mt="6px" />}
     </>
   );
 };

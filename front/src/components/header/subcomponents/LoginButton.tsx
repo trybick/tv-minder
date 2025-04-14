@@ -7,8 +7,8 @@ type Props = {
 };
 
 const LoginButton = ({ closeHeader }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const disclosureProps = { isOpen, onOpen, onClose };
+  const { open, onOpen, onClose } = useDisclosure();
+  const disclosureProps = { isOpen: open, onOpen, onClose };
 
   const handleClick = () => {
     closeHeader();
@@ -17,7 +17,7 @@ const LoginButton = ({ closeHeader }: Props) => {
 
   return (
     <>
-      <Button borderColor="primary" colorScheme="cyan" onClick={handleClick} variant="outline">
+      <Button colorPalette="cyan" onClick={handleClick} variant="surface">
         Login
       </Button>
       <LoginModal disclosureProps={disclosureProps} />

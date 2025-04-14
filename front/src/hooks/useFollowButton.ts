@@ -1,7 +1,5 @@
-import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { localWarningToastMessage } from 'constants/toasts';
 import { useAppDispatch } from 'store';
 import {
   removeFromFollowedShowsAction,
@@ -14,6 +12,7 @@ import {
   selectIsLoggedIn,
 } from 'store/user/selectors';
 import { ID } from 'types/common';
+import { toaster } from '../components/ui/toaster';
 
 export const useFollowButton = (showId: ID) => {
   const dispatch = useAppDispatch();
@@ -22,7 +21,6 @@ export const useFollowButton = (showId: ID) => {
   const hasLocalWarningToastBeenShown = useSelector(selectHasLocalWarningToastBeenShown);
   const [isFollowed, setIsFollowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
 
   useEffect(() => {
     if (followedShows.includes(showId)) {
@@ -38,7 +36,13 @@ export const useFollowButton = (showId: ID) => {
     dispatch(saveToFollowedShowsAction(showId));
     if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       dispatch(setHasLocalWarningToastBeenShownAction());
-      toast(localWarningToastMessage);
+      toaster.create({
+        title: "We're saving your shows",
+        description: 'You can sign up to avoid losing them',
+        type: 'warning',
+        duration: 7000,
+        meta: { closable: true },
+      });
     }
   }
 
