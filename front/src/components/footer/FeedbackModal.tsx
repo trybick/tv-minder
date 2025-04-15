@@ -1,22 +1,11 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  Textarea,
-  useToast,
-} from '@chakra-ui/react';
-import axios from 'axios';
+import { Button, CloseButton, Dialog, Text, Textarea } from '@chakra-ui/react';
+import axios, { AxiosError } from 'axios';
 import { FiSend } from 'react-icons/fi';
 import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
+import { toaster } from '../ui/toaster';
 
 type Props = {
   disclosureProps: DisclosureProps;
@@ -24,78 +13,79 @@ type Props = {
 
 const FeedbackModal = ({ disclosureProps }: Props) => {
   const { isOpen, onClose } = disclosureProps;
-  const [value, setValue] = useState('');
   const [error, setError] = useState('');
+  const [feedback, setFeedback] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const toast = useToast();
-  const initialRef = useRef(null);
+  const initialRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setFeedback(event.target.value);
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    await axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, {
-        text: value,
-      })
-      .then(() => {
-        setIsSubmitting(false);
-        setValue('');
-        onClose();
-        toast({
-          title: 'Feedback submitted',
-          description: 'Thanks for your message!',
-          status: 'success',
-          isClosable: true,
-        });
-      })
-      .catch(error => {
-        handleErrors(error);
-        setError(error.message);
-        setIsSubmitting(false);
+    try {
+      await axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, { text: feedback });
+      toaster.create({
+        title: 'Feedback submitted',
+        description: 'Thank you for your feedback!',
+        type: 'success',
+        duration: 5000,
+        meta: { closable: true },
       });
+
+      onClose();
+    } catch (error) {
+      setError(error.message);
+      handleErrors(error as AxiosError);
+    } finally {
+      setFeedback('');
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Submit Feedback</ModalHeader>
-        <ModalCloseButton />
+    <Dialog.Root
+      initialFocusEl={() => initialRef.current}
+      onOpenChange={onClose}
+      open={isOpen}
+      lazyMount
+      unmountOnExit
+    >
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <Dialog.Header>
+            <Dialog.Title>{"What's on your mind?"}</Dialog.Title>
+            <Dialog.CloseTrigger asChild>
+              <CloseButton size="sm" />
+            </Dialog.CloseTrigger>
+          </Dialog.Header>
 
-        <ModalBody>
-          <Textarea
-            h="150px"
-            mb={2}
-            onChange={handleTextChange}
-            placeholder="Any feedback welcome 😎"
-            ref={initialRef}
-            value={value}
-          />
-          {error && (
-            <Text color="#ff3e3e" fontSize="sm">
-              {error}
-            </Text>
-          )}
-        </ModalBody>
+          <Dialog.Body>
+            <Textarea h="150px" mb={2} onChange={handleChange} ref={initialRef} value={feedback} />
+            {error && (
+              <Text color="#ff3e3e" fontSize="sm">
+                {error}
+              </Text>
+            )}
+          </Dialog.Body>
 
-        <ModalFooter>
-          <Button
-            bg="primary"
-            color="white"
-            isDisabled={!value}
-            isLoading={isSubmitting}
-            mr={3}
-            onClick={handleSubmit}
-            rightIcon={<FiSend />}
-          >
-            Submit
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+          <Dialog.Footer>
+            <Button
+              colorPalette="cyan"
+              disabled={!feedback}
+              loading={isSubmitting}
+              mr={3}
+              onClick={handleSubmit}
+            >
+              Send
+              <FiSend />
+            </Button>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Dialog.Root>
   );
 };
 

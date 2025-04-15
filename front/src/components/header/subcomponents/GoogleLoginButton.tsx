@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from 'react-google-button';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
 import handleErrors from 'utils/handleErrors';
 import ENDPOINTS from 'constants/endpoints';
+import { toaster } from '../../ui/toaster';
 
 type Props = {
   onClose: PlainFunction;
@@ -15,15 +16,14 @@ type Props = {
 
 const GoogleLoginButton = (props: Props) => {
   const { onClose, setIsLoggedIn, unregisteredClearFollowedShows } = props;
-  const toast = useToast();
 
   const onGoogleLoginError = () => {
     console.error('Google Login error');
-    toast({
+    toaster.create({
       title: 'Error in login',
       description: 'Could not login in. Please try again.',
-      status: 'error',
-      isClosable: true,
+      type: 'error',
+      meta: { closable: true },
     });
   };
 
@@ -58,20 +58,20 @@ const GoogleLoginButton = (props: Props) => {
             onClose();
             setIsLoggedIn(res.data.email, true);
             unregisteredClearFollowedShows();
-            toast({
+            toaster.create({
               title: 'Login Successful',
               description: 'You are now logged in with Google.',
-              status: 'success',
-              isClosable: true,
+              type: 'success',
+              meta: { closable: true },
             });
           })
           .catch((error: any) => {
             handleErrors(error);
-            toast({
+            toaster.create({
               title: 'Error in login',
               description: 'Could not login in. Please try again.',
-              status: 'error',
-              isClosable: true,
+              type: 'error',
+              meta: { closable: true },
             });
           });
       });

@@ -2,11 +2,10 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { css, Global } from '@emotion/react';
+import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar from '@fullcalendar/react';
-import { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/core';
+import { EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -16,39 +15,8 @@ import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
-import theme from 'theme';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
-import DesktopCalendarEvent from 'components/calendar/DesktopCalendarEvent';
-
-const calendarStyles = css`
-  /* Add vertical space between calendar events */
-  .fc-daygrid-event-harness {
-    margin-bottom: 4px;
-  }
-
-  /* Without this, 'display: -webkit-box' gets added which breaks the truncation  */
-  .calendarEventPopoverTrigger {
-    display: block !important;
-  }
-
-  /* Setting this height along with <FullCalendar height="auto" /> seems like a good balance */
-  .fc-scrollgrid tbody:not(:first-child) tr {
-    height: 170px;
-  }
-`;
-
-const darkModeCalendarStyles = css`
-  /* day of the week headers, "more" popover, mobile day of the week headers */
-  .fc-col-header-cell,
-  .fc-more-popover,
-  .fc-list-day-cushion {
-    background-color: ${theme.colors.darkBlack} !important;
-  }
-  /* event hover color on mobile */
-  .fc .fc-list-event:hover td {
-    background-color: ${theme.colors.black} !important;
-  }
-`;
+import DesktopCalendarEventPopover from 'components/calendar/DesktopCalendarEventPopover';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
@@ -57,9 +25,6 @@ const CalendarPage = () => {
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const calendarRef = useRef<FullCalendar | null>(null);
   const isMobile = useIsMobile();
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === 'dark';
-  const mobileEventColor = useColorModeValue('black', 'white');
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -87,7 +52,7 @@ const CalendarPage = () => {
   };
 
   const formatDesktopEvent = (eventInfo: EventContentArg & { backgroundColor: string }) => (
-    <DesktopCalendarEvent eventInfo={eventInfo} />
+    <DesktopCalendarEventPopover eventInfo={eventInfo} />
   );
 
   const formatMobileEvent = (eventInfo: EventContentArg) => {
@@ -96,16 +61,9 @@ const CalendarPage = () => {
     return (
       <Flex>
         {isMulipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
-        <Text color={mobileEventColor} cursor="pointer">
-          {title}
-        </Text>
+        <Text cursor="pointer">{title}</Text>
       </Flex>
     );
-  };
-
-  const titleFormat: FormatterInput = {
-    month: isMobile ? 'short' : 'long',
-    year: 'numeric',
   };
 
   return (
@@ -118,7 +76,6 @@ const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        <Global styles={[calendarStyles, isDarkMode && darkModeCalendarStyles]} />
         <FullCalendar
           allDayContent={false}
           dayMaxEventRows={4}
@@ -130,9 +87,13 @@ const CalendarPage = () => {
           height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           key={moment().format('MM-DD-YYYY')} // refresh 'today' date highlight when needed
+          // Format of the day titles in mobile view
+          listDayFormat={{ month: 'long', day: 'numeric' }}
+          listDaySideFormat={false}
+          noEventsContent="New episodes will appear here!"
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
           ref={calendarRef}
-          titleFormat={titleFormat}
+          titleFormat={{ month: 'long' }}
           editable // enable mouse pointer cursor
         />
       </Box>

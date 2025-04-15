@@ -50,12 +50,12 @@ const SearchResults = ({
   return (
     <Box m="0 auto">
       <Box mr={{ base: '14px', md: '2px' }} textAlign="right">
-        <Tag fontSize="0.84rem" mb="24px" size="sm">
+        <Tag.Root colorPalette="gray" fontSize="0.84rem" mb="24px" size="lg">
           {totalMatchesText}
-        </Tag>
+        </Tag.Root>
       </Box>
 
-      <Stack m="0 auto" spacing={5} w={{ base: '96%', md: '500px' }}>
+      <Stack gap={5} m="0 auto" w={{ base: '96%', md: '500px' }}>
         {shows.map(show => (
           <SearchResult
             followedShows={followedShows}

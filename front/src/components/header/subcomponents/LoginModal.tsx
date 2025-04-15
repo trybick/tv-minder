@@ -5,34 +5,25 @@ import axios from 'axios';
 import {
   Box,
   Button,
+  CloseButton,
+  Dialog,
+  Field,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Grid,
   Input,
   InputGroup,
-  InputRightElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useColorModeValue,
-  useToast,
+  Portal,
 } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import ENDPOINTS from 'constants/endpoints';
-import { emailRegex } from 'constants/strings';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
 import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
+import { toaster } from '../../ui/toaster';
+import Separator from 'components/common/Separator';
+import { emailRegex } from '../../../constants/strings';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -65,30 +56,14 @@ const formSchema = {
   },
 };
 
-const Separator = styled(Flex)`
-  &:before,
-  &:after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid grey;
-  }
-  &:before {
-    margin-right: 15px;
-  }
-  &:after {
-    margin-left: 15px;
-  }
-`;
-
 const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
   // Modal
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
-  const toast = useToast();
   useCloseModalOnPressEscape({ onClose });
 
   // Form
-  const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
+  const { handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
 
   // Password fields
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -126,11 +101,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         onClose();
         setIsLoggedIn(res.data.email);
         unregisteredClearFollowedShows();
-        toast({
+        toaster.create({
           title: 'Login Successful',
           description: 'You are now logged in.',
-          status: 'success',
-          isClosable: true,
+          type: 'success',
+          duration: 3000,
+          meta: { closable: true },
         });
       })
       .catch(err => {
@@ -147,11 +123,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .then(() => {
         setIsLoading(false);
         setFormOption(2);
-        toast({
+        toaster.create({
           title: 'Password Reset!',
           description: 'A one-time code has been sent to your email address',
-          status: 'success',
-          isClosable: true,
+          type: 'success',
+          duration: 3000,
+          meta: { closable: true },
         });
       })
       .catch(err => {
@@ -167,11 +144,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .then(() => {
         setIsLoading(false);
         setFormOption(3);
-        toast({
+        toaster.create({
           title: 'Verification Completed!',
           description: 'Time to change your password',
-          status: 'success',
-          isClosable: true,
+          type: 'success',
+          duration: 3000,
+          meta: { closable: true },
         });
       })
       .catch(err => {
@@ -187,11 +165,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .then(() => {
         setIsLoading(false);
         setFormOption(0);
-        toast({
+        toaster.create({
           title: 'Password Changed!',
           description: 'Login with your new password',
-          status: 'success',
-          isClosable: true,
+          type: 'success',
+          duration: 3000,
+          meta: { closable: true },
         });
       })
       .catch(err => {
@@ -201,9 +180,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       });
   };
 
-  const handleFormClose = () => {
-    setFormOption(0);
-    onClose();
+  const handleFormClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      setFormOption(0);
+      onClose();
+    }
   };
 
   const getSubmitButtonText = () => {
@@ -211,7 +192,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     if (formOption === 0) {
       buttonText = 'Login';
     } else if (formOption === 1) {
-      buttonText = 'Send One-time Code';
+      buttonText = 'Send Code';
     } else if (formOption === 2) {
       buttonText = 'Verify';
     } else if (formOption === 3) {
@@ -221,123 +202,121 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleFormClose}>
-      <ModalOverlay />
-      <ModalContent bg={useColorModeValue('#fff', '#2D3748')} mx="20px">
-        <ModalHeader>Login</ModalHeader>
-        <ModalCloseButton
-          onClick={() => {
-            clearError();
-            handleFormClose();
-          }}
-        />
-        {formOption === 0 && (
-          <GoogleLoginButton
-            onClose={onClose}
-            setIsLoggedIn={setIsLoggedIn}
-            unregisteredClearFollowedShows={unregisteredClearFollowedShows}
-          />
-        )}
+    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>Login</Dialog.Title>
+            </Dialog.Header>
 
-        <Box as="form" onSubmit={onSubmit}>
-          <ModalBody pb={6}>
+            <Dialog.CloseTrigger asChild>
+              <CloseButton />
+            </Dialog.CloseTrigger>
+
             {formOption === 0 && (
-              <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
-                OR
-              </Separator>
-            )}
-
-            <FormControl isInvalid={Boolean(errors?.email)}>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input
-                isDisabled={formOption === 2 || formOption === 3}
-                name="email"
-                placeholder="Email"
-                {...register('email')}
-                autoFocus
+              <GoogleLoginButton
+                onClose={onClose}
+                setIsLoggedIn={setIsLoggedIn}
+                unregisteredClearFollowedShows={unregisteredClearFollowedShows}
               />
-              <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
-            </FormControl>
-            {(formOption === 0 || formOption === 3) && (
-              <FormControl isInvalid={Boolean(errors?.password)} mt={4}>
-                <FormLabel> {formOption === 3 && 'New'} Password</FormLabel>
-                <InputGroup>
+            )}
+
+            <Box as="form" onSubmit={onSubmit}>
+              <Dialog.Body pb={6}>
+                {formOption === 0 && (
+                  <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+                    OR
+                  </Separator>
+                )}
+
+                <Field.Root invalid={Boolean(errors?.email)}>
+                  <Field.Label htmlFor="email">Email</Field.Label>
                   <Input
-                    name="password"
-                    placeholder="Password"
-                    {...register('password')}
-                    type={passwordVisible ? 'text' : 'password'}
+                    disabled={formOption === 2 || formOption === 3}
+                    placeholder="Email"
+                    {...register('email')}
+                    autoFocus
                   />
-                  <InputRightElement w="4.5rem">
-                    <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
-                      {passwordVisible ? 'Hide' : 'Show'}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
-              </FormControl>
-            )}
-            {formOption === 2 && (
-              <FormControl isInvalid={Boolean(errors?.password)} mt={4}>
-                <FormLabel>Enter Verification Code</FormLabel>
-                <Input
-                  name="oneTimeCode"
-                  placeholder="One Time Code"
-                  {...register('oneTimeCode')}
-                />
-                <FormErrorMessage>{errors?.oneTimeCode?.message}</FormErrorMessage>
-              </FormControl>
-            )}
-            <FormControl isInvalid={Boolean(errors?.login)} mt={4}>
-              <FormErrorMessage>{errors?.login?.message}</FormErrorMessage>
-            </FormControl>
-          </ModalBody>
+                  <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
+                </Field.Root>
+                {(formOption === 0 || formOption === 3) && (
+                  <Field.Root invalid={Boolean(errors?.password)} mt={4}>
+                    <Field.Label> {formOption === 3 && 'New'} Password</Field.Label>
+                    <InputGroup
+                      endElement={
+                        <Button
+                          onClick={togglePasswordVisible}
+                          size="sm"
+                          tabIndex={-1}
+                          variant="plain"
+                        >
+                          {passwordVisible ? 'Hide' : 'Show'}
+                        </Button>
+                      }
+                    >
+                      <Input
+                        placeholder="Password"
+                        {...register('password')}
+                        type={passwordVisible ? 'text' : 'password'}
+                      />
+                    </InputGroup>
+                    <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
+                  </Field.Root>
+                )}
+                {formOption === 2 && (
+                  <Field.Root invalid={Boolean(errors?.oneTimeCode)} mt={4}>
+                    <Field.Label>Enter Verification Code</Field.Label>
+                    <Input placeholder="One Time Code" {...register('oneTimeCode')} />
+                    <Field.ErrorText>{errors?.oneTimeCode?.message}</Field.ErrorText>
+                  </Field.Root>
+                )}
+                <Field.Root invalid={Boolean(errors?.login)} mt={4}>
+                  <Field.ErrorText>{errors?.login?.message}</Field.ErrorText>
+                </Field.Root>
+              </Dialog.Body>
 
-          <ModalFooter>
-            <Box>
-              <Flex flex={1}>
-                <Grid gridTemplateColumns="1fr 3fr">
-                  <Box textAlign="left">
-                    {(formOption === 0 || formOption === 1) && (
-                      <Button
-                        _active={{
-                          borderColor: 'none',
-                        }}
-                        _focus={{
-                          borderColor: 'none',
-                        }}
-                        color="#659BC7"
-                        fontSize="0.88rem"
-                        onClick={() => setFormOption((formOption + 1) % 2)}
-                        pt="0.75rem"
-                        variant="link"
-                      >
-                        {(formOption === 0 && 'Forgot Password?') ||
-                          (formOption === 1 && (
-                            <>
-                              <Box as={TiArrowBack} w="18px" />
-                              Go back
-                            </>
-                          ))}
-                      </Button>
-                    )}
-                  </Box>
+              <Dialog.Footer as={Flex} flex={1} justifyContent="space-between">
+                <Box>
+                  {(formOption === 0 || formOption === 1) && (
+                    <Button
+                      fontSize="0.88rem"
+                      onClick={() => setFormOption((formOption + 1) % 2)}
+                      variant="ghost"
+                    >
+                      {formOption === 0 ? (
+                        'Forgot Password?'
+                      ) : (
+                        <>
+                          <Box as={TiArrowBack} />
+                          Back
+                        </>
+                      )}
+                    </Button>
+                  )}
+                </Box>
 
-                  <Box textAlign="right">
-                    <Button bg="primary" color="white" isLoading={isLoading} type="submit">
-                      {getSubmitButtonText()}
-                    </Button>
-                    <Button ml={2} onClick={handleFormClose}>
-                      Cancel
-                    </Button>
-                  </Box>
-                </Grid>
-              </Flex>
+                <Box>
+                  <Button onClick={() => handleFormClose(false)} variant="ghost">
+                    Cancel
+                  </Button>
+                  <Button
+                    colorPalette="cyan"
+                    loading={isLoading}
+                    ml={3}
+                    type="submit"
+                    variant="solid"
+                  >
+                    {getSubmitButtonText()}
+                  </Button>
+                </Box>
+              </Dialog.Footer>
             </Box>
-          </ModalFooter>
-        </Box>
-      </ModalContent>
-    </Modal>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
   );
 };
 

@@ -38,8 +38,7 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
           <Flex direction="column" gap="12px">
             <Image
               borderRadius="8px"
-              fallbackSrc={fallbackImagePathLarge}
-              fallbackStrategy="onError"
+              onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
               src={posterPath ? imagePath342 + posterPath : fallbackImagePathLarge}
             />
             <FollowButton showId={id} />

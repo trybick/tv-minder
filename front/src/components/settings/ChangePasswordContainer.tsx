@@ -2,18 +2,10 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
 import { selectIsGoogleUser, selectUserEmail } from 'store/user/selectors';
 import ENDPOINTS from 'constants/endpoints';
+import { toaster } from '../ui/toaster';
 
 type FormData = {
   oldPassword: string;
@@ -25,7 +17,6 @@ const ChangePasswordContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const email = useSelector(selectUserEmail);
   const isGoogleUser = useSelector(selectIsGoogleUser);
-  const toast = useToast();
   const { getValues, handleSubmit, errors, register } = useForm<FormData>();
 
   const formSchema = {
@@ -47,9 +38,9 @@ const ChangePasswordContainer = () => {
   };
 
   const formErrorForDisplay =
-    errors['oldPassword']?.message ||
-    errors['newPassword']?.message ||
-    errors['newPasswordConfirmation']?.message;
+    errors?.['oldPassword']?.message ||
+    errors?.['newPassword']?.message ||
+    errors?.['newPasswordConfirmation']?.message;
 
   const onSubmit = handleSubmit(({ oldPassword, newPassword }: FormData) => {
     setIsLoading(true);
@@ -65,11 +56,12 @@ const ChangePasswordContainer = () => {
       )
       .then(() => {
         setIsLoading(false);
-        toast({
+        toaster.create({
           title: 'Password Changed!',
           description: 'Your Password has been updated.',
-          status: 'success',
-          isClosable: true,
+          type: 'success',
+          duration: 3000,
+          meta: { closable: true },
         });
       })
       .catch((error: AxiosError) => {
@@ -78,11 +70,11 @@ const ChangePasswordContainer = () => {
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
           : 'Your Password could not be updated.';
-        toast({
+        toaster.create({
           title: 'An error occurred',
           description: errorDescription,
-          status: 'error',
-          isClosable: true,
+          type: 'error',
+          meta: { closable: true },
         });
       });
   });
@@ -96,50 +88,47 @@ const ChangePasswordContainer = () => {
       p={5}
       w={['80%', '75%', '50%', '30%']}
     >
-      <Heading as="h4" fontSize="1.8rem" textAlign="center">
+      <Heading as="h4" fontSize="1.6rem" textAlign="center">
         Change Password
       </Heading>
       {isGoogleUser && (
         <Heading as="h6" fontSize="1rem" fontStyle="italic" mt="14px" textAlign="center">
-          Not available for Google accounts
+          Not available when using a Google account
         </Heading>
       )}
 
       <Box as="form" onSubmit={onSubmit}>
-        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors?.oldPassword}>
-          <FormLabel mt="1.5rem" w="100%">
+        <Field.Root disabled={isGoogleUser} invalid={!!errors?.oldPassword}>
+          <Field.Label mt="1.5rem" w="100%">
             Current Password
-          </FormLabel>
-          <Input name="oldPassword" ref={register(formSchema.oldPassword)} type="password" />
-        </FormControl>
-        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors?.newPassword}>
-          <FormLabel mt="1rem" w="100%">
+          </Field.Label>
+          <Input {...register('oldPassword')} type="password" />
+          <Field.ErrorText>{errors?.oldPassword?.message}</Field.ErrorText>
+        </Field.Root>
+        <Field.Root disabled={isGoogleUser} invalid={!!errors?.newPassword}>
+          <Field.Label mt="1rem" w="100%">
             New Password
-          </FormLabel>
-          <Input name="newPassword" ref={register(formSchema.newPassword)} type="password" />
-        </FormControl>
-        <FormControl isDisabled={isGoogleUser} isInvalid={!!errors?.newPasswordConfirmation}>
-          <FormLabel mt="1rem" w="100%">
+          </Field.Label>
+          <Input {...register('newPassword')} type="password" />
+          <Field.ErrorText>{errors?.newPassword?.message}</Field.ErrorText>
+        </Field.Root>
+        <Field.Root disabled={isGoogleUser} invalid={!!errors?.newPasswordConfirmation}>
+          <Field.Label mt="1rem" w="100%">
             Confirm New Password
-          </FormLabel>
-          <Input
-            name="newPasswordConfirmation"
-            ref={register(formSchema.newPasswordConfirmation)}
-            type="password"
-          />
-          <FormErrorMessage>{formErrorForDisplay}</FormErrorMessage>
-        </FormControl>
+          </Field.Label>
+          <Input {...register('newPasswordConfirmation')} type="password" />
+          <Field.ErrorText>{formErrorForDisplay}</Field.ErrorText>
+        </Field.Root>
 
         <Button
-          bg="primary"
-          color="white"
-          isDisabled={isGoogleUser}
-          isLoading={isLoading}
+          colorPalette="cyan"
+          disabled={isGoogleUser}
+          loading={isLoading}
           mt={4}
           type="submit"
           width="100%"
         >
-          Submit
+          Update
         </Button>
       </Box>
     </Box>

@@ -2,27 +2,7 @@ import { MutableRefObject, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useColorModeValue,
-  useToast,
-} from '@chakra-ui/react';
-import styled from '@emotion/styled';
+import { Box, Button, CloseButton, Dialog, Field, Input, InputGroup } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
@@ -31,6 +11,8 @@ import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
+import { toaster } from '../../ui/toaster';
+import Separator from '../../common/Separator';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -63,11 +45,10 @@ const SignUpModal = ({
   // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
   useCloseModalOnPressEscape({ onClose });
 
   // Form
-  const { clearError, errors, handleSubmit, reset, setError, register } = useForm<FormData>();
+  const { errors, handleSubmit, reset, setError, register } = useForm<FormData>();
   const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   // Password fields
@@ -94,11 +75,11 @@ const SignUpModal = ({
         setIsLoggedIn(res.data.email);
         unregisteredClearFollowedShows();
 
-        toast({
+        toaster.create({
           title: 'Logged in',
           description: "We've created your account for you.",
-          status: 'success',
-          isClosable: true,
+          type: 'success',
+          meta: { closable: true },
         });
       })
       .catch(err => {
@@ -115,107 +96,96 @@ const SignUpModal = ({
       });
   });
 
-  const Separator = styled(Flex)`
-    &:before,
-    &:after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid grey;
+  const handleFormClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      onClose();
     }
-    &:before {
-      margin-right: 15px;
-    }
-    &:after {
-      margin-left: 15px;
-    }
-  `;
+  };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent bg={useColorModeValue('#fff', '#2D3748')} mx="20px">
-        <ModalHeader>Create your account</ModalHeader>
-        <ModalCloseButton
-          onClick={() => {
-            clearError();
-            onClose();
-          }}
-        />
+    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <Dialog.Header>
+            <Dialog.Title>Sign Up</Dialog.Title>
+          </Dialog.Header>
 
-        <GoogleLoginButton
-          onClose={onClose}
-          setIsLoggedIn={setIsLoggedIn}
-          unregisteredClearFollowedShows={unregisteredClearFollowedShows}
-        />
+          <Dialog.CloseTrigger asChild>
+            <CloseButton />
+          </Dialog.CloseTrigger>
 
-        <Box as="form" onSubmit={onSubmit}>
-          <ModalBody pb={6}>
-            <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
-              OR
-            </Separator>
+          <GoogleLoginButton
+            onClose={onClose}
+            setIsLoggedIn={setIsLoggedIn}
+            unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+          />
 
-            <FormControl isInvalid={Boolean(errors?.email)}>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input
-                name="email"
-                placeholder="Email"
-                ref={emailRef}
-                {...register('email')}
-                autoFocus
-              />
-              <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
-            </FormControl>
+          <Box as="form" onSubmit={onSubmit}>
+            <Dialog.Body pb={6}>
+              <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+                OR
+              </Separator>
 
-            <FormControl isInvalid={Boolean(errors?.password)} mt={4}>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input
-                  name="password"
-                  placeholder="Password"
-                  {...register('password')}
-                  type={passwordVisible ? 'text' : 'password'}
-                />
-                <InputRightElement w="4.5rem">
-                  <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
-                    {passwordVisible ? 'Hide' : 'Show'}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-              <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
-            </FormControl>
+              <Field.Root invalid={Boolean(errors?.email)}>
+                <Field.Label htmlFor="email">Email</Field.Label>
+                <Input placeholder="Email" {...register('email')} ref={emailRef} autoFocus />
+                <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
+              </Field.Root>
 
-            <FormControl isInvalid={Boolean(errors?.confirmPassword)} mt={4}>
-              <FormLabel>Confirm Password</FormLabel>
-              <InputGroup>
-                <Input
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  {...register('confirmPassword')}
-                  type={passwordVisible ? 'text' : 'password'}
-                />
-                <InputRightElement w="4.5rem">
-                  <Button h="1.75rem" onClick={togglePasswordVisible} size="sm" tabIndex={-1}>
-                    {passwordVisible ? 'Hide' : 'Show'}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-              <FormErrorMessage>{errors?.confirmPassword?.message}</FormErrorMessage>
-            </FormControl>
+              <Field.Root invalid={Boolean(errors?.password)} mt={4}>
+                <Field.Label>Password</Field.Label>
+                <InputGroup
+                  endElement={
+                    <Button onClick={togglePasswordVisible} size="sm" tabIndex={-1} variant="plain">
+                      {passwordVisible ? 'Hide' : 'Show'}
+                    </Button>
+                  }
+                >
+                  <Input
+                    placeholder="Password"
+                    {...register('password')}
+                    type={passwordVisible ? 'text' : 'password'}
+                  />
+                </InputGroup>
+                <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
+              </Field.Root>
 
-            <FormControl isInvalid={Boolean(errors?.signUp)} mt={4}>
-              <FormErrorMessage>{errors?.signUp?.message}</FormErrorMessage>
-            </FormControl>
-          </ModalBody>
+              <Field.Root invalid={Boolean(errors?.confirmPassword)} mt={4}>
+                <Field.Label>Confirm Password</Field.Label>
+                <InputGroup
+                  endElement={
+                    <Button onClick={togglePasswordVisible} size="sm" tabIndex={-1} variant="plain">
+                      {passwordVisible ? 'Hide' : 'Show'}
+                    </Button>
+                  }
+                >
+                  <Input
+                    placeholder="Confirm Password"
+                    {...register('confirmPassword')}
+                    type={passwordVisible ? 'text' : 'password'}
+                  />
+                </InputGroup>
+                <Field.ErrorText>{errors?.confirmPassword?.message}</Field.ErrorText>
+              </Field.Root>
 
-          <ModalFooter>
-            <Button bg="primary" color="white" isLoading={isLoading} mr={3} type="submit">
-              Sign Up
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </Box>
-      </ModalContent>
-    </Modal>
+              <Field.Root invalid={Boolean(errors?.signUp)} mt={4}>
+                <Field.ErrorText>{errors?.signUp?.message}</Field.ErrorText>
+              </Field.Root>
+            </Dialog.Body>
+
+            <Dialog.Footer>
+              <Button mr={3} onClick={onClose} variant="ghost">
+                Cancel
+              </Button>
+              <Button colorPalette="cyan" loading={isLoading} type="submit" variant="solid">
+                Sign Up
+              </Button>
+            </Dialog.Footer>
+          </Box>
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Dialog.Root>
   );
 };
 
