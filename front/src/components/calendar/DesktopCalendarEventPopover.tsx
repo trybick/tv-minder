@@ -46,6 +46,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
             </HoverCard.Arrow>
             <Box>
               <Link
+                color="white"
                 fontSize="14px"
                 mb="7px"
                 onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}

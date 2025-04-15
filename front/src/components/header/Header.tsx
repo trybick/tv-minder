@@ -70,8 +70,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         textUnderlineOffset: '2px',
       }}
       as={Link}
-      color="primary"
-      colorPalette="blue"
+      colorPalette="cyan"
       fontSize="1.2rem"
       fontWeight="600"
       mr={isMobile ? '-16px' : 0}
@@ -155,7 +154,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                 <Menu.Root positioning={{ placement: 'bottom-end' }}>
                   <Menu.Trigger aria-label="Page Options" cursor="pointer">
                     <Avatar.Root size="sm">
-                      <Avatar.Fallback />
+                      <Avatar.Fallback name={email} />
                     </Avatar.Root>
                   </Menu.Trigger>
                   <Portal>
@@ -181,15 +180,15 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               </Box>
 
               <Box display={{ base: 'block', md: 'none' }}>
-                <ColorModeButton mr="8px" />
+                <ColorModeButton mr="12px" />
                 <LogoutButton closeHeader={closeHeader} />
               </Box>
             </>
           ) : (
             <Flex alignItems="center" justify="flex-end">
               <ColorModeButton mr="8px" />
-              <LoginButton closeHeader={closeHeader} />
-              <SignUpButton closeHeader={closeHeader} />
+              <LoginButton />
+              <SignUpButton />
             </Flex>
           )}
         </Box>

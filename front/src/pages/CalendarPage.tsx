@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar from '@fullcalendar/react';
-import { EventClickArg, EventContentArg, FormatterInput } from '@fullcalendar/core';
+import { EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -17,7 +17,6 @@ import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
 import { ROUTES } from 'constants/routes';
 import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
 import DesktopCalendarEventPopover from 'components/calendar/DesktopCalendarEventPopover';
-import { useColorModeValue } from 'components/ui/color-mode';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +25,6 @@ const CalendarPage = () => {
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const calendarRef = useRef<FullCalendar | null>(null);
   const isMobile = useIsMobile();
-  const mobileEventColor = useColorModeValue('black', 'white');
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -63,9 +61,7 @@ const CalendarPage = () => {
     return (
       <Flex>
         {isMulipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
-        <Text color={mobileEventColor} cursor="pointer">
-          {title}
-        </Text>
+        <Text cursor="pointer">{title}</Text>
       </Flex>
     );
   };
@@ -91,6 +87,10 @@ const CalendarPage = () => {
           height="auto"
           initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
           key={moment().format('MM-DD-YYYY')} // refresh 'today' date highlight when needed
+          // Format of the day titles in mobile view
+          listDayFormat={{ month: 'long', day: 'numeric' }}
+          listDaySideFormat={false}
+          noEventsContent="New episodes will appear here!"
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
           ref={calendarRef}
           titleFormat={{ month: 'long' }}

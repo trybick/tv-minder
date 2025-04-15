@@ -31,9 +31,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
         description: 'Thank you for your feedback!',
         type: 'success',
         duration: 5000,
-        meta: {
-          meta: { closable: true },
-        },
+        meta: { closable: true },
       });
 
       onClose();
@@ -41,6 +39,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
       setError(error.message);
       handleErrors(error as AxiosError);
     } finally {
+      setFeedback('');
       setIsSubmitting(false);
     }
   };
@@ -51,6 +50,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
       onOpenChange={onClose}
       open={isOpen}
       lazyMount
+      unmountOnExit
     >
       <Dialog.Backdrop />
       <Dialog.Positioner>
@@ -73,8 +73,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
           <Dialog.Footer>
             <Button
-              bg="primary"
-              color="white"
+              colorPalette="cyan"
               disabled={!feedback}
               loading={isSubmitting}
               mr={3}

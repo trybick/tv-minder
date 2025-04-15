@@ -1,63 +1,57 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
+import { globalCss } from './globalCss';
 
 //
-// After updating theme, run this command to update autocomplete typings
+// When you configure the system properties (like colors, space, fonts, etc.),
+// the CLI can be used to generate type definitions for them. This will update
+// the internal types in the @chakra-ui/react package, and make sure they are in
+// sync with the theme.
 // npx @chakra-ui/cli typegen ./src/theme.ts
 //
 
-//
-// Calendar styles
-//
-const calendarStyles = {
-  // Add vertical space between calendar events
-  '.fc-daygrid-event-harness': {
-    marginBottom: '4px',
-  },
-
-  // Table row height. Setting this height along with <FullCalendar height="auto" /> seems like a good balance
-  '.fc-scrollgrid tbody:first-of-type tr': {
-    height: '170px',
-  },
-};
-
-const darkModeCalendarStyles = {
-  // day of the week headers, "more" popover, mobile day of the week headers
-  '.dark .fc-col-header-cell, .dark .fc-more-popover, .dark .fc-list-day-cushion': {
-    backgroundColor: '#1A202C !important',
-  },
-
-  // Event hover color on mobile
-  '.dark .fc .fc-list-event:hover td': {
-    backgroundColor: '#333333 !important',
-  },
-};
-
 const customConfig = defineConfig({
   globalCss: {
-    ...calendarStyles,
-    ...darkModeCalendarStyles,
-  },
-  theme: {
-    tokens: {
-      colors: {
-        black: { value: '#333333' },
-        darkBlack: { value: '#1A202C' },
-        white: { value: '#fff' },
-        primary: { value: '#0099DB' },
-        secondary: { value: '#034A85' },
-        mode: {
-          light: {
-            primary: { value: '#659bc7' },
-            secondary: { value: '#034A85' },
-          },
-          dark: {
-            primary: { value: '#659bc7' },
-            secondary: { value: '#0099DB' },
-          },
-        },
-      },
+    ...globalCss,
+    html: {
+      colorPalette: 'cyan',
+    },
+    body: {
+      backgroundColor: 'bg.muted',
     },
   },
 });
 
 export const system = createSystem(defaultConfig, customConfig);
+
+// List of chakra colors:
+// https://www.chakra-ui.com/docs/theming/colors
+
+// How to override chakra colors
+// theme: {
+//   semanticTokens: {
+//     colors: {
+//       'chakra-body-bg': {
+//         value: { base: '#FFFFFF', _dark: '#1a202d' },
+//       },
+//     },
+//   },
+// },
+
+// How to use custom colors:
+// theme: {
+// tokens: {
+//   colors: {
+//     primary: { value: '#fff' },
+//     secondary: { value: '#fff' },
+//   },
+// },
+// semanticTokens: {
+//   colors: {
+//     myColor: {
+//       value: { base: '{colors.primary}', _dark: '{colors.secondary}' },
+//     },
+//   },
+// },
+// },
+//  Then use like this:
+// <Box bg="myColor">

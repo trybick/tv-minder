@@ -1,7 +1,6 @@
 import { AspectRatio, Box, Button, Dialog, Icon, Text, useDisclosure } from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
-import { useColorModeValue } from 'components/ui/color-mode';
 
 type Props = {
   isMobile?: boolean;
@@ -12,7 +11,6 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
   const desktopOptions = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
   const mobileOptions = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
-  const textColor = useColorModeValue('darkBlack', 'white');
 
   return videoId ? (
     <Box alignSelf="center" mb={isMobile ? '20px' : '9px'} mt={isMobile ? '' : '20px'}>
@@ -23,7 +21,7 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
         w={isMobile ? '100%' : 'unset'}
       >
         <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
-        <Text color={textColor} display="inline" fontSize="15px" fontWeight="600">
+        <Text display="inline" fontSize="15px" fontWeight="600">
           Play Trailer
         </Text>
       </Button>

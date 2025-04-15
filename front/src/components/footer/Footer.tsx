@@ -45,7 +45,7 @@ const Footer = () => {
           <Icon as={FaGithub} h="1.7rem" transition="color 0.2s" w="1.3rem" />
         </Link>
 
-        <Button bg="primary" color="white" onClick={onOpen} size="sm">
+        <Button colorPalette="cyan" onClick={onOpen} size="sm">
           Feedback
           <FaRegComment />
         </Button>

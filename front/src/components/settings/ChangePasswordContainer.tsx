@@ -121,8 +121,7 @@ const ChangePasswordContainer = () => {
         </Field.Root>
 
         <Button
-          bg="primary"
-          color="white"
+          colorPalette="cyan"
           disabled={isGoogleUser}
           loading={isLoading}
           mt={4}

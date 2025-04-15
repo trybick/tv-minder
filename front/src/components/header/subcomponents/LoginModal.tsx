@@ -9,7 +9,6 @@ import {
   Dialog,
   Field,
   Flex,
-  Grid,
   Input,
   InputGroup,
   Portal,
@@ -24,6 +23,7 @@ import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
 import { toaster } from '../../ui/toaster';
 import Separator from 'components/common/Separator';
+import { emailRegex } from '../../../constants/strings';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -59,11 +59,11 @@ const formSchema = {
 const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
   // Modal
   const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onClose, setIsOpen } = disclosureProps;
+  const { isOpen, onClose } = disclosureProps;
   useCloseModalOnPressEscape({ onClose });
 
   // Form
-  const { clearError, handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
+  const { handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
 
   // Password fields
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -192,7 +192,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     if (formOption === 0) {
       buttonText = 'Login';
     } else if (formOption === 1) {
-      buttonText = 'Send One-time Code';
+      buttonText = 'Send Code';
     } else if (formOption === 2) {
       buttonText = 'Verify';
     } else if (formOption === 3) {
@@ -202,7 +202,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   };
 
   return (
-    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} unmountOnExit>
+    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -277,45 +277,39 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                 </Field.Root>
               </Dialog.Body>
 
-              <Dialog.Footer>
+              <Dialog.Footer as={Flex} flex={1} justifyContent="space-between">
                 <Box>
-                  <Flex flex={1}>
-                    <Grid gridTemplateColumns="1fr 3fr">
-                      <Box textAlign="left">
-                        {(formOption === 0 || formOption === 1) && (
-                          <Button
-                            fontSize="0.88rem"
-                            onClick={() => setFormOption((formOption + 1) % 2)}
-                            variant="ghost"
-                          >
-                            {formOption === 0 ? (
-                              'Forgot Password?'
-                            ) : (
-                              <>
-                                <Box as={TiArrowBack} w="18px" />
-                                Go back
-                              </>
-                            )}
-                          </Button>
-                        )}
-                      </Box>
+                  {(formOption === 0 || formOption === 1) && (
+                    <Button
+                      fontSize="0.88rem"
+                      onClick={() => setFormOption((formOption + 1) % 2)}
+                      variant="ghost"
+                    >
+                      {formOption === 0 ? (
+                        'Forgot Password?'
+                      ) : (
+                        <>
+                          <Box as={TiArrowBack} />
+                          Back
+                        </>
+                      )}
+                    </Button>
+                  )}
+                </Box>
 
-                      <Box ml="auto">
-                        <Button onClick={() => handleFormClose(false)} variant="ghost">
-                          Cancel
-                        </Button>
-                        <Button
-                          colorPalette="cyan"
-                          loading={isLoading}
-                          ml={3}
-                          type="submit"
-                          variant="solid"
-                        >
-                          {getSubmitButtonText()}
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Flex>
+                <Box>
+                  <Button onClick={() => handleFormClose(false)} variant="ghost">
+                    Cancel
+                  </Button>
+                  <Button
+                    colorPalette="cyan"
+                    loading={isLoading}
+                    ml={3}
+                    type="submit"
+                    variant="solid"
+                  >
+                    {getSubmitButtonText()}
+                  </Button>
                 </Box>
               </Dialog.Footer>
             </Box>

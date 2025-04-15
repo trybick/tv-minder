@@ -96,8 +96,14 @@ const SignUpModal = ({
       });
   });
 
+  const handleFormClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog.Root onOpenChange={onClose} open={isOpen} lazyMount unmountOnExit>
+    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content>
@@ -172,14 +178,7 @@ const SignUpModal = ({
               <Button mr={3} onClick={onClose} variant="ghost">
                 Cancel
               </Button>
-              <Button
-                bg="primary"
-                color="white"
-                colorPalette="cyan"
-                loading={isLoading}
-                type="submit"
-                variant="solid"
-              >
+              <Button colorPalette="cyan" loading={isLoading} type="submit" variant="solid">
                 Sign Up
               </Button>
             </Dialog.Footer>
