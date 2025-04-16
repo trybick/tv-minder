@@ -12,7 +12,7 @@ const WrappedApp = () => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!}>
-          <ChakraProvider>
+          <ChakraProvider defaultTheme="dark">
             <App />
           </ChakraProvider>
         </GoogleOAuthProvider>

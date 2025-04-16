@@ -65,7 +65,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 <Flex flexWrap="wrap" gap="2px 8px">
                   {isMulipleEvent && (
                     <Flex align="center" gap="2px">
-                      <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" color="#fff" />
+                      <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" color="white" />
                       <Text color="white" fontSize="13px" fontWeight="500">
                         {`${multipleEventSpanAmount} episodes`}
                       </Text>
@@ -77,7 +77,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
                         alignSelf="center"
                         as={HiOutlineVideoCamera}
                         boxSize="14px"
-                        color="#fff"
+                        color="white"
                       />
                       <Text color="white" fontSize="13px" fontWeight="500">
                         {network}
@@ -86,7 +86,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
                   )}
                   {runtime && !isMulipleEvent && (
                     <Flex align="center" gap="2px">
-                      <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" color="#fff" />
+                      <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" color="white" />
                       <Text color="white" fontSize="13px" fontWeight="500">
                         {runtime} mins
                       </Text>
