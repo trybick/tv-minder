@@ -2,7 +2,7 @@ import { MutableRefObject, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { Box, Button, CloseButton, Dialog, Field, Input, InputGroup } from '@chakra-ui/react';
+import { Box, Button, CloseButton, Dialog, Field, Input } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
@@ -13,6 +13,7 @@ import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
 import { toaster } from '../../ui/toaster';
 import Separator from '../../common/Separator';
+import { PasswordInput } from '../../ui/password-input';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -50,10 +51,6 @@ const SignUpModal = ({
   // Form
   const { errors, handleSubmit, reset, setError, register } = useForm<FormData>();
   const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
-
-  // Password fields
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   const onSubmit = handleSubmit(({ email, password }: FormData) => {
     setIsLoading(true);
@@ -106,7 +103,7 @@ const SignUpModal = ({
     <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content bg="bg.muted">
           <Dialog.Header>
             <Dialog.Title>Sign Up</Dialog.Title>
           </Dialog.Header>
@@ -127,49 +124,39 @@ const SignUpModal = ({
                 OR
               </Separator>
 
-              <Field.Root invalid={Boolean(errors?.email)}>
+              <Field.Root invalid={!!errors?.email}>
                 <Field.Label htmlFor="email">Email</Field.Label>
-                <Input placeholder="Email" {...register('email')} ref={emailRef} autoFocus />
+                <Input
+                  _focus={{ borderColor: 'cyan.500' }}
+                  borderColor="gray.500"
+                  {...register('email')}
+                  ref={emailRef}
+                  autoFocus
+                />
                 <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Field.Root invalid={Boolean(errors?.password)} mt={4}>
+              <Field.Root invalid={!!errors?.password} mt={4}>
                 <Field.Label>Password</Field.Label>
-                <InputGroup
-                  endElement={
-                    <Button onClick={togglePasswordVisible} size="sm" tabIndex={-1} variant="plain">
-                      {passwordVisible ? 'Hide' : 'Show'}
-                    </Button>
-                  }
-                >
-                  <Input
-                    placeholder="Password"
-                    {...register('password')}
-                    type={passwordVisible ? 'text' : 'password'}
-                  />
-                </InputGroup>
+                <PasswordInput
+                  _focus={{ borderColor: 'cyan.500' }}
+                  borderColor="gray.500"
+                  {...register('password')}
+                />
                 <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Field.Root invalid={Boolean(errors?.confirmPassword)} mt={4}>
+              <Field.Root invalid={!!errors?.confirmPassword} mt={4}>
                 <Field.Label>Confirm Password</Field.Label>
-                <InputGroup
-                  endElement={
-                    <Button onClick={togglePasswordVisible} size="sm" tabIndex={-1} variant="plain">
-                      {passwordVisible ? 'Hide' : 'Show'}
-                    </Button>
-                  }
-                >
-                  <Input
-                    placeholder="Confirm Password"
-                    {...register('confirmPassword')}
-                    type={passwordVisible ? 'text' : 'password'}
-                  />
-                </InputGroup>
+                <PasswordInput
+                  _focus={{ borderColor: 'cyan.500' }}
+                  borderColor="gray.500"
+                  {...register('confirmPassword')}
+                />
                 <Field.ErrorText>{errors?.confirmPassword?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Field.Root invalid={Boolean(errors?.signUp)} mt={4}>
+              <Field.Root invalid={!!errors?.signUp} mt={4}>
                 <Field.ErrorText>{errors?.signUp?.message}</Field.ErrorText>
               </Field.Root>
             </Dialog.Body>
