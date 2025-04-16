@@ -49,19 +49,14 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
         }
       >
         <Input
-          _focusVisible={{
-            borderColor: '#63b3ed',
-            boxShadow: '#63b3ed 0 1px 0',
-            outline: 'none',
-          }}
-          border="2px solid #0099DB"
+          _focus={{ borderColor: 'cyan.500' }}
+          borderColor="gray.500"
           borderRadius="5px"
           fontSize="18px"
           h="60px"
           onChange={handleChange}
           placeholder="Search all TV shows"
           ref={inputRef}
-          size="sm"
           value={inputValue}
           variant="outline"
           autoFocus
