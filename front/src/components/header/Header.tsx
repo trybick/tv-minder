@@ -188,10 +188,10 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               </Box>
             </>
           ) : (
-            <Flex alignItems="center" justify="flex-end">
-              <ColorModeButton mr="8px" />
-              <LoginButton />
+            <Flex alignItems="center" gap="10px" justify="flex-end">
+              <ColorModeButton />
               <SignUpButton />
+              <LoginButton />
             </Flex>
           )}
         </Box>

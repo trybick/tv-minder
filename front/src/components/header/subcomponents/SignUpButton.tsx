@@ -7,7 +7,7 @@ const SignUpButton = () => {
 
   return (
     <>
-      <Button colorPalette="cyan" ml="12px" onClick={() => onOpen()} variant="solid">
+      <Button colorPalette="cyan" onClick={() => onOpen()} variant="solid">
         Sign Up
       </Button>
       <SignUpModal disclosureProps={disclosureProps} />
