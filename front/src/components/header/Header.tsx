@@ -67,16 +67,18 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
     <Button
       _hover={{
         textDecoration: 'underline',
-        textUnderlineOffset: '2px',
+        textUnderlineOffset: '5px',
+        textDecorationThickness: '2px',
       }}
-      as={Link}
-      colorPalette="cyan"
+      color="cyan.500"
       fontSize="1.2rem"
       fontWeight="600"
       mr={isMobile ? '-16px' : 0}
-      onClick={closeHeader}
-      p={isMobile ? '16px ' : '16px'}
-      to={linkTo}
+      onClick={() => {
+        closeHeader();
+        history.push(linkTo);
+      }}
+      p="16px"
       variant="plain"
     >
       {text}
@@ -151,8 +153,9 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ColorModeButton mr="8px" />
-                <Menu.Root positioning={{ placement: 'bottom-end' }}>
-                  <Menu.Trigger aria-label="Page Options" cursor="pointer">
+                {/* @ts-ignore - colorPalette is a valid prop for the Menu.Root component */}
+                <Menu.Root colorPalette="customCyan" positioning={{ placement: 'bottom-end' }}>
+                  <Menu.Trigger aria-label="Page Options" cursor="pointer" focusRing="none">
                     <Avatar.Root size="sm">
                       <Avatar.Fallback name={email} />
                     </Avatar.Root>

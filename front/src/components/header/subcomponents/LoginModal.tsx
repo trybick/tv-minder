@@ -2,17 +2,7 @@ import { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import {
-  Box,
-  Button,
-  CloseButton,
-  Dialog,
-  Field,
-  Flex,
-  Input,
-  InputGroup,
-  Portal,
-} from '@chakra-ui/react';
+import { Box, Button, CloseButton, Dialog, Field, Flex, Input, Portal } from '@chakra-ui/react';
 import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
@@ -24,6 +14,7 @@ import GoogleLoginButton from './GoogleLoginButton';
 import { toaster } from '../../ui/toaster';
 import Separator from 'components/common/Separator';
 import { emailRegex } from '../../../constants/strings';
+import { PasswordInput } from '../../ui/password-input';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -64,10 +55,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   // Form
   const { handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
-
-  // Password fields
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
 
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
@@ -206,9 +193,9 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content bg="bg.muted">
             <Dialog.Header>
-              <Dialog.Title>Login</Dialog.Title>
+              <Dialog.Title>{formOption === 0 ? 'Login' : 'Forgot Password'}</Dialog.Title>
             </Dialog.Header>
 
             <Dialog.CloseTrigger asChild>
@@ -231,48 +218,36 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   </Separator>
                 )}
 
-                <Field.Root invalid={Boolean(errors?.email)}>
+                <Field.Root invalid={!!errors?.email}>
                   <Field.Label htmlFor="email">Email</Field.Label>
                   <Input
+                    _focus={{ borderColor: 'cyan.500' }}
+                    borderColor="gray.500"
                     disabled={formOption === 2 || formOption === 3}
-                    placeholder="Email"
                     {...register('email')}
                     autoFocus
                   />
                   <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                 </Field.Root>
                 {(formOption === 0 || formOption === 3) && (
-                  <Field.Root invalid={Boolean(errors?.password)} mt={4}>
+                  <Field.Root invalid={!!errors?.password} mt={4}>
                     <Field.Label> {formOption === 3 && 'New'} Password</Field.Label>
-                    <InputGroup
-                      endElement={
-                        <Button
-                          onClick={togglePasswordVisible}
-                          size="sm"
-                          tabIndex={-1}
-                          variant="plain"
-                        >
-                          {passwordVisible ? 'Hide' : 'Show'}
-                        </Button>
-                      }
-                    >
-                      <Input
-                        placeholder="Password"
-                        {...register('password')}
-                        type={passwordVisible ? 'text' : 'password'}
-                      />
-                    </InputGroup>
+                    <PasswordInput
+                      _focus={{ borderColor: 'cyan.500' }}
+                      borderColor="gray.500"
+                      {...register('password')}
+                    />
                     <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
                   </Field.Root>
                 )}
                 {formOption === 2 && (
-                  <Field.Root invalid={Boolean(errors?.oneTimeCode)} mt={4}>
+                  <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
                     <Field.Label>Enter Verification Code</Field.Label>
-                    <Input placeholder="One Time Code" {...register('oneTimeCode')} />
+                    <Input {...register('oneTimeCode')} />
                     <Field.ErrorText>{errors?.oneTimeCode?.message}</Field.ErrorText>
                   </Field.Root>
                 )}
-                <Field.Root invalid={Boolean(errors?.login)} mt={4}>
+                <Field.Root invalid={!!errors?.login} mt={4}>
                   <Field.ErrorText>{errors?.login?.message}</Field.ErrorText>
                 </Field.Root>
               </Dialog.Body>
@@ -283,7 +258,8 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     <Button
                       fontSize="0.88rem"
                       onClick={() => setFormOption((formOption + 1) % 2)}
-                      variant="ghost"
+                      px={0}
+                      variant="plain"
                     >
                       {formOption === 0 ? (
                         'Forgot Password?'

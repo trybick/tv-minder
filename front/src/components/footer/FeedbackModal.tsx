@@ -58,7 +58,12 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
           <Dialog.Header>
             <Dialog.Title>{"What's on your mind?"}</Dialog.Title>
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" />
+              <CloseButton
+                onClick={() => {
+                  setFeedback('');
+                  onClose();
+                }}
+              />
             </Dialog.CloseTrigger>
           </Dialog.Header>
 
