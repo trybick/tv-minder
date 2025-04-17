@@ -1,10 +1,10 @@
-import { useHistory } from 'react-router-dom';
 import { EventContentArg } from '@fullcalendar/core';
 import { Box, Flex, HoverCard, Icon, Link, Portal, Text } from '@chakra-ui/react';
 import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { ROUTES } from 'constants/routes';
+import { useLocation } from 'wouter';
 
 type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };
@@ -25,7 +25,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
     showName,
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
-  const history = useHistory();
+  const [, navigate] = useLocation();
 
   return (
     <HoverCard.Root openDelay={500} positioning={{ placement: 'right' }} size="sm">
@@ -49,7 +49,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 color="white"
                 fontSize="14px"
                 mb="7px"
-                onClick={() => history.push(`${ROUTES.SHOW}/${showId}`)}
+                onClick={() => navigate(`${ROUTES.SHOW}/${showId}`)}
               >
                 <Text lineClamp={1}>{showName}</Text>
                 <TbExternalLink style={{ fontSize: '14px', marginLeft: '-3px' }} />

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, Switch } from 'wouter';
 import { Flex } from '@chakra-ui/react';
 import ReactGA from 'react-ga4';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -44,27 +44,33 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   }, [isLoggedIn, fetchfollowedShows]);
 
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <Toaster />
+
       <Flex direction="column" minH="97vh">
         <Header />
+
         <ErrorBoundary>
           <Switch>
-            <Route path={ROUTES.HOME} exact>
+            <Route path={ROUTES.HOME}>
               <SearchPage />
             </Route>
             <Route path={ROUTES.CALENDAR}>
               <CalendarPage />
             </Route>
-            <Route path={ROUTES.FOLLOWING}>
-              <FollowingPage />
+
+            <Route path={ROUTES.MANAGE}>
+              <ProtectedRoute>
+                <FollowingPage />
+              </ProtectedRoute>
             </Route>
             <Route path={ROUTES.SETTINGS}>
               <ProtectedRoute>
                 <SettingsPage />
               </ProtectedRoute>
             </Route>
+
             <Route path={`${ROUTES.SHOW}/:showId`}>
               <ShowPage />
             </Route>
@@ -73,7 +79,7 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
       </Flex>
 
       <Footer />
-    </Router>
+    </>
   );
 };
 

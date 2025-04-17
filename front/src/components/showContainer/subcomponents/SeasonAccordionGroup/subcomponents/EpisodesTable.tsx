@@ -1,5 +1,4 @@
-import { useMemo } from 'react';
-import { CellProps, Column, useFlexLayout, useTable } from 'react-table';
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import moment from 'moment';
 import { Table, Text } from '@chakra-ui/react';
 import { EpisodeForSeason } from 'types/external';
@@ -10,70 +9,74 @@ type Props = {
 };
 
 const EpisodesTable = ({ episodes, isMobile }: Props) => {
-  const columns: Column<EpisodeForSeason>[] = useMemo(
-    () => [
-      {
-        id: 'episodeNumber',
-        accessor: 'episodeNumber',
-        width: 40,
-        Header: () => <Text>#</Text>,
-      },
-      {
-        id: 'name',
-        accessor: 'name',
-        width: 100,
-        Header: () => <Text>Title</Text>,
-      },
-      {
-        id: 'airDate',
-        width: 80,
-        accessor: row => row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
-        Header: () => <Text>Air Date</Text>,
-      },
-      {
-        id: 'voteAverage',
-        width: 50,
+  const columns: ColumnDef<EpisodeForSeason>[] = [
+    {
+      id: 'episodeNumber',
+      accessorKey: 'episodeNumber',
+      size: 40,
+      header: () => <Text>#</Text>,
+    },
+    {
+      id: 'name',
+      accessorKey: 'name',
+      size: 100,
+      header: () => <Text>Title</Text>,
+    },
+    {
+      id: 'airDate',
+      size: 80,
+      accessorFn: row => row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
+      header: () => <Text>Air Date</Text>,
+    },
+    {
+      id: 'voteAverage',
+      size: 50,
+      meta: {
         style: { textAlign: 'center' },
-        accessor: row => row.voteAverage,
-        Header: () => <Text textAlign="center">Rating</Text>,
-        Cell: ({ row }: CellProps<EpisodeForSeason>) => (
-          <Text textAlign="center">{row.original.voteAverage}</Text>
-        ),
       },
-    ],
-    []
-  );
+      accessorFn: row => row.voteAverage,
+      header: () => <Text textAlign="center">Rating</Text>,
+      cell: ({ row }) => <Text textAlign="center">{row.original.voteAverage}</Text>,
+    },
+  ];
 
-  const initialState = isMobile ? { hiddenColumns: ['name'] } : undefined;
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<EpisodeForSeason>({ columns, data: episodes, initialState }, useFlexLayout);
+  const { getHeaderGroups, getRowModel } = useReactTable<EpisodeForSeason>({
+    columns,
+    data: episodes,
+    getCoreRowModel: getCoreRowModel(),
+    initialState: {
+      columnVisibility: {
+        name: !isMobile,
+      },
+    },
+  });
 
   return (
-    <Table.Root size="sm" {...getTableProps()}>
+    <Table.Root size="sm">
       <Table.Header>
-        {headerGroups.map((headerGroup, i) => (
-          <Table.Row {...headerGroup.getHeaderGroupProps()} key={`episode-headerGroup-${i}`}>
-            {headerGroup.headers.map(column => (
-              <Table.ColumnHeader {...column.getHeaderProps()} key={column.id}>
-                {column.render('Header')}
+        {getHeaderGroups().map(headerGroup => (
+          <Table.Row key={headerGroup.id}>
+            {headerGroup.headers.map(header => (
+              <Table.ColumnHeader key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(header.column.columnDef.header, header.getContext())}
               </Table.ColumnHeader>
             ))}
           </Table.Row>
         ))}
       </Table.Header>
-      <Table.Body {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return [
-            <Table.Row {...row.getRowProps()} key={`episode-row-${i}`}>
-              {row.cells.map((cell, i) => (
-                <Table.Cell {...cell.getCellProps()} key={`episode-cell-${i}`}>
-                  {cell.render('Cell')}
-                </Table.Cell>
-              ))}
-            </Table.Row>,
-          ];
-        })}
+
+      <Table.Body>
+        {getRowModel().rows.map(row => (
+          <Table.Row key={row.id}>
+            {row.getVisibleCells().map(cell => (
+              <Table.Cell key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </Table.Cell>
+            ))}
+          </Table.Row>
+        ))}
       </Table.Body>
     </Table.Root>
   );

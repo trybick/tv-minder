@@ -36,7 +36,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
       onClose();
     } catch (error) {
-      setError(error.message);
+      setError(error instanceof AxiosError ? error.message : 'An unknown error occurred');
       handleErrors(error as AxiosError);
     } finally {
       setFeedback('');

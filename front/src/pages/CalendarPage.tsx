@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import moment from 'moment';
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { TbBoxMultiple } from 'react-icons/tb';
@@ -20,7 +20,8 @@ import DesktopCalendarEventPopover from 'components/calendar/DesktopCalendarEven
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const [, navigate] = useLocation();
+
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -48,7 +49,7 @@ const CalendarPage = () => {
 
   const onEventClick = (eventInfo: EventClickArg) => {
     const showId = eventInfo.event.extendedProps.showId;
-    history.push(`${ROUTES.SHOW}/${showId}`);
+    navigate(`${ROUTES.SHOW}/${showId}`);
   };
 
   const formatDesktopEvent = (eventInfo: EventContentArg & { backgroundColor: string }) => (

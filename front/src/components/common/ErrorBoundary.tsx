@@ -1,39 +1,31 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/react';
 
-interface Props extends RouteComponentProps<any> {
+interface Props {
   children: ReactNode;
+  fallback?: ReactNode;
 }
 
-type State = {
+interface State {
   hasError: boolean;
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
-};
+  error?: Error;
+}
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const { history } = this.props;
-
-    history.listen(() => {
-      if (this.state.hasError) {
-        this.setState({
-          hasError: false,
-        });
-      }
-    });
-
     this.state = {
       hasError: false,
-      error: null,
-      errorInfo: null,
     };
   }
 
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    this.setState({ hasError: true, error: error, errorInfo: errorInfo });
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    this.setState({ error });
   }
 
   render() {
@@ -55,4 +47,4 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default withRouter(ErrorBoundary);
+export default ErrorBoundary;

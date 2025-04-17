@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'wouter';
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { PopularShow as PopularShowType } from 'types/external';
 import { fallbackImagePath } from 'constants/strings';
@@ -21,7 +21,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
     maxW="270px"
     w={isMobile ? '140px' : '190px'}
   >
-    <Link as={RouterLink} to={`${ROUTES.SHOW}/${id}`}>
+    <Link as={RouterLink} href={`${ROUTES.SHOW}/${id}`}>
       <Image
         alt={`popular-show-${name}`}
         borderRadius="8px 8px 0 0"
@@ -32,7 +32,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
       />
     </Link>
     <Flex direction="column" mt="5px" p="8px 12px">
-      <Link as={RouterLink} m="0 auto" to={`${ROUTES.SHOW}/${id}`}>
+      <Link as={RouterLink} href={`${ROUTES.SHOW}/${id}`} m="0 auto">
         <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
           {name}
         </Heading>
