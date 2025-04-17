@@ -1,43 +1,24 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
+
+// Modified from https://usehooks-ts.com/react-hook/use-media-query
 
 const query = '(max-width: 768px)';
 
 export function useIsMobile(): boolean {
-  const getMatches = useCallback((query: string): boolean => {
-    return window.matchMedia(query).matches;
-  }, []);
+  const calculateIsMobile = (): boolean => window.matchMedia(query).matches;
 
-  const [matches, setMatches] = useState<boolean>(getMatches(query));
-
-  // Handles the change event of the media query.
-  const handleChange = useMemo(
-    () => () => {
-      setMatches(getMatches(query));
-    },
-    [getMatches]
-  );
+  const [isMobile, setIsMobile] = useState<boolean>(calculateIsMobile());
 
   useLayoutEffect(() => {
     const matchMedia = window.matchMedia(query);
+    const handleChange = () => setIsMobile(calculateIsMobile());
 
     // Triggered at the first client-side load and if query changes
     handleChange();
 
-    // Use deprecated `addListener` and `removeListener` to support Safari < 14 (#135)
-    if (matchMedia.addListener) {
-      matchMedia.addListener(handleChange);
-    } else {
-      matchMedia.addEventListener('change', handleChange);
-    }
+    matchMedia.addEventListener('change', handleChange);
+    return () => matchMedia.removeEventListener('change', handleChange);
+  }, []);
 
-    return () => {
-      if (matchMedia.removeListener) {
-        matchMedia.removeListener(handleChange);
-      } else {
-        matchMedia.removeEventListener('change', handleChange);
-      }
-    };
-  }, [handleChange]);
-
-  return matches;
+  return isMobile;
 }
