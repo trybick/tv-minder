@@ -28,7 +28,7 @@ export const FollowButton = ({
       {...rest}
     >
       <FaCheck />
-      Following
+      Unfollow
     </Button>
   ) : (
     <Button
