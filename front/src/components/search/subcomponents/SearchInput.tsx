@@ -2,10 +2,11 @@ import { ChangeEvent, RefObject, useEffect } from 'react';
 import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 import { PlainFunction } from 'types/common';
+
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearInput: PlainFunction;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | null>;
   inputValue: string;
 };
 

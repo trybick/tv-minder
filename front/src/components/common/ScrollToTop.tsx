@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'wouter';
+import { ROUTES } from '../../constants/routes';
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const [location] = useLocation();
 
   // When the route changes, scroll to top of page to solve issue of Show page loading scrolled down
   useEffect(() => {
-    // Allow the scroll the maintain when going back to Following page
-    if (pathname !== '/following') {
+    // Allow the scroll to maintain when going back to Manage page
+    if (location !== ROUTES.MANAGE) {
       window.scrollTo(0, 0);
     }
-  }, [pathname]);
+  }, [location]);
 
   return null;
 };

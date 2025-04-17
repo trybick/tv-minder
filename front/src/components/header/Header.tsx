@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'wouter';
 import { connect, MapStateToProps } from 'react-redux';
 import { Avatar, Box, Button, Flex, Image, Menu, Portal, Separator } from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
@@ -28,7 +28,7 @@ type Props = StateProps & DispatchProps;
 
 // On smaller resolutions a hamburger menu is shown which opens the header
 // This hook manages the 'open' state and closes the menu upon clicking outside
-function useHeaderManager(ref: RefObject<HTMLDivElement>) {
+function useHeaderManager(ref: RefObject<HTMLDivElement | null>) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
   const closeHeader = () => setIsOpen(false);
@@ -50,12 +50,11 @@ function useHeaderManager(ref: RefObject<HTMLDivElement>) {
 }
 
 const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
-  const wrapperRef = useRef(null);
-  const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(wrapperRef);
+  const containerRef = useRef(null);
+  const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(containerRef);
   const isMobile = useIsMobile();
-  const history = useHistory();
-  const location = useLocation();
-  const isShowPage = location.pathname.includes('/show/');
+  const [location, navigate] = useLocation();
+  const isShowPage = location.includes('/show/');
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -76,7 +75,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
       mr={isMobile ? '-16px' : 0}
       onClick={() => {
         closeHeader();
-        history.push(linkTo);
+        navigate(linkTo);
       }}
       p="16px"
       variant="plain"
@@ -92,11 +91,11 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         as="nav"
         justify="space-between"
         p={isMobile ? '17px 1.6rem 9px' : '15px 1.6rem 9px'}
-        ref={wrapperRef}
+        ref={containerRef}
         wrap="wrap"
       >
         <Flex align="center" as="h1" m={{ base: '0 auto', md: 'unset' }}>
-          <Link onClick={closeHeader} to={ROUTES.HOME}>
+          <RouterLink href={ROUTES.HOME} onClick={closeHeader}>
             <Image
               alt="TV Minder logo"
               display="inline"
@@ -105,7 +104,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               src={logo}
               verticalAlign="middle"
             />
-          </Link>
+          </RouterLink>
         </Flex>
 
         <Box cursor="pointer" display={{ base: 'block', md: 'none' }} onClick={toggleIsOpen}>
@@ -131,7 +130,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         >
           <NavLink linkTo={ROUTES.HOME} text="Discover" />
           <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" />
-          {isLoggedIn && <NavLink linkTo={ROUTES.FOLLOWING} text="Manage" />}
+          {isLoggedIn && <NavLink linkTo={ROUTES.MANAGE} text="Manage" />}
 
           {isLoggedIn ? (
             <Box display={{ base: 'block', md: 'none' }}>
@@ -165,7 +164,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                       <Menu.Content zIndex={4}>
                         <Menu.Item
                           cursor="pointer"
-                          onClick={() => history.push(ROUTES.SETTINGS)}
+                          onClick={() => navigate(ROUTES.SETTINGS)}
                           p="10px"
                           value="settings"
                         >

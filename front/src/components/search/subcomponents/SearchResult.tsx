@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'wouter';
 import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 import { AppThunkPlainAction } from 'store';
 import { ID } from 'types/common';
@@ -32,7 +32,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
     <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">
       <Grid gap={4} templateColumns="100px 1fr">
         <Box w="100px">
-          <Link as={RouterLink} to={`${ROUTES.SHOW}/${showId}`}>
+          <Link as={RouterLink} href={`${ROUTES.SHOW}/${showId}`}>
             <Image
               borderRadius="6px"
               onError={e => (e.currentTarget.src = fallbackImagePath)}
@@ -44,7 +44,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
         <Flex direction="column" justifyContent="space-evenly" minW="0">
           <Flex w="100%">
             <Box>
-              <Link as={RouterLink} minW="0" to={`${ROUTES.SHOW}/${showId}`}>
+              <Link as={RouterLink} href={`${ROUTES.SHOW}/${showId}`} minW="0">
                 <Heading alignSelf="center" lineClamp={2} mr="10px" size="md">
                   {name}
                 </Heading>

@@ -1,9 +1,10 @@
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { Flex, Image, Link } from '@chakra-ui/react';
 import { fallbackImagePath, fallbackImagePathLarge, imagePath780 } from 'constants/strings';
 import { BasicShowInfo } from 'types/external';
 import { ROUTES } from 'constants/routes';
 import { useColorModeValue } from 'components/ui/color-mode';
+
 type Props = {
   show: BasicShowInfo;
 };
@@ -12,7 +13,7 @@ const Show = (props: Props) => {
   const {
     show: { id, name, posterPath },
   } = props;
-  const history = useHistory();
+  const [, navigate] = useLocation();
   const imageBorderColor = useColorModeValue('#e3e3e3', '#28282B');
 
   return (
@@ -23,7 +24,7 @@ const Show = (props: Props) => {
       direction="column"
       key={id}
     >
-      <Link onClick={() => history.push(`${ROUTES.SHOW}/${id}`)}>
+      <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
@@ -37,7 +38,7 @@ const Show = (props: Props) => {
           fontSize="16px"
           fontWeight="500"
           lineClamp={1}
-          onClick={() => history.push(`${ROUTES.SHOW}/${id}`)}
+          onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}
           textAlign="center"
         >
           {name}

@@ -1,22 +1,22 @@
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { Alert, Link } from '@chakra-ui/react';
 import { ROUTES } from 'constants/routes';
 
 const NoFollowedShowsBanner = () => {
-  const history = useHistory();
+  const [, navigate] = useLocation();
 
   return (
     <Alert.Root colorPalette="cyan" justifyContent="center" status="info">
       <Alert.Indicator />
       <Alert.Title>
-        New episodes of your followed shows will appear here on your calendar. Start following shows{' '}
         <Link
-          onClick={() => history.push(ROUTES.HOME)}
+          onClick={() => navigate(ROUTES.HOME)}
           textDecorationThickness="2px"
           variant="underline"
         >
-          here.
-        </Link>
+          Follow some shows
+        </Link>{' '}
+        to see them in your calendar.
       </Alert.Title>
     </Alert.Root>
   );
