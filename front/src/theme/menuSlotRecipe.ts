@@ -7,12 +7,14 @@ export const menuSlotRecipe = defineSlotRecipe({
     colorPalette: {
       customCyan: {
         content: {
-          bg: 'cyan.800',
+          bg: {
+            base: 'white',
+            _dark: 'cyan.900',
+          },
         },
         item: {
-          _hover: {
-            bg: 'cyan.700',
-          },
+          base: { _hover: { bg: 'gray.200' } },
+          _dark: { _hover: { bg: 'cyan.800' } },
         },
       },
     },
