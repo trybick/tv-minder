@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef, useState } from 'react';
+import { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -14,6 +14,7 @@ import GoogleLoginButton from './GoogleLoginButton';
 import { toaster } from '../../ui/toaster';
 import Separator from '../../common/Separator';
 import { PasswordInput } from '../../ui/password-input';
+import { emailRegex } from '../../../constants/strings';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;
@@ -30,11 +31,29 @@ type DispatchProps = {
 
 type Props = DispatchProps & StateProps & OwnProps;
 
-type FormData = {
+type FormInputs = {
   email: string;
   password: string;
   confirmPassword: string;
-  signUp?: string;
+};
+
+const formValidation = {
+  email: {
+    required: { value: true, message: 'Email is required' },
+    pattern: { value: emailRegex, message: 'Please enter a valid email' },
+  },
+  password: {
+    required: 'Password is required',
+  },
+  confirmPassword: {
+    required: 'Confirm password is required',
+    validate: (value: string, formValues: FormInputs) => {
+      if (value !== formValues.password) {
+        return 'Passwords do not match';
+      }
+      return true;
+    },
+  },
 };
 
 const SignUpModal = ({
@@ -49,10 +68,16 @@ const SignUpModal = ({
   useCloseModalOnPressEscape({ onClose });
 
   // Form
-  const { errors, handleSubmit, reset, setError, register } = useForm<FormData>();
-  const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const {
+    formState: { errors },
+    handleSubmit,
+    reset,
+    setError,
+    register,
+    reset: resetForm,
+  } = useForm<FormInputs>();
 
-  const onSubmit = handleSubmit(({ email, password }: FormData) => {
+  const onSubmit = handleSubmit(({ email, password }: FormInputs) => {
     setIsLoading(true);
     axios
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
@@ -82,13 +107,18 @@ const SignUpModal = ({
       .catch(err => {
         handleErrors(err);
         setIsLoading(false);
-        reset({}, { errors: true });
-        emailRef.current?.focus();
+        reset(undefined, { keepErrors: true });
 
         if (err.response?.status === 409) {
-          setError('signUp', 'emailTaken', 'Email already registered. Please try again.');
+          setError('root', {
+            type: 'manual',
+            message: 'Email already registered. Please try again.',
+          });
         } else {
-          setError('signUp', 'generic', 'Could not sign up. Please try again.');
+          setError('root', {
+            type: 'manual',
+            message: 'Could not sign up. Please try again.',
+          });
         }
       });
   });
@@ -96,6 +126,7 @@ const SignUpModal = ({
   const handleFormClose = (isOpen: boolean) => {
     if (!isOpen) {
       onClose();
+      resetForm();
     }
   };
 
@@ -129,8 +160,7 @@ const SignUpModal = ({
                 <Input
                   _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
-                  {...register('email')}
-                  ref={emailRef}
+                  {...register('email', { ...formValidation.email })}
                   autoFocus
                 />
                 <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
@@ -141,7 +171,7 @@ const SignUpModal = ({
                 <PasswordInput
                   _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
-                  {...register('password')}
+                  {...register('password', { ...formValidation.password })}
                 />
                 <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
               </Field.Root>
@@ -151,13 +181,13 @@ const SignUpModal = ({
                 <PasswordInput
                   _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
-                  {...register('confirmPassword')}
+                  {...register('confirmPassword', { ...formValidation.confirmPassword })}
                 />
                 <Field.ErrorText>{errors?.confirmPassword?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Field.Root invalid={!!errors?.signUp} mt={4}>
-                <Field.ErrorText>{errors?.signUp?.message}</Field.ErrorText>
+              <Field.Root invalid={!!errors?.root} mt={4}>
+                <Field.ErrorText>{errors?.root?.message}</Field.ErrorText>
               </Field.Root>
             </Dialog.Body>
 

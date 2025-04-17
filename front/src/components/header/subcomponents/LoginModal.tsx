@@ -27,14 +27,13 @@ type DispatchProps = {
 
 type Props = OwnProps & DispatchProps;
 
-type FormData = {
+type FormInputs = {
   email: string;
   password: string;
   oneTimeCode: string;
-  login?: string;
 };
 
-const formSchema = {
+const formValidation = {
   email: {
     required: { value: true, message: 'Email is required' },
     pattern: { value: emailRegex, message: 'Please enter a valid email' },
@@ -54,12 +53,19 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   useCloseModalOnPressEscape({ onClose });
 
   // Form
-  const { handleSubmit, errors, register, setError, setValue } = useForm<FormData>();
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+    setError,
+    setValue,
+    reset: resetForm,
+  } = useForm<FormInputs>();
 
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
 
-  const onSubmit = handleSubmit(({ email, password, oneTimeCode }: FormData) => {
+  const onSubmit = handleSubmit(({ email, password, oneTimeCode }: FormInputs) => {
     setIsLoading(true);
     switch (formOption) {
       case 0:
@@ -99,7 +105,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .catch(err => {
         handleErrors(err);
         setIsLoading(false);
-        setError('login', 'generic', 'Invalid login. Please try again.');
+        setError('root', {
+          type: 'manual',
+          message: 'Invalid login. Please try again.',
+        });
         setValue('password', '');
       });
   };
@@ -121,7 +130,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .catch(err => {
         handleErrors(err);
         setIsLoading(false);
-        setError('login', 'generic', 'The email is not registered');
+        setError('root', {
+          type: 'manual',
+          message: 'The email is not registered',
+        });
       });
   };
 
@@ -142,7 +154,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .catch(err => {
         handleErrors(err);
         setIsLoading(false);
-        setError('login', 'generic', 'Invalid One Time Code');
+        setError('root', {
+          type: 'manual',
+          message: 'Invalid One Time Code',
+        });
       });
   };
 
@@ -163,7 +178,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .catch(err => {
         handleErrors(err);
         setIsLoading(false);
-        setError('login', 'generic', 'Unable to change password');
+        setError('root', {
+          type: 'manual',
+          message: 'Unable to change password',
+        });
       });
   };
 
@@ -171,6 +189,7 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
     if (!isOpen) {
       setFormOption(0);
       onClose();
+      resetForm();
     }
   };
 
@@ -224,31 +243,34 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                     _focus={{ borderColor: 'cyan.500' }}
                     borderColor="gray.500"
                     disabled={formOption === 2 || formOption === 3}
-                    {...register('email')}
+                    {...register('email', { ...formValidation.email })}
                     autoFocus
                   />
                   <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                 </Field.Root>
+
                 {(formOption === 0 || formOption === 3) && (
                   <Field.Root invalid={!!errors?.password} mt={4}>
                     <Field.Label> {formOption === 3 && 'New'} Password</Field.Label>
                     <PasswordInput
                       _focus={{ borderColor: 'cyan.500' }}
                       borderColor="gray.500"
-                      {...register('password')}
+                      {...register('password', { ...formValidation.password })}
                     />
                     <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
                   </Field.Root>
                 )}
+
                 {formOption === 2 && (
                   <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
                     <Field.Label>Enter Verification Code</Field.Label>
-                    <Input {...register('oneTimeCode')} />
+                    <Input {...register('oneTimeCode', { ...formValidation.oneTimeCode })} />
                     <Field.ErrorText>{errors?.oneTimeCode?.message}</Field.ErrorText>
                   </Field.Root>
                 )}
-                <Field.Root invalid={!!errors?.login} mt={4}>
-                  <Field.ErrorText>{errors?.login?.message}</Field.ErrorText>
+
+                <Field.Root invalid={!!errors?.root} mt={4}>
+                  <Field.ErrorText>{errors?.root?.message}</Field.ErrorText>
                 </Field.Root>
               </Dialog.Body>
 
@@ -257,7 +279,11 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                   {(formOption === 0 || formOption === 1) && (
                     <Button
                       fontSize="0.88rem"
-                      onClick={() => setFormOption((formOption + 1) % 2)}
+                      onClick={() => {
+                        setValue('email', '');
+                        setValue('password', '');
+                        setFormOption((formOption + 1) % 2);
+                      }}
                       px={0}
                       variant="plain"
                     >
