@@ -65,7 +65,7 @@ const ChangePasswordContainer = () => {
           title: 'Password Changed!',
           description: 'Your Password has been updated.',
           type: 'success',
-          duration: 3000,
+          duration: 5000,
           meta: { closable: true },
         });
       })

@@ -94,13 +94,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         onClose();
         setIsLoggedIn(res.data.email);
         unregisteredClearFollowedShows();
-        toaster.create({
-          title: 'Login Successful',
-          description: 'You are now logged in.',
-          type: 'success',
-          duration: 3000,
-          meta: { closable: true },
-        });
       })
       .catch(err => {
         handleErrors(err);
@@ -119,13 +112,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .then(() => {
         setIsLoading(false);
         setFormOption(2);
-        toaster.create({
-          title: 'Password Reset!',
-          description: 'A one-time code has been sent to your email address',
-          type: 'success',
-          duration: 3000,
-          meta: { closable: true },
-        });
       })
       .catch(err => {
         handleErrors(err);
@@ -143,13 +129,6 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
       .then(() => {
         setIsLoading(false);
         setFormOption(3);
-        toaster.create({
-          title: 'Verification Completed!',
-          description: 'Time to change your password',
-          type: 'success',
-          duration: 3000,
-          meta: { closable: true },
-        });
       })
       .catch(err => {
         handleErrors(err);
@@ -168,10 +147,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
         setIsLoading(false);
         setFormOption(0);
         toaster.create({
-          title: 'Password Changed!',
-          description: 'Login with your new password',
+          title: 'Password Changed',
+          description: 'You can login with your new password',
           type: 'success',
-          duration: 3000,
+          duration: 5000,
           meta: { closable: true },
         });
       })

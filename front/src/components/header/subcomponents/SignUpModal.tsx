@@ -96,13 +96,6 @@ const SignUpModal = ({
         onClose();
         setIsLoggedIn(res.data.email);
         unregisteredClearFollowedShows();
-
-        toaster.create({
-          title: 'Logged in',
-          description: "We've created your account for you.",
-          type: 'success',
-          meta: { closable: true },
-        });
       })
       .catch(err => {
         handleErrors(err);

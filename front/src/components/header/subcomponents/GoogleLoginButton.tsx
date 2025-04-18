@@ -58,12 +58,6 @@ const GoogleLoginButton = (props: Props) => {
             onClose();
             setIsLoggedIn(res.data.email, true);
             unregisteredClearFollowedShows();
-            toaster.create({
-              title: 'Login Successful',
-              description: 'You are now logged in with Google.',
-              type: 'success',
-              meta: { closable: true },
-            });
           })
           .catch((error: any) => {
             handleErrors(error);
