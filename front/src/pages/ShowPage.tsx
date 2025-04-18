@@ -27,7 +27,7 @@ const ShowPage = () => {
     <LoadingSpinner delay={250} isFullScreen />
   ) : (
     <>
-      <title>{showInfoForDisplay.name} | TV Minder</title>
+      <title>{`${showInfoForDisplay.name} | TV Minder`}</title>
       <Box
         m={isMobile ? '12px auto 40px' : '24px auto 40px'}
         maxW="800px"
