@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { Key, RefObject, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'wouter';
 import moment from 'moment';
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar from '@fullcalendar/react';
-import { EventClickArg, EventContentArg } from '@fullcalendar/core';
+import { CalendarOptions, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -24,7 +24,7 @@ const CalendarPage = () => {
 
   const followedShows = useSelector(selectFollowedShows);
   const calendarEpisodes = useSelector(selectCalendarEpisodesForDisplay);
-  const calendarRef = useRef<FullCalendar | null>(null);
+  const calendarRef = useRef<FullCalendar>(null);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -67,36 +67,44 @@ const CalendarPage = () => {
     );
   };
 
+  const calendarProps: CalendarOptions & { key: Key; ref: RefObject<FullCalendar> } = {
+    allDayContent: false,
+    dayMaxEventRows: 4,
+    // Do not allow dragging events around
+    eventAllow: () => false,
+    eventClick: onEventClick,
+    eventContent: isMobile ? formatMobileEvent : formatDesktopEvent,
+    events: calendarEpisodes,
+    // Don't force showing additional weeks in calendar view
+    fixedWeekCount: false,
+    height: 'auto',
+    initialView: isMobile ? 'listMonth' : 'dayGridMonth',
+    // Refreshes the calendar to update the correct day
+    key: moment().format('MM-DD-YYYY'),
+    // Format of the day titles in mobile view
+    listDayFormat: { month: 'long', day: 'numeric' },
+    listDaySideFormat: false,
+    noEventsContent: 'New episodes will appear here!',
+    plugins: [dayGridPlugin, interactionPlugin, listPlugin],
+    ref: calendarRef as RefObject<FullCalendar>,
+    titleFormat: { month: 'long' },
+    // Enable 'cursor: pointer' on events
+    editable: true,
+  };
+
   return (
     <>
       <title>Calendar | TV Minder</title>
+
       {!followedShows.length && <NoFollowedShowsBanner />}
+
       <Box
         m="15px auto 20px"
         maxW="1600px"
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        <FullCalendar
-          allDayContent={false}
-          dayMaxEventRows={4}
-          eventAllow={() => false} // do not allow dragging
-          eventClick={onEventClick}
-          eventContent={isMobile ? formatMobileEvent : formatDesktopEvent}
-          events={calendarEpisodes}
-          fixedWeekCount={false} // don't force showing additional weeks in calendar view
-          height="auto"
-          initialView={isMobile ? 'listMonth' : 'dayGridMonth'}
-          key={moment().format('MM-DD-YYYY')} // refresh 'today' date highlight when needed
-          // Format of the day titles in mobile view
-          listDayFormat={{ month: 'long', day: 'numeric' }}
-          listDaySideFormat={false}
-          noEventsContent="New episodes will appear here!"
-          plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
-          ref={calendarRef}
-          titleFormat={{ month: 'long' }}
-          editable // enable mouse pointer cursor
-        />
+        <FullCalendar {...calendarProps} />
       </Box>
     </>
   );
