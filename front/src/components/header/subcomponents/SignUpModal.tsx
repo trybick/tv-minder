@@ -11,7 +11,6 @@ import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import GoogleLoginButton from './GoogleLoginButton';
-import { toaster } from '../../ui/toaster';
 import Separator from '../../common/Separator';
 import { PasswordInput } from '../../ui/password-input';
 import { emailRegex } from '../../../constants/strings';
