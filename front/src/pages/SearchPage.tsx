@@ -111,7 +111,8 @@ const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  saveSearchQuery: (query: SavedQuery) => dispatch(saveSearchQueryAction(query)),
+  saveSearchQuery: (query: SavedQuery) =>
+    dispatch(saveSearchQueryAction(query)),
 });
 
 export default connect<StateProps, DispatchProps, {}, AppState>(

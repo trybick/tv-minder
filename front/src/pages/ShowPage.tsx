@@ -23,7 +23,9 @@ const ShowPage = () => {
     dispatch(getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow(showId));
   }, [dispatch, showId]);
 
-  return isLoading || !showInfoForDisplay?.id || showId !== showInfoForDisplay?.id ? (
+  return isLoading ||
+    !showInfoForDisplay?.id ||
+    showId !== showInfoForDisplay?.id ? (
     <LoadingSpinner delay={250} isFullScreen />
   ) : (
     <>

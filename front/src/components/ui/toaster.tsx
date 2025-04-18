@@ -27,9 +27,13 @@ export const Toaster = () => {
             )}
             <Stack flex="1" gap="1" maxWidth="100%">
               {toast.title && <Toast.Title>{toast.title}</Toast.Title>}
-              {toast.description && <Toast.Description>{toast.description}</Toast.Description>}
+              {toast.description && (
+                <Toast.Description>{toast.description}</Toast.Description>
+              )}
             </Stack>
-            {toast.action && <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>}
+            {toast.action && (
+              <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
+            )}
             {toast.meta?.closable && <Toast.CloseTrigger cursor="pointer" />}
           </Toast.Root>
         )}

@@ -12,8 +12,14 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 import { useAppDispatch } from 'store';
-import { getPopularShowsAction, getTopRatedShowsAction } from 'store/tv/actions';
-import { selectPopularShowsForDisplay, selectTopRatedShowsForDisplay } from 'store/tv/selectors';
+import {
+  getPopularShowsAction,
+  getTopRatedShowsAction,
+} from 'store/tv/actions';
+import {
+  selectPopularShowsForDisplay,
+  selectTopRatedShowsForDisplay,
+} from 'store/tv/selectors';
 import PopularShow from './subcomponents/PopularShow';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useColorModeValue } from 'components/ui/color-mode';
@@ -23,8 +29,10 @@ const PopularShows = () => {
   const popularShows = useSelector(selectPopularShowsForDisplay);
   const topRatedShows = useSelector(selectTopRatedShowsForDisplay);
   const isMobile = useIsMobile();
-  const { open: isPopularExpanded, onToggle: onTogglePopular } = useDisclosure();
-  const { open: isTopRatedExpanded, onToggle: onToggleTopRated } = useDisclosure();
+  const { open: isPopularExpanded, onToggle: onTogglePopular } =
+    useDisclosure();
+  const { open: isTopRatedExpanded, onToggle: onToggleTopRated } =
+    useDisclosure();
 
   useEffect(() => {
     dispatch(getPopularShowsAction());
@@ -65,7 +73,9 @@ const PopularShows = () => {
       >
         {popularShows
           ?.slice(0, numberShowsInFirstRow)
-          .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
+          .map(show => (
+            <PopularShow isMobile={isMobile} key={show.id} show={show} />
+          ))}
 
         <Collapsible.Root flexGrow={1} open={isPopularExpanded}>
           <Collapsible.Content>
@@ -83,7 +93,13 @@ const PopularShows = () => {
                     (i + 1) * numberShowsInFirstRow,
                     (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                   )
-                  .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
+                  .map(show => (
+                    <PopularShow
+                      isMobile={isMobile}
+                      key={show.id}
+                      show={show}
+                    />
+                  ))}
               </Flex>
             ))}
           </Collapsible.Content>
@@ -91,7 +107,13 @@ const PopularShows = () => {
       </Flex>
       <Flex>
         {!isPopularExpanded && (
-          <Button colorPalette="cyan" mt="30px" mx="auto" onClick={onTogglePopular} variant="plain">
+          <Button
+            colorPalette="cyan"
+            mt="30px"
+            mx="auto"
+            onClick={onTogglePopular}
+            variant="plain"
+          >
             <Text fontSize="15px">See More</Text>
             <AiOutlineCaretDown style={{ width: '15px' }} />
           </Button>
@@ -116,7 +138,9 @@ const PopularShows = () => {
       >
         {topRatedShows
           ?.slice(0, numberShowsInFirstRow)
-          .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
+          .map(show => (
+            <PopularShow isMobile={isMobile} key={show.id} show={show} />
+          ))}
         <Collapsible.Root flexGrow={1} open={isTopRatedExpanded}>
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
@@ -133,7 +157,13 @@ const PopularShows = () => {
                     (i + 1) * numberShowsInFirstRow,
                     (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                   )
-                  .map(show => <PopularShow isMobile={isMobile} key={show.id} show={show} />)}
+                  .map(show => (
+                    <PopularShow
+                      isMobile={isMobile}
+                      key={show.id}
+                      show={show}
+                    />
+                  ))}
               </Flex>
             ))}
           </Collapsible.Content>

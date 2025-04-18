@@ -11,7 +11,12 @@ type Props = {
   totalResults: number;
 };
 
-const SearchContainer = ({ isInputDirty, isLoading, shows, totalResults }: Props) => (
+const SearchContainer = ({
+  isInputDirty,
+  isLoading,
+  shows,
+  totalResults,
+}: Props) => (
   <Flex justify="center" justifyContent="center" m="0 auto">
     {isLoading ? (
       <LoadingSpinner />

@@ -2,10 +2,22 @@ import { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { Box, Button, CloseButton, Dialog, Field, Flex, Input, Portal } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  CloseButton,
+  Dialog,
+  Field,
+  Flex,
+  Input,
+  Portal,
+} from '@chakra-ui/react';
 import { TiArrowBack } from 'react-icons/ti';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
+import {
+  setIsLoggedInAction,
+  unregisteredClearFollowedShowsAction,
+} from 'store/user/actions';
 import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
@@ -46,7 +58,11 @@ const formValidation = {
   },
 };
 
-const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedShows }: Props) => {
+const LoginModal = ({
+  disclosureProps,
+  setIsLoggedIn,
+  unregisteredClearFollowedShows,
+}: Props) => {
   // Modal
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
@@ -65,23 +81,25 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
 
-  const onSubmit = handleSubmit(({ email, password, oneTimeCode }: FormInputs) => {
-    setIsLoading(true);
-    switch (formOption) {
-      case 0:
-        handleLogin(email, password);
-        break;
-      case 1:
-        requestGenerateOneTimeCode(email);
-        break;
-      case 2:
-        requestVerifyOneTimeCode(email, oneTimeCode);
-        break;
-      case 3:
-        requestChangePassword(email, password);
-        break;
+  const onSubmit = handleSubmit(
+    ({ email, password, oneTimeCode }: FormInputs) => {
+      setIsLoading(true);
+      switch (formOption) {
+        case 0:
+          handleLogin(email, password);
+          break;
+        case 1:
+          requestGenerateOneTimeCode(email);
+          break;
+        case 2:
+          requestVerifyOneTimeCode(email, oneTimeCode);
+          break;
+        case 3:
+          requestChangePassword(email, password);
+          break;
+      }
     }
-  });
+  );
 
   const handleLogin = (email: string, password: string) => {
     axios
@@ -125,7 +143,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const requestVerifyOneTimeCode = (email: string, oneTimeCode: string) => {
     axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/verifyonetimecode`, { email, oneTimeCode })
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/verifyonetimecode`, {
+        email,
+        oneTimeCode,
+      })
       .then(() => {
         setIsLoading(false);
         setFormOption(3);
@@ -142,7 +163,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
   const requestChangePassword = (email: string, password: string) => {
     axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/changepasswordforreset`, { email, password })
+      .post(`${ENDPOINTS.TV_MINDER_SERVER}/changepasswordforreset`, {
+        email,
+        password,
+      })
       .then(() => {
         setIsLoading(false);
         setFormOption(0);
@@ -187,13 +211,20 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
   };
 
   return (
-    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
+    <Dialog.Root
+      onOpenChange={e => handleFormClose(e.open)}
+      open={isOpen}
+      lazyMount
+      unmountOnExit
+    >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
-              <Dialog.Title>{formOption === 0 ? 'Login' : 'Forgot Password'}</Dialog.Title>
+              <Dialog.Title>
+                {formOption === 0 ? 'Login' : 'Forgot Password'}
+              </Dialog.Title>
             </Dialog.Header>
 
             <Dialog.CloseTrigger asChild>
@@ -211,7 +242,12 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
                 {formOption === 0 && (
-                  <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+                  <Separator
+                    alignItems="center"
+                    fontSize="14px"
+                    m="26px 0"
+                    textAlign="center"
+                  >
                     OR
                   </Separator>
                 )}
@@ -230,21 +266,32 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
 
                 {(formOption === 0 || formOption === 3) && (
                   <Field.Root invalid={!!errors?.password} mt={4}>
-                    <Field.Label> {formOption === 3 && 'New'} Password</Field.Label>
+                    <Field.Label>
+                      {' '}
+                      {formOption === 3 && 'New'} Password
+                    </Field.Label>
                     <PasswordInput
                       _focus={{ borderColor: 'cyan.500' }}
                       borderColor="gray.500"
                       {...register('password', { ...formValidation.password })}
                     />
-                    <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
+                    <Field.ErrorText>
+                      {errors?.password?.message}
+                    </Field.ErrorText>
                   </Field.Root>
                 )}
 
                 {formOption === 2 && (
                   <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
                     <Field.Label>Enter Verification Code</Field.Label>
-                    <Input {...register('oneTimeCode', { ...formValidation.oneTimeCode })} />
-                    <Field.ErrorText>{errors?.oneTimeCode?.message}</Field.ErrorText>
+                    <Input
+                      {...register('oneTimeCode', {
+                        ...formValidation.oneTimeCode,
+                      })}
+                    />
+                    <Field.ErrorText>
+                      {errors?.oneTimeCode?.message}
+                    </Field.ErrorText>
                   </Field.Root>
                 )}
 
@@ -279,7 +326,10 @@ const LoginModal = ({ disclosureProps, setIsLoggedIn, unregisteredClearFollowedS
                 </Box>
 
                 <Box>
-                  <Button onClick={() => handleFormClose(false)} variant="ghost">
+                  <Button
+                    onClick={() => handleFormClose(false)}
+                    variant="ghost"
+                  >
                     Cancel
                   </Button>
                   <Button
@@ -306,7 +356,8 @@ const mapStateToProps: MapStateToProps<{}, OwnProps, AppState> = () => ({});
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   setIsLoggedIn: (email: string, isGoogleUser = false) =>
     dispatch(setIsLoggedInAction(email, isGoogleUser)),
-  unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
+  unregisteredClearFollowedShows: () =>
+    dispatch(unregisteredClearFollowedShowsAction()),
 });
 
 export default connect<{}, DispatchProps, OwnProps, AppState>(

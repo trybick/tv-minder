@@ -26,7 +26,8 @@ const SearchResult = ({ showToDisplay }: Props) => {
     poster_path: posterPath,
   } = showToDisplay;
   const yearForDisplay = firstAirDate?.substring(0, 4);
-  const posterSource = posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
+  const posterSource =
+    posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
 
   return (
     <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">

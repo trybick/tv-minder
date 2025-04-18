@@ -41,7 +41,7 @@ export default defineConfig([
     },
 
     rules: {
-      'prettier/prettier': 1,
+      'prettier/prettier': ['warning', { printWidth: 80 }],
       '@typescript-eslint/ban-ts-ignore': 0,
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/explicit-function-return-type': 0,

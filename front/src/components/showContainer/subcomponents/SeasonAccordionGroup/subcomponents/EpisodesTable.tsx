@@ -1,4 +1,9 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import moment from 'moment';
 import { Table, Text } from '@chakra-ui/react';
 import { EpisodeForSeason } from 'types/external';
@@ -25,7 +30,8 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
     {
       id: 'airDate',
       size: 80,
-      accessorFn: row => row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
+      accessorFn: row =>
+        row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
       header: () => <Text>Air Date</Text>,
     },
     {
@@ -36,7 +42,9 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
       },
       accessorFn: row => row.voteAverage,
       header: () => <Text textAlign="center">Rating</Text>,
-      cell: ({ row }) => <Text textAlign="center">{row.original.voteAverage}</Text>,
+      cell: ({ row }) => (
+        <Text textAlign="center">{row.original.voteAverage}</Text>
+      ),
     },
   ];
 
@@ -60,7 +68,10 @@ const EpisodesTable = ({ episodes, isMobile }: Props) => {
               <Table.ColumnHeader key={header.id}>
                 {header.isPlaceholder
                   ? null
-                  : flexRender(header.column.columnDef.header, header.getContext())}
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
               </Table.ColumnHeader>
             ))}
           </Table.Row>

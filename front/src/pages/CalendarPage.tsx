@@ -5,7 +5,11 @@ import moment from 'moment';
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import FullCalendar from '@fullcalendar/react';
-import { CalendarOptions, EventClickArg, EventContentArg } from '@fullcalendar/core';
+import {
+  CalendarOptions,
+  EventClickArg,
+  EventContentArg,
+} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -39,7 +43,8 @@ const CalendarPage = () => {
   }, [dispatch, followedShows]);
 
   useEffect(() => {
-    const changeView = (view: string) => calendarRef.current?.getApi().changeView(view);
+    const changeView = (view: string) =>
+      calendarRef.current?.getApi().changeView(view);
     if (isMobile) {
       changeView('listMonth');
     } else {
@@ -52,9 +57,9 @@ const CalendarPage = () => {
     navigate(`${ROUTES.SHOW}/${showId}`);
   };
 
-  const formatDesktopEvent = (eventInfo: EventContentArg & { backgroundColor: string }) => (
-    <DesktopCalendarEventPopover eventInfo={eventInfo} />
-  );
+  const formatDesktopEvent = (
+    eventInfo: EventContentArg & { backgroundColor: string }
+  ) => <DesktopCalendarEventPopover eventInfo={eventInfo} />;
 
   const formatMobileEvent = (eventInfo: EventContentArg) => {
     const { title } = eventInfo.event;
@@ -67,7 +72,10 @@ const CalendarPage = () => {
     );
   };
 
-  const calendarProps: CalendarOptions & { key: Key; ref: RefObject<FullCalendar> } = {
+  const calendarProps: CalendarOptions & {
+    key: Key;
+    ref: RefObject<FullCalendar>;
+  } = {
     allDayContent: false,
     dayMaxEventRows: 4,
     // Do not allow dragging events around

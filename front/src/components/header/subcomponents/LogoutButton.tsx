@@ -32,4 +32,7 @@ const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   setIsLoggedOut: () => dispatch(setIsLoggedOutAction()),
 });
 
-export default connect<{}, DispatchProps, OwnProps, {}>(null, mapDispatchToProps)(LogoutButton);
+export default connect<{}, DispatchProps, OwnProps, {}>(
+  null,
+  mapDispatchToProps
+)(LogoutButton);

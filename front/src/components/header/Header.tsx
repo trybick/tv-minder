@@ -1,7 +1,16 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'wouter';
 import { connect, MapStateToProps } from 'react-redux';
-import { Avatar, Box, Button, Flex, Image, Menu, Portal, Separator } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Menu,
+  Portal,
+  Separator,
+} from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
 import { setIsLoggedOutAction } from 'store/user/actions';
@@ -35,7 +44,8 @@ function useHeaderManager(ref: RefObject<HTMLDivElement | null>) {
 
   useEffect(() => {
     function closeHeaderOnOutsideClick(event: Event) {
-      const isClickOutside = ref.current && !ref.current.contains(event.target as Node);
+      const isClickOutside =
+        ref.current && !ref.current.contains(event.target as Node);
       if (isClickOutside && isOpen) {
         closeHeader();
       }
@@ -107,8 +117,17 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           </RouterLink>
         </Flex>
 
-        <Box cursor="pointer" display={{ base: 'block', md: 'none' }} onClick={toggleIsOpen}>
-          <svg fill="teal" viewBox="0 0 20 20" width="17px" xmlns="http://www.w3.org/2000/svg">
+        <Box
+          cursor="pointer"
+          display={{ base: 'block', md: 'none' }}
+          onClick={toggleIsOpen}
+        >
+          <svg
+            fill="teal"
+            viewBox="0 0 20 20"
+            width="17px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <title>Menu</title>
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
           </svg>
@@ -143,7 +162,10 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
           justifyContent={{ base: 'flex-start', md: 'flex-end' }}
           mt={{ base: 4, md: 0 }}
-          textAlign={{ base: isOpen && isLoggedIn ? 'right' : 'left', md: 'left' }}
+          textAlign={{
+            base: isOpen && isLoggedIn ? 'right' : 'left',
+            md: 'left',
+          }}
           // Setting the width of this div to 186px matches the width of the TV Minder Logo image
           // which allows the Nav Links to be in the center of the screen
           w={{ base: 'full', md: '186px' }}
@@ -153,8 +175,15 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ColorModeButton mr="8px" />
                 {/* @ts-ignore - colorPalette is a valid prop for the Menu.Root component */}
-                <Menu.Root colorPalette="customCyan" positioning={{ placement: 'bottom-end' }}>
-                  <Menu.Trigger aria-label="Page Options" cursor="pointer" focusRing="none">
+                <Menu.Root
+                  colorPalette="customCyan"
+                  positioning={{ placement: 'bottom-end' }}
+                >
+                  <Menu.Trigger
+                    aria-label="Page Options"
+                    cursor="pointer"
+                    focusRing="none"
+                  >
                     <Avatar.Root size="sm">
                       <Avatar.Fallback name={email} />
                     </Avatar.Root>
@@ -171,7 +200,12 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                           <VscSettingsGear />
                           Settings
                         </Menu.Item>
-                        <Menu.Item cursor="pointer" onClick={onLogout} p="10px" value="logout">
+                        <Menu.Item
+                          cursor="pointer"
+                          onClick={onLogout}
+                          p="10px"
+                          value="logout"
+                        >
                           <SlLogout />
                           Logout
                         </Menu.Item>

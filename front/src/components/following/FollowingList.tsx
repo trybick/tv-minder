@@ -30,7 +30,10 @@ const FollowingList = () => {
           <Tabs.Trigger disabled={!activeSeasonShows.length} value="active">
             Recently Airing
           </Tabs.Trigger>
-          <Tabs.Trigger disabled={!inProductionShows.length} value="inProduction">
+          <Tabs.Trigger
+            disabled={!inProductionShows.length}
+            value="inProduction"
+          >
             In Production
           </Tabs.Trigger>
           <Tabs.Trigger disabled={!endedShows.length} value="ended">

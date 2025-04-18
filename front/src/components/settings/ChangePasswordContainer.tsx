@@ -70,7 +70,8 @@ const ChangePasswordContainer = () => {
         });
       })
       .catch((error: AxiosError) => {
-        const isUnauthorizedError = error.response && error.response.status === 401;
+        const isUnauthorizedError =
+          error.response && error.response.status === 401;
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
           : 'Your Password could not be updated.';
@@ -100,7 +101,13 @@ const ChangePasswordContainer = () => {
         Change Password
       </Heading>
       {isGoogleUser && (
-        <Heading as="h6" fontSize="1rem" fontStyle="italic" mt="14px" textAlign="center">
+        <Heading
+          as="h6"
+          fontSize="1rem"
+          fontStyle="italic"
+          mt="14px"
+          textAlign="center"
+        >
           Not available when using a Google account
         </Heading>
       )}
@@ -110,7 +117,10 @@ const ChangePasswordContainer = () => {
           <Field.Label mt="1.5rem" w="100%">
             Current Password
           </Field.Label>
-          <Input {...register('oldPassword', { ...formSchema.oldPassword })} type="password" />
+          <Input
+            {...register('oldPassword', { ...formSchema.oldPassword })}
+            type="password"
+          />
           <Field.ErrorText>{errors?.oldPassword?.message}</Field.ErrorText>
         </Field.Root>
 
@@ -118,16 +128,24 @@ const ChangePasswordContainer = () => {
           <Field.Label mt="1rem" w="100%">
             New Password
           </Field.Label>
-          <Input {...register('newPassword', { ...formSchema.newPassword })} type="password" />
+          <Input
+            {...register('newPassword', { ...formSchema.newPassword })}
+            type="password"
+          />
           <Field.ErrorText>{errors?.newPassword?.message}</Field.ErrorText>
         </Field.Root>
 
-        <Field.Root disabled={isGoogleUser} invalid={!!errors?.newPasswordConfirmation}>
+        <Field.Root
+          disabled={isGoogleUser}
+          invalid={!!errors?.newPasswordConfirmation}
+        >
           <Field.Label mt="1rem" w="100%">
             Confirm New Password
           </Field.Label>
           <Input
-            {...register('newPasswordConfirmation', { ...formSchema.newPasswordConfirmation })}
+            {...register('newPasswordConfirmation', {
+              ...formSchema.newPasswordConfirmation,
+            })}
             type="password"
           />
           <Field.ErrorText>{formErrorForDisplay}</Field.ErrorText>

@@ -26,10 +26,16 @@ export const getStatusWithColor = (
   const hasCurrentlyActiveSeason =
     lastEpisodeForDisplay &&
     nextEpisodeForDisplay &&
-    moment(nextEpisodeForDisplay.airDate).diff(lastEpisodeForDisplay.airDate, 'days') < 45;
+    moment(nextEpisodeForDisplay.airDate).diff(
+      lastEpisodeForDisplay.airDate,
+      'days'
+    ) < 45;
   const isPremieringSoon =
     nextEpisodeForDisplay &&
-    moment(nextEpisodeForDisplay.airDate).diff(moment().startOf('day'), 'days') < 60 &&
+    moment(nextEpisodeForDisplay.airDate).diff(
+      moment().startOf('day'),
+      'days'
+    ) < 60 &&
     nextEpisodeForDisplay.episodeNumber === '01';
 
   if (originalStatus === 'Ended') {
@@ -47,7 +53,9 @@ export const getTimeFromLastEpisode = (lastEpisodeDate: string) => {
   if (!lastEpisodeDate) {
     return;
   }
-  let diff = moment(lastEpisodeDate).startOf('day').from(moment().startOf('day'));
+  let diff = moment(lastEpisodeDate)
+    .startOf('day')
+    .from(moment().startOf('day'));
 
   if (diff === 'a few seconds ago') {
     diff = 'today';
@@ -90,7 +98,9 @@ export const getVideoTrailerKey = (videos: any): string | undefined => {
   return matchingVideo?.key || results[0]?.key || undefined;
 };
 
-const formatEpisodesForSeason = (episodes: Record<string, any>[]): EpisodeForSeason[] => {
+const formatEpisodesForSeason = (
+  episodes: Record<string, any>[]
+): EpisodeForSeason[] => {
   if (isEmpty(episodes)) {
     return [];
   }
@@ -127,39 +137,41 @@ const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
   if (isEmpty(seasons)) {
     return [];
   }
-  const camelCaseSeasons: SeasonWithEpisodes[] = Object.values(seasons).map<SeasonWithEpisodes>(
-    season => {
-      const {
-        air_date: airDate,
-        episodes,
-        id,
-        name,
-        overview,
-        poster_path: posterPath,
-        season_number: seasonNumber,
-      } = season || {};
-      let nameForDisplay = name;
-      const isSpecialsSeason = seasonNumber === 0;
+  const camelCaseSeasons: SeasonWithEpisodes[] = Object.values(
+    seasons
+  ).map<SeasonWithEpisodes>(season => {
+    const {
+      air_date: airDate,
+      episodes,
+      id,
+      name,
+      overview,
+      poster_path: posterPath,
+      season_number: seasonNumber,
+    } = season || {};
+    let nameForDisplay = name;
+    const isSpecialsSeason = seasonNumber === 0;
 
-      if (!isSpecialsSeason) {
-        nameForDisplay = `Season ${seasonNumber}`;
-      }
-
-      return {
-        airDate,
-        episodes: episodes.length && formatEpisodesForSeason(episodes),
-        id,
-        isSpecialsSeason,
-        name,
-        nameForDisplay,
-        overview,
-        posterPath,
-        seasonNumber,
-      };
+    if (!isSpecialsSeason) {
+      nameForDisplay = `Season ${seasonNumber}`;
     }
-  );
 
-  const specialsIndex = camelCaseSeasons.findIndex(season => season.seasonNumber === 0);
+    return {
+      airDate,
+      episodes: episodes.length && formatEpisodesForSeason(episodes),
+      id,
+      isSpecialsSeason,
+      name,
+      nameForDisplay,
+      overview,
+      posterPath,
+      seasonNumber,
+    };
+  });
+
+  const specialsIndex = camelCaseSeasons.findIndex(
+    season => season.seasonNumber === 0
+  );
   // Move 'Specials' season to end of seasons list
   if (specialsIndex === 0 || specialsIndex) {
     camelCaseSeasons.push(camelCaseSeasons.splice(specialsIndex, 1)[0]);
@@ -197,7 +209,9 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
   const lastEpisodeForDisplay: EpisodeForDisplay = lastEpisodeToAir && {
     airDate: lastEpisodeToAir?.air_date,
-    daysDiff: Math.abs(moment().startOf('day').diff(lastEpisodeToAir?.air_date, 'days')),
+    daysDiff: Math.abs(
+      moment().startOf('day').diff(lastEpisodeToAir?.air_date, 'days')
+    ),
     episodeNumber: addLeadingZero(lastEpisodeToAir?.episode_number),
     name: lastEpisodeToAir?.name,
     overview: lastEpisodeToAir?.overview,
@@ -207,7 +221,9 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
   const nextEpisodeForDisplay: EpisodeForDisplay = nextEpisodeToAir && {
     airDate: nextEpisodeToAir?.air_date,
-    daysDiff: Math.abs(moment().startOf('day').diff(nextEpisodeToAir?.air_date, 'days')),
+    daysDiff: Math.abs(
+      moment().startOf('day').diff(nextEpisodeToAir?.air_date, 'days')
+    ),
     episodeNumber: addLeadingZero(nextEpisodeToAir?.episode_number),
     name: nextEpisodeToAir?.name,
     overview: nextEpisodeToAir?.overview,
@@ -215,9 +231,15 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     timeFromNow: getTimeUntilNextEpisode(nextEpisodeToAir?.air_date),
   };
 
-  const statusWithColor = getStatusWithColor(status, lastEpisodeForDisplay, nextEpisodeForDisplay);
+  const statusWithColor = getStatusWithColor(
+    status,
+    lastEpisodeForDisplay,
+    nextEpisodeForDisplay
+  );
 
-  const genreNames: string[] = genres.slice(0, 2).map((genre: Genre) => genre.name);
+  const genreNames: string[] = genres
+    .slice(0, 2)
+    .map((genre: Genre) => genre.name);
 
   const yearsActive =
     firstAirDate &&
@@ -225,7 +247,9 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
       status === 'Ended' ? moment(lastEpisodeToAir?.air_date).year() : ''
     }`;
 
-  const language = spokenLanuages.map((language: any) => language.english_name).join(', ');
+  const language = spokenLanuages
+    .map((language: any) => language.english_name)
+    .join(', ');
 
   const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
 
@@ -259,7 +283,9 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
 // Example: Netflix has a show where the whole season airs on one day. Instead of showing multiple
 // individual events, show one event. Example: 'S1 E1-E10'.
-export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => {
+export const formatSameDayEpisodes = (
+  episodesForDisplay: CalendarEpisode[]
+) => {
   // Combine episode objects with same show name and date
   const sameDayEpisodesByEpisodeID: Record<number, CalendarEpisode> = {};
   episodesForDisplay.reduce((prev, next) => {
@@ -306,7 +332,9 @@ export const formatSameDayEpisodes = (episodesForDisplay: CalendarEpisode[]) => 
   });
 
   // Remove the 'same day episodes' from original array
-  const sameDayEpisodeIDs = Array.from(new Set(sameDayEpisodes.map(episode => episode.episodeId)));
+  const sameDayEpisodeIDs = Array.from(
+    new Set(sameDayEpisodes.map(episode => episode.episodeId))
+  );
   const episodesWithoutSameDay = episodesForDisplay.filter(
     episode => !sameDayEpisodeIDs.includes(episode.episodeId)
   );

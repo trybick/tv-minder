@@ -7,7 +7,12 @@ const LoginButton = () => {
 
   return (
     <>
-      <Button colorPalette="cyan" ml="3px" onClick={() => onOpen()} variant="surface">
+      <Button
+        colorPalette="cyan"
+        ml="3px"
+        onClick={() => onOpen()}
+        variant="surface"
+      >
         Login
       </Button>
       <LoginModal disclosureProps={disclosureProps} />

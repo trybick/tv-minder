@@ -14,7 +14,8 @@ type Props = {
 const ShowContainer = ({ showInfoForDisplay }: Props) => {
   const isMobile = useIsMobile();
   const { backdropPath, id, posterPath } = showInfoForDisplay || {};
-  const hasEpisodes = showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
+  const hasEpisodes =
+    showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
 
   return (
     <>
@@ -31,7 +32,10 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
             src={imagePath780 + backdropPath}
             width="100vw"
           />
-          <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+          <ShowDetails
+            isMobile={isMobile}
+            showInfoForDisplay={showInfoForDisplay}
+          />
         </Flex>
       ) : (
         <Grid gap="22px" gridTemplateColumns=".8fr 1fr">
@@ -39,16 +43,24 @@ const ShowContainer = ({ showInfoForDisplay }: Props) => {
             <Image
               borderRadius="8px"
               onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
-              src={posterPath ? imagePath342 + posterPath : fallbackImagePathLarge}
+              src={
+                posterPath ? imagePath342 + posterPath : fallbackImagePathLarge
+              }
             />
             <FollowButton showId={id} />
           </Flex>
-          <ShowDetails isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+          <ShowDetails
+            isMobile={isMobile}
+            showInfoForDisplay={showInfoForDisplay}
+          />
         </Grid>
       )}
 
       {hasEpisodes && (
-        <SeasonAccordionGroup isMobile={isMobile} showInfoForDisplay={showInfoForDisplay} />
+        <SeasonAccordionGroup
+          isMobile={isMobile}
+          showInfoForDisplay={showInfoForDisplay}
+        />
       )}
     </>
   );

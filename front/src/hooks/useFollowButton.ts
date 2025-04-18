@@ -18,7 +18,9 @@ export const useFollowButton = (showId: ID) => {
   const dispatch = useAppDispatch();
   const followedShows = useSelector(selectFollowedShows);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const hasLocalWarningToastBeenShown = useSelector(selectHasLocalWarningToastBeenShown);
+  const hasLocalWarningToastBeenShown = useSelector(
+    selectHasLocalWarningToastBeenShown
+  );
   const [isFollowed, setIsFollowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

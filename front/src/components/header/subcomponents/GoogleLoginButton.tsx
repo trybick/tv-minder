@@ -28,7 +28,10 @@ const GoogleLoginButton = (props: Props) => {
   };
 
   const getGoogleUserDetails = async (response: TokenResponse) => {
-    if (!('access_token' in response) || !(typeof response.access_token === 'string')) {
+    if (
+      !('access_token' in response) ||
+      !(typeof response.access_token === 'string')
+    ) {
       throw Error('Expected field access_token from google response');
     }
     const userInfo = await axios.get(ENDPOINTS.GOOGLE_USER_INFO, {

@@ -1,6 +1,9 @@
 import { RefObject, useRef } from 'react';
 
-export function useDebouncedFunction(func: (...args: any) => void, delay = 300) {
+export function useDebouncedFunction(
+  func: (...args: any) => void,
+  delay = 300
+) {
   const ref: RefObject<number | undefined> = useRef(undefined);
 
   return (...args: any) => {

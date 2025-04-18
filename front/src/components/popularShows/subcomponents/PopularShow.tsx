@@ -37,7 +37,12 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => (
           {name}
         </Heading>
       </Link>
-      <FollowButton m="14px auto 9px" minW="108px" showId={id} size={isMobile ? 'sm' : 'md'} />
+      <FollowButton
+        m="14px auto 9px"
+        minW="108px"
+        showId={id}
+        size={isMobile ? 'sm' : 'md'}
+      />
     </Flex>
   </Flex>
 );

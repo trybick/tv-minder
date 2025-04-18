@@ -10,7 +10,12 @@ type Props = {
   inputValue: string;
 };
 
-const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: Props) => {
+const SearchInput = ({
+  handleChange,
+  handleClearInput,
+  inputRef,
+  inputValue,
+}: Props) => {
   useEffect(() => {
     function clearOnEsc(event: KeyboardEvent) {
       if (event.key === 'Escape') {
@@ -46,7 +51,11 @@ const SearchInput = ({ handleChange, handleClearInput, inputRef, inputValue }: P
           )
         }
         startElement={
-          <IoSearch color="gray.300" size="19px" style={{ marginLeft: '3px', top: '9px' }} />
+          <IoSearch
+            color="gray.300"
+            size="19px"
+            style={{ marginLeft: '3px', top: '9px' }}
+          />
         }
       >
         <Input

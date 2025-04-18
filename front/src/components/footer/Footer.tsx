@@ -30,7 +30,11 @@ const Footer = () => {
           <Text fontSize="10px" fontWeight="600">
             Data provided by
           </Text>
-          <Link href="https://www.themoviedb.org/" rel="noopener noreferrer" target="_blank">
+          <Link
+            href="https://www.themoviedb.org/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <Image alt="The Movie DB logo" h="11px" src={TMDBLogo} />
           </Link>
         </Flex>

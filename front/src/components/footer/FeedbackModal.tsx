@@ -25,7 +25,9 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      await axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, { text: feedback });
+      await axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, {
+        text: feedback,
+      });
       toaster.create({
         title: 'Feedback submitted',
         description: 'Thank you for your feedback!',
@@ -36,7 +38,11 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
       onClose();
     } catch (error) {
-      setError(error instanceof AxiosError ? error.message : 'An unknown error occurred');
+      setError(
+        error instanceof AxiosError
+          ? error.message
+          : 'An unknown error occurred'
+      );
       handleErrors(error as AxiosError);
     } finally {
       setFeedback('');
@@ -75,7 +81,13 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
           </Dialog.Header>
 
           <Dialog.Body>
-            <Textarea h="150px" mb={2} onChange={handleChange} ref={initialRef} value={feedback} />
+            <Textarea
+              h="150px"
+              mb={2}
+              onChange={handleChange}
+              ref={initialRef}
+              value={feedback}
+            />
             {error && (
               <Text color="#ff3e3e" fontSize="sm">
                 {error}

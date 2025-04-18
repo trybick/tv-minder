@@ -25,8 +25,10 @@ export const searchShowsByQuery = async (
   };
 
   const { results, total_results: totalResults } =
-    (await makeCancellableRequest(`${ENDPOINTS.THE_MOVIE_DB}/search/tv`, queryParams)) ||
-    emptyResult;
+    (await makeCancellableRequest(
+      `${ENDPOINTS.THE_MOVIE_DB}/search/tv`,
+      queryParams
+    )) || emptyResult;
 
   return { results, totalResults };
 };

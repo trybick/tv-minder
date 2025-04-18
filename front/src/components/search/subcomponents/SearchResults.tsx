@@ -73,16 +73,21 @@ const SearchResults = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
+  state: AppState
+) => ({
   followedShows: selectFollowedShows(state),
   hasLocalWarningToastBeenShown: selectHasLocalWarningToastBeenShown(state),
   isLoggedIn: selectIsLoggedIn(state),
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  removeFromFollowedShows: (showId: ID) => dispatch(removeFromFollowedShowsAction(showId)),
-  saveToFollowedShows: (showId: ID) => dispatch(saveToFollowedShowsAction(showId)),
-  setHasLocalWarningToastBeenShown: () => dispatch(setHasLocalWarningToastBeenShownAction()),
+  removeFromFollowedShows: (showId: ID) =>
+    dispatch(removeFromFollowedShowsAction(showId)),
+  saveToFollowedShows: (showId: ID) =>
+    dispatch(saveToFollowedShowsAction(showId)),
+  setHasLocalWarningToastBeenShown: () =>
+    dispatch(setHasLocalWarningToastBeenShownAction()),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, AppState>(

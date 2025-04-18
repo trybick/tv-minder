@@ -44,7 +44,9 @@ export const userReducer: Reducer<UserState, Action> = (
     case REMOVE_FROM_FOLLOWED_SHOWS: {
       return {
         ...state,
-        followedShows: state.followedShows.filter(showId => showId !== action.payload),
+        followedShows: state.followedShows.filter(
+          showId => showId !== action.payload
+        ),
       };
     }
     case SAVE_TO_FOLLOWED_SHOWS: {
@@ -95,7 +97,10 @@ export const userReducer: Reducer<UserState, Action> = (
       return !state.unregisteredFollowedShows.includes(action.payload)
         ? {
             ...state,
-            unregisteredFollowedShows: [...state.unregisteredFollowedShows, action.payload],
+            unregisteredFollowedShows: [
+              ...state.unregisteredFollowedShows,
+              action.payload,
+            ],
           }
         : state;
     }

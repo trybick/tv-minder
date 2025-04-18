@@ -1,5 +1,13 @@
 import { EventContentArg } from '@fullcalendar/core';
-import { Box, Flex, HoverCard, Icon, Link, Portal, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  HoverCard,
+  Icon,
+  Link,
+  Portal,
+  Text,
+} from '@chakra-ui/react';
 import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
@@ -28,7 +36,11 @@ const DesktopCalendarEventPopover = (props: Props) => {
   const [, navigate] = useLocation();
 
   return (
-    <HoverCard.Root openDelay={500} positioning={{ placement: 'right' }} size="sm">
+    <HoverCard.Root
+      openDelay={500}
+      positioning={{ placement: 'right' }}
+      size="sm"
+    >
       <HoverCard.Trigger asChild>
         <Flex alignItems="center" p="1px 6px">
           {isMulipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
@@ -40,7 +52,12 @@ const DesktopCalendarEventPopover = (props: Props) => {
 
       <Portal>
         <HoverCard.Positioner>
-          <HoverCard.Content bg={backgroundColor} maxWidth="240px" p="16px" zIndex={4}>
+          <HoverCard.Content
+            bg={backgroundColor}
+            maxWidth="240px"
+            p="16px"
+            zIndex={4}
+          >
             <HoverCard.Arrow>
               <HoverCard.ArrowTip bg={`${backgroundColor} !important`} />
             </HoverCard.Arrow>
@@ -52,7 +69,9 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 onClick={() => navigate(`${ROUTES.SHOW}/${showId}`)}
               >
                 <Text lineClamp={1}>{showName}</Text>
-                <TbExternalLink style={{ fontSize: '14px', marginLeft: '-3px' }} />
+                <TbExternalLink
+                  style={{ fontSize: '14px', marginLeft: '-3px' }}
+                />
               </Link>
               <Text color="white" fontSize="lg" fontWeight="600" mb="3px">
                 {seasonAndEpisodeNumbersFull}
@@ -65,7 +84,12 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 <Flex flexWrap="wrap" gap="2px 8px">
                   {isMulipleEvent && (
                     <Flex align="center" gap="2px">
-                      <Icon alignSelf="center" as={TbBoxMultiple} boxSize="14px" color="white" />
+                      <Icon
+                        alignSelf="center"
+                        as={TbBoxMultiple}
+                        boxSize="14px"
+                        color="white"
+                      />
                       <Text color="white" fontSize="13px" fontWeight="500">
                         {`${multipleEventSpanAmount} episodes`}
                       </Text>
@@ -86,7 +110,12 @@ const DesktopCalendarEventPopover = (props: Props) => {
                   )}
                   {runtime && !isMulipleEvent && (
                     <Flex align="center" gap="2px">
-                      <Icon alignSelf="center" as={IoIosTimer} boxSize="14px" color="white" />
+                      <Icon
+                        alignSelf="center"
+                        as={IoIosTimer}
+                        boxSize="14px"
+                        color="white"
+                      />
                       <Text color="white" fontSize="13px" fontWeight="500">
                         {runtime} mins
                       </Text>

@@ -16,7 +16,8 @@ export const FollowButton = ({
   unfollowedWidth,
   ...rest
 }: Props & ButtonProps) => {
-  const { isFollowed, isLoading, onFollowShow, onUnFollowShow } = useFollowButton(showId);
+  const { isFollowed, isLoading, onFollowShow, onUnFollowShow } =
+    useFollowButton(showId);
 
   return isFollowed ? (
     <Button

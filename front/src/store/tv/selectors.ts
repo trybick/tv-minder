@@ -15,8 +15,13 @@ export const selectCalendarEpisodesForDisplay = (state: AppState) =>
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
 
-export const selectBasicShowInfoForFollowedShows: Selector<AppState, BasicShowInfo[]> =
-  createSelector(selectBasicShowInfo, selectFollowedShows, (showInfo, followedShows) => {
+export const selectBasicShowInfoForFollowedShows: Selector<
+  AppState,
+  BasicShowInfo[]
+> = createSelector(
+  selectBasicShowInfo,
+  selectFollowedShows,
+  (showInfo, followedShows) => {
     if (!showInfo || !followedShows) {
       return [];
     }
@@ -24,52 +29,59 @@ export const selectBasicShowInfoForFollowedShows: Selector<AppState, BasicShowIn
       .filter(show => followedShows.includes(show.id))
       ?.map<BasicShowInfo>(mapShowInfoForDisplay)
       ?.sort((a, b) => a.name.localeCompare(b.name));
-  });
-
-export const selectActiveSeasonShows: Selector<AppState, BasicShowInfo[]> = createSelector(
-  selectBasicShowInfoForFollowedShows,
-  basicShowInfo => basicShowInfo.filter(show => show.statusWithColor.status === 'Active Season')
+  }
 );
 
-export const selectInProductionShows: Selector<AppState, BasicShowInfo[]> = createSelector(
-  selectBasicShowInfoForFollowedShows,
-  basicShowInfo => basicShowInfo.filter(show => show.statusWithColor.status === 'In Production')
-);
+export const selectActiveSeasonShows: Selector<AppState, BasicShowInfo[]> =
+  createSelector(selectBasicShowInfoForFollowedShows, basicShowInfo =>
+    basicShowInfo.filter(
+      show => show.statusWithColor.status === 'Active Season'
+    )
+  );
 
-export const selectEndedShows: Selector<AppState, BasicShowInfo[]> = createSelector(
-  selectBasicShowInfoForFollowedShows,
-  basicShowInfo => basicShowInfo.filter(show => show.statusWithColor.status === 'Ended')
-);
+export const selectInProductionShows: Selector<AppState, BasicShowInfo[]> =
+  createSelector(selectBasicShowInfoForFollowedShows, basicShowInfo =>
+    basicShowInfo.filter(
+      show => show.statusWithColor.status === 'In Production'
+    )
+  );
 
-export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
-  selectPopularShows,
-  shows =>
-    shows &&
-    Object.values(shows)?.map(show => {
-      const { id, fetchedAt, name, poster_path: posterPath } = show;
-      return {
-        id,
-        fetchedAt,
-        name,
-        posterPath,
-      };
-    })
-);
+export const selectEndedShows: Selector<AppState, BasicShowInfo[]> =
+  createSelector(selectBasicShowInfoForFollowedShows, basicShowInfo =>
+    basicShowInfo.filter(show => show.statusWithColor.status === 'Ended')
+  );
 
-export const selectTopRatedShowsForDisplay: Selector<AppState, PopularShow[]> = createSelector(
-  selectTopRatedShows,
-  shows =>
-    shows &&
-    Object.values(shows)?.map(show => {
-      const { id, fetchedAt, name, poster_path: posterPath } = show;
-      return {
-        id,
-        fetchedAt,
-        name,
-        posterPath,
-      };
-    })
-);
+export const selectPopularShowsForDisplay: Selector<AppState, PopularShow[]> =
+  createSelector(
+    selectPopularShows,
+    shows =>
+      shows &&
+      Object.values(shows)?.map(show => {
+        const { id, fetchedAt, name, poster_path: posterPath } = show;
+        return {
+          id,
+          fetchedAt,
+          name,
+          posterPath,
+        };
+      })
+  );
+
+export const selectTopRatedShowsForDisplay: Selector<AppState, PopularShow[]> =
+  createSelector(
+    selectTopRatedShows,
+    shows =>
+      shows &&
+      Object.values(shows)?.map(show => {
+        const { id, fetchedAt, name, poster_path: posterPath } = show;
+        return {
+          id,
+          fetchedAt,
+          name,
+          posterPath,
+        };
+      })
+  );
 
 export const getCurrentShowId = (): ID => {
   const id = window.location.pathname.split('/')[2];
@@ -79,11 +91,12 @@ export const getCurrentShowId = (): ID => {
   return +id;
 };
 
-export const selectCurrentShowInfo: Selector<AppState, BasicShowInfo> = createSelector(
-  selectBasicShowInfo,
-  getCurrentShowId,
-  (basicShowInfo, currentShowId) => {
-    const currentShow = basicShowInfo[currentShowId];
-    return currentShow?.id && mapShowInfoForDisplay(currentShow);
-  }
-);
+export const selectCurrentShowInfo: Selector<AppState, BasicShowInfo> =
+  createSelector(
+    selectBasicShowInfo,
+    getCurrentShowId,
+    (basicShowInfo, currentShowId) => {
+      const currentShow = basicShowInfo[currentShowId];
+      return currentShow?.id && mapShowInfoForDisplay(currentShow);
+    }
+  );

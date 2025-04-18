@@ -32,14 +32,19 @@ const initialState = {
   topRatedShows: [],
 };
 
-export const tvReducer: Reducer<TvState, Action> = (state = initialState, action: AnyAction) => {
+export const tvReducer: Reducer<TvState, Action> = (
+  state = initialState,
+  action: AnyAction
+) => {
   switch (action.type) {
     case SET_SEARCH_QUERY: {
       return {
         ...state,
         savedQueries: state.savedQueries
           ? [
-              ...state.savedQueries.filter(savedQuery => savedQuery.query !== action.payload.query),
+              ...state.savedQueries.filter(
+                savedQuery => savedQuery.query !== action.payload.query
+              ),
               action.payload,
             ]
           : [action.payload],

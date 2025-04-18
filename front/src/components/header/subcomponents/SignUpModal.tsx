@@ -2,9 +2,19 @@ import { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { Box, Button, CloseButton, Dialog, Field, Input } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  CloseButton,
+  Dialog,
+  Field,
+  Input,
+} from '@chakra-ui/react';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { setIsLoggedInAction, unregisteredClearFollowedShowsAction } from 'store/user/actions';
+import {
+  setIsLoggedInAction,
+  unregisteredClearFollowedShowsAction,
+} from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
 import ENDPOINTS from 'constants/endpoints';
@@ -123,7 +133,12 @@ const SignUpModal = ({
   };
 
   return (
-    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen} lazyMount unmountOnExit>
+    <Dialog.Root
+      onOpenChange={e => handleFormClose(e.open)}
+      open={isOpen}
+      lazyMount
+      unmountOnExit
+    >
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content bg="bg.muted">
@@ -143,7 +158,12 @@ const SignUpModal = ({
 
           <Box as="form" onSubmit={onSubmit}>
             <Dialog.Body pb={6}>
-              <Separator alignItems="center" fontSize="14px" m="26px 0" textAlign="center">
+              <Separator
+                alignItems="center"
+                fontSize="14px"
+                m="26px 0"
+                textAlign="center"
+              >
                 OR
               </Separator>
 
@@ -173,9 +193,13 @@ const SignUpModal = ({
                 <PasswordInput
                   _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
-                  {...register('confirmPassword', { ...formValidation.confirmPassword })}
+                  {...register('confirmPassword', {
+                    ...formValidation.confirmPassword,
+                  })}
                 />
-                <Field.ErrorText>{errors?.confirmPassword?.message}</Field.ErrorText>
+                <Field.ErrorText>
+                  {errors?.confirmPassword?.message}
+                </Field.ErrorText>
               </Field.Root>
 
               <Field.Root invalid={!!errors?.root} mt={4}>
@@ -187,7 +211,12 @@ const SignUpModal = ({
               <Button mr={3} onClick={onClose} variant="ghost">
                 Cancel
               </Button>
-              <Button colorPalette="cyan" loading={isLoading} type="submit" variant="solid">
+              <Button
+                colorPalette="cyan"
+                loading={isLoading}
+                type="submit"
+                variant="solid"
+              >
                 Sign Up
               </Button>
             </Dialog.Footer>
@@ -198,14 +227,17 @@ const SignUpModal = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => ({
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
+  state: AppState
+) => ({
   unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
 });
 
 const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
   setIsLoggedIn: (email: string, isGoogleUser = false) =>
     dispatch(setIsLoggedInAction(email, isGoogleUser)),
-  unregisteredClearFollowedShows: () => dispatch(unregisteredClearFollowedShowsAction()),
+  unregisteredClearFollowedShows: () =>
+    dispatch(unregisteredClearFollowedShowsAction()),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, AppState>(

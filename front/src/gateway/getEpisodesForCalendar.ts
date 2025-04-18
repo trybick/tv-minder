@@ -46,7 +46,8 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
     } = showInfo;
 
     const shouldSkipMoreFetching =
-      status === 'Ended' && moment(lastAirDate).isBefore(moment().subtract(6, 'months'));
+      status === 'Ended' &&
+      moment(lastAirDate).isBefore(moment().subtract(6, 'months'));
     if (shouldSkipMoreFetching) {
       return null;
     }
@@ -74,7 +75,9 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 
       // List of requests for each season(s) for each show
       const latestSeasonsRequests = latestSeasons.map((seasonNum: ID) =>
-        axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, { params: queryParams })
+        axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, {
+          params: queryParams,
+        })
       );
 
       // Get season data for each season for each show
@@ -98,14 +101,16 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 
 const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // Attach extra properties to each season object
-  const showSeasonObject = fullSeasonDataForLatestSeasons.flat().map((season: any) =>
-    (({ episodes, name, network, showId }) => ({
-      episodes,
-      name,
-      network,
-      showId,
-    }))(season)
-  );
+  const showSeasonObject = fullSeasonDataForLatestSeasons
+    .flat()
+    .map((season: any) =>
+      (({ episodes, name, network, showId }) => ({
+        episodes,
+        name,
+        network,
+        showId,
+      }))(season)
+    );
 
   // Calculate unique color based on showId
   const listOfShowIds: ID[] = showSeasonObject.map((show: any) => show.showId);

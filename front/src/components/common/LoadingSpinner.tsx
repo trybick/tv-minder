@@ -19,10 +19,21 @@ const LoadingSpinner = ({ delay, isFullScreen }: Props) => {
   return shouldShow ? (
     isFullScreen ? (
       <Flex align="center" h="80vh" justify="center">
-        <Spinner animationDuration="0.65s" borderWidth="4px" color="blue.500" size="xl" />
+        <Spinner
+          animationDuration="0.65s"
+          borderWidth="4px"
+          color="blue.500"
+          size="xl"
+        />
       </Flex>
     ) : (
-      <Spinner animationDuration="0.65s" borderWidth="4px" color="blue.500" mt="26px" size="xl" />
+      <Spinner
+        animationDuration="0.65s"
+        borderWidth="4px"
+        color="blue.500"
+        mt="26px"
+        size="xl"
+      />
     )
   ) : null;
 };

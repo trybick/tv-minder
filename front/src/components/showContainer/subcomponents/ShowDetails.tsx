@@ -42,7 +42,12 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
 
       {voteAverage ? (
         <Flex mb="18px">
-          <Icon alignSelf="center" as={FaStar} boxSize="27px" color="yellow.400" />
+          <Icon
+            alignSelf="center"
+            as={FaStar}
+            boxSize="27px"
+            color="yellow.400"
+          />
           <Flex direction="column" ml="4px">
             <Text fontSize="16px">
               <chakra.span fontSize="17px" fontWeight="700">
@@ -56,7 +61,12 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
               <Text fontSize="xs" fontWeight="600">
                 {abbreviateNumber(voteCount)}{' '}
               </Text>
-              <Icon as={BsFillPersonFill} boxSize="12px" m="auto 0" verticalAlign="middle" />
+              <Icon
+                as={BsFillPersonFill}
+                boxSize="12px"
+                m="auto 0"
+                verticalAlign="middle"
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -72,7 +82,9 @@ const ShowDetails = ({ isMobile, showInfoForDisplay }: Props) => {
         </Box>
       )}
 
-      {isMobile && <FollowButton mb="14px" showId={id} size="md" width="100%" />}
+      {isMobile && (
+        <FollowButton mb="14px" showId={id} size="md" width="100%" />
+      )}
 
       <VideoTrailerButton isMobile={isMobile} videoId={videoTrailerKey} />
 

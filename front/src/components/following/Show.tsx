@@ -1,6 +1,10 @@
 import { useLocation } from 'wouter';
 import { Flex, Image, Link } from '@chakra-ui/react';
-import { fallbackImagePath, fallbackImagePathLarge, imagePath780 } from 'constants/strings';
+import {
+  fallbackImagePath,
+  fallbackImagePathLarge,
+  imagePath780,
+} from 'constants/strings';
 import { BasicShowInfo } from 'types/external';
 import { ROUTES } from 'constants/routes';
 import { useColorModeValue } from 'components/ui/color-mode';

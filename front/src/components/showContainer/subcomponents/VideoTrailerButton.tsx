@@ -1,4 +1,12 @@
-import { AspectRatio, Box, Button, Dialog, Icon, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  Box,
+  Button,
+  Dialog,
+  Icon,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
@@ -9,11 +17,23 @@ type Props = {
 
 const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
-  const desktopOptions = { height: '390', playerVars: { autoplay: 1 }, width: '640' };
-  const mobileOptions = { height: '100%', playerVars: { autoplay: 1 }, width: '100%' };
+  const desktopOptions = {
+    height: '390',
+    playerVars: { autoplay: 1 },
+    width: '640',
+  };
+  const mobileOptions = {
+    height: '100%',
+    playerVars: { autoplay: 1 },
+    width: '100%',
+  };
 
   return videoId ? (
-    <Box alignSelf="center" mb={isMobile ? '20px' : '9px'} mt={isMobile ? '' : '20px'}>
+    <Box
+      alignSelf="center"
+      mb={isMobile ? '20px' : '9px'}
+      mt={isMobile ? '' : '20px'}
+    >
       <Button
         fontSize="16px"
         onClick={onOpen}
@@ -26,7 +46,13 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
         </Text>
       </Button>
 
-      <Dialog.Root onOpenChange={onClose} open={isOpen} placement="center" size="md" lazyMount>
+      <Dialog.Root
+        onOpenChange={onClose}
+        open={isOpen}
+        placement="center"
+        size="md"
+        lazyMount
+      >
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Backdrop />
