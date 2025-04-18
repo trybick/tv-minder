@@ -44,10 +44,17 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
     }
   };
 
+  const handleClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      setFeedback('');
+      onClose();
+    }
+  };
+
   return (
     <Dialog.Root
       initialFocusEl={() => initialRef.current}
-      onOpenChange={onClose}
+      onOpenChange={e => handleClose(e.open)}
       open={isOpen}
       lazyMount
       unmountOnExit
