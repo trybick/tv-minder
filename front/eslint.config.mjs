@@ -31,6 +31,7 @@ export default defineConfig([
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 2018,
+      ecmaVersion: 'latest',
       sourceType: 'module',
     },
 
@@ -42,6 +43,7 @@ export default defineConfig([
 
     rules: {
       'prettier/prettier': ['warning', { printWidth: 80 }],
+      'prettier/prettier': ['warn', { printWidth: 80 }],
       '@typescript-eslint/ban-ts-ignore': 0,
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/explicit-function-return-type': 0,
@@ -57,13 +59,6 @@ export default defineConfig([
       'react/react-in-jsx-scope': 0,
       '@typescript-eslint/no-empty-object-type': 0,
       '@typescript-eslint/no-unused-vars': 1,
-
-      'react/jsx-sort-props': [
-        1,
-        {
-          shorthandLast: true,
-        },
-      ],
 
       'sort-imports': [
         1,
