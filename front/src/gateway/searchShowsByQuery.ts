@@ -1,6 +1,6 @@
 import axios, { CancelTokenSource } from 'axios';
-import { ShowSearchResult } from 'types/external';
 import ENDPOINTS from 'constants/endpoints';
+import { ShowSearchResult } from 'types/external';
 import handleErrors from 'utils/handleErrors';
 
 type QueryParams = { api_key: string | undefined; query: string };

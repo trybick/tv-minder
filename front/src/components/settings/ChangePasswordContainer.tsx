@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
 import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
-import { selectIsGoogleUser, selectUserEmail } from 'store/user/selectors';
+import axios, { AxiosError } from 'axios';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import ENDPOINTS from 'constants/endpoints';
+import { selectIsGoogleUser, selectUserEmail } from 'store/user/selectors';
 import { toaster } from '../ui/toaster';
 
 type FormInputs = {

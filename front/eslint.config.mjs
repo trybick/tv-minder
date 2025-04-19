@@ -2,11 +2,11 @@ import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import { globalIgnores } from 'eslint/config';
+import prettierConfig from 'eslint-config-prettier';
 import * as pluginImportX from 'eslint-plugin-import-x';
+import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import prettierPlugin from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default [

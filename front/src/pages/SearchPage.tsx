@@ -1,6 +1,9 @@
+import { Box } from '@chakra-ui/react';
+import moment from 'moment';
 import { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
-import moment from 'moment';
+import SearchContainer from 'components/search/SearchContainer';
+import SearchInput from 'components/search/subcomponents/SearchInput';
 import { searchShowsByQuery } from 'gateway/searchShowsByQuery';
 import { AppState, AppThunkDispatch } from 'store';
 import { saveSearchQueryAction } from 'store/tv/actions';
@@ -8,10 +11,7 @@ import { selectSavedQueries } from 'store/tv/selectors';
 import { SavedQuery } from 'store/tv/types';
 import { ShowSearchResult } from 'types/external';
 import cacheDurationDays from 'utils/cacheDurations';
-import SearchContainer from 'components/search/SearchContainer';
-import SearchInput from 'components/search/subcomponents/SearchInput';
 import { useDebouncedFunction } from 'utils/debounce';
-import { Box } from '@chakra-ui/react';
 
 type StateProps = {
   savedQueries: SavedQuery[];

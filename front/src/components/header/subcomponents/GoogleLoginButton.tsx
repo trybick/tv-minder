@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
-import GoogleButton from 'react-google-button';
 import { Flex } from '@chakra-ui/react';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import GoogleButton from 'react-google-button';
+import ENDPOINTS from 'constants/endpoints';
 import { AppThunkPlainAction } from 'store';
 import { PlainFunction } from 'types/common';
 import handleErrors from 'utils/handleErrors';
-import ENDPOINTS from 'constants/endpoints';
 import { toaster } from '../../ui/toaster';
 
 type Props = {

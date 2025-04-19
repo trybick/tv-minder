@@ -1,5 +1,5 @@
-import { useLocation } from 'wouter';
 import { Alert, Link } from '@chakra-ui/react';
+import { useLocation } from 'wouter';
 import { ROUTES } from 'constants/routes';
 
 const NoFollowedShowsBanner = () => {

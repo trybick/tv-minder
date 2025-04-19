@@ -1,10 +1,10 @@
-import { ChangeEvent, useRef, useState } from 'react';
 import { Button, CloseButton, Dialog, Text, Textarea } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
+import { ChangeEvent, useRef, useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 import ENDPOINTS from 'constants/endpoints';
-import handleErrors from 'utils/handleErrors';
 import { DisclosureProps } from 'types/common';
+import handleErrors from 'utils/handleErrors';
 import { toaster } from '../ui/toaster';
 
 type Props = {

@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { ShowSearchResult } from 'types/external';
 import LoadingSpinner from 'components/common/LoadingSpinner';
 import PopularShows from 'components/popularShows/PopularShows';
+import { ShowSearchResult } from 'types/external';
 import SearchResults from './subcomponents/SearchResults';
 
 type Props = {

@@ -1,13 +1,13 @@
 import { Box, chakra, Flex, Heading, Icon, Tag, Text } from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
+import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
-import { HiOutlineVideoCamera } from 'react-icons/hi';
+import FollowButton from 'components/common/FollowButton';
 import { BasicShowInfo } from 'types/external';
 import { abbreviateNumber } from 'utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
-import FollowButton from 'components/common/FollowButton';
 
 type Props = {
   isMobile: boolean;

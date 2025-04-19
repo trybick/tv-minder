@@ -1,7 +1,3 @@
-import { useState } from 'react';
-import { connect, MapStateToProps } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import {
   Box,
   Button,
@@ -10,6 +6,12 @@ import {
   Field,
   Input,
 } from '@chakra-ui/react';
+import axios from 'axios';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { connect, MapStateToProps } from 'react-redux';
+import ENDPOINTS from 'constants/endpoints';
+import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import {
   setIsLoggedInAction,
@@ -17,13 +19,11 @@ import {
 } from 'store/user/actions';
 import { selectUnregisteredFollowedShows } from 'store/user/selectors';
 import { DisclosureProps, ID } from 'types/common';
-import ENDPOINTS from 'constants/endpoints';
 import handleErrors from 'utils/handleErrors';
-import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
-import GoogleLoginButton from './GoogleLoginButton';
+import { emailRegex } from '../../../constants/strings';
 import Separator from '../../common/Separator';
 import { PasswordInput } from '../../ui/password-input';
-import { emailRegex } from '../../../constants/strings';
+import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {
   disclosureProps: DisclosureProps;

@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
 import { Box, Tabs } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import { useIsMobile } from 'hooks/useIsMobile';
 import {
   selectActiveSeasonShows,

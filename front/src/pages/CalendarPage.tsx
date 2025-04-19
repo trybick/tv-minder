@@ -1,26 +1,26 @@
-import { Key, RefObject, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'wouter';
-import moment from 'moment';
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
-import { TbBoxMultiple } from 'react-icons/tb';
-import FullCalendar from '@fullcalendar/react';
 import {
   CalendarOptions,
   EventClickArg,
   EventContentArg,
 } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
+import FullCalendar from '@fullcalendar/react';
+import moment from 'moment';
+import { Key, RefObject, useEffect, useRef } from 'react';
+import { TbBoxMultiple } from 'react-icons/tb';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'wouter';
+import DesktopCalendarEventPopover from 'components/calendar/DesktopCalendarEventPopover';
+import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
+import { ROUTES } from 'constants/routes';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { useAppDispatch } from 'store';
-import { selectFollowedShows } from 'store/user/selectors';
 import { getEpisodesForCalendarAction } from 'store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
-import { ROUTES } from 'constants/routes';
-import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
-import DesktopCalendarEventPopover from 'components/calendar/DesktopCalendarEventPopover';
+import { selectFollowedShows } from 'store/user/selectors';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();

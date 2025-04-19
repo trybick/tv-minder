@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -10,7 +8,10 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
+import { useColorModeValue } from 'components/ui/color-mode';
 import { useAppDispatch } from 'store';
 import {
   getPopularShowsAction,
@@ -20,9 +21,8 @@ import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
 } from 'store/tv/selectors';
-import PopularShow from './subcomponents/PopularShow';
 import { useIsMobile } from '../../hooks/useIsMobile';
-import { useColorModeValue } from 'components/ui/color-mode';
+import PopularShow from './subcomponents/PopularShow';
 
 const PopularShows = () => {
   const dispatch = useAppDispatch();

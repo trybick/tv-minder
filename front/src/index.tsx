@@ -1,10 +1,10 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { createRoot } from 'react-dom/client';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { persistor, store } from 'store';
 import App from 'components/App';
+import { persistor, store } from 'store';
 import { Provider as ChakraProvider } from './components/ui/provider';
 
 const WrappedApp = () => (

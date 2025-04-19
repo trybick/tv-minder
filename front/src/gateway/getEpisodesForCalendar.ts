@@ -2,10 +2,10 @@ import axios from 'axios';
 import moment from 'moment';
 import ENDPOINTS from 'constants/endpoints';
 import { formatSameDayEpisodes } from 'store/tv/tvUtils';
-import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
-import handleErrors from 'utils/handleErrors';
 import { ID } from 'types/common';
 import { CalendarEpisode } from 'types/external';
+import { getUniqueColorsForShowIds } from 'utils/getColorForShowId';
+import handleErrors from 'utils/handleErrors';
 
 const queryParams = {
   api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,

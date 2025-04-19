@@ -1,4 +1,5 @@
 import { Action, AnyAction, Reducer } from 'redux';
+import { ID } from 'types/common';
 import {
   FETCH_USER_FOLLOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,
@@ -10,7 +11,6 @@ import {
   UNREGISTERED_REMOVE_FROM_FOLLOWED_SHOWS,
   UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS,
 } from './actions';
-import { ID } from 'types/common';
 
 export type UserState = {
   email: string;

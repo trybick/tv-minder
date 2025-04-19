@@ -1,12 +1,12 @@
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Box } from '@chakra-ui/react';
+import FollowingList from 'components/following/FollowingList';
+import NoFollowedShowsMessage from 'components/following/NoFollowedShowsMessage';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { useAppDispatch } from 'store';
 import { getBasicShowInfoForFollowedShows } from 'store/tv/actions';
 import { selectFollowedShows } from 'store/user/selectors';
-import { useIsMobile } from 'hooks/useIsMobile';
-import FollowingList from 'components/following/FollowingList';
-import NoFollowedShowsMessage from 'components/following/NoFollowedShowsMessage';
 
 const FollowingPage = () => {
   const isMobile = useIsMobile();
