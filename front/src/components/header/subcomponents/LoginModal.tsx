@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 import { connect, MapStateToProps } from 'react-redux';
 
-import Separator from '~/components/common/Separator';
+import InlineTextSeparator from '~/components/common/InlineTextSeparator';
 import ENDPOINTS from '~/constants/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
@@ -245,14 +245,14 @@ const LoginModal = ({
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
                 {formOption === 0 && (
-                  <Separator
+                  <InlineTextSeparator
                     alignItems="center"
                     fontSize="14px"
                     m="26px 0"
                     textAlign="center"
                   >
                     OR
-                  </Separator>
+                  </InlineTextSeparator>
                 )}
 
                 <Field.Root invalid={!!errors?.email}>

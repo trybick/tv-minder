@@ -232,7 +232,9 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
         </Box>
       </Flex>
 
-      {(!isMobile || (isMobile && !isShowPage)) && <Separator mt="6px" />}
+      {(!isMobile || (isMobile && !isShowPage)) && (
+        <Separator mt="6px" size="md" />
+      )}
     </>
   );
 };

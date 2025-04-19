@@ -23,7 +23,7 @@ import { DisclosureProps, ID } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 import { emailRegex } from '../../../constants/strings';
-import Separator from '../../common/Separator';
+import InlineTextSeparator from '../../common/InlineTextSeparator';
 import { PasswordInput } from '../../ui/password-input';
 
 import GoogleLoginButton from './GoogleLoginButton';
@@ -161,14 +161,14 @@ const SignUpModal = ({
 
           <Box as="form" onSubmit={onSubmit}>
             <Dialog.Body pb={6}>
-              <Separator
+              <InlineTextSeparator
                 alignItems="center"
                 fontSize="14px"
                 m="26px 0"
                 textAlign="center"
               >
                 OR
-              </Separator>
+              </InlineTextSeparator>
 
               <Field.Root invalid={!!errors?.email}>
                 <Field.Label htmlFor="email">Email</Field.Label>

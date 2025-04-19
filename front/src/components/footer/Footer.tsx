@@ -21,7 +21,7 @@ const Footer = () => {
 
   return (
     <Box mb="6px">
-      <Separator />
+      <Separator size="md" />
       <Flex
         alignItems="center"
         fontSize=".85rem"

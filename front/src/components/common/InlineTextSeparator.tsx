@@ -1,6 +1,6 @@
 import { chakra, Flex } from '@chakra-ui/react';
 
-const Separator = chakra(Flex, {
+const InlineTextSeparator = chakra(Flex, {
   base: {
     '&:before, &:after': {
       content: '""',
@@ -16,4 +16,4 @@ const Separator = chakra(Flex, {
   },
 });
 
-export default Separator;
+export default InlineTextSeparator;
