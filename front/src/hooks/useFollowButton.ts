@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from 'store';
+import { useAppDispatch } from '~/store';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
   setHasLocalWarningToastBeenShownAction,
-} from 'store/user/actions';
+} from '~/store/user/actions';
 import {
   selectFollowedShows,
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
-} from 'store/user/selectors';
-import { ID } from 'types/common';
+} from '~/store/user/selectors';
+import { ID } from '~/types/common';
 import { toaster } from '../components/ui/toaster';
 
 export const useFollowButton = (showId: ID) => {

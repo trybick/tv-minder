@@ -6,9 +6,9 @@ import {
   EpisodeForSeason,
   Genre,
   SeasonWithEpisodes,
-} from 'types/external';
-import { addLeadingZero } from 'utils/formatting';
-import { isEmpty } from 'utils/object';
+} from '~/types/external';
+import { addLeadingZero } from '~/utils/formatting';
+import { isEmpty } from '~/utils/object';
 
 type Status = 'Ended' | 'In Production' | 'Premiering Soon' | 'Active Season';
 

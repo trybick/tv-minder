@@ -10,16 +10,16 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect, MapStateToProps } from 'react-redux';
-import ENDPOINTS from 'constants/endpoints';
-import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
+import ENDPOINTS from '~/constants/endpoints';
+import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
 import {
   setIsLoggedInAction,
   unregisteredClearFollowedShowsAction,
-} from 'store/user/actions';
-import { selectUnregisteredFollowedShows } from 'store/user/selectors';
-import { DisclosureProps, ID } from 'types/common';
-import handleErrors from 'utils/handleErrors';
+} from '~/store/user/actions';
+import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
+import { DisclosureProps, ID } from '~/types/common';
+import handleErrors from '~/utils/handleErrors';
 import { emailRegex } from '../../../constants/strings';
 import Separator from '../../common/Separator';
 import { PasswordInput } from '../../ui/password-input';

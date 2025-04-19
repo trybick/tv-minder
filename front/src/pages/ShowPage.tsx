@@ -1,16 +1,17 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import LoadingSpinner from 'components/common/LoadingSpinner';
-import ShowContainer from 'components/showContainer/ShowContainer';
-import { useIsMobile } from 'hooks/useIsMobile';
-import { useAppDispatch } from 'store';
-import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from 'store/tv/actions';
+
+import LoadingSpinner from '~/components/common/LoadingSpinner';
+import ShowContainer from '~/components/showContainer/ShowContainer';
+import { useIsMobile } from '~/hooks/useIsMobile';
+import { useAppDispatch } from '~/store';
+import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';
 import {
   getCurrentShowId,
   selectCurrentShowInfo,
   selectIsLoadingBasicShowInfoForShow,
-} from 'store/tv/selectors';
+} from '~/store/tv/selectors';
 
 const ShowPage = () => {
   const dispatch = useAppDispatch();

@@ -1,8 +1,8 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
 import { FaCheck } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
-import { useFollowButton } from 'hooks/useFollowButton';
-import { ID } from 'types/common';
+import { useFollowButton } from '~/hooks/useFollowButton';
+import { ID } from '~/types/common';
 
 type Props = {
   showId: ID;

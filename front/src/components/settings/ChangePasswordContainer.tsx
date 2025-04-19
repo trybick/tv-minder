@@ -3,8 +3,8 @@ import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import ENDPOINTS from 'constants/endpoints';
-import { selectIsGoogleUser, selectUserEmail } from 'store/user/selectors';
+import ENDPOINTS from '~/constants/endpoints';
+import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
 import { toaster } from '../ui/toaster';
 
 type FormInputs = {

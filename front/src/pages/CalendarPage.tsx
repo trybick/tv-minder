@@ -13,14 +13,14 @@ import { Key, RefObject, useEffect, useRef } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'wouter';
-import DesktopCalendarEventPopover from 'components/calendar/DesktopCalendarEventPopover';
-import NoFollowedShowsBanner from 'components/calendar/NoFollowedShowsBanner';
-import { ROUTES } from 'constants/routes';
-import { useIsMobile } from 'hooks/useIsMobile';
-import { useAppDispatch } from 'store';
-import { getEpisodesForCalendarAction } from 'store/tv/actions';
-import { selectCalendarEpisodesForDisplay } from 'store/tv/selectors';
-import { selectFollowedShows } from 'store/user/selectors';
+import DesktopCalendarEventPopover from '~/components/calendar/DesktopCalendarEventPopover';
+import NoFollowedShowsBanner from '~/components/calendar/NoFollowedShowsBanner';
+import { ROUTES } from '~/constants/routes';
+import { useIsMobile } from '~/hooks/useIsMobile';
+import { useAppDispatch } from '~/store';
+import { getEpisodesForCalendarAction } from '~/store/tv/actions';
+import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
+import { selectFollowedShows } from '~/store/user/selectors';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();

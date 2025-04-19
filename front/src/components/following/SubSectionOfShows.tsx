@@ -1,5 +1,5 @@
 import { Grid } from '@chakra-ui/react';
-import { BasicShowInfo } from 'types/external';
+import { BasicShowInfo } from '~/types/external';
 import Show from './Show';
 
 type Props = {

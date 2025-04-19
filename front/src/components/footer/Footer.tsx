@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
-import TMDBLogo from 'images/TMDB-logo.svg';
+import TMDBLogo from '~/images/TMDB-logo.svg';
 import FeedbackModal from './FeedbackModal';
 
 const Footer = () => {

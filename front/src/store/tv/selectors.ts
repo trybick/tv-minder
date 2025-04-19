@@ -1,9 +1,9 @@
 import { Selector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { AppState } from 'store';
-import { selectFollowedShows } from 'store/user/selectors';
-import { ID } from 'types/common';
-import { BasicShowInfo, PopularShow } from 'types/external';
+import { AppState } from '~/store';
+import { selectFollowedShows } from '~/store/user/selectors';
+import { ID } from '~/types/common';
+import { BasicShowInfo, PopularShow } from '~/types/external';
 import { mapShowInfoForDisplay } from './tvUtils';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;

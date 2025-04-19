@@ -13,19 +13,22 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 import { connect, MapStateToProps } from 'react-redux';
-import Separator from 'components/common/Separator';
-import ENDPOINTS from 'constants/endpoints';
-import { useCloseModalOnPressEscape } from 'hooks/useCloseModalOnPressEscape';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
+
+import Separator from '~/components/common/Separator';
+import ENDPOINTS from '~/constants/endpoints';
+import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
 import {
   setIsLoggedInAction,
   unregisteredClearFollowedShowsAction,
-} from 'store/user/actions';
-import { DisclosureProps } from 'types/common';
-import handleErrors from 'utils/handleErrors';
+} from '~/store/user/actions';
+import { DisclosureProps } from '~/types/common';
+import handleErrors from '~/utils/handleErrors';
+
 import { emailRegex } from '../../../constants/strings';
 import { PasswordInput } from '../../ui/password-input';
 import { toaster } from '../../ui/toaster';
+
 import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {

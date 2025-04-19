@@ -11,16 +11,16 @@ import {
 import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
-import { useColorModeValue } from 'components/ui/color-mode';
-import { useAppDispatch } from 'store';
+import { useColorModeValue } from '~/components/ui/color-mode';
+import { useAppDispatch } from '~/store';
 import {
   getPopularShowsAction,
   getTopRatedShowsAction,
-} from 'store/tv/actions';
+} from '~/store/tv/actions';
 import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
-} from 'store/tv/selectors';
+} from '~/store/tv/selectors';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import PopularShow from './subcomponents/PopularShow';
 

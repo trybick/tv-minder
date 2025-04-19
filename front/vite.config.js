@@ -1,6 +1,11 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig(() => {
   return {
@@ -15,17 +20,12 @@ export default defineConfig(() => {
       'process.env': {},
     },
     resolve: {
-      alias: {
-        components: path.resolve(import.meta.dirname, './src/components'),
-        constants: path.resolve(import.meta.dirname, './src/constants'),
-        gateway: path.resolve(import.meta.dirname, './src/gateway'),
-        hooks: path.resolve(import.meta.dirname, './src/hooks'),
-        images: path.resolve(import.meta.dirname, './src/images'),
-        pages: path.resolve(import.meta.dirname, './src/pages'),
-        store: path.resolve(import.meta.dirname, './src/store'),
-        theme: path.resolve(import.meta.dirname, './src/theme'),
-        utils: path.resolve(import.meta.dirname, './src/utils'),
-      },
+      alias: [
+        {
+          find: '~',
+          replacement: path.resolve(__dirname, 'src'),
+        },
+      ],
     },
     plugins: [react()],
   };

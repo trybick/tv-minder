@@ -1,8 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import { connect } from 'react-redux';
-import { AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { setIsLoggedOutAction } from 'store/user/actions';
-import { PlainFunction } from 'types/common';
+import { AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { setIsLoggedOutAction } from '~/store/user/actions';
+import { PlainFunction } from '~/types/common';
 
 type OwnProps = {
   closeHeader: PlainFunction;

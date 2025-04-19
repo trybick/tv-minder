@@ -10,7 +10,7 @@ import {
 } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { PlainFunction } from 'types/common';
+import { PlainFunction } from '~/types/common';
 import { tvReducer, TvState } from './tv/reducers';
 import { userReducer, UserState } from './user/reducers';
 

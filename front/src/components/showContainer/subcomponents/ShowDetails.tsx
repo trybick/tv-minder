@@ -4,9 +4,9 @@ import { FaStar } from 'react-icons/fa';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
-import FollowButton from 'components/common/FollowButton';
-import { BasicShowInfo } from 'types/external';
-import { abbreviateNumber } from 'utils/formatting';
+import FollowButton from '~/components/common/FollowButton';
+import { BasicShowInfo } from '~/types/external';
+import { abbreviateNumber } from '~/utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
 
 type Props = {
