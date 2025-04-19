@@ -10,7 +10,7 @@ type Props = {
   followedWidth?: string;
 };
 
-export const FollowButton = ({
+const FollowButton = ({
   showId,
   followedWidth,
   unfollowedWidth,

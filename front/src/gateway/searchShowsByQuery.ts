@@ -43,6 +43,7 @@ const makeCancellableRequestCreator = () => {
     if (cancelToken) {
       cancelToken.cancel();
     }
+    // eslint-disable-next-line import-x/no-named-as-default-member
     cancelToken = axios.CancelToken.source();
 
     return axios
