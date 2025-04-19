@@ -1,10 +1,10 @@
-import { Link as RouterLink } from 'wouter';
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
-import { PopularShow as PopularShowType } from 'types/external';
-import { fallbackImagePath } from 'constants/strings';
-import { ROUTES } from 'constants/routes';
-import { imagePath342 } from 'constants/strings';
-import FollowButton from 'components/common/FollowButton';
+import { Link as RouterLink } from 'wouter';
+
+import FollowButton from '~/components/common/FollowButton';
+import { ROUTES } from '~/constants/routes';
+import { fallbackImagePath, imagePath342 } from '~/constants/strings';
+import { PopularShow as PopularShowType } from '~/types/external';
 
 type Props = {
   show: PopularShowType;

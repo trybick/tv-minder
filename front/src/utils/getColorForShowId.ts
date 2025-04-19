@@ -1,4 +1,4 @@
-import { ID } from 'types/common';
+import { ID } from '~/types/common';
 
 // Takes a list of showIds. Returns a list of persistent unique colors
 export const getUniqueColorsForShowIds = (showIds: ID[]) => {

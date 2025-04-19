@@ -1,6 +1,3 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { Link as RouterLink, useLocation } from 'wouter';
-import { connect, MapStateToProps } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -11,18 +8,23 @@ import {
   Portal,
   Separator,
 } from '@chakra-ui/react';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { selectIsLoggedIn, selectUserEmail } from 'store/user/selectors';
-import { setIsLoggedOutAction } from 'store/user/actions';
-import { useIsMobile } from 'hooks/useIsMobile';
-import { ROUTES } from 'constants/routes';
-import logo from 'images/logo.svg';
-import LoginButton from './subcomponents/LoginButton';
-import SignUpButton from './subcomponents/SignUpButton';
-import LogoutButton from './subcomponents/LogoutButton';
-import { ColorModeButton } from 'components/ui/color-mode';
-import { VscSettingsGear } from 'react-icons/vsc';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { SlLogout } from 'react-icons/sl';
+import { VscSettingsGear } from 'react-icons/vsc';
+import { connect, MapStateToProps } from 'react-redux';
+import { Link as RouterLink, useLocation } from 'wouter';
+
+import { ColorModeButton } from '~/components/ui/color-mode';
+import { ROUTES } from '~/constants/routes';
+import { useIsMobile } from '~/hooks/useIsMobile';
+import logo from '~/images/logo.svg';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { setIsLoggedOutAction } from '~/store/user/actions';
+import { selectIsLoggedIn, selectUserEmail } from '~/store/user/selectors';
+
+import LoginButton from './subcomponents/LoginButton';
+import LogoutButton from './subcomponents/LogoutButton';
+import SignUpButton from './subcomponents/SignUpButton';
 
 type StateProps = {
   email: string;
@@ -174,8 +176,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ColorModeButton mr="8px" />
-                {/* @ts-ignore - colorPalette is a valid prop for the Menu.Root component */}
                 <Menu.Root
+                  // @ts-ignore - colorPalette is a valid prop for the Menu.Root component
                   colorPalette="customCyan"
                   positioning={{ placement: 'bottom-end' }}
                 >

@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import ChangePasswordContainer from 'components/settings/ChangePasswordContainer';
+
+import ChangePasswordContainer from '~/components/settings/ChangePasswordContainer';
 
 const SettingsPage = () => {
   return (

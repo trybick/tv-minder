@@ -1,5 +1,5 @@
-import placeholderImage from 'images/placeholder-image.png';
-import placeholderImageLarge from 'images/placeholder-image-large.png';
+import placeholderImageLarge from '~/images/placeholder-image-large.png';
+import placeholderImage from '~/images/placeholder-image.png';
 
 export const gAnalyticsID = 'G-JBXPD1C4QP';
 

@@ -1,12 +1,14 @@
 import axios from 'axios';
 import moment from 'moment';
-import { AppThunk } from 'store';
-import { getEpisodesForCalendar } from 'gateway/getEpisodesForCalendar';
+
+import ENDPOINTS from '~/constants/endpoints';
+import { getEpisodesForCalendar } from '~/gateway/getEpisodesForCalendar';
+import { AppThunk } from '~/store';
+import { ID } from '~/types/common';
+import cacheDurationDays from '~/utils/cacheDurations';
+import handleErrors from '~/utils/handleErrors';
+
 import { SavedQuery } from './types';
-import ENDPOINTS from 'constants/endpoints';
-import handleErrors from 'utils/handleErrors';
-import cacheDurationDays from 'utils/cacheDurations';
-import { ID } from 'types/common';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';

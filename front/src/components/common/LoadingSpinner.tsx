@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Flex, Spinner } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   delay?: number;

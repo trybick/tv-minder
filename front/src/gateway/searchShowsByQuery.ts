@@ -1,7 +1,8 @@
 import axios, { CancelTokenSource } from 'axios';
-import { ShowSearchResult } from 'types/external';
-import ENDPOINTS from 'constants/endpoints';
-import handleErrors from 'utils/handleErrors';
+
+import ENDPOINTS from '~/constants/endpoints';
+import { ShowSearchResult } from '~/types/external';
+import handleErrors from '~/utils/handleErrors';
 
 type QueryParams = { api_key: string | undefined; query: string };
 
@@ -43,6 +44,7 @@ const makeCancellableRequestCreator = () => {
     if (cancelToken) {
       cancelToken.cancel();
     }
+
     cancelToken = axios.CancelToken.source();
 
     return axios

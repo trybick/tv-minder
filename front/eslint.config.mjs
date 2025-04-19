@@ -1,72 +1,134 @@
-import { defineConfig, globalIgnores } from 'eslint/config';
-import reactHooks from 'eslint-plugin-react-hooks';
-import { fixupPluginRules } from '@eslint/compat';
-import tsParser from '@typescript-eslint/parser';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import { globalIgnores } from 'eslint/config';
+import * as pluginImportX from 'eslint-plugin-import-x';
+import prettierPlugin from 'eslint-plugin-prettier/recommended';
+import reactPlugin from 'eslint-plugin-react';
+import * as reactHooksPlugin from 'eslint-plugin-react-hooks';
+import globals from 'globals';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-export default defineConfig([
+export default [
+  // Global ignores
   globalIgnores(['node_modules/*', 'public/*', 'build/*']),
+
+  // Base JavaScript config
+  js.configs.recommended,
+
+  // TypeScript config
   {
-    extends: compat.extends(
-      'plugin:@typescript-eslint/recommended',
-      'plugin:react/recommended',
-      'plugin:prettier/recommended'
-    ),
-
+    files: ['**/*.{ts,tsx}'],
     plugins: {
-      'react-hooks': fixupPluginRules(reactHooks),
+      '@typescript-eslint': tsPlugin,
     },
-
     languageOptions: {
       parser: tsParser,
-      ecmaVersion: 2018,
-      sourceType: 'module',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: './tsconfig.json',
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
+    rules: {
+      ...tsPlugin.configs.recommended.rules,
+      '@typescript-eslint/ban-ts-ignore': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-use-before-define': 'off',
+      '@typescript-eslint/camelcase': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+    },
+  },
 
+  // React config
+  {
+    files: ['**/*.{jsx,tsx}'],
+    plugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+    },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
     settings: {
       react: {
         version: 'detect',
       },
     },
-
     rules: {
-      'prettier/prettier': ['warning', { printWidth: 80 }],
-      '@typescript-eslint/ban-ts-ignore': 0,
-      '@typescript-eslint/no-explicit-any': 0,
-      '@typescript-eslint/explicit-function-return-type': 0,
-      '@typescript-eslint/no-use-before-define': 0,
-      '@typescript-eslint/camelcase': 0,
-      '@typescript-eslint/ban-ts-comment': 0,
-      'react-hooks/rules-of-hooks': 2,
-      'react-hooks/exhaustive-deps': 1,
-      'arrow-parens': ['warn', 'as-needed'],
-      '@typescript-eslint/no-non-null-assertion': 0,
-      '@typescript-eslint/ban-types': 0,
-      'react/jsx-uses-react': 0,
-      'react/react-in-jsx-scope': 0,
-      '@typescript-eslint/no-empty-object-type': 0,
-      '@typescript-eslint/no-unused-vars': 1,
+      ...reactPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules,
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+    },
+  },
 
-      'react/jsx-sort-props': [
-        1,
+  // Prettier config
+  {
+    ...prettierPlugin,
+    rules: {
+      'prettier/prettier': [
+        'warn',
         {
-          shorthandLast: true,
+          printWidth: 80,
         },
       ],
+    },
+  },
+
+  // Import ordering
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
+    ...pluginImportX.flatConfigs.recommended,
+    ...pluginImportX.flatConfigs.typescript,
+    rules: {
+      'import-x/order': [
+        'warn',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+          ],
+          'newlines-between': 'always',
+          pathGroups: [
+            {
+              pattern: '~',
+              group: 'internal',
+            },
+          ],
+          alphabetize: {
+            order: 'asc',
+          },
+        },
+      ],
+    },
+  },
+
+  // General rules
+  {
+    rules: {
+      'arrow-parens': ['warn', 'as-needed'],
+      'no-prototype-builtins': 'off',
 
       'sort-imports': [
-        1,
+        'warn',
         {
           ignoreCase: true,
           ignoreDeclarationSort: true,
@@ -74,4 +136,4 @@ export default defineConfig([
       ],
     },
   },
-]);
+];

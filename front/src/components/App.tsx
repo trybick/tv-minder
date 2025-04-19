@@ -1,24 +1,26 @@
+import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import ReactGA from 'react-ga4';
 import { connect, MapStateToProps } from 'react-redux';
 import { Route, Switch } from 'wouter';
-import { Flex } from '@chakra-ui/react';
-import ReactGA from 'react-ga4';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
-import { fetchfollowedShowsAction } from 'store/user/actions';
-import { selectIsLoggedIn } from 'store/user/selectors';
-import { gAnalyticsID } from 'constants/strings';
-import Header from 'components/header/Header';
-import Footer from 'components/footer/Footer';
+
+import ErrorBoundary from '~/components/common/ErrorBoundary';
+import ProtectedRoute from '~/components/common/ProtectedRoute';
+import Footer from '~/components/footer/Footer';
+import Header from '~/components/header/Header';
+import { ROUTES } from '~/constants/routes';
+import { gAnalyticsID } from '~/constants/strings';
+import CalendarPage from '~/pages/CalendarPage';
+import FollowingPage from '~/pages/FollowingPage';
+import SearchPage from '~/pages/SearchPage';
+import SettingsPage from '~/pages/SettingsPage';
+import ShowPage from '~/pages/ShowPage';
+import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { fetchfollowedShowsAction } from '~/store/user/actions';
+import { selectIsLoggedIn } from '~/store/user/selectors';
+import { initSentry } from '~/utils/sentry';
+
 import ScrollToTop from './common/ScrollToTop';
-import ProtectedRoute from 'components/common/ProtectedRoute';
-import ErrorBoundary from 'components/common/ErrorBoundary';
-import SearchPage from 'pages/SearchPage';
-import CalendarPage from 'pages/CalendarPage';
-import FollowingPage from 'pages/FollowingPage';
-import SettingsPage from 'pages/SettingsPage';
-import ShowPage from 'pages/ShowPage';
-import { ROUTES } from 'constants/routes';
-import { initSentry } from 'utils/sentry';
 import { Toaster } from './ui/toaster';
 
 type StateProps = {

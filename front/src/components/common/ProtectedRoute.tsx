@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'wouter';
-import { selectIsLoggedIn } from 'store/user/selectors';
-import { ROUTES } from 'constants/routes';
+
+import { ROUTES } from '~/constants/routes';
+import { selectIsLoggedIn } from '~/store/user/selectors';
 
 type Props = {
   children: ReactNode;

@@ -1,4 +1,3 @@
-import { EventContentArg } from '@fullcalendar/core';
 import {
   Box,
   Flex,
@@ -8,11 +7,13 @@ import {
   Portal,
   Text,
 } from '@chakra-ui/react';
-import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
+import { EventContentArg } from '@fullcalendar/core';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
-import { ROUTES } from 'constants/routes';
+import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
 import { useLocation } from 'wouter';
+
+import { ROUTES } from '~/constants/routes';
 
 type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };

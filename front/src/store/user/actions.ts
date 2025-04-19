@@ -1,9 +1,10 @@
-import axios from 'axios';
 import * as Sentry from '@sentry/browser';
-import { AppThunk } from 'store';
-import { ID } from 'types/common';
-import ENDPOINTS from 'constants/endpoints';
-import handleErrors from 'utils/handleErrors';
+import axios from 'axios';
+
+import ENDPOINTS from '~/constants/endpoints';
+import { AppThunk } from '~/store';
+import { ID } from '~/types/common';
+import handleErrors from '~/utils/handleErrors';
 
 export const FETCH_USER_FOLLOWS = 'FETCH_USER_FOLLOWS';
 export const REMOVE_FROM_FOLLOWED_SHOWS = 'REMOVE_FROM_FOLLOWED_SHOWS';

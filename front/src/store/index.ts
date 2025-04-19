@@ -1,3 +1,5 @@
+import localforage from 'localforage';
+import { useDispatch } from 'react-redux';
 import {
   Action,
   AnyAction,
@@ -6,13 +8,13 @@ import {
   compose,
   legacy_createStore as createStore,
 } from 'redux';
-import { useDispatch } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk';
-import localforage from 'localforage';
-import { userReducer, UserState } from './user/reducers';
+
+import { PlainFunction } from '~/types/common';
+
 import { tvReducer, TvState } from './tv/reducers';
-import { PlainFunction } from 'types/common';
+import { userReducer, UserState } from './user/reducers';
 
 declare global {
   interface Window {

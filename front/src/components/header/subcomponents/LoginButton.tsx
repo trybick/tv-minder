@@ -1,4 +1,5 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
+
 import LoginModal from './LoginModal';
 
 const LoginButton = () => {

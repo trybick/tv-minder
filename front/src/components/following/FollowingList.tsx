@@ -1,12 +1,14 @@
-import { useSelector } from 'react-redux';
 import { Box, Tabs } from '@chakra-ui/react';
-import { useIsMobile } from 'hooks/useIsMobile';
+import { useSelector } from 'react-redux';
+
+import { useIsMobile } from '~/hooks/useIsMobile';
 import {
   selectActiveSeasonShows,
   selectBasicShowInfoForFollowedShows,
   selectEndedShows,
   selectInProductionShows,
-} from 'store/tv/selectors';
+} from '~/store/tv/selectors';
+
 import SubSectionOfShows from './SubSectionOfShows';
 
 const FollowingList = () => {

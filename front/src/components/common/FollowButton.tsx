@@ -1,8 +1,9 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
-import { useFollowButton } from 'hooks/useFollowButton';
-import { ID } from 'types/common';
-import { IoMdAdd } from 'react-icons/io';
 import { FaCheck } from 'react-icons/fa6';
+import { IoMdAdd } from 'react-icons/io';
+
+import { useFollowButton } from '~/hooks/useFollowButton';
+import { ID } from '~/types/common';
 
 type Props = {
   showId: ID;
@@ -10,7 +11,7 @@ type Props = {
   followedWidth?: string;
 };
 
-export const FollowButton = ({
+const FollowButton = ({
   showId,
   followedWidth,
   unfollowedWidth,

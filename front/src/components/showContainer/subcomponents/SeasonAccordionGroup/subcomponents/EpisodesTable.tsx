@@ -1,3 +1,4 @@
+import { Table, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
   flexRender,
@@ -5,8 +6,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import moment from 'moment';
-import { Table, Text } from '@chakra-ui/react';
-import { EpisodeForSeason } from 'types/external';
+
+import { EpisodeForSeason } from '~/types/external';
 
 type Props = {
   isMobile: boolean;
