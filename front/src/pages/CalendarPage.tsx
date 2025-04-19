@@ -9,7 +9,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
-import { Key, RefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'wouter';
@@ -74,7 +74,6 @@ const CalendarPage = () => {
   };
 
   const calendarProps: CalendarOptions & {
-    key: Key;
     ref: RefObject<FullCalendar>;
   } = {
     allDayContent: false,
@@ -88,8 +87,6 @@ const CalendarPage = () => {
     fixedWeekCount: false,
     height: 'auto',
     initialView: isMobile ? 'listMonth' : 'dayGridMonth',
-    // Refreshes the calendar to update the correct day
-    key: moment().format('MM-DD-YYYY'),
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
     listDaySideFormat: false,
@@ -113,7 +110,11 @@ const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        <FullCalendar {...calendarProps} />
+        <FullCalendar
+          {...calendarProps}
+          // Refreshes the calendar to update the correct day
+          key={moment().format('MM-DD-YYYY')}
+        />
       </Box>
     </>
   );
