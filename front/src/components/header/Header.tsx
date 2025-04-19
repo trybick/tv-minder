@@ -176,8 +176,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
                 <ColorModeButton mr="8px" />
-                {/* @ts-ignore - colorPalette is a valid prop for the Menu.Root component */}
                 <Menu.Root
+                  // @ts-ignore - colorPalette is a valid prop for the Menu.Root component
                   colorPalette="customCyan"
                   positioning={{ placement: 'bottom-end' }}
                 >
