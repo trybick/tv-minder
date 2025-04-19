@@ -1,4 +1,5 @@
 import axios, { CancelTokenSource } from 'axios';
+
 import ENDPOINTS from '~/constants/endpoints';
 import { ShowSearchResult } from '~/types/external';
 import handleErrors from '~/utils/handleErrors';
@@ -43,7 +44,7 @@ const makeCancellableRequestCreator = () => {
     if (cancelToken) {
       cancelToken.cancel();
     }
-    // eslint-disable-next-line import-x/no-named-as-default-member
+
     cancelToken = axios.CancelToken.source();
 
     return axios

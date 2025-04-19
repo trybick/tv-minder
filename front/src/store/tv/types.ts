@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+
 import { ShowSearchResult } from '~/types/external';
 
 export type SavedQuery = {

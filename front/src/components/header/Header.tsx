@@ -13,6 +13,7 @@ import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { connect, MapStateToProps } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'wouter';
+
 import { ColorModeButton } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -20,6 +21,7 @@ import logo from '~/images/logo.svg';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import { selectIsLoggedIn, selectUserEmail } from '~/store/user/selectors';
+
 import LoginButton from './subcomponents/LoginButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import SignUpButton from './subcomponents/SignUpButton';

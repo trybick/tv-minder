@@ -1,11 +1,13 @@
 import axios from 'axios';
 import moment from 'moment';
+
 import ENDPOINTS from '~/constants/endpoints';
 import { getEpisodesForCalendar } from '~/gateway/getEpisodesForCalendar';
 import { AppThunk } from '~/store';
 import { ID } from '~/types/common';
 import cacheDurationDays from '~/utils/cacheDurations';
 import handleErrors from '~/utils/handleErrors';
+
 import { SavedQuery } from './types';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';

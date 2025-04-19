@@ -1,5 +1,7 @@
 import { Action, AnyAction, Reducer } from 'redux';
+
 import { ID } from '~/types/common';
+
 import {
   FETCH_USER_FOLLOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,

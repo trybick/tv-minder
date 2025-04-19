@@ -1,5 +1,6 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
 import { connect, MapStateToProps } from 'react-redux';
+
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
 import {
   removeFromFollowedShowsAction,
@@ -14,6 +15,7 @@ import {
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
 import { maybePluralize } from '~/utils/formatting';
+
 import SearchResult from './SearchResult';
 
 type OwnProps = {

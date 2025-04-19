@@ -1,5 +1,6 @@
 import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 import { Link as RouterLink } from 'wouter';
+
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath } from '~/constants/strings';

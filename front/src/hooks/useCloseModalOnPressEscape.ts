@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react';
+
 import { PlainFunction } from '~/types/common';
 
 // Closing on 'Esc' is supported by Chakra UI however there seems to be issues with it on Mac

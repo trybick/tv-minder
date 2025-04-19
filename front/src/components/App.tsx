@@ -2,7 +2,6 @@ import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
 import { connect, MapStateToProps } from 'react-redux';
-
 import { Route, Switch } from 'wouter';
 
 import ErrorBoundary from '~/components/common/ErrorBoundary';

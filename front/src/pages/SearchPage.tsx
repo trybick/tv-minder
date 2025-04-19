@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import moment from 'moment';
 import { ChangeEvent, useRef, useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
+
 import SearchContainer from '~/components/search/SearchContainer';
 import SearchInput from '~/components/search/subcomponents/SearchInput';
 import { searchShowsByQuery } from '~/gateway/searchShowsByQuery';

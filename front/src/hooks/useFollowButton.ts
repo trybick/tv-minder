@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import { useAppDispatch } from '~/store';
 import {
   removeFromFollowedShowsAction,
@@ -12,6 +13,7 @@ import {
   selectIsLoggedIn,
 } from '~/store/user/selectors';
 import { ID } from '~/types/common';
+
 import { toaster } from '../components/ui/toaster';
 
 export const useFollowButton = (showId: ID) => {

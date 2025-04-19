@@ -13,6 +13,7 @@ import { Key, RefObject, useEffect, useRef } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'wouter';
+
 import DesktopCalendarEventPopover from '~/components/calendar/DesktopCalendarEventPopover';
 import NoFollowedShowsBanner from '~/components/calendar/NoFollowedShowsBanner';
 import { ROUTES } from '~/constants/routes';

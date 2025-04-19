@@ -1,5 +1,6 @@
 import { Box, Tabs } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+
 import { useIsMobile } from '~/hooks/useIsMobile';
 import {
   selectActiveSeasonShows,
@@ -7,6 +8,7 @@ import {
   selectEndedShows,
   selectInProductionShows,
 } from '~/store/tv/selectors';
+
 import SubSectionOfShows from './SubSectionOfShows';
 
 const FollowingList = () => {

@@ -1,4 +1,5 @@
 import { Flex, Grid, Image } from '@chakra-ui/react';
+
 import FollowButton from '~/components/common/FollowButton';
 import {
   fallbackImagePathLarge,
@@ -7,6 +8,7 @@ import {
 } from '~/constants/strings';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { BasicShowInfo } from '~/types/external';
+
 import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
 import ShowDetails from './subcomponents/ShowDetails';
 

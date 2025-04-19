@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect, MapStateToProps } from 'react-redux';
+
 import ENDPOINTS from '~/constants/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
@@ -20,9 +21,11 @@ import {
 import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
 import { DisclosureProps, ID } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
+
 import { emailRegex } from '../../../constants/strings';
 import Separator from '../../common/Separator';
 import { PasswordInput } from '../../ui/password-input';
+
 import GoogleLoginButton from './GoogleLoginButton';
 
 type OwnProps = {

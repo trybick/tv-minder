@@ -1,5 +1,7 @@
 import { Action, AnyAction, Reducer } from 'redux';
+
 import { CalendarEpisode } from '~/types/external';
+
 import {
   SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
   SAVE_BASIC_SHOW_INFO_FOR_SHOW,

@@ -12,6 +12,7 @@ import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
 import { useLocation } from 'wouter';
+
 import { ROUTES } from '~/constants/routes';
 
 type Props = {

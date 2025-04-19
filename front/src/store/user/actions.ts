@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import axios from 'axios';
+
 import ENDPOINTS from '~/constants/endpoints';
 import { AppThunk } from '~/store';
 import { ID } from '~/types/common';

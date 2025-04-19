@@ -1,6 +1,8 @@
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import { useLocation } from 'wouter';
+
 import { ROUTES } from '~/constants/routes';
+
 import noShowsImage from '../../images/tv-remote.jpg';
 
 const NoFollowedShowsMessage = () => {

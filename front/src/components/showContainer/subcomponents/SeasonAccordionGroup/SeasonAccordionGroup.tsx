@@ -1,6 +1,8 @@
 import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 import moment from 'moment';
+
 import { BasicShowInfo } from '~/types/external';
+
 import EpisodesTable from './subcomponents/EpisodesTable';
 
 type Props = {
