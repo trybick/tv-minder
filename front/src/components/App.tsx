@@ -13,12 +13,12 @@ import CalendarPage from 'pages/CalendarPage';
 import FollowingPage from 'pages/FollowingPage';
 import SearchPage from 'pages/SearchPage';
 import SettingsPage from 'pages/SettingsPage';
+import ShowPage from 'pages/ShowPage';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from 'store';
 import { fetchfollowedShowsAction } from 'store/user/actions';
 import { selectIsLoggedIn } from 'store/user/selectors';
 import { initSentry } from 'utils/sentry';
 import ScrollToTop from './common/ScrollToTop';
-import ShowPage from 'pages/ShowPage';
 import { Toaster } from './ui/toaster';
 
 type StateProps = {

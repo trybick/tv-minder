@@ -2,9 +2,8 @@ import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import { globalIgnores } from 'eslint/config';
-import prettierConfig from 'eslint-config-prettier';
 import * as pluginImportX from 'eslint-plugin-import-x';
-import prettierPlugin from 'eslint-plugin-prettier';
+import prettierPlugin from 'eslint-plugin-prettier/recommended';
 import reactPlugin from 'eslint-plugin-react';
 import * as reactHooksPlugin from 'eslint-plugin-react-hooks';
 import globals from 'globals';
@@ -79,12 +78,14 @@ export default [
 
   // Prettier config
   {
-    plugins: {
-      prettier: prettierPlugin,
-    },
+    ...prettierPlugin,
     rules: {
-      ...prettierConfig.rules,
-      'prettier/prettier': ['warn', { printWidth: 80 }],
+      'prettier/prettier': [
+        'warn',
+        {
+          printWidth: 80,
+        },
+      ],
     },
   },
 
