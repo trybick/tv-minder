@@ -11,17 +11,17 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install packages
-        run: yarn install
+        run: npm install
 
       - name: Check TypeScript
         run: |
           cd front
-          yarn validate
+          npm run validate
 
       - name: Check formatting
         run: |
           cd front
-          yarn lint:check
+          npm run lint:check

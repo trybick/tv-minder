@@ -23,17 +23,17 @@
 This will start the front-end and use the production API for API requests so you don't need to run the local API.
 
 ```bash
-yarn
-yarn start
+npm install
+npm start
 ```
 
 #### Or run the API locally if preferred
 
 ```bash
 # Start the local API
-yarn serve:local
+npm run serve:local
 # Start the app
-yarn start:local
+npm run start:local
 ```
 
 #### ENV Files

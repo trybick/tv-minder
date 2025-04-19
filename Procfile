@@ -1,1 +1,1 @@
-web: yarn serve:prod
+web: npm run serve:prod
