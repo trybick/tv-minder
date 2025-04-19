@@ -30,6 +30,7 @@ export default [
       },
       globals: {
         ...globals.browser,
+        ...globals.node,
       },
     },
     rules: {
@@ -41,7 +42,6 @@ export default [
       '@typescript-eslint/camelcase': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
     },
@@ -91,6 +91,8 @@ export default [
   {
     rules: {
       'arrow-parens': ['warn', 'as-needed'],
+      'no-prototype-builtins': 'off',
+
       'sort-imports': [
         'warn',
         {
