@@ -1,7 +1,8 @@
-import { globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import { globalIgnores } from 'eslint/config';
+import * as pluginImportX from 'eslint-plugin-import-x';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import prettierPlugin from 'eslint-plugin-prettier';
@@ -98,6 +99,50 @@ export default [
         {
           ignoreCase: true,
           ignoreDeclarationSort: true,
+        },
+      ],
+    },
+  },
+  pluginImportX.flatConfigs.recommended,
+  pluginImportX.flatConfigs.typescript,
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
+    ignores: ['eslint.config.js'],
+    languageOptions: {
+      parser: tsParser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+    rules: {
+      // some libraries are weird with this turned on
+      // "import-x/no-named-as-default-member": "off",
+
+      // enforce some import ordering
+      'import-x/order': [
+        'warn',
+        {
+          groups: [
+            'external',
+            'builtin',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+          ],
+          // "newlines-between": "always-and-inside-groups",
+          // pathGroups: [
+          //   {
+          //     pattern: "~",
+          //     group: "internal"
+          //   },
+          //   {
+          //     pattern: "@test",
+          //     group: "internal"
+          //   }
+          // ],
+          alphabetize: {
+            order: 'asc',
+          },
         },
       ],
     },
