@@ -6,7 +6,7 @@ import prettierConfig from 'eslint-config-prettier';
 import * as pluginImportX from 'eslint-plugin-import-x';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import * as reactHooksPlugin from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 export default [
