@@ -1,8 +1,7 @@
 import localforage from 'localforage';
-import { useDispatch } from 'react-redux';
+import { Selector, useDispatch } from 'react-redux';
 import {
   Action,
-  AnyAction,
   applyMiddleware,
   combineReducers,
   compose,
@@ -28,7 +27,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-export type AppThunkDispatch = ThunkDispatch<AppState, void, AnyAction>;
+export type AppThunkDispatch = ThunkDispatch<AppState, void, Action>;
 export type AppThunkPlainAction = PlainFunction;
 
 export const useAppDispatch: () => AppThunkDispatch = useDispatch;
@@ -37,6 +36,8 @@ export type AppState = {
   user: UserState;
   tv: TvState;
 };
+
+export type AppSelector<T> = Selector<AppState, T>;
 
 const rootPersistConfig = {
   key: 'root',

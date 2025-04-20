@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
-import { connect, MapStateToProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Route, Switch } from 'wouter';
 
 import ErrorBoundary from '~/components/common/ErrorBoundary';
@@ -15,7 +15,7 @@ import FollowingPage from '~/pages/FollowingPage';
 import SearchPage from '~/pages/SearchPage';
 import SettingsPage from '~/pages/SettingsPage';
 import ShowPage from '~/pages/ShowPage';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { useAppDispatch } from '~/store';
 import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 import { initSentry } from '~/utils/sentry';
@@ -23,27 +23,20 @@ import { initSentry } from '~/utils/sentry';
 import ScrollToTop from './common/ScrollToTop';
 import { Toaster } from './ui/toaster';
 
-type StateProps = {
-  isLoggedIn: boolean;
-};
+const App = () => {
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-type DispatchProps = {
-  fetchfollowedShows: AppThunkPlainAction;
-};
-
-type Props = StateProps & DispatchProps;
-
-const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   useEffect(() => {
     if (isLoggedIn) {
-      fetchfollowedShows();
+      dispatch(fetchfollowedShowsAction());
     }
     if (import.meta.env.MODE === 'production') {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
       initSentry();
     }
-  }, [isLoggedIn, fetchfollowedShows]);
+  }, [isLoggedIn, dispatch]);
 
   return (
     <>
@@ -85,17 +78,4 @@ const App = ({ isLoggedIn, fetchfollowedShows }: Props) => {
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
-  state: AppState
-): StateProps => ({
-  isLoggedIn: selectIsLoggedIn(state),
-});
-
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  fetchfollowedShows: () => dispatch(fetchfollowedShowsAction()),
-});
-
-export default connect<StateProps, DispatchProps, {}, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;

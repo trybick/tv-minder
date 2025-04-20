@@ -12,12 +12,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
-import { connect, MapStateToProps } from 'react-redux';
 
 import InlineTextSeparator from '~/components/common/InlineTextSeparator';
 import ENDPOINTS from '~/constants/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { useAppDispatch } from '~/store';
 import {
   setIsLoggedInAction,
   unregisteredClearFollowedShowsAction,
@@ -31,16 +30,9 @@ import { toaster } from '../../ui/toaster';
 
 import GoogleLoginButton from './GoogleLoginButton';
 
-type OwnProps = {
+type Props = {
   disclosureProps: DisclosureProps;
 };
-
-type DispatchProps = {
-  setIsLoggedIn: (email: string) => void;
-  unregisteredClearFollowedShows: AppThunkPlainAction;
-};
-
-type Props = OwnProps & DispatchProps;
 
 type FormInputs = {
   email: string;
@@ -61,11 +53,9 @@ const formValidation = {
   },
 };
 
-const LoginModal = ({
-  disclosureProps,
-  setIsLoggedIn,
-  unregisteredClearFollowedShows,
-}: Props) => {
+const LoginModal = ({ disclosureProps }: Props) => {
+  const dispatch = useAppDispatch();
+
   // Modal
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose } = disclosureProps;
@@ -113,8 +103,8 @@ const LoginModal = ({
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
-        setIsLoggedIn(res.data.email);
-        unregisteredClearFollowedShows();
+        dispatch(setIsLoggedInAction(res.data.email));
+        dispatch(unregisteredClearFollowedShowsAction());
       })
       .catch(err => {
         handleErrors(err);
@@ -237,8 +227,12 @@ const LoginModal = ({
             {formOption === 0 && (
               <GoogleLoginButton
                 onClose={onClose}
-                setIsLoggedIn={setIsLoggedIn}
-                unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+                setIsLoggedIn={(email: string) =>
+                  dispatch(setIsLoggedInAction(email))
+                }
+                unregisteredClearFollowedShows={() =>
+                  dispatch(unregisteredClearFollowedShowsAction())
+                }
               />
             )}
 
@@ -354,16 +348,4 @@ const LoginModal = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<{}, OwnProps, AppState> = () => ({});
-
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedIn: (email: string, isGoogleUser = false) =>
-    dispatch(setIsLoggedInAction(email, isGoogleUser)),
-  unregisteredClearFollowedShows: () =>
-    dispatch(unregisteredClearFollowedShowsAction()),
-});
-
-export default connect<{}, DispatchProps, OwnProps, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginModal);
+export default LoginModal;

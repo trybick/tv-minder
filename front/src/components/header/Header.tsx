@@ -11,14 +11,14 @@ import {
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
-import { connect, MapStateToProps, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'wouter';
 
 import { ColorModeButton } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import logo from '~/images/logo.svg';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { useAppDispatch } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import {
   selectIsGoogleUser,
@@ -29,17 +29,6 @@ import {
 import LoginButton from './subcomponents/LoginButton';
 import LogoutButton from './subcomponents/LogoutButton';
 import SignUpButton from './subcomponents/SignUpButton';
-
-type StateProps = {
-  email: string;
-  isLoggedIn: boolean;
-};
-
-type DispatchProps = {
-  setIsLoggedOut: AppThunkPlainAction;
-};
-
-type Props = StateProps & DispatchProps;
 
 // On smaller resolutions a hamburger menu is shown which opens the header
 // This hook manages the 'open' state and closes the menu upon clicking outside
@@ -65,19 +54,22 @@ function useHeaderManager(ref: RefObject<HTMLDivElement | null>) {
   return { isOpen, closeHeader, toggleIsOpen };
 }
 
-const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
+const Header = () => {
+  const dispatch = useAppDispatch();
   const containerRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(containerRef);
   const isMobile = useIsMobile();
   const [location, navigate] = useLocation();
   const isShowPage = location.includes('/show/');
 
+  const email = useSelector(selectUserEmail);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const isGoogleUser = useSelector(selectIsGoogleUser);
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
     closeHeader();
-    setIsLoggedOut();
+    dispatch(setIsLoggedOutAction());
   };
 
   const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => (
@@ -247,18 +239,4 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
-  state: AppState
-): StateProps => ({
-  email: selectUserEmail(state),
-  isLoggedIn: selectIsLoggedIn(state),
-});
-
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedOut: () => dispatch(setIsLoggedOutAction()),
-});
-
-export default connect<StateProps, DispatchProps, {}, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+export default Header;

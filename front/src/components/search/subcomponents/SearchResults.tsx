@@ -1,7 +1,7 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
-import { connect, MapStateToProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { useAppDispatch } from '~/store';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
@@ -12,41 +12,24 @@ import {
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
 } from '~/store/user/selectors';
-import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
 import { maybePluralize } from '~/utils/formatting';
 
 import SearchResult from './SearchResult';
 
-type OwnProps = {
+type Props = {
   shows: ShowSearchResult[];
   totalResults: number;
 };
 
-type StateProps = {
-  followedShows: ID[];
-  hasLocalWarningToastBeenShown: boolean;
-  isLoggedIn: boolean;
-};
+const SearchResults = ({ shows, totalResults }: Props) => {
+  const dispatch = useAppDispatch();
+  const followedShows = useSelector(selectFollowedShows);
+  const hasLocalWarningToastBeenShown = useSelector(
+    selectHasLocalWarningToastBeenShown
+  );
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-type DispatchProps = {
-  removeFromFollowedShows: (showId: number) => void;
-  setHasLocalWarningToastBeenShown: AppThunkPlainAction;
-  saveToFollowedShows: (showId: number) => void;
-};
-
-type Props = OwnProps & StateProps & DispatchProps;
-
-const SearchResults = ({
-  followedShows,
-  hasLocalWarningToastBeenShown,
-  isLoggedIn,
-  removeFromFollowedShows,
-  saveToFollowedShows,
-  setHasLocalWarningToastBeenShown,
-  shows,
-  totalResults,
-}: Props) => {
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'show')} found`;
 
   return (
@@ -60,14 +43,20 @@ const SearchResults = ({
       <Stack gap={5} m="0 auto" w={{ base: '96%', md: '500px' }}>
         {shows.map(show => (
           <SearchResult
+            key={show.id}
+            showToDisplay={show}
             followedShows={followedShows}
             hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
             isLoggedIn={isLoggedIn}
-            key={show.id}
-            removeFromFollowedShows={removeFromFollowedShows}
-            saveToFollowedShows={saveToFollowedShows}
-            setHasLocalWarningToastBeenShown={setHasLocalWarningToastBeenShown}
-            showToDisplay={show}
+            removeFromFollowedShows={(showId: number) =>
+              dispatch(removeFromFollowedShowsAction(showId))
+            }
+            saveToFollowedShows={(showId: number) =>
+              dispatch(saveToFollowedShowsAction(showId))
+            }
+            setHasLocalWarningToastBeenShown={() =>
+              dispatch(setHasLocalWarningToastBeenShownAction())
+            }
           />
         ))}
       </Stack>
@@ -75,24 +64,4 @@ const SearchResults = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
-  state: AppState
-) => ({
-  followedShows: selectFollowedShows(state),
-  hasLocalWarningToastBeenShown: selectHasLocalWarningToastBeenShown(state),
-  isLoggedIn: selectIsLoggedIn(state),
-});
-
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  removeFromFollowedShows: (showId: ID) =>
-    dispatch(removeFromFollowedShowsAction(showId)),
-  saveToFollowedShows: (showId: ID) =>
-    dispatch(saveToFollowedShowsAction(showId)),
-  setHasLocalWarningToastBeenShown: () =>
-    dispatch(setHasLocalWarningToastBeenShownAction()),
-});
-
-export default connect<StateProps, DispatchProps, OwnProps, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchResults);
+export default SearchResults;
