@@ -11,7 +11,7 @@ import {
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
-import { connect, MapStateToProps } from 'react-redux';
+import { connect, MapStateToProps, useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'wouter';
 
 import { ColorModeButton } from '~/components/ui/color-mode';
@@ -20,7 +20,11 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import logo from '~/images/logo.svg';
 import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
-import { selectIsLoggedIn, selectUserEmail } from '~/store/user/selectors';
+import {
+  selectIsGoogleUser,
+  selectIsLoggedIn,
+  selectUserEmail,
+} from '~/store/user/selectors';
 
 import LoginButton from './subcomponents/LoginButton';
 import LogoutButton from './subcomponents/LogoutButton';
@@ -67,6 +71,8 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
   const isMobile = useIsMobile();
   const [location, navigate] = useLocation();
   const isShowPage = location.includes('/show/');
+
+  const isGoogleUser = useSelector(selectIsGoogleUser);
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -153,7 +159,7 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
           <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" />
           {isLoggedIn && <NavLink linkTo={ROUTES.MANAGE} text="Manage" />}
 
-          {isLoggedIn ? (
+          {isLoggedIn && !isGoogleUser ? (
             <Box display={{ base: 'block', md: 'none' }}>
               <NavLink linkTo={ROUTES.SETTINGS} text="Settings" />
             </Box>
@@ -193,15 +199,17 @@ const Header = ({ email, isLoggedIn, setIsLoggedOut }: Props) => {
                   <Portal>
                     <Menu.Positioner>
                       <Menu.Content zIndex={4}>
-                        <Menu.Item
-                          cursor="pointer"
-                          onClick={() => navigate(ROUTES.SETTINGS)}
-                          p="10px"
-                          value="settings"
-                        >
-                          <VscSettingsGear />
-                          Settings
-                        </Menu.Item>
+                        {!isGoogleUser && (
+                          <Menu.Item
+                            cursor="pointer"
+                            onClick={() => navigate(ROUTES.SETTINGS)}
+                            p="10px"
+                            value="settings"
+                          >
+                            <VscSettingsGear />
+                            Settings
+                          </Menu.Item>
+                        )}
                         <Menu.Item
                           cursor="pointer"
                           onClick={onLogout}
