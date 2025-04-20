@@ -9,17 +9,17 @@ import {
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { connect, MapStateToProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import ENDPOINTS from '~/constants/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
-import { AppState, AppThunkDispatch, AppThunkPlainAction } from '~/store';
+import { useAppDispatch } from '~/store';
 import {
   setIsLoggedInAction,
   unregisteredClearFollowedShowsAction,
 } from '~/store/user/actions';
 import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
-import { DisclosureProps, ID } from '~/types/common';
+import { DisclosureProps } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 import { emailRegex } from '../../../constants/strings';
@@ -28,20 +28,9 @@ import { PasswordInput } from '../../ui/password-input';
 
 import GoogleLoginButton from './GoogleLoginButton';
 
-type OwnProps = {
+type Props = {
   disclosureProps: DisclosureProps;
 };
-
-type StateProps = {
-  unregisteredFollowedShows: ID[];
-};
-
-type DispatchProps = {
-  setIsLoggedIn: (email: string) => void;
-  unregisteredClearFollowedShows: AppThunkPlainAction;
-};
-
-type Props = DispatchProps & StateProps & OwnProps;
 
 type FormInputs = {
   email: string;
@@ -68,12 +57,12 @@ const formValidation = {
   },
 };
 
-const SignUpModal = ({
-  disclosureProps,
-  setIsLoggedIn,
-  unregisteredClearFollowedShows,
-  unregisteredFollowedShows,
-}: Props) => {
+const SignUpModal = ({ disclosureProps }: Props) => {
+  const dispatch = useAppDispatch();
+  const unregisteredFollowedShows = useSelector(
+    selectUnregisteredFollowedShows
+  );
+
   // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
@@ -106,8 +95,8 @@ const SignUpModal = ({
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
-        setIsLoggedIn(res.data.email);
-        unregisteredClearFollowedShows();
+        dispatch(setIsLoggedInAction(res.data.email));
+        dispatch(unregisteredClearFollowedShowsAction());
       })
       .catch(err => {
         handleErrors(err);
@@ -155,8 +144,12 @@ const SignUpModal = ({
 
           <GoogleLoginButton
             onClose={onClose}
-            setIsLoggedIn={setIsLoggedIn}
-            unregisteredClearFollowedShows={unregisteredClearFollowedShows}
+            setIsLoggedIn={(email: string) =>
+              dispatch(setIsLoggedInAction(email))
+            }
+            unregisteredClearFollowedShows={() =>
+              dispatch(unregisteredClearFollowedShowsAction())
+            }
           />
 
           <Box as="form" onSubmit={onSubmit}>
@@ -230,20 +223,4 @@ const SignUpModal = ({
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
-  state: AppState
-) => ({
-  unregisteredFollowedShows: selectUnregisteredFollowedShows(state),
-});
-
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  setIsLoggedIn: (email: string, isGoogleUser = false) =>
-    dispatch(setIsLoggedInAction(email, isGoogleUser)),
-  unregisteredClearFollowedShows: () =>
-    dispatch(unregisteredClearFollowedShowsAction()),
-});
-
-export default connect<StateProps, DispatchProps, OwnProps, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignUpModal);
+export default SignUpModal;

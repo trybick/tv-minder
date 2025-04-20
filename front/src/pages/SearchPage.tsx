@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react';
 import moment from 'moment';
 import { ChangeEvent, useRef, useState } from 'react';
-import { connect, MapStateToProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import SearchContainer from '~/components/search/SearchContainer';
 import SearchInput from '~/components/search/subcomponents/SearchInput';
 import { searchShowsByQuery } from '~/gateway/searchShowsByQuery';
-import { AppState, AppThunkDispatch } from '~/store';
+import { useAppDispatch } from '~/store';
 import { saveSearchQueryAction } from '~/store/tv/actions';
 import { selectSavedQueries } from '~/store/tv/selectors';
 import { SavedQuery } from '~/store/tv/types';
@@ -14,17 +14,10 @@ import { ShowSearchResult } from '~/types/external';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { useDebouncedFunction } from '~/utils/debounce';
 
-type StateProps = {
-  savedQueries: SavedQuery[];
-};
+const SearchPage = () => {
+  const dispatch = useAppDispatch();
+  const savedQueries = useSelector(selectSavedQueries);
 
-type DispatchProps = {
-  saveSearchQuery: (query: SavedQuery) => void;
-};
-
-type Props = StateProps & DispatchProps;
-
-const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [isInputDirty, setIsInputDirty] = useState(false);
@@ -74,7 +67,7 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
     } else {
       const { results, totalResults } = await searchShowsByQuery(query);
       queryData = { query, results, timeSaved: moment(), totalResults };
-      saveSearchQuery(queryData);
+      dispatch(saveSearchQueryAction(queryData));
     }
 
     return queryData;
@@ -105,18 +98,4 @@ const SearchPage = ({ saveSearchQuery, savedQueries }: Props) => {
   );
 };
 
-const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = (
-  state: AppState
-): StateProps => ({
-  savedQueries: selectSavedQueries(state),
-});
-
-const mapDispatchToProps = (dispatch: AppThunkDispatch) => ({
-  saveSearchQuery: (query: SavedQuery) =>
-    dispatch(saveSearchQueryAction(query)),
-});
-
-export default connect<StateProps, DispatchProps, {}, AppState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchPage);
+export default SearchPage;
