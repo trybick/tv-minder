@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { useDispatch } from 'react-redux';
+import { Selector, useDispatch } from 'react-redux';
 import {
   Action,
   applyMiddleware,
@@ -36,6 +36,8 @@ export type AppState = {
   user: UserState;
   tv: TvState;
 };
+
+export type AppSelector<T> = Selector<AppState, T>;
 
 const rootPersistConfig = {
   key: 'root',
