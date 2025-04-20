@@ -1,38 +1,35 @@
 import { ID } from '~/types/common';
 
-// Takes a list of showIds. Returns a list of persistent unique colors
-export const getUniqueColorsForShowIds = (showIds: ID[]) => {
-  const usedIndicies: Record<number, boolean> = {};
+/**
+ * This is a consistent way to generate a unique color for each showId.
+ * If multiple shows would map to the same color (due to modulo), they will
+ * be assigned different colors while maintaining consistency.
+ *
+ * @param showIds
+ * @returns A list of colors
+ */
+export const getUniqueColorsForShowIds = (showIds: ID[]): string[] => {
+  const usedColors = new Set<number>();
+  const result: string[] = [];
 
-  const listOfIndicies = showIds.map(id => {
-    // Guaranteed to be a number between 0 and 278 (which is the length of colors)
-    // Example: 45230 % 131 = 35
-    const colorIndex = id % colors.length;
-    return colorIndex;
-  });
+  showIds.forEach(id => {
+    let colorIndex = id % colors.length;
+    let attempts = 0;
 
-  const uniqueIndices = listOfIndicies.map(index => {
-    let findUniqueIndexStepsCount = 0;
-    let uniqueIndex = index;
-
-    while (findUniqueIndexStepsCount < colors.length) {
-      // If the index isn't used yet, then choose this number and break loop
-      if (!usedIndicies.hasOwnProperty(uniqueIndex)) {
-        break;
-      } else {
-        // If the index is a repeat, get a new number
-        findUniqueIndexStepsCount++;
-        uniqueIndex = (uniqueIndex + 1) % colors.length;
-      }
+    // If the color is already used, try the next available color
+    while (usedColors.has(colorIndex) && attempts < colors.length) {
+      colorIndex = (colorIndex + 1) % colors.length;
+      attempts++;
     }
-    usedIndicies[uniqueIndex] = true;
-    return uniqueIndex;
+
+    usedColors.add(colorIndex);
+    result.push(colors[colorIndex]);
   });
 
-  return uniqueIndices.map(i => colors[i]);
+  return result;
 };
 
-// These have above a 5 contrast ratio with white text. Found from:
+// These colors have above a 5 contrast ratio with white text. Found from:
 // https://reallybigshoe.co.uk/visualiser/index.html
 const colors = [
   '#000000',

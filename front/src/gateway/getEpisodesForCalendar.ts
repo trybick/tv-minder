@@ -5,7 +5,7 @@ import ENDPOINTS from '~/constants/endpoints';
 import { formatSameDayEpisodes } from '~/store/tv/tvUtils';
 import { ID } from '~/types/common';
 import { CalendarEpisode } from '~/types/external';
-import { getUniqueColorsForShowIds } from '~/utils/getColorForShowId';
+import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 import handleErrors from '~/utils/handleErrors';
 
 const queryParams = {
