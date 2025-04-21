@@ -23,6 +23,7 @@ import { DisclosureProps } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 import { emailRegex } from '../../../constants/strings';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 import InlineTextSeparator from '../../common/InlineTextSeparator';
 import { PasswordInput } from '../../ui/password-input';
 
@@ -62,7 +63,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
   const unregisteredFollowedShows = useSelector(
     selectUnregisteredFollowedShows
   );
-
+  const isMobile = useIsMobile();
   // Modal
   const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
@@ -169,7 +170,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
                   _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('email', { ...formValidation.email })}
-                  autoFocus
+                  autoFocus={!isMobile}
                 />
                 <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
               </Field.Root>

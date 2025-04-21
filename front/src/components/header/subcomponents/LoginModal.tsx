@@ -25,6 +25,7 @@ import { DisclosureProps } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 import { emailRegex } from '../../../constants/strings';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 import { PasswordInput } from '../../ui/password-input';
 import { toaster } from '../../ui/toaster';
 
@@ -55,6 +56,7 @@ const formValidation = {
 
 const LoginModal = ({ disclosureProps }: Props) => {
   const dispatch = useAppDispatch();
+  const isMobile = useIsMobile();
 
   // Modal
   const [isLoading, setIsLoading] = useState(false);
@@ -256,7 +258,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
                     borderColor="gray.500"
                     disabled={formOption === 2 || formOption === 3}
                     {...register('email', { ...formValidation.email })}
-                    autoFocus
+                    autoFocus={!isMobile}
                   />
                   <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                 </Field.Root>

@@ -7,6 +7,7 @@ import ENDPOINTS from '~/constants/endpoints';
 import { DisclosureProps } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
+import { useIsMobile } from '../../hooks/useIsMobile';
 import { toaster } from '../ui/toaster';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const FeedbackModal = ({ disclosureProps }: Props) => {
+  const isMobile = useIsMobile();
   const { isOpen, onClose } = disclosureProps;
   const [error, setError] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -61,7 +63,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
 
   return (
     <Dialog.Root
-      initialFocusEl={() => initialRef.current}
+      initialFocusEl={() => (isMobile ? null : initialRef.current)}
       onOpenChange={e => handleClose(e.open)}
       open={isOpen}
       lazyMount
@@ -69,7 +71,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
     >
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content bg="bg.muted">
           <Dialog.Header>
             <Dialog.Title>{"What's on your mind?"}</Dialog.Title>
             <Dialog.CloseTrigger asChild>

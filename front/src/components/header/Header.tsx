@@ -14,7 +14,7 @@ import { VscSettingsGear } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'wouter';
 
-import { ColorModeButton } from '~/components/ui/color-mode';
+import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import logo from '~/images/logo.svg';
@@ -56,11 +56,13 @@ function useHeaderManager(ref: RefObject<HTMLDivElement | null>) {
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  const containerRef = useRef(null);
-  const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(containerRef);
   const isMobile = useIsMobile();
+  const { toggleColorMode } = useColorMode();
   const [location, navigate] = useLocation();
   const isShowPage = location.includes('/show/');
+
+  const containerRef = useRef(null);
+  const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(containerRef);
 
   const email = useSelector(selectUserEmail);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -218,13 +220,24 @@ const Header = () => {
               </Box>
 
               <Box display={{ base: 'block', md: 'none' }}>
-                <ColorModeButton mr="12px" />
+                <ColorModeButton
+                  mr="12px"
+                  onClick={() => {
+                    closeHeader();
+                    toggleColorMode();
+                  }}
+                />
                 <LogoutButton closeHeader={closeHeader} />
               </Box>
             </>
           ) : (
             <Flex alignItems="center" gap="10px" justify="flex-end">
-              <ColorModeButton />
+              <ColorModeButton
+                onClick={() => {
+                  closeHeader();
+                  toggleColorMode();
+                }}
+              />
               <SignUpButton />
               <LoginButton />
             </Flex>

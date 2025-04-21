@@ -4,6 +4,8 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 
 import { PlainFunction } from '~/types/common';
 
+import { useIsMobile } from '../../../hooks/useIsMobile';
+
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClearInput: PlainFunction;
@@ -17,6 +19,8 @@ const SearchInput = ({
   inputRef,
   inputValue,
 }: Props) => {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     function clearOnEsc(event: KeyboardEvent) {
       if (event.key === 'Escape') {
@@ -70,7 +74,7 @@ const SearchInput = ({
           ref={inputRef}
           value={inputValue}
           variant="outline"
-          autoFocus
+          autoFocus={!isMobile}
         />
       </InputGroup>
     </Flex>
