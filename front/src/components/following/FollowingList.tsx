@@ -28,17 +28,28 @@ const FollowingList = () => {
         fitted
       >
         <Tabs.List mb="22px">
-          <Tabs.Trigger value="all">All</Tabs.Trigger>
-          <Tabs.Trigger disabled={!activeSeasonShows.length} value="active">
-            Recently Airing
+          <Tabs.Trigger value="all" fontSize="md">
+            All
+          </Tabs.Trigger>
+          <Tabs.Trigger
+            disabled={!activeSeasonShows.length}
+            value="active"
+            fontSize="md"
+          >
+            Airing Now
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!inProductionShows.length}
+            fontSize="md"
             value="inProduction"
           >
             In Production
           </Tabs.Trigger>
-          <Tabs.Trigger disabled={!endedShows.length} value="ended">
+          <Tabs.Trigger
+            disabled={!endedShows.length}
+            value="ended"
+            fontSize="md"
+          >
             Ended
           </Tabs.Trigger>
         </Tabs.List>
