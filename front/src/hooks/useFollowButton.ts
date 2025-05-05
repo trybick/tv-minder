@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { toaster } from '~/components/ui/toaster';
 import { useAppDispatch } from '~/store';
 import {
   removeFromFollowedShowsAction,
@@ -14,8 +15,6 @@ import {
 } from '~/store/user/selectors';
 import { ID } from '~/types/common';
 
-import { toaster } from '../components/ui/toaster';
-
 export const useFollowButton = (showId: ID) => {
   const dispatch = useAppDispatch();
   const followedShows = useSelector(selectFollowedShows);
@@ -24,7 +23,6 @@ export const useFollowButton = (showId: ID) => {
     selectHasLocalWarningToastBeenShown
   );
   const [isFollowed, setIsFollowed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (followedShows.includes(showId)) {
@@ -32,11 +30,10 @@ export const useFollowButton = (showId: ID) => {
     } else {
       setIsFollowed(false);
     }
-    setIsLoading(false);
   }, [followedShows, showId]);
 
   async function onFollowShow() {
-    setIsLoading(true);
+    setIsFollowed(true);
     dispatch(saveToFollowedShowsAction(showId));
     if (!isLoggedIn && !hasLocalWarningToastBeenShown) {
       dispatch(setHasLocalWarningToastBeenShownAction());
@@ -51,9 +48,9 @@ export const useFollowButton = (showId: ID) => {
   }
 
   async function onUnFollowShow() {
-    setIsLoading(true);
+    setIsFollowed(false);
     dispatch(removeFromFollowedShowsAction(showId));
   }
 
-  return { isFollowed, isLoading, onFollowShow, onUnFollowShow };
+  return { isFollowed, onFollowShow, onUnFollowShow };
 };

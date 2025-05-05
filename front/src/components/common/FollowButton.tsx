@@ -17,13 +17,11 @@ const FollowButton = ({
   unfollowedWidth,
   ...rest
 }: Props & ButtonProps) => {
-  const { isFollowed, isLoading, onFollowShow, onUnFollowShow } =
-    useFollowButton(showId);
+  const { isFollowed, onFollowShow, onUnFollowShow } = useFollowButton(showId);
 
   return isFollowed ? (
     <Button
       colorPalette="cyan"
-      loading={isLoading}
       onClick={onUnFollowShow}
       variant="surface"
       {...(followedWidth && { minW: followedWidth })}
@@ -35,7 +33,6 @@ const FollowButton = ({
   ) : (
     <Button
       colorPalette="cyan"
-      loading={isLoading}
       onClick={onFollowShow}
       variant="solid"
       {...(unfollowedWidth && { minW: unfollowedWidth })}
