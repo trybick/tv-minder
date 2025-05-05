@@ -2,9 +2,8 @@ import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
 import { ChangeEvent, RefObject, useEffect } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { PlainFunction } from '~/types/common';
-
-import { useIsMobile } from '../../../hooks/useIsMobile';
 
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;

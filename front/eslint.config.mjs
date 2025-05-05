@@ -1,3 +1,4 @@
+import preferAlias from '@dword-design/eslint-plugin-import-alias';
 import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
@@ -115,6 +116,22 @@ export default [
           ],
           alphabetize: {
             order: 'asc',
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    plugins: {
+      '@dword-design/import-alias': preferAlias,
+    },
+    rules: {
+      '@dword-design/import-alias/prefer-alias': [
+        'warn',
+        {
+          alias: {
+            '~': './src/',
           },
         },
       ],

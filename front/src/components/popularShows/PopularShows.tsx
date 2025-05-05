@@ -13,6 +13,7 @@ import { AiOutlineCaretDown } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 
 import { useColorModeValue } from '~/components/ui/color-mode';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch } from '~/store';
 import {
   getPopularShowsAction,
@@ -22,8 +23,6 @@ import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
-
-import { useIsMobile } from '../../hooks/useIsMobile';
 
 import PopularShow from './subcomponents/PopularShow';
 

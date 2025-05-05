@@ -3,12 +3,11 @@ import axios, { AxiosError } from 'axios';
 import { ChangeEvent, useRef, useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 
+import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/constants/endpoints';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { DisclosureProps } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
-
-import { useIsMobile } from '../../hooks/useIsMobile';
-import { toaster } from '../ui/toaster';
 
 type Props = {
   disclosureProps: DisclosureProps;

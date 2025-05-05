@@ -1,4 +1,4 @@
-import { AppState } from '~/store';
+import { AppState } from './..';
 
 export const selectFollowedShows = (state: AppState) =>
   state.user.isLoggedIn

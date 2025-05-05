@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-import { AppSelector, AppState } from '~/store';
 import { selectFollowedShows } from '~/store/user/selectors';
 import { ID } from '~/types/common';
 import { BasicShowInfo, PopularShow } from '~/types/external';
 
+import { AppSelector, AppState } from './..';
 import { mapShowInfoForDisplay } from './tvUtils';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;

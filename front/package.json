@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@chakra-ui/cli": "^3.16.0",
+    "@dword-design/eslint-plugin-import-alias": "^5.1.2",
     "@eslint/compat": "^1.2.8",
     "@eslint/js": "^9.24.0",
     "@types/node": "^22.14.1",

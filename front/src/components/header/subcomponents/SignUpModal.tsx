@@ -11,8 +11,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
+import InlineTextSeparator from '~/components/common/InlineTextSeparator';
+import { PasswordInput } from '~/components/ui/password-input';
 import ENDPOINTS from '~/constants/endpoints';
+import { emailRegex } from '~/constants/strings';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch } from '~/store';
 import {
   setIsLoggedInAction,
@@ -21,11 +25,6 @@ import {
 import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
 import { DisclosureProps } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
-
-import { emailRegex } from '../../../constants/strings';
-import { useIsMobile } from '../../../hooks/useIsMobile';
-import InlineTextSeparator from '../../common/InlineTextSeparator';
-import { PasswordInput } from '../../ui/password-input';
 
 import GoogleLoginButton from './GoogleLoginButton';
 

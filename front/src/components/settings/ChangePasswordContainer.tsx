@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
+import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/constants/endpoints';
 import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
-
-import { toaster } from '../ui/toaster';
 
 type FormInputs = {
   oldPassword: string;

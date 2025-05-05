@@ -4,10 +4,6 @@ import ReactGA from 'react-ga4';
 import { useSelector } from 'react-redux';
 import { Route, Switch } from 'wouter';
 
-import ErrorBoundary from '~/components/common/ErrorBoundary';
-import ProtectedRoute from '~/components/common/ProtectedRoute';
-import Footer from '~/components/footer/Footer';
-import Header from '~/components/header/Header';
 import { ROUTES } from '~/constants/routes';
 import { gAnalyticsID } from '~/constants/strings';
 import CalendarPage from '~/pages/CalendarPage';
@@ -20,7 +16,11 @@ import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 import { initSentry } from '~/utils/sentry';
 
+import ErrorBoundary from './common/ErrorBoundary';
+import ProtectedRoute from './common/ProtectedRoute';
 import ScrollToTop from './common/ScrollToTop';
+import Footer from './footer/Footer';
+import Header from './header/Header';
 import { Toaster } from './ui/toaster';
 
 const App = () => {

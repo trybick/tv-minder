@@ -1,5 +1,6 @@
 import { StatusWithColor } from '~/store/tv/tvUtils';
-import { ID } from '~/types/common';
+
+import { ID } from './common';
 
 //
 // Search
