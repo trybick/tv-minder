@@ -128,7 +128,7 @@ export const getBasicShowInfoForFollowedShows =
         responses.forEach((res: any) => {
           combinedData[res.id] = {
             ...res,
-            _fetchedAt: moment(),
+            _fetchedAt: moment().toISOString(),
           };
         });
       }
@@ -180,7 +180,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const combinedData = {
       [showId]: {
         ...basicInfo,
-        _fetchedAt: moment(),
+        _fetchedAt: moment().toISOString(),
       },
     };
 
@@ -245,7 +245,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
       .then(({ data: { results } }) => {
         const dataWithTimestamp = results.map((show: any) => ({
           ...show,
-          fetchedAt: moment(),
+          fetchedAt: moment().toISOString(),
         }));
         dispatch({
           type: SAVE_POPULAR_SHOWS,
@@ -273,7 +273,7 @@ export const getTopRatedShowsAction = (): AppThunk => (dispatch, getState) => {
       .then(({ data: { results } }) => {
         const dataWithTimestamp = results.map((show: any) => ({
           ...show,
-          fetchedAt: moment(),
+          fetchedAt: moment().toISOString(),
         }));
         dispatch({
           type: SAVE_TOP_RATED_SHOWS,

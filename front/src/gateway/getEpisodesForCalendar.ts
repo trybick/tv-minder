@@ -186,7 +186,7 @@ const createCache = (episodesData: any, showIds: ID[]) => {
     } else {
       cache[showId] = {
         episodes: [episode],
-        fetchedAt: moment(),
+        fetchedAt: moment().toISOString(),
       };
     }
   });
@@ -197,7 +197,7 @@ const createCache = (episodesData: any, showIds: ID[]) => {
     if (!cache.hasOwnProperty(id)) {
       cache[id] = {
         episodes: null,
-        fetchedAt: moment(),
+        fetchedAt: moment().toISOString(),
       };
     }
   });
