@@ -9,7 +9,6 @@ import {
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 import InlineTextSeparator from '~/components/common/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
@@ -17,7 +16,7 @@ import ENDPOINTS from '~/constants/endpoints';
 import { emailRegex } from '~/constants/strings';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import {
   setIsLoggedInAction,
   unregisteredClearFollowedShowsAction,
@@ -59,7 +58,7 @@ const formValidation = {
 
 const SignUpModal = ({ disclosureProps }: Props) => {
   const dispatch = useAppDispatch();
-  const unregisteredFollowedShows = useSelector(
+  const unregisteredFollowedShows = useAppSelector(
     selectUnregisteredFollowedShows
   );
   const isMobile = useIsMobile();

@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { selectFollowedShows } from '~/store/user/selectors';
 import { ID } from '~/types/common';

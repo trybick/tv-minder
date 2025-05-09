@@ -1,7 +1,7 @@
 import { Box, Tabs } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { useAppSelector } from '~/store';
 import {
   selectActiveSeasonShows,
   selectBasicShowInfoForFollowedShows,
@@ -13,10 +13,10 @@ import SubSectionOfShows from './SubSectionOfShows';
 
 const FollowingList = () => {
   const isMobile = useIsMobile();
-  const allFollowedShows = useSelector(selectBasicShowInfoForFollowedShows);
-  const activeSeasonShows = useSelector(selectActiveSeasonShows);
-  const inProductionShows = useSelector(selectInProductionShows);
-  const endedShows = useSelector(selectEndedShows);
+  const allFollowedShows = useAppSelector(selectBasicShowInfoForFollowedShows);
+  const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
+  const inProductionShows = useAppSelector(selectInProductionShows);
+  const endedShows = useAppSelector(selectEndedShows);
 
   return (
     <Box mt={isMobile ? '20px' : '32px'} px={isMobile ? '10px' : 'unset'}>

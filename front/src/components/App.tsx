@@ -1,7 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
-import { useSelector } from 'react-redux';
 import { Route, Switch } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
@@ -11,7 +10,7 @@ import FollowingPage from '~/pages/FollowingPage';
 import SearchPage from '~/pages/SearchPage';
 import SettingsPage from '~/pages/SettingsPage';
 import ShowPage from '~/pages/ShowPage';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 import { initSentry } from '~/utils/sentry';
@@ -25,7 +24,7 @@ import { Toaster } from './ui/toaster';
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn) {

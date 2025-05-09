@@ -1,12 +1,15 @@
 import { Box } from '@chakra-ui/react';
 import moment from 'moment';
-import { ChangeEvent, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import SearchContainer from '~/components/search/SearchContainer';
+import {
+  selectShouldResetSearchInput,
+  setShouldResetSearchInput,
+} from '~/components/search/searchInputSlice';
 import SearchInput from '~/components/search/subcomponents/SearchInput';
 import { searchShowsByQuery } from '~/gateway/searchShowsByQuery';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import { saveSearchQueryAction } from '~/store/tv/actions';
 import { selectSavedQueries } from '~/store/tv/selectors';
 import { SavedQuery } from '~/store/tv/types';
@@ -16,7 +19,8 @@ import { useDebouncedFunction } from '~/utils/debounce';
 
 const SearchPage = () => {
   const dispatch = useAppDispatch();
-  const savedQueries = useSelector(selectSavedQueries);
+  const savedQueries = useAppSelector(selectSavedQueries);
+  const shouldResetSearchInput = useAppSelector(selectShouldResetSearchInput);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
@@ -25,11 +29,25 @@ const SearchPage = () => {
   const [shows, setShows] = useState<ShowSearchResult[]>([]);
   const [totalResults, setTotalResults] = useState(0);
 
+  const handleClearInput = useCallback(() => {
+    setIsInputDirty(false);
+    setInputValue('');
+    setShows([]);
+    inputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (shouldResetSearchInput) {
+      handleClearInput();
+      dispatch(setShouldResetSearchInput(false));
+    }
+  }, [shouldResetSearchInput, dispatch, handleClearInput]);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
     setInputValue(searchValue);
 
-    if (searchValue?.length > 2) {
+    if (searchValue?.length) {
       setIsLoading(true);
       setIsInputDirty(true);
       handleSearch(searchValue);
@@ -38,13 +56,6 @@ const SearchPage = () => {
       setIsInputDirty(false);
       setShows([]);
     }
-  };
-
-  const handleClearInput = () => {
-    setIsInputDirty(false);
-    setInputValue('');
-    setShows([]);
-    inputRef.current?.focus();
   };
 
   const handleSearch = useDebouncedFunction(async (query: string) => {

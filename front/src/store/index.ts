@@ -1,25 +1,48 @@
-import localforage from 'localforage';
-import { Selector, useDispatch } from 'react-redux';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import {
-  Action,
-  applyMiddleware,
-  combineReducers,
-  compose,
-  legacy_createStore as createStore,
-} from 'redux';
-import { persistReducer, persistStore } from 'redux-persist';
-import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk';
+  Selector,
+  TypedUseSelectorHook,
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist';
 
-import { PlainFunction } from '~/types/common';
+import searchInputReducer from '~/components/search/searchInputSlice';
 
-import { tvReducer, TvState } from './tv/reducers';
-import { userReducer, UserState } from './user/reducers';
+import { persistedReducer } from './rootReducer';
+import { tvReducer } from './tv/reducers';
+import { userReducer } from './user/reducers';
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+export type AppState = {
+  user: ReturnType<typeof userReducer>;
+  tv: ReturnType<typeof tvReducer>;
+  searchInput: ReturnType<typeof searchInputReducer>;
+};
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
+
+export type AppSelector<T> = Selector<AppState, T>;
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch = useDispatch;
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -27,45 +50,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-export type AppThunkDispatch = ThunkDispatch<AppState, void, Action>;
-export type AppThunkPlainAction = PlainFunction;
 
-export const useAppDispatch: () => AppThunkDispatch = useDispatch;
-
-export type AppState = {
-  user: UserState;
-  tv: TvState;
-};
-
-export type AppSelector<T> = Selector<AppState, T>;
-
-const rootPersistConfig = {
-  key: 'root',
-  storage: localforage,
-  blacklist: ['user', 'tv'],
-};
-
-const userPersistConfig = {
-  key: 'user',
-  storage: localforage,
-  blacklist: ['hasLocalWarningToastBeenShown'],
-};
-
-const tvPersistConfig = {
-  key: 'tv',
-  storage: localforage,
-};
-
-const rootReducer = combineReducers({
-  user: persistReducer(userPersistConfig, userReducer),
-  tv: persistReducer(tvPersistConfig, tvReducer),
-});
-
-const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-export const store = createStore(
-  persistedReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
-export const persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

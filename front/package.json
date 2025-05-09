@@ -29,6 +29,7 @@
     "@fullcalendar/list": "^6.1.17",
     "@fullcalendar/react": "^6.1.17",
     "@react-oauth/google": "^0.12.1",
+    "@reduxjs/toolkit": "^2.7.0",
     "@sentry/react": "^9.13.0",
     "@tanstack/react-table": "^8.21.3",
     "axios": "^1.8.4",
@@ -43,10 +44,7 @@
     "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-youtube": "^10.1.0",
-    "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^3.1.0",
-    "reselect": "^5.1.1",
     "wouter": "^3.7.0"
   },
   "devDependencies": {

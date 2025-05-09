@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { toaster } from '~/components/ui/toaster';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
@@ -17,9 +16,9 @@ import { ID } from '~/types/common';
 
 export const useFollowButton = (showId: ID) => {
   const dispatch = useAppDispatch();
-  const followedShows = useSelector(selectFollowedShows);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const hasLocalWarningToastBeenShown = useSelector(
+  const followedShows = useAppSelector(selectFollowedShows);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const hasLocalWarningToastBeenShown = useAppSelector(
     selectHasLocalWarningToastBeenShown
   );
   const [isFollowed, setIsFollowed] = useState(false);

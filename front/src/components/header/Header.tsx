@@ -11,14 +11,14 @@ import {
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
-import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'wouter';
 
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import logo from '~/images/logo.svg';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
+import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import {
   selectIsGoogleUser,
@@ -64,9 +64,9 @@ const Header = () => {
   const containerRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(containerRef);
 
-  const email = useSelector(selectUserEmail);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isGoogleUser = useSelector(selectIsGoogleUser);
+  const email = useAppSelector(selectUserEmail);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
@@ -96,6 +96,11 @@ const Header = () => {
     </Button>
   );
 
+  const onLogoClick = () => {
+    closeHeader();
+    dispatch(setShouldResetSearchInput(true));
+  };
+
   return (
     <>
       <Flex
@@ -107,7 +112,7 @@ const Header = () => {
         wrap="wrap"
       >
         <Flex align="center" as="h1" m={{ base: '0 auto', md: 'unset' }}>
-          <RouterLink href={ROUTES.HOME} onClick={closeHeader}>
+          <RouterLink href={ROUTES.HOME} onClick={onLogoClick}>
             <Image
               alt="TV Minder logo"
               display="inline"
