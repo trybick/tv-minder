@@ -1,4 +1,4 @@
-import { Action, AnyAction, Reducer } from 'redux';
+import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
 
 import { ID } from '~/types/common';
 

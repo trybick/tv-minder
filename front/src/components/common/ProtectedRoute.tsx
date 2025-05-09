@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
+import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const ProtectedRoute = ({ children }: Props) => {
-  const isUserLoggedIn = useSelector(selectIsLoggedIn);
+  const isUserLoggedIn = useAppSelector(selectIsLoggedIn);
 
   return isUserLoggedIn ? <>{children}</> : <Redirect to={ROUTES.HOME} />;
 };

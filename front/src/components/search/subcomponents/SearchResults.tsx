@@ -1,7 +1,6 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import {
   removeFromFollowedShowsAction,
   saveToFollowedShowsAction,
@@ -24,11 +23,11 @@ type Props = {
 
 const SearchResults = ({ shows, totalResults }: Props) => {
   const dispatch = useAppDispatch();
-  const followedShows = useSelector(selectFollowedShows);
-  const hasLocalWarningToastBeenShown = useSelector(
+  const followedShows = useAppSelector(selectFollowedShows);
+  const hasLocalWarningToastBeenShown = useAppSelector(
     selectHasLocalWarningToastBeenShown
   );
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'show')} found`;
 

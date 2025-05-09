@@ -2,10 +2,10 @@ import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/constants/endpoints';
+import { useAppSelector } from '~/store';
 import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
 
 type FormInputs = {
@@ -16,8 +16,8 @@ type FormInputs = {
 
 const ChangePasswordContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const email = useSelector(selectUserEmail);
-  const isGoogleUser = useSelector(selectIsGoogleUser);
+  const email = useAppSelector(selectUserEmail);
+  const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
   const {
     handleSubmit,

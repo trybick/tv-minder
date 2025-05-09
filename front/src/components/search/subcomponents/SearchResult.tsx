@@ -4,7 +4,6 @@ import { Link as RouterLink } from 'wouter';
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath } from '~/constants/strings';
-import { AppThunkPlainAction } from '~/store';
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
 
@@ -14,7 +13,7 @@ type Props = {
   isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
   removeFromFollowedShows: (showId: ID) => void;
-  setHasLocalWarningToastBeenShown: AppThunkPlainAction;
+  setHasLocalWarningToastBeenShown: () => void;
   saveToFollowedShows: (showId: ID) => void;
 };
 

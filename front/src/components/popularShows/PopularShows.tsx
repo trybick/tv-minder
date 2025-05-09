@@ -10,11 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
 
 import { useColorModeValue } from '~/components/ui/color-mode';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import {
   getPopularShowsAction,
   getTopRatedShowsAction,
@@ -28,8 +27,8 @@ import PopularShow from './subcomponents/PopularShow';
 
 const PopularShows = () => {
   const dispatch = useAppDispatch();
-  const popularShows = useSelector(selectPopularShowsForDisplay);
-  const topRatedShows = useSelector(selectTopRatedShowsForDisplay);
+  const popularShows = useAppSelector(selectPopularShowsForDisplay);
+  const topRatedShows = useAppSelector(selectTopRatedShowsForDisplay);
   const isMobile = useIsMobile();
   const { open: isPopularExpanded, onToggle: onTogglePopular } =
     useDisclosure();

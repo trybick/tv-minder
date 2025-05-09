@@ -5,14 +5,13 @@ import GoogleButton from 'react-google-button';
 
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/constants/endpoints';
-import { AppThunkPlainAction } from '~/store';
 import { PlainFunction } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 type Props = {
   onClose: PlainFunction;
   setIsLoggedIn: (email: string, isGoogleUser?: boolean) => void;
-  unregisteredClearFollowedShows: AppThunkPlainAction;
+  unregisteredClearFollowedShows: () => void;
 };
 
 const GoogleLoginButton = (props: Props) => {
