@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useLocation } from 'wouter';
 
-export const useViewTransition = () => {
+export const useNavigateWithAnimation = () => {
   const [, navigate] = useLocation();
 
-  const navigateWithTransition = useCallback(
+  const navigateWithAnimation = useCallback(
     (to: string) => {
       if (!document.startViewTransition) {
         navigate(to);
@@ -18,5 +18,5 @@ export const useViewTransition = () => {
     [navigate]
   );
 
-  return navigateWithTransition;
+  return navigateWithAnimation;
 };

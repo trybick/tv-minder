@@ -13,7 +13,7 @@ import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
 
 import { ROUTES } from '~/constants/routes';
-import { useViewTransition } from '~/hooks/useViewTransition';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
 type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };
@@ -34,7 +34,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
     showName,
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
-  const navigateWithTransition = useViewTransition();
+  const navigate = useNavigateWithAnimation();
 
   return (
     <HoverCard.Root
@@ -67,9 +67,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 color="white"
                 fontSize="14px"
                 mb="7px"
-                onClick={() =>
-                  navigateWithTransition(`${ROUTES.SHOW}/${showId}`)
-                }
+                onClick={() => navigate(`${ROUTES.SHOW}/${showId}`)}
               >
                 <Text lineClamp={1}>{showName}</Text>
                 <TbExternalLink

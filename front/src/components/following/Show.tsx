@@ -7,7 +7,7 @@ import {
   fallbackImagePathLarge,
   imagePath780,
 } from '~/constants/strings';
-import { useViewTransition } from '~/hooks/useViewTransition';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { BasicShowInfo } from '~/types/external';
 
 type Props = {
@@ -18,7 +18,7 @@ const Show = (props: Props) => {
   const {
     show: { id, name, posterPath },
   } = props;
-  const navigateWithTransition = useViewTransition();
+  const navigate = useNavigateWithAnimation();
   const imageBorderColor = useColorModeValue('#e3e3e3', '#28282B');
 
   return (
@@ -29,7 +29,7 @@ const Show = (props: Props) => {
       direction="column"
       key={id}
     >
-      <Link onClick={() => navigateWithTransition(`${ROUTES.SHOW}/${id}`)}>
+      <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
@@ -43,7 +43,7 @@ const Show = (props: Props) => {
           fontSize="16px"
           fontWeight="500"
           lineClamp={1}
-          onClick={() => navigateWithTransition(`${ROUTES.SHOW}/${id}`)}
+          onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}
           textAlign="center"
         >
           {name}

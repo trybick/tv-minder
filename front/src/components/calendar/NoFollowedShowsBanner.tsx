@@ -1,17 +1,17 @@
 import { Alert, Link } from '@chakra-ui/react';
 
 import { ROUTES } from '~/constants/routes';
-import { useViewTransition } from '~/hooks/useViewTransition';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
 const NoFollowedShowsBanner = () => {
-  const navigateWithTransition = useViewTransition();
+  const navigate = useNavigateWithAnimation();
 
   return (
     <Alert.Root colorPalette="cyan" justifyContent="center" status="info">
       <Alert.Indicator />
       <Alert.Title>
         <Link
-          onClick={() => navigateWithTransition(ROUTES.HOME)}
+          onClick={() => navigate(ROUTES.HOME)}
           textDecorationThickness="2px"
           variant="underline"
         >

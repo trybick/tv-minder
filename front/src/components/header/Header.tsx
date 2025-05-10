@@ -17,7 +17,7 @@ import { setShouldResetSearchInput } from '~/components/search/searchInputSlice'
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useViewTransition } from '~/hooks/useViewTransition';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import logo from '~/images/logo.svg';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
@@ -60,7 +60,7 @@ const Header = () => {
   const isMobile = useIsMobile();
   const { toggleColorMode } = useColorMode();
   const [location] = useLocation();
-  const navigateWithTransition = useViewTransition();
+  const navigate = useNavigateWithAnimation();
   const isShowPage = location.includes('/show/');
 
   const containerRef = useRef(null);
@@ -89,7 +89,7 @@ const Header = () => {
       mr={isMobile ? '-16px' : 0}
       onClick={() => {
         closeHeader();
-        navigateWithTransition(linkTo);
+        navigate(linkTo);
       }}
       p="16px"
       variant="plain"
@@ -203,9 +203,7 @@ const Header = () => {
                         {!isGoogleUser && (
                           <Menu.Item
                             cursor="pointer"
-                            onClick={() =>
-                              navigateWithTransition(ROUTES.SETTINGS)
-                            }
+                            onClick={() => navigate(ROUTES.SETTINGS)}
                             p="10px"
                             value="settings"
                           >

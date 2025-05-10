@@ -3,7 +3,7 @@ import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath, imagePath342 } from '~/constants/strings';
-import { useViewTransition } from '~/hooks/useViewTransition';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { PopularShow as PopularShowType } from '~/types/external';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
-  const navigateWithTransition = useViewTransition();
+  const navigate = useNavigateWithAnimation();
 
   return (
     <Flex
@@ -24,7 +24,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
       maxW="270px"
       w={isMobile ? '140px' : '190px'}
     >
-      <Link onClick={() => navigateWithTransition(`${ROUTES.SHOW}/${id}`)}>
+      <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
         <Image
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
@@ -36,10 +36,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
       </Link>
 
       <Flex direction="column" mt="5px" p="8px 12px">
-        <Link
-          onClick={() => navigateWithTransition(`${ROUTES.SHOW}/${id}`)}
-          m="0 auto"
-        >
+        <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)} m="0 auto">
           <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
             {name}
           </Heading>
