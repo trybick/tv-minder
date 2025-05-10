@@ -1,10 +1,10 @@
 import { Alert, Link } from '@chakra-ui/react';
-import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
 const NoFollowedShowsBanner = () => {
-  const [, navigate] = useLocation();
+  const navigate = useNavigateWithAnimation();
 
   return (
     <Alert.Root colorPalette="cyan" justifyContent="center" status="info">

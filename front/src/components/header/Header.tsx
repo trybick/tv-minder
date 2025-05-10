@@ -13,12 +13,13 @@ import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { Link as RouterLink, useLocation } from 'wouter';
 
+import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import logo from '~/images/logo.svg';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import {
   selectIsGoogleUser,
@@ -58,7 +59,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
   const { toggleColorMode } = useColorMode();
-  const [location, navigate] = useLocation();
+  const [location] = useLocation();
+  const navigate = useNavigateWithAnimation();
   const isShowPage = location.includes('/show/');
 
   const containerRef = useRef(null);
@@ -98,7 +100,9 @@ const Header = () => {
 
   const onLogoClick = () => {
     closeHeader();
-    dispatch(setShouldResetSearchInput(true));
+    document.startViewTransition(() => {
+      dispatch(setShouldResetSearchInput(true));
+    });
   };
 
   return (

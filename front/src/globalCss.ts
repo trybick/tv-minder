@@ -45,6 +45,24 @@ const calendarStyles = {
   ...mobileCalendarStyles,
 };
 
+const viewTransitionStyles = {
+  '::view-transition-old(page-*)': {
+    animation: 'fade-out 0.3s ease-out both',
+  },
+  '::view-transition-new(page-*)': {
+    animation: 'fade-in 0.3s ease-out both',
+  },
+  '@keyframes fade-out': {
+    from: { opacity: 1 },
+    to: { opacity: 0 },
+  },
+  '@keyframes fade-in': {
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  },
+};
+
 export const globalCss = {
   ...calendarStyles,
+  ...viewTransitionStyles,
 };

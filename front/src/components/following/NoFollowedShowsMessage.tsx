@@ -1,11 +1,11 @@
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
-import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import noShowsImage from '~/images/tv-remote.jpg';
 
 const NoFollowedShowsMessage = () => {
-  const [, navigate] = useLocation();
+  const navigate = useNavigateWithAnimation();
 
   return (
     <Flex
