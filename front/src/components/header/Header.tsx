@@ -100,7 +100,9 @@ const Header = () => {
 
   const onLogoClick = () => {
     closeHeader();
-    dispatch(setShouldResetSearchInput(true));
+    document.startViewTransition(() => {
+      dispatch(setShouldResetSearchInput(true));
+    });
   };
 
   return (
