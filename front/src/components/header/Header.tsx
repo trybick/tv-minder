@@ -13,12 +13,13 @@ import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { Link as RouterLink, useLocation } from 'wouter';
 
+import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { useViewTransition } from '~/hooks/useViewTransition';
 import logo from '~/images/logo.svg';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import {
   selectIsGoogleUser,
@@ -58,7 +59,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
   const { toggleColorMode } = useColorMode();
-  const [location, navigate] = useLocation();
+  const [location] = useLocation();
+  const navigateWithTransition = useViewTransition();
   const isShowPage = location.includes('/show/');
 
   const containerRef = useRef(null);
@@ -87,7 +89,7 @@ const Header = () => {
       mr={isMobile ? '-16px' : 0}
       onClick={() => {
         closeHeader();
-        navigate(linkTo);
+        navigateWithTransition(linkTo);
       }}
       p="16px"
       variant="plain"
@@ -201,7 +203,9 @@ const Header = () => {
                         {!isGoogleUser && (
                           <Menu.Item
                             cursor="pointer"
-                            onClick={() => navigate(ROUTES.SETTINGS)}
+                            onClick={() =>
+                              navigateWithTransition(ROUTES.SETTINGS)
+                            }
                             p="10px"
                             value="settings"
                           >

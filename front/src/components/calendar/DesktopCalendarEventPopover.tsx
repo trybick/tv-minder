@@ -11,9 +11,9 @@ import { EventContentArg } from '@fullcalendar/core';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
-import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
+import { useViewTransition } from '~/hooks/useViewTransition';
 
 type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };
@@ -34,7 +34,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
     showName,
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
-  const [, navigate] = useLocation();
+  const navigateWithTransition = useViewTransition();
 
   return (
     <HoverCard.Root
@@ -67,7 +67,9 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 color="white"
                 fontSize="14px"
                 mb="7px"
-                onClick={() => navigate(`${ROUTES.SHOW}/${showId}`)}
+                onClick={() =>
+                  navigateWithTransition(`${ROUTES.SHOW}/${showId}`)
+                }
               >
                 <Text lineClamp={1}>{showName}</Text>
                 <TbExternalLink

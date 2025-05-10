@@ -11,12 +11,12 @@ import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
 import { RefObject, useEffect, useRef } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
-import { useLocation } from 'wouter';
 
 import DesktopCalendarEventPopover from '~/components/calendar/DesktopCalendarEventPopover';
 import NoFollowedShowsBanner from '~/components/calendar/NoFollowedShowsBanner';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { useViewTransition } from '~/hooks/useViewTransition';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
@@ -24,7 +24,7 @@ import { selectFollowedShows } from '~/store/user/selectors';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
-  const [, navigate] = useLocation();
+  const navigateWithTransition = useViewTransition();
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -54,7 +54,7 @@ const CalendarPage = () => {
 
   const onEventClick = (eventInfo: EventClickArg) => {
     const showId = eventInfo.event.extendedProps.showId;
-    navigate(`${ROUTES.SHOW}/${showId}`);
+    navigateWithTransition(`${ROUTES.SHOW}/${showId}`);
   };
 
   const formatDesktopEvent = (

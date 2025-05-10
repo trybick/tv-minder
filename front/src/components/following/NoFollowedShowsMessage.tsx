@@ -1,11 +1,11 @@
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
-import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
+import { useViewTransition } from '~/hooks/useViewTransition';
 import noShowsImage from '~/images/tv-remote.jpg';
 
 const NoFollowedShowsMessage = () => {
-  const [, navigate] = useLocation();
+  const navigateWithTransition = useViewTransition();
 
   return (
     <Flex
@@ -19,7 +19,10 @@ const NoFollowedShowsMessage = () => {
       <Text fontSize="md" fontWeight="500" mb="2px" textAlign="center">
         You are not following any shows yet.
       </Text>
-      <Button colorPalette="cyan" onClick={() => navigate(ROUTES.HOME)}>
+      <Button
+        colorPalette="cyan"
+        onClick={() => navigateWithTransition(ROUTES.HOME)}
+      >
         Discover Shows
       </Button>
     </Flex>

@@ -1,5 +1,4 @@
 import { Flex, Image, Link } from '@chakra-ui/react';
-import { useLocation } from 'wouter';
 
 import { useColorModeValue } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
@@ -8,6 +7,7 @@ import {
   fallbackImagePathLarge,
   imagePath780,
 } from '~/constants/strings';
+import { useViewTransition } from '~/hooks/useViewTransition';
 import { BasicShowInfo } from '~/types/external';
 
 type Props = {
@@ -18,7 +18,7 @@ const Show = (props: Props) => {
   const {
     show: { id, name, posterPath },
   } = props;
-  const [, navigate] = useLocation();
+  const navigateWithTransition = useViewTransition();
   const imageBorderColor = useColorModeValue('#e3e3e3', '#28282B');
 
   return (
@@ -29,7 +29,7 @@ const Show = (props: Props) => {
       direction="column"
       key={id}
     >
-      <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
+      <Link onClick={() => navigateWithTransition(`${ROUTES.SHOW}/${id}`)}>
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
@@ -43,7 +43,7 @@ const Show = (props: Props) => {
           fontSize="16px"
           fontWeight="500"
           lineClamp={1}
-          onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}
+          onClick={() => navigateWithTransition(`${ROUTES.SHOW}/${id}`)}
           textAlign="center"
         >
           {name}
