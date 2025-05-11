@@ -26,6 +26,7 @@ import {
   selectIsLoggedIn,
   selectUserEmail,
 } from '~/store/user/selectors';
+import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import LoginButton from './subcomponents/LoginButton';
 import LogoutButton from './subcomponents/LogoutButton';
@@ -100,9 +101,7 @@ const Header = () => {
 
   const onLogoClick = () => {
     closeHeader();
-    document.startViewTransition(() => {
-      dispatch(setShouldResetSearchInput(true));
-    });
+    applyViewTransition(() => dispatch(setShouldResetSearchInput(true)));
   };
 
   return (
@@ -184,7 +183,13 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <Box display={{ base: 'none', md: 'flex' }}>
-                <ColorModeButton mr="8px" />
+                <ColorModeButton
+                  mr="8px"
+                  onClick={() => {
+                    closeHeader();
+                    applyViewTransition(toggleColorMode);
+                  }}
+                />
                 <Menu.Root
                   // @ts-ignore - colorPalette is a valid prop for the Menu.Root component
                   colorPalette="customCyan"
@@ -233,7 +238,7 @@ const Header = () => {
                   mr="12px"
                   onClick={() => {
                     closeHeader();
-                    toggleColorMode();
+                    applyViewTransition(toggleColorMode);
                   }}
                 />
                 <LogoutButton closeHeader={closeHeader} />
@@ -244,7 +249,7 @@ const Header = () => {
               <ColorModeButton
                 onClick={() => {
                   closeHeader();
-                  toggleColorMode();
+                  applyViewTransition(toggleColorMode);
                 }}
               />
               <SignUpButton />

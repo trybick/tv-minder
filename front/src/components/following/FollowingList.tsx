@@ -1,4 +1,5 @@
 import { Box, Tabs } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
@@ -8,11 +9,14 @@ import {
   selectEndedShows,
   selectInProductionShows,
 } from '~/store/tv/selectors';
+import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import SubSectionOfShows from './SubSectionOfShows';
 
 const FollowingList = () => {
   const isMobile = useIsMobile();
+  const [currentTab, setCurrentTab] = useState<string | null>('all');
+
   const allFollowedShows = useAppSelector(selectBasicShowInfoForFollowedShows);
   const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
   const inProductionShows = useAppSelector(selectInProductionShows);
@@ -25,6 +29,8 @@ const FollowingList = () => {
         defaultValue="all"
         m="0 auto"
         variant={isMobile ? 'enclosed' : 'line'}
+        value={currentTab}
+        onValueChange={e => applyViewTransition(() => setCurrentTab(e.value))}
         fitted
       >
         <Tabs.List mb="22px">
