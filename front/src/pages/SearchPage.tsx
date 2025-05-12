@@ -77,7 +77,12 @@ const SearchPage = () => {
       queryData = savedQueries[index];
     } else {
       const { results, totalResults } = await searchShowsByQuery(query);
-      queryData = { query, results, timeSaved: moment(), totalResults };
+      queryData = {
+        query,
+        results,
+        timeSaved: moment().toISOString(),
+        totalResults,
+      };
       dispatch(saveSearchQueryAction(queryData));
     }
 
