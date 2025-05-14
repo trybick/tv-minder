@@ -22,6 +22,7 @@ import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
+import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import PopularShow from './subcomponents/PopularShow';
 
@@ -54,6 +55,14 @@ const PopularShows = () => {
   const numberRowsToRender = popularShows?.length
     ? Math.ceil(popularShows.length / numberShowsInFirstRow) - 1
     : 2;
+
+  const handleTogglePopular = () => {
+    applyViewTransition(onTogglePopular);
+  };
+
+  const handleToggleTopRated = () => {
+    applyViewTransition(onToggleTopRated);
+  };
 
   return (
     <Box m="18px 0 30px" maxW="1500px" w="95%">
@@ -112,7 +121,7 @@ const PopularShows = () => {
             colorPalette="cyan"
             mt="30px"
             mx="auto"
-            onClick={onTogglePopular}
+            onClick={handleTogglePopular}
             variant="plain"
           >
             <Text fontSize="15px">See More</Text>
@@ -176,7 +185,7 @@ const PopularShows = () => {
             colorPalette="cyan"
             mt="30px"
             mx="auto"
-            onClick={onToggleTopRated}
+            onClick={handleToggleTopRated}
             variant="plain"
           >
             <Text fontSize="15px">See More</Text>

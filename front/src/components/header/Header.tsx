@@ -11,7 +11,7 @@ import {
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
-import { Link as RouterLink, useLocation } from 'wouter';
+import { useLocation } from 'wouter';
 
 import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
@@ -101,7 +101,11 @@ const Header = () => {
 
   const onLogoClick = () => {
     closeHeader();
-    applyViewTransition(() => dispatch(setShouldResetSearchInput(true)));
+    if (location === ROUTES.HOME) {
+      applyViewTransition(() => dispatch(setShouldResetSearchInput(true)));
+    } else {
+      navigate(ROUTES.HOME);
+    }
   };
 
   return (
@@ -115,7 +119,7 @@ const Header = () => {
         wrap="wrap"
       >
         <Flex align="center" as="h1" m={{ base: '0 auto', md: 'unset' }}>
-          <RouterLink href={ROUTES.HOME} onClick={onLogoClick}>
+          <Button variant="plain" onClick={onLogoClick}>
             <Image
               alt="TV Minder logo"
               display="inline"
@@ -124,7 +128,7 @@ const Header = () => {
               src={logo}
               verticalAlign="middle"
             />
-          </RouterLink>
+          </Button>
         </Flex>
 
         <Box

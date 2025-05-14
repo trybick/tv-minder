@@ -1,11 +1,12 @@
 import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
-import { Link as RouterLink } from 'wouter';
+import { useLocation } from 'wouter';
 
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath } from '~/constants/strings';
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
+import { applyViewTransition } from '~/utils/applyViewTransition';
 
 type Props = {
   followedShows: ID[];
@@ -25,15 +26,21 @@ const SearchResult = ({ showToDisplay }: Props) => {
     overview,
     poster_path: posterPath,
   } = showToDisplay;
+
+  const [, navigate] = useLocation();
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource =
     posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
+
+  const onShowClick = () => {
+    applyViewTransition(() => navigate(`${ROUTES.SHOW}/${showId}`));
+  };
 
   return (
     <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">
       <Grid gap={4} templateColumns="100px 1fr">
         <Box w="100px">
-          <Link as={RouterLink} href={`${ROUTES.SHOW}/${showId}`}>
+          <Link onClick={onShowClick}>
             <Image
               borderRadius="6px"
               onError={e => (e.currentTarget.src = fallbackImagePath)}
@@ -45,7 +52,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
         <Flex direction="column" justifyContent="space-evenly" minW="0">
           <Flex w="100%">
             <Box>
-              <Link as={RouterLink} href={`${ROUTES.SHOW}/${showId}`} minW="0">
+              <Link onClick={onShowClick} minW="0">
                 <Heading alignSelf="center" lineClamp={2} mr="10px" size="md">
                   {name}
                 </Heading>
