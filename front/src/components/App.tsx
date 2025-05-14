@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga4';
-import { Route, Switch, useLocation } from 'wouter';
+import { Route, Switch } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
 import { gAnalyticsID } from '~/constants/strings';
@@ -25,7 +25,6 @@ import { Toaster } from './ui/toaster';
 const App = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const [location] = useLocation();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -43,11 +42,7 @@ const App = () => {
       <ScrollToTop />
       <Toaster />
 
-      <Flex
-        direction="column"
-        minH="97vh"
-        viewTransitionName={`page-${location}`}
-      >
+      <Flex direction="column" minH="97vh">
         <Header />
 
         <ErrorBoundary>

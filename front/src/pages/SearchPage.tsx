@@ -14,6 +14,7 @@ import { saveSearchQueryAction } from '~/store/tv/actions';
 import { selectSavedQueries } from '~/store/tv/selectors';
 import { SavedQuery } from '~/store/tv/types';
 import { ShowSearchResult } from '~/types/external';
+import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { useDebouncedFunction } from '~/utils/debounce';
 
@@ -30,9 +31,9 @@ const SearchPage = () => {
   const [totalResults, setTotalResults] = useState(0);
 
   const handleClearInput = useCallback(() => {
-    setIsInputDirty(false);
     setInputValue('');
-    setShows([]);
+    setIsInputDirty(false);
+    applyViewTransition(() => setShows([]));
     inputRef.current?.focus();
   }, []);
 
@@ -54,7 +55,7 @@ const SearchPage = () => {
     } else {
       setIsLoading(false);
       setIsInputDirty(false);
-      setShows([]);
+      applyViewTransition(() => setShows([]));
     }
   };
 
