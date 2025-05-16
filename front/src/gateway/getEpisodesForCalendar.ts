@@ -12,6 +12,8 @@ const queryParams = {
   api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
 };
 
+let basicInfoForShows: any[] | void = [];
+
 /** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */
 export const getEpisodesForCalendar = async (showIds: ID[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
@@ -29,7 +31,7 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
   );
 
   // Get each show's basic info
-  const basicInfoForShows = await axios
+  basicInfoForShows = await axios
     .all(basicInfoRequests)
     .then(res => res.map(res => res.data))
     .catch(handleErrors);
@@ -115,11 +117,59 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 
   // Calculate unique color based on showId
   const listOfShowIds: ID[] = showSeasonObject.map((show: any) => show.showId);
-  const uniqueColorList = getUniqueColorsForShowIds(listOfShowIds);
-  const showSeasonWithColors = showSeasonObject.map((show: any, i: any) => ({
-    ...show,
-    color: uniqueColorList[i],
-  }));
+
+  // Sort shows based on recent and upcoming episodes to avoid duplicate colors
+  const sortedShowIds = listOfShowIds.sort((a, b) => {
+    const showA = (basicInfoForShows as any[]).find(show => show.id === a);
+    const showB = (basicInfoForShows as any[]).find(show => show.id === b);
+
+    const showALastAirDate = showA?.last_air_date;
+    const showBLastAirDate = showB?.last_air_date;
+
+    const showANextEpisodeToAir = showA?.next_episode_to_air?.air_date;
+    const showBNextEpisodeToAir = showB?.next_episode_to_air?.air_date;
+
+    const isShowARecent =
+      (showALastAirDate &&
+        moment(showALastAirDate).isBetween(
+          moment().subtract(1, 'months'),
+          moment().add(1, 'months')
+        )) ||
+      (showANextEpisodeToAir &&
+        moment(showANextEpisodeToAir).isBetween(
+          moment().subtract(1, 'months'),
+          moment().add(1, 'months')
+        ));
+
+    const isShowBRecent =
+      (showBLastAirDate &&
+        moment(showBLastAirDate).isBetween(
+          moment().subtract(1, 'months'),
+          moment().add(1, 'months')
+        )) ||
+      (showBNextEpisodeToAir &&
+        moment(showBNextEpisodeToAir).isBetween(
+          moment().subtract(1, 'months'),
+          moment().add(1, 'months')
+        ));
+
+    if (isShowARecent && !isShowBRecent) return -1;
+    if (!isShowARecent && isShowBRecent) return 1;
+    return 0;
+  });
+
+  // Sort showSeasonObject to match the order of sortedShowIds
+  const sortedShowSeasonObject = sortedShowIds.map(showId =>
+    showSeasonObject.find(show => show.showId === showId)
+  );
+
+  const uniqueColorList = getUniqueColorsForShowIds(sortedShowIds);
+  const showSeasonWithColors = sortedShowSeasonObject.map(
+    (show: any, i: any) => ({
+      ...show,
+      color: uniqueColorList[i],
+    })
+  );
 
   // Add extra properties on to each episode
   const flattenedEpisodeList = showSeasonWithColors.flatMap((season: any) => {

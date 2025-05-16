@@ -25,11 +25,11 @@ import { selectFollowedShows } from '~/store/user/selectors';
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
+  const isMobile = useIsMobile();
+  const calendarRef = useRef<FullCalendar>(null);
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
-  const calendarRef = useRef<FullCalendar>(null);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const loadEpisodes = () => {
