@@ -103,25 +103,21 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
 };
 
 const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
-  // Attach extra properties to each season object
-  const showSeasonObject = fullSeasonDataForLatestSeasons
-    .flat()
-    .map((season: any) =>
-      (({ episodes, name, network, showId }) => ({
-        episodes,
-        name,
-        network,
-        showId,
-      }))(season)
-    );
+  const allSeasons = fullSeasonDataForLatestSeasons.flat().map((season: any) =>
+    (({ episodes, name, network, showId }) => ({
+      episodes,
+      name,
+      network,
+      showId,
+    }))(season)
+  );
 
-  // Calculate unique color based on showId
-  const listOfShowIds: ID[] = showSeasonObject.map((show: any) => show.showId);
-
-  // Sort shows based on recent and upcoming episodes to avoid duplicate colors
-  const sortedShowIds = listOfShowIds.sort((a, b) => {
-    const showA = (basicInfoForShows as any[]).find(show => show.id === a);
-    const showB = (basicInfoForShows as any[]).find(show => show.id === b);
+  // Sort shows based on recent and upcoming episodes to avoid duplicate colors.
+  // If the recent shows are in the front of the list they have a lower chance
+  // of reusing the same color.
+  const sortedAllSeasons = allSeasons.sort((a, b) => {
+    const showA = basicInfoForShows?.find(show => show.id === a.showId);
+    const showB = basicInfoForShows?.find(show => show.id === b.showId);
 
     const showALastAirDate = showA?.last_air_date;
     const showBLastAirDate = showB?.last_air_date;
@@ -158,18 +154,13 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     return 0;
   });
 
-  // Sort showSeasonObject to match the order of sortedShowIds
-  const sortedShowSeasonObject = sortedShowIds.map(showId =>
-    showSeasonObject.find(show => show.showId === showId)
-  );
-
+  const sortedShowIds = sortedAllSeasons.map(show => show.showId);
   const uniqueColorList = getUniqueColorsForShowIds(sortedShowIds);
-  const showSeasonWithColors = sortedShowSeasonObject.map(
-    (show: any, i: any) => ({
-      ...show,
-      color: uniqueColorList[i],
-    })
-  );
+
+  const showSeasonWithColors = sortedAllSeasons.map((show, i) => ({
+    ...show,
+    color: uniqueColorList[i],
+  }));
 
   // Add extra properties on to each episode
   const flattenedEpisodeList = showSeasonWithColors.flatMap((season: any) => {
