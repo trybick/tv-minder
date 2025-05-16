@@ -5,6 +5,7 @@ import ENDPOINTS from '~/constants/endpoints';
 import { formatSameDayEpisodes } from '~/store/tv/tvUtils';
 import { ID } from '~/types/common';
 import { CalendarEpisode } from '~/types/external';
+import { isDateWithinRecentRange } from '~/utils/dates';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 import handleErrors from '~/utils/handleErrors';
 
@@ -126,28 +127,11 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
     const showBNextEpisodeToAir = showB?.next_episode_to_air?.air_date;
 
     const isShowARecent =
-      (showALastAirDate &&
-        moment(showALastAirDate).isBetween(
-          moment().subtract(1, 'months'),
-          moment().add(1, 'months')
-        )) ||
-      (showANextEpisodeToAir &&
-        moment(showANextEpisodeToAir).isBetween(
-          moment().subtract(1, 'months'),
-          moment().add(1, 'months')
-        ));
-
+      isDateWithinRecentRange(showALastAirDate) ||
+      isDateWithinRecentRange(showANextEpisodeToAir);
     const isShowBRecent =
-      (showBLastAirDate &&
-        moment(showBLastAirDate).isBetween(
-          moment().subtract(1, 'months'),
-          moment().add(1, 'months')
-        )) ||
-      (showBNextEpisodeToAir &&
-        moment(showBNextEpisodeToAir).isBetween(
-          moment().subtract(1, 'months'),
-          moment().add(1, 'months')
-        ));
+      isDateWithinRecentRange(showBLastAirDate) ||
+      isDateWithinRecentRange(showBNextEpisodeToAir);
 
     if (isShowARecent && !isShowBRecent) return -1;
     if (!isShowARecent && isShowBRecent) return 1;
