@@ -5,7 +5,7 @@ import ENDPOINTS from '~/constants/endpoints';
 import { formatSameDayEpisodes } from '~/store/tv/tvUtils';
 import { ID } from '~/types/common';
 import { CalendarEpisode } from '~/types/external';
-import { isDateWithinRecentRange } from '~/utils/dates';
+import { isDateWithinOneMonth } from '~/utils/dates';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 import handleErrors from '~/utils/handleErrors';
 
@@ -130,29 +130,30 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // of reusing the same color.
   const sortedAllSeasons = allSeasons.sort((a, b) => {
     const showA = basicInfoForShows?.find(show => show.id === a.showId);
-    const showB = basicInfoForShows?.find(show => show.id === b.showId);
-
     const showALastAirDate = showA?.last_air_date;
-    const showBLastAirDate = showB?.last_air_date;
-
     const showANextEpisodeToAir = showA?.next_episode_to_air?.air_date;
-    const showBNextEpisodeToAir = showB?.next_episode_to_air?.air_date;
-
     const isShowARecent =
-      isDateWithinRecentRange(showALastAirDate) ||
-      isDateWithinRecentRange(showANextEpisodeToAir);
-    const isShowBRecent =
-      isDateWithinRecentRange(showBLastAirDate) ||
-      isDateWithinRecentRange(showBNextEpisodeToAir);
+      isDateWithinOneMonth(showALastAirDate) ||
+      isDateWithinOneMonth(showANextEpisodeToAir);
 
-    if (isShowARecent && !isShowBRecent) return -1;
-    if (!isShowARecent && isShowBRecent) return 1;
-    return 0;
+    const showB = basicInfoForShows?.find(show => show.id === b.showId);
+    const showBLastAirDate = showB?.last_air_date;
+    const showBNextEpisodeToAir = showB?.next_episode_to_air?.air_date;
+    const isShowBRecent =
+      isDateWithinOneMonth(showBLastAirDate) ||
+      isDateWithinOneMonth(showBNextEpisodeToAir);
+
+    if (isShowARecent && !isShowBRecent) {
+      return -1;
+    } else if (!isShowARecent && isShowBRecent) {
+      return 1;
+    } else {
+      return 0;
+    }
   });
 
   const sortedShowIds = sortedAllSeasons.map(show => show.showId);
   const uniqueColorList = getUniqueColorsForShowIds(sortedShowIds);
-
   const showSeasonWithColors = sortedAllSeasons.map((show, i) => ({
     ...show,
     color: uniqueColorList[i],
