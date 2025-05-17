@@ -56,25 +56,29 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
       return null;
     }
 
-    // Remove any old seasons
-    const now = moment();
-    const lastEpisodeToAirDate = moment(lastEpisodeToAir?.air_date);
-    const nextEpisodeToAirDate = moment(nextEpisodeToAir?.air_date);
+    let latestSeasons: ID[] = [];
 
-    const closestToNow = Math.abs(
-      Math.min(
-        lastEpisodeToAirDate.diff(now, 'days'),
-        nextEpisodeToAirDate.diff(now, 'days')
-      )
-    );
-    const closestEpisodeToNow =
-      closestToNow === lastEpisodeToAirDate.diff(now, 'days')
-        ? lastEpisodeToAir
-        : nextEpisodeToAir;
+    const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
+    const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
+    const isLastAndNextEpisodeInSameSeason =
+      lastSeasonNumberToAir &&
+      nextSeasonNumberToAir &&
+      lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-    const latestSeasons = [closestEpisodeToNow?.season_number].filter(Boolean);
+    if (moment(lastAirDate).isBefore(moment().subtract(6, 'months'))) {
+      latestSeasons = [nextSeasonNumberToAir];
+    } else if (isLastAndNextEpisodeInSameSeason) {
+      latestSeasons = [lastSeasonNumberToAir];
+    } else {
+      latestSeasons = [lastSeasonNumberToAir, nextSeasonNumberToAir];
+    }
 
-    return { latestSeasons, id, name, network: networks[0]?.name };
+    return {
+      latestSeasons: latestSeasons.filter(Boolean),
+      id,
+      name,
+      network: networks[0]?.name,
+    };
   });
 
   return latestSeasons.filter(Boolean);
