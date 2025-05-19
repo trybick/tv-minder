@@ -23,6 +23,11 @@ const desktopCalendarStyles = {
   '.dark .fc-more-popover': {
     backgroundColor: '#1A202C !important',
   },
+
+  // Fix missing border-left. Not really sure why it happens
+  '.fc-scrollgrid-section-header > th': {
+    borderLeftWidth: '1px !important',
+  },
 };
 
 const mobileCalendarStyles = {
