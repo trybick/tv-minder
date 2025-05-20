@@ -25,38 +25,43 @@ const Footer = () => {
       <Flex
         alignItems="center"
         fontSize=".85rem"
-        justifyContent="space-between"
         p={{ base: '1.4rem', sm: '1.2rem 2rem' }}
       >
-        <Flex flexDirection="column" gap="3px">
-          <Text fontSize="10px" fontWeight="600">
-            Data provided by
-          </Text>
+        <Flex flex="1" justifyContent="flex-start">
+          <Flex flexDirection="column" gap="3px">
+            <Text fontSize="10px" fontWeight="600">
+              Data provided by
+            </Text>
+            <Link
+              href="https://www.themoviedb.org/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Image alt="The Movie DB logo" h="11px" src={TMDBLogo} />
+            </Link>
+          </Flex>
+        </Flex>
+
+        <Flex flex="1" justifyContent="center">
           <Link
-            href="https://www.themoviedb.org/"
+            aria-label="GitHub"
+            display="flex"
+            href="https://github.com/trybick/tv-minder"
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Image alt="The Movie DB logo" h="11px" src={TMDBLogo} />
+            <Icon as={FaGithub} h="1.7rem" transition="color 0.2s" w="1.3rem" />
           </Link>
         </Flex>
 
-        <Link
-          aria-label="GitHub"
-          display="flex"
-          href="https://github.com/trybick/tv-minder"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Icon as={FaGithub} h="1.7rem" transition="color 0.2s" w="1.3rem" />
-        </Link>
-
-        <Button colorPalette="cyan" onClick={onOpen} size="sm">
-          Feedback
-          <FaRegComment />
-        </Button>
-        <FeedbackModal disclosureProps={disclosureProps} />
+        <Flex flex="1" justifyContent="flex-end">
+          <Button colorPalette="cyan" onClick={onOpen} size="sm">
+            Feedback
+            <FaRegComment />
+          </Button>
+        </Flex>
       </Flex>
+      <FeedbackModal disclosureProps={disclosureProps} />
     </Box>
   );
 };
