@@ -87,11 +87,19 @@ const PopularShows = () => {
             <PopularShow isMobile={isMobile} key={show.id} show={show} />
           ))}
 
-        <Collapsible.Root flexGrow={1} open={isPopularExpanded}>
+        <Collapsible.Root
+          flexGrow={1}
+          open={isPopularExpanded}
+          // Needed to add `position:absolute` when it's not expanded to avoid
+          // this element from coutning as a flex child resulting in un-centering
+          // the other items.
+          position={isPopularExpanded ? 'unset' : 'absolute'}
+        >
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
               <Flex
                 justifyContent={isMobile ? 'center' : 'space-between'}
+                _last={{ justifyContent: 'flex-start' }}
                 marginBottom="34px"
                 columnGap="30px"
                 key={`row-${i}`}
@@ -157,11 +165,18 @@ const PopularShows = () => {
           .map(show => (
             <PopularShow isMobile={isMobile} key={show.id} show={show} />
           ))}
-        <Collapsible.Root flexGrow={1} open={isTopRatedExpanded}>
+
+        <Collapsible.Root
+          flexGrow={1}
+          open={isTopRatedExpanded}
+          position={isTopRatedExpanded ? 'unset' : 'absolute'}
+        >
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
               <Flex
                 justifyContent={isMobile ? 'center' : 'space-between'}
+                _last={{ justifyContent: 'flex-start' }}
+                marginBottom="34px"
                 columnGap="30px"
                 key={`row-${i}`}
               >
