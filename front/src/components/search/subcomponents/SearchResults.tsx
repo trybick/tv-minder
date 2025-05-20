@@ -29,7 +29,7 @@ const SearchResults = ({ shows, totalResults }: Props) => {
   );
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'show')} found`;
+  const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'result')}`;
 
   return (
     <Box m="0 auto">
