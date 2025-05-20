@@ -71,7 +71,7 @@ const PopularShows = () => {
         color={useColorModeValue('cyan.600', 'cyan.200')}
         fontSize="1.8rem"
         fontWeight="600"
-        mb="32px"
+        mb="26px"
       >
         Popular
       </Heading>
@@ -87,14 +87,20 @@ const PopularShows = () => {
             <PopularShow isMobile={isMobile} key={show.id} show={show} />
           ))}
 
-        <Collapsible.Root flexGrow={1} open={isPopularExpanded}>
+        <Collapsible.Root
+          flexGrow={1}
+          open={isPopularExpanded}
+          // Needed to add `position:absolute` when it's not expanded to avoid
+          // this element from coutning as a flex child resulting in un-centering
+          // the other items.
+          position={isPopularExpanded ? 'unset' : 'absolute'}
+        >
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
               <Flex
-                _notLast={{
-                  justifyContent: isMobile ? 'center' : 'space-between',
-                  marginBottom: '34px',
-                }}
+                justifyContent={isMobile ? 'center' : 'space-between'}
+                _last={{ justifyContent: 'flex-start' }}
+                marginBottom="34px"
                 columnGap="30px"
                 key={`row-${i}`}
               >
@@ -124,7 +130,15 @@ const PopularShows = () => {
             onClick={handleTogglePopular}
             variant="plain"
           >
-            <Text fontSize="15px">See More</Text>
+            <Text
+              fontSize="17px"
+              _hover={{
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              See More
+            </Text>
             <AiOutlineCaretDown style={{ width: '15px' }} />
           </Button>
         )}
@@ -135,7 +149,7 @@ const PopularShows = () => {
         color={useColorModeValue('cyan.600', 'cyan.200')}
         fontSize="1.8rem"
         fontWeight="600"
-        mb="32px"
+        mb="26px"
         mt={isMobile ? '40px' : '50px'}
       >
         Top Rated
@@ -151,14 +165,18 @@ const PopularShows = () => {
           .map(show => (
             <PopularShow isMobile={isMobile} key={show.id} show={show} />
           ))}
-        <Collapsible.Root flexGrow={1} open={isTopRatedExpanded}>
+
+        <Collapsible.Root
+          flexGrow={1}
+          open={isTopRatedExpanded}
+          position={isTopRatedExpanded ? 'unset' : 'absolute'}
+        >
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
               <Flex
-                _notLast={{
-                  justifyContent: isMobile ? 'center' : 'space-between',
-                  marginBottom: '34px',
-                }}
+                justifyContent={isMobile ? 'center' : 'space-between'}
+                _last={{ justifyContent: 'flex-start' }}
+                marginBottom="34px"
                 columnGap="30px"
                 key={`row-${i}`}
               >
@@ -188,7 +206,15 @@ const PopularShows = () => {
             onClick={handleToggleTopRated}
             variant="plain"
           >
-            <Text fontSize="15px">See More</Text>
+            <Text
+              fontSize="17px"
+              _hover={{
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              See More
+            </Text>
             <AiOutlineCaretDown style={{ width: '15px' }} />
           </Button>
         )}
