@@ -71,7 +71,7 @@ const PopularShows = () => {
         color={useColorModeValue('cyan.600', 'cyan.200')}
         fontSize="1.8rem"
         fontWeight="600"
-        mb="32px"
+        mb="26px"
       >
         Popular
       </Heading>
@@ -124,7 +124,15 @@ const PopularShows = () => {
             onClick={handleTogglePopular}
             variant="plain"
           >
-            <Text fontSize="15px">See More</Text>
+            <Text
+              fontSize="17px"
+              _hover={{
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              See More
+            </Text>
             <AiOutlineCaretDown style={{ width: '15px' }} />
           </Button>
         )}
@@ -135,7 +143,7 @@ const PopularShows = () => {
         color={useColorModeValue('cyan.600', 'cyan.200')}
         fontSize="1.8rem"
         fontWeight="600"
-        mb="32px"
+        mb="26px"
         mt={isMobile ? '40px' : '50px'}
       >
         Top Rated
@@ -188,7 +196,15 @@ const PopularShows = () => {
             onClick={handleToggleTopRated}
             variant="plain"
           >
-            <Text fontSize="15px">See More</Text>
+            <Text
+              fontSize="17px"
+              _hover={{
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              See More
+            </Text>
             <AiOutlineCaretDown style={{ width: '15px' }} />
           </Button>
         )}
