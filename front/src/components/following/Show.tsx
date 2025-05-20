@@ -1,6 +1,6 @@
-import { Flex, Image, Link } from '@chakra-ui/react';
+import { Flex, Heading, Image, Link } from '@chakra-ui/react';
+import { useState } from 'react';
 
-import { useColorModeValue } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
 import {
   fallbackImagePath,
@@ -19,15 +19,16 @@ const Show = (props: Props) => {
     show: { id, name, posterPath },
   } = props;
   const navigate = useNavigateWithAnimation();
-  const imageBorderColor = useColorModeValue('#e3e3e3', '#28282B');
+  const [isImageHovered, setIsImageHovered] = useState(false);
 
   return (
     <Flex
-      border={`1px solid ${imageBorderColor}`}
+      border="1px solid"
+      borderColor="border.emphasized"
       borderRadius="6px"
-      boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;"
       direction="column"
       key={id}
+      shadow="sm"
     >
       <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
         <Image
@@ -35,18 +36,26 @@ const Show = (props: Props) => {
           borderRadius="6px"
           onError={e => (e.currentTarget.src = fallbackImagePath)}
           src={posterPath ? imagePath780 + posterPath : fallbackImagePathLarge}
+          onMouseEnter={() => setIsImageHovered(true)}
+          onMouseLeave={() => setIsImageHovered(false)}
         />
       </Link>
       <Flex direction="column" p="14px">
         <Link
-          color={useColorModeValue('gray.900', 'white')}
           fontSize="16px"
           fontWeight="500"
-          lineClamp={1}
+          m="0 auto"
           onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}
           textAlign="center"
+          textDecoration={isImageHovered ? 'underline' : 'none'}
+          textUnderlineOffset="2px"
+          _hover={{
+            textDecoration: 'underline',
+          }}
         >
-          {name}
+          <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
+            {name}
+          </Heading>
         </Link>
       </Flex>
     </Flex>
