@@ -24,7 +24,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
       direction="column"
       flexGrow="1"
       justifyContent="space-between"
-      maxW="270px"
+      maxW="238px"
       w={isMobile ? '140px' : '190px'}
       shadow="sm"
     >
@@ -38,6 +38,8 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
           w="100%"
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
+          maxHeight="342px"
+          objectFit="cover"
         />
       </Link>
 

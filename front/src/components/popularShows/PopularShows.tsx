@@ -91,10 +91,8 @@ const PopularShows = () => {
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
               <Flex
-                _notLast={{
-                  justifyContent: isMobile ? 'center' : 'space-between',
-                  marginBottom: '34px',
-                }}
+                justifyContent={isMobile ? 'center' : 'space-between'}
+                marginBottom="34px"
                 columnGap="30px"
                 key={`row-${i}`}
               >
@@ -163,10 +161,7 @@ const PopularShows = () => {
           <Collapsible.Content>
             {[...Array(numberRowsToRender).keys()].map(i => (
               <Flex
-                _notLast={{
-                  justifyContent: isMobile ? 'center' : 'space-between',
-                  marginBottom: '34px',
-                }}
+                justifyContent={isMobile ? 'center' : 'space-between'}
                 columnGap="30px"
                 key={`row-${i}`}
               >
