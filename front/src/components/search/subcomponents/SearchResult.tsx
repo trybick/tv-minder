@@ -1,9 +1,9 @@
 import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
-import { useLocation } from 'wouter';
 
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath } from '~/constants/strings';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
 import { applyViewTransition } from '~/utils/applyViewTransition';
@@ -27,7 +27,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
     poster_path: posterPath,
   } = showToDisplay;
 
-  const [, navigate] = useLocation();
+  const navigate = useNavigateWithAnimation();
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource =
     posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
