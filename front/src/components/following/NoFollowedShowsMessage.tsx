@@ -16,8 +16,14 @@ const NoFollowedShowsMessage = () => {
       maxW="400px"
     >
       <Image borderRadius="6px" h="266.7px" mb="14px" src={noShowsImage} />
-      <Text fontSize="md" fontWeight="500" mb="2px" textAlign="center">
-        You are not following any shows yet.
+      <Text
+        fontSize="lg"
+        fontWeight="600"
+        mb={1}
+        textAlign="center"
+        color="cyan.500"
+      >
+        Follow some shows to see them here and on your calendar.
       </Text>
       <Button colorPalette="cyan" onClick={() => navigate(ROUTES.HOME)}>
         Discover Shows
