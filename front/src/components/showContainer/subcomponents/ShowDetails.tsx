@@ -55,7 +55,7 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
         </Heading>
       </Skeleton>
 
-      {voteAverage ? (
+      {isLoading || (!isLoading && voteAverage) ? (
         <Skeleton loading={isLoading} w="85px">
           <Flex mb="18px">
             <Icon
@@ -89,7 +89,7 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
         </Skeleton>
       ) : null}
 
-      {genreNames && (
+      {isLoading || (!isLoading && genreNames?.length) ? (
         <Box mb="18px">
           {/* only set w and h when loading is true */}
           <Skeleton
@@ -104,7 +104,7 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
             ))}
           </Skeleton>
         </Box>
-      )}
+      ) : null}
 
       {isMobile && id && (
         <FollowButton mb="14px" showId={id} size="md" width="100%" />
@@ -113,48 +113,52 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
       <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
 
       <Flex direction="column" gap="4px" mt="18px">
-        {network && (
-          <Skeleton loading={isLoading} w="85px">
-            <Flex align="center" gap="6px">
-              <Icon
-                alignSelf="center"
-                as={HiOutlineVideoCamera}
-                boxSize="18px"
-              />
-              <Text fontSize="15px">{network}</Text>
-            </Flex>
-          </Skeleton>
-        )}
-        {episodeRunTime && (
-          <Skeleton loading={isLoading} w="85px">
-            <Flex align="center" gap="6px">
-              <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
-              <Text fontSize="15px">{episodeRunTime} mins</Text>
-            </Flex>
-          </Skeleton>
-        )}
-        {language && (
-          <Skeleton loading={isLoading} w="85px">
-            <Flex align="center" gap="6px">
-              <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
-              <Text fontSize="15px">{language}</Text>
-            </Flex>
-          </Skeleton>
-        )}
+        {isLoading ||
+          (!isLoading && network && (
+            <Skeleton loading={isLoading} w="85px">
+              <Flex align="center" gap="6px">
+                <Icon
+                  alignSelf="center"
+                  as={HiOutlineVideoCamera}
+                  boxSize="18px"
+                />
+                <Text fontSize="15px">{network}</Text>
+              </Flex>
+            </Skeleton>
+          ))}
+        {isLoading ||
+          (!isLoading && episodeRunTime && (
+            <Skeleton loading={isLoading} w="85px">
+              <Flex align="center" gap="6px">
+                <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
+                <Text fontSize="15px">{episodeRunTime} mins</Text>
+              </Flex>
+            </Skeleton>
+          ))}
+        {isLoading ||
+          (!isLoading && language && (
+            <Skeleton loading={isLoading} w="85px">
+              <Flex align="center" gap="6px">
+                <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
+                <Text fontSize="15px">{language}</Text>
+              </Flex>
+            </Skeleton>
+          ))}
       </Flex>
 
-      {overview && (
-        <Flex direction="column" mt="18px">
-          <Skeleton loading={isLoading}>
-            <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
-              Overview
-            </Heading>
-          </Skeleton>
-          <Skeleton loading={isLoading}>
-            <Text>{overview}</Text>
-          </Skeleton>
-        </Flex>
-      )}
+      {isLoading ||
+        (!isLoading && overview && (
+          <Flex direction="column" mt="18px">
+            <Skeleton loading={isLoading}>
+              <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
+                Overview
+              </Heading>
+            </Skeleton>
+            <Skeleton loading={isLoading}>
+              <Text>{overview}</Text>
+            </Skeleton>
+          </Flex>
+        ))}
     </Box>
   );
 };

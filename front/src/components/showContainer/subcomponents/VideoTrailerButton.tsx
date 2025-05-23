@@ -33,7 +33,7 @@ const VideoTrailerButton = ({ videoId, isLoading }: Props) => {
     width: '100%',
   };
 
-  return (
+  return isLoading || (!isLoading && videoId) ? (
     <Box
       alignSelf="center"
       mb={isMobile ? '20px' : '9px'}
@@ -75,7 +75,7 @@ const VideoTrailerButton = ({ videoId, isLoading }: Props) => {
         </Dialog.Positioner>
       </Dialog.Root>
     </Box>
-  );
+  ) : null;
 };
 
 export default VideoTrailerButton;
