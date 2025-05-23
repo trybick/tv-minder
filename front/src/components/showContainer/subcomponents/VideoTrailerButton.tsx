@@ -4,19 +4,24 @@ import {
   Button,
   Dialog,
   Icon,
+  Skeleton,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
+import { useIsMobile } from '~/hooks/useIsMobile';
+
 type Props = {
-  isMobile?: boolean;
   videoId: string | undefined;
+  isLoading: boolean;
 };
 
-const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
+const VideoTrailerButton = ({ videoId, isLoading }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
+  const isMobile = useIsMobile();
+
   const desktopOptions = {
     height: '390',
     playerVars: { autoplay: 1 },
@@ -28,23 +33,25 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
     width: '100%',
   };
 
-  return videoId ? (
+  return (
     <Box
       alignSelf="center"
       mb={isMobile ? '20px' : '9px'}
       mt={isMobile ? '' : '20px'}
     >
-      <Button
-        fontSize="16px"
-        onClick={onOpen}
-        variant={isMobile ? 'outline' : 'surface'}
-        w={isMobile ? '100%' : 'unset'}
-      >
-        <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
-        <Text display="inline" fontSize="15px" fontWeight="600">
-          Play Trailer
-        </Text>
-      </Button>
+      <Skeleton loading={isLoading} w="145px">
+        <Button
+          fontSize="16px"
+          onClick={onOpen}
+          variant={isMobile ? 'outline' : 'surface'}
+          w={isMobile ? '100%' : 'unset'}
+        >
+          <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
+          <Text display="inline" fontSize="15px" fontWeight="600">
+            Play Trailer
+          </Text>
+        </Button>
+      </Skeleton>
 
       <Dialog.Root
         onOpenChange={onClose}
@@ -68,7 +75,7 @@ const VideoTrailerButton = ({ isMobile, videoId }: Props) => {
         </Dialog.Positioner>
       </Dialog.Root>
     </Box>
-  ) : null;
+  );
 };
 
 export default VideoTrailerButton;

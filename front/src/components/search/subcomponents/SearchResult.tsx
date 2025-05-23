@@ -6,7 +6,13 @@ import { fallbackImagePath } from '~/constants/strings';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
-import { applyViewTransition } from '~/utils/applyViewTransition';
+
+export type ShowNavigationState = {
+  showId: ID;
+  posterSource: string | null;
+  backdropPath: string;
+  name: string;
+};
 
 type Props = {
   followedShows: ID[];
@@ -25,15 +31,22 @@ const SearchResult = ({ showToDisplay }: Props) => {
     name,
     overview,
     poster_path: posterPath,
+    backdrop_path: backdropPath,
   } = showToDisplay;
 
   const navigate = useNavigateWithAnimation();
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource =
-    posterPath && `https://image.tmdb.org/t/p/w185${posterPath}`;
+    posterPath && `https://image.tmdb.org/t/p/w342${posterPath}`;
 
   const onShowClick = () => {
-    applyViewTransition(() => navigate(`${ROUTES.SHOW}/${showId}`));
+    const state: ShowNavigationState = {
+      showId,
+      posterSource,
+      backdropPath,
+      name,
+    };
+    navigate(`${ROUTES.SHOW}/${showId}`, { state });
   };
 
   return (
@@ -45,6 +58,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
               borderRadius="6px"
               onError={e => (e.currentTarget.src = fallbackImagePath)}
               src={posterSource || fallbackImagePath}
+              viewTransitionName={`show-${showId}`}
             />
           </Link>
         </Box>

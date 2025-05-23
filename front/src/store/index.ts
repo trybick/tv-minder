@@ -34,6 +34,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
+      // This is clogging the logs with warnings about state checking taking
+      // too long. Re-enable this after migrating to RTK Query
+      immutableCheck: false,
     }),
 });
 

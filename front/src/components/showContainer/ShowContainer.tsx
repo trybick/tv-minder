@@ -1,67 +1,78 @@
 import { Flex, Grid, Image } from '@chakra-ui/react';
 
 import FollowButton from '~/components/common/FollowButton';
-import {
-  fallbackImagePathLarge,
-  imagePath342,
-  imagePath780,
-} from '~/constants/strings';
+import { ShowNavigationState } from '~/components/search/subcomponents/SearchResult';
+import { fallbackImagePathLarge, imagePath780 } from '~/constants/strings';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { BasicShowInfo } from '~/types/external';
+import { useAppSelector } from '~/store';
+import {
+  selectCurrentShowInfo,
+  selectIsLoadingBasicShowInfoForShow,
+} from '~/store/tv/selectors';
 
 import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
 import ShowDetails from './subcomponents/ShowDetails';
 
-type Props = {
-  showInfoForDisplay: BasicShowInfo;
-};
-
-const ShowContainer = ({ showInfoForDisplay }: Props) => {
+const ShowContainer = () => {
   const isMobile = useIsMobile();
-  const { backdropPath, id, posterPath } = showInfoForDisplay || {};
+
+  const { state } = window.history;
+  const { showId, posterSource, backdropPath } = state as ShowNavigationState;
+
+  const showInfoForDisplay = useAppSelector(selectCurrentShowInfo(showId));
   const hasEpisodes =
-    showInfoForDisplay.seasonsWithEpisodes[0]?.episodes.length;
+    showInfoForDisplay?.seasonsWithEpisodes?.[0]?.episodes?.length;
+
+  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+
+  const renderImage = () => {
+    return isMobile ? (
+      <Image
+        // This styling lets the image extend beyond parent to be 100vw
+        left="50%"
+        maxW="100vw"
+        ml="-50vw"
+        mr="-50vw"
+        position="relative"
+        right="50%"
+        src={imagePath780 + backdropPath}
+        width="100vw"
+        viewTransitionName={`show-${showId}`}
+      />
+    ) : (
+      <Image
+        borderRadius="8px"
+        onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
+        src={posterSource || fallbackImagePathLarge}
+        viewTransitionName={`show-${showId}`}
+      />
+    );
+  };
 
   return (
     <>
       {isMobile ? (
         <Flex direction="column" gap="12px">
-          <Image
-            // This styling lets the image extend beyond parent to be 100vw
-            left="50%"
-            maxW="100vw"
-            ml="-50vw"
-            mr="-50vw"
-            position="relative"
-            right="50%"
-            src={imagePath780 + backdropPath}
-            width="100vw"
-          />
+          {renderImage()}
           <ShowDetails
-            isMobile={isMobile}
+            isLoading={isLoading}
             showInfoForDisplay={showInfoForDisplay}
           />
         </Flex>
       ) : (
         <Grid gap="22px" gridTemplateColumns=".8fr 1fr">
           <Flex direction="column" gap="12px">
-            <Image
-              borderRadius="8px"
-              onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
-              src={
-                posterPath ? imagePath342 + posterPath : fallbackImagePathLarge
-              }
-            />
-            <FollowButton showId={id} />
+            {renderImage()}
+            <FollowButton showId={showId} />
           </Flex>
           <ShowDetails
-            isMobile={isMobile}
+            isLoading={isLoading}
             showInfoForDisplay={showInfoForDisplay}
           />
         </Grid>
       )}
 
-      {hasEpisodes && (
+      {!isLoading && hasEpisodes && (
         <SeasonAccordionGroup
           isMobile={isMobile}
           showInfoForDisplay={showInfoForDisplay}
