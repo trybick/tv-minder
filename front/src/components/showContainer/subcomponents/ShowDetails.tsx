@@ -55,7 +55,7 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
         </Heading>
       </Skeleton>
 
-      {isLoading || (!isLoading && voteAverage) ? (
+      {(isLoading || (!isLoading && voteAverage)) && (
         <Skeleton loading={isLoading} w="85px">
           <Flex mb="18px">
             <Icon
@@ -87,15 +87,14 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
             </Flex>
           </Flex>
         </Skeleton>
-      ) : null}
+      )}
 
       {isLoading || (!isLoading && genreNames?.length) ? (
         <Box mb="18px">
-          {/* only set w and h when loading is true */}
           <Skeleton
             loading={isLoading}
             w={isLoading ? '85px' : 'unset'}
-            h={isLoading ? '30px' : 'unset'}
+            h={isLoading ? '28px' : 'unset'}
           >
             {genreNames?.map(genre => (
               <Tag.Root colorPalette="gray" key={genre} mr="5px" size="lg">
@@ -113,52 +112,44 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
       <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
 
       <Flex direction="column" gap="4px" mt="18px">
-        {isLoading ||
-          (!isLoading && network && (
-            <Skeleton loading={isLoading} w="85px">
-              <Flex align="center" gap="6px">
-                <Icon
-                  alignSelf="center"
-                  as={HiOutlineVideoCamera}
-                  boxSize="18px"
-                />
-                <Text fontSize="15px">{network}</Text>
-              </Flex>
-            </Skeleton>
-          ))}
-        {isLoading ||
-          (!isLoading && episodeRunTime && (
-            <Skeleton loading={isLoading} w="85px">
-              <Flex align="center" gap="6px">
-                <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
-                <Text fontSize="15px">{episodeRunTime} mins</Text>
-              </Flex>
-            </Skeleton>
-          ))}
-        {isLoading ||
-          (!isLoading && language && (
-            <Skeleton loading={isLoading} w="85px">
-              <Flex align="center" gap="6px">
-                <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
-                <Text fontSize="15px">{language}</Text>
-              </Flex>
-            </Skeleton>
-          ))}
+        {(isLoading || (!isLoading && network)) && (
+          <Skeleton loading={isLoading} w="85px">
+            <Flex align="center" gap="6px">
+              <Icon
+                alignSelf="center"
+                as={HiOutlineVideoCamera}
+                boxSize="18px"
+              />
+              <Text fontSize="15px">{network}</Text>
+            </Flex>
+          </Skeleton>
+        )}
+        {(isLoading || (!isLoading && episodeRunTime)) && (
+          <Skeleton loading={isLoading} w="85px">
+            <Flex align="center" gap="6px">
+              <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
+              <Text fontSize="15px">{episodeRunTime} mins</Text>
+            </Flex>
+          </Skeleton>
+        )}
+        {!isLoading && language && (
+          <Flex align="center" gap="6px">
+            <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
+            <Text fontSize="15px">{language}</Text>
+          </Flex>
+        )}
       </Flex>
 
-      {isLoading ||
-        (!isLoading && overview && (
-          <Flex direction="column" mt="18px">
-            <Skeleton loading={isLoading}>
-              <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
-                Overview
-              </Heading>
-            </Skeleton>
-            <Skeleton loading={isLoading}>
-              <Text>{overview}</Text>
-            </Skeleton>
-          </Flex>
-        ))}
+      <Flex direction="column" mt="18px">
+        <Skeleton loading={isLoading}>
+          <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
+            {overview && 'Overview'}
+          </Heading>
+        </Skeleton>
+        <Skeleton loading={isLoading}>
+          <Text>{overview || ''}</Text>
+        </Skeleton>
+      </Flex>
     </Box>
   );
 };

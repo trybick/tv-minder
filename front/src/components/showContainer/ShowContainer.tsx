@@ -24,6 +24,7 @@ const ShowContainer = () => {
     showInfoForDisplay?.seasonsWithEpisodes?.[0]?.episodes?.length;
 
   const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  // const isLoading = true;
 
   const renderImage = () => {
     return isMobile ? (

@@ -33,49 +33,51 @@ const VideoTrailerButton = ({ videoId, isLoading }: Props) => {
     width: '100%',
   };
 
-  return isLoading || (!isLoading && videoId) ? (
-    <Box
-      alignSelf="center"
-      mb={isMobile ? '20px' : '9px'}
-      mt={isMobile ? '' : '20px'}
-    >
-      <Skeleton loading={isLoading} w="145px">
-        <Button
-          fontSize="16px"
-          onClick={onOpen}
-          variant={isMobile ? 'outline' : 'surface'}
-          w={isMobile ? '100%' : 'unset'}
-        >
-          <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
-          <Text display="inline" fontSize="15px" fontWeight="600">
-            Play Trailer
-          </Text>
-        </Button>
-      </Skeleton>
-
-      <Dialog.Root
-        onOpenChange={onClose}
-        open={isOpen}
-        placement="center"
-        size="md"
-        lazyMount
+  return (
+    (isLoading || (!isLoading && videoId)) && (
+      <Box
+        alignSelf="center"
+        mb={isMobile ? '20px' : '9px'}
+        mt={isMobile ? '' : '20px'}
       >
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Skeleton loading={isLoading} w="145px">
+          <Button
+            fontSize="16px"
+            onClick={onOpen}
+            variant={isMobile ? 'outline' : 'surface'}
+            w={isMobile ? '100%' : 'unset'}
+          >
+            <Icon as={AiFillYoutube} boxSize="19px" color="red" mr="4px" />
+            <Text display="inline" fontSize="15px" fontWeight="600">
+              Play Trailer
+            </Text>
+          </Button>
+        </Skeleton>
+
+        <Dialog.Root
+          onOpenChange={onClose}
+          open={isOpen}
+          placement="center"
+          size="md"
+          lazyMount
+        >
           <Dialog.Backdrop />
-          <Dialog.Content>
-            {isMobile ? (
-              <AspectRatio ratio={1}>
-                <YouTube opts={mobileOptions} videoId={videoId} />
-              </AspectRatio>
-            ) : (
-              <YouTube opts={desktopOptions} videoId={videoId} />
-            )}
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Dialog.Root>
-    </Box>
-  ) : null;
+          <Dialog.Positioner>
+            <Dialog.Backdrop />
+            <Dialog.Content>
+              {isMobile ? (
+                <AspectRatio ratio={1}>
+                  <YouTube opts={mobileOptions} videoId={videoId} />
+                </AspectRatio>
+              ) : (
+                <YouTube opts={desktopOptions} videoId={videoId} />
+              )}
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Dialog.Root>
+      </Box>
+    )
+  );
 };
 
 export default VideoTrailerButton;
