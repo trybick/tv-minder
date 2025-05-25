@@ -20,9 +20,6 @@ const ShowContainer = () => {
   const { showId, posterSource, backdropPath } = state as ShowNavigationState;
 
   const showInfoForDisplay = useAppSelector(selectCurrentShowInfo(showId));
-  const hasEpisodes =
-    showInfoForDisplay?.seasonsWithEpisodes?.[0]?.episodes?.length;
-
   const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
   // const isLoading = true;
   // const isLoading = false;
@@ -74,12 +71,10 @@ const ShowContainer = () => {
         </Grid>
       )}
 
-      {!isLoading && hasEpisodes && (
-        <SeasonAccordionGroup
-          isMobile={isMobile}
-          showInfoForDisplay={showInfoForDisplay}
-        />
-      )}
+      <SeasonAccordionGroup
+        isLoading={isLoading}
+        showInfoForDisplay={showInfoForDisplay}
+      />
     </>
   );
 };
