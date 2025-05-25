@@ -5,6 +5,7 @@ import {
   Heading,
   Icon,
   Skeleton,
+  SkeletonText,
   Tag,
   Text,
 } from '@chakra-ui/react';
@@ -111,44 +112,38 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
 
       <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
 
-      <Flex direction="column" gap="4px" mt="18px">
-        {(isLoading || (!isLoading && network)) && (
-          <Skeleton loading={isLoading} w="85px">
-            <Flex align="center" gap="6px">
-              <Icon
-                alignSelf="center"
-                as={HiOutlineVideoCamera}
-                boxSize="18px"
-              />
-              <Text fontSize="15px">{network}</Text>
-            </Flex>
-          </Skeleton>
-        )}
-        {(isLoading || (!isLoading && episodeRunTime)) && (
-          <Skeleton loading={isLoading} w="85px">
-            <Flex align="center" gap="6px">
-              <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
-              <Text fontSize="15px">{episodeRunTime} mins</Text>
-            </Flex>
-          </Skeleton>
-        )}
-        {!isLoading && language && (
+      {isLoading ? (
+        <SkeletonText noOfLines={2} w="85px" />
+      ) : (
+        <Flex direction="column" gap="4px" mt="18px">
           <Flex align="center" gap="6px">
-            <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
-            <Text fontSize="15px">{language}</Text>
+            <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="18px" />
+            <Text fontSize="15px">{network}</Text>
           </Flex>
-        )}
-      </Flex>
+          <Flex align="center" gap="6px">
+            <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
+            <Text fontSize="15px">{episodeRunTime} mins</Text>
+          </Flex>
+          {language && (
+            <Flex align="center" gap="6px">
+              <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
+              <Text fontSize="15px">{language}</Text>
+            </Flex>
+          )}
+        </Flex>
+      )}
 
       <Flex direction="column" mt="18px">
-        <Skeleton loading={isLoading}>
-          <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
-            {overview && 'Overview'}
-          </Heading>
-        </Skeleton>
-        <Skeleton loading={isLoading}>
-          <Text>{overview || ''}</Text>
-        </Skeleton>
+        {isLoading ? (
+          <SkeletonText noOfLines={6} w="100%" />
+        ) : (
+          <>
+            <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
+              {overview && 'Overview'}
+            </Heading>
+            <Text>{overview || ''}</Text>
+          </>
+        )}
       </Flex>
     </Box>
   );
