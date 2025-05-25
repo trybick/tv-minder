@@ -113,17 +113,25 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
       <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
 
       {isLoading ? (
-        <SkeletonText noOfLines={2} w="85px" />
+        <SkeletonText noOfLines={3} w="85px" />
       ) : (
         <Flex direction="column" gap="4px" mt="18px">
-          <Flex align="center" gap="6px">
-            <Icon alignSelf="center" as={HiOutlineVideoCamera} boxSize="18px" />
-            <Text fontSize="15px">{network}</Text>
-          </Flex>
-          <Flex align="center" gap="6px">
-            <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
-            <Text fontSize="15px">{episodeRunTime} mins</Text>
-          </Flex>
+          {network && (
+            <Flex align="center" gap="6px">
+              <Icon
+                alignSelf="center"
+                as={HiOutlineVideoCamera}
+                boxSize="18px"
+              />
+              <Text fontSize="15px">{network}</Text>
+            </Flex>
+          )}
+          {episodeRunTime && (
+            <Flex align="center" gap="6px">
+              <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
+              <Text fontSize="15px">{episodeRunTime} mins</Text>
+            </Flex>
+          )}
           {language && (
             <Flex align="center" gap="6px">
               <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
@@ -135,13 +143,15 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
 
       <Flex direction="column" mt="18px">
         {isLoading ? (
-          <SkeletonText noOfLines={6} w="100%" />
+          <SkeletonText noOfLines={7} w="100%" />
         ) : (
           <>
-            <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
-              {overview && 'Overview'}
-            </Heading>
-            <Text>{overview || ''}</Text>
+            {overview && (
+              <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
+                Overview
+              </Heading>
+            )}
+            {overview && <Text>{overview}</Text>}
           </>
         )}
       </Flex>
