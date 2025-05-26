@@ -20,6 +20,8 @@ const PopularShow = ({ show, isMobile }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
+  const posterSource =
+    posterPath && `https://image.tmdb.org/t/p/w342${posterPath}`;
 
   const onShowClick = () => {
     dispatch({
@@ -28,7 +30,7 @@ const PopularShow = ({ show, isMobile }: Props) => {
     });
     const state: ShowNavigationState = {
       showId: id,
-      posterSource: posterPath ? imagePath342 + posterPath : fallbackImagePath,
+      posterSource,
       backdropPath: '',
       name,
     };
