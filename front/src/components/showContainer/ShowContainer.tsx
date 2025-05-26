@@ -17,7 +17,9 @@ const ShowContainer = () => {
   const isMobile = useIsMobile();
 
   const { state } = window.history;
-  const { showId, posterSource, backdropPath } = state as ShowNavigationState;
+  const { showId, posterSource, backdropPath, imageViewTransitionName } =
+    state as ShowNavigationState;
+  console.log('imageViewTransitionName:', imageViewTransitionName);
 
   const showInfoForDisplay = useAppSelector(selectCurrentShowInfo(showId));
   const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
@@ -34,14 +36,14 @@ const ShowContainer = () => {
         right="50%"
         src={imagePath780 + backdropPath}
         width="100vw"
-        viewTransitionName={`show-${showId}`}
+        viewTransitionName={imageViewTransitionName}
       />
     ) : (
       <Image
         borderRadius="8px"
         onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
         src={posterSource || fallbackImagePathLarge}
-        viewTransitionName={`show-${showId}`}
+        viewTransitionName={imageViewTransitionName}
       />
     );
   };

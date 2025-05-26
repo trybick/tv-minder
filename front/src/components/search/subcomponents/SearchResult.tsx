@@ -45,6 +45,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
     });
     const state: ShowNavigationState = {
       showId,
+      imageViewTransitionName: `show-${showId}`,
       posterSource,
       backdropPath,
       name,

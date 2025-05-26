@@ -13,15 +13,17 @@ import { PopularShow as PopularShowType } from '~/types/external';
 type Props = {
   show: PopularShowType;
   isMobile: boolean;
+  section: 'popular' | 'top-rated';
 };
 
-const PopularShow = ({ show, isMobile }: Props) => {
+const PopularShow = ({ show, isMobile, section }: Props) => {
   const { id, name, posterPath } = show;
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
   const posterSource =
     posterPath && `https://image.tmdb.org/t/p/w342${posterPath}`;
+  const imageViewTransitionName = `show-${id}-${section}`;
 
   const onShowClick = () => {
     dispatch({
@@ -30,6 +32,7 @@ const PopularShow = ({ show, isMobile }: Props) => {
     });
     const state: ShowNavigationState = {
       showId: id,
+      imageViewTransitionName,
       posterSource,
       backdropPath: '',
       name,
@@ -61,7 +64,7 @@ const PopularShow = ({ show, isMobile }: Props) => {
           onMouseLeave={() => setIsImageHovered(false)}
           maxHeight="342px"
           objectFit="cover"
-          viewTransitionName={`show-${id}`}
+          viewTransitionName={imageViewTransitionName}
         />
       </Link>
 

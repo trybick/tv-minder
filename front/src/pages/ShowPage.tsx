@@ -9,6 +9,7 @@ import { ID } from '~/types/common';
 
 export type ShowNavigationState = {
   showId: ID;
+  imageViewTransitionName: string;
   posterSource: string;
   backdropPath: string;
   name: string;
