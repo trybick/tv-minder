@@ -59,7 +59,7 @@ const ShowContainer = () => {
           />
         </Flex>
       ) : (
-        <Grid gap="22px" gridTemplateColumns=".8fr 1fr">
+        <Grid gap="22px" gridTemplateColumns=".7fr 1fr">
           <Flex direction="column" gap="12px">
             {renderImage()}
             <FollowButton showId={showId} />
