@@ -1,11 +1,18 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import { ShowNavigationState } from '~/components/search/subcomponents/SearchResult';
 import ShowContainer from '~/components/showContainer/ShowContainer';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch } from '~/store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';
+import { ID } from '~/types/common';
+
+export type ShowNavigationState = {
+  showId: ID;
+  posterSource: string;
+  backdropPath: string;
+  name: string;
+};
 
 const ShowPage = () => {
   const dispatch = useAppDispatch();

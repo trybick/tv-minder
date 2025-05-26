@@ -1,9 +1,9 @@
 import { Flex, Grid, Image } from '@chakra-ui/react';
 
 import FollowButton from '~/components/common/FollowButton';
-import { ShowNavigationState } from '~/components/search/subcomponents/SearchResult';
 import { fallbackImagePathLarge, imagePath780 } from '~/constants/strings';
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { ShowNavigationState } from '~/pages/ShowPage';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,

@@ -4,17 +4,11 @@ import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath } from '~/constants/strings';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { ShowNavigationState } from '~/pages/ShowPage';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
-
-export type ShowNavigationState = {
-  showId: ID;
-  posterSource: string;
-  backdropPath: string;
-  name: string;
-};
 
 type Props = {
   followedShows: ID[];

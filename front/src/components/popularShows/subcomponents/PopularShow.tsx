@@ -5,6 +5,9 @@ import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { fallbackImagePath, imagePath342 } from '~/constants/strings';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { ShowNavigationState } from '~/pages/ShowPage';
+import { useAppDispatch } from '~/store';
+import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { PopularShow as PopularShowType } from '~/types/external';
 
 type Props = {
@@ -12,9 +15,25 @@ type Props = {
   isMobile: boolean;
 };
 
-const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
+const PopularShow = ({ show, isMobile }: Props) => {
+  const { id, name, posterPath } = show;
+  const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
+
+  const onShowClick = () => {
+    dispatch({
+      type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+      payload: true,
+    });
+    const state: ShowNavigationState = {
+      showId: id,
+      posterSource: posterPath ? imagePath342 + posterPath : fallbackImagePath,
+      backdropPath: '',
+      name,
+    };
+    navigate(`${ROUTES.SHOW}/${id}`, { state });
+  };
 
   return (
     <Flex
@@ -28,7 +47,7 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
       w={isMobile ? '140px' : '190px'}
       shadow="sm"
     >
-      <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
+      <Link onClick={onShowClick}>
         <Image
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
@@ -40,12 +59,13 @@ const PopularShow = ({ show: { id, name, posterPath }, isMobile }: Props) => {
           onMouseLeave={() => setIsImageHovered(false)}
           maxHeight="342px"
           objectFit="cover"
+          viewTransitionName={`show-${id}`}
         />
       </Link>
 
       <Flex direction="column" mt="5px" p="8px 12px">
         <Link
-          onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}
+          onClick={onShowClick}
           m="0 auto"
           textDecoration={isImageHovered ? 'underline' : 'none'}
           textUnderlineOffset="2px"
