@@ -11,7 +11,7 @@ import { ShowSearchResult } from '~/types/external';
 
 export type ShowNavigationState = {
   showId: ID;
-  posterSource: string | null;
+  posterSource: string;
   backdropPath: string;
   name: string;
 };

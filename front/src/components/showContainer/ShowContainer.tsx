@@ -21,8 +21,6 @@ const ShowContainer = () => {
 
   const showInfoForDisplay = useAppSelector(selectCurrentShowInfo(showId));
   const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
-  // const isLoading = true;
-  // const isLoading = false;
 
   const renderImage = () => {
     return isMobile ? (

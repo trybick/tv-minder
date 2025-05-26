@@ -44,7 +44,7 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
   } = showInfoForDisplay || {};
 
   return (
-    <Box minW="100%">
+    <Box w="100%">
       <Skeleton loading={isLoading}>
         <Heading as="h3" fontSize="3xl" mb="7px">
           {name}{' '}
@@ -74,9 +74,9 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
                   / 10
                 </chakra.span>
               </Text>
-              <Flex ml="2px">
+              <Flex ml="2px" gap="2px">
                 <Text fontSize="xs" fontWeight="600">
-                  {voteCount && abbreviateNumber(voteCount)}{' '}
+                  {abbreviateNumber(voteCount || 1)}{' '}
                 </Text>
                 <Icon
                   as={BsFillPersonFill}
