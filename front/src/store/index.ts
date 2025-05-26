@@ -31,11 +31,12 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      // serializableCheck: {
+      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      // },
       // This is clogging the logs with warnings about state checking taking
       // too long. Re-enable this after migrating to RTK Query
+      serializableCheck: false,
       immutableCheck: false,
     }),
 });
