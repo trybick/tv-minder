@@ -8,7 +8,6 @@ import { useAppSelector } from '~/store';
 import {
   getCurrentShowId,
   selectCurrentShowInfo,
-  selectIsLoadingBasicShowInfoForShow,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
 
@@ -17,8 +16,6 @@ import ShowDetails from './subcomponents/ShowDetails';
 
 const ShowContainer = () => {
   const isMobile = useIsMobile();
-
-  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
 
@@ -51,7 +48,6 @@ const ShowContainer = () => {
   };
 
   if (!showDataFromHistory && !currentShowInfo) {
-    // add spinner
     return null;
   }
 
@@ -60,10 +56,7 @@ const ShowContainer = () => {
       {isMobile ? (
         <Flex direction="column" gap="12px">
           {renderImage()}
-          <ShowDetails
-            isLoading={isLoading}
-            currentShowInfo={currentShowInfo}
-          />
+          <ShowDetails />
         </Flex>
       ) : (
         <Grid gap="22px" gridTemplateColumns=".7fr 1fr">
@@ -77,17 +70,11 @@ const ShowContainer = () => {
               }
             />
           </Flex>
-          <ShowDetails
-            isLoading={isLoading}
-            currentShowInfo={currentShowInfo}
-          />
+          <ShowDetails />
         </Grid>
       )}
 
-      <SeasonAccordionGroup
-        isLoading={isLoading}
-        currentShowInfo={currentShowInfo}
-      />
+      <SeasonAccordionGroup />
     </>
   );
 };

@@ -9,17 +9,18 @@ import {
 import moment from 'moment';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { BasicShowInfo } from '~/types/external';
+import { useAppSelector } from '~/store';
+import {
+  selectCurrentShowInfo,
+  selectIsLoadingBasicShowInfoForShow,
+} from '~/store/tv/selectors';
 
 import EpisodesTable from './subcomponents/EpisodesTable';
 
-type Props = {
-  isLoading: boolean;
-  currentShowInfo: BasicShowInfo | null;
-};
-
-const SeasonAccordionGroup = ({ isLoading, currentShowInfo }: Props) => {
+const SeasonAccordionGroup = () => {
   const isMobile = useIsMobile();
+  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const { seasonsWithEpisodes } = currentShowInfo || {};
   const hasEpisodes =
     currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;

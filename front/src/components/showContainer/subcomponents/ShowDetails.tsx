@@ -17,18 +17,19 @@ import { TbLanguage } from 'react-icons/tb';
 
 import FollowButton from '~/components/common/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { BasicShowInfo } from '~/types/external';
+import { useAppSelector } from '~/store';
+import {
+  selectCurrentShowInfo,
+  selectIsLoadingBasicShowInfoForShow,
+} from '~/store/tv/selectors';
 import { abbreviateNumber } from '~/utils/formatting';
 
 import VideoTrailerButton from './VideoTrailerButton';
 
-type Props = {
-  currentShowInfo: BasicShowInfo | null;
-  isLoading: boolean;
-};
-
-const ShowDetails = ({ currentShowInfo, isLoading }: Props) => {
+const ShowDetails = () => {
   const isMobile = useIsMobile();
+  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const {
     episodeRunTime,
     genreNames,
