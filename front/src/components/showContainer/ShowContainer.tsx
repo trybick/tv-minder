@@ -1,13 +1,15 @@
 import { Flex, Grid, Image } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 import FollowButton from '~/components/common/FollowButton';
 import { fallbackImagePathLarge, imagePath780 } from '~/constants/strings';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { ShowNavigationState } from '~/pages/ShowPage';
 import { useAppSelector } from '~/store';
 import {
+  getCurrentShowId,
   selectCurrentShowInfo,
   selectIsLoadingBasicShowInfoForShow,
+  selectShowDataFromHistory,
 } from '~/store/tv/selectors';
 
 import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
@@ -16,13 +18,9 @@ import ShowDetails from './subcomponents/ShowDetails';
 const ShowContainer = () => {
   const isMobile = useIsMobile();
 
-  const { state } = window.history;
-  const { showId, posterSource, backdropPath, imageViewTransitionName } =
-    state as ShowNavigationState;
-  console.log('imageViewTransitionName:', imageViewTransitionName);
-
-  const showInfoForDisplay = useAppSelector(selectCurrentShowInfo(showId));
   const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const currentShowInfo = useAppSelector(selectCurrentShowInfo);
+  const showDataFromHistory = useSelector(selectShowDataFromHistory);
 
   const renderImage = () => {
     return isMobile ? (
@@ -34,19 +32,28 @@ const ShowContainer = () => {
         mr="-50vw"
         position="relative"
         right="50%"
-        src={imagePath780 + backdropPath}
+        src={imagePath780 + showDataFromHistory?.backdropPath}
         width="100vw"
-        viewTransitionName={imageViewTransitionName}
+        viewTransitionName={showDataFromHistory?.imageViewTransitionName}
       />
     ) : (
       <Image
         borderRadius="8px"
         onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
-        src={posterSource || fallbackImagePathLarge}
-        viewTransitionName={imageViewTransitionName}
+        src={
+          showDataFromHistory?.posterSource ||
+          imagePath780 + currentShowInfo?.posterPath ||
+          fallbackImagePathLarge
+        }
+        viewTransitionName={showDataFromHistory?.imageViewTransitionName}
       />
     );
   };
+
+  if (!showDataFromHistory && !currentShowInfo) {
+    // add spinner
+    return null;
+  }
 
   return (
     <>
@@ -55,25 +62,31 @@ const ShowContainer = () => {
           {renderImage()}
           <ShowDetails
             isLoading={isLoading}
-            showInfoForDisplay={showInfoForDisplay}
+            currentShowInfo={currentShowInfo}
           />
         </Flex>
       ) : (
         <Grid gap="22px" gridTemplateColumns=".7fr 1fr">
           <Flex direction="column" gap="12px">
             {renderImage()}
-            <FollowButton showId={showId} />
+            <FollowButton
+              showId={
+                showDataFromHistory?.showId ||
+                currentShowInfo?.id ||
+                getCurrentShowId()
+              }
+            />
           </Flex>
           <ShowDetails
             isLoading={isLoading}
-            showInfoForDisplay={showInfoForDisplay}
+            currentShowInfo={currentShowInfo}
           />
         </Grid>
       )}
 
       <SeasonAccordionGroup
         isLoading={isLoading}
-        showInfoForDisplay={showInfoForDisplay}
+        currentShowInfo={currentShowInfo}
       />
     </>
   );

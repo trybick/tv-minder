@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 
 import ShowContainer from '~/components/showContainer/ShowContainer';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';
+import { selectCurrentShowInfo } from '~/store/tv/selectors';
 import { ID } from '~/types/common';
 
 export type ShowNavigationState = {
@@ -18,13 +19,12 @@ export type ShowNavigationState = {
 const ShowPage = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
-
-  const { state } = window.history;
-  const { showId, name } = state as ShowNavigationState;
+  const showInfo = useAppSelector(selectCurrentShowInfo);
+  const name = window.history.state?.name || showInfo?.name;
 
   useEffect(() => {
-    dispatch(getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow(showId));
-  }, [dispatch, showId]);
+    dispatch(getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow());
+  }, [dispatch]);
 
   return (
     <>

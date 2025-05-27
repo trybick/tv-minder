@@ -23,11 +23,11 @@ import { abbreviateNumber } from '~/utils/formatting';
 import VideoTrailerButton from './VideoTrailerButton';
 
 type Props = {
-  showInfoForDisplay: BasicShowInfo | null;
+  currentShowInfo: BasicShowInfo | null;
   isLoading: boolean;
 };
 
-const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
+const ShowDetails = ({ currentShowInfo, isLoading }: Props) => {
   const isMobile = useIsMobile();
   const {
     episodeRunTime,
@@ -41,7 +41,7 @@ const ShowDetails = ({ showInfoForDisplay, isLoading }: Props) => {
     voteAverage,
     voteCount,
     yearsActive,
-  } = showInfoForDisplay || {};
+  } = currentShowInfo || {};
 
   return (
     <Box w="100%">

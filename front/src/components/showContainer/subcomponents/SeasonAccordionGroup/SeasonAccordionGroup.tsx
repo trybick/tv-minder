@@ -15,14 +15,14 @@ import EpisodesTable from './subcomponents/EpisodesTable';
 
 type Props = {
   isLoading: boolean;
-  showInfoForDisplay: BasicShowInfo | null;
+  currentShowInfo: BasicShowInfo | null;
 };
 
-const SeasonAccordionGroup = ({ isLoading, showInfoForDisplay }: Props) => {
+const SeasonAccordionGroup = ({ isLoading, currentShowInfo }: Props) => {
   const isMobile = useIsMobile();
-  const { seasonsWithEpisodes } = showInfoForDisplay || {};
+  const { seasonsWithEpisodes } = currentShowInfo || {};
   const hasEpisodes =
-    showInfoForDisplay?.seasonsWithEpisodes?.[0]?.episodes?.length;
+    currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;
 
   const createAccordionItems = () =>
     seasonsWithEpisodes?.map(
