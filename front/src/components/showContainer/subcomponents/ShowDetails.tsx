@@ -1,20 +1,12 @@
-import {
-  Box,
-  chakra,
-  Flex,
-  Heading,
-  Icon,
-  Skeleton,
-  SkeletonText,
-  Tag,
-  Text,
-} from '@chakra-ui/react';
+import { Box, chakra, Flex, Heading, Icon, Tag, Text } from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
 
+import DelayedSkeleton from '~/components/common/DelayedSkeleton';
+import DelayedSkeletonText from '~/components/common/DelayedSkeletonText';
 import FollowButton from '~/components/common/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
@@ -46,7 +38,7 @@ const ShowDetails = () => {
 
   return (
     <Box w="100%">
-      <Skeleton loading={isLoading}>
+      <DelayedSkeleton isLoading={isLoading}>
         <Heading as="h3" fontSize="3xl" mb="7px">
           {name}{' '}
           {yearsActive && (
@@ -55,10 +47,10 @@ const ShowDetails = () => {
             </chakra.span>
           )}
         </Heading>
-      </Skeleton>
+      </DelayedSkeleton>
 
       {(isLoading || (!isLoading && voteAverage)) && (
-        <Skeleton loading={isLoading} w="85px">
+        <DelayedSkeleton isLoading={isLoading} w="85px">
           <Flex mb="18px">
             <Icon
               alignSelf="center"
@@ -88,13 +80,13 @@ const ShowDetails = () => {
               </Flex>
             </Flex>
           </Flex>
-        </Skeleton>
+        </DelayedSkeleton>
       )}
 
       {isLoading || (!isLoading && genreNames?.length) ? (
         <Box mb="18px">
-          <Skeleton
-            loading={isLoading}
+          <DelayedSkeleton
+            isLoading={isLoading}
             w={isLoading ? '85px' : 'unset'}
             h={isLoading ? '28px' : 'unset'}
           >
@@ -103,7 +95,7 @@ const ShowDetails = () => {
                 {genre}
               </Tag.Root>
             ))}
-          </Skeleton>
+          </DelayedSkeleton>
         </Box>
       ) : null}
 
@@ -114,7 +106,7 @@ const ShowDetails = () => {
       <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
 
       {isLoading ? (
-        <SkeletonText noOfLines={3} w="85px" />
+        <DelayedSkeletonText isLoading={isLoading} noOfLines={3} w="85px" />
       ) : (
         <Flex direction="column" gap="4px" mt="18px">
           {network && (
@@ -144,7 +136,7 @@ const ShowDetails = () => {
 
       <Flex direction="column" mt="18px">
         {isLoading ? (
-          <SkeletonText noOfLines={7} w="100%" />
+          <DelayedSkeletonText isLoading={isLoading} noOfLines={7} w="100%" />
         ) : (
           <>
             {overview && (

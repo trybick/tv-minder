@@ -1,13 +1,7 @@
-import {
-  Accordion,
-  Box,
-  Flex,
-  Heading,
-  Skeleton,
-  Text,
-} from '@chakra-ui/react';
+import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 import moment from 'moment';
 
+import DelayedSkeleton from '~/components/common/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
@@ -61,7 +55,7 @@ const SeasonAccordionGroup = () => {
 
   return (
     <Flex direction="column" flex="1" mt={isMobile ? '18px' : '50px'}>
-      <Skeleton loading={isLoading}>
+      <DelayedSkeleton isLoading={isLoading}>
         <Heading
           as="h4"
           fontSize={isMobile ? 'xl' : '2xl'}
@@ -72,7 +66,7 @@ const SeasonAccordionGroup = () => {
         <Accordion.Root mt="14px" w="100%" collapsible>
           {createAccordionItems()}
         </Accordion.Root>
-      </Skeleton>
+      </DelayedSkeleton>
     </Flex>
   );
 };

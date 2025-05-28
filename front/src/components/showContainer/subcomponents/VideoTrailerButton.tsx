@@ -4,13 +4,13 @@ import {
   Button,
   Dialog,
   Icon,
-  Skeleton,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
+import DelayedSkeleton from '~/components/common/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 
 type Props = {
@@ -40,7 +40,7 @@ const VideoTrailerButton = ({ videoId, isLoading }: Props) => {
         mb={isMobile ? '20px' : '9px'}
         mt={isMobile ? '' : '20px'}
       >
-        <Skeleton loading={isLoading} w="145px">
+        <DelayedSkeleton isLoading={isLoading} w="145px">
           <Button
             fontSize="16px"
             onClick={onOpen}
@@ -52,7 +52,7 @@ const VideoTrailerButton = ({ videoId, isLoading }: Props) => {
               Play Trailer
             </Text>
           </Button>
-        </Skeleton>
+        </DelayedSkeleton>
 
         <Dialog.Root
           onOpenChange={onClose}
