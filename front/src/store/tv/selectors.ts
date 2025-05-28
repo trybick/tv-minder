@@ -84,7 +84,7 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
       })
   );
 
-export const getCurrentShowId = (): ID => {
+export const getShowIdFromUrl = (): ID => {
   const id = window.location.pathname.split('/')[2];
   if (!id) {
     throw Error('Unable to find show ID');
@@ -95,7 +95,7 @@ export const getCurrentShowId = (): ID => {
 export const selectCurrentShowInfo: AppSelector<BasicShowInfo | null> =
   createSelector(
     selectBasicShowInfo,
-    getCurrentShowId,
+    getShowIdFromUrl,
     (basicShowInfo, currentShowId) => {
       const currentShow = basicShowInfo[currentShowId];
       return currentShow?.id ? mapShowInfoForDisplay(currentShow) : null;

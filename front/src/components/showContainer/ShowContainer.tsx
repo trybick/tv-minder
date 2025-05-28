@@ -6,7 +6,7 @@ import LoadingSpinner from '~/components/common/LoadingSpinner';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
-  getCurrentShowId,
+  getShowIdFromUrl,
   selectCurrentShowInfo,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
@@ -39,7 +39,7 @@ const ShowContainer = () => {
               showId={
                 showDataFromHistory?.showId ||
                 currentShowInfo?.id ||
-                getCurrentShowId()
+                getShowIdFromUrl()
               }
             />
           </Flex>

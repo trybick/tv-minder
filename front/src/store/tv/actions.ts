@@ -8,7 +8,7 @@ import cacheDurationDays from '~/utils/cacheDurations';
 import handleErrors from '~/utils/handleErrors';
 
 import { AppThunk } from './..';
-import { getCurrentShowId } from './selectors';
+import { getShowIdFromUrl } from './selectors';
 import { SavedQuery } from './types';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
@@ -143,7 +143,7 @@ export const getBasicShowInfoForFollowedShows =
 
 export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
   (): AppThunk => async (dispatch, getState) => {
-    const showId = getCurrentShowId();
+    const showId = getShowIdFromUrl();
     // If we already have the basic show info, season info, and cache is valid, do nothing
     const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
     const cacheAge = moment().diff(
