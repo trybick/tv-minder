@@ -103,7 +103,7 @@ const ShowDetails = () => {
         <FollowButton mb="14px" showId={id} size="md" width="100%" />
       )}
 
-      <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
+      <VideoTrailerButton videoId={videoTrailerKey} />
 
       {isLoading ? (
         <DelayedSkeleton isLoading={isLoading} w="145px" h="40px" />
