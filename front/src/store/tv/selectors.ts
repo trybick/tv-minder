@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { ShowNavigationState } from '~/pages/ShowPage';
 import { selectFollowedShows } from '~/store/user/selectors';
 import { ID } from '~/types/common';
 import { BasicShowInfo, PopularShow } from '~/types/external';
@@ -83,19 +84,36 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
       })
   );
 
-export const getCurrentShowId = (): ID => {
+export const getShowIdFromUrl = (): ID => {
   const id = window.location.pathname.split('/')[2];
   if (!id) {
-    throw Error('Error finding show ID');
+    throw Error('Unable to find show ID');
   }
   return +id;
 };
 
-export const selectCurrentShowInfo: AppSelector<BasicShowInfo> = createSelector(
-  selectBasicShowInfo,
-  getCurrentShowId,
-  (basicShowInfo, currentShowId) => {
-    const currentShow = basicShowInfo[currentShowId];
-    return currentShow?.id && mapShowInfoForDisplay(currentShow);
+export const selectCurrentShowInfo: AppSelector<BasicShowInfo | null> =
+  createSelector(
+    selectBasicShowInfo,
+    getShowIdFromUrl,
+    (basicShowInfo, currentShowId) => {
+      const currentShow = basicShowInfo[currentShowId];
+      return currentShow?.id ? mapShowInfoForDisplay(currentShow) : null;
+    }
+  );
+
+export const selectShowDataFromHistory = createSelector(
+  () => window.history.state as ShowNavigationState,
+  (historyState): ShowNavigationState | null => {
+    if (historyState?.imageViewTransitionName) {
+      return {
+        showId: historyState.showId,
+        posterSource: historyState.posterSource,
+        backdropPath: historyState.backdropPath,
+        name: historyState.name,
+        imageViewTransitionName: historyState.imageViewTransitionName,
+      };
+    }
+    return null;
   }
 );

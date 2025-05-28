@@ -1,20 +1,26 @@
 import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 import moment from 'moment';
 
-import { BasicShowInfo } from '~/types/external';
+import DelayedSkeleton from '~/components/common/DelayedSkeleton';
+import { useIsMobile } from '~/hooks/useIsMobile';
+import { useAppSelector } from '~/store';
+import {
+  selectCurrentShowInfo,
+  selectIsLoadingBasicShowInfoForShow,
+} from '~/store/tv/selectors';
 
 import EpisodesTable from './subcomponents/EpisodesTable';
 
-type Props = {
-  isMobile: boolean;
-  showInfoForDisplay: BasicShowInfo;
-};
-
-const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
-  const { seasonsWithEpisodes } = showInfoForDisplay || {};
+const SeasonAccordionGroup = () => {
+  const isMobile = useIsMobile();
+  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const currentShowInfo = useAppSelector(selectCurrentShowInfo);
+  const { seasonsWithEpisodes } = currentShowInfo || {};
+  const hasEpisodes =
+    currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;
 
   const createAccordionItems = () =>
-    seasonsWithEpisodes.map(
+    seasonsWithEpisodes?.map(
       ({ airDate, episodes, id, isSpecialsSeason, nameForDisplay }) => (
         <Accordion.Item key={id} value={id.toString()}>
           <Accordion.ItemTrigger
@@ -43,18 +49,24 @@ const SeasonAccordionGroup = ({ isMobile, showInfoForDisplay }: Props) => {
       )
     );
 
+  if (!isLoading && !hasEpisodes) {
+    return null;
+  }
+
   return (
     <Flex direction="column" flex="1" mt={isMobile ? '18px' : '50px'}>
-      <Heading
-        as="h4"
-        fontSize={isMobile ? 'xl' : '2xl'}
-        ml={isMobile ? '' : '14px'}
-      >
-        Episodes
-      </Heading>
-      <Accordion.Root mt="14px" w="100%" collapsible>
-        {createAccordionItems()}
-      </Accordion.Root>
+      <DelayedSkeleton isLoading={isLoading}>
+        <Heading
+          as="h4"
+          fontSize={isMobile ? 'xl' : '2xl'}
+          ml={isMobile ? '' : '14px'}
+        >
+          Episodes
+        </Heading>
+        <Accordion.Root mt="14px" w="100%" collapsible>
+          {createAccordionItems()}
+        </Accordion.Root>
+      </DelayedSkeleton>
     </Flex>
   );
 };

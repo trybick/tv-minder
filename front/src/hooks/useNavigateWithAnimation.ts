@@ -5,14 +5,14 @@ export const useNavigateWithAnimation = () => {
   const [, navigate] = useLocation();
 
   const navigateWithAnimation = useCallback(
-    (to: string) => {
+    (to: string, options?: { state?: Record<string, unknown> }) => {
       if (!document.startViewTransition) {
-        navigate(to);
+        navigate(to, options);
         return;
       }
 
       document.startViewTransition(() => {
-        navigate(to);
+        navigate(to, options);
       });
     },
     [navigate]
