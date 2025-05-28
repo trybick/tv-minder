@@ -3,12 +3,12 @@ import { useState } from 'react';
 
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
-import { fallbackImagePath, imagePath342 } from '~/constants/strings';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { ShowNavigationState } from '~/pages/ShowPage';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { PopularShow as PopularShowType } from '~/types/external';
+import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   show: PopularShowType;
@@ -21,8 +21,7 @@ const PopularShow = ({ show, isMobile, section }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
-  const posterSource =
-    posterPath && `https://image.tmdb.org/t/p/w342${posterPath}`;
+  const posterSource = createImageUrl(posterPath);
   const imageViewTransitionName = `show-${id}-${section}`;
 
   const onShowClick = () => {
@@ -57,8 +56,8 @@ const PopularShow = ({ show, isMobile, section }: Props) => {
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
           cursor="pointer"
-          onError={e => (e.currentTarget.src = fallbackImagePath)}
-          src={posterPath ? imagePath342 + posterPath : fallbackImagePath}
+          onError={e => (e.currentTarget.src = createImageUrl(null))}
+          src={createImageUrl(posterPath)}
           w="100%"
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}

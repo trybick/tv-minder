@@ -2,13 +2,9 @@ import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { ROUTES } from '~/constants/routes';
-import {
-  fallbackImagePath,
-  fallbackImagePathLarge,
-  imagePath780,
-} from '~/constants/strings';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { BasicShowInfo } from '~/types/external';
+import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   show: BasicShowInfo;
@@ -34,8 +30,8 @@ const Show = (props: Props) => {
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
-          onError={e => (e.currentTarget.src = fallbackImagePath)}
-          src={posterPath ? imagePath780 + posterPath : fallbackImagePathLarge}
+          onError={e => (e.currentTarget.src = createImageUrl(null))}
+          src={createImageUrl(posterPath, true)}
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
         />

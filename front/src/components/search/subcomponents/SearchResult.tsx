@@ -2,13 +2,13 @@ import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
-import { fallbackImagePath } from '~/constants/strings';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { ShowNavigationState } from '~/pages/ShowPage';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
+import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   followedShows: ID[];
@@ -33,8 +33,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
   const navigate = useNavigateWithAnimation();
   const dispatch = useAppDispatch();
   const yearForDisplay = firstAirDate?.substring(0, 4);
-  const posterSource =
-    posterPath && `https://image.tmdb.org/t/p/w342${posterPath}`;
+  const posterSource = createImageUrl(posterPath);
 
   const onShowClick = () => {
     // The new page will load with isLoading as false. So set it to true here
@@ -60,8 +59,8 @@ const SearchResult = ({ showToDisplay }: Props) => {
           <Link onClick={onShowClick}>
             <Image
               borderRadius="6px"
-              onError={e => (e.currentTarget.src = fallbackImagePath)}
-              src={posterSource || fallbackImagePath}
+              onError={e => (e.currentTarget.src = createImageUrl(null))}
+              src={posterSource}
               viewTransitionName={`show-${showId}`}
             />
           </Link>

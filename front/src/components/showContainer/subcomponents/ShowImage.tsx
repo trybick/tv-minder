@@ -1,13 +1,13 @@
 import { Image } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import { fallbackImagePathLarge, imagePath780 } from '~/constants/strings';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
+import { createImageUrl } from '~/utils/createImageUrl';
 
 const ShowImage = () => {
   const isMobile = useIsMobile();
@@ -23,7 +23,7 @@ const ShowImage = () => {
         mr="-50vw"
         position="relative"
         right="50%"
-        src={imagePath780 + showDataFromHistory?.backdropPath}
+        src={createImageUrl(showDataFromHistory?.backdropPath)}
         width="100vw"
         viewTransitionName={showDataFromHistory?.imageViewTransitionName}
       />
@@ -33,11 +33,10 @@ const ShowImage = () => {
   return (
     <Image
       borderRadius="8px"
-      onError={e => (e.currentTarget.src = fallbackImagePathLarge)}
+      onError={e => (e.currentTarget.src = createImageUrl(null, true))}
       src={
         showDataFromHistory?.posterSource ||
-        imagePath780 + currentShowInfo?.posterPath ||
-        fallbackImagePathLarge
+        createImageUrl(currentShowInfo?.posterPath, true)
       }
       viewTransitionName={showDataFromHistory?.imageViewTransitionName}
     />
