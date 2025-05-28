@@ -57,7 +57,7 @@ const PopularShow = ({ show, isMobile, section }: Props) => {
           borderRadius="8px 8px 0 0"
           cursor="pointer"
           onError={e => (e.currentTarget.src = createImageUrl(null))}
-          src={createImageUrl(posterPath)}
+          src={posterSource}
           w="100%"
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}

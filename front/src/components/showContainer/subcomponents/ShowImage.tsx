@@ -14,6 +14,10 @@ const ShowImage = () => {
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
 
+  const imageSrc =
+    showDataFromHistory?.posterSource ||
+    createImageUrl(currentShowInfo?.posterPath);
+
   if (isMobile) {
     return (
       <Image
@@ -23,7 +27,7 @@ const ShowImage = () => {
         mr="-50vw"
         position="relative"
         right="50%"
-        src={createImageUrl(showDataFromHistory?.backdropPath)}
+        src={imageSrc}
         width="100vw"
         viewTransitionName={showDataFromHistory?.imageViewTransitionName}
       />
@@ -33,11 +37,8 @@ const ShowImage = () => {
   return (
     <Image
       borderRadius="8px"
-      onError={e => (e.currentTarget.src = createImageUrl(null, true))}
-      src={
-        showDataFromHistory?.posterSource ||
-        createImageUrl(currentShowInfo?.posterPath, true)
-      }
+      onError={e => (e.currentTarget.src = createImageUrl(null))}
+      src={imageSrc}
       viewTransitionName={showDataFromHistory?.imageViewTransitionName}
     />
   );

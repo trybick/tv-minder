@@ -31,7 +31,7 @@ const Show = (props: Props) => {
           alt={`show-${name}`}
           borderRadius="6px"
           onError={e => (e.currentTarget.src = createImageUrl(null))}
-          src={createImageUrl(posterPath, true)}
+          src={createImageUrl(posterPath)}
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
         />
