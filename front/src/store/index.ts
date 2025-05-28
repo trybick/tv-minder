@@ -5,15 +5,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from 'redux-persist';
+import { persistStore } from 'redux-persist';
 
 import searchInputReducer from '~/components/search/searchInputSlice';
 
