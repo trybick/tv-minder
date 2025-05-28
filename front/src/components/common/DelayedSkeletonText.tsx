@@ -1,7 +1,7 @@
 import { SkeletonText, SkeletonTextProps } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-const SKELETON_DELAY = 1000;
+const SKELETON_DELAY = 300;
 
 interface Props extends SkeletonTextProps {
   isLoading: boolean;

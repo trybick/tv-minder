@@ -50,7 +50,7 @@ const ShowDetails = () => {
       </DelayedSkeleton>
 
       {(isLoading || (!isLoading && voteAverage)) && (
-        <DelayedSkeleton isLoading={isLoading} w="85px">
+        <DelayedSkeleton isLoading={isLoading} w="145px">
           <Flex mb="18px">
             <Icon
               alignSelf="center"
@@ -87,7 +87,7 @@ const ShowDetails = () => {
         <Box mb="18px">
           <DelayedSkeleton
             isLoading={isLoading}
-            w={isLoading ? '85px' : 'unset'}
+            w={isLoading ? '145px' : 'unset'}
             h={isLoading ? '28px' : 'unset'}
           >
             {genreNames?.map(genre => (
@@ -106,7 +106,7 @@ const ShowDetails = () => {
       <VideoTrailerButton videoId={videoTrailerKey} isLoading={isLoading} />
 
       {isLoading ? (
-        <DelayedSkeletonText isLoading={isLoading} noOfLines={3} w="85px" />
+        <DelayedSkeleton isLoading={isLoading} w="145px" h="40px" />
       ) : (
         <Flex direction="column" gap="4px" mt="18px">
           {network && (
@@ -136,7 +136,7 @@ const ShowDetails = () => {
 
       <Flex direction="column" mt="18px">
         {isLoading ? (
-          <DelayedSkeletonText isLoading={isLoading} noOfLines={7} w="100%" />
+          <DelayedSkeletonText isLoading={isLoading} noOfLines={9} w="100%" />
         ) : (
           <>
             {overview && (
