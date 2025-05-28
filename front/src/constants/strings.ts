@@ -11,3 +11,5 @@ export const fallbackImagePath = placeholderImage;
 export const fallbackImagePathLarge = placeholderImageLarge;
 
 export const emailRegex = /^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$/;
+
+export const SKELETON_DELAY = 300;
