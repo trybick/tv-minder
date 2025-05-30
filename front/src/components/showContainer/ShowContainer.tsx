@@ -19,6 +19,7 @@ const ShowContainer = () => {
   const isMobile = useIsMobile();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
+  const showId = getShowIdFromUrl();
 
   if (!showDataFromHistory && !currentShowInfo) {
     return <LoadingSpinner isFullScreen />;
@@ -35,13 +36,7 @@ const ShowContainer = () => {
         <Grid gap="22px" gridTemplateColumns=".7fr 1fr">
           <Flex direction="column" gap="12px">
             <ShowImage />
-            <FollowButton
-              showId={
-                showDataFromHistory?.showId ||
-                currentShowInfo?.id ||
-                getShowIdFromUrl()
-              }
-            />
+            <FollowButton showId={showId} />
           </Flex>
           <ShowDetails />
         </Grid>

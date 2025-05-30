@@ -43,8 +43,6 @@ const SearchResult = ({ showToDisplay }: Props) => {
       payload: true,
     });
     const state: ShowNavigationState = {
-      showId,
-      imageViewTransitionName: `show-${showId}`,
       posterSource,
       backdropPath,
       name,
@@ -61,7 +59,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
               borderRadius="6px"
               onError={e => (e.currentTarget.src = createImageUrl(null))}
               src={posterSource}
-              viewTransitionName={`show-${showId}`}
+              viewTransitionName={`show-image-${showId}`}
             />
           </Link>
         </Box>

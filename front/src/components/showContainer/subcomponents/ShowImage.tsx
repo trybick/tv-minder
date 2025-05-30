@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
+  getShowIdFromUrl,
   selectCurrentShowInfo,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
@@ -13,6 +14,7 @@ const ShowImage = () => {
   const isMobile = useIsMobile();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
+  const showId = getShowIdFromUrl();
 
   const imageSrc =
     showDataFromHistory?.posterSource ||
@@ -29,7 +31,7 @@ const ShowImage = () => {
         right="50%"
         src={imageSrc}
         width="100vw"
-        viewTransitionName={showDataFromHistory?.imageViewTransitionName}
+        viewTransitionName={`show-image-${showId}`}
       />
     );
   }
@@ -39,7 +41,7 @@ const ShowImage = () => {
       borderRadius="8px"
       onError={e => (e.currentTarget.src = createImageUrl(null))}
       src={imageSrc}
-      viewTransitionName={showDataFromHistory?.imageViewTransitionName}
+      viewTransitionName={`show-image-${showId}`}
     />
   );
 };

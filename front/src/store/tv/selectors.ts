@@ -71,17 +71,24 @@ export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
 export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
   createSelector(
     selectTopRatedShows,
-    shows =>
-      shows &&
-      Object.values(shows)?.map(show => {
-        const { id, fetchedAt, name, poster_path: posterPath } = show;
-        return {
-          id,
-          fetchedAt,
-          name,
-          posterPath,
-        };
-      })
+    selectPopularShows,
+    (topRatedShows, popularShows) =>
+      topRatedShows &&
+      Object.values(topRatedShows)
+        // Remove shows that are already in popularShows to avoid duplicate
+        // showId viewTransitionName on the same page.
+        ?.filter(
+          show => !popularShows?.some(popularShow => popularShow.id === show.id)
+        )
+        ?.map(show => {
+          const { id, fetchedAt, name, poster_path: posterPath } = show;
+          return {
+            id,
+            fetchedAt,
+            name,
+            posterPath,
+          };
+        })
   );
 
 export const getShowIdFromUrl = (): ID => {
@@ -105,13 +112,11 @@ export const selectCurrentShowInfo: AppSelector<BasicShowInfo | null> =
 export const selectShowDataFromHistory = createSelector(
   () => window.history.state as ShowNavigationState,
   (historyState): ShowNavigationState | null => {
-    if (historyState?.imageViewTransitionName) {
+    if (historyState?.posterSource) {
       return {
-        showId: historyState.showId,
         posterSource: historyState.posterSource,
         backdropPath: historyState.backdropPath,
         name: historyState.name,
-        imageViewTransitionName: historyState.imageViewTransitionName,
       };
     }
     return null;
