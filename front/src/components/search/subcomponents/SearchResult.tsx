@@ -27,7 +27,6 @@ const SearchResult = ({ showToDisplay }: Props) => {
     name,
     overview,
     poster_path: posterPath,
-    backdrop_path: backdropPath,
   } = showToDisplay;
 
   const navigate = useNavigateWithAnimation();
@@ -36,15 +35,12 @@ const SearchResult = ({ showToDisplay }: Props) => {
   const posterSource = createImageUrl(posterPath);
 
   const onShowClick = () => {
-    // The new page will load with isLoading as false. So set it to true here
-    // to make the skeleton show up seamlessly.
     dispatch({
       type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
       payload: true,
     });
     const state: ShowNavigationState = {
       posterSource,
-      backdropPath,
       name,
     };
     navigate(`${ROUTES.SHOW}/${showId}`, { state });

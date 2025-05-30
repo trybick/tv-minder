@@ -9,7 +9,6 @@ import { selectCurrentShowInfo } from '~/store/tv/selectors';
 
 export type ShowNavigationState = {
   posterSource: string;
-  backdropPath: string;
   name: string;
 };
 

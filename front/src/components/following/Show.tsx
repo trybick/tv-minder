@@ -15,7 +15,7 @@ type Props = {
 
 const Show = (props: Props) => {
   const {
-    show: { backdropPath, id, name, posterPath },
+    show: { id, name, posterPath },
   } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
@@ -30,7 +30,6 @@ const Show = (props: Props) => {
     });
     const state: ShowNavigationState = {
       posterSource,
-      backdropPath,
       name,
     };
     navigate(`${ROUTES.SHOW}/${id}`, { state });
