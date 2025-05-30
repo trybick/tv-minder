@@ -3,6 +3,9 @@ import { useState } from 'react';
 
 import { ROUTES } from '~/constants/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { ShowNavigationState } from '~/pages/ShowPage';
+import { useAppDispatch } from '~/store';
+import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { BasicShowInfo } from '~/types/external';
 import { createImageUrl } from '~/utils/createImageUrl';
 
@@ -12,10 +15,26 @@ type Props = {
 
 const Show = (props: Props) => {
   const {
-    show: { id, name, posterPath },
+    show: { backdropPath, id, name, posterPath },
   } = props;
+  const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
+
+  const posterSource = createImageUrl(posterPath);
+
+  const onShowClick = () => {
+    dispatch({
+      type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+      payload: true,
+    });
+    const state: ShowNavigationState = {
+      posterSource,
+      backdropPath,
+      name,
+    };
+    navigate(`${ROUTES.SHOW}/${id}`, { state });
+  };
 
   return (
     <Flex
@@ -26,14 +45,15 @@ const Show = (props: Props) => {
       key={id}
       shadow="sm"
     >
-      <Link onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}>
+      <Link onClick={onShowClick}>
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
           onError={e => (e.currentTarget.src = createImageUrl(null))}
-          src={createImageUrl(posterPath)}
+          src={posterSource}
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
+          viewTransitionName={`show-image-${id}`}
         />
       </Link>
       <Flex direction="column" p="14px">
@@ -41,7 +61,7 @@ const Show = (props: Props) => {
           fontSize="16px"
           fontWeight="500"
           m="0 auto"
-          onClick={() => navigate(`${ROUTES.SHOW}/${id}`)}
+          onClick={onShowClick}
           textAlign="center"
           textDecoration={isImageHovered ? 'underline' : 'none'}
           textUnderlineOffset="2px"

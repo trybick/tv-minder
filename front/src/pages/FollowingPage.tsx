@@ -7,7 +7,6 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getBasicShowInfoForFollowedShows } from '~/store/tv/actions';
 import { selectFollowedShows } from '~/store/user/selectors';
-import { applyViewTransition } from '~/utils/applyViewTransition';
 
 const FollowingPage = () => {
   const isMobile = useIsMobile();
@@ -15,7 +14,7 @@ const FollowingPage = () => {
   const followedShows = useAppSelector(selectFollowedShows);
 
   useEffect(() => {
-    applyViewTransition(() => dispatch(getBasicShowInfoForFollowedShows()));
+    dispatch(getBasicShowInfoForFollowedShows());
   }, [dispatch, followedShows]);
 
   return (
