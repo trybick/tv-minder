@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
-  getShowIdFromUrl,
   selectCurrentShowInfo,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
 import { createImageUrl } from '~/utils/createImageUrl';
+import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 const ShowImage = () => {
   const isMobile = useIsMobile();

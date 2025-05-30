@@ -5,10 +5,10 @@ import ENDPOINTS from '~/constants/endpoints';
 import { getEpisodesForCalendar } from '~/gateway/getEpisodesForCalendar';
 import { ID } from '~/types/common';
 import cacheDurationDays from '~/utils/cacheDurations';
+import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import handleErrors from '~/utils/handleErrors';
 
 import { AppThunk } from './..';
-import { getShowIdFromUrl } from './selectors';
 import { SavedQuery } from './types';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';

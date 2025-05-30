@@ -6,10 +6,10 @@ import LoadingSpinner from '~/components/common/LoadingSpinner';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
-  getShowIdFromUrl,
   selectCurrentShowInfo,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
+import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
 import ShowDetails from './subcomponents/ShowDetails';

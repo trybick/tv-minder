@@ -2,8 +2,8 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { ShowNavigationState } from '~/pages/ShowPage';
 import { selectFollowedShows } from '~/store/user/selectors';
-import { ID } from '~/types/common';
 import { BasicShowInfo, PopularShow } from '~/types/external';
+import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { AppSelector, AppState } from './..';
 import { mapShowInfoForDisplay } from './tvUtils';
@@ -90,14 +90,6 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
           };
         })
   );
-
-export const getShowIdFromUrl = (): ID => {
-  const id = window.location.pathname.split('/')[2];
-  if (!id) {
-    throw Error('Unable to find show ID');
-  }
-  return +id;
-};
 
 export const selectCurrentShowInfo: AppSelector<BasicShowInfo | null> =
   createSelector(
