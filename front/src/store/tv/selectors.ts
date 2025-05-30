@@ -71,17 +71,24 @@ export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
 export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
   createSelector(
     selectTopRatedShows,
-    shows =>
-      shows &&
-      Object.values(shows)?.map(show => {
-        const { id, fetchedAt, name, poster_path: posterPath } = show;
-        return {
-          id,
-          fetchedAt,
-          name,
-          posterPath,
-        };
-      })
+    selectPopularShows,
+    (topRatedShows, popularShows) =>
+      topRatedShows &&
+      Object.values(topRatedShows)
+        // Remove shows that are already in popularShows to avoid duplicate
+        // showId viewTransitionName on the same page.
+        ?.filter(
+          show => !popularShows?.some(popularShow => popularShow.id === show.id)
+        )
+        ?.map(show => {
+          const { id, fetchedAt, name, poster_path: posterPath } = show;
+          return {
+            id,
+            fetchedAt,
+            name,
+            posterPath,
+          };
+        })
   );
 
 export const getShowIdFromUrl = (): ID => {
