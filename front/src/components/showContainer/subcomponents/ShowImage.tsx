@@ -31,7 +31,7 @@ const ShowImage = () => {
         right="50%"
         src={imageSrc}
         width="100vw"
-        viewTransitionName={`show-${showId}`}
+        viewTransitionName={`show-image-${showId}`}
       />
     );
   }
@@ -41,7 +41,7 @@ const ShowImage = () => {
       borderRadius="8px"
       onError={e => (e.currentTarget.src = createImageUrl(null))}
       src={imageSrc}
-      viewTransitionName={`show-${showId}`}
+      viewTransitionName={`show-image-${showId}`}
     />
   );
 };

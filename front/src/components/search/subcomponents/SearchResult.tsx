@@ -59,7 +59,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
               borderRadius="6px"
               onError={e => (e.currentTarget.src = createImageUrl(null))}
               src={posterSource}
-              viewTransitionName={`show-${showId}`}
+              viewTransitionName={`show-image-${showId}`}
             />
           </Link>
         </Box>

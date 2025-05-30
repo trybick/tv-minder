@@ -59,7 +59,7 @@ const PopularShow = ({ show, isMobile }: Props) => {
           onMouseLeave={() => setIsImageHovered(false)}
           maxHeight="342px"
           objectFit="cover"
-          viewTransitionName={`show-${id}`}
+          viewTransitionName={`show-image-${id}`}
         />
       </Link>
 
