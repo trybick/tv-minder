@@ -6,11 +6,8 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
-import { ID } from '~/types/common';
 
 export type ShowNavigationState = {
-  showId: ID;
-  imageViewTransitionName: string;
   posterSource: string;
   backdropPath: string;
   name: string;

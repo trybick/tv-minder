@@ -13,16 +13,14 @@ import { createImageUrl } from '~/utils/createImageUrl';
 type Props = {
   show: PopularShowType;
   isMobile: boolean;
-  section: 'popular' | 'top-rated';
 };
 
-const PopularShow = ({ show, isMobile, section }: Props) => {
+const PopularShow = ({ show, isMobile }: Props) => {
   const { id, name, posterPath } = show;
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
   const posterSource = createImageUrl(posterPath);
-  const imageViewTransitionName = `show-${id}-${section}`;
 
   const onShowClick = () => {
     dispatch({
@@ -30,8 +28,6 @@ const PopularShow = ({ show, isMobile, section }: Props) => {
       payload: true,
     });
     const state: ShowNavigationState = {
-      showId: id,
-      imageViewTransitionName,
       posterSource,
       backdropPath: '',
       name,
@@ -63,7 +59,7 @@ const PopularShow = ({ show, isMobile, section }: Props) => {
           onMouseLeave={() => setIsImageHovered(false)}
           maxHeight="342px"
           objectFit="cover"
-          viewTransitionName={imageViewTransitionName}
+          viewTransitionName={`show-${id}`}
         />
       </Link>
 

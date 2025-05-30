@@ -112,13 +112,11 @@ export const selectCurrentShowInfo: AppSelector<BasicShowInfo | null> =
 export const selectShowDataFromHistory = createSelector(
   () => window.history.state as ShowNavigationState,
   (historyState): ShowNavigationState | null => {
-    if (historyState?.imageViewTransitionName) {
+    if (historyState?.posterSource) {
       return {
-        showId: historyState.showId,
         posterSource: historyState.posterSource,
         backdropPath: historyState.backdropPath,
         name: historyState.name,
-        imageViewTransitionName: historyState.imageViewTransitionName,
       };
     }
     return null;
