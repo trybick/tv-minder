@@ -107,7 +107,6 @@ export const selectShowDataFromHistory = createSelector(
     if (historyState?.posterSource) {
       return {
         posterSource: historyState.posterSource,
-        backdropPath: historyState.backdropPath,
         name: historyState.name,
       };
     }

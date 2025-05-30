@@ -29,7 +29,6 @@ const PopularShow = ({ show, isMobile }: Props) => {
     });
     const state: ShowNavigationState = {
       posterSource,
-      backdropPath: '',
       name,
     };
     navigate(`${ROUTES.SHOW}/${id}`, { state });
