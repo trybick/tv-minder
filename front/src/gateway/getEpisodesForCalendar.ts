@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import ENDPOINTS from '~/constants/endpoints';
 import { formatSameDayEpisodes } from '~/store/tv/tvUtils';
-import { ID } from '~/types/common';
 import { CalendarEpisode } from '~/types/external';
 import { isDateWithinOneMonth } from '~/utils/dates';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
@@ -16,7 +15,7 @@ const queryParams = {
 let basicInfoForShows: any[] | void = [];
 
 /** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */
-export const getEpisodesForCalendar = async (showIds: ID[]) => {
+export const getEpisodesForCalendar = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);
@@ -25,7 +24,7 @@ export const getEpisodesForCalendar = async (showIds: ID[]) => {
   return { cache, fetchedEpisodeData };
 };
 
-const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
+const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
   // List of requests for each show's basic info
   const basicInfoRequests = showIds.map((showId: any) =>
     axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, { params: queryParams })
@@ -56,7 +55,7 @@ const getLatestAiredSeasons = async (showIds: ID[]): Promise<any> => {
       return null;
     }
 
-    let latestSeasons: ID[] = [];
+    let latestSeasons: number[] = [];
 
     const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
     const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
@@ -90,7 +89,7 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
       const { id, name, latestSeasons, network } = latestSeasonsForShow;
 
       // List of requests for each season(s) for each show
-      const latestSeasonsRequests = latestSeasons.map((seasonNum: ID) =>
+      const latestSeasonsRequests = latestSeasons.map((seasonNum: number) =>
         axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, {
           params: queryParams,
         })
@@ -214,8 +213,8 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 };
 
 // Create a cache object which will be persisted to the redux store
-const createCache = (episodesData: any, showIds: ID[]) => {
-  const cache: { [key: ID]: any } = {};
+const createCache = (episodesData: any, showIds: number[]) => {
+  const cache: { [key: number]: any } = {};
 
   episodesData.forEach((episode: any) => {
     const { showId } = episode;

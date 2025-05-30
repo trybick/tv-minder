@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import ENDPOINTS from '~/constants/endpoints';
 import { getEpisodesForCalendar } from '~/gateway/getEpisodesForCalendar';
-import { ID } from '~/types/common';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import handleErrors from '~/utils/handleErrors';
@@ -83,7 +82,7 @@ export const getBasicShowInfoForFollowedShows =
     const followedShowsSource = isLoggedIn
       ? followedShows
       : unregisteredFollowedShows;
-    const combinedData: { [key: ID]: any } = {};
+    const combinedData: { [key: number]: any } = {};
 
     // Get cached data and add to combinedData
     const cachedIds = cachedBasicShowInfo && Object.keys(cachedBasicShowInfo);

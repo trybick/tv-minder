@@ -1,15 +1,13 @@
 import { StatusWithColor } from '~/store/tv/tvUtils';
 
-import { ID } from './common';
-
 //
 // Search
 //
 export type ShowSearchResult = {
   backdrop_path: string;
   first_air_date: '1965-09-14';
-  genre_ids: ID[];
-  id: ID;
+  genre_ids: number[];
+  id: number;
   name: string;
   origin_country: string[];
   original_language: string;
@@ -35,14 +33,14 @@ export type EpisodeForDisplay = {
 };
 
 export type Genre = {
-  id: ID;
+  id: number;
   name: string;
 };
 
 export type EpisodeForSeason = {
   airDate: string;
   episodeNumber: number;
-  id: ID;
+  id: number;
   name: string;
   overview: string;
   seasonNumber: number;
@@ -54,7 +52,7 @@ export type EpisodeForSeason = {
 export type SeasonWithEpisodes = {
   airDate: string;
   episodes: EpisodeForSeason[];
-  id: ID;
+  id: number;
   isSpecialsSeason: boolean;
   name: string;
   nameForDisplay: string;
@@ -70,7 +68,7 @@ export type BasicShowInfo = {
   firstAirDate: string;
   language: string | undefined;
   genreNames: string[];
-  id: ID;
+  id: number;
   inProduction: boolean;
   lastAirDate: string;
   lastEpisodeForDisplay: EpisodeForDisplay;
@@ -94,7 +92,7 @@ export type BasicShowInfo = {
 // Popular Show
 //
 export type PopularShow = {
-  id: ID;
+  id: number;
   fetchedAt: string;
   name: string;
   posterPath: string;

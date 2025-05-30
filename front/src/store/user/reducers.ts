@@ -1,7 +1,5 @@
 import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
 
-import { ID } from '~/types/common';
-
 import {
   FETCH_USER_FOLLOWS,
   REMOVE_FROM_FOLLOWED_SHOWS,
@@ -17,10 +15,10 @@ import {
 export type UserState = {
   email: string;
   isGoogleUser: boolean;
-  followedShows: ID[];
+  followedShows: number[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
-  unregisteredFollowedShows: ID[];
+  unregisteredFollowedShows: number[];
 };
 
 const initialState = {

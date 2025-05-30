@@ -5,5 +5,3 @@ export type DisclosureProps = {
   onOpen: PlainFunction;
   onClose: PlainFunction;
 };
-
-export type ID = number;

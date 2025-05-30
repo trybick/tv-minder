@@ -6,18 +6,17 @@ import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { ShowNavigationState } from '~/pages/ShowPage';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
-import { ID } from '~/types/common';
 import { ShowSearchResult } from '~/types/external';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
-  followedShows: ID[];
+  followedShows: number[];
   hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
-  removeFromFollowedShows: (showId: ID) => void;
+  removeFromFollowedShows: (showId: number) => void;
   setHasLocalWarningToastBeenShown: () => void;
-  saveToFollowedShows: (showId: ID) => void;
+  saveToFollowedShows: (showId: number) => void;
 };
 
 const SearchResult = ({ showToDisplay }: Props) => {

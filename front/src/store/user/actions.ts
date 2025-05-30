@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/browser';
 import axios from 'axios';
 
 import ENDPOINTS from '~/constants/endpoints';
-import { ID } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 import { AppThunk } from './..';
@@ -24,7 +23,7 @@ export const UNREGISTERED_SAVE_TO_FOLLOWED_SHOWS =
 export const fetchfollowedShowsAction = (): AppThunk => dispatch =>
   axios
     .get<{
-      followedShows: ID[];
+      followedShows: number[];
     }>(`${ENDPOINTS.TV_MINDER_SERVER}/follow`, {
       params: { token: localStorage.getItem('jwt') },
     })
@@ -62,7 +61,7 @@ export const setIsLoggedInAction =
 
 // If logged in, add show to state and update API. Else just add to state
 export const saveToFollowedShowsAction =
-  (showId: ID): AppThunk =>
+  (showId: number): AppThunk =>
   (dispatch, getState) => {
     const { isLoggedIn } = getState().user;
 
@@ -93,7 +92,7 @@ export const saveToFollowedShowsAction =
 
 // If logged in, remove show from state and update API. Else just remove from state
 export const removeFromFollowedShowsAction =
-  (showId: ID): AppThunk =>
+  (showId: number): AppThunk =>
   (dispatch, getState) => {
     const { isLoggedIn } = getState().user;
 

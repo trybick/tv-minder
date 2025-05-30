@@ -1,5 +1,3 @@
-import { ID } from '~/types/common';
-
 /**
  * This is a consistent way to generate a unique color for each showId.
  * If multiple shows would map to the same color (due to modulo), they will
@@ -8,7 +6,7 @@ import { ID } from '~/types/common';
  * @param showIds
  * @returns A list of colors
  */
-export const getUniqueColorsForShowIds = (showIds: ID[]): string[] => {
+export const getUniqueColorsForShowIds = (showIds: number[]): string[] => {
   const usedColors = new Set<number>();
   const result: string[] = [];
 

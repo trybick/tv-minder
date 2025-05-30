@@ -12,9 +12,8 @@ import {
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
 } from '~/store/user/selectors';
-import { ID } from '~/types/common';
 
-export const useFollowButton = (showId: ID) => {
+export const useFollowButton = (showId: number) => {
   const dispatch = useAppDispatch();
   const followedShows = useAppSelector(selectFollowedShows);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
