@@ -48,7 +48,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
   return (
     <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">
       <Grid gap={4} templateColumns="100px 1fr">
-        <Box w="100px">
+        <Flex w="100px">
           <Link onClick={onShowClick}>
             <Image
               borderRadius="6px"
@@ -57,7 +57,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
               viewTransitionName={`show-image-${showId}`}
             />
           </Link>
-        </Box>
+        </Flex>
 
         <Flex direction="column" justifyContent="space-evenly" minW="0">
           <Flex w="100%">

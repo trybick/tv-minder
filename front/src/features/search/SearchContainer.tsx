@@ -1,11 +1,11 @@
 import { Flex } from '@chakra-ui/react';
 
-import LoadingSpinner from '~/components/LoadingSpinner';
 import { ShowSearchResult } from '~/types/external';
 
 import { NoResultsFound } from './NoResultsFound';
 import PopularShows from './PopularShows';
 import SearchResults from './SearchResults';
+import SearchResultsSkeleton from './SearchResultsSkeleton';
 
 type Props = {
   isInputDirty: boolean;
@@ -22,7 +22,7 @@ const SearchContainer = ({
 }: Props) => (
   <Flex justify="center" justifyContent="center" m="0 auto">
     {isLoading ? (
-      <LoadingSpinner />
+      <SearchResultsSkeleton />
     ) : shows?.length ? (
       <SearchResults shows={shows} totalResults={totalResults} />
     ) : isInputDirty ? (
