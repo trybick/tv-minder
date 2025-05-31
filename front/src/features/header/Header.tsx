@@ -211,26 +211,42 @@ const Header = () => {
                   <Portal>
                     <Menu.Positioner>
                       <Menu.Content zIndex={4}>
-                        {!isGoogleUser && (
+                        <Menu.ItemGroup>
+                          <Menu.Item
+                            cursor="default"
+                            value="email"
+                            _hover={{ bg: 'transparent' }}
+                            color="fg"
+                            opacity={0.7}
+                          >
+                            {email}
+                          </Menu.Item>
+                        </Menu.ItemGroup>
+
+                        <Menu.Separator />
+
+                        <Menu.ItemGroup>
+                          {!isGoogleUser && (
+                            <Menu.Item
+                              cursor="pointer"
+                              onClick={() => navigate(ROUTES.SETTINGS)}
+                              p="10px"
+                              value="settings"
+                            >
+                              <VscSettingsGear />
+                              Settings
+                            </Menu.Item>
+                          )}
                           <Menu.Item
                             cursor="pointer"
-                            onClick={() => navigate(ROUTES.SETTINGS)}
+                            onClick={onLogout}
                             p="10px"
-                            value="settings"
+                            value="logout"
                           >
-                            <VscSettingsGear />
-                            Settings
+                            <SlLogout />
+                            Logout
                           </Menu.Item>
-                        )}
-                        <Menu.Item
-                          cursor="pointer"
-                          onClick={onLogout}
-                          p="10px"
-                          value="logout"
-                        >
-                          <SlLogout />
-                          Logout
-                        </Menu.Item>
+                        </Menu.ItemGroup>
                       </Menu.Content>
                     </Menu.Positioner>
                   </Portal>
