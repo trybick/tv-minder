@@ -1,14 +1,7 @@
 import { Flex, Grid } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
 
 import FollowButton from '~/components/FollowButton';
-import LoadingSpinner from '~/components/LoadingSpinner';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppSelector } from '~/store';
-import {
-  selectCurrentShowInfo,
-  selectShowDataFromHistory,
-} from '~/store/tv/selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import SeasonAccordionGroup from './SeasonAccordionGroup';
@@ -17,13 +10,7 @@ import ShowImage from './ShowImage';
 
 const ShowContainer = () => {
   const isMobile = useIsMobile();
-  const currentShowInfo = useAppSelector(selectCurrentShowInfo);
-  const showDataFromHistory = useSelector(selectShowDataFromHistory);
   const showId = getShowIdFromUrl();
-
-  if (!showDataFromHistory && !currentShowInfo) {
-    return <LoadingSpinner isFullScreen />;
-  }
 
   return (
     <>

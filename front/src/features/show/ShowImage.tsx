@@ -19,6 +19,11 @@ const ShowImage = () => {
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
   const showId = getShowIdFromUrl();
 
+  const shouldShowDesktopSkeleton =
+    isLoading &&
+    !showDataFromHistory?.posterSource &&
+    !currentShowInfo?.posterPath;
+
   if (isMobile) {
     return (
       <DelayedSkeleton isLoading={isLoading} h="200px" w="100%">
@@ -38,15 +43,17 @@ const ShowImage = () => {
   }
 
   return (
-    <Image
-      borderRadius="8px"
-      onError={e => (e.currentTarget.src = createImageUrl(null))}
-      src={
-        showDataFromHistory?.posterSource ||
-        createImageUrl(currentShowInfo?.posterPath)
-      }
-      viewTransitionName={`show-image-${showId}`}
-    />
+    <DelayedSkeleton isLoading={shouldShowDesktopSkeleton}>
+      <Image
+        borderRadius="8px"
+        onError={e => (e.currentTarget.src = createImageUrl(null))}
+        src={
+          showDataFromHistory?.posterSource ||
+          createImageUrl(currentShowInfo?.posterPath)
+        }
+        viewTransitionName={`show-image-${showId}`}
+      />
+    </DelayedSkeleton>
   );
 };
 
