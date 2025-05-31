@@ -1,8 +1,9 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 import LoadingSpinner from '~/components/LoadingSpinner';
 import { ShowSearchResult } from '~/types/external';
 
+import { NoResultsFound } from './NoResultsFound';
 import PopularShows from './PopularShows';
 import SearchResults from './SearchResults';
 
@@ -25,7 +26,7 @@ const SearchContainer = ({
     ) : shows?.length ? (
       <SearchResults shows={shows} totalResults={totalResults} />
     ) : isInputDirty ? (
-      <Text mt="24px">There are no shows to display.</Text>
+      <NoResultsFound />
     ) : (
       <PopularShows />
     )}
