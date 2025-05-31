@@ -3,11 +3,10 @@ import { ChangeEvent, RefObject, useEffect } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { PlainFunction } from '~/types/common';
 
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleClearInput: PlainFunction;
+  handleClearInput: () => void;
   inputRef: RefObject<HTMLInputElement | null>;
   inputValue: string;
 };

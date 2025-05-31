@@ -5,11 +5,10 @@ import GoogleButton from 'react-google-button';
 
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
-import { PlainFunction } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 
 type Props = {
-  onClose: PlainFunction;
+  onClose: () => void;
   setIsLoggedIn: (email: string, isGoogleUser?: boolean) => void;
   unregisteredClearFollowedShows: () => void;
 };

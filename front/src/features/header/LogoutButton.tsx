@@ -2,10 +2,9 @@ import { Button } from '@chakra-ui/react';
 
 import { useAppDispatch } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
-import { PlainFunction } from '~/types/common';
 
 type Props = {
-  closeHeader: PlainFunction;
+  closeHeader: () => void;
 };
 
 const LogoutButton = ({ closeHeader }: Props) => {
