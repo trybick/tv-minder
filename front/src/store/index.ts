@@ -7,7 +7,7 @@ import {
 } from 'react-redux';
 import { persistStore } from 'redux-persist';
 
-import searchInputReducer from '~/components/search/searchInputSlice';
+import searchInputReducer from '~/features/search/searchInputSlice';
 
 import { persistedReducer } from './rootReducer';
 import { tvReducer } from './tv/reducers';

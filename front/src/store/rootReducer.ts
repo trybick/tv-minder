@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import localforage from 'localforage';
 import { persistReducer } from 'redux-persist';
 
-import searchInputReducer from '~/components/search/searchInputSlice';
+import searchInputReducer from '~/features/search/searchInputSlice';
 
 import { tvReducer } from './tv/reducers';
 import { userReducer } from './user/reducers';
