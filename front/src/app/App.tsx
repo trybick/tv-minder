@@ -18,9 +18,10 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 import { initSentry } from '~/utils/sentry';
-import { gAnalyticsID } from '~/utils/constants';
 
 import { ROUTES } from './routes';
+
+import { gAnalyticsID } from '~/utils/constants';
 
 const App = () => {
   const dispatch = useAppDispatch();

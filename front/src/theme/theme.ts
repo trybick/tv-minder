@@ -1,7 +1,7 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 import { globalCss } from './globalCss';
-import { menuSlotRecipe } from './theme/menuSlotRecipe';
+import { menuSlotRecipe } from './menuSlotRecipe';
 
 const customConfig = defineConfig({
   globalCss: {
