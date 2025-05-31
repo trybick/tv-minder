@@ -1,6 +1,6 @@
+import placeholderImageLandscape from '~/assets/images/placeholder-image-landscape.png';
+import placeholderImage from '~/assets/images/placeholder-image.png';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import placeholderImageLandscape from '~/images/placeholder-image-landscape.png';
-import placeholderImage from '~/images/placeholder-image.png';
 
 export const baseUrl = 'https://image.tmdb.org/t/p/w342';
 

@@ -14,11 +14,11 @@ import { VscSettingsGear } from 'react-icons/vsc';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
+import logo from '~/assets/images/logo.svg';
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { setShouldResetSearchInput } from '~/features/search/searchInputSlice';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import logo from '~/images/logo.svg';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import {
