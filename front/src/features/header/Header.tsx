@@ -13,8 +13,8 @@ import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { useLocation } from 'wouter';
 
+import { ROUTES } from '~/app/routes';
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
-import { ROUTES } from '~/constants/routes';
 import { setShouldResetSearchInput } from '~/features/search/searchInputSlice';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';

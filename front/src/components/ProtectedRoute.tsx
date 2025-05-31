@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Redirect } from 'wouter';
 
-import { ROUTES } from '~/constants/routes';
+import { ROUTES } from '~/app/routes';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 

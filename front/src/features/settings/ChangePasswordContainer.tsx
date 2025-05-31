@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { toaster } from '~/components/ui/toaster';
-import ENDPOINTS from '~/constants/endpoints';
+import ENDPOINTS from '~/gateway/endpoints';
 import { useAppSelector } from '~/store';
 import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
 

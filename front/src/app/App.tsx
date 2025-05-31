@@ -7,8 +7,6 @@ import ErrorBoundary from '~/components/ErrorBoundary';
 import ProtectedRoute from '~/components/ProtectedRoute';
 import ScrollToTop from '~/components/ScrollToTop';
 import { Toaster } from '~/components/ui/toaster';
-import { ROUTES } from '~/constants/routes';
-import { gAnalyticsID } from '~/constants/strings';
 import CalendarPage from '~/features/calendar/CalendarPage';
 import FollowingPage from '~/features/following/FollowingPage';
 import Footer from '~/features/footer/Footer';
@@ -20,6 +18,9 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 import { initSentry } from '~/utils/sentry';
+import { gAnalyticsID } from '~/utils/constants';
+
+import { ROUTES } from './routes';
 
 const App = () => {
   const dispatch = useAppDispatch();

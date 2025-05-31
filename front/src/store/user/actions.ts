@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import axios from 'axios';
 
-import ENDPOINTS from '~/constants/endpoints';
+import ENDPOINTS from '~/gateway/endpoints';
 import handleErrors from '~/utils/handleErrors';
 
 import { AppThunk } from './..';

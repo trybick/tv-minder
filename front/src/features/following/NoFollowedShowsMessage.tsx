@@ -1,6 +1,6 @@
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 
-import { ROUTES } from '~/constants/routes';
+import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import noShowsImage from '~/images/tv-remote.jpg';
 

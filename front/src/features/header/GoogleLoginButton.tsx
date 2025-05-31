@@ -4,7 +4,7 @@ import axios from 'axios';
 import GoogleButton from 'react-google-button';
 
 import { toaster } from '~/components/ui/toaster';
-import ENDPOINTS from '~/constants/endpoints';
+import ENDPOINTS from '~/gateway/endpoints';
 import { PlainFunction } from '~/types/common';
 import handleErrors from '~/utils/handleErrors';
 

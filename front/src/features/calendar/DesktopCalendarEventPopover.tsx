@@ -12,7 +12,7 @@ import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
 
-import { ROUTES } from '~/constants/routes';
+import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
 type Props = {

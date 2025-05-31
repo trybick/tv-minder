@@ -12,7 +12,7 @@ import moment from 'moment';
 import { RefObject, useEffect, useRef } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
-import { ROUTES } from '~/constants/routes';
+import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';

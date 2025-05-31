@@ -12,8 +12,8 @@ import { useForm } from 'react-hook-form';
 
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
-import ENDPOINTS from '~/constants/endpoints';
-import { emailRegex } from '~/constants/strings';
+import ENDPOINTS from '~/gateway/endpoints';
+import { emailRegex } from '~/utils/constants';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';

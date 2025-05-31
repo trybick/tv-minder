@@ -1,6 +1,6 @@
 import axios, { CancelTokenSource } from 'axios';
 
-import ENDPOINTS from '~/constants/endpoints';
+import ENDPOINTS from '~/gateway/endpoints';
 import { ShowSearchResult } from '~/types/external';
 import handleErrors from '~/utils/handleErrors';
 

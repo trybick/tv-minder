@@ -1,7 +1,7 @@
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { ROUTES } from '~/constants/routes';
+import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useAppDispatch } from '~/store';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import ENDPOINTS from '~/constants/endpoints';
+import ENDPOINTS from '~/gateway/endpoints';
 import { getEpisodesForCalendar } from '~/gateway/getEpisodesForCalendar';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';

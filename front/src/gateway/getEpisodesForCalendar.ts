@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import ENDPOINTS from '~/constants/endpoints';
+import ENDPOINTS from '~/gateway/endpoints';
 import { formatSameDayEpisodes } from '~/store/tv/tvUtils';
 import { CalendarEpisode } from '~/types/external';
 import { isDateWithinOneMonth } from '~/utils/dates';
