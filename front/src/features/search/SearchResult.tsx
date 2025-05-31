@@ -1,4 +1,5 @@
 import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
+import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import FollowButton from '~/components/FollowButton';
@@ -33,7 +34,8 @@ const SearchResult = ({ showToDisplay }: Props) => {
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource = createImageUrl(posterPath);
 
-  const onShowClick = () => {
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     dispatch({
       type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
       payload: true,
@@ -49,7 +51,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
     <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">
       <Grid gap={4} templateColumns="100px 1fr">
         <Flex w="100px">
-          <Link onClick={onShowClick}>
+          <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
             <Image
               borderRadius="6px"
               onError={e => (e.currentTarget.src = createImageUrl(null))}
@@ -62,7 +64,11 @@ const SearchResult = ({ showToDisplay }: Props) => {
         <Flex direction="column" justifyContent="space-evenly" minW="0">
           <Flex w="100%">
             <Box>
-              <Link onClick={onShowClick} minW="0">
+              <Link
+                onClick={onShowClick}
+                minW="0"
+                href={`${ROUTES.SHOW}/${showId}`}
+              >
                 <Heading alignSelf="center" lineClamp={2} mr="10px" size="md">
                   {name}
                 </Heading>

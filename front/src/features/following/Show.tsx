@@ -1,5 +1,5 @@
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { ShowNavigationState } from '~/features/show/ShowPage';
@@ -23,7 +23,8 @@ const Show = (props: Props) => {
 
   const posterSource = createImageUrl(posterPath);
 
-  const onShowClick = () => {
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     dispatch({
       type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
       payload: true,
@@ -44,7 +45,7 @@ const Show = (props: Props) => {
       key={id}
       shadow="sm"
     >
-      <Link onClick={onShowClick}>
+      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${id}`}>
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
@@ -67,6 +68,7 @@ const Show = (props: Props) => {
           _hover={{
             textDecoration: 'underline',
           }}
+          href={`${ROUTES.SHOW}/${id}`}
         >
           <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
             {name}

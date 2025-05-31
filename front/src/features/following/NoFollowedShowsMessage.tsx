@@ -1,4 +1,5 @@
-import { Button, Flex, Image, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, Link, Text } from '@chakra-ui/react';
+import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import noShowsImage from '~/assets/images/tv-remote.jpg';
@@ -6,6 +7,11 @@ import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
 const NoFollowedShowsMessage = () => {
   const navigate = useNavigateWithAnimation();
+
+  const handleClickHome = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    navigate(ROUTES.HOME);
+  };
 
   return (
     <Flex
@@ -25,9 +31,9 @@ const NoFollowedShowsMessage = () => {
       >
         Follow some shows to see them here and on your calendar.
       </Text>
-      <Button colorPalette="cyan" onClick={() => navigate(ROUTES.HOME)}>
-        Discover Shows
-      </Button>
+      <Link href={ROUTES.HOME} onClick={handleClickHome}>
+        <Button colorPalette="cyan">Discover Shows</Button>
+      </Link>
     </Flex>
   );
 };

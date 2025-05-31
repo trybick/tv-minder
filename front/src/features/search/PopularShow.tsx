@@ -1,5 +1,5 @@
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import FollowButton from '~/components/FollowButton';
@@ -22,7 +22,8 @@ const PopularShow = ({ show, isMobile }: Props) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
   const posterSource = createImageUrl(posterPath);
 
-  const onShowClick = () => {
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     dispatch({
       type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
       payload: true,
@@ -46,7 +47,7 @@ const PopularShow = ({ show, isMobile }: Props) => {
       w={isMobile ? '140px' : '190px'}
       shadow="sm"
     >
-      <Link onClick={onShowClick}>
+      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${id}`}>
         <Image
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
@@ -64,6 +65,7 @@ const PopularShow = ({ show, isMobile }: Props) => {
 
       <Flex direction="column" mt="5px" p="8px 12px">
         <Link
+          href={`${ROUTES.SHOW}/${id}`}
           onClick={onShowClick}
           m="0 auto"
           textDecoration={isImageHovered ? 'underline' : 'none'}

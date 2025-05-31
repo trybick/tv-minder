@@ -8,9 +8,10 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { EventContentArg } from '@fullcalendar/core';
+import { MouseEvent } from 'react';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
-import { TbBoxMultiple, TbExternalLink } from 'react-icons/tb';
+import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
@@ -35,6 +36,11 @@ const DesktopCalendarEventPopover = (props: Props) => {
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
   const navigate = useNavigateWithAnimation();
+
+  const handleClickTitle = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    navigate(`${ROUTES.SHOW}/${showId}`);
+  };
 
   return (
     <HoverCard.Root
@@ -67,12 +73,10 @@ const DesktopCalendarEventPopover = (props: Props) => {
                 color="white"
                 fontSize="14px"
                 mb="7px"
-                onClick={() => navigate(`${ROUTES.SHOW}/${showId}`)}
+                href={`${ROUTES.SHOW}/${showId}`}
+                onClick={handleClickTitle}
               >
                 <Text lineClamp={1}>{showName}</Text>
-                <TbExternalLink
-                  style={{ fontSize: '14px', marginLeft: '-3px' }}
-                />
               </Link>
               <Text color="white" fontSize="lg" fontWeight="600" mb="3px">
                 {seasonAndEpisodeNumbersFull}

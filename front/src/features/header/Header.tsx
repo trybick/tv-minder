@@ -4,11 +4,12 @@ import {
   Button,
   Flex,
   Image,
+  Link,
   Menu,
   Portal,
   Separator,
 } from '@chakra-ui/react';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
 import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { useLocation } from 'wouter';
@@ -77,27 +78,33 @@ const Header = () => {
     dispatch(setIsLoggedOutAction());
   };
 
-  const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => (
-    <Button
-      _hover={{
-        textDecoration: 'underline',
-        textUnderlineOffset: '5px',
-        textDecorationThickness: '2px',
-      }}
-      color="cyan.500"
-      fontSize="1.2rem"
-      fontWeight="600"
-      mr={isMobile ? '-16px' : 0}
-      onClick={() => {
-        closeHeader();
-        navigate(linkTo);
-      }}
-      p="16px"
-      variant="plain"
-    >
-      {text}
-    </Button>
-  );
+  const NavLink = ({ linkTo, text }: { linkTo: string; text: string }) => {
+    const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      closeHeader();
+      navigate(linkTo);
+    };
+
+    return (
+      <Link href={linkTo} onClick={handleClick}>
+        <Button
+          _hover={{
+            textDecoration: 'underline',
+            textUnderlineOffset: '5px',
+            textDecorationThickness: '2px',
+          }}
+          color="cyan.500"
+          fontSize="1.2rem"
+          fontWeight="600"
+          mr={isMobile ? '-16px' : 0}
+          p="16px"
+          variant="plain"
+        >
+          {text}
+        </Button>
+      </Link>
+    );
+  };
 
   const onLogoClick = () => {
     closeHeader();
