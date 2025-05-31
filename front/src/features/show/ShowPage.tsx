@@ -1,11 +1,12 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import ShowContainer from '~/features/show/ShowContainer';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
+
+import ShowContainer from './ShowContainer';
 
 export type ShowNavigationState = {
   posterSource: string;

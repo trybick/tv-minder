@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import ENDPOINTS from '~/gateway/endpoints';
-import { emailRegex } from '~/utils/constants';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -23,6 +22,7 @@ import {
 } from '~/store/user/actions';
 import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
 import { DisclosureProps } from '~/types/common';
+import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
 import GoogleLoginButton from './GoogleLoginButton';

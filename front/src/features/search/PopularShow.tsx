@@ -1,10 +1,10 @@
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import FollowButton from '~/components/FollowButton';
 import { ROUTES } from '~/app/routes';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import FollowButton from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
+import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { PopularShow as PopularShowType } from '~/types/external';

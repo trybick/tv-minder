@@ -17,7 +17,6 @@ import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
-import { emailRegex } from '~/utils/constants';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch } from '~/store';
@@ -26,6 +25,7 @@ import {
   unregisteredClearFollowedShowsAction,
 } from '~/store/user/actions';
 import { DisclosureProps } from '~/types/common';
+import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
 import GoogleLoginButton from './GoogleLoginButton';
