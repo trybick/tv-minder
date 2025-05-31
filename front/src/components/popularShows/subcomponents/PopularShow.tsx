@@ -4,7 +4,7 @@ import { useState } from 'react';
 import FollowButton from '~/components/common/FollowButton';
 import { ROUTES } from '~/constants/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { ShowNavigationState } from '~/pages/ShowPage';
+import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
 import { PopularShow as PopularShowType } from '~/types/external';

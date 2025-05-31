@@ -5,11 +5,11 @@ import { Route, Switch } from 'wouter';
 
 import { ROUTES } from '~/constants/routes';
 import { gAnalyticsID } from '~/constants/strings';
-import CalendarPage from '~/pages/CalendarPage';
-import FollowingPage from '~/pages/FollowingPage';
-import SearchPage from '~/pages/SearchPage';
-import SettingsPage from '~/pages/SettingsPage';
-import ShowPage from '~/pages/ShowPage';
+import CalendarPage from '~/features/calendar/CalendarPage';
+import FollowingPage from '~/features/following/FollowingPage';
+import SearchPage from '~/features/search/SearchPage';
+import SettingsPage from '~/features/settings/SettingsPage';
+import ShowPage from '~/features/show/ShowPage';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
