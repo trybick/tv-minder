@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import ShowContainer from '~/components/showContainer/ShowContainer';
+import ShowContainer from '~/features/show/ShowContainer';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';

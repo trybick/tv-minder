@@ -1,10 +1,10 @@
 import { Flex, Text } from '@chakra-ui/react';
 
-import LoadingSpinner from '~/components/common/LoadingSpinner';
-import PopularShows from '~/components/popularShows/PopularShows';
+import LoadingSpinner from '~/components/LoadingSpinner';
 import { ShowSearchResult } from '~/types/external';
 
-import SearchResults from './subcomponents/SearchResults';
+import PopularShows from './PopularShows';
+import SearchResults from './SearchResults';
 
 type Props = {
   isInputDirty: boolean;

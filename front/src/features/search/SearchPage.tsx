@@ -2,12 +2,6 @@ import { Box } from '@chakra-ui/react';
 import moment from 'moment';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-import SearchContainer from '~/components/search/SearchContainer';
-import {
-  selectShouldResetSearchInput,
-  setShouldResetSearchInput,
-} from '~/components/search/searchInputSlice';
-import SearchInput from '~/components/search/subcomponents/SearchInput';
 import { searchShowsByQuery } from '~/gateway/searchShowsByQuery';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { saveSearchQueryAction } from '~/store/tv/actions';
@@ -17,6 +11,13 @@ import { ShowSearchResult } from '~/types/external';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { useDebouncedFunction } from '~/utils/debounce';
+
+import SearchContainer from './SearchContainer';
+import SearchInput from './SearchInput';
+import {
+  selectShouldResetSearchInput,
+  setShouldResetSearchInput,
+} from './searchInputSlice';
 
 const SearchPage = () => {
   const dispatch = useAppDispatch();

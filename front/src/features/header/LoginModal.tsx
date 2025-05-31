@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 
-import InlineTextSeparator from '~/components/common/InlineTextSeparator';
+import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/constants/endpoints';

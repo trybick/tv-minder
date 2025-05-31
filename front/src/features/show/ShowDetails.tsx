@@ -5,9 +5,9 @@ import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
 
-import DelayedSkeleton from '~/components/common/DelayedSkeleton';
-import DelayedSkeletonText from '~/components/common/DelayedSkeletonText';
-import FollowButton from '~/components/common/FollowButton';
+import DelayedSkeleton from '~/components/DelayedSkeleton';
+import DelayedSkeletonText from '~/components/DelayedSkeletonText';
+import FollowButton from '~/components/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {

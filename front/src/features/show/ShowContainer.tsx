@@ -1,8 +1,8 @@
 import { Flex, Grid } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import FollowButton from '~/components/common/FollowButton';
-import LoadingSpinner from '~/components/common/LoadingSpinner';
+import FollowButton from '~/components/FollowButton';
+import LoadingSpinner from '~/components/LoadingSpinner';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
@@ -11,9 +11,9 @@ import {
 } from '~/store/tv/selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import SeasonAccordionGroup from './subcomponents/SeasonAccordionGroup/SeasonAccordionGroup';
-import ShowDetails from './subcomponents/ShowDetails';
-import ShowImage from './subcomponents/ShowImage';
+import SeasonAccordionGroup from './SeasonAccordionGroup';
+import ShowDetails from './ShowDetails';
+import ShowImage from './ShowImage';
 
 const ShowContainer = () => {
   const isMobile = useIsMobile();

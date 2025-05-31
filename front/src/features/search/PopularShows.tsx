@@ -24,7 +24,7 @@ import {
 } from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
-import PopularShow from './subcomponents/PopularShow';
+import PopularShow from './PopularShow';
 
 const PopularShows = () => {
   const dispatch = useAppDispatch();

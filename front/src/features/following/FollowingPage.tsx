@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import FollowingList from '~/components/following/FollowingList';
+import FollowingList from '~/features/following/FollowingList';
 import NoFollowedShowsMessage from '~/components/following/NoFollowedShowsMessage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';

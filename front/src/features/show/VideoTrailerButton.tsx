@@ -10,7 +10,7 @@ import {
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
-import DelayedSkeleton from '~/components/common/DelayedSkeleton';
+import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingBasicShowInfoForShow } from '~/store/tv/selectors';

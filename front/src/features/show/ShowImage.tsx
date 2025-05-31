@@ -1,7 +1,7 @@
 import { Image } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import DelayedSkeleton from '~/components/common/DelayedSkeleton';
+import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {

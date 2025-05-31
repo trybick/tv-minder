@@ -13,9 +13,9 @@ import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { useLocation } from 'wouter';
 
-import { setShouldResetSearchInput } from '~/components/search/searchInputSlice';
 import { ColorModeButton, useColorMode } from '~/components/ui/color-mode';
 import { ROUTES } from '~/constants/routes';
+import { setShouldResetSearchInput } from '~/features/search/searchInputSlice';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import logo from '~/images/logo.svg';
@@ -28,9 +28,9 @@ import {
 } from '~/store/user/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
-import LoginButton from './subcomponents/LoginButton';
-import LogoutButton from './subcomponents/LogoutButton';
-import SignUpButton from './subcomponents/SignUpButton';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import SignUpButton from './SignUpButton';
 
 // On smaller resolutions a hamburger menu is shown which opens the header
 // This hook manages the 'open' state and closes the menu upon clicking outside

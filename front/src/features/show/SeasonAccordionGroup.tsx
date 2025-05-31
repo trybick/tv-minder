@@ -1,7 +1,7 @@
 import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 import moment from 'moment';
 
-import DelayedSkeleton from '~/components/common/DelayedSkeleton';
+import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
@@ -9,7 +9,7 @@ import {
   selectIsLoadingBasicShowInfoForShow,
 } from '~/store/tv/selectors';
 
-import EpisodesTable from './subcomponents/EpisodesTable';
+import EpisodesTable from './EpisodesTable';
 
 const SeasonAccordionGroup = () => {
   const isMobile = useIsMobile();

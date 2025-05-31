@@ -12,8 +12,6 @@ import moment from 'moment';
 import { RefObject, useEffect, useRef } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
-import DesktopCalendarEventPopover from '~/components/calendar/DesktopCalendarEventPopover';
-import NoFollowedShowsBanner from '~/components/calendar/NoFollowedShowsBanner';
 import { ROUTES } from '~/constants/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
@@ -21,6 +19,9 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import { selectFollowedShows } from '~/store/user/selectors';
+
+import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
+import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();

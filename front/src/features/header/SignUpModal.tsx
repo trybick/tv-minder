@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import InlineTextSeparator from '~/components/common/InlineTextSeparator';
+import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import ENDPOINTS from '~/constants/endpoints';
 import { emailRegex } from '~/constants/strings';

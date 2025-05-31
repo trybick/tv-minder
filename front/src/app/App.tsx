@@ -3,10 +3,16 @@ import React, { useEffect } from 'react';
 import ReactGA from 'react-ga4';
 import { Route, Switch } from 'wouter';
 
+import ErrorBoundary from '~/components/ErrorBoundary';
+import ProtectedRoute from '~/components/ProtectedRoute';
+import ScrollToTop from '~/components/ScrollToTop';
+import { Toaster } from '~/components/ui/toaster';
 import { ROUTES } from '~/constants/routes';
 import { gAnalyticsID } from '~/constants/strings';
 import CalendarPage from '~/features/calendar/CalendarPage';
 import FollowingPage from '~/features/following/FollowingPage';
+import Footer from '~/features/footer/Footer';
+import Header from '~/features/header/Header';
 import SearchPage from '~/features/search/SearchPage';
 import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
@@ -14,13 +20,6 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { fetchfollowedShowsAction } from '~/store/user/actions';
 import { selectIsLoggedIn } from '~/store/user/selectors';
 import { initSentry } from '~/utils/sentry';
-
-import ErrorBoundary from './common/ErrorBoundary';
-import ProtectedRoute from './common/ProtectedRoute';
-import ScrollToTop from './common/ScrollToTop';
-import Footer from './footer/Footer';
-import Header from './header/Header';
-import { Toaster } from './ui/toaster';
 
 const App = () => {
   const dispatch = useAppDispatch();
