@@ -125,7 +125,12 @@ const Header = () => {
         ref={containerRef}
         wrap="wrap"
       >
-        <Flex align="center" as="h1" m={{ base: '0 auto', md: 'unset' }}>
+        <Flex
+          align="center"
+          as="h1"
+          m={{ base: '0 auto', md: 'unset' }}
+          flex="1"
+        >
           <Button variant="plain" onClick={onLogoClick}>
             <Image
               alt="TV Minder logo"
@@ -158,6 +163,8 @@ const Header = () => {
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
           gap="10px"
           pt="6px"
+          flex="1"
+          justifyContent="center"
           w={{ base: 'full', md: 'auto' }}
           {...(isOpen &&
             isMobile && {
@@ -181,6 +188,7 @@ const Header = () => {
 
         <Box
           display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
+          flex="1"
           justifyContent={{ base: 'flex-start', md: 'flex-end' }}
           mt={{ base: 4, md: 0 }}
           textAlign={{
