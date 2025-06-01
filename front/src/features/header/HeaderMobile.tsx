@@ -1,9 +1,10 @@
 import { Box, Flex, Separator } from '@chakra-ui/react';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useLocation } from 'wouter';
 
 import { ColorModeButton } from '~/components/ui/color-mode';
 import { useColorMode } from '~/components/ui/color-mode';
+import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
 import { selectIsGoogleUser, selectIsLoggedIn } from '~/store/user/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
@@ -14,36 +15,17 @@ import LogoutButton from './LogoutButton';
 import NavigationLinks from './NavigationLinks';
 import SignUpButton from './SignUpButton';
 
-function useHeaderManager(ref: RefObject<HTMLDivElement | null>) {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleIsOpen = () => setIsOpen(!isOpen);
-  const closeHeader = () => setIsOpen(false);
-
-  useEffect(() => {
-    function closeHeaderOnOutsideClick(event: Event) {
-      const isClickOutside =
-        ref.current && !ref.current.contains(event.target as Node);
-      if (isClickOutside && isOpen) {
-        closeHeader();
-      }
-    }
-    document.addEventListener('mousedown', closeHeaderOnOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', closeHeaderOnOutsideClick);
-    };
-  }, [isOpen, ref]);
-
-  return { isOpen, closeHeader, toggleIsOpen };
-}
-
 const HeaderMobile = () => {
   const { toggleColorMode } = useColorMode();
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
+
+  const containerRef = useRef(null);
+  const { isOpen, closeHeader, toggleIsOpen } =
+    useCollapsibleHeader(containerRef);
+
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
-  const containerRef = useRef(null);
-  const { isOpen, closeHeader, toggleIsOpen } = useHeaderManager(containerRef);
 
   return (
     <>
