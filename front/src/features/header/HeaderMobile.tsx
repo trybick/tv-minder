@@ -20,9 +20,9 @@ const HeaderMobile = () => {
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
 
-  const containerRef = useRef(null);
+  const headerWrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } =
-    useCollapsibleHeader(containerRef);
+    useCollapsibleHeader(headerWrapperRef);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
@@ -34,7 +34,7 @@ const HeaderMobile = () => {
         as="nav"
         p="15px 24px"
         wrap="wrap"
-        ref={containerRef}
+        ref={headerWrapperRef}
       >
         <Logo onClose={closeHeader} />
 
