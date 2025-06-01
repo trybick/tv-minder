@@ -41,6 +41,7 @@ const UserMenu = ({ onClose }: Props) => {
             <Avatar.Fallback name={email} />
           </Avatar.Root>
         </Menu.Trigger>
+
         <Portal>
           <Menu.Positioner>
             <Menu.Content zIndex={4}>

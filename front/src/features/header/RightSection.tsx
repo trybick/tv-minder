@@ -26,6 +26,7 @@ const RightSection = ({ onClose }: Props) => {
   return (
     <Flex alignItems="center" gap="10px" justify="flex-end" flex="1">
       <ColorModeButton onClick={handleColorModeClick} />
+
       {isLoggedIn ? (
         <UserMenu onClose={onClose} />
       ) : (

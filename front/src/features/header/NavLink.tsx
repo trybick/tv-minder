@@ -23,16 +23,16 @@ const NavLink = ({ linkTo, text, onClose }: Props) => {
   return (
     <Link href={linkTo} onClick={handleClick}>
       <Button
-        _hover={{
-          textDecoration: 'underline',
-          textUnderlineOffset: '5px',
-          textDecorationThickness: '2px',
-        }}
         color="cyan.500"
         fontSize="1.2rem"
         fontWeight="600"
         p="16px"
         variant="plain"
+        _hover={{
+          textDecoration: 'underline',
+          textUnderlineOffset: '5px',
+          textDecorationThickness: '2px',
+        }}
         {...(isMobile && {
           mr: '-16px',
         })}
