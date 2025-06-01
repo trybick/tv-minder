@@ -21,7 +21,7 @@ const DesktopHeader = () => {
 
   return (
     <>
-      <Flex align="center" as="nav" justify="space-between" p="15px 1.6rem 9px">
+      <Flex align="center" as="nav" justify="space-between" p="19px 1.6rem 9px">
         <Logo />
         <NavigationLinks />
 

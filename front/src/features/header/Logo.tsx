@@ -4,7 +4,6 @@ import { useLocation } from 'wouter';
 import { ROUTES } from '~/app/routes';
 import logo from '~/assets/images/logo.svg';
 import { setShouldResetSearchInput } from '~/features/search/searchInputSlice';
-import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { applyViewTransition } from '~/utils/applyViewTransition';
@@ -14,7 +13,6 @@ interface LogoProps {
 }
 
 const Logo = ({ onClose }: LogoProps) => {
-  const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
   const [location] = useLocation();
   const navigate = useNavigateWithAnimation();
@@ -35,7 +33,6 @@ const Logo = ({ onClose }: LogoProps) => {
           alt="TV Minder logo"
           display="inline"
           h="30px"
-          mt={isMobile ? '' : '6px'}
           src={logo}
           verticalAlign="middle"
         />

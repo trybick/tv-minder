@@ -51,7 +51,7 @@ const MobileHeader = () => {
         align="center"
         as="nav"
         justify="space-between"
-        p="17px 1.6rem 9px"
+        p="21px 1.6rem 9px"
         wrap="wrap"
         ref={containerRef}
       >
@@ -79,10 +79,10 @@ const MobileHeader = () => {
           ml="auto"
           mr="unset"
         >
-          <NavigationLinks onClose={closeHeader} isMobile />
+          <NavigationLinks onClose={closeHeader} />
           {isLoggedIn && !isGoogleUser && (
             <Box>
-              <NavigationLinks onClose={closeHeader} isMobile />
+              <NavigationLinks onClose={closeHeader} />
             </Box>
           )}
         </Box>
