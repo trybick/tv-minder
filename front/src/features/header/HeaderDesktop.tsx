@@ -13,7 +13,7 @@ import NavigationLinks from './NavigationLinks';
 import SignUpButton from './SignUpButton';
 import UserMenu from './UserMenu';
 
-const DesktopHeader = () => {
+const HeaderDesktop = () => {
   const { toggleColorMode } = useColorMode();
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
@@ -45,4 +45,4 @@ const DesktopHeader = () => {
   );
 };
 
-export default DesktopHeader;
+export default HeaderDesktop;

@@ -36,7 +36,7 @@ function useHeaderManager(ref: RefObject<HTMLDivElement | null>) {
   return { isOpen, closeHeader, toggleIsOpen };
 }
 
-const MobileHeader = () => {
+const HeaderMobile = () => {
   const { toggleColorMode } = useColorMode();
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
@@ -124,4 +124,4 @@ const MobileHeader = () => {
   );
 };
 
-export default MobileHeader;
+export default HeaderMobile;
