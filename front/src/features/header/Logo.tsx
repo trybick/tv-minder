@@ -27,7 +27,7 @@ const Logo = ({ onClose }: LogoProps) => {
   };
 
   return (
-    <Flex align="center" as="h1" m={{ base: '0 auto', md: 'unset' }} flex="1">
+    <Flex align="center" as="h1" flex="1">
       <Button variant="plain" onClick={handleLogoClick}>
         <Image
           alt="TV Minder logo"
