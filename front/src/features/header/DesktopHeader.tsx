@@ -21,7 +21,7 @@ const DesktopHeader = () => {
 
   return (
     <>
-      <Flex align="center" as="nav" justify="space-between" p="19px 1.6rem 9px">
+      <Flex as="nav" p="17px 1.6rem 15px">
         <Logo />
         <NavigationLinks />
 
@@ -40,7 +40,7 @@ const DesktopHeader = () => {
         </Flex>
       </Flex>
 
-      {!isShowPage && <Separator mt="6px" size="md" />}
+      {!isShowPage && <Separator size="md" />}
     </>
   );
 };
