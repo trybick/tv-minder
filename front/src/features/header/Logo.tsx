@@ -31,7 +31,7 @@ const Logo = ({ onClose }: Props) => {
   return (
     <Flex as="h1" flex="1">
       <Link href={ROUTES.HOME} onClick={handleLogoClick}>
-        <Button variant="plain">
+        <Button variant="plain" p="0">
           <Image
             alt="TV Minder logo"
             display="inline"

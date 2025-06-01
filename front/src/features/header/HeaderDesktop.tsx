@@ -11,7 +11,12 @@ const HeaderDesktop = () => {
 
   return (
     <>
-      <Flex as="nav" p="17px 1.6rem 15px">
+      <Flex
+        align="center"
+        as="nav"
+        justify="space-between"
+        p="17px 1.6rem 15px"
+      >
         <Logo />
         <NavigationLinks />
         <RightSection />

@@ -32,8 +32,7 @@ const HeaderMobile = () => {
       <Flex
         align="center"
         as="nav"
-        justify="space-between"
-        p="21px 1.6rem 9px"
+        p="15px 24px"
         wrap="wrap"
         ref={containerRef}
       >
@@ -43,7 +42,7 @@ const HeaderMobile = () => {
           <svg
             fill="teal"
             viewBox="0 0 20 20"
-            width="17px"
+            width="24px"
             xmlns="http://www.w3.org/2000/svg"
           >
             <title>Menu</title>
@@ -101,7 +100,7 @@ const HeaderMobile = () => {
         </Box>
       </Flex>
 
-      {!isShowPage && <Separator mt="6px" size="md" />}
+      {!isShowPage && <Separator size="md" />}
     </>
   );
 };
