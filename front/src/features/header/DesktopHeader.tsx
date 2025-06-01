@@ -25,7 +25,7 @@ const DesktopHeader = () => {
         <Logo />
         <NavigationLinks />
 
-        <Flex alignItems="center" gap="10px" justify="flex-end">
+        <Flex alignItems="center" gap="10px" justify="flex-end" flex="1">
           <ColorModeButton
             onClick={() => applyViewTransition(toggleColorMode)}
           />
