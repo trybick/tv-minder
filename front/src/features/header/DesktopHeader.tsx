@@ -1,4 +1,4 @@
-import { Box, Flex, Separator } from '@chakra-ui/react';
+import { Flex, Separator } from '@chakra-ui/react';
 import { useLocation } from 'wouter';
 
 import { ColorModeButton } from '~/components/ui/color-mode';
@@ -21,38 +21,23 @@ const DesktopHeader = () => {
 
   return (
     <>
-      <Flex
-        align="center"
-        as="nav"
-        justify="space-between"
-        p="15px 1.6rem 9px"
-        wrap="wrap"
-      >
+      <Flex align="center" as="nav" justify="space-between" p="15px 1.6rem 9px">
         <Logo />
+        <NavigationLinks />
 
-        <Box display="flex" gap="10px" pt="6px">
-          <NavigationLinks />
-        </Box>
-
-        <Box display="flex" justifyContent="flex-end">
+        <Flex alignItems="center" gap="10px" justify="flex-end">
+          <ColorModeButton
+            onClick={() => applyViewTransition(toggleColorMode)}
+          />
           {isLoggedIn ? (
-            <Box display="flex">
-              <ColorModeButton
-                mr="8px"
-                onClick={() => applyViewTransition(toggleColorMode)}
-              />
-              <UserMenu />
-            </Box>
+            <UserMenu />
           ) : (
-            <Flex alignItems="center" gap="10px" justify="flex-end">
-              <ColorModeButton
-                onClick={() => applyViewTransition(toggleColorMode)}
-              />
+            <>
               <SignUpButton />
               <LoginButton />
-            </Flex>
+            </>
           )}
-        </Box>
+        </Flex>
       </Flex>
 
       {!isShowPage && <Separator mt="6px" size="md" />}
