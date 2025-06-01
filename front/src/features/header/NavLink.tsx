@@ -4,13 +4,13 @@ import { MouseEvent } from 'react';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
-interface NavLinkProps {
+interface Props {
   linkTo: string;
   text: string;
   onClose?: () => void;
 }
 
-const NavLink = ({ linkTo, text, onClose }: NavLinkProps) => {
+const NavLink = ({ linkTo, text, onClose }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
 
@@ -31,9 +31,11 @@ const NavLink = ({ linkTo, text, onClose }: NavLinkProps) => {
         color="cyan.500"
         fontSize="1.2rem"
         fontWeight="600"
-        mr={isMobile ? '-16px' : 0}
         p="16px"
         variant="plain"
+        {...(isMobile && {
+          mr: '-16px',
+        })}
       >
         {text}
       </Button>

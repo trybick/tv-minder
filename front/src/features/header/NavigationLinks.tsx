@@ -7,11 +7,11 @@ import { selectIsLoggedIn } from '~/store/user/selectors';
 
 import NavLink from './NavLink';
 
-interface NavigationLinksProps {
+interface Props {
   onClose?: () => void;
 }
 
-const NavigationLinks = ({ onClose }: NavigationLinksProps) => {
+const NavigationLinks = ({ onClose }: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isMobile = useIsMobile();
 

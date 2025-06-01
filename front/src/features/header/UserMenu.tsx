@@ -9,11 +9,11 @@ import { useAppDispatch } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
 
-interface UserMenuProps {
+interface Props {
   onClose?: () => void;
 }
 
-const UserMenu = ({ onClose }: UserMenuProps) => {
+const UserMenu = ({ onClose }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const email = useAppSelector(selectUserEmail);

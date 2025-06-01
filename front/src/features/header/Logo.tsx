@@ -8,11 +8,11 @@ import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
-interface LogoProps {
+interface Props {
   onClose?: () => void;
 }
 
-const Logo = ({ onClose }: LogoProps) => {
+const Logo = ({ onClose }: Props) => {
   const dispatch = useAppDispatch();
   const [location] = useLocation();
   const navigate = useNavigateWithAnimation();
