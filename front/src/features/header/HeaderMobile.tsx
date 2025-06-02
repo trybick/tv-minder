@@ -55,29 +55,22 @@ const HeaderMobile = () => {
         )}
 
         <Box
-          display={isOpen ? 'block' : 'none'}
-          justifyContent="flex-start"
+          display={isOpen ? 'block' : 'none'} //change to conditional
           mt={4}
-          textAlign={isLoggedIn ? 'right' : 'left'}
+          ml="auto"
         >
           {isLoggedIn ? (
             <Box>
               <ColorModeButton
                 mr="12px"
-                onClick={() => {
-                  closeHeader();
-                  applyViewTransition(toggleColorMode);
-                }}
+                onClick={() => applyViewTransition(toggleColorMode)}
               />
-              <LogoutButton closeHeader={closeHeader} />
+              <LogoutButton />
             </Box>
           ) : (
             <Flex alignItems="center" gap="10px" justify="flex-end">
               <ColorModeButton
-                onClick={() => {
-                  closeHeader();
-                  applyViewTransition(toggleColorMode);
-                }}
+                onClick={() => applyViewTransition(toggleColorMode)}
               />
               <SignUpButton />
               <LoginButton />

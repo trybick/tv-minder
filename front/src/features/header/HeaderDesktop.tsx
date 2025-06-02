@@ -3,7 +3,7 @@ import { useLocation } from 'wouter';
 
 import Logo from './Logo';
 import NavigationLinks from './NavigationLinks';
-import RightSection from './RightSection';
+import RightSectionDesktop from './RightSectionDesktop';
 
 const HeaderDesktop = () => {
   const [location] = useLocation();
@@ -19,7 +19,7 @@ const HeaderDesktop = () => {
       >
         <Logo />
         <NavigationLinks />
-        <RightSection />
+        <RightSectionDesktop />
       </Flex>
 
       {!isShowPage && <Separator size="md" />}

@@ -10,16 +10,11 @@ import LoginButton from './LoginButton';
 import SignUpButton from './SignUpButton';
 import UserMenu from './UserMenu';
 
-interface Props {
-  onClose?: () => void;
-}
-
-const RightSection = ({ onClose }: Props) => {
+const RightSectionDesktop = () => {
   const { toggleColorMode } = useColorMode();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const handleColorModeClick = () => {
-    onClose?.();
     applyViewTransition(toggleColorMode);
   };
 
@@ -28,7 +23,7 @@ const RightSection = ({ onClose }: Props) => {
       <ColorModeButton onClick={handleColorModeClick} />
 
       {isLoggedIn ? (
-        <UserMenu onClose={onClose} />
+        <UserMenu />
       ) : (
         <>
           <SignUpButton />
@@ -39,4 +34,4 @@ const RightSection = ({ onClose }: Props) => {
   );
 };
 
-export default RightSection;
+export default RightSectionDesktop;
