@@ -54,28 +54,26 @@ const HeaderMobile = () => {
           </Flex>
         )}
 
-        <Box
-          // Need to use this syntax instead of conditional rendering to avoid
-          // collapsible header closing when clicking
-          display={isOpen ? 'block' : 'none'}
+        <Flex
+          alignItems="center"
+          gap="12px"
+          display={isOpen ? 'flex' : 'none'}
           mt={4}
           ml="auto"
         >
-          <Flex alignItems="center" gap="12px">
-            <ColorModeButton
-              onClick={() => applyViewTransition(toggleColorMode)}
-            />
+          <ColorModeButton
+            onClick={() => applyViewTransition(toggleColorMode)}
+          />
 
-            {isLoggedIn ? (
-              <LogoutButton />
-            ) : (
-              <>
-                <SignUpButton />
-                <LoginButton />
-              </>
-            )}
-          </Flex>
-        </Box>
+          {isLoggedIn ? (
+            <LogoutButton />
+          ) : (
+            <>
+              <SignUpButton />
+              <LoginButton />
+            </>
+          )}
+        </Flex>
       </Flex>
 
       {!isShowPage && <Separator size="md" />}
