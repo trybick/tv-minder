@@ -60,15 +60,14 @@ const HeaderMobile = () => {
           ml="auto"
         >
           {isLoggedIn ? (
-            <Box>
+            <Flex alignItems="center" gap="12px">
               <ColorModeButton
-                mr="12px"
                 onClick={() => applyViewTransition(toggleColorMode)}
               />
               <LogoutButton />
-            </Box>
+            </Flex>
           ) : (
-            <Flex alignItems="center" gap="10px" justify="flex-end">
+            <Flex alignItems="center" gap="12px">
               <ColorModeButton
                 onClick={() => applyViewTransition(toggleColorMode)}
               />
