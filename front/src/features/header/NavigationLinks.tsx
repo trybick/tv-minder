@@ -1,9 +1,9 @@
-import { Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { selectIsLoggedIn } from '~/store/user/selectors';
+import { selectIsGoogleUser, selectIsLoggedIn } from '~/store/user/selectors';
 
 import NavLink from './NavLink';
 
@@ -13,11 +13,11 @@ interface Props {
 
 const NavigationLinks = ({ onClose }: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isGoogleUser = useAppSelector(selectIsGoogleUser);
   const isMobile = useIsMobile();
 
   return (
-    <Box
-      display="flex"
+    <Flex
       flex="1"
       justifyContent="center"
       gap="10px"
@@ -32,7 +32,11 @@ const NavigationLinks = ({ onClose }: Props) => {
       {isLoggedIn && (
         <NavLink linkTo={ROUTES.MANAGE} text="Manage" onClose={onClose} />
       )}
-    </Box>
+
+      {isMobile && isLoggedIn && !isGoogleUser ? (
+        <NavLink linkTo={ROUTES.SETTINGS} text="Settings" onClose={onClose} />
+      ) : null}
+    </Flex>
   );
 };
 

@@ -6,7 +6,7 @@ import { ColorModeButton } from '~/components/ui/color-mode';
 import { useColorMode } from '~/components/ui/color-mode';
 import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
-import { selectIsGoogleUser, selectIsLoggedIn } from '~/store/user/selectors';
+import { selectIsLoggedIn } from '~/store/user/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import LoginButton from './LoginButton';
@@ -19,13 +19,11 @@ const HeaderMobile = () => {
   const { toggleColorMode } = useColorMode();
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const headerWrapperRef = useRef(null);
   const { isOpen, closeHeader, toggleIsOpen } =
     useCollapsibleHeader(headerWrapperRef);
-
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
   return (
     <>
@@ -50,23 +48,11 @@ const HeaderMobile = () => {
           </svg>
         </Box>
 
-        <Box
-          display={isOpen ? 'block' : 'none'}
-          gap="10px"
-          pt="6px"
-          w="full"
-          alignItems="flex-end"
-          flexDir="column"
-          ml="auto"
-          mr="unset"
-        >
-          <NavigationLinks onClose={closeHeader} />
-          {isLoggedIn && !isGoogleUser && (
-            <Box>
-              <NavigationLinks onClose={closeHeader} />
-            </Box>
-          )}
-        </Box>
+        {isOpen && (
+          <Flex pt="6px" w="full">
+            <NavigationLinks onClose={closeHeader} />
+          </Flex>
+        )}
 
         <Box
           display={isOpen ? 'block' : 'none'}
