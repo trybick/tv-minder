@@ -59,7 +59,7 @@ const UserMenu = () => {
                   <Menu.Item
                     cursor="pointer"
                     onClick={() => navigate(ROUTES.SETTINGS)}
-                    p="10px"
+                    p="8px 8px"
                     value="settings"
                   >
                     <VscSettingsGear />
@@ -69,7 +69,7 @@ const UserMenu = () => {
                 <Menu.Item
                   cursor="pointer"
                   onClick={handleLogout}
-                  p="10px"
+                  p="8px 8px"
                   value="logout"
                 >
                   <SlLogout />
