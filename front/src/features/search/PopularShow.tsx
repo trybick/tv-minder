@@ -4,6 +4,7 @@ import { MouseEvent, useState } from 'react';
 import { ROUTES } from '~/app/routes';
 import FollowButton from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
@@ -12,12 +13,12 @@ import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   show: PopularShowType;
-  isMobile: boolean;
 };
 
-const PopularShow = ({ show, isMobile }: Props) => {
+const PopularShow = ({ show }: Props) => {
   const { id, name, posterPath } = show;
   const dispatch = useAppDispatch();
+  const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
   const posterSource = createImageUrl(posterPath);

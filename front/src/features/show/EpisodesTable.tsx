@@ -7,14 +7,16 @@ import {
 } from '@tanstack/react-table';
 import moment from 'moment';
 
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { EpisodeForSeason } from '~/types/external';
 
 type Props = {
-  isMobile: boolean;
   episodes: EpisodeForSeason[];
 };
 
-const EpisodesTable = ({ episodes, isMobile }: Props) => {
+const EpisodesTable = ({ episodes }: Props) => {
+  const isMobile = useIsMobile();
+
   const columns: ColumnDef<EpisodeForSeason>[] = [
     {
       id: 'episodeNumber',

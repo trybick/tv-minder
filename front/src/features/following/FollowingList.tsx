@@ -61,19 +61,19 @@ const FollowingList = () => {
         </Tabs.List>
 
         <Tabs.Content value="all">
-          <SubSectionOfShows isMobile={isMobile} shows={allFollowedShows} />
+          <SubSectionOfShows shows={allFollowedShows} />
         </Tabs.Content>
 
         <Tabs.Content value="active">
-          <SubSectionOfShows isMobile={isMobile} shows={activeSeasonShows} />
+          <SubSectionOfShows shows={activeSeasonShows} />
         </Tabs.Content>
 
         <Tabs.Content value="inProduction">
-          <SubSectionOfShows isMobile={isMobile} shows={inProductionShows} />
+          <SubSectionOfShows shows={inProductionShows} />
         </Tabs.Content>
 
         <Tabs.Content value="ended">
-          <SubSectionOfShows isMobile={isMobile} shows={endedShows} />
+          <SubSectionOfShows shows={endedShows} />
         </Tabs.Content>
       </Tabs.Root>
     </Box>

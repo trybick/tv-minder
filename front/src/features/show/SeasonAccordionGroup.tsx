@@ -43,7 +43,7 @@ const SeasonAccordionGroup = () => {
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
           <Accordion.ItemContent p={isMobile ? '10px 0 5px' : '10px'}>
-            <EpisodesTable episodes={episodes} isMobile={isMobile} />
+            <EpisodesTable episodes={episodes} />
           </Accordion.ItemContent>
         </Accordion.Item>
       )

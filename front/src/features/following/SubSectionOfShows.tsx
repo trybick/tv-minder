@@ -1,16 +1,17 @@
 import { Grid } from '@chakra-ui/react';
 
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { BasicShowInfo } from '~/types/external';
 
 import Show from './Show';
 
 type Props = {
   shows: BasicShowInfo[];
-  isMobile: boolean;
 };
 
 const SubSectionOfShows = (props: Props) => {
-  const { shows, isMobile } = props;
+  const { shows } = props;
+  const isMobile = useIsMobile();
 
   return (
     <Grid

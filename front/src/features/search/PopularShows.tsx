@@ -83,9 +83,7 @@ const PopularShows = () => {
       >
         {popularShows
           ?.slice(0, numberShowsInFirstRow)
-          .map(show => (
-            <PopularShow isMobile={isMobile} key={show.id} show={show} />
-          ))}
+          .map(show => <PopularShow key={show.id} show={show} />)}
 
         <Collapsible.Root
           flexGrow={1}
@@ -109,13 +107,7 @@ const PopularShows = () => {
                     (i + 1) * numberShowsInFirstRow,
                     (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                   )
-                  .map(show => (
-                    <PopularShow
-                      isMobile={isMobile}
-                      key={show.id}
-                      show={show}
-                    />
-                  ))}
+                  .map(show => <PopularShow key={show.id} show={show} />)}
               </Flex>
             ))}
           </Collapsible.Content>
@@ -162,9 +154,7 @@ const PopularShows = () => {
       >
         {topRatedShows
           ?.slice(0, numberShowsInFirstRow)
-          .map(show => (
-            <PopularShow isMobile={isMobile} key={show.id} show={show} />
-          ))}
+          .map(show => <PopularShow key={show.id} show={show} />)}
 
         <Collapsible.Root
           flexGrow={1}
@@ -185,13 +175,7 @@ const PopularShows = () => {
                     (i + 1) * numberShowsInFirstRow,
                     (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                   )
-                  .map(show => (
-                    <PopularShow
-                      isMobile={isMobile}
-                      key={show.id}
-                      show={show}
-                    />
-                  ))}
+                  .map(show => <PopularShow key={show.id} show={show} />)}
               </Flex>
             ))}
           </Collapsible.Content>
