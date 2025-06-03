@@ -22,7 +22,7 @@ const HeaderMobile = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const headerWrapperRef = useRef(null);
-  const { isOpen, closeHeader, toggleIsOpen } =
+  const { isHeaderOpen, closeHeader, toggleHeader } =
     useCollapsibleHeader(headerWrapperRef);
 
   return (
@@ -36,7 +36,7 @@ const HeaderMobile = () => {
       >
         <Logo onClose={closeHeader} />
 
-        <Box cursor="pointer" onClick={toggleIsOpen}>
+        <Box cursor="pointer" onClick={toggleHeader}>
           <svg
             fill="teal"
             viewBox="0 0 20 20"
@@ -48,7 +48,7 @@ const HeaderMobile = () => {
           </svg>
         </Box>
 
-        {isOpen && (
+        {isHeaderOpen && (
           <Flex pt="6px" w="full">
             <NavigationLinks onClose={closeHeader} />
           </Flex>
@@ -57,7 +57,7 @@ const HeaderMobile = () => {
         <Flex
           alignItems="center"
           gap="12px"
-          display={isOpen ? 'flex' : 'none'}
+          display={isHeaderOpen ? 'flex' : 'none'}
           mt={4}
           ml="auto"
         >

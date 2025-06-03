@@ -1,15 +1,15 @@
 import { RefObject, useEffect, useState } from 'react';
 
 export function useCollapsibleHeader(ref: RefObject<HTMLDivElement | null>) {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleIsOpen = () => setIsOpen(!isOpen);
-  const closeHeader = () => setIsOpen(false);
+  const [isHeaderOpen, setIsHeaderOpen] = useState(false);
+  const toggleHeader = () => setIsHeaderOpen(prev => !prev);
+  const closeHeader = () => setIsHeaderOpen(false);
 
   useEffect(() => {
     function closeHeaderOnOutsideClick(event: Event) {
       const isClickOutside =
         ref.current && !ref.current.contains(event.target as Node);
-      if (isClickOutside && isOpen) {
+      if (isClickOutside && isHeaderOpen) {
         closeHeader();
       }
     }
@@ -17,7 +17,7 @@ export function useCollapsibleHeader(ref: RefObject<HTMLDivElement | null>) {
     return () => {
       document.removeEventListener('mousedown', closeHeaderOnOutsideClick);
     };
-  }, [isOpen, ref]);
+  }, [isHeaderOpen, ref]);
 
-  return { isOpen, closeHeader, toggleIsOpen };
+  return { isHeaderOpen, closeHeader, toggleHeader };
 }
