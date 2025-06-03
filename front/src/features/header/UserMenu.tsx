@@ -9,11 +9,7 @@ import { useAppDispatch } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
 
-interface Props {
-  onClose?: () => void;
-}
-
-const UserMenu = ({ onClose }: Props) => {
+const UserMenu = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const email = useAppSelector(selectUserEmail);
@@ -21,7 +17,6 @@ const UserMenu = ({ onClose }: Props) => {
 
   const handleLogout = () => {
     localStorage.removeItem('jwt');
-    onClose?.();
     dispatch(setIsLoggedOutAction());
   };
 
