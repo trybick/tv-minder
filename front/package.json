@@ -14,7 +14,12 @@
     "start:local": "cross-env VITE_API=local vite",
     "lint:check": "eslint --max-warnings=0 --ext .tsx,.js,.ts .",
     "lint:fix": "eslint --fix --ext .tsx,.js,.ts .",
-    "validate": "tsc --noEmit"
+    "validate": "tsc --noEmit",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
   },
   "engines": {
     "npm": ">=10.9.0",
@@ -52,6 +57,7 @@
     "@dword-design/eslint-plugin-import-alias": "^5.1.2",
     "@eslint/compat": "^1.2.8",
     "@eslint/js": "^9.24.0",
+    "@playwright/test": "^1.52.0",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

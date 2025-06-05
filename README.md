@@ -3,6 +3,7 @@
 Full-stack web app to keep track of your favorite shows.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c0c8f001-1839-4c79-a338-de51cf4cd991/deploy-status)](https://app.netlify.com/sites/tv-minder/deploys) [![Validate front](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml)
+[![Playwright Tests](https://github.com/trybick/tv-minder/actions/workflows/playwright.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/playwright.yml)
 
 ## Screenshot
 
@@ -39,3 +40,11 @@ npm run start:local
 #### ENV Files
 
 - All ENV files on the frontend are checked into git, except for the google OAuth token. If you need to use Google OAuth locally, then create a file `front/.env.local` which contains `VITE_GOOGLE_OAUTH_CLIENT_ID`.
+
+#### Testing
+
+To run the e2e tests:
+
+- Make sure the local dev server is running: `npm run start`
+- Install playwright: `npx playwright install`
+- Run the tests: `npm run test:ui`
