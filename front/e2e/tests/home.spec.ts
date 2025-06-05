@@ -1,10 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-import { baseURL } from '../playwright.config';
+import { baseUrl } from '../playwright.config';
 
 test.describe('Home Page', () => {
   test('should load the home page', async ({ page }) => {
-    await page.goto(baseURL);
+    await page.goto(baseUrl);
 
     await expect(page).toHaveTitle('Discover | TV Minder');
   });

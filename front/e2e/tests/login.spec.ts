@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { baseURL } from '../playwright.config';
+import { baseUrl } from '../playwright.config';
 import { password, username } from '../shared';
 
 test.describe('Authentication', () => {
@@ -20,7 +20,7 @@ test.describe('Authentication', () => {
   test('should successfully log in with email and password', async ({
     page,
   }) => {
-    await page.goto(baseURL);
+    await page.goto(baseUrl);
 
     await page.getByRole('button', { name: 'Login' }).click();
 
@@ -54,7 +54,7 @@ test.describe('Authentication', () => {
       });
     });
 
-    await page.goto(baseURL);
+    await page.goto(baseUrl);
 
     await page.getByRole('button', { name: 'Login' }).click();
 

@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-export const baseURL = 'http://localhost:4000';
+export const baseUrl = 'http://localhost:4000';
 
 export default defineConfig({
   testDir: './tests',
@@ -20,13 +20,13 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run start',
-    url: baseURL,
+    url: baseUrl,
     reuseExistingServer: !process.env.CI,
     timeout: 30 * 1000,
   },
 
   use: {
-    baseURL,
+    baseUrl,
     trace: 'on-first-retry',
   },
 });
