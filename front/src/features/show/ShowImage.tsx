@@ -26,17 +26,17 @@ const ShowImage = () => {
 
   if (isMobile) {
     return (
-      <DelayedSkeleton isLoading={isLoading} h="200px" w="100%">
+      <DelayedSkeleton isLoading={isLoading} h="232px" w="100%">
         <Image
           left="50%"
           maxW="100vw"
+          minHeight="232px"
           ml="-50vw"
           mr="-50vw"
           position="relative"
           right="50%"
-          src={createImageUrl(currentShowInfo?.backdropPath)}
+          src={createImageUrl(currentShowInfo?.backdropPath, true)}
           width="100vw"
-          viewTransitionName={`show-image-${showId}`}
         />
       </DelayedSkeleton>
     );
