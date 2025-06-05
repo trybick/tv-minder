@@ -7,8 +7,6 @@ test.describe('Authentication', () => {
   test.beforeEach(async ({ page }) => {
     await page.route('**/api/login', async route => {
       await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
         body: JSON.stringify({
           token: 'mock-jwt-token',
           email: username,
@@ -70,5 +68,127 @@ test.describe('Authentication', () => {
     await expect(
       page.getByText('Invalid login. Please try again.')
     ).toBeVisible();
+  });
+
+  test('should successfully sign up as a new user', async ({ page }) => {
+    await page.route('**/api/signup', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          token: 'mock-jwt-token',
+          email: 'newuser@test.com',
+        }),
+      });
+    });
+
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
+    await expect(signupModal).toBeVisible();
+
+    await page
+      .getByRole('textbox', { name: /email/i })
+      .fill('newuser@test.com');
+    await page.getByRole('textbox', { name: /password/i }).fill(password);
+    await page
+      .getByRole('textbox', { name: /confirm password/i })
+      .fill(password);
+
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    await expect(signupModal).not.toBeVisible();
+    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    await expect(userMenu).toBeVisible();
+  });
+
+  test('should show error when passwords do not match during signup', async ({
+    page,
+  }) => {
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
+    await expect(signupModal).toBeVisible();
+
+    await page
+      .getByRole('textbox', { name: /email/i })
+      .fill('newuser@test.com');
+    await page.getByRole('textbox', { name: /password/i }).fill(password);
+    await page
+      .getByRole('textbox', { name: /confirm password/i })
+      .fill('differentpassword');
+
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    await expect(page.getByText('Passwords do not match')).toBeVisible();
+  });
+
+  test('should handle forgot password flow', async ({ page }) => {
+    await page.route('**/api/forgot-password', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          message: 'Password reset email sent',
+        }),
+      });
+    });
+
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    const loginModal = page.getByRole('dialog', { name: 'Login' });
+    await expect(loginModal).toBeVisible();
+
+    await page.getByRole('link', { name: 'Forgot Password?' }).click();
+
+    const forgotPasswordModal = page.getByRole('dialog', {
+      name: 'Forgot Password',
+    });
+    await expect(forgotPasswordModal).toBeVisible();
+
+    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('button', { name: 'Send Reset Link' }).click();
+
+    await expect(page.getByText('Password reset email sent')).toBeVisible();
+  });
+
+  test('should handle Google login', async ({ page }) => {
+    await page.route('**/api/auth/google', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          token: 'mock-jwt-token',
+          email: 'googleuser@test.com',
+        }),
+      });
+    });
+
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    const loginModal = page.getByRole('dialog', { name: 'Login' });
+    await expect(loginModal).toBeVisible();
+
+    await page.getByRole('button', { name: 'Continue with Google' }).click();
+
+    // Mock the Google OAuth popup
+    const popup = await page.waitForEvent('popup');
+    await popup.route('**/oauth2/v2/auth', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          token: 'mock-google-token',
+        }),
+      });
+    });
+
+    await expect(loginModal).not.toBeVisible();
+    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    await expect(userMenu).toBeVisible();
   });
 });
