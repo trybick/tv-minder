@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { baseURL } from '../playwright.config';
+import { password, username } from '../shared';
 
 test.describe('Authentication', () => {
   test.beforeEach(async ({ page }) => {
@@ -10,7 +11,7 @@ test.describe('Authentication', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           token: 'mock-jwt-token',
-          email: 'test@example.com',
+          email: username,
         }),
       });
     });
@@ -26,10 +27,8 @@ test.describe('Authentication', () => {
     const loginModal = page.getByRole('dialog', { name: 'Login' });
     await expect(loginModal).toBeVisible();
 
-    await page
-      .getByRole('textbox', { name: /email/i })
-      .fill('playwright@test.com');
-    await page.getByRole('textbox', { name: /password/i }).fill('password123');
+    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('textbox', { name: /password/i }).fill(password);
 
     await page.getByRole('button', { name: 'Login' }).click();
 
@@ -39,7 +38,7 @@ test.describe('Authentication', () => {
     await expect(userMenu).toBeVisible();
 
     await userMenu.click();
-    await expect(page.getByText('playwright@test.com')).toBeVisible();
+    await expect(page.getByText(username)).toBeVisible();
   });
 
   test('should show error message for invalid credentials', async ({
@@ -60,9 +59,11 @@ test.describe('Authentication', () => {
     await page.getByRole('button', { name: 'Login' }).click();
 
     await page
-      .getByRole('textbox', { name: 'Email' })
+      .getByRole('textbox', { name: /email/i })
       .fill('wrong@example.com');
-    await page.getByRole('textbox', { name: 'Password' }).fill('wrongpassword');
+    await page
+      .getByRole('textbox', { name: /password/i })
+      .fill('wrongpassword');
 
     await page.getByRole('button', { name: 'Login' }).click();
 

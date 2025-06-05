@@ -39,3 +39,11 @@ npm run start:local
 #### ENV Files
 
 - All ENV files on the frontend are checked into git, except for the google OAuth token. If you need to use Google OAuth locally, then create a file `front/.env.local` which contains `VITE_GOOGLE_OAUTH_CLIENT_ID`.
+
+#### Testing
+
+To run the e2e tests:
+
+- Make sure the local dev server is running: `npm run start`
+- Install playwright: `npx playwright install`
+- Run the tests: `npm run test:ui`
