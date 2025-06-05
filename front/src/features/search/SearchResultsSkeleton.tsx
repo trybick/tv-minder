@@ -2,8 +2,14 @@ import { Box, Grid, Skeleton, Stack } from '@chakra-ui/react';
 
 const SearchResultsSkeleton = () => {
   return (
-    <Box m="0 auto">
-      <Skeleton height="24px" width="100px" mb="24px" ml="auto" />
+    <Box w={{ base: '100%', md: 'unset' }}>
+      <Skeleton
+        height="24px"
+        width="100px"
+        mb="24px"
+        ml="auto"
+        mr={{ base: '10px', md: '0' }}
+      />
 
       <Stack gap={5} m="0 auto" w={{ base: '96%', md: '500px' }}>
         {[...Array(5)].map((_, index) => (

@@ -228,9 +228,6 @@ const LoginModal = ({ disclosureProps }: Props) => {
             {formOption === 0 && (
               <GoogleLoginButton
                 onClose={onClose}
-                setIsLoggedIn={(email: string) =>
-                  dispatch(setIsLoggedInAction(email))
-                }
                 unregisteredClearFollowedShows={() =>
                   dispatch(unregisteredClearFollowedShowsAction())
                 }
