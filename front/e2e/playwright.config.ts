@@ -1,8 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+export const baseURL = 'http://localhost:4000';
+
 export default defineConfig({
-  testDir: './src',
-  testMatch: ['**/*.spec.ts'],
+  testDir: './tests',
   globalSetup: './test/global-setup.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -19,13 +20,13 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run start',
-    url: 'http://localhost:4000',
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 30 * 1000,
   },
 
   use: {
-    baseURL: 'http://localhost:4000',
+    baseURL,
     trace: 'on-first-retry',
   },
 });

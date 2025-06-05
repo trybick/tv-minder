@@ -248,7 +248,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
                 )}
 
                 <Field.Root invalid={!!errors?.email}>
-                  <Field.Label htmlFor="email">Email</Field.Label>
+                  <Field.Label>Email</Field.Label>
                   <Input
                     _focus={{ borderColor: 'cyan.500' }}
                     borderColor="gray.500"
@@ -262,7 +262,6 @@ const LoginModal = ({ disclosureProps }: Props) => {
                 {(formOption === 0 || formOption === 3) && (
                   <Field.Root invalid={!!errors?.password} mt={4}>
                     <Field.Label>
-                      {' '}
                       {formOption === 3 && 'New'} Password
                     </Field.Label>
                     <PasswordInput
