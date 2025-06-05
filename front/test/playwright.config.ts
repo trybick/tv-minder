@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './src',
   testMatch: ['**/*.spec.ts'],
+  globalSetup: './test/global-setup.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -20,7 +21,7 @@ export default defineConfig({
     command: 'npm run start',
     url: 'http://localhost:4000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000, // 120 seconds
+    timeout: 120 * 1000,
   },
 
   use: {
