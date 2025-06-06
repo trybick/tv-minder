@@ -1,23 +1,8 @@
 import { expect, test } from '@playwright/test';
 
 import { baseUrl } from '../playwright.config';
-import { email } from '../shared';
 
 test.describe('Header', () => {
-  test.beforeEach(async ({ page }) => {
-    // Mock login for tests that require authentication
-    await page.route('**/api/login', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          token: 'mock-jwt-token',
-          email: email,
-        }),
-      });
-    });
-  });
-
   test('should toggle color mode when clicking the color mode button', async ({
     page,
   }) => {
@@ -26,33 +11,27 @@ test.describe('Header', () => {
     const colorModeButton = page.getByRole('button', { name: /color mode/i });
     await expect(colorModeButton).toBeVisible();
 
-    // Get initial color mode
-    const initialColorMode = await page.evaluate(() =>
-      document.documentElement.getAttribute('data-theme')
+    const initialBackgroundColor = await page.evaluate(
+      () => window.getComputedStyle(document.body).backgroundColor
     );
 
-    // Click the color mode button
     await colorModeButton.click();
 
-    // Get new color mode
-    const newColorMode = await page.evaluate(() =>
-      document.documentElement.getAttribute('data-theme')
-    );
-
-    // Verify the color mode has changed
-    expect(newColorMode).not.toBe(initialColorMode);
+    await page.waitForFunction(initialColor => {
+      const currentColor = window.getComputedStyle(
+        document.body
+      ).backgroundColor;
+      return currentColor !== initialColor;
+    }, initialBackgroundColor);
   });
 
   test('should navigate to home page when clicking the logo', async ({
     page,
   }) => {
-    // First navigate to a show page
-    await page.goto(`${baseUrl}/shows/123`); // Replace with actual show ID
+    await page.goto(`${baseUrl}/show/100088`);
 
-    // Click the logo
-    await page.getByRole('link', { name: /logo/i }).click();
+    await page.getByRole('button', { name: /tv minder logo/i }).click();
 
-    // Verify we're back on the home page
     await expect(page).toHaveURL(baseUrl);
   });
 });

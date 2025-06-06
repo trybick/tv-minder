@@ -48,8 +48,15 @@ test.describe('Calendar', () => {
   });
 
   test('should have correct page title', async ({ page }) => {
+    // create helper for login
     await page.goto(`${baseUrl}/calendar`);
     await expect(page).toHaveTitle('Calendar | TV Minder');
+  });
+
+  test('should fetch user follows and display them on calendar', async ({
+    page,
+  }) => {
+    await page.goto(`${baseUrl}/calendar`);
   });
 
   test('should follow shows and display them on calendar', async ({ page }) => {

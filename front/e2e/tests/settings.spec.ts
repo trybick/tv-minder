@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { email, password } from '../mockData';
 import { baseUrl } from '../playwright.config';
-import { email, password } from '../shared';
 
 test.describe('Settings', () => {
   test.beforeEach(async ({ page }) => {
