@@ -160,7 +160,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
               </InlineTextSeparator>
 
               <Field.Root invalid={!!errors?.email}>
-                <Field.Label htmlFor="email">Email</Field.Label>
+                <Field.Label>Email</Field.Label>
                 <Input
                   _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"

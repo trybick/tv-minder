@@ -4,16 +4,17 @@ import { baseUrl } from '../playwright.config';
 import { email, password, token } from '../shared';
 
 test.describe('Authentication', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.route('**/api/login', async route => {
-      await route.fulfill({
-        body: JSON.stringify({
-          token,
-          email,
-        }),
-      });
-    });
-  });
+  // Maybe remove this to let real api work?
+  // test.beforeEach(async ({ page }) => {
+  //   await page.route('**/login', async route => {
+  //     await route.fulfill({
+  //       body: JSON.stringify({
+  //         token,
+  //         email,
+  //       }),
+  //     });
+  //   });
+  // });
 
   test('should successfully log in with email and password', async ({
     page,
@@ -42,7 +43,7 @@ test.describe('Authentication', () => {
   test('should show error message for invalid credentials', async ({
     page,
   }) => {
-    await page.route('**/api/login', async route => {
+    await page.route('**/login', async route => {
       await route.fulfill({
         status: 401,
         contentType: 'application/json',
@@ -71,10 +72,16 @@ test.describe('Authentication', () => {
   });
 
   test('should successfully sign up as a new user', async ({ page }) => {
-    await page.route('**/api/signup', async route => {
+    await page.route('**/register', async route => {
       await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
+        status: 201,
+        body: JSON.stringify({
+          message: 'User created',
+        }),
+      });
+    });
+    await page.route('**/login', async route => {
+      await route.fulfill({
         body: JSON.stringify({
           token,
           email,
@@ -88,13 +95,13 @@ test.describe('Authentication', () => {
     const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
     await expect(signupModal).toBeVisible();
 
-    await page
-      .getByRole('textbox', { name: /email/i })
-      .fill('newuser@test.com');
-    await page.getByRole('textbox', { name: /password/i }).fill(password);
-    await page
-      .getByRole('textbox', { name: /confirm password/i })
-      .fill(password);
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
+
+    const allPasswords = await page
+      .getByRole('textbox', { name: /password/i })
+      .all();
+    await allPasswords[0].fill(password);
+    await allPasswords[1].fill(password);
 
     await page.getByRole('button', { name: 'Sign Up' }).click();
 
@@ -112,9 +119,7 @@ test.describe('Authentication', () => {
     const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
     await expect(signupModal).toBeVisible();
 
-    await page
-      .getByRole('textbox', { name: /email/i })
-      .fill('newuser@test.com');
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('textbox', { name: /password/i }).fill(password);
     await page
       .getByRole('textbox', { name: /confirm password/i })
