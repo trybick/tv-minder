@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { baseUrl } from '../playwright.config';
-import { username } from '../shared';
+import { email } from '../shared';
 
 test.describe('Header', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,7 +12,7 @@ test.describe('Header', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           token: 'mock-jwt-token',
-          email: username,
+          email: email,
         }),
       });
     });

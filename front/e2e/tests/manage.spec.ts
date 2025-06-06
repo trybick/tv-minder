@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { baseUrl } from '../playwright.config';
-import { username } from '../shared';
+import { email } from '../shared';
 
 test.describe('Manage Page', () => {
   test.beforeEach(async ({ page }) => {
@@ -11,7 +11,7 @@ test.describe('Manage Page', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           token: 'mock-jwt-token',
-          email: username,
+          email: email,
         }),
       });
     });
@@ -59,7 +59,7 @@ test.describe('Manage Page', () => {
   }) => {
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('textbox', { name: /password/i }).fill('password123');
     await page.getByRole('button', { name: 'Login' }).click();
 

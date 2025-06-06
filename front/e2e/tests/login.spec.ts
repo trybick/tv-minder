@@ -1,15 +1,15 @@
 import { expect, test } from '@playwright/test';
 
 import { baseUrl } from '../playwright.config';
-import { password, username } from '../shared';
+import { email, password, token } from '../shared';
 
 test.describe('Authentication', () => {
   test.beforeEach(async ({ page }) => {
     await page.route('**/api/login', async route => {
       await route.fulfill({
         body: JSON.stringify({
-          token: 'mock-jwt-token',
-          email: username,
+          token,
+          email,
         }),
       });
     });
@@ -25,7 +25,7 @@ test.describe('Authentication', () => {
     const loginModal = page.getByRole('dialog', { name: 'Login' });
     await expect(loginModal).toBeVisible();
 
-    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('textbox', { name: /password/i }).fill(password);
 
     await page.getByRole('button', { name: 'Login' }).click();
@@ -36,7 +36,7 @@ test.describe('Authentication', () => {
     await expect(userMenu).toBeVisible();
 
     await userMenu.click();
-    await expect(page.getByText(username)).toBeVisible();
+    await expect(page.getByText(email)).toBeVisible();
   });
 
   test('should show error message for invalid credentials', async ({
@@ -76,8 +76,8 @@ test.describe('Authentication', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          token: 'mock-jwt-token',
-          email: 'newuser@test.com',
+          token,
+          email,
         }),
       });
     });
@@ -149,7 +149,7 @@ test.describe('Authentication', () => {
     });
     await expect(forgotPasswordModal).toBeVisible();
 
-    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('button', { name: 'Send Reset Link' }).click();
 
     await expect(page.getByText('Password reset email sent')).toBeVisible();
@@ -161,7 +161,7 @@ test.describe('Authentication', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          token: 'mock-jwt-token',
+          token,
           email: 'googleuser@test.com',
         }),
       });
@@ -175,7 +175,6 @@ test.describe('Authentication', () => {
 
     await page.getByRole('button', { name: 'Continue with Google' }).click();
 
-    // Mock the Google OAuth popup
     const popup = await page.waitForEvent('popup');
     await popup.route('**/oauth2/v2/auth', async route => {
       await route.fulfill({

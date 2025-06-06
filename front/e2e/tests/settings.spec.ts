@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { baseUrl } from '../playwright.config';
-import { password, username } from '../shared';
+import { email, password } from '../shared';
 
 test.describe('Settings', () => {
   test.beforeEach(async ({ page }) => {
@@ -11,7 +11,7 @@ test.describe('Settings', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           token: 'mock-jwt-token',
-          email: username,
+          email: email,
         }),
       });
     });
@@ -30,7 +30,7 @@ test.describe('Settings', () => {
   test('should change password successfully', async ({ page }) => {
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('textbox', { name: /password/i }).fill(password);
     await page.getByRole('button', { name: 'Login' }).click();
 
@@ -60,7 +60,7 @@ test.describe('Settings', () => {
   }) => {
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.getByRole('textbox', { name: /email/i }).fill(username);
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('textbox', { name: /password/i }).fill(password);
     await page.getByRole('button', { name: 'Login' }).click();
 
