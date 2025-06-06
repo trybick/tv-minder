@@ -38,6 +38,11 @@ test.describe('Search', () => {
     });
   });
 
+  test('should have correct page title', async ({ page }) => {
+    await page.goto(baseUrl);
+    await expect(page).toHaveTitle('Discover | TV Minder');
+  });
+
   test('should search for a show and follow it', async ({ page }) => {
     await page.goto(baseUrl);
 

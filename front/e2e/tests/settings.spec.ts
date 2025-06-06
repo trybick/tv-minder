@@ -40,6 +40,8 @@ test.describe('Settings', () => {
     // Go to settings page
     await page.goto(`${baseUrl}/settings`);
 
+    await expect(page).toHaveTitle('Settings | TV Minder');
+
     // Click on change password section
     await page.getByRole('button', { name: /change password/i }).click();
 

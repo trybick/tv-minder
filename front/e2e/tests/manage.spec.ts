@@ -51,6 +51,11 @@ test.describe('Manage Page', () => {
     });
   });
 
+  test('should have correct page title', async ({ page }) => {
+    await page.goto(`${baseUrl}/manage`);
+    await expect(page).toHaveTitle('Manage Shows | TV Minder');
+  });
+
   test('should display followed shows and handle tab switching', async ({
     page,
   }) => {

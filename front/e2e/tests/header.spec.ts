@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { baseUrl } from '../playwright.config';
-import { password, username } from '../shared';
+import { username } from '../shared';
 
 test.describe('Header', () => {
   test.beforeEach(async ({ page }) => {

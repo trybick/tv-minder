@@ -49,6 +49,11 @@ test.describe('Calendar', () => {
     });
   });
 
+  test('should have correct page title', async ({ page }) => {
+    await page.goto(`${baseUrl}/calendar`);
+    await expect(page).toHaveTitle('Calendar | TV Minder');
+  });
+
   test('should follow shows and display them on calendar', async ({ page }) => {
     // Mock the follow API
     await page.route('**/api/follow', async route => {
