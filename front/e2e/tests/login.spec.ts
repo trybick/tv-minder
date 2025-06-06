@@ -3,24 +3,11 @@ import { expect, test } from '@playwright/test';
 import { baseUrl } from '../playwright.config';
 import { email, password, token } from '../shared';
 
-test.describe('Authentication', () => {
-  // Maybe remove this to let real api work?
-  // test.beforeEach(async ({ page }) => {
-  //   await page.route('**/login', async route => {
-  //     await route.fulfill({
-  //       body: JSON.stringify({
-  //         token,
-  //         email,
-  //       }),
-  //     });
-  //   });
-  // });
-
+test.describe('Login and Signup flows', () => {
   test('should successfully log in with email and password', async ({
     page,
   }) => {
     await page.goto(baseUrl);
-
     await page.getByRole('button', { name: 'Login' }).click();
 
     const loginModal = page.getByRole('dialog', { name: 'Login' });
@@ -43,18 +30,7 @@ test.describe('Authentication', () => {
   test('should show error message for invalid credentials', async ({
     page,
   }) => {
-    await page.route('**/login', async route => {
-      await route.fulfill({
-        status: 401,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          message: 'Invalid credentials',
-        }),
-      });
-    });
-
     await page.goto(baseUrl);
-
     await page.getByRole('button', { name: 'Login' }).click();
 
     await page
@@ -77,14 +53,6 @@ test.describe('Authentication', () => {
         status: 201,
         body: JSON.stringify({
           message: 'User created',
-        }),
-      });
-    });
-    await page.route('**/login', async route => {
-      await route.fulfill({
-        body: JSON.stringify({
-          token,
-          email,
         }),
       });
     });
