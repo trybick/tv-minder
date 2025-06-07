@@ -48,7 +48,13 @@ const SearchResult = ({ showToDisplay }: Props) => {
   };
 
   return (
-    <Box borderRadius="6px" borderWidth="1px" p="14px" shadow="md">
+    <Box
+      borderRadius="6px"
+      borderWidth="1px"
+      p="14px"
+      shadow="md"
+      aria-label={`search-result-${name}`}
+    >
       <Grid gap={4} templateColumns="100px 1fr">
         <Flex w="100px">
           <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
