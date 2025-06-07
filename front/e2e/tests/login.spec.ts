@@ -42,7 +42,7 @@ test.describe('Login and Signup flows', () => {
   test('should successfully sign up as a new user', async ({ page }) => {
     await mockRequest({
       page,
-      route: '/register',
+      path: '/register',
       status: 201,
     });
 
@@ -91,15 +91,15 @@ test.describe('Login and Signup flows', () => {
   test('should handle forgot password flow', async ({ page }) => {
     await mockRequest({
       page,
-      route: '/requestonetimecode',
+      path: '/requestonetimecode',
     });
     await mockRequest({
       page,
-      route: '/verifyonetimecode',
+      path: '/verifyonetimecode',
     });
     await mockRequest({
       page,
-      route: '/changepasswordforreset',
+      path: '/changepasswordforreset',
     });
 
     await page.goto(baseUrl);

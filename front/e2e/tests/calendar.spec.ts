@@ -1,109 +1,128 @@
 import { expect, test } from '@playwright/test';
 
+import { login } from '../helpers';
+import {
+  email,
+  followResponse,
+  popularShowsResponse,
+  searchPokerFaceResponse,
+} from '../mockData';
+import { mockRequest } from '../mockRequest';
 import { baseUrl } from '../playwright.config';
 
-test.describe('Calendar', () => {
+test.describe('Calendar Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.evaluate(() => {
-      const mockDate = new Date('2024-03-15');
-      Object.defineProperty(window, 'Date', {
-        value: class extends Date {
-          constructor() {
-            super();
-            return mockDate;
-          }
-        },
-        writable: true,
-      });
-    });
-
-    await page.route('**/api/calendar/episodes', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          episodes: [
-            {
-              id: 1,
-              showId: 123,
-              showName: 'Test Show 1',
-              episodeNumber: 1,
-              seasonNumber: 1,
-              airDate: '2024-03-15',
-              title: 'Test Episode 1',
-            },
-            {
-              id: 2,
-              showId: 456,
-              showName: 'Test Show 2',
-              episodeNumber: 2,
-              seasonNumber: 1,
-              airDate: '2024-03-15',
-              title: 'Test Episode 2',
-            },
-          ],
-        }),
-      });
-    });
+    await page.clock.setFixedTime(new Date('2025-06-06T10:00:00'));
   });
 
   test('should have correct page title', async ({ page }) => {
-    // create helper for login
     await page.goto(`${baseUrl}/calendar`);
     await expect(page).toHaveTitle('Calendar | TV Minder');
   });
 
-  test('should fetch user follows and display them on calendar', async ({
-    page,
-  }) => {
-    await page.goto(`${baseUrl}/calendar`);
-  });
-
-  test('should follow shows and display them on calendar', async ({ page }) => {
-    await page.route('**/api/follow', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ success: true }),
-      });
+  test('shows episodes on calendar for logged out user', async ({ page }) => {
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/trending/tv/week**',
+      body: popularShowsResponse,
     });
 
-    await page.goto(`${baseUrl}/popular`);
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
+      body: searchPokerFaceResponse,
+    });
 
+    await page.goto(baseUrl);
+
+    // Follow Mobland
+    await page.getByRole('button', { name: 'follow-button-247718' }).click();
+    await expect(page.getByRole('status')).toBeVisible();
+    await expect(page.getByRole('status')).toHaveText(
+      /we're saving your shows/i
+    );
+
+    await page.getByPlaceholder(/find tv shows/i).fill('poker face');
+    await expect(page.getByLabel(/search-result/)).toHaveCount(2);
+
+    await page.getByRole('button', { name: 'follow-button-120998' }).click();
     await page
-      .getByRole('button', { name: /follow/i })
+      .getByRole('link', { name: /poker face/i })
       .first()
       .click();
+    await expect(
+      page.getByRole('button', { name: 'follow-button-120998' })
+    ).toHaveText(/unfollow/i);
 
-    await page.getByRole('textbox', { name: /search/i }).fill('Test Show');
+    await page.getByRole('button', { name: 'calendar' }).click();
+    await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
+
+    // Numbers are doubled because of the popover
+    await expect(page.getByText(/poker face/i)).toHaveCount(10);
+    await expect(page.getByText(/mobland/i)).toHaveCount(2);
+
     await page
-      .getByRole('button', { name: /follow/i })
+      .getByText(/poker face/i)
       .first()
-      .click();
+      .hover();
+    await page.getByRole('heading', { name: 'Poker Face' }).first().click();
 
-    await page.goto(`${baseUrl}/calendar`);
+    await expect(page).toHaveURL(`${baseUrl}/show/120998`);
+    await expect(
+      page.getByRole('heading', { name: 'Poker Face' })
+    ).toBeVisible();
 
-    const calendarEvents = page.getByRole('button', { name: /Test Show/i });
-    await expect(calendarEvents).toHaveCount(2);
-
-    await calendarEvents.first().hover();
-    await expect(page.getByText('Test Episode 1')).toBeVisible();
-
-    await calendarEvents.first().click();
-    await expect(page).toHaveURL(/.*\/shows\/123/);
+    await page.getByRole('button', { name: 'follow-button-120998' }).click();
+    await expect(
+      page.getByRole('button', { name: 'follow-button-120998' })
+    ).toHaveText(/follow/i);
   });
 
-  test('should navigate between months and return to today', async ({
-    page,
-  }) => {
-    await page.goto(`${baseUrl}/calendar`);
+  test('shows episodes on calendar for logged in user', async ({ page }) => {
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/login',
+      method: 'POST',
+      body: {
+        token: '123',
+        email,
+      },
+    });
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/follow*',
+      body: followResponse,
+    });
 
-    await expect(page.getByText('March 2024')).toBeVisible();
+    await page.goto(baseUrl);
+    await login(page);
 
-    await page.getByRole('button', { name: /previous month/i }).click();
-    await expect(page.getByText('February 2024')).toBeVisible();
+    await page.getByRole('button', { name: 'calendar' }).click();
+    await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
-    await page.getByRole('button', { name: /today/i }).click();
-    await expect(page.getByText('March 2024')).toBeVisible();
+    await expect(page.getByText(/poker face/i)).toHaveCount(10);
+    await expect(page.getByText(/mobland/i)).toHaveCount(2);
+
+    await page
+      .getByText(/poker face/i)
+      .first()
+      .hover();
+    await page.getByRole('heading', { name: 'Poker Face' }).first().click();
+
+    await expect(page).toHaveURL(`${baseUrl}/show/120998`);
+    await expect(
+      page.getByRole('heading', { name: 'Poker Face' })
+    ).toBeVisible();
+
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/follow*',
+      method: 'DELETE',
+    });
+
+    await page.getByRole('button', { name: 'follow-button-120998' }).click();
+    await expect(
+      page.getByRole('button', { name: 'follow-button-120998' })
+    ).toHaveText(/follow/i);
   });
 });
