@@ -10,13 +10,13 @@ test.describe('Happy Path', () => {
 
     mockRequest({
       page,
-      route: '**/api.themoviedb.org/3/trending/tv/week',
+      route: '/api.themoviedb.org/3/trending/tv/week**',
       body: popularShowsResponse,
     });
 
     mockRequest({
       page,
-      route: '**/api.themoviedb.org/3/search/tv**&query=game+of+thrones',
+      route: '/api.themoviedb.org/3/search/tv**&query=poker+face',
       body: searchPokerFaceResponse,
     });
   });
@@ -46,22 +46,24 @@ test.describe('Happy Path', () => {
     await page.getByRole('button', { name: 'calendar' }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
-    await expect(page.getByRole('link', { name: /mobland/i })).toHaveCount(1);
-    await expect(page.getByRole('link', { name: /poker face/i })).toHaveCount(
-      5
-    );
+    // Numbers are doubled because of the popover
+    await expect(page.getByText(/poker face/i)).toHaveCount(10);
+    await expect(page.getByText(/mobland/i)).toHaveCount(2);
 
     await page
-      .getByRole('link', { name: /poker face/i })
+      .getByText(/poker face/i)
       .first()
-      .click();
+      .hover();
+    await page.getByRole('heading', { name: 'Poker Face' }).first().click();
+
+    await expect(page).toHaveURL(`${baseUrl}/show/120998`);
     await expect(
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
 
-    await page.getByRole('button', { name: 'follow-button-232766' }).click();
+    await page.getByRole('button', { name: 'follow-button-120998' }).click();
     await expect(
-      page.getByRole('button', { name: 'follow-button-232766' })
+      page.getByRole('button', { name: 'follow-button-120998' })
     ).toHaveText(/follow/i);
   });
 
