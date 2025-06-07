@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 
+import { login } from '../helpers';
 import { email, password } from '../mockData';
 import { mockRequest } from '../mockRequest';
 import { baseUrl } from '../playwright.config';
@@ -9,17 +10,7 @@ test.describe('Login and Signup flows', () => {
     page,
   }) => {
     await page.goto(baseUrl);
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    const loginModal = page.getByRole('dialog', { name: 'Login' });
-    await expect(loginModal).toBeVisible();
-
-    await page.getByRole('textbox', { name: /email/i }).fill(email);
-    await page.getByRole('textbox', { name: /password/i }).fill(password);
-
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    await expect(loginModal).not.toBeVisible();
+    await login(page);
 
     const userMenu = page.getByRole('button', { name: 'Page Options' });
     await expect(userMenu).toBeVisible();

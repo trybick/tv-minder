@@ -412,3 +412,6 @@ export const searchPokerFaceResponse = {
   total_pages: 1,
   total_results: 2,
 };
+
+// 247718 is MobLand, 120998 is Poker Face
+export const followResponse = [247718, 120998];
