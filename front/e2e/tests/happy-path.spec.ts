@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { popularShowsResponse, searchGameOfThronesResponse } from '../mockData';
+import { popularShowsResponse, searchLastOfUsResponse } from '../mockData';
 import { mockRequest } from '../mockRequest';
 import { baseUrl } from '../playwright.config';
 
@@ -15,7 +15,7 @@ test.describe('Happy Path', () => {
     mockRequest({
       page,
       route: '**/api.themoviedb.org/3/search/tv**&query=game+of+thrones',
-      body: searchGameOfThronesResponse,
+      body: searchLastOfUsResponse,
     });
   });
 
@@ -30,26 +30,17 @@ test.describe('Happy Path', () => {
       /we're saving your shows/i
     );
 
-    await page.getByPlaceholder(/find tv shows/i).fill('game of thrones');
+    await page.getByPlaceholder(/find tv shows/i).fill('last of us');
 
+    await expect(page.getByLabel('search-result-The Last of Us')).toBeVisible();
     await expect(
-      page.getByLabel('search-result-Game of Thrones')
+      page.getByLabel('search-result-The Last of Us Development Series')
     ).toBeVisible();
     await expect(
-      page.getByLabel(
-        "search-result-The Game of Thrones Reunion Hosted by Conan O'Brien"
-      )
-    ).toBeVisible();
-    await expect(
-      page.getByLabel('search-result-House of the Dragon')
-    ).toBeVisible();
-    await expect(
-      page.getByLabel(
-        'search-result-A Knight of the Seven Kingdoms: The Hedge Knight'
-      )
+      page.getByLabel('search-result-Autopsy: The Last Hours of...')
     ).toBeVisible();
 
-    await page.getByRole('button', { name: 'follow-button-1399' }).click();
+    await page.getByRole('button', { name: 'follow-button-100088' }).click();
 
     await page.getByRole('link', { name: 'Calendar' }).click();
     await page.getByRole('link', { name: 'Episodes' }).click();
