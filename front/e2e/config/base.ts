@@ -4,9 +4,9 @@ import {
   followResponse,
   popularShowsResponse,
   searchPokerFaceResponse,
-} from './mockData';
-import { topRatedShowsResponse } from './mockData/topRatedShows';
-import { mockRequest } from './mockRequest';
+} from '../mockData';
+import { topRatedShowsResponse } from '../mockData/topRatedShows';
+import { mockRequest } from '../mockRequest';
 
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use) => {

@@ -1,5 +1,5 @@
-import { expect, test } from '../fixtures';
-import { baseUrl } from '../playwright.config';
+import { expect, test } from '../config/base';
+import { baseUrl } from '../config/playwright.config';
 
 test.describe('Home Page', () => {
   test.describe('Search', () => {

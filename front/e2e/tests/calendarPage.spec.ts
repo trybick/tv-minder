@@ -1,8 +1,8 @@
-import { expect, test } from '../fixtures';
+import { expect, test } from '../config/base';
+import { baseUrl } from '../config/playwright.config';
 import { login } from '../helpers';
 import { email } from '../mockData';
 import { mockRequest } from '../mockRequest';
-import { baseUrl } from '../playwright.config';
 
 test.describe('Calendar Page', () => {
   test.beforeEach(async ({ page }) => {

@@ -1,6 +1,6 @@
-import { expect, test } from '../fixtures';
+import { expect, test } from '../config/base';
+import { baseUrl } from '../config/playwright.config';
 import { email, password } from '../mockData';
-import { baseUrl } from '../playwright.config';
 
 test.describe('Settings', () => {
   test.beforeEach(async ({ page }) => {
