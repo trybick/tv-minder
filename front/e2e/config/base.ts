@@ -2,6 +2,11 @@ import { test as base, expect, Page } from '@playwright/test';
 
 import {
   followResponse,
+  moblandBasicInfo,
+  moblandSeason1,
+  pokerFaceBasicInfo,
+  pokerFaceSeason1,
+  pokerFaceSeason2,
   popularShowsResponse,
   searchPokerFaceResponse,
 } from '../mockData';
@@ -29,6 +34,35 @@ export const test = base.extend<{ page: Page }>({
       page,
       path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
       body: searchPokerFaceResponse,
+    });
+
+    // Mobland
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/247718*',
+      body: moblandBasicInfo,
+    });
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/247718/season/1**',
+      body: moblandSeason1,
+    });
+
+    // Poker Face
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998*',
+      body: pokerFaceBasicInfo,
+    });
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998/season/1**',
+      body: pokerFaceSeason1,
+    });
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998/season/2**',
+      body: pokerFaceSeason2,
     });
 
     // TV Minder: follow
