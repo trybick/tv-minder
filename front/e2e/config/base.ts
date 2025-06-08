@@ -15,6 +15,15 @@ import { mockRequest } from '../mockRequest';
 
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use) => {
+    // Don't load images (high bandwidth from external API)
+    await page.route('**/*', route => {
+      if (route.request().resourceType() === 'image') {
+        route.abort();
+      } else {
+        route.continue();
+      }
+    });
+
     // Popular
     mockRequest({
       page,
