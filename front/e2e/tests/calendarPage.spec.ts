@@ -1,7 +1,7 @@
 import { expect, test } from '../config/base';
 import { baseUrl } from '../config/playwright.config';
 import { login } from '../helpers';
-import { email } from '../mockData';
+import { email, showTitleToId } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Calendar Page', () => {
@@ -18,7 +18,9 @@ test.describe('Calendar Page', () => {
     await page.goto(baseUrl);
 
     // Follow Mobland
-    await page.getByRole('button', { name: 'follow-button-247718' }).click();
+    await page
+      .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
+      .click();
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByRole('status')).toHaveText(
       /we're saving your shows/i
@@ -27,13 +29,19 @@ test.describe('Calendar Page', () => {
     await page.getByPlaceholder(/find tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
 
-    await page.getByRole('button', { name: 'follow-button-120998' }).click();
+    await page
+      .getByRole('button', {
+        name: `follow-button-${showTitleToId.pokerface}`,
+      })
+      .click();
     await page
       .getByRole('link', { name: /poker face/i })
       .first()
       .click();
     await expect(
-      page.getByRole('button', { name: 'follow-button-120998' })
+      page.getByRole('button', {
+        name: `follow-button-${showTitleToId.pokerface}`,
+      })
     ).toHaveText(/unfollow/i);
 
     await page.getByRole('button', { name: 'calendar' }).click();
@@ -49,14 +57,20 @@ test.describe('Calendar Page', () => {
       .hover();
     await page.getByRole('heading', { name: 'Poker Face' }).first().click();
 
-    await expect(page).toHaveURL(`${baseUrl}/show/120998`);
+    await expect(page).toHaveURL(`${baseUrl}/show/${showTitleToId.pokerface}`);
     await expect(
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
 
-    await page.getByRole('button', { name: 'follow-button-120998' }).click();
+    await page
+      .getByRole('button', {
+        name: `follow-button-${showTitleToId.pokerface}`,
+      })
+      .click();
     await expect(
-      page.getByRole('button', { name: 'follow-button-120998' })
+      page.getByRole('button', {
+        name: `follow-button-${showTitleToId.pokerface}`,
+      })
     ).toHaveText(/follow/i);
   });
 
@@ -86,7 +100,7 @@ test.describe('Calendar Page', () => {
       .hover();
     await page.getByRole('heading', { name: 'Poker Face' }).first().click();
 
-    await expect(page).toHaveURL(`${baseUrl}/show/120998`);
+    await expect(page).toHaveURL(`${baseUrl}/show/${showTitleToId.pokerface}`);
     await expect(
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
@@ -97,9 +111,15 @@ test.describe('Calendar Page', () => {
       method: 'DELETE',
     });
 
-    await page.getByRole('button', { name: 'follow-button-120998' }).click();
+    await page
+      .getByRole('button', {
+        name: `follow-button-${showTitleToId.pokerface}`,
+      })
+      .click();
     await expect(
-      page.getByRole('button', { name: 'follow-button-120998' })
+      page.getByRole('button', {
+        name: `follow-button-${showTitleToId.pokerface}`,
+      })
     ).toHaveText(/follow/i);
   });
 });
