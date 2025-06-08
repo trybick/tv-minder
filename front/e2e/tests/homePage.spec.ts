@@ -47,15 +47,39 @@ test.describe('Home Page', () => {
     test('should clear search when clicking the site logo', async ({
       page,
     }) => {
+      mockRequest({
+        page,
+        path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
+        body: searchPokerFaceResponse,
+      });
+
       await page.goto(baseUrl);
 
-      await page.getByRole('textbox', { name: /search/i }).fill('Test Show');
+      await expect(
+        page.getByRole('heading', { name: 'Popular' })
+      ).toBeVisible();
 
-      await expect(page.getByText('Test Show 1')).toBeVisible();
+      await page.getByPlaceholder(/find tv shows/i).fill('poker face');
 
-      await page.getByRole('button', { name: /clear search/i }).click();
+      await expect(
+        page.getByRole('button', { name: /follow/i }).first()
+      ).toBeVisible();
 
-      await expect(page.getByText('Test Show 1')).not.toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: 'Popular' })
+      ).not.toBeVisible();
+
+      await page
+        .getByRole('heading', { name: /tv minder logo/i })
+        .click({ position: { x: 0.25, y: 0.5 } });
+
+      await expect(page.getByPlaceholder(/find tv shows/i)).toHaveValue('');
+      await expect(
+        page.getByRole('button', { name: /clear input/i })
+      ).not.toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: 'Popular' })
+      ).toBeVisible();
     });
   });
 
