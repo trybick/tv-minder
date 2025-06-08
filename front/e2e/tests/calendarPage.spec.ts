@@ -1,11 +1,6 @@
 import { expect, test } from '../fixtures';
 import { login } from '../helpers';
-import {
-  email,
-  followResponse,
-  popularShowsResponse,
-  searchPokerFaceResponse,
-} from '../mockData';
+import { email } from '../mockData';
 import { mockRequest } from '../mockRequest';
 import { baseUrl } from '../playwright.config';
 
@@ -20,18 +15,6 @@ test.describe('Calendar Page', () => {
   });
 
   test('shows episodes on calendar for logged out user', async ({ page }) => {
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/trending/tv/week**',
-      body: popularShowsResponse,
-    });
-
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
-      body: searchPokerFaceResponse,
-    });
-
     await page.goto(baseUrl);
 
     // Follow Mobland
@@ -86,11 +69,6 @@ test.describe('Calendar Page', () => {
         token: '123',
         email,
       },
-    });
-    mockRequest({
-      page,
-      path: '/api.tv-minder.com/follow*',
-      body: followResponse,
     });
 
     await page.goto(baseUrl);

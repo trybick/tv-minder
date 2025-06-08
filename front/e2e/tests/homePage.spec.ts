@@ -1,6 +1,4 @@
 import { expect, test } from '../fixtures';
-import { searchPokerFaceResponse } from '../mockData';
-import { mockRequest } from '../mockRequest';
 import { baseUrl } from '../playwright.config';
 
 test.describe('Home Page', () => {
@@ -11,12 +9,6 @@ test.describe('Home Page', () => {
     });
 
     test('should clear search results when clicking X', async ({ page }) => {
-      mockRequest({
-        page,
-        path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
-        body: searchPokerFaceResponse,
-      });
-
       await page.goto(baseUrl);
 
       await expect(
@@ -46,12 +38,6 @@ test.describe('Home Page', () => {
     test('should clear search when clicking the site logo', async ({
       page,
     }) => {
-      mockRequest({
-        page,
-        path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
-        body: searchPokerFaceResponse,
-      });
-
       await page.goto(baseUrl);
 
       await expect(
