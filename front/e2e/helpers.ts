@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test';
 
-import { email, password } from './mockData/mockData';
+import { email, password } from './mockData';
 
 export const login = async (page: Page) => {
   await page.getByRole('button', { name: 'Login' }).click();

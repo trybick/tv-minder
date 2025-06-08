@@ -1,5 +1,5 @@
 import { expect, test } from '../fixtures';
-import { email, password } from '../mockData/mockData';
+import { email, password } from '../mockData';
 import { baseUrl } from '../playwright.config';
 
 test.describe('Settings', () => {

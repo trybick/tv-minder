@@ -1,0 +1,41 @@
+export const searchPokerFaceResponse = {
+  page: 1,
+  results: [
+    {
+      adult: false,
+      backdrop_path: '/ccOzCmrglAjRGtqv5ClTaBEsWt8.jpg',
+      genre_ids: [9648, 80],
+      id: 120998,
+      origin_country: ['US'],
+      original_language: 'en',
+      original_name: 'Poker Face',
+      overview:
+        "Follow Charlie Cale, a woman with an extraordinary ability to tell when someone is lying, as she hits the road and, at every stop, encounters a new cast of characters and crimes she can't help but solve.",
+      popularity: 25.3586,
+      poster_path: '/sQxgo6z2nEzq1kfXdktRIWtje3B.jpg',
+      first_air_date: '2023-01-26',
+      name: 'Poker Face',
+      vote_average: 7.6,
+      vote_count: 369,
+    },
+    {
+      adult: false,
+      backdrop_path: null,
+      genre_ids: [35, 10767, 10764],
+      id: 207240,
+      origin_country: ['NZ'],
+      original_language: 'en',
+      original_name: 'Poker Face',
+      overview:
+        'How long can you hold your poker face before you get the giggles? Comedians and celebrities face off to win money for their charities of choice. The comedians have three rounds to show us their best work and make their celeb crack a smile.',
+      popularity: 0.0357,
+      poster_path: null,
+      first_air_date: '2018-01-26',
+      name: 'Poker Face',
+      vote_average: 0,
+      vote_count: 0,
+    },
+  ],
+  total_pages: 1,
+  total_results: 2,
+};
