@@ -1,5 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 
+import { test } from '../fixtures';
 import { email, password } from '../mockData';
 import { baseUrl } from '../playwright.config';
 

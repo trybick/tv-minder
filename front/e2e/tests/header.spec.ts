@@ -1,5 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 
+import { test } from '../fixtures';
 import { baseUrl } from '../playwright.config';
 
 test.describe('Header', () => {
