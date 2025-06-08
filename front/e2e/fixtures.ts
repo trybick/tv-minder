@@ -4,7 +4,7 @@ import {
   followResponse,
   popularShowsResponse,
   searchPokerFaceResponse,
-} from './mockData';
+} from './mockData/mockData';
 import { topRatedShowsResponse } from './mockData/topRatedShows';
 import { mockRequest } from './mockRequest';
 
