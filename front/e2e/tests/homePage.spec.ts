@@ -1,6 +1,4 @@
-import { expect } from '@playwright/test';
-
-import { test } from '../fixtures';
+import { expect, test } from '../fixtures';
 import { searchPokerFaceResponse } from '../mockData';
 import { mockRequest } from '../mockRequest';
 import { baseUrl } from '../playwright.config';

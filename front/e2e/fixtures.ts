@@ -1,4 +1,4 @@
-import { test as base, Page } from '@playwright/test';
+import { test as base, expect, Page } from '@playwright/test';
 
 import { searchPokerFaceResponse } from './mockData';
 import { mockRequest } from './mockRequest';
@@ -13,3 +13,5 @@ export const test = base.extend<{ page: Page }>({
     await use(page);
   },
 });
+
+export { expect };
