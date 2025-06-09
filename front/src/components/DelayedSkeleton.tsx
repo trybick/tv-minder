@@ -14,7 +14,7 @@ const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
     let timeoutId: number;
 
     if (isLoading) {
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         setShouldShowSkeleton(true);
       }, SKELETON_DELAY);
     } else {
