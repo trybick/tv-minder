@@ -10,7 +10,8 @@ test.describe('Calendar Page', () => {
   });
 
   test('should have correct page title', async ({ page }) => {
-    await page.goto(`${baseUrl}/calendar`);
+    await page.goto(`${baseUrl}`);
+    await page.getByRole('link', { name: /calendar/i }).click();
     await expect(page).toHaveTitle('Calendar | TV Minder');
 
     await expect(

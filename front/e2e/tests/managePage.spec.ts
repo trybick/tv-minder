@@ -1,6 +1,5 @@
 import { expect, test } from '../config/base';
 import { baseUrl } from '../config/playwright.config';
-import { email } from '../mockData';
 
 test.describe('Manage Page', () => {
   test('should have correct page title', async ({ page }) => {
