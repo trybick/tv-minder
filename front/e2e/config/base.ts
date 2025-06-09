@@ -15,6 +15,9 @@ import { mockRequest } from '../mockRequest';
 
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use) => {
+    // Set fixed date
+    await page.clock.setFixedTime(new Date('2025-06-06T10:00:00'));
+
     // Don't load images (high bandwidth from external API)
     await page.route('**/*', route => {
       if (route.request().resourceType() === 'image') {

@@ -5,10 +5,6 @@ import { email, showTitleToId } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Calendar Page', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.clock.setFixedTime(new Date('2025-06-06T10:00:00'));
-  });
-
   test('should have correct page title', async ({ page }) => {
     await page.goto(`${baseUrl}`);
     await page.getByRole('link', { name: /calendar/i }).click();
