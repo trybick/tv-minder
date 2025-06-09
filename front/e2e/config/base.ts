@@ -1,24 +1,13 @@
 import { test as base, expect, Page } from '@playwright/test';
 
-import {
-  followResponse,
-  moblandBasicInfo,
-  moblandSeason1,
-  pokerFaceBasicInfo,
-  pokerFaceSeason1,
-  pokerFaceSeason2,
-  popularShowsResponse,
-  searchPokerFaceResponse,
-} from '../mockData';
-import { topRatedShowsResponse } from '../mockData/topRatedShows';
-import { mockRequest } from '../mockRequest';
+import { globalMockRequests } from './globalMockRequests';
 
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use) => {
     // Set fixed date
     await page.clock.setFixedTime(new Date('2025-06-06T10:00:00'));
 
-    // Don't load images (high bandwidth from external API)
+    // Don't load images to reduce API bandwidth
     await page.route('**/*', route => {
       if (route.request().resourceType() === 'image') {
         route.abort();
@@ -27,62 +16,7 @@ export const test = base.extend<{ page: Page }>({
       }
     });
 
-    // Popular
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/trending/tv/week**',
-      body: popularShowsResponse,
-    });
-
-    // Top rated
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/tv/top_rated**',
-      body: topRatedShowsResponse,
-    });
-
-    // Search "poker face"
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/search/tv**&query=poker+face',
-      body: searchPokerFaceResponse,
-    });
-
-    // Mobland
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/tv/247718*',
-      body: moblandBasicInfo,
-    });
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/tv/247718/season/1**',
-      body: moblandSeason1,
-    });
-
-    // Poker Face
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/tv/120998*',
-      body: pokerFaceBasicInfo,
-    });
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/tv/120998/season/1**',
-      body: pokerFaceSeason1,
-    });
-    mockRequest({
-      page,
-      path: '/api.themoviedb.org/3/tv/120998/season/2**',
-      body: pokerFaceSeason2,
-    });
-
-    // TV Minder: follow
-    mockRequest({
-      page,
-      path: '/api.tv-minder.com/follow*',
-      body: followResponse,
-    });
+    globalMockRequests(page);
 
     await use(page);
   },
