@@ -144,4 +144,18 @@ test.describe('Login and Signup flows', () => {
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByRole('status')).toHaveText(/password changed/i);
   });
+
+  test('should be able to logout', async ({ page }) => {
+    await page.goto(baseUrl);
+    await login(page);
+
+    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    await userMenu.click();
+    await page.getByRole('menuitem', { name: 'Logout' }).click();
+
+    await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Sign Up' })).toBeVisible();
+
+    await expect(userMenu).not.toBeVisible();
+  });
 });
