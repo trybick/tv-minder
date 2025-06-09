@@ -12,6 +12,10 @@ test.describe('Calendar Page', () => {
   test('should have correct page title', async ({ page }) => {
     await page.goto(`${baseUrl}/calendar`);
     await expect(page).toHaveTitle('Calendar | TV Minder');
+
+    await expect(
+      page.getByRole('link', { name: /follow some shows/i })
+    ).toBeVisible();
   });
 
   test('shows episodes on calendar for logged out user', async ({ page }) => {
