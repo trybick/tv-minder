@@ -1,7 +1,7 @@
 import { expect, test } from '../config/base';
 import { baseUrl } from '../config/playwright.config';
 import { login } from '../helpers';
-import { email, showTitleToId } from '../mockData';
+import { showTitleToId } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Calendar Page', () => {
@@ -75,16 +75,6 @@ test.describe('Calendar Page', () => {
   });
 
   test('shows episodes on calendar for logged in user', async ({ page }) => {
-    mockRequest({
-      page,
-      path: '/api.tv-minder.com/login',
-      method: 'POST',
-      body: {
-        token: '123',
-        email,
-      },
-    });
-
     await page.goto(baseUrl);
     await login(page);
 

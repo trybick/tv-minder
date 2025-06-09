@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test';
 
 import {
+  email,
   followResponse,
   moblandBasicInfo,
   moblandSeason1,
@@ -69,5 +70,16 @@ export const globalMockRequests = (page: Page) => {
     page,
     path: '/api.tv-minder.com/follow*',
     body: followResponse,
+  });
+
+  // TV Minder: login
+  mockRequest({
+    page,
+    path: '/api.tv-minder.com/login',
+    method: 'POST',
+    body: {
+      token: '123',
+      email,
+    },
   });
 };
