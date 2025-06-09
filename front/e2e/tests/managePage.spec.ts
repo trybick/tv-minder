@@ -2,6 +2,7 @@ import { expect, test } from '../config/base';
 import { baseUrl } from '../config/playwright.config';
 import { login } from '../helpers';
 import { showTitleToId } from '../mockData';
+import { mockRequest } from '../mockRequest';
 
 test.describe('Manage Page', () => {
   test('should have correct page title', async ({ page }) => {
@@ -45,6 +46,12 @@ test.describe('Manage Page', () => {
     await page.getByRole('button', { name: /mobland/i }).click();
     await expect(page).toHaveURL(`${baseUrl}/show/${showTitleToId.mobland}`);
 
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/follow*',
+      method: 'DELETE',
+    });
+
     await page
       .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
       .click();
@@ -56,9 +63,7 @@ test.describe('Manage Page', () => {
 
     await page.getByRole('link', { name: /manage/i }).click();
 
-    await expect(
-      page.getByRole('button', { name: /mobland/i })
-    ).not.toBeVisible();
+    await expect(page.getByText(/mobland/i)).not.toBeVisible();
     await expect(
       page.getByRole('button', { name: /poker face/i })
     ).toBeVisible();

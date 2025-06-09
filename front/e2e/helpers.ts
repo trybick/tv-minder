@@ -1,8 +1,19 @@
 import { expect, Page } from '@playwright/test';
 
 import { email, password } from './mockData';
+import { mockRequest } from './mockRequest';
 
 export const login = async (page: Page) => {
+  mockRequest({
+    page,
+    path: '/api.tv-minder.com/login',
+    method: 'POST',
+    body: {
+      token: '123',
+      email,
+    },
+  });
+
   await page.getByRole('button', { name: 'Login' }).click();
 
   const loginModal = page.getByRole('dialog', { name: 'Login' });

@@ -21,6 +21,17 @@ test.describe('Login and Signup flows', () => {
   test('should show error message for invalid credentials', async ({
     page,
   }) => {
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/login',
+      method: 'POST',
+      status: 401,
+      body: {
+        token: '123',
+        email,
+      },
+    });
+
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Login' }).click();
 
@@ -44,6 +55,15 @@ test.describe('Login and Signup flows', () => {
       path: '/register',
       method: 'POST',
       status: 201,
+    });
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/login',
+      method: 'POST',
+      body: {
+        token: '123',
+        email,
+      },
     });
 
     await page.goto(baseUrl);
