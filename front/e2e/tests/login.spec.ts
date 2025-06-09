@@ -1,61 +1,38 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../config/base';
+import { baseUrl } from '../config/playwright.config';
+import { login } from '../helpers';
+import { email, password } from '../mockData';
+import { mockRequest } from '../mockRequest';
 
-import { baseUrl } from '../playwright.config';
-import { password, username } from '../shared';
-
-test.describe('Authentication', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.route('**/api/login', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          token: 'mock-jwt-token',
-          email: username,
-        }),
-      });
-    });
-  });
-
+test.describe('Login and Signup flows', () => {
   test('should successfully log in with email and password', async ({
     page,
   }) => {
     await page.goto(baseUrl);
-
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    const loginModal = page.getByRole('dialog', { name: 'Login' });
-    await expect(loginModal).toBeVisible();
-
-    await page.getByRole('textbox', { name: /email/i }).fill(username);
-    await page.getByRole('textbox', { name: /password/i }).fill(password);
-
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    await expect(loginModal).not.toBeVisible();
+    await login(page);
 
     const userMenu = page.getByRole('button', { name: 'Page Options' });
     await expect(userMenu).toBeVisible();
 
     await userMenu.click();
-    await expect(page.getByText(username)).toBeVisible();
+    await expect(page.getByText(email)).toBeVisible();
   });
 
   test('should show error message for invalid credentials', async ({
     page,
   }) => {
-    await page.route('**/api/login', async route => {
-      await route.fulfill({
-        status: 401,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          message: 'Invalid credentials',
-        }),
-      });
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/login',
+      method: 'POST',
+      status: 401,
+      body: {
+        token: '123',
+        email,
+      },
     });
 
     await page.goto(baseUrl);
-
     await page.getByRole('button', { name: 'Login' }).click();
 
     await page
@@ -70,5 +47,135 @@ test.describe('Authentication', () => {
     await expect(
       page.getByText('Invalid login. Please try again.')
     ).toBeVisible();
+  });
+
+  test('should successfully sign up as a new user', async ({ page }) => {
+    await mockRequest({
+      page,
+      path: '/register',
+      method: 'POST',
+      status: 201,
+    });
+    mockRequest({
+      page,
+      path: '/api.tv-minder.com/login',
+      method: 'POST',
+      body: {
+        token: '123',
+        email,
+      },
+    });
+
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
+    await expect(signupModal).toBeVisible();
+
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
+
+    const allPasswords = await page
+      .getByRole('textbox', { name: /password/i })
+      .all();
+    await allPasswords[0].fill(password);
+    await allPasswords[1].fill(password);
+
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    await expect(signupModal).not.toBeVisible();
+    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    await expect(userMenu).toBeVisible();
+  });
+
+  test('should show error when passwords do not match during signup', async ({
+    page,
+  }) => {
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+
+    const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
+    await expect(signupModal).toBeVisible();
+
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
+
+    const allPasswords = await page
+      .getByRole('textbox', { name: /password/i })
+      .all();
+    await allPasswords[0].fill(password);
+    await allPasswords[1].fill('differentpassword');
+
+    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await expect(page.getByText('Passwords do not match')).toBeVisible();
+  });
+
+  test('should handle forgot password flow', async ({ page }) => {
+    await mockRequest({
+      page,
+      method: 'POST',
+      path: '/requestonetimecode',
+    });
+    await mockRequest({
+      page,
+      method: 'POST',
+      path: '/verifyonetimecode',
+    });
+    await mockRequest({
+      page,
+      method: 'POST',
+      path: '/changepasswordforreset',
+    });
+
+    await page.goto(baseUrl);
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    const loginModal = page.getByRole('dialog', { name: 'Login' });
+    await expect(loginModal).toBeVisible();
+
+    await page.getByRole('button', { name: 'Forgot Password?' }).click();
+
+    const forgotPasswordModal = page.getByRole('dialog', {
+      name: 'Forgot Password',
+    });
+    await expect(forgotPasswordModal).toBeVisible();
+
+    await page.getByRole('button', { name: 'Back' }).click();
+    await expect(loginModal).toBeVisible();
+
+    await page.getByRole('button', { name: 'Forgot Password?' }).click();
+    await expect(forgotPasswordModal).toBeVisible();
+
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
+    await page.getByRole('button', { name: 'Send Code' }).click();
+
+    await expect(page.getByRole('textbox', { name: /email/i })).toBeDisabled();
+
+    await page
+      .getByRole('textbox', { name: /enter verification code/i })
+      .fill('12345');
+
+    await page.getByRole('button', { name: 'Verify' }).click();
+    await page.getByRole('textbox', { name: /new password/i }).fill(password);
+    await page.getByRole('button', { name: 'Change Password' }).click();
+
+    await expect(forgotPasswordModal).not.toBeVisible();
+    await expect(loginModal).toBeVisible();
+    await expect(page.getByRole('button', { name: /login/i })).toBeVisible();
+
+    await expect(page.getByRole('status')).toBeVisible();
+    await expect(page.getByRole('status')).toHaveText(/password changed/i);
+  });
+
+  test('should be able to logout', async ({ page }) => {
+    await page.goto(baseUrl);
+    await login(page);
+
+    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    await userMenu.click();
+    await page.getByRole('menuitem', { name: 'Logout' }).click();
+
+    await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Sign Up' })).toBeVisible();
+
+    await expect(userMenu).not.toBeVisible();
   });
 });

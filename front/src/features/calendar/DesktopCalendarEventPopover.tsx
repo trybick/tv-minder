@@ -51,7 +51,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
       <HoverCard.Trigger asChild>
         <Flex alignItems="center" p="1px 6px">
           {isMulipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
-          <Text fontSize="md" lineClamp={1}>
+          <Text fontSize="md" lineClamp={1} as="h3">
             {title}
           </Text>
         </Flex>

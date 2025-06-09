@@ -26,7 +26,7 @@ export default defineConfig({
   },
 
   use: {
-    baseUrl,
+    baseURL: baseUrl,
     trace: 'on-first-retry',
   },
 });
