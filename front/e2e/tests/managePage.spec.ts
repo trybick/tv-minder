@@ -6,6 +6,7 @@ import { showTitleToId } from '../mockData';
 test.describe('Manage Page', () => {
   test('should have correct page title', async ({ page }) => {
     await page.goto(baseUrl);
+    await login(page);
     await page.getByRole('link', { name: /manage/i }).click();
     await expect(page).toHaveTitle('Manage | TV Minder');
   });

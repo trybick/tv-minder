@@ -18,7 +18,6 @@ test.describe('Calendar Page', () => {
   test('shows episodes on calendar for logged out user', async ({ page }) => {
     await page.goto(baseUrl);
 
-    // Follow Mobland
     await page
       .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
       .click();

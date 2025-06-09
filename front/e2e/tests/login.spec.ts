@@ -42,6 +42,7 @@ test.describe('Login and Signup flows', () => {
     await mockRequest({
       page,
       path: '/register',
+      method: 'POST',
       status: 201,
     });
 
@@ -90,14 +91,17 @@ test.describe('Login and Signup flows', () => {
   test('should handle forgot password flow', async ({ page }) => {
     await mockRequest({
       page,
+      method: 'POST',
       path: '/requestonetimecode',
     });
     await mockRequest({
       page,
+      method: 'POST',
       path: '/verifyonetimecode',
     });
     await mockRequest({
       page,
+      method: 'POST',
       path: '/changepasswordforreset',
     });
 
