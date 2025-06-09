@@ -27,7 +27,7 @@ test.describe('Header', () => {
   test('should navigate to home page when clicking the logo', async ({
     page,
   }) => {
-    await page.goto(`${baseUrl}/show/100088`);
+    await page.goto(`${baseUrl}/calendar`);
 
     await page.getByRole('button', { name: /tv minder logo/i }).click();
 
