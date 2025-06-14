@@ -18,11 +18,11 @@ export const login = async (page: Page) => {
     .getByRole('navigation')
     .getByRole('button', { name: 'Login' })
     .click();
+  await expect(page.getByRole('dialog')).toBeVisible();
 
   await page.getByRole('textbox', { name: /email/i }).fill(email);
   await page.getByRole('textbox', { name: /password/i }).fill(password);
 
   await page.getByRole('dialog').getByRole('button', { name: 'Login' }).click();
-
   await expect(page.getByRole('dialog')).not.toBeVisible();
 };

@@ -5,7 +5,7 @@ import { email, password } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Login and Signup flows', () => {
-  test('should successfully log in with email and password', async ({
+  test.only('should successfully log in with email and password', async ({
     page,
   }) => {
     await page.goto(baseUrl);
@@ -174,24 +174,5 @@ test.describe('Login and Signup flows', () => {
     await expect(page.getByRole('button', { name: 'Sign Up' })).toBeVisible();
 
     await expect(userMenu).not.toBeVisible();
-  });
-
-  test.only('test test', async ({ page }) => {
-    await page.goto('/');
-    await page
-      .getByRole('navigation')
-      .getByRole('button', { name: 'Login' })
-      .click();
-
-    await expect(page.getByRole('dialog')).toBeVisible();
-    await page.getByRole('textbox', { name: /email/i }).fill(email);
-    await page.getByRole('textbox', { name: /password/i }).fill(password);
-
-    await page
-      .getByRole('dialog')
-      .getByRole('button', { name: 'Login' })
-      .click();
-
-    await expect(page.getByRole('dialog')).not.toBeVisible();
   });
 });
