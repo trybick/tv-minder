@@ -141,12 +141,16 @@ const SignUpModal = ({ disclosureProps }: Props) => {
             <CloseButton />
           </Dialog.CloseTrigger>
 
-          <GoogleLoginButton
-            onClose={onClose}
-            unregisteredClearFollowedShows={() =>
-              dispatch(unregisteredClearFollowedShowsAction())
-            }
-          />
+          {/* Do not render the Google button during playwright tests.
+              It causes the page to go blank  */}
+          {import.meta.env.VITE_CI !== 'true' && (
+            <GoogleLoginButton
+              onClose={onClose}
+              unregisteredClearFollowedShows={() =>
+                dispatch(unregisteredClearFollowedShowsAction())
+              }
+            />
+          )}
 
           <Box as="form" onSubmit={onSubmit}>
             <Dialog.Body pb={6}>

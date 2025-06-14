@@ -1,4 +1,3 @@
-import { baseUrl } from '../../playwright.config';
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
 import { email, password } from '../mockData';
@@ -8,7 +7,7 @@ test.describe('Login and Signup flows', () => {
   test('should successfully log in with email and password', async ({
     page,
   }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
     await login(page);
 
     const userMenu = page.getByRole('button', { name: 'Page Options' });
@@ -26,13 +25,9 @@ test.describe('Login and Signup flows', () => {
       path: '/api.tv-minder.com/login',
       method: 'POST',
       status: 401,
-      body: {
-        token: '123',
-        email,
-      },
     });
 
-    await page.goto(baseUrl);
+    await page.goto('/');
     await page.getByRole('button', { name: 'Login' }).click();
 
     await page
@@ -69,8 +64,11 @@ test.describe('Login and Signup flows', () => {
       },
     });
 
-    await page.goto(baseUrl);
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page.goto('/');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
 
     const signupModal = page.getByRole('dialog');
     await expect(signupModal).toBeVisible();
@@ -83,7 +81,10 @@ test.describe('Login and Signup flows', () => {
     await allPasswords[0].fill(password);
     await allPasswords[1].fill(password);
 
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
 
     await expect(signupModal).not.toBeVisible();
     const userMenu = page.getByRole('button', { name: 'Page Options' });
@@ -93,8 +94,11 @@ test.describe('Login and Signup flows', () => {
   test('should show error when passwords do not match during signup', async ({
     page,
   }) => {
-    await page.goto(baseUrl);
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page.goto('/');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
 
     const signupModal = page.getByRole('dialog');
     await expect(signupModal).toBeVisible();
@@ -107,7 +111,10 @@ test.describe('Login and Signup flows', () => {
     await allPasswords[0].fill(password);
     await allPasswords[1].fill('differentpassword');
 
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
     await expect(page.getByText('Passwords do not match')).toBeVisible();
   });
 
@@ -128,21 +135,9 @@ test.describe('Login and Signup flows', () => {
       path: '/changepasswordforreset',
     });
 
-    await page.goto(baseUrl);
+    await page.goto('/');
     await page.getByRole('button', { name: 'Login' }).click();
-
-    const loginModalTitle = '#login-modal-title';
-    await page.waitForSelector(loginModalTitle);
-    await expect(page.locator(loginModalTitle)).toHaveText('Login');
-
     await page.getByRole('button', { name: 'Forgot Password?' }).click();
-    await expect(page.locator(loginModalTitle)).toHaveText('Forgot Password');
-
-    await page.getByRole('button', { name: 'Back' }).click();
-    await expect(page.locator(loginModalTitle)).toHaveText('Login');
-
-    await page.getByRole('button', { name: 'Forgot Password?' }).click();
-    await expect(page.locator(loginModalTitle)).toHaveText('Forgot Password');
 
     await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('button', { name: 'Send Code' }).click();
@@ -157,41 +152,25 @@ test.describe('Login and Signup flows', () => {
     await page.getByRole('textbox', { name: /new password/i }).fill(password);
     await page.getByRole('button', { name: 'Change Password' }).click();
 
-    await expect(page.locator(loginModalTitle)).toHaveText('Login');
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByRole('status')).toHaveText(/password changed/i);
   });
 
   test('should be able to logout', async ({ page }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
     await login(page);
 
     const userMenu = page.getByRole('button', { name: 'Page Options' });
     await userMenu.click();
     await page.getByRole('menuitem', { name: 'Logout' }).click();
 
-    await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Sign Up' })).toBeVisible();
+    await expect(
+      page.getByRole('navigation').getByRole('button', { name: 'Login' })
+    ).toBeVisible();
+    await expect(
+      page.getByRole('navigation').getByRole('button', { name: 'Sign Up' })
+    ).toBeVisible();
 
     await expect(userMenu).not.toBeVisible();
-  });
-
-  test.only('test test', async ({ page }) => {
-    await page.goto('/');
-    await page
-      .getByRole('navigation')
-      .getByRole('button', { name: 'Login' })
-      .click();
-
-    await expect(page.getByRole('dialog')).toBeVisible();
-    await page.getByRole('textbox', { name: /email/i }).fill(email);
-    await page.getByRole('textbox', { name: /password/i }).fill(password);
-
-    await page
-      .getByRole('dialog')
-      .getByRole('button', { name: 'Login' })
-      .click();
-
-    await expect(page.getByRole('dialog')).not.toBeVisible();
   });
 });

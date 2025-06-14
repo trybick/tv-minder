@@ -43,6 +43,8 @@ jobs:
         run: |
           cd front
           npx playwright test
+        env:
+          VITE_CI: true
 
       - uses: actions/upload-artifact@v4
         if: failure()

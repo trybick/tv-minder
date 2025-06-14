@@ -1,4 +1,3 @@
-import { baseUrl } from '../../playwright.config';
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
 import { showTitleToId } from '../mockData';
@@ -6,7 +5,7 @@ import { mockRequest } from '../mockRequest';
 
 test.describe('Calendar Page', () => {
   test('should have correct page title', async ({ page }) => {
-    await page.goto(`${baseUrl}`);
+    await page.goto('/');
     await page.getByRole('link', { name: /calendar/i }).click();
     await expect(page).toHaveTitle('Calendar | TV Minder');
 
@@ -16,7 +15,7 @@ test.describe('Calendar Page', () => {
   });
 
   test('shows episodes on calendar for logged out user', async ({ page }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
 
     await page
       .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
@@ -57,7 +56,7 @@ test.describe('Calendar Page', () => {
       .hover();
     await page.getByRole('heading', { name: 'Poker Face' }).first().click();
 
-    await expect(page).toHaveURL(`${baseUrl}/show/${showTitleToId.pokerface}`);
+    await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
     await expect(
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
@@ -75,7 +74,7 @@ test.describe('Calendar Page', () => {
   });
 
   test('shows episodes on calendar for logged in user', async ({ page }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
     await login(page);
 
     await page.getByRole('button', { name: 'calendar' }).click();
@@ -90,7 +89,7 @@ test.describe('Calendar Page', () => {
       .hover();
     await page.getByRole('heading', { name: 'Poker Face' }).first().click();
 
-    await expect(page).toHaveURL(`${baseUrl}/show/${showTitleToId.pokerface}`);
+    await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
     await expect(
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
