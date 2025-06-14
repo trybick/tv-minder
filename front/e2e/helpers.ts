@@ -14,15 +14,15 @@ export const login = async (page: Page) => {
     },
   });
 
-  await page.getByRole('button', { name: 'Login' }).click();
-
-  const loginModal = page.getByRole('dialog', { name: 'Login' });
-  await expect(loginModal).toBeVisible();
+  await page
+    .getByRole('navigation')
+    .getByRole('button', { name: 'Login' })
+    .click();
 
   await page.getByRole('textbox', { name: /email/i }).fill(email);
   await page.getByRole('textbox', { name: /password/i }).fill(password);
 
-  await page.getByRole('button', { name: 'Login' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Login' }).click();
 
-  await expect(loginModal).not.toBeVisible();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
 };

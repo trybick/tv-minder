@@ -30,10 +30,6 @@ import handleErrors from '~/utils/handleErrors';
 
 import GoogleLoginButton from './GoogleLoginButton';
 
-type Props = {
-  disclosureProps: DisclosureProps;
-};
-
 type FormInputs = {
   email: string;
   password: string;
@@ -51,6 +47,10 @@ const formValidation = {
   oneTimeCode: {
     required: 'One time code is required',
   },
+};
+
+type Props = {
+  disclosureProps: DisclosureProps;
 };
 
 const LoginModal = ({ disclosureProps }: Props) => {
@@ -225,14 +225,14 @@ const LoginModal = ({ disclosureProps }: Props) => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {formOption === 0 && (
-              <GoogleLoginButton
-                onClose={onClose}
-                unregisteredClearFollowedShows={() =>
-                  dispatch(unregisteredClearFollowedShowsAction())
-                }
-              />
-            )}
+            {/* {formOption === 0 && (
+                <GoogleLoginButton
+                  onClose={onClose}
+                  unregisteredClearFollowedShows={() =>
+                    dispatch(unregisteredClearFollowedShowsAction())
+                  }
+                />
+              )} */}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
@@ -267,7 +267,9 @@ const LoginModal = ({ disclosureProps }: Props) => {
                     <PasswordInput
                       _focus={{ borderColor: 'cyan.500' }}
                       borderColor="gray.500"
-                      {...register('password', { ...formValidation.password })}
+                      {...register('password', {
+                        ...formValidation.password,
+                      })}
                     />
                     <Field.ErrorText>
                       {errors?.password?.message}

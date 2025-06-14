@@ -1,28 +1,55 @@
-name: Playwright Tests
+name: e2e Tests
+
 on:
   push:
     branches: [main]
-  # Temporarily disabling
-  # pull_request:
-  #   branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+
+      - uses: actions/cache@v4
+        with:
+          path: front/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: cd front && npm ci
-      - name: Install Playwright Browsers
-        run: cd front && npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: cd front && npx playwright test
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+
+      - uses: actions/cache@v4
         with:
-          name: playwright-report
-          path: front/playwright-report/
+          path: |
+            ~/.cache/ms-playwright
+            front/node_modules/playwright/.local-browsers
+          key: ${{ runner.os }}-playwright-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install Playwright Browsers
+        run: cd front && npx playwright install chromium --with-deps
+
+      - name: Run Playwright tests
+        run: |
+          cd front
+          npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-artifacts
+          path: |
+            front/playwright-report/
+            front/test-results/
+            front/playwright/.cache/
           retention-days: 30

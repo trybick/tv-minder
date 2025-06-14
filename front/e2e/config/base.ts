@@ -17,7 +17,6 @@ export const test = base.extend<{ page: Page }>({
     });
 
     globalMockRequests(page);
-
     await use(page);
   },
 });

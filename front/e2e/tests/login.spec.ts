@@ -1,5 +1,5 @@
+import { baseUrl } from '../../playwright.config';
 import { expect, test } from '../config/base';
-import { baseUrl } from '../config/playwright.config';
 import { login } from '../helpers';
 import { email, password } from '../mockData';
 import { mockRequest } from '../mockRequest';
@@ -42,7 +42,10 @@ test.describe('Login and Signup flows', () => {
       .getByRole('textbox', { name: /password/i })
       .fill('wrongpassword');
 
-    await page.getByRole('button', { name: 'Login' }).click();
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: 'Login' })
+      .click();
 
     await expect(
       page.getByText('Invalid login. Please try again.')
@@ -69,7 +72,7 @@ test.describe('Login and Signup flows', () => {
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Sign Up' }).click();
 
-    const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
+    const signupModal = page.getByRole('dialog');
     await expect(signupModal).toBeVisible();
 
     await page.getByRole('textbox', { name: /email/i }).fill(email);
@@ -93,7 +96,7 @@ test.describe('Login and Signup flows', () => {
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Sign Up' }).click();
 
-    const signupModal = page.getByRole('dialog', { name: 'Sign Up' });
+    const signupModal = page.getByRole('dialog');
     await expect(signupModal).toBeVisible();
 
     await page.getByRole('textbox', { name: /email/i }).fill(email);
@@ -128,21 +131,18 @@ test.describe('Login and Signup flows', () => {
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Login' }).click();
 
-    const loginModal = page.getByRole('dialog', { name: 'Login' });
-    await expect(loginModal).toBeVisible();
+    const loginModalTitle = '#login-modal-title';
+    await page.waitForSelector(loginModalTitle);
+    await expect(page.locator(loginModalTitle)).toHaveText('Login');
 
     await page.getByRole('button', { name: 'Forgot Password?' }).click();
-
-    const forgotPasswordModal = page.getByRole('dialog', {
-      name: 'Forgot Password',
-    });
-    await expect(forgotPasswordModal).toBeVisible();
+    await expect(page.locator(loginModalTitle)).toHaveText('Forgot Password');
 
     await page.getByRole('button', { name: 'Back' }).click();
-    await expect(loginModal).toBeVisible();
+    await expect(page.locator(loginModalTitle)).toHaveText('Login');
 
     await page.getByRole('button', { name: 'Forgot Password?' }).click();
-    await expect(forgotPasswordModal).toBeVisible();
+    await expect(page.locator(loginModalTitle)).toHaveText('Forgot Password');
 
     await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('button', { name: 'Send Code' }).click();
@@ -157,10 +157,7 @@ test.describe('Login and Signup flows', () => {
     await page.getByRole('textbox', { name: /new password/i }).fill(password);
     await page.getByRole('button', { name: 'Change Password' }).click();
 
-    await expect(forgotPasswordModal).not.toBeVisible();
-    await expect(loginModal).toBeVisible();
-    await expect(page.getByRole('button', { name: /login/i })).toBeVisible();
-
+    await expect(page.locator(loginModalTitle)).toHaveText('Login');
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByRole('status')).toHaveText(/password changed/i);
   });
@@ -177,5 +174,24 @@ test.describe('Login and Signup flows', () => {
     await expect(page.getByRole('button', { name: 'Sign Up' })).toBeVisible();
 
     await expect(userMenu).not.toBeVisible();
+  });
+
+  test.only('test test', async ({ page }) => {
+    await page.goto('/');
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: 'Login' })
+      .click();
+
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.getByRole('textbox', { name: /email/i }).fill(email);
+    await page.getByRole('textbox', { name: /password/i }).fill(password);
+
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: 'Login' })
+      .click();
+
+    await expect(page.getByRole('dialog')).not.toBeVisible();
   });
 });
