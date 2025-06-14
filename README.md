@@ -1,7 +1,6 @@
 # TV-Minder
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c0c8f001-1839-4c79-a338-de51cf4cd991/deploy-status)](https://app.netlify.com/sites/tv-minder/deploys) [![Validate front](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml)
-[![e2e Tests](https://github.com/trybick/tv-minder/actions/workflows/e2e-tests.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/e2e-tests.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c0c8f001-1839-4c79-a338-de51cf4cd991/deploy-status)](https://app.netlify.com/sites/tv-minder/deploys) [![Validate front](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/front-validate.yml) [![e2e Tests](https://github.com/trybick/tv-minder/actions/workflows/e2e-tests.yml/badge.svg)](https://github.com/trybick/tv-minder/actions/workflows/e2e-tests.yml)
 
 <p align="center">
 <img src="./demo.png" width="800px"/>
