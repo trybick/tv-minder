@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
+import { getUniqueColorsForShowIds } from './getUniqueColorsForShowIds';
 
 describe('getUniqueColorsForShowIds', () => {
   it('should return unique colors for different show IDs', () => {
