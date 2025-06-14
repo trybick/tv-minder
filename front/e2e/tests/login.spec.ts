@@ -66,7 +66,10 @@ test.describe('Login and Signup flows', () => {
     });
 
     await page.goto(baseUrl);
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
 
     const signupModal = page.getByRole('dialog');
     await expect(signupModal).toBeVisible();
@@ -79,7 +82,10 @@ test.describe('Login and Signup flows', () => {
     await allPasswords[0].fill(password);
     await allPasswords[1].fill(password);
 
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
 
     await expect(signupModal).not.toBeVisible();
     const userMenu = page.getByRole('button', { name: 'Page Options' });
@@ -90,7 +96,10 @@ test.describe('Login and Signup flows', () => {
     page,
   }) => {
     await page.goto(baseUrl);
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
 
     const signupModal = page.getByRole('dialog');
     await expect(signupModal).toBeVisible();
@@ -103,7 +112,10 @@ test.describe('Login and Signup flows', () => {
     await allPasswords[0].fill(password);
     await allPasswords[1].fill('differentpassword');
 
-    await page.getByRole('button', { name: 'Sign Up' }).click();
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: 'Sign Up' })
+      .click();
     await expect(page.getByText('Passwords do not match')).toBeVisible();
   });
 
@@ -153,8 +165,12 @@ test.describe('Login and Signup flows', () => {
     await userMenu.click();
     await page.getByRole('menuitem', { name: 'Logout' }).click();
 
-    await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Sign Up' })).toBeVisible();
+    await expect(
+      page.getByRole('navigation').getByRole('button', { name: 'Login' })
+    ).toBeVisible();
+    await expect(
+      page.getByRole('navigation').getByRole('button', { name: 'Sign Up' })
+    ).toBeVisible();
 
     await expect(userMenu).not.toBeVisible();
   });
