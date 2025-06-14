@@ -10,6 +10,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   outputDir: './e2e/test-results',
+  globalTimeout: 5000,
 
   projects: [
     {
