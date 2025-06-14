@@ -1,4 +1,3 @@
-import { baseUrl } from '../../playwright.config';
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
 import { email, password } from '../mockData';
@@ -8,7 +7,7 @@ test.describe('Login and Signup flows', () => {
   test('should successfully log in with email and password', async ({
     page,
   }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
     await login(page);
 
     const userMenu = page.getByRole('button', { name: 'Page Options' });
@@ -28,7 +27,7 @@ test.describe('Login and Signup flows', () => {
       status: 401,
     });
 
-    await page.goto(baseUrl);
+    await page.goto('/');
     await page.getByRole('button', { name: 'Login' }).click();
 
     await page
@@ -65,7 +64,7 @@ test.describe('Login and Signup flows', () => {
       },
     });
 
-    await page.goto(baseUrl);
+    await page.goto('/');
     await page
       .getByRole('navigation')
       .getByRole('button', { name: 'Sign Up' })
@@ -95,7 +94,7 @@ test.describe('Login and Signup flows', () => {
   test('should show error when passwords do not match during signup', async ({
     page,
   }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
     await page
       .getByRole('navigation')
       .getByRole('button', { name: 'Sign Up' })
@@ -136,7 +135,7 @@ test.describe('Login and Signup flows', () => {
       path: '/changepasswordforreset',
     });
 
-    await page.goto(baseUrl);
+    await page.goto('/');
     await page.getByRole('button', { name: 'Login' }).click();
     await page.getByRole('button', { name: 'Forgot Password?' }).click();
 
@@ -158,7 +157,7 @@ test.describe('Login and Signup flows', () => {
   });
 
   test('should be able to logout', async ({ page }) => {
-    await page.goto(baseUrl);
+    await page.goto('/');
     await login(page);
 
     const userMenu = page.getByRole('button', { name: 'Page Options' });
