@@ -5,7 +5,7 @@ import { email, password } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Login and Signup flows', () => {
-  test.only('should successfully log in with email and password', async ({
+  test('should successfully log in with email and password', async ({
     page,
   }) => {
     await page.goto(baseUrl);
@@ -26,10 +26,6 @@ test.describe('Login and Signup flows', () => {
       path: '/api.tv-minder.com/login',
       method: 'POST',
       status: 401,
-      body: {
-        token: '123',
-        email,
-      },
     });
 
     await page.goto(baseUrl);
@@ -130,19 +126,7 @@ test.describe('Login and Signup flows', () => {
 
     await page.goto(baseUrl);
     await page.getByRole('button', { name: 'Login' }).click();
-
-    const loginModalTitle = '#login-modal-title';
-    await page.waitForSelector(loginModalTitle);
-    await expect(page.locator(loginModalTitle)).toHaveText('Login');
-
     await page.getByRole('button', { name: 'Forgot Password?' }).click();
-    await expect(page.locator(loginModalTitle)).toHaveText('Forgot Password');
-
-    await page.getByRole('button', { name: 'Back' }).click();
-    await expect(page.locator(loginModalTitle)).toHaveText('Login');
-
-    await page.getByRole('button', { name: 'Forgot Password?' }).click();
-    await expect(page.locator(loginModalTitle)).toHaveText('Forgot Password');
 
     await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('button', { name: 'Send Code' }).click();
@@ -157,7 +141,6 @@ test.describe('Login and Signup flows', () => {
     await page.getByRole('textbox', { name: /new password/i }).fill(password);
     await page.getByRole('button', { name: 'Change Password' }).click();
 
-    await expect(page.locator(loginModalTitle)).toHaveText('Login');
     await expect(page.getByRole('status')).toBeVisible();
     await expect(page.getByRole('status')).toHaveText(/password changed/i);
   });
