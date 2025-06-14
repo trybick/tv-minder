@@ -12,11 +12,12 @@ export const test = base.extend<{ page: Page }>({
       if (route.request().resourceType() === 'image') {
         route.abort();
       } else {
-        route.continue();
+        route.fallback();
       }
     });
 
     globalMockRequests(page);
+
     await use(page);
   },
 });
