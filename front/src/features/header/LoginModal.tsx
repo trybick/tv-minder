@@ -28,6 +28,8 @@ import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
+import GoogleLoginButton from './GoogleLoginButton';
+
 type FormInputs = {
   email: string;
   password: string;
@@ -54,7 +56,10 @@ type Props = {
 const LoginModal = ({ disclosureProps }: Props) => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
-  const { onClose, isOpen } = disclosureProps;
+
+  // Modal
+  const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onClose } = disclosureProps;
   useCloseModalOnPressEscape({ onClose });
 
   // Form
@@ -69,7 +74,6 @@ const LoginModal = ({ disclosureProps }: Props) => {
 
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(
     ({ email, password, oneTimeCode }: FormInputs) => {
@@ -201,13 +205,18 @@ const LoginModal = ({ disclosureProps }: Props) => {
   };
 
   return (
-    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen}>
+    <Dialog.Root
+      onOpenChange={e => handleFormClose(e.open)}
+      open={isOpen}
+      lazyMount
+      unmountOnExit
+    >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
-              <Dialog.Title data-testid="login-modal-title">
+              <Dialog.Title>
                 {formOption === 0 ? 'Login' : 'Forgot Password'}
               </Dialog.Title>
             </Dialog.Header>

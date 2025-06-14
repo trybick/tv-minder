@@ -2,7 +2,7 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 
 import LoginModal from './LoginModal';
 
-const SignUpButton = () => {
+const LoginButton = () => {
   const { open, onOpen, onClose } = useDisclosure();
   const disclosureProps = { isOpen: open, onOpen, onClose };
 
@@ -22,4 +22,4 @@ const SignUpButton = () => {
   );
 };
 
-export default SignUpButton;
+export default LoginButton;
