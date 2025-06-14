@@ -1,5 +1,5 @@
 import { expect, test } from '../config/base';
-import { baseUrl } from '../config/playwright.config';
+import { baseUrl } from '../../playwright.config';
 import { login } from '../helpers';
 import { showTitleToId } from '../mockData';
 import { mockRequest } from '../mockRequest';

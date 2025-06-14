@@ -28,12 +28,6 @@ import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
-import GoogleLoginButton from './GoogleLoginButton';
-
-type Props = {
-  disclosureProps: DisclosureProps;
-};
-
 type FormInputs = {
   email: string;
   password: string;
@@ -53,13 +47,14 @@ const formValidation = {
   },
 };
 
+type Props = {
+  disclosureProps: DisclosureProps;
+};
+
 const LoginModal = ({ disclosureProps }: Props) => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
-
-  // Modal
-  const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onClose } = disclosureProps;
+  const { onClose, isOpen } = disclosureProps;
   useCloseModalOnPressEscape({ onClose });
 
   // Form
@@ -74,6 +69,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
 
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(
     ({ email, password, oneTimeCode }: FormInputs) => {
@@ -205,18 +201,13 @@ const LoginModal = ({ disclosureProps }: Props) => {
   };
 
   return (
-    <Dialog.Root
-      onOpenChange={e => handleFormClose(e.open)}
-      open={isOpen}
-      lazyMount
-      unmountOnExit
-    >
+    <Dialog.Root onOpenChange={e => handleFormClose(e.open)} open={isOpen}>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
-              <Dialog.Title>
+              <Dialog.Title data-testid="login-modal-title">
                 {formOption === 0 ? 'Login' : 'Forgot Password'}
               </Dialog.Title>
             </Dialog.Header>
@@ -225,14 +216,14 @@ const LoginModal = ({ disclosureProps }: Props) => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {formOption === 0 && (
-              <GoogleLoginButton
-                onClose={onClose}
-                unregisteredClearFollowedShows={() =>
-                  dispatch(unregisteredClearFollowedShowsAction())
-                }
-              />
-            )}
+            {/* {formOption === 0 && (
+                <GoogleLoginButton
+                  onClose={onClose}
+                  unregisteredClearFollowedShows={() =>
+                    dispatch(unregisteredClearFollowedShowsAction())
+                  }
+                />
+              )} */}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
@@ -267,7 +258,9 @@ const LoginModal = ({ disclosureProps }: Props) => {
                     <PasswordInput
                       _focus={{ borderColor: 'cyan.500' }}
                       borderColor="gray.500"
-                      {...register('password', { ...formValidation.password })}
+                      {...register('password', {
+                        ...formValidation.password,
+                      })}
                     />
                     <Field.ErrorText>
                       {errors?.password?.message}

@@ -1,5 +1,5 @@
+import { baseUrl } from '../../playwright.config';
 import { expect, test } from '../config/base';
-import { baseUrl } from '../config/playwright.config';
 
 test.describe('Header', () => {
   test('should toggle color mode when clicking the color mode button', async ({
