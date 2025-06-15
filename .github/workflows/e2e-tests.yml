@@ -3,13 +3,23 @@ name: e2e Tests
 on:
   push:
     branches: [main]
+    paths:
+      - 'front/**'
+      - '.github/workflows/e2e-tests.yml'
   pull_request:
-    branches: [main]
+    paths:
+      - 'front/**'
+      - '.github/workflows/e2e-tests.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
