@@ -1,27 +1,46 @@
 name: Validate front
 
-on: [pull_request]
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'front/**'
+      - '.github/workflows/front-validate.yml'
+  pull_request:
+    paths:
+      - 'front/**'
+      - '.github/workflows/front-validate.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  validate:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+          path: front/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Install packages
-        run: npm install
+      - name: Install dependencies
+        run: |
+          cd front
+          npm ci
 
-      - name: Check TypeScript
+      - name: TypeScript validation
         run: |
           cd front
           npm run validate
 
-      - name: Check formatting
+      - name: Lint check
         run: |
           cd front
           npm run lint:check
