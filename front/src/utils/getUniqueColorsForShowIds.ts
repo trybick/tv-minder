@@ -29,25 +29,22 @@ export const getUniqueColorsForShowIds = (showIds: number[]): string[] => {
 
 // These colors have above a 5 contrast ratio with white text. Found from:
 // https://reallybigshoe.co.uk/visualiser/index.html
-const colors = [
+export const colors = [
   '#8A2BE2',
   '#A52A2A',
   '#DC143C',
   '#006400',
   '#8B008B',
   '#556B2F',
-  '#8B0000',
   '#483D8B',
   '#2F4F4F',
   '#9400D3',
   '#696969',
-  '#B22222',
   '#008000',
   '#4B0082',
   '#800000',
   '#0000CD',
   '#C71585',
-  '#800080',
   '#663399',
   '#8B4513',
   '#6A5ACD',
