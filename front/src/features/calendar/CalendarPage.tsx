@@ -9,7 +9,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
-import { RefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
@@ -28,6 +28,8 @@ const CalendarPage = () => {
   const navigate = useNavigateWithAnimation();
   const isMobile = useIsMobile();
   const calendarRef = useRef<FullCalendar>(null);
+  const [hasEpisodesInCurrentMonth, setHasEpisodesInCurrentMonth] =
+    useState(true);
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -73,6 +75,24 @@ const CalendarPage = () => {
     );
   };
 
+  const calculateHasEpisodesInCurrentMonth = () => {
+    const view = calendarRef.current?.getApi().view;
+    if (!view) {
+      return;
+    }
+
+    const hasEvents = calendarEpisodes.some(episode => {
+      return moment(episode.date).isBetween(
+        moment(view.activeStart),
+        moment(view.activeEnd),
+        'day',
+        '[]'
+      );
+    });
+
+    setHasEpisodesInCurrentMonth(hasEvents);
+  };
+
   const calendarProps: CalendarOptions & {
     ref: RefObject<FullCalendar>;
   } = {
@@ -96,13 +116,14 @@ const CalendarPage = () => {
     titleFormat: { month: 'long' },
     // Enable 'cursor: pointer' on events
     editable: true,
+    datesSet: () => calculateHasEpisodesInCurrentMonth(),
   };
 
   return (
     <>
       <title>Calendar | TV Minder</title>
 
-      {!followedShows.length && <NoFollowedShowsBanner />}
+      {!hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
 
       <Box
         m="15px auto 20px"
