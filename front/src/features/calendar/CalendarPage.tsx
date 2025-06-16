@@ -28,10 +28,8 @@ const CalendarPage = () => {
   const navigate = useNavigateWithAnimation();
   const isMobile = useIsMobile();
   const calendarRef = useRef<FullCalendar>(null);
-  const [dateRange, setDateRange] = useState({
-    start: moment().startOf('month'),
-    end: moment().endOf('month'),
-  });
+  const [hasEpisodesInCurrentMonth, setHasEpisodesInCurrentMonth] =
+    useState(true);
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -77,16 +75,22 @@ const CalendarPage = () => {
     );
   };
 
-  const hasEpisodesInDateRange = () => {
-    return calendarEpisodes.some(episode => {
-      const episodeDate = moment(episode.date).format('YYYY-MM-DD');
-      return moment(episodeDate).isBetween(
-        dateRange.start,
-        dateRange.end,
+  const calculateHasEpisodesInCurrentMonth = () => {
+    const view = calendarRef.current?.getApi().view;
+    if (!view) {
+      return;
+    }
+
+    const hasEvents = calendarEpisodes.some(episode => {
+      return moment(episode.date).isBetween(
+        moment(view.activeStart),
+        moment(view.activeEnd),
         'day',
         '[]'
       );
     });
+
+    setHasEpisodesInCurrentMonth(hasEvents);
   };
 
   const calendarProps: CalendarOptions & {
@@ -112,19 +116,14 @@ const CalendarPage = () => {
     titleFormat: { month: 'long' },
     // Enable 'cursor: pointer' on events
     editable: true,
-    datesSet: dateInfo => {
-      setDateRange({
-        start: moment(dateInfo.start),
-        end: moment(dateInfo.end),
-      });
-    },
+    datesSet: () => calculateHasEpisodesInCurrentMonth(),
   };
 
   return (
     <>
       <title>Calendar | TV Minder</title>
 
-      {!hasEpisodesInDateRange() && <NoFollowedShowsBanner />}
+      {!hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
 
       <Box
         m="15px auto 20px"
