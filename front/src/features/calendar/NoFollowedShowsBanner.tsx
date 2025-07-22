@@ -3,9 +3,12 @@ import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { useAppSelector } from '~/store';
+import { selectFollowedShows } from '~/store/user/selectors';
 
 const NoFollowedShowsBanner = () => {
   const navigate = useNavigateWithAnimation();
+  const followedShows = useAppSelector(selectFollowedShows);
 
   const handleClickHome = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -15,17 +18,23 @@ const NoFollowedShowsBanner = () => {
   return (
     <Alert.Root colorPalette="cyan" justifyContent="center" status="info">
       <Alert.Indicator />
-      <Alert.Title>
-        <Link
-          onClick={handleClickHome}
-          textDecorationThickness="2px"
-          variant="underline"
-          href={ROUTES.HOME}
-        >
-          Follow some shows
-        </Link>{' '}
-        to see them in your calendar.
-      </Alert.Title>
+      {followedShows.length ? (
+        <Alert.Title>
+          There are no new episodes of the shows you follow airing this month.
+        </Alert.Title>
+      ) : (
+        <Alert.Title>
+          <Link
+            onClick={handleClickHome}
+            textDecorationThickness="2px"
+            variant="underline"
+            href={ROUTES.HOME}
+          >
+            Follow some shows
+          </Link>{' '}
+          to see them in your calendar.
+        </Alert.Title>
+      )}
     </Alert.Root>
   );
 };
