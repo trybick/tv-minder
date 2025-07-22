@@ -41,42 +41,40 @@ const App = () => {
   }, [isLoggedIn, dispatch]);
 
   return (
-    <>
+    <ErrorBoundary>
       <ScrollToTop />
       <Toaster />
 
       <Flex direction="column" minH="97vh">
         {isMobile ? <MobileHeader /> : <DesktopHeader />}
 
-        <ErrorBoundary>
-          <Switch>
-            <Route path={ROUTES.HOME}>
-              <SearchPage />
-            </Route>
-            <Route path={ROUTES.CALENDAR}>
-              <CalendarPage />
-            </Route>
+        <Switch>
+          <Route path={ROUTES.HOME}>
+            <SearchPage />
+          </Route>
+          <Route path={ROUTES.CALENDAR}>
+            <CalendarPage />
+          </Route>
 
-            <Route path={ROUTES.MANAGE}>
-              <ProtectedRoute>
-                <FollowingPage />
-              </ProtectedRoute>
-            </Route>
-            <Route path={ROUTES.SETTINGS}>
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            </Route>
+          <Route path={ROUTES.MANAGE}>
+            <ProtectedRoute>
+              <FollowingPage />
+            </ProtectedRoute>
+          </Route>
+          <Route path={ROUTES.SETTINGS}>
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          </Route>
 
-            <Route path={`${ROUTES.SHOW}/:showId`}>
-              <ShowPage />
-            </Route>
-          </Switch>
-        </ErrorBoundary>
+          <Route path={`${ROUTES.SHOW}/:showId`}>
+            <ShowPage />
+          </Route>
+        </Switch>
       </Flex>
 
       <Footer />
-    </>
+    </ErrorBoundary>
   );
 };
 
