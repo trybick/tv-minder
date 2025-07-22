@@ -225,9 +225,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {/* Do not render the Google button during playwright tests.
-              It causes the page to go blank  */}
-            {formOption === 0 && import.meta.env.VITE_CI !== 'true' && (
+            {formOption === 0 && (
               <GoogleLoginButton
                 onClose={onClose}
                 unregisteredClearFollowedShows={() =>

@@ -51,6 +51,7 @@ jobs:
           npx playwright test
         env:
           VITE_CI: true
+          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_ID }}
 
       - uses: actions/upload-artifact@v4
         if: failure()
