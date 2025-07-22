@@ -49,31 +49,25 @@ const HeaderMobile = () => {
         </Box>
 
         {isHeaderOpen && (
-          <Flex pt="6px" w="full">
+          <Flex pt="6px" w="full" direction="column" gap="2px">
             <NavigationLinks onClose={closeHeader} />
+
+            <Flex alignItems="center" gap="12px" mt={4} ml="auto">
+              <ColorModeButton
+                onClick={() => applyViewTransition(toggleColorMode)}
+              />
+
+              {isLoggedIn ? (
+                <LogoutButton />
+              ) : (
+                <>
+                  <SignUpButton />
+                  <LoginButton />
+                </>
+              )}
+            </Flex>
           </Flex>
         )}
-
-        <Flex
-          alignItems="center"
-          gap="12px"
-          display={isHeaderOpen ? 'flex' : 'none'}
-          mt={4}
-          ml="auto"
-        >
-          <ColorModeButton
-            onClick={() => applyViewTransition(toggleColorMode)}
-          />
-
-          {isLoggedIn ? (
-            <LogoutButton />
-          ) : (
-            <>
-              <SignUpButton />
-              <LoginButton />
-            </>
-          )}
-        </Flex>
       </Flex>
 
       {!isShowPage && <Separator size="md" />}
