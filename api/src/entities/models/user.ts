@@ -1,18 +1,27 @@
-import { createSchema, ExtractDoc, ExtractProps, Type, typedModel } from 'ts-mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-const UserSchema = createSchema(
+interface IUser {
+  email: string;
+  password: string;
+  followedShows: number[];
+  oneTimeCode?: number;
+}
+
+interface UserDoc extends IUser, Document {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const UserSchema = new Schema<UserDoc>(
   {
-    email: Type.string({ required: true, unique: true, trim: true }),
-    password: Type.string({ required: true }),
-    followedShows: Type.array().of(Type.number()),
-    oneTimeCode: Type.number(),
+    email: { type: String, required: true, unique: true, trim: true },
+    password: { type: String, required: true },
+    followedShows: [{ type: Number }],
+    oneTimeCode: { type: Number },
   },
   { timestamps: true }
 );
 
-const User = typedModel('User', UserSchema);
-
-export type UserDoc = ExtractDoc<typeof UserSchema>;
-export type UserProps = ExtractProps<typeof UserSchema>;
+const User = mongoose.model<UserDoc>('User', UserSchema);
 
 export default User;
