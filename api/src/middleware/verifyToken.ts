@@ -3,8 +3,6 @@ import mongoose from 'mongoose';
 import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
 import envConfig from 'config/env';
 
-const { JWT_KEY } = envConfig;
-
 export type JWTData = {
   email: string;
   exp: number;
@@ -12,7 +10,7 @@ export type JWTData = {
   id: mongoose.Types.ObjectId;
 };
 
-function verifyToken(req: Request, res: Response, next: NextFunction) {
+const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const providedToken = req.body?.token || req.query.token;
 
   if (!providedToken) {
@@ -22,7 +20,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
   jwt.verify(
     providedToken,
-    JWT_KEY!,
+    envConfig.JWT_KEY,
     (err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null, decodedData: any) => {
       const userId = (decodedData as JWTData)?.id;
 
@@ -35,6 +33,6 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
       }
     }
   );
-}
+};
 
 export default verifyToken;

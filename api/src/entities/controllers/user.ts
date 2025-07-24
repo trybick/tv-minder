@@ -82,11 +82,9 @@ export const loginUser = async (req: Request, res: Response) => {
       email: user.email,
       id: user._id as mongoose.Types.ObjectId,
     };
-    const token =
-      envConfig?.JWT_KEY &&
-      jwt.sign(tokenData, envConfig.JWT_KEY, {
-        expiresIn: '300d',
-      });
+    const token = jwt.sign(tokenData, envConfig.JWT_KEY, {
+      expiresIn: '300d',
+    });
 
     if (!token) {
       return res.status(500).json({
