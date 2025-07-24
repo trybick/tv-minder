@@ -10,10 +10,15 @@ export type JWTData = {
   exp: number;
   iat: number;
   id: mongoose.Types.ObjectId;
-}
+};
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
-  const providedToken = req.body.token || req.query.token;
+  const providedToken = req.body?.token || req.query.token;
+
+  if (!providedToken) {
+    res.status(401).json({ message: 'Token required' });
+    return;
+  }
 
   jwt.verify(
     providedToken,

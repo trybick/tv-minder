@@ -11,16 +11,14 @@ export const createFollow = async (req: Request, res: Response) => {
     });
   }
 
-  // @ts-ignore - tsc cli error on 'err' below, even when using 'any' type.
-  User.findOneAndUpdate({ _id: userId }, { $addToSet: { followedShows: showId } }, (err) => {
-    if (err) {
-      return res.status(500).json({
-        error: err,
-      });
-    } else {
-      res.status(201).json({ message: 'Follow added.' });
-    }
-  });
+  try {
+    await User.findOneAndUpdate({ _id: userId }, { $addToSet: { followedShows: showId } });
+    res.status(201).json({ message: 'Follow added.' });
+  } catch (error) {
+    return res.status(500).json({
+      error,
+    });
+  }
 };
 
 export const deleteFollow = async (req: Request, res: Response) => {
@@ -33,28 +31,31 @@ export const deleteFollow = async (req: Request, res: Response) => {
     });
   }
 
-  // @ts-ignore - tsc cli error on 'err' below, even when using 'any' type.
-  User.findOneAndUpdate({ _id: userId }, { $pull: { followedShows: showId } }, (err) => {
-    if (err) {
-      return res.status(500).json({
-        error: err,
-      });
-    } else {
-      res.status(200).json({ message: 'Follow removed.' });
-    }
-  });
+  try {
+    await User.findOneAndUpdate({ _id: userId }, { $pull: { followedShows: showId } });
+    res.status(200).json({ message: 'Follow removed.' });
+  } catch (error) {
+    return res.status(500).json({
+      error,
+    });
+  }
 };
 
 export const getFollows = async (req: Request, res: Response) => {
   const userId: number = res.locals.userId;
 
-  User.findOne({ _id: userId }).exec((err, user) => {
-    if (user && !err) {
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (user) {
       res.status(200).json(user.followedShows);
     } else {
-      return res.status(500).json({
-        error: err,
+      return res.status(404).json({
+        error: 'User not found',
       });
     }
-  });
+  } catch (error) {
+    return res.status(500).json({
+      error,
+    });
+  }
 };

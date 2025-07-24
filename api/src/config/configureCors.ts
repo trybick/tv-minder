@@ -20,10 +20,16 @@ const configureCors = (req: Request, res: Response, next: NextFunction) => {
   }
 
   res.set({
-    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Max-Age': '86400',
   });
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
   next();
 };
