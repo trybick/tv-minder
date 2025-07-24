@@ -121,21 +121,23 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
     }
 
     const client = nodemailer.createTransport({
-      service: 'SendGrid',
+      host: 'live.smtp.mailtrap.io',
+      port: 587,
+      secure: false,
       auth: {
-        user: 'apikey',
-        pass: envConfig.SENDGRID_KEY,
+        user: 'smtp@mailtrap.io',
+        pass: envConfig.MAILTRAP_PASSWORD,
       },
     });
 
-    const mailOptions = {
-      from: 'admin@em792.timr.dev',
+    const email = {
+      from: 'admin@tv-minder.com',
       to: user.email,
       subject: 'TV Minder: One-time code',
       text: 'Your one-time code is: ' + generatedCode.toString(),
     };
 
-    await client.sendMail(mailOptions);
+    await client.sendMail(email);
     res.status(200).json({ message: 'One-time code sent' });
   } catch (error) {
     console.log('Error in requestOneTimeCode: ', error);

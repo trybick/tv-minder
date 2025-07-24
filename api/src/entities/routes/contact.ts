@@ -8,14 +8,17 @@ contactRoutes.post('/contact', (req, res) => {
   const { text } = req.body;
 
   const client = nodemailer.createTransport({
-    service: 'SendGrid',
+    host: 'live.smtp.mailtrap.io',
+    port: 587,
+    secure: false,
     auth: {
-      user: 'apikey',
-      pass: envConfig.SENDGRID_KEY,
+      user: 'smtp@mailtrap.io',
+      pass: envConfig.MAILTRAP_PASSWORD,
     },
   });
+
   const email = {
-    from: 'admin@em792.timr.dev',
+    from: 'admin@tv-minder.com',
     to: 'devtimr@gmail.com',
     subject: 'TV Minder: New feedback',
     text,
@@ -24,6 +27,7 @@ contactRoutes.post('/contact', (req, res) => {
   client.sendMail(email, (error, info) => {
     if (error) {
       console.log('Nodemailer error: ', error);
+      res.status(500).json({ message: 'Failed to send message' });
     } else {
       console.log('Email sent: ' + info.response);
       res.status(200).json({ message: 'Message sent' });

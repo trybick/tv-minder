@@ -13,7 +13,7 @@ const validateEnvVar = (varName: string): string => {
 const envConfig = {
   DB_PASSWORD: validateEnvVar('DB_PASSWORD'),
   JWT_KEY: validateEnvVar('JWT_KEY'),
-  SENDGRID_KEY: validateEnvVar('SENDGRID_KEY'),
+  MAILTRAP_PASSWORD: validateEnvVar('MAILTRAP_PASSWORD'),
 } as const;
 
 export default envConfig;
