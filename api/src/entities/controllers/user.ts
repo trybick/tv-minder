@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-import envConfig from 'config/env';
+import env from 'config/env';
 import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
 
@@ -82,7 +82,7 @@ export const loginUser = async (req: Request, res: Response) => {
       email: user.email,
       id: user._id as mongoose.Types.ObjectId,
     };
-    const token = jwt.sign(tokenData, envConfig.JWT_KEY, {
+    const token = jwt.sign(tokenData, env.JWT_KEY, {
       expiresIn: '300d',
     });
 
@@ -126,7 +126,7 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
       secure: false,
       auth: {
         user: 'smtp@mailtrap.io',
-        pass: envConfig.MAILTRAP_PASSWORD,
+        pass: env.MAILTRAP_PASSWORD,
       },
     });
 

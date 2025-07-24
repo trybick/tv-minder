@@ -10,10 +10,10 @@ const validateEnvVar = (varName: string): string => {
   return value;
 };
 
-const envConfig = {
+const env = {
   DB_PASSWORD: validateEnvVar('DB_PASSWORD'),
   JWT_KEY: validateEnvVar('JWT_KEY'),
   MAILTRAP_PASSWORD: validateEnvVar('MAILTRAP_PASSWORD'),
 } as const;
 
-export default envConfig;
+export default env;

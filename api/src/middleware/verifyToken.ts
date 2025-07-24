@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
-import envConfig from 'config/env';
+import env from 'config/env';
 
 export type JWTData = {
   email: string;
@@ -20,7 +20,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
   jwt.verify(
     providedToken,
-    envConfig.JWT_KEY,
+    env.JWT_KEY,
     (err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null, decodedData: any) => {
       const userId = (decodedData as JWTData)?.id;
 

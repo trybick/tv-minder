@@ -1,6 +1,6 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import envConfig from 'config/env';
+import env from 'config/env';
 
 const contactRoutes = express.Router();
 
@@ -13,7 +13,7 @@ contactRoutes.post('/contact', (req, res) => {
     secure: false,
     auth: {
       user: 'smtp@mailtrap.io',
-      pass: envConfig.MAILTRAP_PASSWORD,
+      pass: env.MAILTRAP_PASSWORD,
     },
   });
 
