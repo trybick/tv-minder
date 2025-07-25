@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
 import env from 'config/env';
 
 export type JWTData = {
@@ -8,6 +8,17 @@ export type JWTData = {
   exp: number;
   iat: number;
   id: mongoose.Types.ObjectId;
+};
+
+const isJWTData = (decoded: unknown): decoded is JWTData => {
+  return (
+    typeof decoded === 'object' &&
+    decoded !== null &&
+    'id' in decoded &&
+    'email' in decoded &&
+    'exp' in decoded &&
+    'iat' in decoded
+  );
 };
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
@@ -18,21 +29,16 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
-  jwt.verify(
-    providedToken,
-    env.JWT_KEY,
-    (err: JsonWebTokenError | NotBeforeError | TokenExpiredError | null, decodedData: any) => {
-      const userId = (decodedData as JWTData)?.id;
-
-      if (userId && !err) {
-        res.locals.userId = userId;
-        next();
-      } else {
-        res.status(401).json({ message: 'Check auth failed' });
-        return next('Invalid user');
-      }
+  jwt.verify(providedToken, env.JWT_KEY, (err: VerifyErrors | null, decoded?: string | object) => {
+    if (err || !decoded || !isJWTData(decoded)) {
+      res.status(401).json({ message: 'Check auth failed' });
+      return next('Invalid user');
     }
-  );
+
+    const userId = decoded.id;
+    res.locals.userId = userId;
+    next();
+  });
 };
 
 export default verifyToken;
