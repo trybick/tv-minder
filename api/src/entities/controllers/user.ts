@@ -140,7 +140,7 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
     await client.sendMail(email);
     res.status(200).json({ message: 'One-time code sent' });
   } catch (error) {
-    console.log('Error in requestOneTimeCode: ', error);
+    console.log('❌ Error in requestOneTimeCode: ', error);
     return res.status(500).json({ error });
   }
 };

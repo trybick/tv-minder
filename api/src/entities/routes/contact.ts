@@ -28,10 +28,10 @@ contactRoutes.post('/contact', (req, res) => {
 
   client.sendMail(emailData, (error, info) => {
     if (error) {
-      console.log('Nodemailer error: ', error);
+      console.log('❌ Nodemailer error: ', error);
       res.status(500).json({ message: 'Failed to send message' });
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log('✉️ Email sent: ' + info.response);
       res.status(200).json({ message: 'Message sent' });
     }
   });

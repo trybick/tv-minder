@@ -20,4 +20,4 @@ app.use(userRoutes);
 app.use(followShowRoutes);
 app.use(contactRoutes);
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => console.log(`✅ Server started on port ${port}`));
