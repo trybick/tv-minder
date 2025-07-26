@@ -30,17 +30,16 @@ export const registerUser = async (req: Request, res: Response) => {
         });
       }
     } else {
-      const existingUsers = await User.find({ email: req.body.email });
-
-      if (existingUsers.length) {
-        return res.status(409).json({
-          message: 'Email already registered',
+      if (!emailRegex.test(req.body.email)) {
+        return res.status(422).json({
+          message: 'Invalid email format',
         });
       }
 
-      if (!emailRegex.test(req.body.email)) {
-        return res.status(422).json({
-          message: 'Email invalid',
+      const existingUsers = await User.find({ email: req.body.email });
+      if (existingUsers.length) {
+        return res.status(409).json({
+          message: 'Email already registered',
         });
       }
 
@@ -51,12 +50,16 @@ export const registerUser = async (req: Request, res: Response) => {
         followedShows: req.body.unregisteredFollowedShows || [],
       });
       await newUser.save();
+
       res.status(201).json({
         message: 'User created',
       });
     }
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log('❌ Registration error:', error);
+    return res.status(500).json({
+      message: 'Registration failed. Please try again.',
+    });
   }
 };
 
@@ -66,15 +69,14 @@ export const loginUser = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(401).json({
-        message: 'Auth failed on user verify',
+        message: 'Invalid credentials',
       });
     }
 
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: 'Auth failed on password validation',
+        message: 'Invalid credentials',
       });
     }
 
@@ -83,12 +85,12 @@ export const loginUser = async (req: Request, res: Response) => {
       id: user._id as mongoose.Types.ObjectId,
     };
     const token = jwt.sign(tokenData, env.JWT_KEY, {
-      expiresIn: '300d',
+      expiresIn: '365d',
     });
 
     if (!token) {
       return res.status(500).json({
-        error: 'Failed to create token',
+        message: 'Authentication failed. Please try again.',
       });
     }
 
@@ -99,7 +101,10 @@ export const loginUser = async (req: Request, res: Response) => {
       isGoogleUser: req.body?.isGoogleUser,
     });
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log('❌ Login error:', error);
+    return res.status(500).json({
+      message: 'Authentication failed. Please try again.',
+    });
   }
 };
 
@@ -114,21 +119,26 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
       { oneTimeCode: generatedCode }
     );
 
-    if (!user) {
-      return res.status(404).json({
-        message: 'Email is not registered',
-      });
+    if (user) {
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: 'TV Minder: One-time code',
+          text: 'Your one-time code is: ' + generatedCode.toString(),
+        });
+      } catch (emailError) {
+        console.log('❌ Error sending email: ', emailError);
+      }
     }
 
-    await sendEmail({
-      to: user.email,
-      subject: 'TV Minder: One-time code',
-      text: 'Your one-time code is: ' + generatedCode.toString(),
+    res.status(200).json({
+      message: 'If your email is registered, you will receive a one-time code',
     });
-    res.status(200).json({ message: 'One-time code sent' });
   } catch (error) {
     console.log('❌ Error in requestOneTimeCode: ', error);
-    return res.status(500).json({ error });
+    return res.status(500).json({
+      message: 'Failed to process request. Please try again.',
+    });
   }
 };
 
@@ -145,15 +155,18 @@ export const verifyOneTimeCode = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(400).json({
-        message: 'Invalid One Time Code',
+        message: 'Invalid or expired code',
       });
     }
 
     res.status(200).json({
-      message: 'One Time Code Verified',
+      message: 'Code verified successfully',
     });
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log('❌ Verification error:', error);
+    return res.status(500).json({
+      message: 'Verification failed. Please try again.',
+    });
   }
 };
 
@@ -176,7 +189,10 @@ export const changePasswordForReset = async (req: Request, res: Response) => {
       message: 'Password Changed',
     });
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log('❌ Password reset error:', error);
+    return res.status(500).json({
+      message: 'Password reset failed. Please try again.',
+    });
   }
 };
 
@@ -206,6 +222,9 @@ export const changePasswordForSettings = async (req: Request, res: Response) => 
       message: 'Password changed',
     });
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log('❌ Password change error:', error);
+    return res.status(500).json({
+      message: 'Password change failed. Please try again.',
+    });
   }
 };
