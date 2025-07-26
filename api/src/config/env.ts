@@ -11,7 +11,7 @@ const validateEnvVar = (varName: string): string => {
 };
 
 const env = {
-  DB_PASSWORD: validateEnvVar('DB_PASSWORD'),
+  DATABASE_URL: validateEnvVar('DATABASE_URL'),
   JWT_KEY: validateEnvVar('JWT_KEY'),
   MAILTRAP_PASSWORD: validateEnvVar('MAILTRAP_PASSWORD'),
 } as const;
