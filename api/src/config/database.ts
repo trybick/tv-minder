@@ -8,6 +8,6 @@ export default function connectToDatabase() {
 
   const db = mongoose.connection;
 
-  db.on('error', (error) => console.log('❌ Database error', error));
-  db.once('open', () => console.log('🛢 Connected to database'));
+  db.on('error', (error) => console.log('❌  Database error', error));
+  db.once('open', () => console.log('✅ Connected to database'));
 }

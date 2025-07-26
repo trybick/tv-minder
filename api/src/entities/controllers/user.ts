@@ -2,11 +2,11 @@ import { Request, Response } from 'express';
 import User from 'models/user';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 import env from 'config/env';
 import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
+import { sendEmail } from 'utils/emailClient';
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -120,24 +120,11 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
       });
     }
 
-    const client = nodemailer.createTransport({
-      host: 'live.smtp.mailtrap.io',
-      port: 587,
-      secure: false,
-      auth: {
-        user: 'smtp@mailtrap.io',
-        pass: env.MAILTRAP_PASSWORD,
-      },
-    });
-
-    const email = {
-      from: 'admin@tv-minder.com',
+    await sendEmail({
       to: user.email,
       subject: 'TV Minder: One-time code',
       text: 'Your one-time code is: ' + generatedCode.toString(),
-    };
-
-    await client.sendMail(email);
+    });
     res.status(200).json({ message: 'One-time code sent' });
   } catch (error) {
     console.log('❌ Error in requestOneTimeCode: ', error);
