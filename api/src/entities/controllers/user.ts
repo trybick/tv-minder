@@ -7,6 +7,7 @@ import env from 'config/env';
 import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
 import { sendEmail } from 'utils/emailClient';
+import { generateOneTimeCode } from 'utils/generateOneTimeCode';
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -110,9 +111,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const requestOneTimeCode = async (req: Request, res: Response) => {
   try {
-    const min = 100000;
-    const max = 999999;
-    const generatedCode = min + Math.floor(Math.random() * (max - min));
+    const generatedCode = generateOneTimeCode();
 
     const user = await User.findOneAndUpdate(
       { email: req.body.email },
