@@ -1,4 +1,4 @@
-import { Avatar, Box, Menu, Portal } from '@chakra-ui/react';
+import { Avatar, Box, defineStyle, Menu, Portal } from '@chakra-ui/react';
 import { SlLogout } from 'react-icons/sl';
 import { VscSettingsGear } from 'react-icons/vsc';
 
@@ -8,6 +8,13 @@ import { useAppSelector } from '~/store';
 import { useAppDispatch } from '~/store';
 import { setIsLoggedOutAction } from '~/store/user/actions';
 import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
+
+const ringCss = defineStyle({
+  outlineWidth: '1.5px',
+  outlineColor: 'cyan.500',
+  outlineOffset: '2px',
+  outlineStyle: 'solid',
+});
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
@@ -32,8 +39,9 @@ const UserMenu = () => {
           cursor="pointer"
           focusRing="none"
         >
-          <Avatar.Root size="sm">
+          <Avatar.Root size="xs" css={ringCss}>
             <Avatar.Fallback name={email} />
+            <Avatar.Image src="https://lh3.googleusercontent.com/a/ACg8ocIJ-6uFhxzZDICvy66efhNs82Cl2QGW5qXAS_Ev7FZI5o-upR00=s96-c" />
           </Avatar.Root>
         </Menu.Trigger>
 

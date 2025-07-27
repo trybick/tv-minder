@@ -38,12 +38,12 @@ const GoogleLoginButton = (props: Props) => {
     const userInfo = await axios.get(ENDPOINTS.GOOGLE_USER_INFO, {
       headers: { Authorization: `Bearer ${response.access_token}` },
     });
-    const { email, sub: googleId } = userInfo.data;
-    return { email, googleId };
+    const { email, sub: googleId, picture } = userInfo.data;
+    return { email, googleId, picture };
   };
 
   const onGoogleLoginSuccess = async (response: TokenResponse) => {
-    const { email, googleId } = await getGoogleUserDetails(response);
+    const { email, googleId, picture } = await getGoogleUserDetails(response);
     axios
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
         email,
