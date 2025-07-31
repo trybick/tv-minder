@@ -6,6 +6,7 @@ import userRoutes from 'entities/routes/user';
 import followShowRoutes from 'entities/routes/follow';
 import contactRoutes from 'entities/routes/contact';
 import { limiter } from 'utils/limiter';
+import logger from 'utils/logger';
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -21,4 +22,4 @@ app.use(userRoutes);
 app.use(followShowRoutes);
 app.use(contactRoutes);
 
-app.listen(port, () => console.log(`✅ Server started on port ${port}`));
+app.listen(port, () => logger.success(`Server started on port ${port}`));

@@ -8,6 +8,7 @@ import { emailRegex, TOKEN_LIFESPAN_MINS } from 'utils/constants';
 import { JWTData } from 'middleware/verifyToken';
 import { sendEmail } from 'utils/emailClient';
 import { generateOneTimeCode } from 'utils/generateOneTimeCode';
+import logger from 'utils/logger';
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -57,7 +58,7 @@ export const registerUser = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
-    console.log('❌ Registration error:', error);
+    logger.error('Registration error:', error);
     return res.status(500).json({
       message: 'Registration failed. Please try again.',
     });
@@ -102,7 +103,7 @@ export const loginUser = async (req: Request, res: Response) => {
       isGoogleUser: req.body?.isGoogleUser,
     });
   } catch (error) {
-    console.log('❌ Login error:', error);
+    logger.error('Login error:', error);
     return res.status(500).json({
       message: 'Authentication failed. Please try again.',
     });
@@ -126,7 +127,7 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
           text: 'Your one-time code is: ' + generatedCode.toString(),
         });
       } catch (emailError) {
-        console.log('❌ Error sending email: ', emailError);
+        logger.error('Error sending email:', emailError);
       }
     }
 
@@ -134,7 +135,7 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
       message: 'If your email is registered, you will receive a one-time code',
     });
   } catch (error) {
-    console.log('❌ Error in requestOneTimeCode: ', error);
+    logger.error('Error in requestOneTimeCode:', error);
     return res.status(500).json({
       message: 'Failed to process request. Please try again.',
     });
@@ -162,7 +163,7 @@ export const verifyOneTimeCode = async (req: Request, res: Response) => {
       message: 'Code verified successfully',
     });
   } catch (error) {
-    console.log('❌ Verification error:', error);
+    logger.error('Verification error:', error);
     return res.status(500).json({
       message: 'Verification failed. Please try again.',
     });
@@ -188,7 +189,7 @@ export const changePasswordForReset = async (req: Request, res: Response) => {
       message: 'Password Changed',
     });
   } catch (error) {
-    console.log('❌ Password reset error:', error);
+    logger.error('Password reset error:', error);
     return res.status(500).json({
       message: 'Password reset failed. Please try again.',
     });
@@ -221,7 +222,7 @@ export const changePasswordForSettings = async (req: Request, res: Response) => 
       message: 'Password changed',
     });
   } catch (error) {
-    console.log('❌ Password change error:', error);
+    logger.error('Password change error:', error);
     return res.status(500).json({
       message: 'Password change failed. Please try again.',
     });

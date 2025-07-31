@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import env from 'config/env';
+import logger from 'utils/logger';
 
 export const createEmailClient = () => {
   return nodemailer.createTransport({
@@ -34,10 +35,10 @@ export const sendEmail = async ({
   return new Promise((resolve, reject) => {
     client.sendMail(emailData, (error, info) => {
       if (error) {
-        console.log('❌ Nodemailer error: ', error);
+        logger.error('Nodemailer error:', error);
         reject(new Error('Failed to send email'));
       } else {
-        console.log('✉️ Email sent: ' + info.response);
+        logger.success('Email sent:', info.response);
         resolve();
       }
     });
