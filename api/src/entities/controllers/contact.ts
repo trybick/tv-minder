@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { sendEmail } from 'utils/emailClient';
+import logger from 'utils/logger';
 
 export const sendContactMessage = async (req: Request, res: Response) => {
   const { text, email } = req.body;
@@ -12,7 +13,8 @@ export const sendContactMessage = async (req: Request, res: Response) => {
       text: emailContent,
     });
     res.status(200).json({ message: 'Message sent' });
-  } catch {
+  } catch (error) {
+    logger.error('Error sending feedback message:', error);
     res.status(500).json({ message: 'Failed to send message' });
   }
 };

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import User from 'models/user';
+import logger from 'utils/logger';
 
 export const createFollow = async (req: Request, res: Response) => {
   const userId: number = res.locals.userId;
@@ -7,7 +8,7 @@ export const createFollow = async (req: Request, res: Response) => {
 
   if (!userId || !showId) {
     return res.status(422).json({
-      error: 'Incorrect parameters',
+      message: 'Incorrect parameters',
     });
   }
 
@@ -15,8 +16,9 @@ export const createFollow = async (req: Request, res: Response) => {
     await User.findOneAndUpdate({ _id: userId }, { $addToSet: { followedShows: showId } });
     res.status(201).json({ message: 'Follow added.' });
   } catch (error) {
+    logger.error('Error adding follow:', error);
     return res.status(500).json({
-      error,
+      message: 'Failed to add follow. Please try again.',
     });
   }
 };
@@ -27,7 +29,7 @@ export const deleteFollow = async (req: Request, res: Response) => {
 
   if (!userId || !showId) {
     return res.status(422).json({
-      error: 'Incorrect parameters',
+      message: 'Incorrect parameters',
     });
   }
 
@@ -35,8 +37,9 @@ export const deleteFollow = async (req: Request, res: Response) => {
     await User.findOneAndUpdate({ _id: userId }, { $pull: { followedShows: showId } });
     res.status(200).json({ message: 'Follow removed.' });
   } catch (error) {
+    logger.error('Error removing follow:', error);
     return res.status(500).json({
-      error,
+      message: 'Failed to remove follow. Please try again.',
     });
   }
 };
@@ -50,12 +53,13 @@ export const getFollows = async (req: Request, res: Response) => {
       res.status(200).json(user.followedShows);
     } else {
       return res.status(404).json({
-        error: 'User not found',
+        message: 'User not found',
       });
     }
   } catch (error) {
+    logger.error('Error getting follows:', error);
     return res.status(500).json({
-      error,
+      message: 'Failed to get follows. Please try again.',
     });
   }
 };
