@@ -7,7 +7,7 @@ const colors = {
   timestamp: '\x1b[90m',
 } as const;
 
-const formatMessage = (level: LogLevel, ...messages: any[]) => {
+const formatPrefix = (level: LogLevel) => {
   const timestamp = new Date().toISOString();
   const capitalizedLevel = level.toUpperCase().padEnd(7);
 
@@ -15,15 +15,13 @@ const formatMessage = (level: LogLevel, ...messages: any[]) => {
   const resetColor = colors.reset;
   const levelColor = colors[level];
 
-  return `${timestampColor}[${timestamp}]${resetColor} ${levelColor}${capitalizedLevel}${resetColor} ${messages.join(
-    ' '
-  )}`;
+  return `${timestampColor}[${timestamp}]${resetColor} ${levelColor}${capitalizedLevel}${resetColor}`;
 };
 
 const createLogFunction = (level: LogLevel) => {
   return (...messages: any[]) => {
-    const formattedMessage = formatMessage(level, messages);
-    console.log(formattedMessage);
+    const prefix = formatPrefix(level);
+    console.log(prefix, ...messages);
   };
 };
 
