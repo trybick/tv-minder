@@ -2,9 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import ENDPOINTS from '~/gateway/endpoints';
 
-export const cacheTags = {
-  followedShows: 'FollowedShows',
-} as const;
+export const cacheTags = ['followedShows'] as const;
 
 export const baseApi = createApi({
   reducerPath: 'api',
@@ -18,6 +16,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: [cacheTags.followedShows],
+  tagTypes: cacheTags,
   endpoints: () => ({}),
 });
