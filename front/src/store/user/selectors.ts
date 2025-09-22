@@ -14,7 +14,7 @@ export const selectFollowedShows = createSelector(
   ],
   (isLoggedIn, unregisteredFollows, userFollowsQuery) => {
     if (isLoggedIn) {
-      return userFollowsQuery.data?.followedShows || [];
+      return userFollowsQuery.data || [];
     }
     return unregisteredFollows;
   }
