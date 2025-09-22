@@ -24,11 +24,13 @@ const userSlice = createSlice({
     setHasLocalWarningToastBeenShown: state => {
       state.hasLocalWarningToastBeenShown = true;
     },
+
     setIsLoggedOut: state => {
       Sentry.setUser(null);
       state.isLoggedIn = false;
       state.email = '';
     },
+
     setIsLoggedIn: (
       state,
       action: PayloadAction<{ email: string; isGoogleUser?: boolean }>
@@ -40,12 +42,14 @@ const userSlice = createSlice({
       state.isGoogleUser = isGoogleUser;
       state.unregisteredFollowedShows = [];
     },
+
     unregisteredFollowShow: (state, action: PayloadAction<number>) => {
       const showId = action.payload;
       if (!state.unregisteredFollowedShows.includes(showId)) {
         state.unregisteredFollowedShows.push(showId);
       }
     },
+
     unregisteredUnfollowShow: (state, action: PayloadAction<number>) => {
       const showId = action.payload;
       state.unregisteredFollowedShows = state.unregisteredFollowedShows.filter(
