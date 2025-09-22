@@ -11,11 +11,10 @@ import handleErrors from '~/utils/handleErrors';
 
 type Props = {
   onClose: () => void;
-  unregisteredClearFollowedShows: () => void;
 };
 
 const GoogleLoginButton = (props: Props) => {
-  const { onClose, unregisteredClearFollowedShows } = props;
+  const { onClose } = props;
   const dispatch = useAppDispatch();
 
   const onGoogleLoginError = () => {
@@ -63,7 +62,6 @@ const GoogleLoginButton = (props: Props) => {
             dispatch(
               setIsLoggedIn({ email: res.data.email, isGoogleUser: true })
             );
-            unregisteredClearFollowedShows();
           })
           .catch((error: any) => {
             handleErrors(error);

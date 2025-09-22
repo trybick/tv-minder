@@ -20,10 +20,7 @@ import ENDPOINTS from '~/gateway/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch } from '~/store';
-import {
-  clearUnregisteredFollowedShows,
-  setIsLoggedIn,
-} from '~/store/user/user.slice';
+import { setIsLoggedIn } from '~/store/user/user.slice';
 import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
@@ -105,7 +102,6 @@ const LoginModal = ({ disclosureProps }: Props) => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
         dispatch(setIsLoggedIn({ email: res.data.email }));
-        dispatch(clearUnregisteredFollowedShows());
       })
       .catch(err => {
         handleErrors(err);
@@ -225,14 +221,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {formOption === 0 && (
-              <GoogleLoginButton
-                onClose={onClose}
-                unregisteredClearFollowedShows={() =>
-                  dispatch(clearUnregisteredFollowedShows())
-                }
-              />
-            )}
+            {formOption === 0 && <GoogleLoginButton onClose={onClose} />}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>

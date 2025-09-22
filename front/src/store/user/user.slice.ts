@@ -38,6 +38,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
       state.email = email;
       state.isGoogleUser = isGoogleUser;
+      state.unregisteredFollowedShows = [];
     },
     unregisteredFollowShow: (state, action: PayloadAction<number>) => {
       const showId = action.payload;
@@ -50,9 +51,6 @@ const userSlice = createSlice({
       state.unregisteredFollowedShows = state.unregisteredFollowedShows.filter(
         id => id !== showId
       );
-    },
-    clearUnregisteredFollowedShows: state => {
-      state.unregisteredFollowedShows = [];
     },
   },
   selectors: {
@@ -71,7 +69,6 @@ export const {
   setIsLoggedIn,
   unregisteredFollowShow,
   unregisteredUnfollowShow,
-  clearUnregisteredFollowedShows,
 } = userSlice.actions;
 
 export const {
