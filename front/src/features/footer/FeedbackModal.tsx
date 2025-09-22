@@ -15,7 +15,7 @@ import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { selectUserEmail } from '~/store/user/selectors';
+import { selectEmail } from '~/store/user/user.slice';
 import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
@@ -28,7 +28,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const isMobile = useIsMobile();
   const { isOpen, onClose } = disclosureProps;
   const initialRef = useRef<HTMLTextAreaElement>(null);
-  const loggedInEmail = useAppSelector(selectUserEmail);
+  const loggedInEmail = useAppSelector(selectEmail);
 
   const [error, setError] = useState('');
   const [feedback, setFeedback] = useState('');

@@ -17,10 +17,10 @@ import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
-  setIsLoggedInAction,
-  unregisteredClearFollowedShowsAction,
-} from '~/store/user/actions';
-import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
+  clearUnregisteredFollowedShows,
+  selectUnregisteredFollowedShows,
+  setIsLoggedIn,
+} from '~/store/user/user.slice';
 import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
@@ -94,8 +94,8 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
-        dispatch(setIsLoggedInAction(res.data.email));
-        dispatch(unregisteredClearFollowedShowsAction());
+        dispatch(setIsLoggedIn({ email: res.data.email }));
+        dispatch(clearUnregisteredFollowedShows());
       })
       .catch(err => {
         handleErrors(err);
@@ -144,7 +144,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
           <GoogleLoginButton
             onClose={onClose}
             unregisteredClearFollowedShows={() =>
-              dispatch(unregisteredClearFollowedShowsAction())
+              dispatch(clearUnregisteredFollowedShows())
             }
           />
 

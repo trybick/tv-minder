@@ -1,14 +1,14 @@
 import { Button } from '@chakra-ui/react';
 
 import { useAppDispatch } from '~/store';
-import { setIsLoggedOutAction } from '~/store/user/actions';
+import { setIsLoggedOut } from '~/store/user/user.slice';
 
 const LogoutButton = () => {
   const dispatch = useAppDispatch();
 
   const onLogout = () => {
     localStorage.removeItem('jwt');
-    dispatch(setIsLoggedOutAction());
+    dispatch(setIsLoggedOut());
   };
 
   return (

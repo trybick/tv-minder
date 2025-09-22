@@ -1,16 +1,5 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '~/store';
-import {
-  removeFromFollowedShowsAction,
-  saveToFollowedShowsAction,
-  setHasLocalWarningToastBeenShownAction,
-} from '~/store/user/actions';
-import {
-  selectFollowedShows,
-  selectHasLocalWarningToastBeenShown,
-  selectIsLoggedIn,
-} from '~/store/user/selectors';
 import { ShowSearchResult } from '~/types/external';
 import { maybePluralize } from '~/utils/formatting';
 
@@ -22,13 +11,6 @@ type Props = {
 };
 
 const SearchResults = ({ shows, totalResults }: Props) => {
-  const dispatch = useAppDispatch();
-  const followedShows = useAppSelector(selectFollowedShows);
-  const hasLocalWarningToastBeenShown = useAppSelector(
-    selectHasLocalWarningToastBeenShown
-  );
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'result')}`;
 
   return (
@@ -41,22 +23,7 @@ const SearchResults = ({ shows, totalResults }: Props) => {
 
       <Stack gap={5} m="0 auto" w={{ base: '96%', md: '500px' }}>
         {shows.map(show => (
-          <SearchResult
-            key={show.id}
-            showToDisplay={show}
-            followedShows={followedShows}
-            hasLocalWarningToastBeenShown={hasLocalWarningToastBeenShown}
-            isLoggedIn={isLoggedIn}
-            removeFromFollowedShows={(showId: number) =>
-              dispatch(removeFromFollowedShowsAction(showId))
-            }
-            saveToFollowedShows={(showId: number) =>
-              dispatch(saveToFollowedShowsAction(showId))
-            }
-            setHasLocalWarningToastBeenShown={() =>
-              dispatch(setHasLocalWarningToastBeenShownAction())
-            }
-          />
+          <SearchResult key={show.id} showToDisplay={show} />
         ))}
       </Stack>
     </Box>

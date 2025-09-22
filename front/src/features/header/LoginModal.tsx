@@ -21,9 +21,9 @@ import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch } from '~/store';
 import {
-  setIsLoggedInAction,
-  unregisteredClearFollowedShowsAction,
-} from '~/store/user/actions';
+  clearUnregisteredFollowedShows,
+  setIsLoggedIn,
+} from '~/store/user/user.slice';
 import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
@@ -104,8 +104,8 @@ const LoginModal = ({ disclosureProps }: Props) => {
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
-        dispatch(setIsLoggedInAction(res.data.email));
-        dispatch(unregisteredClearFollowedShowsAction());
+        dispatch(setIsLoggedIn({ email: res.data.email }));
+        dispatch(clearUnregisteredFollowedShows());
       })
       .catch(err => {
         handleErrors(err);
@@ -229,7 +229,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
               <GoogleLoginButton
                 onClose={onClose}
                 unregisteredClearFollowedShows={() =>
-                  dispatch(unregisteredClearFollowedShowsAction())
+                  dispatch(clearUnregisteredFollowedShows())
                 }
               />
             )}

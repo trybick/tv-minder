@@ -1,18 +1,24 @@
-import { AppState } from './..';
+import { createSelector } from '@reduxjs/toolkit';
 
-export const selectFollowedShows = (state: AppState) =>
-  state.user.isLoggedIn
-    ? state.user.followedShows
-    : state.user.unregisteredFollowedShows;
+import { userApi } from '~/store/api';
 
-export const selectHasLocalWarningToastBeenShown = (state: AppState) =>
-  state.user.hasLocalWarningToastBeenShown;
+import { RootState } from './..';
+import {
+  selectIsLoggedIn,
+  selectUnregisteredFollowedShows,
+} from './user.slice';
 
-export const selectIsLoggedIn = (state: AppState) => state.user.isLoggedIn;
-
-export const selectUserEmail = (state: AppState) => state.user.email;
-
-export const selectIsGoogleUser = (state: AppState) => state.user?.isGoogleUser;
-
-export const selectUnregisteredFollowedShows = (state: AppState) =>
-  state.user.unregisteredFollowedShows;
+export const selectFollowedShows = createSelector(
+  [
+    selectIsLoggedIn,
+    selectUnregisteredFollowedShows,
+    (state: RootState) =>
+      userApi.endpoints.getFollowedShows.select(undefined)(state),
+  ],
+  (isLoggedIn, unregisteredFollows, userFollowsQuery) => {
+    if (isLoggedIn) {
+      return userFollowsQuery.data?.followedShows || [];
+    }
+    return unregisteredFollows;
+  }
+);

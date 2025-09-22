@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import { ColorModeButton } from '~/components/ui/color-mode';
 import { useColorMode } from '~/components/ui/color-mode';
 import { useAppSelector } from '~/store';
-import { selectIsLoggedIn } from '~/store/user/selectors';
+import { selectIsLoggedIn } from '~/store/user/user.slice';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import LoginButton from './LoginButton';
