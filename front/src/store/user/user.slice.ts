@@ -25,7 +25,7 @@ const userSlice = createSlice({
       state.hasLocalWarningToastBeenShown = true;
     },
     setIsLoggedOut: state => {
-      Sentry.getCurrentScope().setUser(null);
+      Sentry.setUser(null);
       state.isLoggedIn = false;
       state.email = '';
     },
