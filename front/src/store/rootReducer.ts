@@ -4,7 +4,7 @@ import { persistReducer } from 'redux-persist';
 
 import searchInputReducer from '~/features/search/searchInputSlice';
 
-import { baseApi } from './api';
+import { baseApi } from './api/baseApi';
 import { tvReducer } from './tv/reducers';
 import userReducer from './user/user.slice';
 

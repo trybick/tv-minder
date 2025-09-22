@@ -1,8 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { userApi } from '~/store/api';
-
 import { RootState } from './..';
+import { userApi } from './user.api';
 import {
   selectIsLoggedIn,
   selectUnregisteredFollowedShows,

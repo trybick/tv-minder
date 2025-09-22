@@ -9,7 +9,7 @@ import { persistStore } from 'redux-persist';
 
 import searchInputReducer from '~/features/search/searchInputSlice';
 
-import { baseApi } from './api';
+import { baseApi } from './api/baseApi';
 import { persistedReducer } from './rootReducer';
 import { tvReducer } from './tv/reducers';
 import userReducer from './user/user.slice';
