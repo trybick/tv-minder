@@ -8,7 +8,7 @@ import cacheDurationDays from '~/utils/cacheDurations';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import handleErrors from '~/utils/handleErrors';
 
-import { AppThunk, RootState } from './..';
+import { AppThunk } from './..';
 import { SavedQuery } from './types';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
@@ -35,7 +35,7 @@ export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const { episodeData: storedEpisodeData } = state.tv;
-    const userFollowedShowsIds = selectFollowedShows(state as RootState);
+    const userFollowedShowsIds = selectFollowedShows(state);
 
     const cachedIds = Object.keys(storedEpisodeData);
     const validCachedIds = userFollowedShowsIds.filter(
@@ -76,7 +76,7 @@ export const getBasicShowInfoForFollowedShows =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const { basicShowInfo: cachedBasicShowInfo } = state.tv;
-    const followedShowsSource = selectFollowedShows(state as RootState);
+    const followedShowsSource = selectFollowedShows(state);
     const combinedData: { [key: number]: any } = {};
 
     // Get cached data and add to combinedData

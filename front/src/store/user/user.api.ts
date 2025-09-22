@@ -1,4 +1,4 @@
-import { baseApi, cacheTags } from '~/store/api/baseApi';
+import { baseApi } from '~/store/api/baseApi';
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -7,7 +7,7 @@ export const userApi = baseApi.injectEndpoints({
         url: '/follow',
         params: { token: localStorage.getItem('jwt') },
       }),
-      providesTags: [cacheTags.followedShows],
+      providesTags: ['followedShows'],
     }),
 
     followShow: builder.mutation<
@@ -22,7 +22,7 @@ export const userApi = baseApi.injectEndpoints({
           token: localStorage.getItem('jwt'),
         },
       }),
-      invalidatesTags: [cacheTags.followedShows],
+      invalidatesTags: ['followedShows'],
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
@@ -51,7 +51,7 @@ export const userApi = baseApi.injectEndpoints({
           token: localStorage.getItem('jwt'),
         },
       }),
-      invalidatesTags: [cacheTags.followedShows],
+      invalidatesTags: ['followedShows'],
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
