@@ -17,19 +17,20 @@ export const selectCalendarEpisodesForDisplay = (state: AppState) =>
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
 
-export const selectBasicShowInfoForFollowedShows = createSelector(
-  selectBasicShowInfo,
-  selectFollowedShows,
-  (showInfo, followedShows) => {
-    if (!showInfo || !followedShows) {
-      return [];
+export const selectBasicShowInfoForFollowedShows: AppSelector<BasicShowInfo[]> =
+  createSelector(
+    selectBasicShowInfo,
+    selectFollowedShows,
+    (showInfo, followedShows) => {
+      if (!showInfo || !followedShows) {
+        return [];
+      }
+      return Object.values(showInfo)
+        .filter(show => followedShows.includes(show.id))
+        ?.map<BasicShowInfo>(mapShowInfoForDisplay)
+        ?.sort((a, b) => a.name.localeCompare(b.name));
     }
-    return Object.values(showInfo)
-      .filter(show => followedShows.includes(show.id))
-      ?.map<BasicShowInfo>(mapShowInfoForDisplay)
-      ?.sort((a, b) => a.name.localeCompare(b.name));
-  }
-);
+  );
 
 export const selectActiveSeasonShows: AppSelector<BasicShowInfo[]> =
   createSelector(selectBasicShowInfoForFollowedShows, basicShowInfo =>
