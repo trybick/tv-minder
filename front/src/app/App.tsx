@@ -30,6 +30,7 @@ const App = () => {
 
   useGetFollowedShowsQuery(undefined, {
     skip: !isLoggedIn,
+    selectFromResult: () => ({}), // stable result → no re-render
   });
 
   useEffect(() => {

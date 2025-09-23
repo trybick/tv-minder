@@ -7,7 +7,7 @@ import { TbLanguage } from 'react-icons/tb';
 
 import DelayedSkeleton from '~/components/DelayedSkeleton';
 import DelayedSkeletonText from '~/components/DelayedSkeletonText';
-import FollowButton from '~/components/FollowButton';
+import { FollowButton } from '~/components/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {

@@ -22,7 +22,6 @@ export const userApi = baseApi.injectEndpoints({
           token: localStorage.getItem('jwt'),
         },
       }),
-      invalidatesTags: ['followedShows'],
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
@@ -51,7 +50,6 @@ export const userApi = baseApi.injectEndpoints({
           token: localStorage.getItem('jwt'),
         },
       }),
-      invalidatesTags: ['followedShows'],
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
