@@ -2,7 +2,7 @@ import { baseApi } from '~/store/api/baseApi';
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getFollowedShows: builder.query<{ followedShows: number[] }, void>({
+    getFollowedShows: builder.query<number[], void>({
       query: () => ({
         url: '/follow',
         params: { token: localStorage.getItem('jwt') },
@@ -26,8 +26,8 @@ export const userApi = baseApi.injectEndpoints({
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
-            if (!draft.followedShows.includes(showId)) {
-              draft.followedShows.push(showId);
+            if (!draft.includes(showId)) {
+              draft.push(showId);
             }
           })
         );
@@ -55,9 +55,10 @@ export const userApi = baseApi.injectEndpoints({
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
-            draft.followedShows = draft.followedShows.filter(
-              id => id !== showId
-            );
+            const index = draft.findIndex(id => id === showId);
+            if (index !== -1) {
+              draft.splice(index, 1);
+            }
           })
         );
         try {
