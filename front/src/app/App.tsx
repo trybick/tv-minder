@@ -17,7 +17,7 @@ import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { useGetFollowedShowsQuery } from '~/store/user/user.api';
+import { useLazyGetFollowedShowsQuery } from '~/store/user/user.api';
 import { selectIsLoggedIn } from '~/store/user/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { initSentry } from '~/utils/sentry';
@@ -28,10 +28,23 @@ const App = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isMobile = useIsMobile();
 
-  useGetFollowedShowsQuery(undefined, {
-    skip: !isLoggedIn,
-    selectFromResult: () => ({}), // stable result → no re-render
-  });
+  const [triggerGetFollowedShows] = useLazyGetFollowedShowsQuery();
+
+  // Use a lazy query to fetch followed shows only one time.
+  // If a normal useQuery is used, the whole App will re-render everytime the
+  // followed shows are updated which causes lag on the Follow buttons.
+  // We don't need to fetch followed shows anywhere else as optimistic updates
+  // take care of it.
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    (async () => {
+      try {
+        await triggerGetFollowedShows(undefined, true).unwrap();
+      } catch (error) {
+        console.error('Failed to prefetch followed shows', error);
+      }
+    })();
+  }, [isLoggedIn, triggerGetFollowedShows]);
 
   useEffect(() => {
     if (import.meta.env.MODE === 'production') {

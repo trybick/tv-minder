@@ -71,6 +71,7 @@ export const userApi = baseApi.injectEndpoints({
 
 export const {
   useGetFollowedShowsQuery,
+  useLazyGetFollowedShowsQuery,
   useFollowShowMutation,
   useUnfollowShowMutation,
 } = userApi;
