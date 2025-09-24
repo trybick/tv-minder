@@ -24,7 +24,7 @@ type Props = {
   followedWidth?: string;
 };
 
-export const FollowButton = ({
+const FollowButton = ({
   showId,
   followedWidth,
   unfollowedWidth,
@@ -76,26 +76,31 @@ export const FollowButton = ({
     }
   }
 
-  return (
+  return isFollowed ? (
     <Button
       aria-label={`follow-button-${showId}`}
       colorPalette="cyan"
-      onClick={isFollowed ? onUnFollowShow : onFollowShow}
-      variant={isFollowed ? 'surface' : 'solid'}
-      minW={followedWidth ?? unfollowedWidth}
+      onClick={onUnFollowShow}
+      variant="surface"
+      {...(followedWidth && { minW: followedWidth })}
       {...rest}
     >
-      {isFollowed ? (
-        <>
-          <FaCheck />
-          Unfollow
-        </>
-      ) : (
-        <>
-          <IoMdAdd fontSize="22px" style={{ marginInlineEnd: '-0.2rem' }} />
-          Follow
-        </>
-      )}
+      <FaCheck />
+      Unfollow
+    </Button>
+  ) : (
+    <Button
+      aria-label={`follow-button-${showId}`}
+      colorPalette="cyan"
+      onClick={onFollowShow}
+      variant="solid"
+      {...(unfollowedWidth && { minW: unfollowedWidth })}
+      {...rest}
+    >
+      <IoMdAdd fontSize="22px" style={{ marginInlineEnd: '-0.2rem' }} />
+      Follow
     </Button>
   );
 };
+
+export default FollowButton;

@@ -31,10 +31,10 @@ const App = () => {
   const [triggerGetFollowedShows] = useLazyGetFollowedShowsQuery();
 
   // Use a lazy query to fetch followed shows only one time.
-  // If a normal useQuery is used, the whole App will re-render everytime the
-  // followed shows are updated which causes lag on the Follow buttons.
+  // If a normal useQuery is used, the whole App and all subcomponents will
+  // re-render everytime the followed shows are updated.
   // We don't need to fetch followed shows anywhere else as optimistic updates
-  // take care of it.
+  // take care of that.
   useEffect(() => {
     if (!isLoggedIn) return;
     (async () => {

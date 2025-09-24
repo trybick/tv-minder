@@ -2,8 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import ENDPOINTS from '~/gateway/endpoints';
 
-export const tagTypes = ['followedShows'] as const;
-
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -16,6 +14,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes,
+  // tagTypes,  // Add tags here if needed
   endpoints: () => ({}),
 });

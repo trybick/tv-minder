@@ -7,13 +7,9 @@ export const userApi = baseApi.injectEndpoints({
         url: '/follow',
         params: { token: localStorage.getItem('jwt') },
       }),
-      providesTags: ['followedShows'],
     }),
 
-    followShow: builder.mutation<
-      { showId: number; isRegistered: boolean },
-      number
-    >({
+    followShow: builder.mutation<{ showId: number }, number>({
       query: showId => ({
         url: '/follow',
         method: 'POST',
@@ -38,10 +34,7 @@ export const userApi = baseApi.injectEndpoints({
       },
     }),
 
-    unfollowShow: builder.mutation<
-      { showId: number; isRegistered: boolean },
-      number
-    >({
+    unfollowShow: builder.mutation<{ showId: number }, number>({
       query: showId => ({
         url: '/follow',
         method: 'DELETE',
