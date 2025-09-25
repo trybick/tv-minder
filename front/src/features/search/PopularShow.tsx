@@ -2,7 +2,7 @@ import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import { FollowButton } from '~/components/FollowButton';
+import FollowButton from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';

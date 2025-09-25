@@ -1,6 +1,6 @@
 import { Flex, Grid } from '@chakra-ui/react';
 
-import { FollowButton } from '~/components/FollowButton';
+import FollowButton from '~/components/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 

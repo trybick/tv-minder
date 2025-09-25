@@ -2,7 +2,7 @@ import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import { FollowButton } from '~/components/FollowButton';
+import FollowButton from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
