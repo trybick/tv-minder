@@ -36,7 +36,9 @@ const App = () => {
   // We don't need to fetch followed shows anywhere else as optimistic updates
   // take care of that.
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn) {
+      return;
+    }
     (async () => {
       try {
         await triggerGetFollowedShows(undefined, true).unwrap();

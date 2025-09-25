@@ -64,7 +64,7 @@ const FollowButton = ({
     }
   }
 
-  async function onUnFollowShow() {
+  async function onUnfollowShow() {
     if (isLoggedIn) {
       try {
         await unfollowShow(showId).unwrap();
@@ -80,7 +80,7 @@ const FollowButton = ({
     <Button
       aria-label={`follow-button-${showId}`}
       colorPalette="cyan"
-      onClick={onUnFollowShow}
+      onClick={onUnfollowShow}
       variant="surface"
       {...(followedWidth && { minW: followedWidth })}
       {...rest}
