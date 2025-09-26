@@ -30,7 +30,10 @@ const App = () => {
 
   useGetFollowedShowsQuery(undefined, {
     skip: !isLoggedIn,
-    selectFromResult: () => ({}), // stable result → no re-render
+    // selectFromResult like this to avoid subscribing to changes. Without this,
+    // anytime the followed shows are updated the whole App and all subcomponents
+    // will re-render.
+    selectFromResult: () => ({}),
   });
 
   useEffect(() => {

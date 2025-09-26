@@ -3,7 +3,7 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { selectFollowedShows } from '~/store/user/selectors';
+import { makeSelectIsShowFollowed } from '~/store/user/selectors';
 import {
   useFollowShowMutation,
   useUnfollowShowMutation,
@@ -36,8 +36,7 @@ const FollowButton = ({
   const hasLocalWarningToastBeenShown = useAppSelector(
     selectHasLocalWarningToastBeenShown
   );
-  const followedShows = useAppSelector(selectFollowedShows);
-  const isFollowed = followedShows.includes(showId);
+  const isFollowed = useAppSelector(makeSelectIsShowFollowed(showId));
 
   const [followShow] = useFollowShowMutation();
   const [unfollowShow] = useUnfollowShowMutation();

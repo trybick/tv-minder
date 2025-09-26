@@ -19,3 +19,8 @@ export const selectFollowedShows = createSelector(
     return unregisteredFollows;
   }
 );
+
+export const makeSelectIsShowFollowed = (showId: number) =>
+  createSelector([selectFollowedShows], followedShows =>
+    followedShows.includes(showId)
+  );
