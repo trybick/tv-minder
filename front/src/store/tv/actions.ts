@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import ENDPOINTS from '~/gateway/endpoints';
 import { getEpisodesForCalendar } from '~/gateway/getEpisodesForCalendar';
-import { selectFollowedShows } from '~/store/user/selectors';
+import { selectFollowedShows } from '~/store/user/user.selectors';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import handleErrors from '~/utils/handleErrors';

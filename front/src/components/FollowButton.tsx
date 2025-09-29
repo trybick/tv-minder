@@ -3,7 +3,7 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { makeSelectIsShowFollowed } from '~/store/user/selectors';
+import { makeSelectIsShowFollowed } from '~/store/user/user.selectors';
 import {
   useFollowShowMutation,
   useUnfollowShowMutation,
