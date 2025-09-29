@@ -9,14 +9,16 @@ import { persistStore } from 'redux-persist';
 
 import searchInputReducer from '~/features/search/searchInputSlice';
 
+import { baseApi } from './api/baseApi';
 import { persistedReducer } from './rootReducer';
 import { tvReducer } from './tv/reducers';
-import { userReducer } from './user/reducers';
+import userReducer from './user/user.slice';
 
 export type AppState = {
   user: ReturnType<typeof userReducer>;
   tv: ReturnType<typeof tvReducer>;
   searchInput: ReturnType<typeof searchInputReducer>;
+  [baseApi.reducerPath]: ReturnType<typeof baseApi.reducer>;
 };
 
 export const store = configureStore({
@@ -30,7 +32,7 @@ export const store = configureStore({
       // too long. Re-enable this after migrating to RTK Query
       serializableCheck: false,
       immutableCheck: false,
-    }),
+    }).concat(baseApi.middleware),
 });
 
 export const persistor = persistStore(store);

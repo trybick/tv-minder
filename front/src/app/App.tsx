@@ -16,29 +16,33 @@ import SearchPage from '~/features/search/SearchPage';
 import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppDispatch, useAppSelector } from '~/store';
-import { fetchfollowedShowsAction } from '~/store/user/actions';
-import { selectIsLoggedIn } from '~/store/user/selectors';
+import { useAppSelector } from '~/store';
+import { useGetFollowedShowsQuery } from '~/store/user/user.api';
+import { selectIsLoggedIn } from '~/store/user/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { initSentry } from '~/utils/sentry';
 
 import { ROUTES } from './routes';
 
 const App = () => {
-  const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isMobile = useIsMobile();
 
+  useGetFollowedShowsQuery(undefined, {
+    skip: !isLoggedIn,
+    // selectFromResult like this to avoid subscribing to changes. Without this,
+    // anytime the followed shows are updated the whole App and all subcomponents
+    // will re-render.
+    selectFromResult: () => ({}),
+  });
+
   useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchfollowedShowsAction());
-    }
     if (import.meta.env.MODE === 'production') {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
       initSentry();
     }
-  }, [isLoggedIn, dispatch]);
+  }, []);
 
   return (
     <ErrorBoundary>

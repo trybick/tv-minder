@@ -11,13 +11,7 @@ import { ShowSearchResult } from '~/types/external';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
-  followedShows: number[];
-  hasLocalWarningToastBeenShown: boolean;
-  isLoggedIn: boolean;
   showToDisplay: ShowSearchResult;
-  removeFromFollowedShows: (showId: number) => void;
-  setHasLocalWarningToastBeenShown: () => void;
-  saveToFollowedShows: (showId: number) => void;
 };
 
 const SearchResult = ({ showToDisplay }: Props) => {

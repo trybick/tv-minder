@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useAppSelector } from '~/store';
-import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
+import { selectEmail, selectIsGoogleUser } from '~/store/user/user.slice';
 
 type FormInputs = {
   oldPassword: string;
@@ -16,7 +16,7 @@ type FormInputs = {
 
 const ChangePasswordContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const email = useAppSelector(selectUserEmail);
+  const email = useAppSelector(selectEmail);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
   const {

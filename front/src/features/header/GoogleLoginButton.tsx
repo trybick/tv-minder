@@ -6,16 +6,15 @@ import GoogleButton from 'react-google-button';
 import { toaster } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useAppDispatch } from '~/store';
-import { setIsLoggedInAction } from '~/store/user/actions';
+import { setIsLoggedIn } from '~/store/user/user.slice';
 import handleErrors from '~/utils/handleErrors';
 
 type Props = {
   onClose: () => void;
-  unregisteredClearFollowedShows: () => void;
 };
 
 const GoogleLoginButton = (props: Props) => {
-  const { onClose, unregisteredClearFollowedShows } = props;
+  const { onClose } = props;
   const dispatch = useAppDispatch();
 
   const onGoogleLoginError = () => {
@@ -60,8 +59,9 @@ const GoogleLoginButton = (props: Props) => {
           .then(res => {
             localStorage.setItem('jwt', res.data.token);
             onClose();
-            dispatch(setIsLoggedInAction(res.data.email, true));
-            unregisteredClearFollowedShows();
+            dispatch(
+              setIsLoggedIn({ email: res.data.email, isGoogleUser: true })
+            );
           })
           .catch((error: any) => {
             handleErrors(error);

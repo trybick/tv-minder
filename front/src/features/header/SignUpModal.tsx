@@ -17,10 +17,9 @@ import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
-  setIsLoggedInAction,
-  unregisteredClearFollowedShowsAction,
-} from '~/store/user/actions';
-import { selectUnregisteredFollowedShows } from '~/store/user/selectors';
+  selectUnregisteredFollowedShows,
+  setIsLoggedIn,
+} from '~/store/user/user.slice';
 import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
@@ -94,8 +93,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
       .then(res => {
         localStorage.setItem('jwt', res.data.token);
         onClose();
-        dispatch(setIsLoggedInAction(res.data.email));
-        dispatch(unregisteredClearFollowedShowsAction());
+        dispatch(setIsLoggedIn({ email: res.data.email }));
       })
       .catch(err => {
         handleErrors(err);
@@ -141,12 +139,7 @@ const SignUpModal = ({ disclosureProps }: Props) => {
             <CloseButton />
           </Dialog.CloseTrigger>
 
-          <GoogleLoginButton
-            onClose={onClose}
-            unregisteredClearFollowedShows={() =>
-              dispatch(unregisteredClearFollowedShowsAction())
-            }
-          />
+          <GoogleLoginButton onClose={onClose} />
 
           <Box as="form" onSubmit={onSubmit}>
             <Dialog.Body pb={6}>

@@ -6,18 +6,21 @@ import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppSelector } from '~/store';
 import { useAppDispatch } from '~/store';
-import { setIsLoggedOutAction } from '~/store/user/actions';
-import { selectIsGoogleUser, selectUserEmail } from '~/store/user/selectors';
+import {
+  selectEmail,
+  selectIsGoogleUser,
+  setIsLoggedOut,
+} from '~/store/user/user.slice';
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
-  const email = useAppSelector(selectUserEmail);
+  const email = useAppSelector(selectEmail);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
   const handleLogout = () => {
     localStorage.removeItem('jwt');
-    dispatch(setIsLoggedOutAction());
+    dispatch(setIsLoggedOut());
   };
 
   return (

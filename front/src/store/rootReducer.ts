@@ -4,8 +4,9 @@ import { persistReducer } from 'redux-persist';
 
 import searchInputReducer from '~/features/search/searchInputSlice';
 
+import { baseApi } from './api/baseApi';
 import { tvReducer } from './tv/reducers';
-import { userReducer } from './user/reducers';
+import userReducer from './user/user.slice';
 
 // Why use redux-perist?
 // The main reason to use redux-persist is to persist the 'logged in' state.
@@ -16,7 +17,7 @@ import { userReducer } from './user/reducers';
 const rootPersistConfig = {
   key: 'root',
   storage: localforage,
-  blacklist: ['user', 'tv', 'searchInput'],
+  blacklist: ['user', 'tv', 'searchInput', baseApi.reducerPath],
 };
 
 const userPersistConfig = {
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   tv: persistReducer(tvPersistConfig, tvReducer),
   searchInput: persistReducer(searchInputPersistConfig, searchInputReducer),
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 
 export const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

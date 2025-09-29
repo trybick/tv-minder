@@ -2,7 +2,21 @@ import { Button, ButtonProps } from '@chakra-ui/react';
 import { FaCheck } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
 
-import { useFollowButton } from '~/hooks/useFollowButton';
+import { useAppDispatch, useAppSelector } from '~/store';
+import { makeSelectIsShowFollowed } from '~/store/user/selectors';
+import {
+  useFollowShowMutation,
+  useUnfollowShowMutation,
+} from '~/store/user/user.api';
+import {
+  selectHasLocalWarningToastBeenShown,
+  selectIsLoggedIn,
+  setHasLocalWarningToastBeenShown,
+  unregisteredFollowShow,
+  unregisteredUnfollowShow,
+} from '~/store/user/user.slice';
+
+import { toaster } from './ui/toaster';
 
 type Props = {
   showId: number;
@@ -16,13 +30,56 @@ const FollowButton = ({
   unfollowedWidth,
   ...rest
 }: Props & ButtonProps) => {
-  const { isFollowed, onFollowShow, onUnFollowShow } = useFollowButton(showId);
+  const dispatch = useAppDispatch();
+
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const hasLocalWarningToastBeenShown = useAppSelector(
+    selectHasLocalWarningToastBeenShown
+  );
+  const isFollowed = useAppSelector(makeSelectIsShowFollowed(showId));
+
+  const [followShow] = useFollowShowMutation();
+  const [unfollowShow] = useUnfollowShowMutation();
+
+  async function onFollowShow() {
+    if (isLoggedIn) {
+      try {
+        await followShow(showId).unwrap();
+      } catch (error) {
+        console.error('Failed to follow show:', error);
+      }
+    } else {
+      dispatch(unregisteredFollowShow(showId));
+      if (!hasLocalWarningToastBeenShown) {
+        dispatch(setHasLocalWarningToastBeenShown());
+        toaster.create({
+          title: "We're saving your shows",
+          description: 'You can sign up to avoid losing them',
+          type: 'warning',
+          duration: 7000,
+          meta: { closable: true },
+        });
+      }
+    }
+  }
+
+  async function onUnfollowShow() {
+    if (isLoggedIn) {
+      try {
+        await unfollowShow(showId).unwrap();
+      } catch (error) {
+        console.error('Failed to unfollow show:', error);
+      }
+    } else {
+      dispatch(unregisteredUnfollowShow(showId));
+    }
+  }
 
   return isFollowed ? (
     <Button
       aria-label={`follow-button-${showId}`}
       colorPalette="cyan"
-      onClick={onUnFollowShow}
+      onClick={onUnfollowShow}
       variant="surface"
       {...(followedWidth && { minW: followedWidth })}
       {...rest}
