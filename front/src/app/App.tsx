@@ -5,7 +5,6 @@ import { Route, Switch } from 'wouter';
 
 import ErrorBoundary from '~/components/ErrorBoundary';
 import ProtectedRoute from '~/components/ProtectedRoute';
-import ScrollToTop from '~/components/ScrollToTop';
 import { Toaster } from '~/components/ui/toaster';
 import CalendarPage from '~/features/calendar/CalendarPage';
 import FollowingPage from '~/features/following/FollowingPage';
@@ -46,7 +45,6 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <ScrollToTop />
       <Toaster />
 
       <Flex direction="column" minH="97vh">
