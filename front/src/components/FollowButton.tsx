@@ -43,11 +43,7 @@ const FollowButton = ({
 
   async function onFollowShow() {
     if (isLoggedIn) {
-      try {
-        await followShow(showId).unwrap();
-      } catch (error) {
-        console.error('Failed to follow show:', error);
-      }
+      await followShow(showId);
     } else {
       dispatch(unregisteredFollowShow(showId));
       if (!hasLocalWarningToastBeenShown) {
@@ -65,11 +61,7 @@ const FollowButton = ({
 
   async function onUnfollowShow() {
     if (isLoggedIn) {
-      try {
-        await unfollowShow(showId).unwrap();
-      } catch (error) {
-        console.error('Failed to unfollow show:', error);
-      }
+      await unfollowShow(showId);
     } else {
       dispatch(unregisteredUnfollowShow(showId));
     }
