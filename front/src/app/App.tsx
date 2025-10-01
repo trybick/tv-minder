@@ -16,7 +16,7 @@ import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { useGetFollowedShowsQuery } from '~/store/user/user.api';
+import { useLazyGetFollowedShowsQuery } from '~/store/user/user.api';
 import { selectIsLoggedIn } from '~/store/user/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { initSentry } from '~/utils/sentry';
@@ -27,13 +27,14 @@ const App = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isMobile = useIsMobile();
 
-  useGetFollowedShowsQuery(undefined, {
-    skip: !isLoggedIn,
-    // selectFromResult like this to avoid subscribing to changes. Without this,
-    // anytime the followed shows are updated the whole App and all subcomponents
-    // will re-render.
-    selectFromResult: () => ({}),
-  });
+  const [getFollowedShows] = useLazyGetFollowedShowsQuery();
+
+  // Use lazy query to avoid subscribing and causing the whole App to re-render
+  useEffect(() => {
+    if (isLoggedIn) {
+      getFollowedShows();
+    }
+  }, [isLoggedIn, getFollowedShows]);
 
   useEffect(() => {
     if (import.meta.env.MODE === 'production') {

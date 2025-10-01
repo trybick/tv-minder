@@ -6,7 +6,6 @@ import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppSelector } from '~/store';
 import { useAppDispatch } from '~/store';
-import { userApi } from '~/store/user/user.api';
 import {
   selectEmail,
   selectIsGoogleUser,
@@ -22,7 +21,6 @@ const UserMenu = () => {
   const handleLogout = () => {
     localStorage.removeItem('jwt');
     dispatch(setIsLoggedOut());
-    dispatch(userApi.util.resetApiState());
   };
 
   return (
