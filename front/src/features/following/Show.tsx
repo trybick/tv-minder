@@ -3,6 +3,7 @@ import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { ShowNavigationState } from '~/features/show/ShowPage';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
@@ -19,9 +20,10 @@ const Show = (props: Props) => {
   } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
+  const isMobile = useIsMobile();
   const [isImageHovered, setIsImageHovered] = useState(false);
 
-  const posterSource = createImageUrl(posterPath);
+  const posterSource = createImageUrl(posterPath, isMobile);
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ const Show = (props: Props) => {
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
-          onError={e => (e.currentTarget.src = createImageUrl(null))}
+          onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}
           src={posterSource}
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
