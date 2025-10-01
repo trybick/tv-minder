@@ -4,11 +4,11 @@ import {
   Dialog,
   Field,
   Input,
-  Text,
   Textarea,
 } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
-import { ChangeEvent, useRef, useState } from 'react';
+import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { FiSend } from 'react-icons/fi';
 
 import { showToast } from '~/components/ui/toaster';
@@ -23,6 +23,11 @@ import { selectEmail } from '~/store/user/user.slice';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
+type FormValues = {
+  feedback: string;
+  email: string;
+};
+
 const FeedbackModal = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
@@ -30,37 +35,24 @@ const FeedbackModal = () => {
   const initialRef = useRef<HTMLTextAreaElement>(null);
   const loggedInEmail = useAppSelector(selectEmail);
 
-  const [error, setError] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+    watch,
+    setError: setFormError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    defaultValues: { feedback: '', email: '' },
+  });
 
-  const handleFeedbackChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setFeedback(event.target.value);
-  };
-
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const resetForm = () => {
-    setFeedback('');
-    setEmail('');
-    setError('');
-    setIsSubmitting(false);
-  };
-
-  const handleSubmit = async () => {
-    if (email && !emailRegex.test(email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
+  const onSubmit = async (values: FormValues) => {
+    const { feedback, email } = values;
 
     const formattedEmail = loggedInEmail
       ? `Logged in as ${loggedInEmail}. Provided email: ${email}`
       : email;
 
-    setIsSubmitting(true);
     try {
       await axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, {
         text: feedback,
@@ -75,12 +67,13 @@ const FeedbackModal = () => {
       resetForm();
       dispatch(setIsFeedbackModalOpen(false));
     } catch (error) {
-      setError(
-        error instanceof AxiosError
-          ? error.message
-          : 'An unknown error occurred'
-      );
-      setIsSubmitting(false);
+      setFormError('root', {
+        type: 'server',
+        message:
+          error instanceof AxiosError
+            ? error.message
+            : 'An unknown error occurred',
+      });
       handleErrors(error as AxiosError);
     }
   };
@@ -119,33 +112,38 @@ const FeedbackModal = () => {
             <Field.Root>
               <Field.Label>{"What's on your mind?"}</Field.Label>
               <Textarea
+                placeholder="I am ..."
                 h="150px"
                 mb={2}
-                onChange={handleFeedbackChange}
-                ref={initialRef}
-                value={feedback}
+                {...register('feedback')}
               />
             </Field.Root>
 
             <Field.Root mt={4}>
               <Field.Label>Your email (optional)</Field.Label>
-              <Input onChange={handleEmailChange} value={email} />
+              <Input
+                {...register('email', {
+                  validate: value =>
+                    !value ||
+                    emailRegex.test(value) ||
+                    'Please enter a valid email address',
+                })}
+              />
+              <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
             </Field.Root>
 
-            {error && (
-              <Text color="#ff3e3e" fontSize="sm" mt={2}>
-                {error}
-              </Text>
-            )}
+            <Field.Root invalid={!!errors?.root} mt={4}>
+              <Field.ErrorText>{errors?.root?.message}</Field.ErrorText>
+            </Field.Root>
           </Dialog.Body>
 
           <Dialog.Footer>
             <Button
               colorPalette="cyan"
-              disabled={!feedback}
+              disabled={!watch('feedback')}
               loading={isSubmitting}
               mr={3}
-              onClick={handleSubmit}
+              onClick={handleSubmit(onSubmit)}
             >
               Send
               <FiSend />
