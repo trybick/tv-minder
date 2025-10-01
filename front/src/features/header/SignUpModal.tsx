@@ -61,7 +61,7 @@ const SignUpModal = () => {
   const isMobile = useIsMobile();
 
   // Modal
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const isOpen = useAppSelector(selectIsSignUpModalOpen);
   const onClose = () => dispatch(setIsSignUpModalOpen(false));
 
@@ -76,7 +76,7 @@ const SignUpModal = () => {
   } = useForm<FormInputs>();
 
   const onSubmit = handleSubmit(({ email, password }: FormInputs) => {
-    setIsLoading(true);
+    setIsSubmitLoading(true);
     axios
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
         email,
@@ -96,7 +96,7 @@ const SignUpModal = () => {
       })
       .catch(err => {
         handleErrors(err);
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         reset(undefined, { keepErrors: true });
 
         if (err.response?.status === 409) {
@@ -197,7 +197,7 @@ const SignUpModal = () => {
               </Button>
               <Button
                 colorPalette="cyan"
-                loading={isLoading}
+                loading={isSubmitLoading}
                 type="submit"
                 variant="solid"
               >

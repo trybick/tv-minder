@@ -53,7 +53,7 @@ const LoginModal = () => {
   const isMobile = useIsMobile();
 
   // Modal
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const isOpen = useAppSelector(selectIsLoginModalOpen);
   const onClose = () => dispatch(setIsLoginModalOpen(false));
 
@@ -72,7 +72,7 @@ const LoginModal = () => {
 
   const onSubmit = handleSubmit(
     ({ email, password, oneTimeCode }: FormInputs) => {
-      setIsLoading(true);
+      setIsSubmitLoading(true);
       switch (formOption) {
         case 0:
           handleLogin(email, password);
@@ -103,7 +103,7 @@ const LoginModal = () => {
       })
       .catch(err => {
         handleErrors(err);
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setError('root', {
           type: 'manual',
           message: 'Invalid login. Please try again.',
@@ -116,12 +116,12 @@ const LoginModal = () => {
     axios
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/requestonetimecode`, { email })
       .then(() => {
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setFormOption(2);
       })
       .catch(err => {
         handleErrors(err);
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setError('root', {
           type: 'manual',
           message: 'The email is not registered',
@@ -136,12 +136,12 @@ const LoginModal = () => {
         oneTimeCode,
       })
       .then(() => {
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setFormOption(3);
       })
       .catch(err => {
         handleErrors(err);
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setError('root', {
           type: 'manual',
           message: 'Invalid One Time Code',
@@ -156,7 +156,7 @@ const LoginModal = () => {
         password,
       })
       .then(() => {
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setFormOption(0);
         showToast({
           title: 'Password Changed',
@@ -166,7 +166,7 @@ const LoginModal = () => {
       })
       .catch(err => {
         handleErrors(err);
-        setIsLoading(false);
+        setIsSubmitLoading(false);
         setError('root', {
           type: 'manual',
           message: 'Unable to change password',
@@ -315,7 +315,7 @@ const LoginModal = () => {
                   </Button>
                   <Button
                     colorPalette="cyan"
-                    loading={isLoading}
+                    loading={isSubmitLoading}
                     ml={3}
                     type="submit"
                     variant="solid"
