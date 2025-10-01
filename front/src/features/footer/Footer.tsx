@@ -7,17 +7,17 @@ import {
   Link,
   Separator,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
 
 import TMDBLogo from '~/assets/images/TMDB-logo.svg';
+import { useAppDispatch } from '~/store';
+import { setIsFeedbackModalOpen } from '~/store/modals/modals.slice';
 
 import FeedbackModal from './FeedbackModal';
 
 const Footer = () => {
-  const { open, onOpen, onClose } = useDisclosure();
-  const disclosureProps = { isOpen: open, onOpen, onClose };
+  const dispatch = useAppDispatch();
 
   return (
     <Box mb="6px">
@@ -55,13 +55,17 @@ const Footer = () => {
         </Flex>
 
         <Flex flex="1" justifyContent="flex-end">
-          <Button colorPalette="cyan" onClick={onOpen} size="sm">
+          <Button
+            colorPalette="cyan"
+            onClick={() => dispatch(setIsFeedbackModalOpen(true))}
+            size="sm"
+          >
             Feedback
             <FaRegComment />
           </Button>
         </Flex>
       </Flex>
-      <FeedbackModal disclosureProps={disclosureProps} />
+      <FeedbackModal />
     </Box>
   );
 };

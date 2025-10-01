@@ -11,6 +11,7 @@ import searchInputReducer from '~/features/search/searchInputSlice';
 
 import { baseApi } from './api/baseApi';
 import { errorHandlerMiddleware } from './api/errorHandlerMiddleware';
+import modalsReducer from './modals/modals.slice';
 import { persistedReducer } from './rootReducer';
 import { tvReducer } from './tv/reducers';
 import userReducer from './user/user.slice';
@@ -19,6 +20,7 @@ export type AppState = {
   user: ReturnType<typeof userReducer>;
   tv: ReturnType<typeof tvReducer>;
   searchInput: ReturnType<typeof searchInputReducer>;
+  modals: ReturnType<typeof modalsReducer>;
   [baseApi.reducerPath]: ReturnType<typeof baseApi.reducer>;
 };
 

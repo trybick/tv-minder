@@ -1,23 +1,25 @@
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
+
+import { useAppDispatch } from '~/store';
+import { setIsLoginModalOpen } from '~/store/modals/modals.slice';
 
 import LoginModal from './LoginModal';
 
 const LoginButton = () => {
-  const { open, onOpen, onClose } = useDisclosure();
-  const disclosureProps = { isOpen: open, onOpen, onClose };
+  const dispatch = useAppDispatch();
 
   return (
     <>
       <Button
         colorPalette="cyan"
         ml="3px"
-        onClick={() => onOpen()}
+        onClick={() => dispatch(setIsLoginModalOpen(true))}
         variant="surface"
       >
         Login
       </Button>
 
-      <LoginModal disclosureProps={disclosureProps} />
+      <LoginModal />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { persistReducer } from 'redux-persist';
 import searchInputReducer from '~/features/search/searchInputSlice';
 
 import { baseApi } from './api/baseApi';
+import modalsReducer from './modals/modals.slice';
 import { tvReducer } from './tv/reducers';
 import userReducer from './user/user.slice';
 
@@ -17,7 +18,7 @@ import userReducer from './user/user.slice';
 const rootPersistConfig = {
   key: 'root',
   storage: localforage,
-  blacklist: ['user', 'tv', 'searchInput'],
+  blacklist: ['user', 'tv', 'searchInput', 'modals'],
 };
 
 const userPersistConfig = {
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   tv: persistReducer(tvPersistConfig, tvReducer),
   searchInput: persistReducer(searchInputPersistConfig, searchInputReducer),
+  modals: modalsReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

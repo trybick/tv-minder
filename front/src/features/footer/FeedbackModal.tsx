@@ -14,19 +14,19 @@ import { FiSend } from 'react-icons/fi';
 import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppSelector } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
+import {
+  selectIsFeedbackModalOpen,
+  setIsFeedbackModalOpen,
+} from '~/store/modals/modals.slice';
 import { selectEmail } from '~/store/user/user.slice';
-import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
-type Props = {
-  disclosureProps: DisclosureProps;
-};
-
-const FeedbackModal = ({ disclosureProps }: Props) => {
+const FeedbackModal = () => {
+  const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
-  const { isOpen, onClose } = disclosureProps;
+  const isOpen = useAppSelector(selectIsFeedbackModalOpen);
   const initialRef = useRef<HTMLTextAreaElement>(null);
   const loggedInEmail = useAppSelector(selectEmail);
 
@@ -73,7 +73,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
       });
 
       resetForm();
-      onClose();
+      dispatch(setIsFeedbackModalOpen(false));
     } catch (error) {
       setError(
         error instanceof AxiosError
@@ -88,7 +88,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
   const handleClose = (isOpen: boolean) => {
     if (!isOpen) {
       resetForm();
-      onClose();
+      dispatch(setIsFeedbackModalOpen(false));
     }
   };
 
@@ -109,7 +109,7 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
               <CloseButton
                 onClick={() => {
                   resetForm();
-                  onClose();
+                  dispatch(setIsFeedbackModalOpen(false));
                 }}
               />
             </Dialog.CloseTrigger>

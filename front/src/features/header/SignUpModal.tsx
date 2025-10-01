@@ -17,18 +17,17 @@ import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
+  selectIsSignUpModalOpen,
+  setIsSignUpModalOpen,
+} from '~/store/modals/modals.slice';
+import {
   selectUnregisteredFollowedShows,
   setIsLoggedIn,
 } from '~/store/user/user.slice';
-import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
 import GoogleLoginButton from './GoogleLoginButton';
-
-type Props = {
-  disclosureProps: DisclosureProps;
-};
 
 type FormInputs = {
   email: string;
@@ -55,15 +54,17 @@ const formValidation = {
   },
 };
 
-const SignUpModal = ({ disclosureProps }: Props) => {
+const SignUpModal = () => {
   const dispatch = useAppDispatch();
   const unregisteredFollowedShows = useAppSelector(
     selectUnregisteredFollowedShows
   );
   const isMobile = useIsMobile();
+  const isOpen = useAppSelector(selectIsSignUpModalOpen);
+
   // Modal
-  const { isOpen, onClose } = disclosureProps;
   const [isLoading, setIsLoading] = useState(false);
+  const onClose = () => dispatch(setIsSignUpModalOpen(false));
   useCloseModalOnPressEscape({ onClose });
 
   // Form
