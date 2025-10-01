@@ -6,15 +6,11 @@ import GoogleButton from 'react-google-button';
 import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useAppDispatch } from '~/store';
+import { setIsSignUpModalOpen } from '~/store/modals/modals.slice';
 import { setIsLoggedIn } from '~/store/user/user.slice';
 import handleErrors from '~/utils/handleErrors';
 
-type Props = {
-  onClose: () => void;
-};
-
-const GoogleLoginButton = (props: Props) => {
-  const { onClose } = props;
+const GoogleLoginButton = () => {
   const dispatch = useAppDispatch();
 
   const onGoogleLoginError = () => {
@@ -57,7 +53,7 @@ const GoogleLoginButton = (props: Props) => {
           })
           .then(res => {
             localStorage.setItem('jwt', res.data.token);
-            onClose();
+            dispatch(setIsSignUpModalOpen(false));
             dispatch(
               setIsLoggedIn({ email: res.data.email, isGoogleUser: true })
             );

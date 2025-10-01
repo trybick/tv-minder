@@ -140,7 +140,7 @@ const SignUpModal = () => {
             <CloseButton />
           </Dialog.CloseTrigger>
 
-          <GoogleLoginButton onClose={onClose} />
+          <GoogleLoginButton />
 
           <Box as="form" onSubmit={onSubmit}>
             <Dialog.Body pb={6}>

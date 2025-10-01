@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type ModalsState = {
+type State = {
   login: boolean;
-  signUp: boolean;
+  signup: boolean;
   feedback: boolean;
 };
 
-const initialState: ModalsState = {
+const initialState: State = {
   login: false,
-  signUp: false,
+  signup: false,
   feedback: false,
 };
 
@@ -20,7 +20,7 @@ const modalsSlice = createSlice({
       state.login = action.payload;
     },
     setIsSignUpModalOpen: (state, action: PayloadAction<boolean>) => {
-      state.signUp = action.payload;
+      state.signup = action.payload;
     },
     setIsFeedbackModalOpen: (state, action: PayloadAction<boolean>) => {
       state.feedback = action.payload;
@@ -28,7 +28,7 @@ const modalsSlice = createSlice({
   },
   selectors: {
     selectIsLoginModalOpen: state => state.login,
-    selectIsSignUpModalOpen: state => state.signUp,
+    selectIsSignUpModalOpen: state => state.signup,
     selectIsFeedbackModalOpen: state => state.feedback,
   },
 });

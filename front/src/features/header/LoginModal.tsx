@@ -219,7 +219,7 @@ const LoginModal = () => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {formOption === 0 && <GoogleLoginButton onClose={onClose} />}
+            {formOption === 0 && <GoogleLoginButton />}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
