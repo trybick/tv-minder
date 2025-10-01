@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { toaster } from '~/components/ui/toaster';
+import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useAppSelector } from '~/store';
 import { selectEmail, selectIsGoogleUser } from '~/store/user/user.slice';
@@ -62,12 +62,10 @@ const ChangePasswordContainer = () => {
         { timeout: 8000 }
       )
       .then(() => {
-        toaster.create({
+        showToast({
           title: 'Password Changed!',
           description: 'Your Password has been updated.',
           type: 'success',
-          duration: 5000,
-          meta: { closable: true },
         });
       })
       .catch((error: AxiosError) => {
@@ -76,11 +74,10 @@ const ChangePasswordContainer = () => {
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
           : 'Your Password could not be updated.';
-        toaster.create({
+        showToast({
           title: 'An error occurred',
           description: errorDescription,
           type: 'error',
-          meta: { closable: true },
         });
       })
       .finally(() => {

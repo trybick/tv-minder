@@ -16,7 +16,7 @@ import {
   unregisteredUnfollowShow,
 } from '~/store/user/user.slice';
 
-import { toaster } from './ui/toaster';
+import { showToast } from './ui/toaster';
 
 type Props = {
   showId: number;
@@ -48,12 +48,11 @@ const FollowButton = ({
       dispatch(unregisteredFollowShow(showId));
       if (!hasLocalWarningToastBeenShown) {
         dispatch(setHasLocalWarningToastBeenShown());
-        toaster.create({
+        showToast({
           title: "We're saving your shows",
           description: 'You can sign up to avoid losing them',
           type: 'warning',
           duration: 7000,
-          meta: { closable: true },
         });
       }
     }

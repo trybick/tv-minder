@@ -15,7 +15,7 @@ import { TiArrowBack } from 'react-icons/ti';
 
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
-import { toaster } from '~/components/ui/toaster';
+import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -160,12 +160,10 @@ const LoginModal = ({ disclosureProps }: Props) => {
       .then(() => {
         setIsLoading(false);
         setFormOption(0);
-        toaster.create({
+        showToast({
           title: 'Password Changed',
           description: 'You can login with your new password',
           type: 'success',
-          duration: 5000,
-          meta: { closable: true },
         });
       })
       .catch(err => {

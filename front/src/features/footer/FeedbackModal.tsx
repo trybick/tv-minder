@@ -11,7 +11,7 @@ import axios, { AxiosError } from 'axios';
 import { ChangeEvent, useRef, useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 
-import { toaster } from '~/components/ui/toaster';
+import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
@@ -66,12 +66,10 @@ const FeedbackModal = ({ disclosureProps }: Props) => {
         text: feedback,
         email: formattedEmail,
       });
-      toaster.create({
+      showToast({
         title: 'Feedback submitted',
         description: 'Thank you for your feedback!',
         type: 'success',
-        duration: 5000,
-        meta: { closable: true },
       });
 
       resetForm();

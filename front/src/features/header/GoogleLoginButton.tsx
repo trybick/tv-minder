@@ -3,7 +3,7 @@ import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import GoogleButton from 'react-google-button';
 
-import { toaster } from '~/components/ui/toaster';
+import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useAppDispatch } from '~/store';
 import { setIsLoggedIn } from '~/store/user/user.slice';
@@ -19,11 +19,10 @@ const GoogleLoginButton = (props: Props) => {
 
   const onGoogleLoginError = () => {
     console.error('Google Login error');
-    toaster.create({
+    showToast({
       title: 'Error in login',
       description: 'Could not login in. Please try again.',
       type: 'error',
-      meta: { closable: true },
     });
   };
 
@@ -65,11 +64,10 @@ const GoogleLoginButton = (props: Props) => {
           })
           .catch((error: any) => {
             handleErrors(error);
-            toaster.create({
+            showToast({
               title: 'Error in login',
               description: 'Could not login in. Please try again.',
               type: 'error',
-              meta: { closable: true },
             });
           });
       });

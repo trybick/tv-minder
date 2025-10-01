@@ -1,6 +1,6 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
-import { toaster } from '~/components/ui/toaster';
+import { showToast } from '~/components/ui/toaster';
 import { userApi } from '~/store/user/user.api';
 
 export const errorHandlerMiddleware = createListenerMiddleware();
@@ -43,12 +43,10 @@ errorHandlerMiddleware.startListening({
       }
     }
 
-    toaster.create({
+    showToast({
       title,
       description,
       type: 'error',
-      duration: 5000,
-      meta: { closable: true },
     });
 
     console.error('RTK Query Error:', action);

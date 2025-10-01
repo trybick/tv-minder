@@ -9,10 +9,22 @@ import {
   Toast,
 } from '@chakra-ui/react';
 
-export const toaster = createToaster({
+const toaster = createToaster({
   placement: 'bottom-end',
   pauseOnPageIdle: false,
+  max: 3,
+  overlap: true,
 });
+
+type ToastOptions = Parameters<typeof toaster.create>[0];
+
+export const showToast = (options: ToastOptions) => {
+  toaster.create({
+    duration: 5000,
+    meta: { closable: true },
+    ...options,
+  });
+};
 
 export const Toaster = () => {
   return (
