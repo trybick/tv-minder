@@ -17,7 +17,6 @@ import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
-import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
@@ -52,12 +51,11 @@ const formValidation = {
 const LoginModal = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
-  const isOpen = useAppSelector(selectIsLoginModalOpen);
 
   // Modal
   const [isLoading, setIsLoading] = useState(false);
+  const isOpen = useAppSelector(selectIsLoginModalOpen);
   const onClose = () => dispatch(setIsLoginModalOpen(false));
-  useCloseModalOnPressEscape({ onClose });
 
   // Form
   const {

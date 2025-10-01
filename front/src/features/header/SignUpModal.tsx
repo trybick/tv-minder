@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import ENDPOINTS from '~/gateway/endpoints';
-import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
@@ -60,12 +59,11 @@ const SignUpModal = () => {
     selectUnregisteredFollowedShows
   );
   const isMobile = useIsMobile();
-  const isOpen = useAppSelector(selectIsSignUpModalOpen);
 
   // Modal
   const [isLoading, setIsLoading] = useState(false);
+  const isOpen = useAppSelector(selectIsSignUpModalOpen);
   const onClose = () => dispatch(setIsSignUpModalOpen(false));
-  useCloseModalOnPressEscape({ onClose });
 
   // Form
   const {
