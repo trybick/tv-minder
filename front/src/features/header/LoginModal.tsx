@@ -19,9 +19,12 @@ import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useCloseModalOnPressEscape } from '~/hooks/useCloseModalOnPressEscape';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
+import {
+  selectIsLoginModalOpen,
+  setIsLoginModalOpen,
+} from '~/store/modals/modals.slice';
 import { setIsLoggedIn } from '~/store/user/user.slice';
-import { DisclosureProps } from '~/types/common';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
@@ -46,17 +49,14 @@ const formValidation = {
   },
 };
 
-type Props = {
-  disclosureProps: DisclosureProps;
-};
-
-const LoginModal = ({ disclosureProps }: Props) => {
+const LoginModal = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
+  const isOpen = useAppSelector(selectIsLoginModalOpen);
 
   // Modal
   const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onClose } = disclosureProps;
+  const onClose = () => dispatch(setIsLoginModalOpen(false));
   useCloseModalOnPressEscape({ onClose });
 
   // Form
@@ -219,7 +219,7 @@ const LoginModal = ({ disclosureProps }: Props) => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {formOption === 0 && <GoogleLoginButton onClose={onClose} />}
+            {formOption === 0 && <GoogleLoginButton />}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
