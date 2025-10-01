@@ -17,7 +17,7 @@ import userReducer from './user/user.slice';
 const rootPersistConfig = {
   key: 'root',
   storage: localforage,
-  blacklist: ['user', 'tv', 'searchInput', baseApi.reducerPath],
+  blacklist: ['user', 'tv', 'searchInput'],
 };
 
 const userPersistConfig = {
