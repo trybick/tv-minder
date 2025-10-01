@@ -21,7 +21,7 @@ const PopularShow = ({ show }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const [isImageHovered, setIsImageHovered] = useState(false);
-  const posterSource = createImageUrl(posterPath);
+  const posterSource = createImageUrl(posterPath, isMobile);
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -53,7 +53,7 @@ const PopularShow = ({ show }: Props) => {
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
           cursor="pointer"
-          onError={e => (e.currentTarget.src = createImageUrl(null))}
+          onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}
           src={posterSource}
           w="100%"
           onMouseEnter={() => setIsImageHovered(true)}

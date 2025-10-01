@@ -4,6 +4,7 @@ import { MouseEvent } from 'react';
 import { ROUTES } from '~/app/routes';
 import FollowButton from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/tv/actions';
@@ -25,8 +26,9 @@ const SearchResult = ({ showToDisplay }: Props) => {
 
   const navigate = useNavigateWithAnimation();
   const dispatch = useAppDispatch();
+  const isMobile = useIsMobile();
   const yearForDisplay = firstAirDate?.substring(0, 4);
-  const posterSource = createImageUrl(posterPath);
+  const posterSource = createImageUrl(posterPath, isMobile);
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -54,7 +56,9 @@ const SearchResult = ({ showToDisplay }: Props) => {
           <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
             <Image
               borderRadius="6px"
-              onError={e => (e.currentTarget.src = createImageUrl(null))}
+              onError={e =>
+                (e.currentTarget.src = createImageUrl(null, isMobile))
+              }
               src={posterSource}
               viewTransitionName={`show-image-${showId}`}
             />

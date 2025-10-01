@@ -35,7 +35,7 @@ const ShowImage = () => {
           mr="-50vw"
           position="relative"
           right="50%"
-          src={createImageUrl(currentShowInfo?.backdropPath, true)}
+          src={createImageUrl(currentShowInfo?.backdropPath, isMobile, true)}
           width="100vw"
         />
       </DelayedSkeleton>
@@ -46,10 +46,10 @@ const ShowImage = () => {
     <DelayedSkeleton isLoading={shouldShowDesktopSkeleton}>
       <Image
         borderRadius="8px"
-        onError={e => (e.currentTarget.src = createImageUrl(null))}
+        onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}
         src={
           showDataFromHistory?.posterSource ||
-          createImageUrl(currentShowInfo?.posterPath)
+          createImageUrl(currentShowInfo?.posterPath, isMobile)
         }
         viewTransitionName={`show-image-${showId}`}
       />
