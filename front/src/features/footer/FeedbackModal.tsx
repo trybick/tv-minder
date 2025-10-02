@@ -45,6 +45,7 @@ const FeedbackModal = () => {
   } = useForm<FormValues>({
     defaultValues: { feedback: '', email: '' },
   });
+
   const { ref: feedbackRef, ...registerFeedback } = register('feedback');
 
   const validateEmail = (value: string) =>
@@ -126,7 +127,7 @@ const FeedbackModal = () => {
               />
             </Field.Root>
 
-            <Field.Root mt={4}>
+            <Field.Root mt={4} invalid={!!errors?.email}>
               <Field.Label>Your email (optional)</Field.Label>
               <Input
                 {...register('email', {
@@ -137,7 +138,7 @@ const FeedbackModal = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors?.root} mt={4}>
-              <Field.ErrorText>{errors?.root?.message}</Field.ErrorText>
+              <Field.ErrorText ml={2}>{errors?.root?.message}</Field.ErrorText>
             </Field.Root>
           </Dialog.Body>
 
