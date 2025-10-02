@@ -16,25 +16,34 @@ import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { useLazyGetFollowedShowsQuery } from '~/store/api/endpoints/user.api';
-import { selectIsLoggedIn } from '~/store/user/user.slice';
+import { useGetFollowedShowsQuery } from '~/store/api/endpoints/user.api';
+import { selectEmail, selectIsLoggedIn } from '~/store/user/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { initSentry } from '~/utils/sentry';
 
 import { ROUTES } from './routes';
 
 const App = () => {
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isMobile = useIsMobile();
 
-  const [getFollowedShows] = useLazyGetFollowedShowsQuery();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const email = useAppSelector(selectEmail);
 
-  // Use lazy query to avoid subscribing and causing the whole App to re-render
+  const { refetch: refetchFollowedShows } = useGetFollowedShowsQuery(
+    undefined,
+    {
+      skip: !isLoggedIn,
+      // This avoids subscribing and causing the whole App to re-render
+      selectFromResult: () => ({}),
+    }
+  );
+
+  // Refetch if email changes
   useEffect(() => {
     if (isLoggedIn) {
-      getFollowedShows();
+      refetchFollowedShows();
     }
-  }, [isLoggedIn, getFollowedShows]);
+  }, [isLoggedIn, refetchFollowedShows, email]);
 
   useEffect(() => {
     if (import.meta.env.MODE === 'production') {
