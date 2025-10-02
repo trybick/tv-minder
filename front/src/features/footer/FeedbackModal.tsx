@@ -13,7 +13,7 @@ import { FiSend } from 'react-icons/fi';
 import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { useSubmitFeedbackMutation } from '~/store/contact/contact.api';
+import { useSubmitFeedbackMutation } from '~/store/api/endpoints/contact.api';
 import {
   selectIsFeedbackModalOpen,
   setIsFeedbackModalOpen,

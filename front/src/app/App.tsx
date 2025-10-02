@@ -16,7 +16,7 @@ import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { useLazyGetFollowedShowsQuery } from '~/store/user/user.api';
+import { useLazyGetFollowedShowsQuery } from '~/store/api/endpoints/user.api';
 import { selectIsLoggedIn } from '~/store/user/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { initSentry } from '~/utils/sentry';
