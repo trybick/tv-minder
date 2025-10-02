@@ -45,6 +45,10 @@ const FeedbackModal = () => {
   } = useForm<FormValues>({
     defaultValues: { feedback: '', email: '' },
   });
+  const { ref: feedbackRef, ...registerFeedback } = register('feedback');
+
+  const validateEmail = (value: string) =>
+    !value || emailRegex.test(value) || 'Please enter a valid email address';
 
   const onSubmit = async (values: FormValues) => {
     const { feedback, email } = values;
@@ -112,10 +116,13 @@ const FeedbackModal = () => {
             <Field.Root>
               <Field.Label>{"What's on your mind?"}</Field.Label>
               <Textarea
-                placeholder="I am ..."
                 h="150px"
                 mb={2}
-                {...register('feedback')}
+                {...registerFeedback}
+                ref={e => {
+                  feedbackRef(e);
+                  initialRef.current = e;
+                }}
               />
             </Field.Root>
 
@@ -123,10 +130,7 @@ const FeedbackModal = () => {
               <Field.Label>Your email (optional)</Field.Label>
               <Input
                 {...register('email', {
-                  validate: value =>
-                    !value ||
-                    emailRegex.test(value) ||
-                    'Please enter a valid email address',
+                  validate: validateEmail,
                 })}
               />
               <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
