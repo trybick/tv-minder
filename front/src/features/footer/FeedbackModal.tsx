@@ -6,22 +6,21 @@ import {
   Input,
   Textarea,
 } from '@chakra-ui/react';
-import axios, { AxiosError } from 'axios';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiSend } from 'react-icons/fi';
 
 import { showToast } from '~/components/ui/toaster';
-import ENDPOINTS from '~/gateway/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { useSubmitFeedbackMutation } from '~/store/api/endpoints/contact.api';
 import {
   selectIsFeedbackModalOpen,
   setIsFeedbackModalOpen,
 } from '~/store/modals/modals.slice';
 import { selectEmail } from '~/store/user/user.slice';
 import { emailRegex } from '~/utils/constants';
-import handleErrors from '~/utils/handleErrors';
+import { getMessageFromError } from '~/utils/getMessageFromError';
 
 type FormValues = {
   feedback: string;
@@ -35,13 +34,16 @@ const FeedbackModal = () => {
   const initialRef = useRef<HTMLTextAreaElement>(null);
   const loggedInEmail = useAppSelector(selectEmail);
 
+  const [submitFeedback, { isLoading: isSubmitLoading }] =
+    useSubmitFeedbackMutation();
+
   const {
     register,
     handleSubmit,
     reset: resetForm,
     watch,
     setError: setFormError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: { feedback: '', email: '' },
   });
@@ -59,10 +61,11 @@ const FeedbackModal = () => {
       : email;
 
     try {
-      await axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/contact`, {
+      await submitFeedback({
         text: feedback,
         email: formattedEmail,
-      });
+      }).unwrap();
+
       showToast({
         title: 'Feedback submitted',
         description: 'Thank you for your feedback!',
@@ -72,14 +75,11 @@ const FeedbackModal = () => {
       resetForm();
       dispatch(setIsFeedbackModalOpen(false));
     } catch (error) {
+      const { message } = getMessageFromError(error);
       setFormError('root', {
         type: 'server',
-        message:
-          error instanceof AxiosError
-            ? error.message
-            : 'An unknown error occurred',
+        message,
       });
-      handleErrors(error as AxiosError);
     }
   };
 
@@ -146,7 +146,7 @@ const FeedbackModal = () => {
             <Button
               colorPalette="cyan"
               disabled={!watch('feedback')}
-              loading={isSubmitting}
+              loading={isSubmitLoading}
               mr={3}
               onClick={handleSubmit(onSubmit)}
             >

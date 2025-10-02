@@ -1,7 +1,9 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
 import { showToast } from '~/components/ui/toaster';
-import { userApi } from '~/store/user/user.api';
+import { getMessageFromError } from '~/utils/getMessageFromError';
+
+import { userApi } from './endpoints/user.api';
 
 export const errorHandlerMiddleware = createListenerMiddleware();
 
@@ -15,37 +17,11 @@ errorHandlerMiddleware.startListening({
   matcher: isAnyOf(...endpointsWithErrorToasts),
   effect: action => {
     const error = action.payload;
-
-    let title = 'Error';
-    let description = 'Something went wrong';
-
-    if (error && typeof error === 'object' && 'status' in error) {
-      if ('data' in error && error.data) {
-        description =
-          typeof error.data === 'string'
-            ? error.data
-            : (error.data as any).message || description;
-      } else if (error.status === 'FETCH_ERROR') {
-        title = 'Network Error';
-        description = 'Unable to connect to the server';
-      } else if (error.status === 401) {
-        title = 'Unauthorized';
-        description = 'Please log in to continue';
-      } else if (error.status === 403) {
-        title = 'Forbidden';
-        description = 'You do not have permission to perform this action';
-      } else if (error.status === 404) {
-        title = 'Not Found';
-        description = 'The requested resource was not found';
-      } else if (error.status === 500) {
-        title = 'Server Error';
-        description = 'Internal server error occurred';
-      }
-    }
+    const { title, message } = getMessageFromError(error);
 
     showToast({
       title,
-      description,
+      description: message,
       type: 'error',
     });
 

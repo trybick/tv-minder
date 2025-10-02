@@ -7,7 +7,7 @@ import { makeSelectIsShowFollowed } from '~/store/user/selectors';
 import {
   useFollowShowMutation,
   useUnfollowShowMutation,
-} from '~/store/user/user.api';
+} from '~/store/api/endpoints/user.api';
 import {
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
