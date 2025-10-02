@@ -20,6 +20,7 @@ import {
 } from '~/store/modals/modals.slice';
 import { selectEmail } from '~/store/user/user.slice';
 import { emailRegex } from '~/utils/constants';
+import { getMessageFromError } from '~/utils/getMessageFromError';
 
 type FormValues = {
   feedback: string;
@@ -73,10 +74,11 @@ const FeedbackModal = () => {
 
       resetForm();
       dispatch(setIsFeedbackModalOpen(false));
-    } catch {
+    } catch (error) {
+      const { message } = getMessageFromError(error);
       setFormError('root', {
         type: 'server',
-        message: 'An error occurred while submitting feedback',
+        message,
       });
     }
   };
