@@ -17,9 +17,13 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
-import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
+import {
+  selectCalendarEpisodesForDisplay,
+  selectIsLoadingCalendarEpisodes,
+} from '~/store/tv/selectors';
 import { selectFollowedShows } from '~/store/user/selectors';
 
+import CalendarLoadingIndicator from './CalendarLoadingIndicator';
 import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
 import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 
@@ -33,6 +37,9 @@ const CalendarPage = () => {
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
+  const isLoadingCalendarEpisodes = useAppSelector(
+    selectIsLoadingCalendarEpisodes
+  );
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -122,6 +129,8 @@ const CalendarPage = () => {
   return (
     <>
       <title>Calendar | TV Minder</title>
+
+      <CalendarLoadingIndicator isLoading={isLoadingCalendarEpisodes} />
 
       {!hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
 
