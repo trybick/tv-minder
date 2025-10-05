@@ -10,6 +10,7 @@ import {
   SAVE_TOP_RATED_SHOWS,
   SET_CURRENT_CALENDAR_EPISODES,
   SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+  SET_IS_LOADING_CALENDAR_EPISODES,
   SET_SEARCH_QUERY,
 } from './actions';
 import { SavedQuery } from './types';
@@ -19,6 +20,7 @@ export type TvState = {
   episodeData: Record<number, any>;
   basicShowInfo: Record<number, any>;
   isLoadingBasicShowInfoForShow: boolean;
+  isLoadingCalendarEpisodes: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   popularShows: Record<string, any>[];
   topRatedShows: Record<string, any>[];
@@ -29,6 +31,7 @@ const initialState = {
   episodeData: {},
   basicShowInfo: {},
   isLoadingBasicShowInfoForShow: false,
+  isLoadingCalendarEpisodes: false,
   calendarEpisodesForDisplay: [],
   popularShows: [],
   topRatedShows: [],
@@ -81,6 +84,12 @@ export const tvReducer: Reducer<TvState, Action> = (
       return {
         ...state,
         calendarEpisodesForDisplay: action.payload,
+      };
+    }
+    case SET_IS_LOADING_CALENDAR_EPISODES: {
+      return {
+        ...state,
+        isLoadingCalendarEpisodes: action.payload,
       };
     }
     case SAVE_POPULAR_SHOWS: {
