@@ -19,6 +19,7 @@ import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/gateway/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { useLoginMutation } from '~/store/api/endpoints/auth.api';
 import {
   selectIsLoginModalOpen,
   setIsLoginModalOpen,
@@ -70,6 +71,8 @@ const LoginModal = () => {
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
 
+  const [postLogin] = useLoginMutation();
+
   const onSubmit = handleSubmit(
     ({ email, password, oneTimeCode }: FormInputs) => {
       setIsSubmitLoading(true);
@@ -91,6 +94,9 @@ const LoginModal = () => {
   );
 
   const handleLogin = (email: string, password: string) => {
+    // Add args here, do error handling, use extraReducers to handle side effects
+    // postLogin()
+
     axios
       .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
         email,
