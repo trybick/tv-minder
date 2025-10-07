@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as Sentry from '@sentry/browser';
+
+import { setSentryUser } from '~/utils/sentry';
 
 export type UserState = {
   email: string;
@@ -26,7 +27,7 @@ const userSlice = createSlice({
     },
 
     setIsLoggedOut: state => {
-      Sentry.setUser(null);
+      setSentryUser(null);
       state.isLoggedIn = false;
       state.email = '';
     },
@@ -36,7 +37,7 @@ const userSlice = createSlice({
       action: PayloadAction<{ email: string; isGoogleUser?: boolean }>
     ) => {
       const { email, isGoogleUser = false } = action.payload;
-      Sentry.setUser({ email });
+      setSentryUser(email);
       state.isLoggedIn = true;
       state.email = email;
       state.isGoogleUser = isGoogleUser;
