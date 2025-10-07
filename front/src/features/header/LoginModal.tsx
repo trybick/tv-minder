@@ -217,7 +217,12 @@ const LoginModal = () => {
               <CloseButton />
             </Dialog.CloseTrigger>
 
-            {formOption === 0 && <GoogleLoginButton />}
+            {/* Since this component throws an error if it doesn't have the google
+            secret key, don't render it during playweright tests. This allows us
+            to run e2e tests for other users' PRs since forks don't have that key. */}
+            {formOption === 0 && import.meta.env.VITE_CI !== 'true' && (
+              <GoogleLoginButton />
+            )}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
