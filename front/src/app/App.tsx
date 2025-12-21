@@ -19,6 +19,7 @@ import { useAppSelector } from '~/store';
 import { useGetFollowedShowsQuery } from '~/store/api/endpoints/user.api';
 import { selectEmail, selectIsLoggedIn } from '~/store/user/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
+import { getIsProduction } from '~/utils/env';
 import { initSentry } from '~/utils/sentry';
 
 import { ROUTES } from './routes';
@@ -46,7 +47,7 @@ const App = () => {
   }, [isLoggedIn, refetchFollowedShows, email]);
 
   useEffect(() => {
-    if (import.meta.env.MODE === 'production') {
+    if (getIsProduction()) {
       ReactGA.initialize(gAnalyticsID);
       ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
       initSentry();
