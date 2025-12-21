@@ -10,9 +10,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import ENDPOINTS from '~/app/endpoints';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
-import ENDPOINTS from '~/app/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
@@ -22,7 +22,7 @@ import {
 import {
   selectUnregisteredFollowedShows,
   setIsLoggedIn,
-} from '~/store/user/user.slice';
+} from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 

@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 
 import { useAppDispatch } from '~/store';
-import { setIsLoggedOut } from '~/store/user/user.slice';
+import { setIsLoggedOut } from '~/store/rtk/slices/user.slice';
 
 const LogoutButton = () => {
   const dispatch = useAppDispatch();

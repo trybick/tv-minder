@@ -4,9 +4,9 @@ import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import logo from '~/assets/images/logo.svg';
-import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
+import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 interface Props {

@@ -2,13 +2,13 @@ import axios from 'axios';
 import moment from 'moment';
 
 import ENDPOINTS from '~/app/endpoints';
-import { getEpisodesForCalendar } from '~/store/tv/services/getEpisodesForCalendar';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import cacheDurationDays from '~/utils/cacheDurations';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import handleErrors from '~/utils/handleErrors';
 
 import { AppThunk } from './..';
+import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import { SavedQuery } from './types';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';

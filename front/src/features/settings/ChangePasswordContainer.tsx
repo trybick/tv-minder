@@ -3,10 +3,10 @@ import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { showToast } from '~/components/ui/toaster';
 import ENDPOINTS from '~/app/endpoints';
+import { showToast } from '~/components/ui/toaster';
 import { useAppSelector } from '~/store';
-import { selectEmail, selectIsGoogleUser } from '~/store/user/user.slice';
+import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
 
 type FormInputs = {
   oldPassword: string;

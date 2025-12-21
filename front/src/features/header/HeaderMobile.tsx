@@ -6,7 +6,7 @@ import { ColorModeButton } from '~/components/ui/color-mode';
 import { useColorMode } from '~/components/ui/color-mode';
 import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
-import { selectIsLoggedIn } from '~/store/user/user.slice';
+import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import LoginButton from './LoginButton';

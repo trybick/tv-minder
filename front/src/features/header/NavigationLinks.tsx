@@ -3,7 +3,10 @@ import { Flex } from '@chakra-ui/react';
 import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { selectIsGoogleUser, selectIsLoggedIn } from '~/store/user/user.slice';
+import {
+  selectIsGoogleUser,
+  selectIsLoggedIn,
+} from '~/store/rtk/slices/user.slice';
 
 import NavLink from './NavLink';
 
