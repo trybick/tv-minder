@@ -4,7 +4,7 @@ import { MouseEvent } from 'react';
 import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppSelector } from '~/store';
-import { selectFollowedShows } from '~/store/user/selectors';
+import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
 const NoFollowedShowsBanner = () => {
   const navigate = useNavigateWithAnimation();

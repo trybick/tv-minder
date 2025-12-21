@@ -12,13 +12,13 @@ import { useForm } from 'react-hook-form';
 
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
-import ENDPOINTS from '~/gateway/endpoints';
+import ENDPOINTS from '~/app/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   selectIsSignUpModalOpen,
   setIsSignUpModalOpen,
-} from '~/store/modals/modals.slice';
+} from '~/store/rtk/slices/modals.slice';
 import {
   selectUnregisteredFollowedShows,
   setIsLoggedIn,

@@ -17,7 +17,7 @@ import { useSubmitFeedbackMutation } from '~/store/api/endpoints/contact.api';
 import {
   selectIsFeedbackModalOpen,
   setIsFeedbackModalOpen,
-} from '~/store/modals/modals.slice';
+} from '~/store/rtk/slices/modals.slice';
 import { selectEmail } from '~/store/user/user.slice';
 import { emailRegex } from '~/utils/constants';
 import { getMessageFromError } from '~/utils/getMessageFromError';

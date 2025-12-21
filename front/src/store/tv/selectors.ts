@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { ShowNavigationState } from '~/features/show/ShowPage';
-import { selectFollowedShows } from '~/store/user/selectors';
+import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { BasicShowInfo, PopularShow } from '~/types/external';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 

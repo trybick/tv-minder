@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 
 import { useAppDispatch } from '~/store';
-import { setIsLoginModalOpen } from '~/store/modals/modals.slice';
+import { setIsLoginModalOpen } from '~/store/rtk/slices/modals.slice';
 
 import LoginModal from './LoginModal';
 

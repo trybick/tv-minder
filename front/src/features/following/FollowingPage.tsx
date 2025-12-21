@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getBasicShowInfoForFollowedShows } from '~/store/tv/actions';
-import { selectFollowedShows } from '~/store/user/selectors';
+import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
 import FollowingList from './FollowingList';
 import NoFollowedShowsMessage from './NoFollowedShowsMessage';

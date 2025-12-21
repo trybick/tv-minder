@@ -3,7 +3,7 @@ import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { showToast } from '~/components/ui/toaster';
 import { getMessageFromError } from '~/utils/getMessageFromError';
 
-import { userApi } from './endpoints/user.api';
+import { userApi } from './user.api';
 
 export const errorHandlerMiddleware = createListenerMiddleware();
 

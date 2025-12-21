@@ -7,7 +7,7 @@ import {
   useFollowShowMutation,
   useUnfollowShowMutation,
 } from '~/store/api/endpoints/user.api';
-import { makeSelectIsShowFollowed } from '~/store/user/selectors';
+import { makeSelectIsShowFollowed } from '~/store/rtk/slices/user.selectors';
 import {
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,

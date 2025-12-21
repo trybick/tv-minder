@@ -7,7 +7,7 @@ import { isDateWithinOneMonth } from '~/utils/dates';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 import handleErrors from '~/utils/handleErrors';
 
-import ENDPOINTS from './endpoints';
+import ENDPOINTS from '../../../app/endpoints';
 
 const queryParams = {
   api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
