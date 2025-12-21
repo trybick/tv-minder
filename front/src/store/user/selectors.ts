@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { userApi } from '../api/endpoints/user.api';
+import { userApi } from '~/store/api/endpoints/user.api';
+
 import {
   selectIsLoggedIn,
   selectUnregisteredFollowedShows,

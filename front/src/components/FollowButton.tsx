@@ -3,11 +3,11 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoMdAdd } from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { makeSelectIsShowFollowed } from '~/store/user/selectors';
 import {
   useFollowShowMutation,
   useUnfollowShowMutation,
 } from '~/store/api/endpoints/user.api';
+import { makeSelectIsShowFollowed } from '~/store/user/selectors';
 import {
   selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
