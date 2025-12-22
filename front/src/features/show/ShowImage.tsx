@@ -8,7 +8,7 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingBasicShowInfoForShow,
   selectShowDataFromHistory,
-} from '~/store/tv/selectors';
+} from '~/store/legacy/tv/selectors';
 import { createImageUrl } from '~/utils/createImageUrl';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 

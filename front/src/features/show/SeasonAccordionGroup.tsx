@@ -7,7 +7,7 @@ import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
   selectIsLoadingBasicShowInfoForShow,
-} from '~/store/tv/selectors';
+} from '~/store/legacy/tv/selectors';
 
 import EpisodesTable from './EpisodesTable';
 

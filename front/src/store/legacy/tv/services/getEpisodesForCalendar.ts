@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import ENDPOINTS from '~/app/endpoints';
-import { formatSameDayEpisodes } from '~/store/tv/tvUtils';
+import { formatSameDayEpisodes } from '~/store/legacy/tv/tvUtils';
 import { CalendarEpisode } from '~/types/external';
 import { isDateWithinOneMonth } from '~/utils/dates';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';

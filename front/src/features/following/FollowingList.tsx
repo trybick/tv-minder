@@ -8,7 +8,7 @@ import {
   selectBasicShowInfoForFollowedShows,
   selectEndedShows,
   selectInProductionShows,
-} from '~/store/tv/selectors';
+} from '~/store/legacy/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import SubSectionOfShows from './SubSectionOfShows';

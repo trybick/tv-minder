@@ -1,4 +1,4 @@
-import { StatusWithColor } from '~/store/tv/tvUtils';
+import { StatusWithColor } from '~/store/legacy/tv/tvUtils';
 
 //
 // Search

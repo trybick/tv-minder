@@ -11,7 +11,14 @@ import globals from 'globals';
 
 export default [
   // Global ignores
-  globalIgnores(['node_modules/*', 'public/*', 'build/*']),
+  globalIgnores([
+    'node_modules/*',
+    'public/*',
+    'build/*',
+    'dist/*',
+    'playwright-report/*',
+    'test-results/*',
+  ]),
 
   // Base JavaScript config
   js.configs.recommended,

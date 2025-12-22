@@ -1,6 +1,7 @@
 import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
 
 import { CalendarEpisode } from '~/types/external';
+import { ShowSearchResult } from '~/types/external';
 
 import {
   SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
@@ -12,9 +13,15 @@ import {
   SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
   SET_SEARCH_QUERY,
 } from './actions';
-import { SavedQuery } from './types';
 
-export type TvState = {
+export type SavedQuery = {
+  query: string;
+  results: ShowSearchResult[];
+  timeSaved: string;
+  totalResults: number;
+};
+
+type State = {
   savedQueries: SavedQuery[];
   episodeData: Record<number, any>;
   basicShowInfo: Record<number, any>;
@@ -34,7 +41,7 @@ const initialState = {
   topRatedShows: [],
 };
 
-export const tvReducer: Reducer<TvState, Action> = (
+export const tvReducer: Reducer<State, Action> = (
   state = initialState,
   action: AnyAction
 ) => {
