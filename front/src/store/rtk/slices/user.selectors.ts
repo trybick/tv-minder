@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { userApi } from '~/store/api/endpoints/user.api';
+import { userApi } from '~/store/rtk/api/user.api';
 
 import {
   selectIsLoggedIn,

@@ -13,17 +13,17 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 
+import ENDPOINTS from '~/app/endpoints';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { showToast } from '~/components/ui/toaster';
-import ENDPOINTS from '~/gateway/endpoints';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   selectIsLoginModalOpen,
   setIsLoginModalOpen,
-} from '~/store/modals/modals.slice';
-import { setIsLoggedIn } from '~/store/user/user.slice';
+} from '~/store/rtk/slices/modals.slice';
+import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 

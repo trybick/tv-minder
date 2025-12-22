@@ -3,11 +3,11 @@ import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import GoogleButton from 'react-google-button';
 
+import ENDPOINTS from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
-import ENDPOINTS from '~/gateway/endpoints';
 import { useAppDispatch } from '~/store';
-import { setIsSignUpModalOpen } from '~/store/modals/modals.slice';
-import { setIsLoggedIn } from '~/store/user/user.slice';
+import { setIsSignUpModalOpen } from '~/store/rtk/slices/modals.slice';
+import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import handleErrors from '~/utils/handleErrors';
 
 const GoogleLoginButton = () => {

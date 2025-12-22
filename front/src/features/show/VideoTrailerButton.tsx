@@ -13,7 +13,7 @@ import YouTube from 'react-youtube';
 import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingBasicShowInfoForShow } from '~/store/tv/selectors';
+import { selectIsLoadingBasicShowInfoForShow } from '~/store/legacy/tv/selectors';
 
 type Props = {
   videoId: string | undefined;

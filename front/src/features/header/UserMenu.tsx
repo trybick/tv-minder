@@ -4,13 +4,12 @@ import { VscSettingsGear } from 'react-icons/vsc';
 
 import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { useAppSelector } from '~/store';
-import { useAppDispatch } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
 import {
   selectEmail,
   selectIsGoogleUser,
   setIsLoggedOut,
-} from '~/store/user/user.slice';
+} from '~/store/rtk/slices/user.slice';
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();

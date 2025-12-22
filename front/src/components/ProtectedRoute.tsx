@@ -3,7 +3,7 @@ import { Redirect } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import { useAppSelector } from '~/store';
-import { selectIsLoggedIn } from '~/store/user/user.slice';
+import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
 type Props = {
   children: ReactNode;

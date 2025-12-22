@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/tv/actions';
-import { selectCurrentShowInfo } from '~/store/tv/selectors';
+import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/legacy/tv/actions';
+import { selectCurrentShowInfo } from '~/store/legacy/tv/selectors';
 
 import ShowContainer from './ShowContainer';
 

@@ -12,7 +12,7 @@ import { FaGithub, FaRegComment } from 'react-icons/fa';
 
 import TMDBLogo from '~/assets/images/TMDB-logo.svg';
 import { useAppDispatch } from '~/store';
-import { setIsFeedbackModalOpen } from '~/store/modals/modals.slice';
+import { setIsFeedbackModalOpen } from '~/store/rtk/slices/modals.slice';
 
 import FeedbackModal from './FeedbackModal';
 

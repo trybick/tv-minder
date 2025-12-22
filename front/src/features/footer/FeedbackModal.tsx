@@ -13,12 +13,12 @@ import { FiSend } from 'react-icons/fi';
 import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { useSubmitFeedbackMutation } from '~/store/api/endpoints/contact.api';
+import { useSubmitFeedbackMutation } from '~/store/rtk/api/contact.api';
 import {
   selectIsFeedbackModalOpen,
   setIsFeedbackModalOpen,
-} from '~/store/modals/modals.slice';
-import { selectEmail } from '~/store/user/user.slice';
+} from '~/store/rtk/slices/modals.slice';
+import { selectEmail } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
 import { getMessageFromError } from '~/utils/getMessageFromError';
 
