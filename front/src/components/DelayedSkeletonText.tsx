@@ -18,7 +18,7 @@ const DelayedSkeletonText = ({ isLoading, ...props }: Props) => {
         setShouldShowSkeleton(true);
       }, SKELETON_DELAY);
     } else {
-      setShouldShowSkeleton(false);
+      queueMicrotask(() => setShouldShowSkeleton(false));
     }
 
     return () => {

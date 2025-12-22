@@ -81,9 +81,9 @@ const PopularShows = () => {
         mt="14px"
         wrap="wrap"
       >
-        {popularShows
-          ?.slice(0, numberShowsInFirstRow)
-          .map(show => <PopularShow key={show.id} show={show} />)}
+        {popularShows?.slice(0, numberShowsInFirstRow).map(show => (
+          <PopularShow key={show.id} show={show} />
+        ))}
 
         <Collapsible.Root
           flexGrow={1}
@@ -107,7 +107,9 @@ const PopularShows = () => {
                     (i + 1) * numberShowsInFirstRow,
                     (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                   )
-                  .map(show => <PopularShow key={show.id} show={show} />)}
+                  .map(show => (
+                    <PopularShow key={show.id} show={show} />
+                  ))}
               </Flex>
             ))}
           </Collapsible.Content>
@@ -152,9 +154,9 @@ const PopularShows = () => {
         mt="14px"
         wrap="wrap"
       >
-        {topRatedShows
-          ?.slice(0, numberShowsInFirstRow)
-          .map(show => <PopularShow key={show.id} show={show} />)}
+        {topRatedShows?.slice(0, numberShowsInFirstRow).map(show => (
+          <PopularShow key={show.id} show={show} />
+        ))}
 
         <Collapsible.Root
           flexGrow={1}
@@ -175,7 +177,9 @@ const PopularShows = () => {
                     (i + 1) * numberShowsInFirstRow,
                     (i + 1) * numberShowsInFirstRow + numberShowsInFirstRow
                   )
-                  .map(show => <PopularShow key={show.id} show={show} />)}
+                  .map(show => (
+                    <PopularShow key={show.id} show={show} />
+                  ))}
               </Flex>
             ))}
           </Collapsible.Content>
