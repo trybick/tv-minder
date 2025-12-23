@@ -3,6 +3,8 @@ import FullCalendar from '@fullcalendar/react';
 import { RefObject } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 
+import { useIsMobile } from '~/hooks/useIsMobile';
+
 import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 
 type Props = {
@@ -16,18 +18,20 @@ const CustomCalendarHeader = ({
   hasEpisodesInCurrentMonth,
   title,
 }: Props) => {
+  const isMobile = useIsMobile();
+
   const handlePrev = () => calendarRef.current?.getApi().prev();
   const handleNext = () => calendarRef.current?.getApi().next();
   const handleToday = () => calendarRef.current?.getApi().today();
 
   return (
-    <Flex align="center" justify="space-between" mb={4} minH="48px" gap={3}>
+    <Flex align="center" justify="space-between" mb={4} gap={3}>
       <Text fontSize="3xl" flexShrink={0}>
         {title}
       </Text>
 
       <Box flex="1" display="flex" justifyContent="center">
-        {!hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
+        {!isMobile && !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
       </Box>
 
       <Flex align="center" gap={2} flexShrink={0}>

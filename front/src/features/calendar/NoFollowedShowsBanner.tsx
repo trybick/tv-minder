@@ -16,14 +16,20 @@ const NoFollowedShowsBanner = () => {
   };
 
   return (
-    <Alert.Root colorPalette="cyan" justifyContent="center" status="info">
+    <Alert.Root
+      colorPalette="cyan"
+      status="info"
+      size="sm"
+      variant="subtle"
+      w="fit-content"
+    >
       <Alert.Indicator />
       {followedShows.length ? (
-        <Alert.Title>
-          There are no new episodes of the shows you follow airing this month.
+        <Alert.Title fontSize="md">
+          There are no new episodes of the shows you follow this month.
         </Alert.Title>
       ) : (
-        <Alert.Title>
+        <Alert.Title fontSize="md">
           <Link
             onClick={handleClickHome}
             textDecorationThickness="2px"
