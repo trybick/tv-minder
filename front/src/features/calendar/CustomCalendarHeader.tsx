@@ -26,22 +26,20 @@ const CustomCalendarHeader = ({
 
   return (
     <Flex align="center" justify="space-between" mb={4} gap={3}>
-      <Text fontSize="3xl" flexShrink={0}>
-        {title}
-      </Text>
+      <Text fontSize="3xl">{title}</Text>
 
       <Box flex="1" display="flex" justifyContent="center">
         {!isMobile && !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
       </Box>
 
-      <Flex align="center" gap={2} flexShrink={0}>
-        <Button size="sm" variant="outline" onClick={handleToday}>
+      <Flex align="center" gap={2}>
+        <Button size="sm" variant="subtle" onClick={handleToday}>
           today
         </Button>
-        <Button size="sm" variant="outline" onClick={handlePrev}>
+        <Button size="sm" variant="subtle" onClick={handlePrev}>
           <LuChevronLeft />
         </Button>
-        <Button size="sm" variant="outline" onClick={handleNext}>
+        <Button size="sm" variant="subtle" onClick={handleNext}>
           <LuChevronRight />
         </Button>
       </Flex>
