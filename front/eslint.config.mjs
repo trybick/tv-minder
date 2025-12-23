@@ -81,7 +81,6 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      // Disable React Compiler warnings for incompatible libs (react-hook-form, tanstack-table)
       'react-hooks/incompatible-library': 'off',
     },
   },
