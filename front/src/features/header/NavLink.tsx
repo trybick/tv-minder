@@ -8,15 +8,17 @@ interface Props {
   linkTo: string;
   text: string;
   onClose?: () => void;
+  onClick?: () => void;
 }
 
-const NavLink = ({ linkTo, text, onClose }: Props) => {
+const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onClose?.();
+    onClick?.();
     navigate(linkTo);
   };
 

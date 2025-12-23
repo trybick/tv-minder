@@ -2,7 +2,8 @@ import { Flex } from '@chakra-ui/react';
 
 import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppSelector } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
+import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 import {
   selectIsGoogleUser,
   selectIsLoggedIn,
@@ -18,6 +19,7 @@ const NavigationLinks = ({ onClose }: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
   const isMobile = useIsMobile();
+  const dispatch = useAppDispatch();
 
   return (
     <Flex
@@ -29,7 +31,12 @@ const NavigationLinks = ({ onClose }: Props) => {
         alignItems: 'flex-end',
       })}
     >
-      <NavLink linkTo={ROUTES.HOME} text="Discover" onClose={onClose} />
+      <NavLink
+        linkTo={ROUTES.HOME}
+        text="Discover"
+        onClose={onClose}
+        onClick={() => dispatch(setShouldResetSearchInput(true))}
+      />
       <NavLink linkTo={ROUTES.CALENDAR} text="Calendar" onClose={onClose} />
 
       {isLoggedIn && (
