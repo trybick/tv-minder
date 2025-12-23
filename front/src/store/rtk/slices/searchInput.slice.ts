@@ -5,6 +5,7 @@ type State = {
 };
 
 const initialState: State = {
+  /* Used to trigger handleClearInput in SearchPage when navigating home */
   shouldResetSearchInput: false,
 };
 

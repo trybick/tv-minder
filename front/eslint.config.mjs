@@ -1,4 +1,4 @@
-import preferAlias from '@dword-design/eslint-plugin-import-alias';
+import preferAliasPlugin from '@dword-design/eslint-plugin-import-alias';
 import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
@@ -81,6 +81,7 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/incompatible-library': 'off',
     },
   },
 
@@ -130,9 +131,7 @@ export default [
   },
 
   {
-    plugins: {
-      '@dword-design/import-alias': preferAlias,
-    },
+    ...preferAliasPlugin.configs.recommended,
     rules: {
       '@dword-design/import-alias/prefer-alias': [
         'warn',
