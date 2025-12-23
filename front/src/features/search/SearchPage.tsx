@@ -62,6 +62,12 @@ const SearchPage = () => {
     }
   };
 
+  const getIsCacheValid = (index: number) => {
+    const { timeSaved } = savedQueries[index];
+    const diff = moment().diff(moment(timeSaved), 'days');
+    return cacheDurationDays.search > diff;
+  };
+
   // Save network calls to cache with a timestamp
   const getQueryData = async (query: string): Promise<SavedQuery> => {
     let queryData: SavedQuery;
@@ -92,12 +98,6 @@ const SearchPage = () => {
     setTotalResults(totalResults);
     setIsLoading(false);
   });
-
-  const getIsCacheValid = (index: number) => {
-    const { timeSaved } = savedQueries[index];
-    const diff = moment().diff(moment(timeSaved), 'days');
-    return cacheDurationDays.search > diff;
-  };
 
   return (
     <Box p={{ base: '0 10px 25px', md: '25px 15px 20px' }}>
