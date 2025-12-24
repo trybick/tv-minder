@@ -25,9 +25,7 @@ const NoFollowedShowsBanner = () => {
     >
       <Alert.Indicator />
       {followedShows.length ? (
-        <Alert.Title fontSize="md">
-          There are no new episodes of the shows you follow this month.
-        </Alert.Title>
+        <Alert.Title fontSize="md">No new episodes this month.</Alert.Title>
       ) : (
         <Alert.Title fontSize="md">
           <Link

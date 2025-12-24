@@ -9,7 +9,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
@@ -28,9 +28,12 @@ const CalendarPage = () => {
   const navigate = useNavigateWithAnimation();
   const isMobile = useIsMobile();
   const calendarRef = useRef<FullCalendar>(null);
-  const [hasEpisodesInCurrentMonth, setHasEpisodesInCurrentMonth] =
-    useState(true);
+
   const [calendarTitle, setCalendarTitle] = useState('');
+  const [viewRange, setViewRange] = useState<{
+    start: Date;
+    end: Date;
+  } | null>(null);
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -83,18 +86,23 @@ const CalendarPage = () => {
     }
 
     setCalendarTitle(view.title);
+    setViewRange({ start: view.activeStart, end: view.activeEnd });
+  };
 
-    const hasEvents = calendarEpisodes.some(episode => {
+  const hasEpisodesInCurrentMonth = useMemo(() => {
+    if (!viewRange) {
+      return true;
+    }
+
+    return calendarEpisodes.some(episode => {
       return moment(episode.date).isBetween(
-        moment(view.activeStart),
-        moment(view.activeEnd),
+        moment(viewRange.start),
+        moment(viewRange.end),
         'day',
         '[]'
       );
     });
-
-    setHasEpisodesInCurrentMonth(hasEvents);
-  };
+  }, [calendarEpisodes, viewRange]);
 
   const calendarProps: CalendarOptions & {
     ref: RefObject<FullCalendar>;
