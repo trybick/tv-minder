@@ -11,7 +11,6 @@ import {
 import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 
-import { useColorModeValue } from '~/components/ui/color-mode';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
@@ -68,8 +67,8 @@ const PopularShows = () => {
     <Box m="18px 0 30px" maxW="1500px" w="95%">
       <Heading
         as="h2"
-        color={useColorModeValue('cyan.600', 'cyan.200')}
-        fontSize="1.8rem"
+        color="fg.subtle"
+        fontSize="4xl"
         fontWeight="600"
         mb="26px"
       >
@@ -140,8 +139,8 @@ const PopularShows = () => {
 
       <Heading
         as="h2"
-        color={useColorModeValue('cyan.600', 'cyan.200')}
-        fontSize="1.8rem"
+        color="fg.subtle"
+        fontSize="4xl"
         fontWeight="600"
         mb="26px"
         mt={isMobile ? '40px' : '50px'}

@@ -50,7 +50,13 @@ const Footer = () => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Icon as={FaGithub} h="1.7rem" transition="color 0.2s" w="1.3rem" />
+            <Icon
+              as={FaGithub}
+              color="fg.subtle"
+              h="1.7rem"
+              transition="color 0.2s"
+              w="1.3rem"
+            />
           </Link>
         </Flex>
 

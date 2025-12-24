@@ -75,7 +75,13 @@ const PopularShow = ({ show }: Props) => {
             textDecoration: 'underline',
           }}
         >
-          <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
+          <Heading
+            as="button"
+            cursor="pointer"
+            fontSize="md"
+            lineClamp={1}
+            color="fg.muted"
+          >
             {name}
           </Heading>
         </Link>
