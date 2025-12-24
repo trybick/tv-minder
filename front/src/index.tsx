@@ -1,3 +1,4 @@
+import '@fontsource-variable/sora';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
