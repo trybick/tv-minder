@@ -64,10 +64,11 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       gap={3}
     >
       <Text
-        fontSize="3xl"
+        fontSize="4xl"
         fontWeight="semibold"
         color="fg.muted"
         justifySelf="start"
+        ml="2px"
       >
         {title}
       </Text>
@@ -77,13 +78,13 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       </Box>
 
       <Flex align="center" gap={2} justifySelf="end">
-        <Button size="sm" variant="subtle" onClick={handleToday}>
+        <Button size="sm" h="42px" variant="subtle" onClick={handleToday}>
           today
         </Button>
-        <Button size="sm" variant="subtle" onClick={handlePrev}>
+        <Button size="sm" h="42px" variant="subtle" onClick={handlePrev}>
           <LuChevronLeft />
         </Button>
-        <Button size="sm" variant="subtle" onClick={handleNext}>
+        <Button size="sm" h="42px" variant="subtle" onClick={handleNext}>
           <LuChevronRight />
         </Button>
       </Flex>
