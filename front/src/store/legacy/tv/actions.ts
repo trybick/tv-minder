@@ -14,6 +14,8 @@ import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';
 export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
+export const SET_IS_LOADING_CALENDAR_EPISODES =
+  'SET_IS_LOADING_CALENDAR_EPISODES';
 export const SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS =
   'SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS';
 export const SAVE_BASIC_SHOW_INFO_FOR_SHOW = 'SAVE_BASIC_SHOW_INFO_FOR_SHOW';
@@ -33,6 +35,11 @@ export const saveSearchQueryAction =
 
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
+    dispatch({
+      type: SET_IS_LOADING_CALENDAR_EPISODES,
+      payload: true,
+    });
+
     const state = getState();
     const { episodeData: storedEpisodeData } = state.tv;
     const userFollowedShowsIds = selectFollowedShows(state);

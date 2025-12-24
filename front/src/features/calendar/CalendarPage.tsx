@@ -17,7 +17,11 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getEpisodesForCalendarAction } from '~/store/legacy/tv/actions';
-import { selectCalendarEpisodesForDisplay } from '~/store/legacy/tv/selectors';
+import {
+  selectCalendarEpisodesForDisplay,
+  selectIsLoadingCalendarEpisodes,
+} from '~/store/legacy/tv/selectors';
+import { userApi } from '~/store/rtk/api/user.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
 import CustomCalendarHeader from './CustomCalendarHeader';
@@ -37,6 +41,12 @@ const CalendarPage = () => {
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
+  const isLoadingCalendarEpisodes = useAppSelector(
+    selectIsLoadingCalendarEpisodes
+  );
+  const { isLoading: isLoadingFollowedShows } = useAppSelector(
+    userApi.endpoints.getFollowedShows.select(undefined)
+  );
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -45,6 +55,7 @@ const CalendarPage = () => {
       }
     };
     loadEpisodes();
+
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
   }, [dispatch, followedShows]);
@@ -90,7 +101,7 @@ const CalendarPage = () => {
   };
 
   const hasEpisodesInCurrentMonth = useMemo(() => {
-    if (!viewRange) {
+    if (!viewRange || isLoadingCalendarEpisodes || isLoadingFollowedShows) {
       return true;
     }
 
@@ -102,7 +113,12 @@ const CalendarPage = () => {
         '[]'
       );
     });
-  }, [calendarEpisodes, viewRange]);
+  }, [
+    calendarEpisodes,
+    isLoadingCalendarEpisodes,
+    isLoadingFollowedShows,
+    viewRange,
+  ]);
 
   const calendarProps: CalendarOptions & {
     ref: RefObject<FullCalendar>;
