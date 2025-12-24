@@ -15,6 +15,12 @@ const customConfig = defineConfig({
   },
 
   theme: {
+    tokens: {
+      fonts: {
+        heading: { value: '"Sora Variable", sans-serif' },
+        body: { value: '"Sora Variable", sans-serif' },
+      },
+    },
     slotRecipes: {
       menu: menuSlotRecipe,
     },
