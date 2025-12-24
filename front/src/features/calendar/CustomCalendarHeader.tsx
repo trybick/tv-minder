@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
 import { RefObject, useMemo } from 'react';
