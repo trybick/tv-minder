@@ -1,26 +1,37 @@
+import * as Sentry from '@sentry/react';
 import { AxiosError } from 'axios';
 
-// Sourced from https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
+import { getIsProduction } from './env';
+
+function sendToSentry(error: AxiosError, context?: Record<string, unknown>) {
+  if (!getIsProduction()) {
+    return;
+  }
+
+  Sentry.captureException(error, {
+    extra: {
+      url: error.config?.url,
+      method: error.config?.method,
+      ...context,
+    },
+  });
+}
 
 export default function handleErrors(error: AxiosError) {
   if (error.response) {
-    /*
-     * The request was made and the server responded with a
-     * status code that falls out of the range of 2xx
-     */
-    // console.log('error status:', error.response.status);
-    console.log('error data:', error.response.data);
-    // console.log('error headers:', error.response.headers);
+    const { status, data } = error.response;
+    console.log('error data:', data);
+
+    if (status >= 500) {
+      sendToSentry(error, { status, data });
+    }
   } else if (error.request) {
-    /*
-     * The request was made but no response was received, `error.request`
-     * is an instance of XMLHttpRequest in the browser and an instance
-     * of http.ClientRequest in Node.js
-     */
+    // No response received - network error, timeout, etc.
     console.log('error request:', error.request);
+    sendToSentry(error, { type: 'no_response' });
   } else {
-    // Something happened in setting up the request and triggered an Error
+    // Error before request was sent (invalid config, interceptor threw, etc.)
     console.log('General error:', error.message);
+    sendToSentry(error, { type: 'setup_error' });
   }
-  // console.log('error config', error.config);
 }
