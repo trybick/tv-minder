@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
 import { RefObject, useMemo } from 'react';
@@ -63,7 +63,7 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       mb={4}
       gap={3}
     >
-      <Text
+      <Heading
         fontSize="4xl"
         fontWeight="semibold"
         color="fg.muted"
@@ -71,7 +71,7 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
         ml="2px"
       >
         {title}
-      </Text>
+      </Heading>
 
       <Box>
         {!isMobile && !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}

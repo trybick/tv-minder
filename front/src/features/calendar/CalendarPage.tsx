@@ -123,7 +123,7 @@ const CalendarPage = () => {
       <title>Calendar | TV Minder</title>
 
       <Box
-        m="15px auto 20px"
+        m="14px auto 20px"
         maxW="1600px"
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
