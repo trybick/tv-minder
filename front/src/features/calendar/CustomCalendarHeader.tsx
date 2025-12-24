@@ -28,7 +28,7 @@ const CustomCalendarHeader = ({
     <Flex align="center" justify="space-between" mb={4} gap={3}>
       <Text fontSize="3xl">{title}</Text>
 
-      <Box flex="1" display="flex" justifyContent="center">
+      <Box mx="auto">
         {!isMobile && !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
       </Box>
 
