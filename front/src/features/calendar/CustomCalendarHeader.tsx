@@ -63,7 +63,12 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       mb={4}
       gap={3}
     >
-      <Text fontSize="3xl" justifySelf="start">
+      <Text
+        fontSize="3xl"
+        fontWeight="semibold"
+        color="fg.muted"
+        justifySelf="start"
+      >
         {title}
       </Text>
 
