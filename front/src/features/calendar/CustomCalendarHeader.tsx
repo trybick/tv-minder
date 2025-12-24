@@ -13,6 +13,7 @@ import {
 import { userApi } from '~/store/rtk/api/user.api';
 
 import NoFollowedShowsBanner from './NoFollowedShowsBanner';
+import UpdatingCalendarBanner from './UpdatingCalendarBanner';
 
 type Props = {
   calendarRef: RefObject<FullCalendar | null>;
@@ -74,7 +75,12 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       </Heading>
 
       <Box>
-        {!isMobile && !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
+        {!isMobile &&
+          (isLoadingCalendarEpisodes || isLoadingFollowedShows ? (
+            <UpdatingCalendarBanner />
+          ) : (
+            !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />
+          ))}
       </Box>
 
       <Flex align="center" gap={2} justifySelf="end">
