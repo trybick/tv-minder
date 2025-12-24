@@ -25,14 +25,22 @@ const CustomCalendarHeader = ({
   const handleToday = () => calendarRef.current?.getApi().today();
 
   return (
-    <Flex align="center" justify="space-between" mb={4} gap={3}>
-      <Text fontSize="3xl">{title}</Text>
+    <Box
+      display="grid"
+      gridTemplateColumns="1fr auto 1fr"
+      alignItems="center"
+      mb={4}
+      gap={3}
+    >
+      <Text fontSize="3xl" justifySelf="start">
+        {title}
+      </Text>
 
-      <Box mx="auto">
+      <Box>
         {!isMobile && !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
       </Box>
 
-      <Flex align="center" gap={2}>
+      <Flex align="center" gap={2} justifySelf="end">
         <Button size="sm" variant="subtle" onClick={handleToday}>
           today
         </Button>
@@ -43,7 +51,7 @@ const CustomCalendarHeader = ({
           <LuChevronRight />
         </Button>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 
