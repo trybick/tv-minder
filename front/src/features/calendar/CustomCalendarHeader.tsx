@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import FullCalendar from '@fullcalendar/react';
-import moment from 'moment';
 import { RefObject, useMemo } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 
@@ -11,6 +10,7 @@ import {
   selectIsLoadingCalendarEpisodes,
 } from '~/store/legacy/tv/selectors';
 import { userApi } from '~/store/rtk/api/user.api';
+import dayjs from '~/utils/dayjs';
 
 import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 import UpdatingCalendarBanner from './UpdatingCalendarBanner';
@@ -38,9 +38,9 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
     }
 
     return calendarEpisodes.some(episode => {
-      return moment(episode.date).isBetween(
-        moment(viewRange.start),
-        moment(viewRange.end),
+      return dayjs(episode.date).isBetween(
+        dayjs(viewRange.start),
+        dayjs(viewRange.end),
         'day',
         '[]'
       );

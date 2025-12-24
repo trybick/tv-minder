@@ -1,10 +1,10 @@
 import axios from 'axios';
-import moment from 'moment';
 
 import ENDPOINTS from '~/app/endpoints';
 import { formatSameDayEpisodes } from '~/store/legacy/tv/tvUtils';
 import { CalendarEpisode } from '~/types/external';
 import { isDateWithinOneMonth } from '~/utils/dates';
+import dayjs from '~/utils/dayjs';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 import handleErrors from '~/utils/handleErrors';
 
@@ -50,7 +50,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
 
     const shouldSkipMoreFetching =
       status === 'Ended' &&
-      moment(lastAirDate).isBefore(moment().subtract(6, 'months'));
+      dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'));
     if (shouldSkipMoreFetching) {
       return null;
     }
@@ -64,7 +64,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
       nextSeasonNumberToAir &&
       lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-    if (moment(lastAirDate).isBefore(moment().subtract(6, 'months'))) {
+    if (dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'))) {
       latestSeasons = [nextSeasonNumberToAir];
     } else if (isLastAndNextEpisodeInSameSeason) {
       latestSeasons = [lastSeasonNumberToAir];
@@ -172,9 +172,9 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 
   // Remove episodes outside of time range
   const recentEpisodes = flattenedEpisodeList.filter((episode: any) =>
-    moment(moment(episode.air_date)).isBetween(
-      moment().subtract(6, 'months'),
-      moment().add(12, 'months')
+    dayjs(episode.air_date).isBetween(
+      dayjs().subtract(6, 'month'),
+      dayjs().add(12, 'month')
     )
   );
 
@@ -223,7 +223,7 @@ const createCache = (episodesData: any, showIds: number[]) => {
     } else {
       cache[showId] = {
         episodes: [episode],
-        fetchedAt: moment().toISOString(),
+        fetchedAt: dayjs().toISOString(),
       };
     }
   });
@@ -234,7 +234,7 @@ const createCache = (episodesData: any, showIds: number[]) => {
     if (!cache.hasOwnProperty(id)) {
       cache[id] = {
         episodes: null,
-        fetchedAt: moment().toISOString(),
+        fetchedAt: dayjs().toISOString(),
       };
     }
   });
