@@ -16,14 +16,18 @@ const NoFollowedShowsBanner = () => {
   };
 
   return (
-    <Alert.Root colorPalette="cyan" justifyContent="center" status="info">
+    <Alert.Root
+      colorPalette="cyan"
+      status="info"
+      size="sm"
+      variant="subtle"
+      w="fit-content"
+    >
       <Alert.Indicator />
       {followedShows.length ? (
-        <Alert.Title>
-          There are no new episodes of the shows you follow airing this month.
-        </Alert.Title>
+        <Alert.Title fontSize="14px">No new episodes this month</Alert.Title>
       ) : (
-        <Alert.Title>
+        <Alert.Title fontSize="14px">
           <Link
             onClick={handleClickHome}
             textDecorationThickness="2px"
@@ -32,7 +36,7 @@ const NoFollowedShowsBanner = () => {
           >
             Follow some shows
           </Link>{' '}
-          to see them in your calendar.
+          to see new episodes in your calendar
         </Alert.Title>
       )}
     </Alert.Root>

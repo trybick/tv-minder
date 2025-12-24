@@ -20,16 +20,20 @@ import { getEpisodesForCalendarAction } from '~/store/legacy/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/legacy/tv/selectors';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
+import CustomCalendarHeader from './CustomCalendarHeader';
 import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
-import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const isMobile = useIsMobile();
   const calendarRef = useRef<FullCalendar>(null);
-  const [hasEpisodesInCurrentMonth, setHasEpisodesInCurrentMonth] =
-    useState(true);
+
+  const [calendarTitle, setCalendarTitle] = useState('');
+  const [viewRange, setViewRange] = useState<{
+    start: Date;
+    end: Date;
+  } | null>(null);
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -41,6 +45,7 @@ const CalendarPage = () => {
       }
     };
     loadEpisodes();
+
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
   }, [dispatch, followedShows]);
@@ -75,22 +80,14 @@ const CalendarPage = () => {
     );
   };
 
-  const calculateHasEpisodesInCurrentMonth = () => {
+  const handleDatesSet = () => {
     const view = calendarRef.current?.getApi().view;
     if (!view) {
       return;
     }
 
-    const hasEvents = calendarEpisodes.some(episode => {
-      return moment(episode.date).isBetween(
-        moment(view.activeStart),
-        moment(view.activeEnd),
-        'day',
-        '[]'
-      );
-    });
-
-    setHasEpisodesInCurrentMonth(hasEvents);
+    setCalendarTitle(view.title);
+    setViewRange({ start: view.activeStart, end: view.activeEnd });
   };
 
   const calendarProps: CalendarOptions & {
@@ -106,6 +103,8 @@ const CalendarPage = () => {
     // Don't force showing additional weeks in calendar view
     fixedWeekCount: false,
     height: 'auto',
+    // Disable default toolbar - using custom header
+    headerToolbar: false,
     initialView: isMobile ? 'listMonth' : 'dayGridMonth',
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
@@ -116,21 +115,24 @@ const CalendarPage = () => {
     titleFormat: { month: 'long' },
     // Enable 'cursor: pointer' on events
     editable: true,
-    datesSet: () => calculateHasEpisodesInCurrentMonth(),
+    datesSet: handleDatesSet,
   };
 
   return (
     <>
       <title>Calendar | TV Minder</title>
 
-      {!hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />}
-
       <Box
-        m="15px auto 20px"
+        m="14px auto 20px"
         maxW="1600px"
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
+        <CustomCalendarHeader
+          calendarRef={calendarRef}
+          title={calendarTitle}
+          viewRange={viewRange}
+        />
         <FullCalendar
           {...calendarProps}
           // Refreshes the calendar to update the correct day

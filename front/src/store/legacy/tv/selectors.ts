@@ -14,6 +14,8 @@ export const selectIsLoadingBasicShowInfoForShow = (state: AppState) =>
   state.tv.isLoadingBasicShowInfoForShow;
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
+export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
+  state.tv.isLoadingCalendarEpisodes;
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
 

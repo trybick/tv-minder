@@ -29,6 +29,7 @@ const userPersistConfig = {
 const tvPersistConfig = {
   key: 'tv',
   storage: localforage,
+  blacklist: ['isLoadingCalendarEpisodes', 'isLoadingBasicShowInfoForShow'],
 };
 
 const searchInputPersistConfig = {
