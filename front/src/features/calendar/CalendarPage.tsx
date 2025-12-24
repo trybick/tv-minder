@@ -9,7 +9,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import moment from 'moment';
-import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
@@ -17,11 +17,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getEpisodesForCalendarAction } from '~/store/legacy/tv/actions';
-import {
-  selectCalendarEpisodesForDisplay,
-  selectIsLoadingCalendarEpisodes,
-} from '~/store/legacy/tv/selectors';
-import { userApi } from '~/store/rtk/api/user.api';
+import { selectCalendarEpisodesForDisplay } from '~/store/legacy/tv/selectors';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
 import CustomCalendarHeader from './CustomCalendarHeader';
@@ -41,12 +37,6 @@ const CalendarPage = () => {
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
-  const isLoadingCalendarEpisodes = useAppSelector(
-    selectIsLoadingCalendarEpisodes
-  );
-  const { isLoading: isLoadingFollowedShows } = useAppSelector(
-    userApi.endpoints.getFollowedShows.select(undefined)
-  );
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -100,26 +90,6 @@ const CalendarPage = () => {
     setViewRange({ start: view.activeStart, end: view.activeEnd });
   };
 
-  const hasEpisodesInCurrentMonth = useMemo(() => {
-    if (!viewRange || isLoadingCalendarEpisodes || isLoadingFollowedShows) {
-      return true;
-    }
-
-    return calendarEpisodes.some(episode => {
-      return moment(episode.date).isBetween(
-        moment(viewRange.start),
-        moment(viewRange.end),
-        'day',
-        '[]'
-      );
-    });
-  }, [
-    calendarEpisodes,
-    isLoadingCalendarEpisodes,
-    isLoadingFollowedShows,
-    viewRange,
-  ]);
-
   const calendarProps: CalendarOptions & {
     ref: RefObject<FullCalendar>;
   } = {
@@ -160,8 +130,8 @@ const CalendarPage = () => {
       >
         <CustomCalendarHeader
           calendarRef={calendarRef}
-          hasEpisodesInCurrentMonth={hasEpisodesInCurrentMonth}
           title={calendarTitle}
+          viewRange={viewRange}
         />
         <FullCalendar
           {...calendarProps}
