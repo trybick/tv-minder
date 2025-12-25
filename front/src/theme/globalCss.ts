@@ -51,11 +51,11 @@ const calendarStyles = {
 };
 
 const viewTransitionStyles = {
-  '::view-transition-old(page-*)': {
-    animation: 'fade-out 0.3s ease-out both',
+  '::view-transition-old(root)': {
+    animation: 'fade-out 0.2s ease-out both',
   },
-  '::view-transition-new(page-*)': {
-    animation: 'fade-in 0.3s ease-out both',
+  '::view-transition-new(root)': {
+    animation: 'fade-in 0.2s ease-out both',
   },
   '@keyframes fade-out': {
     from: { opacity: 1 },
@@ -64,6 +64,10 @@ const viewTransitionStyles = {
   '@keyframes fade-in': {
     from: { opacity: 0 },
     to: { opacity: 1 },
+  },
+  // Disable shared element transitions when this class is present
+  'body.skip-image-transition *': {
+    viewTransitionName: 'none !important',
   },
 };
 
