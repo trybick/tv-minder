@@ -8,7 +8,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
-import moment from 'moment';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
@@ -19,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { getEpisodesForCalendarAction } from '~/store/legacy/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/legacy/tv/selectors';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import dayjs from '~/utils/dayjs';
 
 import CustomCalendarHeader from './CustomCalendarHeader';
 import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
@@ -136,7 +136,7 @@ const CalendarPage = () => {
         <FullCalendar
           {...calendarProps}
           // Refreshes the calendar to update the correct day
-          key={moment().format('MM-DD-YYYY')}
+          key={dayjs().format('MM-DD-YYYY')}
         />
       </Box>
     </>

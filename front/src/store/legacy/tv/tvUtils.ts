@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import {
   BasicShowInfo,
   CalendarEpisode,
@@ -8,6 +6,7 @@ import {
   Genre,
   SeasonWithEpisodes,
 } from '~/types/external';
+import dayjs from '~/utils/dayjs';
 import { addLeadingZero } from '~/utils/formatting';
 import { isEmpty } from '~/utils/object';
 
@@ -27,17 +26,15 @@ export const getStatusWithColor = (
   const hasCurrentlyActiveSeason =
     lastEpisodeForDisplay &&
     ((nextEpisodeForDisplay &&
-      moment(nextEpisodeForDisplay.airDate).diff(
+      dayjs(nextEpisodeForDisplay.airDate).diff(
         lastEpisodeForDisplay.airDate,
-        'days'
+        'day'
       ) < 45) ||
-      moment().diff(lastEpisodeForDisplay.airDate, 'days') < 14);
+      dayjs().diff(lastEpisodeForDisplay.airDate, 'day') < 14);
   const isPremieringSoon =
     nextEpisodeForDisplay &&
-    moment(nextEpisodeForDisplay.airDate).diff(
-      moment().startOf('day'),
-      'days'
-    ) < 60 &&
+    dayjs(nextEpisodeForDisplay.airDate).diff(dayjs().startOf('day'), 'day') <
+      60 &&
     nextEpisodeForDisplay.episodeNumber === '01';
 
   if (originalStatus === 'Ended') {
@@ -49,38 +46,6 @@ export const getStatusWithColor = (
   } else {
     return { status: 'In Production', color: 'blue', sortOrder: 3 };
   }
-};
-
-export const getTimeFromLastEpisode = (lastEpisodeDate: string) => {
-  if (!lastEpisodeDate) {
-    return;
-  }
-  let diff = moment(lastEpisodeDate)
-    .startOf('day')
-    .from(moment().startOf('day'));
-
-  if (diff === 'a few seconds ago') {
-    diff = 'today';
-  } else if (diff === 'a day ago') {
-    diff = 'yesterday';
-  }
-
-  return diff;
-};
-
-export const getTimeUntilNextEpisode = (nextAirDate: string) => {
-  if (!nextAirDate) {
-    return;
-  }
-  let diff = moment(nextAirDate).startOf('day').from(moment().startOf('day'));
-
-  if (diff === 'a few seconds ago') {
-    diff = 'today';
-  } else if (diff === 'in a day') {
-    diff = 'tomorrow';
-  }
-
-  return diff;
 };
 
 export const getVideoTrailerKey = (videos: any): string | undefined => {
@@ -212,25 +177,23 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
   const lastEpisodeForDisplay: EpisodeForDisplay = lastEpisodeToAir && {
     airDate: lastEpisodeToAir?.air_date,
     daysDiff: Math.abs(
-      moment().startOf('day').diff(lastEpisodeToAir?.air_date, 'days')
+      dayjs().startOf('day').diff(lastEpisodeToAir?.air_date, 'day')
     ),
     episodeNumber: addLeadingZero(lastEpisodeToAir?.episode_number),
     name: lastEpisodeToAir?.name,
     overview: lastEpisodeToAir?.overview,
     seasonNumber: addLeadingZero(lastEpisodeToAir?.season_number),
-    timeFromNow: getTimeFromLastEpisode(lastEpisodeToAir?.air_date),
   };
 
   const nextEpisodeForDisplay: EpisodeForDisplay = nextEpisodeToAir && {
     airDate: nextEpisodeToAir?.air_date,
     daysDiff: Math.abs(
-      moment().startOf('day').diff(nextEpisodeToAir?.air_date, 'days')
+      dayjs().startOf('day').diff(nextEpisodeToAir?.air_date, 'day')
     ),
     episodeNumber: addLeadingZero(nextEpisodeToAir?.episode_number),
     name: nextEpisodeToAir?.name,
     overview: nextEpisodeToAir?.overview,
     seasonNumber: addLeadingZero(nextEpisodeToAir?.season_number),
-    timeFromNow: getTimeUntilNextEpisode(nextEpisodeToAir?.air_date),
   };
 
   const statusWithColor = getStatusWithColor(
@@ -245,8 +208,8 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
   const yearsActive =
     firstAirDate &&
-    `${moment(firstAirDate).year()}-${
-      status === 'Ended' ? moment(lastEpisodeToAir?.air_date).year() : ''
+    `${dayjs(firstAirDate).year()}-${
+      status === 'Ended' ? dayjs(lastEpisodeToAir?.air_date).year() : ''
     }`;
 
   const language = spokenLanuages

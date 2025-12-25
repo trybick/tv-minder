@@ -5,10 +5,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import moment from 'moment';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { EpisodeForSeason } from '~/types/external';
+import dayjs from '~/utils/dayjs';
 
 type Props = {
   episodes: EpisodeForSeason[];
@@ -34,7 +34,7 @@ const EpisodesTable = ({ episodes }: Props) => {
       id: 'airDate',
       size: 80,
       accessorFn: row =>
-        row.airDate && moment(row.airDate).format('MMMM D, YYYY'),
+        row.airDate && dayjs(row.airDate).format('MMMM D, YYYY'),
       header: () => <Text>Air Date</Text>,
     },
     {

@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import moment from 'moment';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -14,6 +13,7 @@ import {
 import { ShowSearchResult } from '~/types/external';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
+import dayjs from '~/utils/dayjs';
 import { useDebouncedFunction } from '~/utils/debounce';
 
 import SearchContainer from './SearchContainer';
@@ -64,7 +64,7 @@ const SearchPage = () => {
 
   const getIsCacheValid = (index: number) => {
     const { timeSaved } = savedQueries[index];
-    const diff = moment().diff(moment(timeSaved), 'days');
+    const diff = dayjs().diff(dayjs(timeSaved), 'day');
     return cacheDurationDays.search > diff;
   };
 
@@ -81,7 +81,7 @@ const SearchPage = () => {
       queryData = {
         query,
         results,
-        timeSaved: moment().toISOString(),
+        timeSaved: dayjs().toISOString(),
         totalResults,
       };
       dispatch(saveSearchQueryAction(queryData));

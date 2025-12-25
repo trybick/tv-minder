@@ -1,10 +1,10 @@
 import axios from 'axios';
-import moment from 'moment';
 
 import ENDPOINTS from '~/app/endpoints';
 import { AppThunk } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import cacheDurationDays from '~/utils/cacheDurations';
+import dayjs from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import handleErrors from '~/utils/handleErrors';
 
@@ -49,7 +49,7 @@ export const getEpisodesForCalendarAction =
       id =>
         cachedIds.includes(String(id)) &&
         cacheDurationDays.calendar >
-          moment().diff(moment(storedEpisodeData[id].fetchedAt), 'days')
+          dayjs().diff(dayjs(storedEpisodeData[id].fetchedAt), 'day')
     );
     const cachedData = validCachedIds.flatMap(id =>
       storedEpisodeData[id].episodes !== null
@@ -91,9 +91,9 @@ export const getBasicShowInfoForFollowedShows =
     const validCachedIds =
       cachedBasicShowInfo &&
       followedShowsSource?.filter(id => {
-        const cacheAge = moment().diff(
-          moment(cachedBasicShowInfo[id]?._fetchedAt),
-          'days'
+        const cacheAge = dayjs().diff(
+          dayjs(cachedBasicShowInfo[id]?._fetchedAt),
+          'day'
         );
         return (
           cachedIds?.includes(String(id)) &&
@@ -130,7 +130,7 @@ export const getBasicShowInfoForFollowedShows =
         responses.forEach((res: any) => {
           combinedData[res.id] = {
             ...res,
-            _fetchedAt: moment().toISOString(),
+            _fetchedAt: dayjs().toISOString(),
           };
         });
       }
@@ -147,9 +147,9 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const showId = getShowIdFromUrl();
     // If we already have the basic show info, season info, and cache is valid, do nothing
     const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
-    const cacheAge = moment().diff(
-      moment(cachedBasicShowInfo[showId]?._fetchedAt),
-      'days'
+    const cacheAge = dayjs().diff(
+      dayjs(cachedBasicShowInfo[showId]?._fetchedAt),
+      'day'
     );
     const hasValidCache =
       cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
@@ -182,7 +182,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const combinedData = {
       [showId]: {
         ...basicInfo,
-        _fetchedAt: moment().toISOString(),
+        _fetchedAt: dayjs().toISOString(),
       },
     };
 
@@ -227,7 +227,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
   const cacheAge =
     cachedPopularShows?.length &&
     cachedPopularShows[0].fetchedAt &&
-    moment().diff(moment(cachedPopularShows[0].fetchedAt), 'days');
+    dayjs().diff(dayjs(cachedPopularShows[0].fetchedAt), 'day');
   const isCacheValid =
     cachedPopularShows?.length && cacheDurationDays.popularShows > cacheAge;
 
@@ -247,7 +247,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
       .then(({ data: { results } }) => {
         const dataWithTimestamp = results.map((show: any) => ({
           ...show,
-          fetchedAt: moment().toISOString(),
+          fetchedAt: dayjs().toISOString(),
         }));
         dispatch({
           type: SAVE_POPULAR_SHOWS,
@@ -263,7 +263,7 @@ export const getTopRatedShowsAction = (): AppThunk => (dispatch, getState) => {
   const cacheAge =
     cachedTopRatedShows?.length &&
     cachedTopRatedShows[0].fetchedAt &&
-    moment().diff(moment(cachedTopRatedShows[0].fetchedAt), 'days');
+    dayjs().diff(dayjs(cachedTopRatedShows[0].fetchedAt), 'day');
   const isCacheValid =
     cachedTopRatedShows?.length && cacheDurationDays.popularShows > cacheAge;
 
@@ -275,7 +275,7 @@ export const getTopRatedShowsAction = (): AppThunk => (dispatch, getState) => {
       .then(({ data: { results } }) => {
         const dataWithTimestamp = results.map((show: any) => ({
           ...show,
-          fetchedAt: moment().toISOString(),
+          fetchedAt: dayjs().toISOString(),
         }));
         dispatch({
           type: SAVE_TOP_RATED_SHOWS,

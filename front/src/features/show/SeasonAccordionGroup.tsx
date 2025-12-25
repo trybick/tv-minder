@@ -1,5 +1,4 @@
 import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
-import moment from 'moment';
 
 import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -8,6 +7,7 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingBasicShowInfoForShow,
 } from '~/store/legacy/tv/selectors';
+import dayjs from '~/utils/dayjs';
 
 import EpisodesTable from './EpisodesTable';
 
@@ -33,7 +33,7 @@ const SeasonAccordionGroup = () => {
               </Text>{' '}
               {!isSpecialsSeason && airDate && (
                 <Text display="inline" fontSize="md">
-                  ({moment(airDate).year()})
+                  ({dayjs(airDate).year()})
                 </Text>
               )}
             </Box>
