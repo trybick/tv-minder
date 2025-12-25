@@ -17,20 +17,23 @@ export default function handleErrors(error: unknown) {
   if (error instanceof HTTPError) {
     const { status } = error.response;
     const url = error.request.url;
+    const shouldReportToSentry = status >= 500 || status === 429;
 
-    console.error('HTTP error:', status, url);
-
-    if (status >= 500 || status === 429) {
-      error.response
-        .clone()
-        .json()
-        .then(responseBody => {
+    error.response
+      .clone()
+      .json()
+      .then(responseBody => {
+        console.error('HTTP error:', status, url, responseBody);
+        if (shouldReportToSentry) {
           sendToSentry(error, { status, url, responseBody });
-        })
-        .catch(() => {
+        }
+      })
+      .catch(() => {
+        console.error('HTTP error:', status, url);
+        if (shouldReportToSentry) {
           sendToSentry(error, { status, url });
-        });
-    }
+        }
+      });
   } else if (error instanceof Error) {
     if (error.name === 'AbortError') {
       return;
@@ -56,10 +59,9 @@ export default function handleErrors(error: unknown) {
     // Non-Error thrown (string, object, etc.)
     console.error('Non-Error thrown:', error);
 
-    if (getIsProduction()) {
-      Sentry.captureException(error, {
-        extra: { type: 'non_error_thrown', rawValue: String(error) },
-      });
-    }
+    sendToSentry(new Error(String(error)), {
+      type: 'non_error_thrown',
+      rawValue: String(error),
+    });
   }
 }
