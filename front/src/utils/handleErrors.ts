@@ -13,18 +13,16 @@ function sendToSentry(error: Error, context?: Record<string, unknown>) {
   });
 }
 
-export default async function handleErrors(error: unknown) {
+export default function handleErrors(error: unknown) {
   if (error instanceof HTTPError) {
     const { status } = error.response;
-    const data = await error.response.json().catch(() => null);
-    console.log('error data:', data);
+    console.log('HTTP error:', status, error.request.url);
 
     if (status >= 500) {
-      sendToSentry(error, { status, data, url: error.request.url });
+      sendToSentry(error, { status, url: error.request.url });
     }
   } else if (error instanceof Error) {
     if (error.name === 'AbortError') {
-      // Request was cancelled, not an error
       return;
     }
     console.log('General error:', error.message);
