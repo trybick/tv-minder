@@ -20,7 +20,6 @@ export default function handleErrors(error: unknown) {
 
     console.error('HTTP error:', status, url);
 
-    // Track server errors + rate limits
     if (status >= 500 || status === 429) {
       error.response
         .clone()
@@ -36,11 +35,31 @@ export default function handleErrors(error: unknown) {
     if (error.name === 'AbortError') {
       return;
     }
-    console.error('Network error:', error.message);
+
+    let errorType: string;
+    if (error.name === 'TimeoutError') {
+      errorType = 'timeout';
+    } else if (error instanceof TypeError) {
+      errorType = 'network_failure'; // Failed to fetch, CORS, etc.
+    } else {
+      errorType = 'unknown';
+    }
+
+    console.error(`${errorType} error:`, error.message);
+
     sendToSentry(error, {
-      type: 'network_error',
+      type: errorType,
       name: error.name,
       message: error.message,
     });
+  } else {
+    // Non-Error thrown (string, object, etc.)
+    console.error('Non-Error thrown:', error);
+
+    if (getIsProduction()) {
+      Sentry.captureException(error, {
+        extra: { type: 'non_error_thrown', rawValue: String(error) },
+      });
+    }
   }
 }

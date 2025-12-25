@@ -7,6 +7,7 @@ import ENDPOINTS from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
 import { useAppSelector } from '~/store';
 import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
+import handleErrors from '~/utils/handleErrors';
 
 type FormInputs = {
   oldPassword: string;
@@ -62,8 +63,10 @@ const ChangePasswordContainer = () => {
           type: 'success',
         });
       })
-      .catch((error: HTTPError) => {
-        const isUnauthorizedError = error.response?.status === 401;
+      .catch(error => {
+        handleErrors(error);
+        const isUnauthorizedError =
+          error instanceof HTTPError && error.response?.status === 401;
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
           : 'Your Password could not be updated.';

@@ -92,12 +92,12 @@ const SignUpModal = () => {
         onClose();
         dispatch(setIsLoggedIn({ email: res.email }));
       })
-      .catch(async (err: HTTPError) => {
+      .catch(err => {
         handleErrors(err);
         setIsSubmitLoading(false);
         reset(undefined, { keepErrors: true });
 
-        if (err.response?.status === 409) {
+        if (err instanceof HTTPError && err.response?.status === 409) {
           setError('root', {
             type: 'manual',
             message: 'Email already registered. Please try again.',

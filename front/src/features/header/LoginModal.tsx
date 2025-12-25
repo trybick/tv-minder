@@ -8,7 +8,7 @@ import {
   Input,
   Portal,
 } from '@chakra-ui/react';
-import ky, { HTTPError } from 'ky';
+import ky from 'ky';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
@@ -100,7 +100,7 @@ const LoginModal = () => {
         onClose();
         dispatch(setIsLoggedIn({ email: res.email }));
       })
-      .catch((err: HTTPError) => {
+      .catch(err => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
@@ -119,7 +119,7 @@ const LoginModal = () => {
         setIsSubmitLoading(false);
         setFormOption(2);
       })
-      .catch((err: HTTPError) => {
+      .catch(err => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
@@ -137,7 +137,7 @@ const LoginModal = () => {
         setIsSubmitLoading(false);
         setFormOption(3);
       })
-      .catch((err: HTTPError) => {
+      .catch(err => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
@@ -160,7 +160,7 @@ const LoginModal = () => {
           type: 'success',
         });
       })
-      .catch((err: HTTPError) => {
+      .catch(err => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
