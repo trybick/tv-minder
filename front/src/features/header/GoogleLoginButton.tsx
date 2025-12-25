@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import ky from 'ky';
 import GoogleButton from 'react-google-button';
 
 import ENDPOINTS from '~/app/endpoints';
@@ -17,7 +17,7 @@ const GoogleLoginButton = () => {
     console.error('Google Login error');
     showToast({
       title: 'Error in login',
-      description: 'Could not login in. Please try again.',
+      description: 'Could not log in. Please try again.',
       type: 'error',
     });
   };
@@ -29,44 +29,38 @@ const GoogleLoginButton = () => {
     ) {
       throw Error('Expected field access_token from google response');
     }
-    const userInfo = await axios.get(ENDPOINTS.GOOGLE_USER_INFO, {
-      headers: { Authorization: `Bearer ${response.access_token}` },
-    });
-    const { email, sub: googleId } = userInfo.data;
+    const userInfo = await ky
+      .get(ENDPOINTS.GOOGLE_USER_INFO, {
+        headers: { Authorization: `Bearer ${response.access_token}` },
+      })
+      .json<{ email: string; sub: string }>();
+    const { email, sub: googleId } = userInfo;
     return { email, googleId };
   };
 
   const onGoogleLoginSuccess = async (response: TokenResponse) => {
     const { email, googleId } = await getGoogleUserDetails(response);
-    axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
-        email,
-        password: googleId,
-        isGoogleUser: true,
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
+      json: { email, password: googleId, isGoogleUser: true },
+    }).then(() => {
+      ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
+        json: { email, password: googleId, isGoogleUser: true },
       })
-      .then(() => {
-        axios
-          .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-            email,
-            password: googleId,
-            isGoogleUser: true,
-          })
-          .then(res => {
-            localStorage.setItem('jwt', res.data.token);
-            dispatch(setIsSignUpModalOpen(false));
-            dispatch(
-              setIsLoggedIn({ email: res.data.email, isGoogleUser: true })
-            );
-          })
-          .catch((error: any) => {
-            handleErrors(error);
-            showToast({
-              title: 'Error in login',
-              description: 'Could not login in. Please try again.',
-              type: 'error',
-            });
+        .json<{ token: string; email: string }>()
+        .then(res => {
+          localStorage.setItem('jwt', res.token);
+          dispatch(setIsSignUpModalOpen(false));
+          dispatch(setIsLoggedIn({ email: res.email, isGoogleUser: true }));
+        })
+        .catch(error => {
+          handleErrors(error);
+          showToast({
+            title: 'Error in login',
+            description: 'Could not log in. Please try again.',
+            type: 'error',
           });
-      });
+        });
+    });
   };
 
   const handleClickGoogleLogin = useGoogleLogin({

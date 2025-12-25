@@ -1,4 +1,4 @@
-import axios from 'axios';
+import ky from 'ky';
 
 import ENDPOINTS from '~/app/endpoints';
 import { AppThunk } from '~/store';
@@ -112,19 +112,18 @@ export const getBasicShowInfoForFollowedShows =
       id => !validCachedIds?.includes(id)
     );
     if (nonCachedIds?.length) {
-      const requests = nonCachedIds?.map(id =>
-        axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}`, {
-          params: {
-            api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
-            append_to_response: 'videos',
-          },
-        })
-      );
-
-      const responses = await axios
-        .all(requests)
-        .then(res => res.map(res => res.data))
-        .catch(handleErrors);
+      const responses = await Promise.all(
+        nonCachedIds.map(id =>
+          ky
+            .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}`, {
+              searchParams: {
+                api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
+                append_to_response: 'videos',
+              },
+            })
+            .json<any>()
+        )
+      ).catch(handleErrors);
 
       if (responses) {
         responses.forEach((res: any) => {
@@ -164,14 +163,14 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
 
     // If we don't have a valid cache, start by fetching the basic info
     dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
-    const basicInfo = await axios
+    const basicInfo = await ky
       .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, {
-        params: {
+        searchParams: {
           api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
           append_to_response: 'videos',
         },
       })
-      .then(res => res.data)
+      .json<any>()
       .catch(handleErrors);
 
     if (!basicInfo) {
@@ -190,18 +189,18 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const seasonNumbers: number[] = basicInfo.seasons?.map(
       (season: any) => season.season_number
     );
-    const seasonsRequests = seasonNumbers?.map(seasonNumber =>
-      axios.get(
-        `${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}/season/${seasonNumber}`,
-        {
-          params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
-        }
+    const seasonsResponse = await Promise.all(
+      seasonNumbers.map(seasonNumber =>
+        ky
+          .get(
+            `${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}/season/${seasonNumber}`,
+            {
+              searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
+            }
+          )
+          .json<any>()
       )
-    );
-    const seasonsResponse = await axios
-      .all(seasonsRequests)
-      .then(res => res.map((res: any) => res.data))
-      .catch(handleErrors);
+    ).catch(handleErrors);
 
     // Merge the season data
     seasonsResponse?.forEach((season: any) => {
@@ -232,19 +231,19 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
     cachedPopularShows?.length && cacheDurationDays.popularShows > cacheAge;
 
   if (!isCacheValid) {
-    axios
-      // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
-      // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
-      // Full possibly useful endpoints status:
-      //   - /trending = useful, current Popular Shows list
-      //   - /top-rated = useful and accurate
-      //   - /popular = not useful, foreign shows
-      //   - /airing_today = not useful, foreign shows
-      //   - /on_the_air = not useful, foreign shows
-      .get(`${ENDPOINTS.THE_MOVIE_DB}/trending/tv/week`, {
-        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
-      })
-      .then(({ data: { results } }) => {
+    // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
+    // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
+    // Full possibly useful endpoints status:
+    //   - /trending = useful, current Popular Shows list
+    //   - /top-rated = useful and accurate
+    //   - /popular = not useful, foreign shows
+    //   - /airing_today = not useful, foreign shows
+    //   - /on_the_air = not useful, foreign shows
+    ky.get(`${ENDPOINTS.THE_MOVIE_DB}/trending/tv/week`, {
+      searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
+    })
+      .json<{ results: any[] }>()
+      .then(({ results }) => {
         const dataWithTimestamp = results.map((show: any) => ({
           ...show,
           fetchedAt: dayjs().toISOString(),
@@ -268,11 +267,11 @@ export const getTopRatedShowsAction = (): AppThunk => (dispatch, getState) => {
     cachedTopRatedShows?.length && cacheDurationDays.popularShows > cacheAge;
 
   if (!isCacheValid) {
-    axios
-      .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/top_rated`, {
-        params: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
-      })
-      .then(({ data: { results } }) => {
+    ky.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/top_rated`, {
+      searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
+    })
+      .json<{ results: any[] }>()
+      .then(({ results }) => {
         const dataWithTimestamp = results.map((show: any) => ({
           ...show,
           fetchedAt: dayjs().toISOString(),
