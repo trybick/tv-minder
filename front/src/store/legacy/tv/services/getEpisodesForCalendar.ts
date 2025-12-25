@@ -1,4 +1,4 @@
-import axios from 'axios';
+import ky from 'ky';
 
 import ENDPOINTS from '~/app/endpoints';
 import { formatSameDayEpisodes } from '~/store/legacy/tv/tvUtils';
@@ -8,7 +8,7 @@ import dayjs from '~/utils/dayjs';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 import handleErrors from '~/utils/handleErrors';
 
-const queryParams = {
+const searchParams = {
   api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
 };
 
@@ -25,16 +25,12 @@ export const getEpisodesForCalendar = async (showIds: number[]) => {
 };
 
 const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
-  // List of requests for each show's basic info
-  const basicInfoRequests = showIds.map((showId: any) =>
-    axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, { params: queryParams })
-  );
-
   // Get each show's basic info
-  basicInfoForShows = await axios
-    .all(basicInfoRequests)
-    .then(res => res.map(res => res.data))
-    .catch(handleErrors);
+  basicInfoForShows = await Promise.all(
+    showIds.map((showId: any) =>
+      ky.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, { searchParams }).json()
+    )
+  ).catch(handleErrors);
 
   // Find latest season number(s) for each show
   const latestSeasons = (basicInfoForShows as any[]).map((showInfo: any) => {
@@ -50,7 +46,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
 
     const shouldSkipMoreFetching =
       status === 'Ended' &&
-      dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'));
+      dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'months'));
     if (shouldSkipMoreFetching) {
       return null;
     }
@@ -64,7 +60,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
       nextSeasonNumberToAir &&
       lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-    if (dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'))) {
+    if (dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'months'))) {
       latestSeasons = [nextSeasonNumberToAir];
     } else if (isLastAndNextEpisodeInSameSeason) {
       latestSeasons = [lastSeasonNumberToAir];
@@ -88,17 +84,16 @@ const getFullSeasonData = async (latestAiredSeasons: any[]) => {
     async (latestSeasonsForShow: any) => {
       const { id, name, latestSeasons, network } = latestSeasonsForShow;
 
-      // List of requests for each season(s) for each show
-      const latestSeasonsRequests = latestSeasons.map((seasonNum: number) =>
-        axios.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, {
-          params: queryParams,
-        })
-      );
-
       // Get season data for each season for each show
-      const fullSeasonData = await axios
-        .all(latestSeasonsRequests)
-        .then((res: any) => res.map((res: any) => res.data));
+      const fullSeasonData = await Promise.all(
+        latestSeasons.map((seasonNum: number) =>
+          ky
+            .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, {
+              searchParams,
+            })
+            .json()
+        )
+      );
 
       // Store more props on season object
       fullSeasonData.forEach((fullSeason: any) => {
@@ -173,8 +168,8 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // Remove episodes outside of time range
   const recentEpisodes = flattenedEpisodeList.filter((episode: any) =>
     dayjs(episode.air_date).isBetween(
-      dayjs().subtract(6, 'month'),
-      dayjs().add(12, 'month')
+      dayjs().subtract(6, 'months'),
+      dayjs().add(12, 'months')
     )
   );
 

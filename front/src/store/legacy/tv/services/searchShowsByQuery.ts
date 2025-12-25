@@ -1,10 +1,8 @@
-import axios, { CancelTokenSource } from 'axios';
+import ky from 'ky';
 
 import ENDPOINTS from '~/app/endpoints';
 import { ShowSearchResult } from '~/types/external';
 import handleErrors from '~/utils/handleErrors';
-
-type QueryParams = { api_key: string | undefined; query: string };
 
 export type ReturnedSearchResult = {
   page: number;
@@ -13,48 +11,32 @@ export type ReturnedSearchResult = {
   total_results: number;
 };
 
+let controller: AbortController | null = null;
+
 export const searchShowsByQuery = async (
   query: string
 ): Promise<{
   results: ShowSearchResult[];
   totalResults: number;
 }> => {
-  const emptyResult = { results: [], total_results: 0 };
-  const queryParams: QueryParams = {
-    api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
-    query,
-  };
+  if (controller) {
+    controller.abort();
+  }
+  controller = new AbortController();
 
-  const { results, total_results: totalResults } =
-    (await makeCancellableRequest(
-      `${ENDPOINTS.THE_MOVIE_DB}/search/tv`,
-      queryParams
-    )) || emptyResult;
+  const data = await ky
+    .get(`${ENDPOINTS.THE_MOVIE_DB}/search/tv`, {
+      searchParams: {
+        api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
+        query,
+      },
+      signal: controller.signal,
+    })
+    .json<ReturnedSearchResult>()
+    .catch(handleErrors);
 
-  return { results, totalResults };
-};
-
-const makeCancellableRequestCreator = () => {
-  let cancelToken: CancelTokenSource;
-
-  return (
-    url: string,
-    queryParams: QueryParams
-  ): ReturnedSearchResult | Promise<void | ReturnedSearchResult> => {
-    if (cancelToken) {
-      cancelToken.cancel();
-    }
-
-    cancelToken = axios.CancelToken.source();
-
-    return axios
-      .get<ReturnedSearchResult>(url, {
-        cancelToken: cancelToken.token,
-        params: queryParams,
-      })
-      .then(res => res.data)
-      .catch(handleErrors);
+  return {
+    results: data?.results ?? [],
+    totalResults: data?.total_results ?? 0,
   };
 };
-
-const makeCancellableRequest = makeCancellableRequestCreator();

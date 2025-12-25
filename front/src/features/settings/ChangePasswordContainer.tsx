@@ -1,5 +1,5 @@
 import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
-import axios, { AxiosError } from 'axios';
+import ky, { HTTPError } from 'ky';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -51,16 +51,10 @@ const ChangePasswordContainer = () => {
 
   const onSubmit = handleSubmit(({ oldPassword, newPassword }: FormInputs) => {
     setIsLoading(true);
-    axios
-      .post(
-        `${ENDPOINTS.TV_MINDER_SERVER}/changepassword`,
-        {
-          email,
-          oldPassword,
-          newPassword,
-        },
-        { timeout: 8000 }
-      )
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/changepassword`, {
+      json: { email, oldPassword, newPassword },
+      timeout: 8000,
+    })
       .then(() => {
         showToast({
           title: 'Password Changed!',
@@ -68,9 +62,8 @@ const ChangePasswordContainer = () => {
           type: 'success',
         });
       })
-      .catch((error: AxiosError) => {
-        const isUnauthorizedError =
-          error.response && error.response.status === 401;
+      .catch((error: HTTPError) => {
+        const isUnauthorizedError = error.response?.status === 401;
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
           : 'Your Password could not be updated.';

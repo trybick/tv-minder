@@ -6,7 +6,7 @@ import {
   Field,
   Input,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import ky, { HTTPError } from 'ky';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -77,24 +77,22 @@ const SignUpModal = () => {
 
   const onSubmit = handleSubmit(({ email, password }: FormInputs) => {
     setIsSubmitLoading(true);
-    axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
-        email,
-        password,
-        unregisteredFollowedShows,
-      })
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
+      json: { email, password, unregisteredFollowedShows },
+    })
       .then(() => {
-        return axios.post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-          email,
-          password,
-        });
+        return ky
+          .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
+            json: { email, password },
+          })
+          .json<{ token: string; email: string }>();
       })
       .then(res => {
-        localStorage.setItem('jwt', res.data.token);
+        localStorage.setItem('jwt', res.token);
         onClose();
-        dispatch(setIsLoggedIn({ email: res.data.email }));
+        dispatch(setIsLoggedIn({ email: res.email }));
       })
-      .catch(err => {
+      .catch(async (err: HTTPError) => {
         handleErrors(err);
         setIsSubmitLoading(false);
         reset(undefined, { keepErrors: true });

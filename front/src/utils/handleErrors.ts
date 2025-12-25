@@ -1,37 +1,33 @@
 import * as Sentry from '@sentry/react';
-import { AxiosError } from 'axios';
+import { HTTPError } from 'ky';
 
 import { getIsProduction } from './env';
 
-function sendToSentry(error: AxiosError, context?: Record<string, unknown>) {
+function sendToSentry(error: Error, context?: Record<string, unknown>) {
   if (!getIsProduction()) {
     return;
   }
 
   Sentry.captureException(error, {
-    extra: {
-      url: error.config?.url,
-      method: error.config?.method,
-      ...context,
-    },
+    extra: context,
   });
 }
 
-export default function handleErrors(error: AxiosError) {
-  if (error.response) {
-    const { status, data } = error.response;
+export default async function handleErrors(error: unknown) {
+  if (error instanceof HTTPError) {
+    const { status } = error.response;
+    const data = await error.response.json().catch(() => null);
     console.log('error data:', data);
 
     if (status >= 500) {
-      sendToSentry(error, { status, data });
+      sendToSentry(error, { status, data, url: error.request.url });
     }
-  } else if (error.request) {
-    // No response received - network error, timeout, etc.
-    console.log('error request:', error.request);
-    sendToSentry(error, { type: 'no_response' });
-  } else {
-    // Error before request was sent (invalid config, interceptor threw, etc.)
+  } else if (error instanceof Error) {
+    if (error.name === 'AbortError') {
+      // Request was cancelled, not an error
+      return;
+    }
     console.log('General error:', error.message);
-    sendToSentry(error, { type: 'setup_error' });
+    sendToSentry(error, { type: 'network_error' });
   }
 }

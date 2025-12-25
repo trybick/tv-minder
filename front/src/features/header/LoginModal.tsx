@@ -8,7 +8,7 @@ import {
   Input,
   Portal,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import ky, { HTTPError } from 'ky';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
@@ -91,17 +91,16 @@ const LoginModal = () => {
   );
 
   const handleLogin = (email: string, password: string) => {
-    axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-        email,
-        password,
-      })
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
+      json: { email, password },
+    })
+      .json<{ token: string; email: string }>()
       .then(res => {
-        localStorage.setItem('jwt', res.data.token);
+        localStorage.setItem('jwt', res.token);
         onClose();
-        dispatch(setIsLoggedIn({ email: res.data.email }));
+        dispatch(setIsLoggedIn({ email: res.email }));
       })
-      .catch(err => {
+      .catch((err: HTTPError) => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
@@ -113,13 +112,14 @@ const LoginModal = () => {
   };
 
   const requestGenerateOneTimeCode = (email: string) => {
-    axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/requestonetimecode`, { email })
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/requestonetimecode`, {
+      json: { email },
+    })
       .then(() => {
         setIsSubmitLoading(false);
         setFormOption(2);
       })
-      .catch(err => {
+      .catch((err: HTTPError) => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
@@ -130,16 +130,14 @@ const LoginModal = () => {
   };
 
   const requestVerifyOneTimeCode = (email: string, oneTimeCode: string) => {
-    axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/verifyonetimecode`, {
-        email,
-        oneTimeCode,
-      })
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/verifyonetimecode`, {
+      json: { email, oneTimeCode },
+    })
       .then(() => {
         setIsSubmitLoading(false);
         setFormOption(3);
       })
-      .catch(err => {
+      .catch((err: HTTPError) => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
@@ -150,11 +148,9 @@ const LoginModal = () => {
   };
 
   const requestChangePassword = (email: string, password: string) => {
-    axios
-      .post(`${ENDPOINTS.TV_MINDER_SERVER}/changepasswordforreset`, {
-        email,
-        password,
-      })
+    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/changepasswordforreset`, {
+      json: { email, password },
+    })
       .then(() => {
         setIsSubmitLoading(false);
         setFormOption(0);
@@ -164,7 +160,7 @@ const LoginModal = () => {
           type: 'success',
         });
       })
-      .catch(err => {
+      .catch((err: HTTPError) => {
         handleErrors(err);
         setIsSubmitLoading(false);
         setError('root', {
