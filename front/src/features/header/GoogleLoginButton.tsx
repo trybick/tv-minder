@@ -17,7 +17,7 @@ const GoogleLoginButton = () => {
     console.error('Google Login error');
     showToast({
       title: 'Error in login',
-      description: 'Could not login in. Please try again.',
+      description: 'Could not log in. Please try again.',
       type: 'error',
     });
   };
@@ -56,7 +56,7 @@ const GoogleLoginButton = () => {
           handleErrors(error);
           showToast({
             title: 'Error in login',
-            description: 'Could not login in. Please try again.',
+            description: 'Could not log in. Please try again.',
             type: 'error',
           });
         });

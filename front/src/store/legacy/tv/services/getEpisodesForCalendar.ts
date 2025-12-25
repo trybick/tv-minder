@@ -46,7 +46,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
 
     const shouldSkipMoreFetching =
       status === 'Ended' &&
-      dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'months'));
+      dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'));
     if (shouldSkipMoreFetching) {
       return null;
     }
@@ -60,7 +60,7 @@ const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
       nextSeasonNumberToAir &&
       lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-    if (dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'months'))) {
+    if (dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'))) {
       latestSeasons = [nextSeasonNumberToAir];
     } else if (isLastAndNextEpisodeInSameSeason) {
       latestSeasons = [lastSeasonNumberToAir];
@@ -168,8 +168,8 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   // Remove episodes outside of time range
   const recentEpisodes = flattenedEpisodeList.filter((episode: any) =>
     dayjs(episode.air_date).isBetween(
-      dayjs().subtract(6, 'months'),
-      dayjs().add(12, 'months')
+      dayjs().subtract(6, 'month'),
+      dayjs().add(12, 'month')
     )
   );
 

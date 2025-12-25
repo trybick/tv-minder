@@ -49,7 +49,7 @@ export const getEpisodesForCalendarAction =
       id =>
         cachedIds.includes(String(id)) &&
         cacheDurationDays.calendar >
-          dayjs().diff(dayjs(storedEpisodeData[id].fetchedAt), 'days')
+          dayjs().diff(dayjs(storedEpisodeData[id].fetchedAt), 'day')
     );
     const cachedData = validCachedIds.flatMap(id =>
       storedEpisodeData[id].episodes !== null
@@ -93,7 +93,7 @@ export const getBasicShowInfoForFollowedShows =
       followedShowsSource?.filter(id => {
         const cacheAge = dayjs().diff(
           dayjs(cachedBasicShowInfo[id]?._fetchedAt),
-          'days'
+          'day'
         );
         return (
           cachedIds?.includes(String(id)) &&
@@ -148,7 +148,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
     const cacheAge = dayjs().diff(
       dayjs(cachedBasicShowInfo[showId]?._fetchedAt),
-      'days'
+      'day'
     );
     const hasValidCache =
       cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
@@ -226,7 +226,7 @@ export const getPopularShowsAction = (): AppThunk => (dispatch, getState) => {
   const cacheAge =
     cachedPopularShows?.length &&
     cachedPopularShows[0].fetchedAt &&
-    dayjs().diff(dayjs(cachedPopularShows[0].fetchedAt), 'days');
+    dayjs().diff(dayjs(cachedPopularShows[0].fetchedAt), 'day');
   const isCacheValid =
     cachedPopularShows?.length && cacheDurationDays.popularShows > cacheAge;
 
@@ -262,7 +262,7 @@ export const getTopRatedShowsAction = (): AppThunk => (dispatch, getState) => {
   const cacheAge =
     cachedTopRatedShows?.length &&
     cachedTopRatedShows[0].fetchedAt &&
-    dayjs().diff(dayjs(cachedTopRatedShows[0].fetchedAt), 'days');
+    dayjs().diff(dayjs(cachedTopRatedShows[0].fetchedAt), 'day');
   const isCacheValid =
     cachedTopRatedShows?.length && cacheDurationDays.popularShows > cacheAge;
 
