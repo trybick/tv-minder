@@ -1,8 +1,6 @@
 export const maybePluralize = (count: number, noun: string, suffix = 's') =>
   `${noun}${count !== 1 ? suffix : ''}`;
 
-export const addLeadingZero = (item: string) => String(item).padStart(2, '0');
-
 export const abbreviateNumber = (input: number) => {
   let output: number | string = input;
   const isAbove1000 = output >= 1000;

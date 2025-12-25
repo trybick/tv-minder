@@ -7,7 +7,6 @@ import {
   SeasonWithEpisodes,
 } from '~/types/external';
 import dayjs from '~/utils/dayjs';
-import { addLeadingZero } from '~/utils/formatting';
 import { isEmpty } from '~/utils/object';
 
 type Status = 'Ended' | 'In Production' | 'Premiering Soon' | 'Active Season';
@@ -15,7 +14,6 @@ type Status = 'Ended' | 'In Production' | 'Premiering Soon' | 'Active Season';
 export type StatusWithColor = {
   status: Status;
   color: string;
-  sortOrder: number;
 };
 
 export const getStatusWithColor = (
@@ -38,13 +36,13 @@ export const getStatusWithColor = (
     nextEpisodeForDisplay.episodeNumber === '01';
 
   if (originalStatus === 'Ended') {
-    return { status: 'Ended', color: 'red', sortOrder: 4 };
+    return { status: 'Ended', color: 'red' };
   } else if (isPremieringSoon) {
-    return { status: 'Premiering Soon', color: 'purple', sortOrder: 2 };
+    return { status: 'Premiering Soon', color: 'purple' };
   } else if (hasCurrentlyActiveSeason) {
-    return { status: 'Active Season', color: 'green', sortOrder: 1 };
+    return { status: 'Active Season', color: 'green' };
   } else {
-    return { status: 'In Production', color: 'blue', sortOrder: 3 };
+    return { status: 'In Production', color: 'blue' };
   }
 };
 
@@ -75,27 +73,15 @@ const formatEpisodesForSeason = (
     const {
       air_date: airDate,
       episode_number: episodeNumber,
-      id,
       name,
-      overview,
-      still_path: stillPath,
       vote_average: voteAverage,
-      vote_count: voteCount,
-      season_number: seasonNumber,
     } = episode || {};
-
-    const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
 
     return {
       airDate,
       episodeNumber,
-      id,
       name,
-      overview,
-      stillPath,
-      voteAverage: voteAverageForDisplay,
-      voteCount,
-      seasonNumber,
+      voteAverage: voteAverage ? voteAverage.toFixed(1) : '-',
     };
   });
 };
@@ -150,25 +136,19 @@ const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
 export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
   const {
     backdrop_path: backdropPath,
-    created_by: createdBy,
     episode_run_time: episodeRunTime,
     first_air_date: firstAirDate,
     genres,
     id,
-    in_production: inProduction,
-    last_air_date: lastAirDate,
     last_episode_to_air: lastEpisodeToAir,
     name,
     networks,
     next_episode_to_air: nextEpisodeToAir,
-    number_of_episodes: numEpisodes,
-    number_of_seasons: numSeasons,
     overview,
     poster_path: posterPath,
     seasonsWithEpisodes,
-    spoken_languages: spokenLanuages,
+    spoken_languages: spokenLanguages,
     status,
-    tagline,
     videos,
     vote_average: voteAverage,
     vote_count: voteCount,
@@ -176,24 +156,12 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
 
   const lastEpisodeForDisplay: EpisodeForDisplay = lastEpisodeToAir && {
     airDate: lastEpisodeToAir?.air_date,
-    daysDiff: Math.abs(
-      dayjs().startOf('day').diff(lastEpisodeToAir?.air_date, 'day')
-    ),
-    episodeNumber: addLeadingZero(lastEpisodeToAir?.episode_number),
-    name: lastEpisodeToAir?.name,
-    overview: lastEpisodeToAir?.overview,
-    seasonNumber: addLeadingZero(lastEpisodeToAir?.season_number),
+    episodeNumber: String(lastEpisodeToAir?.episode_number).padStart(2, '0'),
   };
 
   const nextEpisodeForDisplay: EpisodeForDisplay = nextEpisodeToAir && {
     airDate: nextEpisodeToAir?.air_date,
-    daysDiff: Math.abs(
-      dayjs().startOf('day').diff(nextEpisodeToAir?.air_date, 'day')
-    ),
-    episodeNumber: addLeadingZero(nextEpisodeToAir?.episode_number),
-    name: nextEpisodeToAir?.name,
-    overview: nextEpisodeToAir?.overview,
-    seasonNumber: addLeadingZero(nextEpisodeToAir?.season_number),
+    episodeNumber: String(nextEpisodeToAir?.episode_number).padStart(2, '0'),
   };
 
   const statusWithColor = getStatusWithColor(
@@ -212,33 +180,25 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
       status === 'Ended' ? dayjs(lastEpisodeToAir?.air_date).year() : ''
     }`;
 
-  const language = spokenLanuages
-    .map((language: any) => language.english_name)
+  const language = spokenLanguages
+    .map((lang: any) => lang.english_name)
     .join(', ');
 
   const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
 
   return {
     backdropPath,
-    createdBy: createdBy[0]?.name,
     episodeRunTime: (episodeRunTime?.length && episodeRunTime[0]) || undefined,
     firstAirDate,
     genreNames,
     language,
     id,
-    inProduction,
-    lastAirDate,
-    lastEpisodeForDisplay,
     name,
     network: networks[0]?.name,
-    nextEpisodeForDisplay,
-    numEpisodes,
-    numSeasons,
     overview,
     posterPath,
     seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes),
     statusWithColor,
-    tagline,
     videoTrailerKey: getVideoTrailerKey(videos),
     voteAverage: voteAverageForDisplay,
     voteCount,

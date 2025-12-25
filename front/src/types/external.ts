@@ -24,11 +24,7 @@ export type ShowSearchResult = {
 //
 export type EpisodeForDisplay = {
   airDate: string;
-  daysDiff: string;
   episodeNumber: string;
-  name: string;
-  overview: string;
-  seasonNumber: string;
 };
 
 export type Genre = {
@@ -39,13 +35,8 @@ export type Genre = {
 export type EpisodeForSeason = {
   airDate: string;
   episodeNumber: number;
-  id: number;
   name: string;
-  overview: string;
-  seasonNumber: number;
-  stillPath: string;
   voteAverage: string;
-  voteCount: number;
 };
 
 export type SeasonWithEpisodes = {
@@ -62,25 +53,17 @@ export type SeasonWithEpisodes = {
 
 export type BasicShowInfo = {
   backdropPath: string;
-  createdBy: string | undefined;
   episodeRunTime: number | undefined;
   firstAirDate: string;
   language: string | undefined;
   genreNames: string[];
   id: number;
-  inProduction: boolean;
-  lastAirDate: string;
-  lastEpisodeForDisplay: EpisodeForDisplay;
   name: string;
   network: string;
-  nextEpisodeForDisplay: EpisodeForDisplay;
-  numEpisodes: number;
-  numSeasons: number;
   overview: string;
   posterPath: string;
   seasonsWithEpisodes: SeasonWithEpisodes[];
   statusWithColor: StatusWithColor;
-  tagline: string;
   videoTrailerKey: string | undefined;
   voteAverage: number;
   voteCount: number;
