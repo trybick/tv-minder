@@ -48,36 +48,6 @@ export const getStatusWithColor = (
   }
 };
 
-export const getTimeFromLastEpisode = (lastEpisodeDate: string) => {
-  if (!lastEpisodeDate) {
-    return;
-  }
-  let diff = dayjs(lastEpisodeDate).startOf('day').from(dayjs().startOf('day'));
-
-  if (diff === 'a few seconds ago') {
-    diff = 'today';
-  } else if (diff === 'a day ago') {
-    diff = 'yesterday';
-  }
-
-  return diff;
-};
-
-export const getTimeUntilNextEpisode = (nextAirDate: string) => {
-  if (!nextAirDate) {
-    return;
-  }
-  let diff = dayjs(nextAirDate).startOf('day').from(dayjs().startOf('day'));
-
-  if (diff === 'a few seconds ago') {
-    diff = 'today';
-  } else if (diff === 'in a day') {
-    diff = 'tomorrow';
-  }
-
-  return diff;
-};
-
 export const getVideoTrailerKey = (videos: any): string | undefined => {
   if (!videos?.results.length) {
     return;
@@ -213,7 +183,6 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     name: lastEpisodeToAir?.name,
     overview: lastEpisodeToAir?.overview,
     seasonNumber: addLeadingZero(lastEpisodeToAir?.season_number),
-    timeFromNow: getTimeFromLastEpisode(lastEpisodeToAir?.air_date),
   };
 
   const nextEpisodeForDisplay: EpisodeForDisplay = nextEpisodeToAir && {
@@ -225,7 +194,6 @@ export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
     name: nextEpisodeToAir?.name,
     overview: nextEpisodeToAir?.overview,
     seasonNumber: addLeadingZero(nextEpisodeToAir?.season_number),
-    timeFromNow: getTimeUntilNextEpisode(nextEpisodeToAir?.air_date),
   };
 
   const statusWithColor = getStatusWithColor(

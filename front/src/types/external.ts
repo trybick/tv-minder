@@ -29,7 +29,6 @@ export type EpisodeForDisplay = {
   name: string;
   overview: string;
   seasonNumber: string;
-  timeFromNow: string;
 };
 
 export type Genre = {
