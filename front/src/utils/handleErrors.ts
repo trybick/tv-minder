@@ -16,16 +16,31 @@ function sendToSentry(error: Error, context?: Record<string, unknown>) {
 export default function handleErrors(error: unknown) {
   if (error instanceof HTTPError) {
     const { status } = error.response;
-    console.log('HTTP error:', status, error.request.url);
+    const url = error.request.url;
 
-    if (status >= 500) {
-      sendToSentry(error, { status, url: error.request.url });
+    console.error('HTTP error:', status, url);
+
+    // Track server errors + rate limits
+    if (status >= 500 || status === 429) {
+      error.response
+        .clone()
+        .json()
+        .then(responseBody => {
+          sendToSentry(error, { status, url, responseBody });
+        })
+        .catch(() => {
+          sendToSentry(error, { status, url });
+        });
     }
   } else if (error instanceof Error) {
     if (error.name === 'AbortError') {
       return;
     }
-    console.log('General error:', error.message);
-    sendToSentry(error, { type: 'network_error' });
+    console.error('Network error:', error.message);
+    sendToSentry(error, {
+      type: 'network_error',
+      name: error.name,
+      message: error.message,
+    });
   }
 }
