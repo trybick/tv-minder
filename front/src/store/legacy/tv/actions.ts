@@ -84,6 +84,12 @@ export const getBasicShowInfoForFollowedShows =
     const state = getState();
     const { basicShowInfo: cachedBasicShowInfo } = state.tv;
     const followedShowsSource = selectFollowedShows(state);
+
+    // Prevent wiping cached data if no followed shows
+    if (!followedShowsSource?.length) {
+      return;
+    }
+
     const combinedData: { [key: number]: any } = {};
 
     // Get cached data and add to combinedData
