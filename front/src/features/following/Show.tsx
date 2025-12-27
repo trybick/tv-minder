@@ -7,7 +7,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/legacy/tv/actions';
-import { ShowForDisplay } from '~/types/tvTransformed';
+import { ShowForDisplay } from '~/store/legacy/tv/types/tvTransformed';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {

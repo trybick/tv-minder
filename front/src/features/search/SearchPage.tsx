@@ -10,7 +10,7 @@ import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import { TmdbShowSummary } from '~/types/tmdbSchema';
+import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';

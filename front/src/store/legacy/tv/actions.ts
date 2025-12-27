@@ -1,12 +1,12 @@
 import { AppThunk } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { TmdbShow, TmdbShowSummary } from '~/types/tmdbSchema';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { SavedQuery } from './reducers';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
+import { TmdbShow, TmdbShowSummary } from './types/tmdbSchema';
 import { tmdbApi } from './utils/tmdbApi';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';

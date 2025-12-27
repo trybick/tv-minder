@@ -1,8 +1,5 @@
 import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
 
-import { TmdbShowSummary } from '~/types/tmdbSchema';
-import { CalendarEpisode } from '~/types/tvTransformed';
-
 import {
   PopularShowCached,
   SAVE_CALENDAR_EPISODES_CACHE,
@@ -16,6 +13,8 @@ import {
   SET_SEARCH_QUERY,
   ShowDetailsCached,
 } from './actions';
+import { TmdbShowSummary } from './types/tmdbSchema';
+import { CalendarEpisode } from './types/tvTransformed';
 
 export type SavedQuery = {
   query: string;
