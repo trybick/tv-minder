@@ -37,6 +37,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "@sentry/react": "^10.32.1",
     "@tanstack/react-table": "^8.21.3",
+    "arktype": "^2.1.29",
     "dayjs": "^1.11.19",
     "ky": "^1.14.1",
     "localforage": "^1.10.0",

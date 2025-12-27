@@ -3,10 +3,10 @@ import { createSelector } from '@reduxjs/toolkit';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { AppSelector, AppState } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { BasicShowInfo, PopularShow } from '~/types/external';
+import { BasicShowInfo, PopularShow } from '~/types/tvTransformed';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import { mapShowInfoForDisplay } from './tvUtils';
+import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;

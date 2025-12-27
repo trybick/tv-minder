@@ -1,18 +1,25 @@
-import ky from 'ky';
-
-import ENDPOINTS from '~/app/endpoints';
-import { formatSameDayEpisodes } from '~/store/legacy/tv/tvUtils';
-import { CalendarEpisode } from '~/types/external';
+import { formatSameDayEpisodes } from '~/store/legacy/tv/utils/formatting';
+import { tmdbApi } from '~/store/legacy/tv/utils/tmdbApi';
+import { TmdbSeason, TmdbShow } from '~/types/tmdbSchema';
+import { CalendarEpisode } from '~/types/tvTransformed';
 import { isDateWithinOneMonth } from '~/utils/dates';
 import dayjs from '~/utils/dayjs';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
-import handleErrors from '~/utils/handleErrors';
 
-const searchParams = {
-  api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
+type ShowWithLatestSeasons = {
+  id: number;
+  name: string;
+  network: string | undefined;
+  latestSeasons: number[];
 };
 
-let basicInfoForShows: any[] | void = [];
+type SeasonWithShowInfo = TmdbSeason & {
+  name: string;
+  showId: number;
+  network: string | undefined;
+};
+
+let basicInfoForShows: TmdbShow[] = [];
 
 /** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */
 export const getEpisodesForCalendar = async (showIds: number[]) => {
@@ -24,113 +31,129 @@ export const getEpisodesForCalendar = async (showIds: number[]) => {
   return { cache, fetchedEpisodeData };
 };
 
-const getLatestAiredSeasons = async (showIds: number[]): Promise<any> => {
+const getLatestAiredSeasons = async (
+  showIds: number[]
+): Promise<ShowWithLatestSeasons[]> => {
   // Get each show's basic info
-  basicInfoForShows = await Promise.all(
-    showIds.map((showId: any) =>
-      ky.get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${showId}`, { searchParams }).json()
+  const results = await Promise.allSettled(
+    showIds.map(showId => tmdbApi.show(showId))
+  );
+
+  // Filter out failed requests and extract successful results
+  basicInfoForShows = results
+    .filter(
+      (result): result is PromiseFulfilledResult<TmdbShow> =>
+        result.status === 'fulfilled'
     )
-  ).catch(handleErrors);
+    .map(result => result.value);
 
   // Find latest season number(s) for each show
-  const latestSeasons = (basicInfoForShows as any[]).map((showInfo: any) => {
-    const {
-      last_air_date: lastAirDate,
-      last_episode_to_air: lastEpisodeToAir,
-      id,
-      name,
-      networks,
-      next_episode_to_air: nextEpisodeToAir,
-      status,
-    } = showInfo;
+  const latestSeasons = basicInfoForShows
+    .map((showInfo): ShowWithLatestSeasons | null => {
+      const {
+        last_air_date: lastAirDate,
+        last_episode_to_air: lastEpisodeToAir,
+        id,
+        name,
+        networks,
+        next_episode_to_air: nextEpisodeToAir,
+        status,
+      } = showInfo;
 
-    const shouldSkipMoreFetching =
-      status === 'Ended' &&
-      dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'));
-    if (shouldSkipMoreFetching) {
-      return null;
-    }
+      const shouldSkipMoreFetching =
+        status === 'Ended' &&
+        lastAirDate &&
+        dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'));
+      if (shouldSkipMoreFetching) {
+        return null;
+      }
 
-    let latestSeasons: number[] = [];
+      let seasonNumbers: number[] = [];
 
-    const lastSeasonNumberToAir = lastEpisodeToAir?.season_number || null;
-    const nextSeasonNumberToAir = nextEpisodeToAir?.season_number || null;
-    const isLastAndNextEpisodeInSameSeason =
-      lastSeasonNumberToAir &&
-      nextSeasonNumberToAir &&
-      lastSeasonNumberToAir === nextSeasonNumberToAir;
+      const lastSeasonNumberToAir = lastEpisodeToAir?.season_number ?? null;
+      const nextSeasonNumberToAir = nextEpisodeToAir?.season_number ?? null;
+      const isLastAndNextEpisodeInSameSeason =
+        lastSeasonNumberToAir &&
+        nextSeasonNumberToAir &&
+        lastSeasonNumberToAir === nextSeasonNumberToAir;
 
-    if (dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'))) {
-      latestSeasons = [nextSeasonNumberToAir];
-    } else if (isLastAndNextEpisodeInSameSeason) {
-      latestSeasons = [lastSeasonNumberToAir];
-    } else {
-      latestSeasons = [lastSeasonNumberToAir, nextSeasonNumberToAir];
-    }
+      if (
+        lastAirDate &&
+        dayjs(lastAirDate).isBefore(dayjs().subtract(6, 'month'))
+      ) {
+        seasonNumbers = nextSeasonNumberToAir ? [nextSeasonNumberToAir] : [];
+      } else if (isLastAndNextEpisodeInSameSeason) {
+        seasonNumbers = [lastSeasonNumberToAir];
+      } else {
+        seasonNumbers = [lastSeasonNumberToAir, nextSeasonNumberToAir].filter(
+          (n): n is number => n !== null
+        );
+      }
 
-    return {
-      latestSeasons: latestSeasons.filter(Boolean),
-      id,
-      name,
-      network: networks[0]?.name,
-    };
-  });
+      return {
+        latestSeasons: seasonNumbers,
+        id,
+        name,
+        network: networks?.[0]?.name,
+      };
+    })
+    .filter((item): item is ShowWithLatestSeasons => item !== null);
 
-  return latestSeasons.filter(Boolean);
+  return latestSeasons;
 };
 
-const getFullSeasonData = async (latestAiredSeasons: any[]) => {
+const getFullSeasonData = async (
+  latestAiredSeasons: ShowWithLatestSeasons[]
+): Promise<SeasonWithShowInfo[][]> => {
   const fullSeasonDataForLatestSeasons = latestAiredSeasons.map(
-    async (latestSeasonsForShow: any) => {
+    async (latestSeasonsForShow): Promise<SeasonWithShowInfo[]> => {
       const { id, name, latestSeasons, network } = latestSeasonsForShow;
 
       // Get season data for each season for each show
-      const fullSeasonData = await Promise.all(
-        latestSeasons.map((seasonNum: number) =>
-          ky
-            .get(`${ENDPOINTS.THE_MOVIE_DB}/tv/${id}/season/${seasonNum}`, {
-              searchParams,
-            })
-            .json()
-        )
+      const results = await Promise.allSettled(
+        latestSeasons.map(seasonNum => tmdbApi.season(id, seasonNum))
       );
 
-      // Store more props on season object
-      fullSeasonData.forEach((fullSeason: any) => {
-        fullSeason.name = name;
-        fullSeason.showId = id;
-        fullSeason.network = network;
-      });
-
-      return fullSeasonData;
+      // Filter successful results and add show info
+      return results
+        .filter(
+          (result): result is PromiseFulfilledResult<TmdbSeason> =>
+            result.status === 'fulfilled'
+        )
+        .map(result => ({
+          ...result.value,
+          name,
+          showId: id,
+          network,
+        }));
     }
   );
 
   return Promise.all(fullSeasonDataForLatestSeasons);
 };
 
-const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
-  const allSeasons = fullSeasonDataForLatestSeasons.flat().map((season: any) =>
-    (({ episodes, name, network, showId }) => ({
-      episodes,
-      name,
-      network,
-      showId,
-    }))(season)
-  );
+const calculateEpisodesForDisplay = (
+  fullSeasonDataForLatestSeasons: SeasonWithShowInfo[][]
+): CalendarEpisode[] => {
+  const allSeasons = fullSeasonDataForLatestSeasons.flat().map(season => ({
+    episodes: season.episodes,
+    name: season.name,
+    network: season.network,
+    showId: season.showId,
+  }));
 
   // Sort shows based on recent and upcoming episodes to avoid duplicate colors.
   // If the recent shows are in the front of the list they have a lower chance
   // of reusing the same color.
   const sortedAllSeasons = allSeasons.sort((a, b) => {
-    const showA = basicInfoForShows?.find(show => show.id === a.showId);
+    const showA = basicInfoForShows.find(show => show.id === a.showId);
     const showALastAirDate = showA?.last_air_date;
     const showANextEpisodeToAir = showA?.next_episode_to_air?.air_date;
     const isShowARecent =
       isDateWithinOneMonth(showALastAirDate) ||
       isDateWithinOneMonth(showANextEpisodeToAir);
 
-    const showB = basicInfoForShows?.find(show => show.id === b.showId);
+    const showB = basicInfoForShows.find(show => show.id === b.showId);
     const showBLastAirDate = showB?.last_air_date;
     const showBNextEpisodeToAir = showB?.next_episode_to_air?.air_date;
     const isShowBRecent =
@@ -154,9 +177,9 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   }));
 
   // Add extra properties on to each episode
-  const flattenedEpisodeList = showSeasonWithColors.flatMap((season: any) => {
+  const flattenedEpisodeList = showSeasonWithColors.flatMap(season => {
     const { color, episodes, name, network, showId } = season;
-    return episodes.map((episode: any) => ({
+    return episodes.map(episode => ({
       ...episode,
       color,
       network,
@@ -166,15 +189,17 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
   });
 
   // Remove episodes outside of time range
-  const recentEpisodes = flattenedEpisodeList.filter((episode: any) =>
-    dayjs(episode.air_date).isBetween(
-      dayjs().subtract(6, 'month'),
-      dayjs().add(12, 'month')
-    )
+  const recentEpisodes = flattenedEpisodeList.filter(episode =>
+    episode.air_date
+      ? dayjs(episode.air_date).isBetween(
+          dayjs().subtract(6, 'month'),
+          dayjs().add(12, 'month')
+        )
+      : false
   );
 
   // Create properties ready for calendar to accept
-  const episodesForDisplay: CalendarEpisode[] = recentEpisodes?.map(
+  const episodesForDisplay: CalendarEpisode[] = recentEpisodes.map(
     ({
       air_date: airDate,
       color,
@@ -182,20 +207,20 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
       id: episodeId,
       name: episodeName,
       network,
-      overview = '',
-      runtime = '',
+      overview,
+      runtime,
       season_number: seasonNumber,
       showId,
       showName,
     }) => ({
       color,
-      date: airDate,
+      date: airDate ?? '',
       episodeId,
       episodeName,
       episodeNumber,
-      network,
+      network: network ?? '',
       overview,
-      runtime,
+      runtime: runtime ?? 0,
       seasonNumber,
       showId,
       showName,
@@ -208,13 +233,23 @@ const calculateEpisodesForDisplay = (fullSeasonDataForLatestSeasons: any[]) => {
 };
 
 // Create a cache object which will be persisted to the redux store
-const createCache = (episodesData: any, showIds: number[]) => {
-  const cache: { [key: number]: any } = {};
+type EpisodeCache = {
+  [showId: number]: {
+    episodes: CalendarEpisode[] | null;
+    fetchedAt: string;
+  };
+};
 
-  episodesData.forEach((episode: any) => {
+const createCache = (
+  episodesData: CalendarEpisode[],
+  showIds: number[]
+): EpisodeCache => {
+  const cache: EpisodeCache = {};
+
+  episodesData.forEach(episode => {
     const { showId } = episode;
-    if (cache.hasOwnProperty(showId)) {
-      cache[showId].episodes.push(episode);
+    if (Object.hasOwn(cache, showId)) {
+      cache[showId].episodes!.push(episode);
     } else {
       cache[showId] = {
         episodes: [episode],
@@ -226,7 +261,7 @@ const createCache = (episodesData: any, showIds: number[]) => {
   // If there are showIds missing from episode data, it means they were taken out because they
   // don't have active seasons. Add these showIds back in so we can cache that they are empty.
   showIds.forEach(id => {
-    if (!cache.hasOwnProperty(id)) {
+    if (!Object.hasOwn(cache, id)) {
       cache[id] = {
         episodes: null,
         fetchedAt: dayjs().toISOString(),

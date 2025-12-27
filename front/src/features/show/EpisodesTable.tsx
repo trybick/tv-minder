@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-table';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { EpisodeForSeason } from '~/types/external';
+import { EpisodeForSeason } from '~/types/tvTransformed';
 import dayjs from '~/utils/dayjs';
 
 type Props = {

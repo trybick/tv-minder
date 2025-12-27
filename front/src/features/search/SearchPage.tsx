@@ -10,7 +10,7 @@ import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import { ShowSearchResult } from '~/types/external';
+import { TmdbShowSummary } from '~/types/tmdbSchema';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';
@@ -28,7 +28,7 @@ const SearchPage = () => {
   const [inputValue, setInputValue] = useState('');
   const [isInputDirty, setIsInputDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [shows, setShows] = useState<ShowSearchResult[]>([]);
+  const [shows, setShows] = useState<TmdbShowSummary[]>([]);
   const [totalResults, setTotalResults] = useState(0);
 
   const handleClearInput = useCallback(() => {

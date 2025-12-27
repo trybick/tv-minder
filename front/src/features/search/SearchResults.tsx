@@ -1,12 +1,12 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
 
-import { ShowSearchResult } from '~/types/external';
+import { TmdbShowSummary } from '~/types/tmdbSchema';
 import { maybePluralize } from '~/utils/formatting';
 
 import SearchResult from './SearchResult';
 
 type Props = {
-  shows: ShowSearchResult[];
+  shows: TmdbShowSummary[];
   totalResults: number;
 };
 

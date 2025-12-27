@@ -1,9 +1,11 @@
 import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
 
-import { CalendarEpisode } from '~/types/external';
-import { ShowSearchResult } from '~/types/external';
+import { TmdbShowSummary } from '~/types/tmdbSchema';
+import { CalendarEpisode } from '~/types/tvTransformed';
 
 import {
+  BasicShowInfoCached,
+  PopularShowCached,
   SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
   SAVE_BASIC_SHOW_INFO_FOR_SHOW,
   SAVE_CALENDAR_EPISODES_CACHE,
@@ -17,23 +19,28 @@ import {
 
 export type SavedQuery = {
   query: string;
-  results: ShowSearchResult[];
+  results: TmdbShowSummary[];
   timeSaved: string;
   totalResults: number;
 };
 
+export type EpisodeCacheEntry = {
+  episodes: CalendarEpisode[] | null;
+  fetchedAt: string;
+};
+
 type State = {
   savedQueries: SavedQuery[];
-  episodeData: Record<number, any>;
-  basicShowInfo: Record<number, any>;
+  episodeData: Record<number, EpisodeCacheEntry>;
+  basicShowInfo: Record<number, BasicShowInfoCached>;
   isLoadingBasicShowInfoForShow: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
-  popularShows: Record<string, any>[];
-  topRatedShows: Record<string, any>[];
+  popularShows: PopularShowCached[];
+  topRatedShows: PopularShowCached[];
 };
 
-const initialState = {
+const initialState: State = {
   savedQueries: [],
   episodeData: {},
   basicShowInfo: {},
