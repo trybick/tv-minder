@@ -3,10 +3,10 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '~/store';
 import { saveSearchQueryAction } from '~/store/legacy/tv/actions';
-import { SavedQuery } from '~/store/legacy/tv/reducers';
 import { selectSavedQueries } from '~/store/legacy/tv/selectors';
 import { searchShowsByQuery } from '~/store/legacy/tv/services/searchShowsByQuery';
 import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
+import { SavedQuery } from '~/store/legacy/tv/types/tvTransformed';
 import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,

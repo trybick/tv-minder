@@ -1,8 +1,7 @@
 import { StatusWithColor } from '~/store/legacy/tv/utils/formatting';
 
-//
-// Basic Show Info
-//
+import { TmdbShowSummary } from './tmdbSchema';
+
 export type EpisodeForDisplay = {
   airDate: string;
   episodeNumber: string;
@@ -51,9 +50,6 @@ export type ShowForDisplay = {
   yearsActive: string;
 };
 
-//
-// Popular Show
-//
 export type PopularShow = {
   id: number;
   fetchedAt: string;
@@ -61,7 +57,6 @@ export type PopularShow = {
   posterPath: string | null | undefined;
 };
 
-// Calendar
 export type CalendarEpisode = {
   color: string;
   date: string;
@@ -78,4 +73,11 @@ export type CalendarEpisode = {
   showId: number;
   showName: string;
   title: string;
+};
+
+export type SavedQuery = {
+  query: string;
+  results: TmdbShowSummary[];
+  timeSaved: string;
+  totalResults: number;
 };
