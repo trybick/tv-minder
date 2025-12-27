@@ -6,11 +6,11 @@ import { saveSearchQueryAction } from '~/store/legacy/tv/actions';
 import { SavedQuery } from '~/store/legacy/tv/reducers';
 import { selectSavedQueries } from '~/store/legacy/tv/selectors';
 import { searchShowsByQuery } from '~/store/legacy/tv/services/searchShowsByQuery';
+import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
 import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';

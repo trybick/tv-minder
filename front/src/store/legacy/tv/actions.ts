@@ -121,7 +121,7 @@ export const getShowDetailsForFollowedShows =
     );
     if (nonCachedIds?.length) {
       const results = await Promise.allSettled(
-        nonCachedIds.map(id => tmdbApi.show(id))
+        nonCachedIds.map(id => tmdbApi.getShow(id))
       );
 
       results.forEach(result => {
@@ -166,7 +166,7 @@ export const getShowDetailsWithSeasons =
 
     let showData: TmdbShow;
     try {
-      showData = await tmdbApi.show(showId);
+      showData = await tmdbApi.getShow(showId);
     } catch (error) {
       console.error('Failed to fetch show info:', error);
       dispatch({
@@ -189,7 +189,7 @@ export const getShowDetailsWithSeasons =
       showData.seasons?.map(season => season.season_number) ?? [];
 
     const seasonResults = await Promise.allSettled(
-      seasonNumbers.map(seasonNumber => tmdbApi.season(showId, seasonNumber))
+      seasonNumbers.map(seasonNumber => tmdbApi.getSeason(showId, seasonNumber))
     );
 
     // Merge the season data
@@ -231,8 +231,14 @@ export const getPopularShowsAction =
     if (!isCacheValid) {
       try {
         // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
-        // a lot of foreign shows. Using the '/trending' endpoint seems to have better results.
-        const data = await tmdbApi.trending();
+        // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
+        // Full possibly useful endpoints status:
+        //   - /trending = useful, current Popular Shows list
+        //   - /top-rated = useful and accurate
+        //   - /popular = not useful, foreign shows
+        //   - /airing_today = not useful, foreign shows
+        //   - /on_the_air = not useful, foreign shows
+        const data = await tmdbApi.getTrending();
         const dataWithTimestamp: PopularShowCached[] = data.results.map(
           show => ({
             ...show,
@@ -261,7 +267,7 @@ export const getTopRatedShowsAction =
 
     if (!isCacheValid) {
       try {
-        const data = await tmdbApi.topRated();
+        const data = await tmdbApi.getTopRated();
         const dataWithTimestamp: PopularShowCached[] = data.results.map(
           show => ({
             ...show,

@@ -50,7 +50,7 @@ export const tmdbApi = {
    * Get detailed show info by ID.
    * Endpoint: /tv/{id}
    */
-  show: (id: number): Promise<TmdbShow> =>
+  getShow: (id: number): Promise<TmdbShow> =>
     fetchTmdb(`tv/${id}`, tmdbSchema.show, {
       searchParams: { append_to_response: 'videos' },
     }),
@@ -59,7 +59,7 @@ export const tmdbApi = {
    * Get season details with episodes.
    * Endpoint: /tv/{showId}/season/{seasonNumber}
    */
-  season: (showId: number, seasonNumber: number): Promise<TmdbSeason> =>
+  getSeason: (showId: number, seasonNumber: number): Promise<TmdbSeason> =>
     fetchTmdb(`tv/${showId}/season/${seasonNumber}`, tmdbSchema.season),
 
   /**
@@ -76,13 +76,13 @@ export const tmdbApi = {
    * Get trending TV shows.
    * Endpoint: /trending/tv/week
    */
-  trending: (): Promise<TmdbShowList> =>
+  getTrending: (): Promise<TmdbShowList> =>
     fetchTmdb('trending/tv/week', tmdbSchema.showList),
 
   /**
    * Get top rated TV shows.
    * Endpoint: /tv/top_rated
    */
-  topRated: (): Promise<TmdbShowList> =>
+  getTopRated: (): Promise<TmdbShowList> =>
     fetchTmdb('tv/top_rated', tmdbSchema.showList),
 };

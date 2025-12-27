@@ -36,7 +36,7 @@ const getLatestAiredSeasons = async (
 ): Promise<ShowWithLatestSeasons[]> => {
   // Get each show's basic info
   const results = await Promise.allSettled(
-    showIds.map(showId => tmdbApi.show(showId))
+    showIds.map(showId => tmdbApi.getShow(showId))
   );
 
   // Filter out failed requests and extract successful results
@@ -111,7 +111,7 @@ const getFullSeasonData = async (
 
       // Get season data for each season for each show
       const results = await Promise.allSettled(
-        latestSeasons.map(seasonNum => tmdbApi.season(id, seasonNum))
+        latestSeasons.map(seasonNum => tmdbApi.getSeason(id, seasonNum))
       );
 
       // Filter successful results and add show info
@@ -248,8 +248,8 @@ const createCache = (
 
   episodesData.forEach(episode => {
     const { showId } = episode;
-    if (Object.hasOwn(cache, showId)) {
-      cache[showId].episodes!.push(episode);
+    if (cache[showId]?.episodes) {
+      cache[showId].episodes.push(episode);
     } else {
       cache[showId] = {
         episodes: [episode],
