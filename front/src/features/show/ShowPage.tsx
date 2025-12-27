@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow } from '~/store/legacy/tv/actions';
+import { getShowDetailsWithSeasons } from '~/store/legacy/tv/actions';
 import { selectCurrentShowInfo } from '~/store/legacy/tv/selectors';
 
 import ShowContainer from './ShowContainer';
@@ -26,7 +26,7 @@ const ShowPage = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow());
+    dispatch(getShowDetailsWithSeasons());
   }, [dispatch]);
 
   return (

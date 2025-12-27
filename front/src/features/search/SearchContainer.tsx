@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
-import { ShowSearchResult } from '~/types/external';
+import { TmdbShowSummary } from '~/types/tmdbSchema';
 
 import { NoResultsFound } from './NoResultsFound';
 import PopularShows from './PopularShows';
@@ -10,7 +10,7 @@ import SearchResultsSkeleton from './SearchResultsSkeleton';
 type Props = {
   isInputDirty: boolean;
   isLoading: boolean;
-  shows: ShowSearchResult[];
+  shows: TmdbShowSummary[];
   totalResults: number;
 };
 
