@@ -215,10 +215,10 @@ export const formatSameDayEpisodes = (
   const sameDayEpisodesByEpisodeID: Record<number, CalendarEpisode> = {};
   episodesForDisplay.reduce((prev, next) => {
     if (prev?.showName === next.showName && prev?.date === next.date) {
-      if (!sameDayEpisodesByEpisodeID.hasOwnProperty(prev.episodeId)) {
+      if (!Object.hasOwn(sameDayEpisodesByEpisodeID, prev.episodeId)) {
         sameDayEpisodesByEpisodeID[prev.episodeId] = prev;
       }
-      if (!sameDayEpisodesByEpisodeID.hasOwnProperty(next.episodeId)) {
+      if (!Object.hasOwn(sameDayEpisodesByEpisodeID, next.episodeId)) {
         sameDayEpisodesByEpisodeID[next.episodeId] = next;
       }
     }
