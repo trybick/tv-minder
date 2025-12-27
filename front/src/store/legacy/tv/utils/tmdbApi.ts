@@ -52,10 +52,7 @@ export const tmdbApi = {
    */
   show: (id: number): Promise<TmdbShow> =>
     fetchTmdb(`tv/${id}`, tmdbSchema.show, {
-      searchParams: {
-        api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
-        append_to_response: 'videos',
-      },
+      searchParams: { append_to_response: 'videos' },
     }),
 
   /**
@@ -71,7 +68,7 @@ export const tmdbApi = {
    */
   search: (query: string, signal: AbortSignal): Promise<TmdbSearchResult> =>
     fetchTmdb('search/tv', tmdbSchema.searchResult, {
-      searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY, query },
+      searchParams: { query },
       signal,
     }),
 
