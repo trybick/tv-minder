@@ -6,7 +6,7 @@ import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { SavedQuery } from './reducers';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
-import { TmdbShow, TmdbShowSummary } from './types/tmdbSchema';
+import { TmdbSeason, TmdbShow, TmdbShowSummary } from './types/tmdbSchema';
 import { tmdbApi } from './utils/tmdbApi';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
@@ -78,7 +78,7 @@ export const getEpisodesForCalendarAction =
 
 export type ShowDetailsCached = TmdbShow & {
   _fetchedAt: string;
-  seasonsWithEpisodes?: Record<number, TmdbShow['seasons']>;
+  seasonsWithEpisodes?: Record<number, TmdbSeason>;
 };
 
 export const getShowDetailsForFollowedShows =
@@ -193,7 +193,7 @@ export const getShowDetailsWithSeasons =
     );
 
     // Merge the season data
-    const seasonsWithEpisodes: Record<number, any> = {};
+    const seasonsWithEpisodes: Record<number, TmdbSeason> = {};
     seasonResults.forEach(result => {
       if (result.status === 'fulfilled') {
         const season = result.value;
