@@ -1,10 +1,10 @@
 import {
-  BasicShowInfo,
   CalendarEpisode,
   EpisodeForDisplay,
   EpisodeForSeason,
   Genre,
   SeasonWithEpisodes,
+  ShowForDisplay,
 } from '~/types/tvTransformed';
 import dayjs from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
@@ -133,7 +133,7 @@ const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
   return camelCaseSeasons.filter(season => season.episodes.length);
 };
 
-export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
+export const mapShowInfoForDisplay = (show: any): ShowForDisplay => {
   const {
     backdrop_path: backdropPath,
     episode_run_time: episodeRunTime,

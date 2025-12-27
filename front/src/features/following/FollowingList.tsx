@@ -5,7 +5,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectActiveSeasonShows,
-  selectBasicShowInfoForFollowedShows,
+  selectFollowedShowDetails,
   selectEndedShows,
   selectInProductionShows,
 } from '~/store/legacy/tv/selectors';
@@ -17,7 +17,7 @@ const FollowingList = () => {
   const isMobile = useIsMobile();
   const [currentTab, setCurrentTab] = useState<string | null>('all');
 
-  const allFollowedShows = useAppSelector(selectBasicShowInfoForFollowedShows);
+  const allFollowedShows = useAppSelector(selectFollowedShowDetails);
   const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
   const inProductionShows = useAppSelector(selectInProductionShows);
   const endedShows = useAppSelector(selectEndedShows);

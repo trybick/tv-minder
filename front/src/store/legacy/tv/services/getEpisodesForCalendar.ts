@@ -19,7 +19,7 @@ type SeasonWithShowInfo = TmdbSeason & {
   network: string | undefined;
 };
 
-let basicInfoForShows: TmdbShow[] = [];
+let shows: TmdbShow[] = [];
 
 /** Takes a list of showIds. Returns a list of episodes ready to display on calendar. */
 export const getEpisodesForCalendar = async (showIds: number[]) => {
@@ -40,7 +40,7 @@ const getLatestAiredSeasons = async (
   );
 
   // Filter out failed requests and extract successful results
-  basicInfoForShows = results
+  shows = results
     .filter(
       (result): result is PromiseFulfilledResult<TmdbShow> =>
         result.status === 'fulfilled'
@@ -48,7 +48,7 @@ const getLatestAiredSeasons = async (
     .map(result => result.value);
 
   // Find latest season number(s) for each show
-  const latestSeasons = basicInfoForShows
+  const latestSeasons = shows
     .map((showInfo): ShowWithLatestSeasons | null => {
       const {
         last_air_date: lastAirDate,
@@ -146,14 +146,14 @@ const calculateEpisodesForDisplay = (
   // If the recent shows are in the front of the list they have a lower chance
   // of reusing the same color.
   const sortedAllSeasons = allSeasons.sort((a, b) => {
-    const showA = basicInfoForShows.find(show => show.id === a.showId);
+    const showA = shows.find(show => show.id === a.showId);
     const showALastAirDate = showA?.last_air_date;
     const showANextEpisodeToAir = showA?.next_episode_to_air?.air_date;
     const isShowARecent =
       isDateWithinOneMonth(showALastAirDate) ||
       isDateWithinOneMonth(showANextEpisodeToAir);
 
-    const showB = basicInfoForShows.find(show => show.id === b.showId);
+    const showB = shows.find(show => show.id === b.showId);
     const showBLastAirDate = showB?.last_air_date;
     const showBNextEpisodeToAir = showB?.next_episode_to_air?.air_date;
     const isShowBRecent =

@@ -4,17 +4,17 @@ import { TmdbShowSummary } from '~/types/tmdbSchema';
 import { CalendarEpisode } from '~/types/tvTransformed';
 
 import {
-  BasicShowInfoCached,
   PopularShowCached,
-  SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
-  SAVE_BASIC_SHOW_INFO_FOR_SHOW,
   SAVE_CALENDAR_EPISODES_CACHE,
   SAVE_POPULAR_SHOWS,
+  SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
+  SAVE_SHOW_DETAILS_FOR_SHOW,
   SAVE_TOP_RATED_SHOWS,
   SET_CURRENT_CALENDAR_EPISODES,
-  SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
   SET_IS_LOADING_CALENDAR_EPISODES,
+  SET_IS_LOADING_SHOW_DETAILS,
   SET_SEARCH_QUERY,
+  ShowDetailsCached,
 } from './actions';
 
 export type SavedQuery = {
@@ -32,8 +32,8 @@ export type EpisodeCacheEntry = {
 type State = {
   savedQueries: SavedQuery[];
   episodeData: Record<number, EpisodeCacheEntry>;
-  basicShowInfo: Record<number, BasicShowInfoCached>;
-  isLoadingBasicShowInfoForShow: boolean;
+  showDetails: Record<number, ShowDetailsCached>;
+  isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
   popularShows: PopularShowCached[];
@@ -43,8 +43,8 @@ type State = {
 const initialState: State = {
   savedQueries: [],
   episodeData: {},
-  basicShowInfo: {},
-  isLoadingBasicShowInfoForShow: false,
+  showDetails: {},
+  isLoadingShowDetails: false,
   calendarEpisodesForDisplay: [],
   isLoadingCalendarEpisodes: true,
   popularShows: [],
@@ -75,23 +75,23 @@ export const tvReducer: Reducer<State, Action> = (
         episodeData: { ...state.episodeData, ...action.payload },
       };
     }
-    case SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS: {
+    case SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS: {
       return {
         ...state,
-        basicShowInfo: { ...action.payload },
+        showDetails: { ...action.payload },
       };
     }
-    case SAVE_BASIC_SHOW_INFO_FOR_SHOW: {
+    case SAVE_SHOW_DETAILS_FOR_SHOW: {
       return {
         ...state,
-        basicShowInfo: { ...state.basicShowInfo, ...action.payload },
-        isLoadingBasicShowInfoForShow: false,
+        showDetails: { ...state.showDetails, ...action.payload },
+        isLoadingShowDetails: false,
       };
     }
-    case SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW: {
+    case SET_IS_LOADING_SHOW_DETAILS: {
       return {
         ...state,
-        isLoadingBasicShowInfoForShow: action.payload,
+        isLoadingShowDetails: action.payload,
       };
     }
     case SET_CURRENT_CALENDAR_EPISODES: {

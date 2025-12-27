@@ -5,7 +5,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingBasicShowInfoForShow,
+  selectIsLoadingShowDetails,
 } from '~/store/legacy/tv/selectors';
 import dayjs from '~/utils/dayjs';
 
@@ -13,7 +13,7 @@ import EpisodesTable from './EpisodesTable';
 
 const SeasonAccordionGroup = () => {
   const isMobile = useIsMobile();
-  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const { seasonsWithEpisodes } = currentShowInfo || {};
   const hasEpisodes =

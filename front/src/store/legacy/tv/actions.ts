@@ -14,11 +14,10 @@ export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';
 export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
 export const SET_IS_LOADING_CALENDAR_EPISODES =
   'SET_IS_LOADING_CALENDAR_EPISODES';
-export const SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS =
-  'SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS';
-export const SAVE_BASIC_SHOW_INFO_FOR_SHOW = 'SAVE_BASIC_SHOW_INFO_FOR_SHOW';
-export const SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW =
-  'SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW';
+export const SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS =
+  'SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS';
+export const SAVE_SHOW_DETAILS_FOR_SHOW = 'SAVE_SHOW_DETAILS_FOR_SHOW';
+export const SET_IS_LOADING_SHOW_DETAILS = 'SET_IS_LOADING_SHOW_DETAILS';
 export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
 export const SAVE_TOP_RATED_SHOWS = 'SAVE_TOP_RATED_SHOWS';
 
@@ -77,15 +76,15 @@ export const getEpisodesForCalendarAction =
     });
   };
 
-export type BasicShowInfoCached = TmdbShow & {
+export type ShowDetailsCached = TmdbShow & {
   _fetchedAt: string;
   seasonsWithEpisodes?: Record<number, TmdbShow['seasons']>;
 };
 
-export const getBasicShowInfoForFollowedShows =
+export const getShowDetailsForFollowedShows =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
-    const { basicShowInfo: cachedBasicShowInfo } = state.tv;
+    const { showDetails: cachedShowDetails } = state.tv;
     const followedShowsSource = selectFollowedShows(state);
 
     // Prevent wiping cached data if no followed shows
@@ -93,15 +92,15 @@ export const getBasicShowInfoForFollowedShows =
       return;
     }
 
-    const combinedData: Record<number, BasicShowInfoCached> = {};
+    const combinedData: Record<number, ShowDetailsCached> = {};
 
     // Get cached data and add to combinedData
-    const cachedIds = cachedBasicShowInfo && Object.keys(cachedBasicShowInfo);
+    const cachedIds = cachedShowDetails && Object.keys(cachedShowDetails);
     const validCachedIds =
-      cachedBasicShowInfo &&
+      cachedShowDetails &&
       followedShowsSource?.filter(id => {
         const cacheAge = dayjs().diff(
-          dayjs(cachedBasicShowInfo[id]?._fetchedAt),
+          dayjs(cachedShowDetails[id]?._fetchedAt),
           'day'
         );
         return (
@@ -112,7 +111,7 @@ export const getBasicShowInfoForFollowedShows =
 
     if (validCachedIds?.length) {
       validCachedIds.forEach(id => {
-        combinedData[id] = cachedBasicShowInfo[id];
+        combinedData[id] = cachedShowDetails[id];
       });
     }
 
@@ -137,57 +136,57 @@ export const getBasicShowInfoForFollowedShows =
     }
 
     dispatch({
-      type: SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
+      type: SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
       payload: combinedData,
     });
   };
 
-export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
+export const getShowDetailsWithSeasons =
   (): AppThunk => async (dispatch, getState) => {
     const showId = getShowIdFromUrl();
-    // If we already have the basic show info, season info, and cache is valid, do nothing
-    const { basicShowInfo: cachedBasicShowInfo } = getState().tv;
+    // If we already have show details with seasons and cache is valid, do nothing
+    const { showDetails: cachedShowDetails } = getState().tv;
     const cacheAge = dayjs().diff(
-      dayjs(cachedBasicShowInfo[showId]?._fetchedAt),
+      dayjs(cachedShowDetails[showId]?._fetchedAt),
       'day'
     );
     const hasValidCache =
-      cachedBasicShowInfo[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
+      cachedShowDetails[showId]?.hasOwnProperty('seasonsWithEpisodes') &&
       cacheAge < cacheDurationDays.following;
     if (hasValidCache) {
       dispatch({
-        type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+        type: SET_IS_LOADING_SHOW_DETAILS,
         payload: false,
       });
       return;
     }
 
-    // If we don't have a valid cache, start by fetching the basic info
-    dispatch({ type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW, payload: true });
+    // If we don't have a valid cache, fetch the show details
+    dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
 
-    let basicInfo: TmdbShow;
+    let showData: TmdbShow;
     try {
-      basicInfo = await tmdbApi.show(showId);
+      showData = await tmdbApi.show(showId);
     } catch (error) {
       console.error('Failed to fetch show info:', error);
       dispatch({
-        type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+        type: SET_IS_LOADING_SHOW_DETAILS,
         payload: false,
       });
       return;
     }
 
-    // Create an object to allow merging basic info with season info
-    const combinedData: Record<number, BasicShowInfoCached> = {
+    // Create an object to allow merging show data with season data
+    const combinedData: Record<number, ShowDetailsCached> = {
       [showId]: {
-        ...basicInfo,
+        ...showData,
         _fetchedAt: dayjs().toISOString(),
       },
     };
 
     // Fetch full seasons and episodes data
     const seasonNumbers: number[] =
-      basicInfo.seasons?.map(season => season.season_number) ?? [];
+      showData.seasons?.map(season => season.season_number) ?? [];
 
     const seasonResults = await Promise.allSettled(
       seasonNumbers.map(seasonNumber => tmdbApi.season(showId, seasonNumber))
@@ -208,7 +207,7 @@ export const getBasicShowInfoAndSeasonsWithEpisodesForCurrentShow =
     };
 
     dispatch({
-      type: SAVE_BASIC_SHOW_INFO_FOR_SHOW,
+      type: SAVE_SHOW_DETAILS_FOR_SHOW,
       payload: combinedData,
     });
   };

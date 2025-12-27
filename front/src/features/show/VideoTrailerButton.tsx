@@ -13,7 +13,7 @@ import YouTube from 'react-youtube';
 import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingBasicShowInfoForShow } from '~/store/legacy/tv/selectors';
+import { selectIsLoadingShowDetails } from '~/store/legacy/tv/selectors';
 
 type Props = {
   videoId: string | undefined;
@@ -22,7 +22,7 @@ type Props = {
 const VideoTrailerButton = ({ videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
   const isMobile = useIsMobile();
-  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
   const desktopOptions = {
     height: '390',

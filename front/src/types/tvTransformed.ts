@@ -32,7 +32,7 @@ export type SeasonWithEpisodes = {
   seasonNumber: number;
 };
 
-export type BasicShowInfo = {
+export type ShowForDisplay = {
   backdropPath: string;
   episodeRunTime: number | undefined;
   firstAirDate: string;

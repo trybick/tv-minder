@@ -3,15 +3,15 @@ import { createSelector } from '@reduxjs/toolkit';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { AppSelector, AppState } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { BasicShowInfo, PopularShow } from '~/types/tvTransformed';
+import { ShowForDisplay, PopularShow } from '~/types/tvTransformed';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
-export const selectBasicShowInfo = (state: AppState) => state.tv.basicShowInfo;
-export const selectIsLoadingBasicShowInfoForShow = (state: AppState) =>
-  state.tv.isLoadingBasicShowInfoForShow;
+export const selectShowDetails = (state: AppState) => state.tv.showDetails;
+export const selectIsLoadingShowDetails = (state: AppState) =>
+  state.tv.isLoadingShowDetails;
 export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
 export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
@@ -19,39 +19,38 @@ export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
 
-export const selectBasicShowInfoForFollowedShows: AppSelector<BasicShowInfo[]> =
+export const selectFollowedShowDetails: AppSelector<ShowForDisplay[]> =
   createSelector(
-    selectBasicShowInfo,
+    selectShowDetails,
     selectFollowedShows,
-    (showInfo, followedShows) => {
-      if (!showInfo || !followedShows) {
+    (showDetails, followedShows) => {
+      if (!showDetails || !followedShows) {
         return [];
       }
-      return Object.values(showInfo)
+      return Object.values(showDetails)
         .filter(show => followedShows.includes(show.id))
-        ?.map<BasicShowInfo>(mapShowInfoForDisplay)
+        ?.map<ShowForDisplay>(mapShowInfoForDisplay)
         ?.sort((a, b) => a.name.localeCompare(b.name));
     }
   );
 
-export const selectActiveSeasonShows: AppSelector<BasicShowInfo[]> =
-  createSelector(selectBasicShowInfoForFollowedShows, basicShowInfo =>
-    basicShowInfo.filter(
+export const selectActiveSeasonShows: AppSelector<ShowForDisplay[]> =
+  createSelector(selectFollowedShowDetails, shows =>
+    shows.filter(
       show => show.statusWithColor.status === 'Active Season'
     )
   );
 
-export const selectInProductionShows: AppSelector<BasicShowInfo[]> =
-  createSelector(selectBasicShowInfoForFollowedShows, basicShowInfo =>
-    basicShowInfo.filter(
+export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
+  createSelector(selectFollowedShowDetails, shows =>
+    shows.filter(
       show => show.statusWithColor.status === 'In Production'
     )
   );
 
-export const selectEndedShows: AppSelector<BasicShowInfo[]> = createSelector(
-  selectBasicShowInfoForFollowedShows,
-  basicShowInfo =>
-    basicShowInfo.filter(show => show.statusWithColor.status === 'Ended')
+export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
+  selectFollowedShowDetails,
+  shows => shows.filter(show => show.statusWithColor.status === 'Ended')
 );
 
 export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
@@ -93,12 +92,12 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
         })
   );
 
-export const selectCurrentShowInfo: AppSelector<BasicShowInfo | null> =
+export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
   createSelector(
-    selectBasicShowInfo,
+    selectShowDetails,
     getShowIdFromUrl,
-    (basicShowInfo, currentShowId) => {
-      const currentShow = basicShowInfo[currentShowId];
+    (showDetails, currentShowId) => {
+      const currentShow = showDetails[currentShowId];
       return currentShow?.id ? mapShowInfoForDisplay(currentShow) : null;
     }
   );
