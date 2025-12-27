@@ -1,6 +1,7 @@
 import { Button, Link } from '@chakra-ui/react';
 import { MouseEvent } from 'react';
 
+import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
@@ -19,7 +20,11 @@ const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
     e.preventDefault();
     onClose?.();
     onClick?.();
-    navigate(linkTo);
+    if (linkTo === ROUTES.MANAGE) {
+      navigate(linkTo, { skipImageTransition: true });
+    } else {
+      navigate(linkTo);
+    }
   };
 
   return (
