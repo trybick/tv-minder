@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { AppSelector, AppState } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { ShowForDisplay, PopularShow } from '~/types/tvTransformed';
+import { PopularShow, ShowForDisplay } from '~/types/tvTransformed';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { mapShowInfoForDisplay } from './utils/formatting';
@@ -19,7 +19,7 @@ export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
 export const selectPopularShows = (state: AppState) => state.tv.popularShows;
 export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
 
-export const selectFollowedShowDetails: AppSelector<ShowForDisplay[]> =
+export const selectFollowedShowsDetails: AppSelector<ShowForDisplay[]> =
   createSelector(
     selectShowDetails,
     selectFollowedShows,
@@ -35,21 +35,17 @@ export const selectFollowedShowDetails: AppSelector<ShowForDisplay[]> =
   );
 
 export const selectActiveSeasonShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectFollowedShowDetails, shows =>
-    shows.filter(
-      show => show.statusWithColor.status === 'Active Season'
-    )
+  createSelector(selectFollowedShowsDetails, shows =>
+    shows.filter(show => show.statusWithColor.status === 'Active Season')
   );
 
 export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectFollowedShowDetails, shows =>
-    shows.filter(
-      show => show.statusWithColor.status === 'In Production'
-    )
+  createSelector(selectFollowedShowsDetails, shows =>
+    shows.filter(show => show.statusWithColor.status === 'In Production')
   );
 
 export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
-  selectFollowedShowDetails,
+  selectFollowedShowsDetails,
   shows => shows.filter(show => show.statusWithColor.status === 'Ended')
 );
 
