@@ -1,4 +1,4 @@
-import { StatusWithColor } from '~/store/legacy/tv/utils/formatting';
+import { StatusWithColor } from '~/store/tv/utils/formatting';
 
 import { TmdbShowSummary } from './tmdbSchema';
 

@@ -16,11 +16,11 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import {
   getPopularShowsAction,
   getTopRatedShowsAction,
-} from '~/store/legacy/tv/actions';
+} from '~/store/tv/actions';
 import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
-} from '~/store/legacy/tv/selectors';
+} from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import PopularShow from './PopularShow';

@@ -5,7 +5,7 @@ import {
   Genre,
   SeasonWithEpisodes,
   ShowForDisplay,
-} from '~/store/legacy/tv/types/transformed';
+} from '~/store/tv/types/transformed';
 import dayjs from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
 

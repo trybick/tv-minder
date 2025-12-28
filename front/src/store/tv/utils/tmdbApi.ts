@@ -9,7 +9,7 @@ import {
   TmdbSeason,
   TmdbShow,
   TmdbShowList,
-} from '~/store/legacy/tv/types/tmdbSchema';
+} from '~/store/tv/types/tmdbSchema';
 
 const api = ky.create({
   prefixUrl: ENDPOINTS.THE_MOVIE_DB,

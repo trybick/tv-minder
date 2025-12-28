@@ -7,13 +7,13 @@ import {
 } from 'react-redux';
 import { persistStore } from 'redux-persist';
 
-import { tvReducer } from './legacy/tv/reducers';
 import { persistedReducer } from './rootReducer';
 import { baseApi } from './rtk/api/baseApi';
 import { errorHandlerMiddleware } from './rtk/api/errorHandlerMiddleware';
 import modalsReducer from './rtk/slices/modals.slice';
 import searchInputReducer from './rtk/slices/searchInput.slice';
 import userReducer from './rtk/slices/user.slice';
+import { tvReducer } from './tv/reducers';
 
 export type AppState = {
   user: ReturnType<typeof userReducer>;

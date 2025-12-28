@@ -6,8 +6,8 @@ import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
-import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/legacy/tv/actions';
-import { ShowForDisplay } from '~/store/legacy/tv/types/transformed';
+import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/tv/actions';
+import { ShowForDisplay } from '~/store/tv/types/transformed';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {

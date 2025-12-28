@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
-import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
+import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
 import { NoResultsFound } from './NoResultsFound';
 import PopularShows from './PopularShows';

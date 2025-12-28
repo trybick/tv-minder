@@ -15,9 +15,9 @@ import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { getEpisodesForCalendarAction } from '~/store/legacy/tv/actions';
-import { selectCalendarEpisodesForDisplay } from '~/store/legacy/tv/selectors';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { getEpisodesForCalendarAction } from '~/store/tv/actions';
+import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import dayjs from '~/utils/dayjs';
 
 import CustomCalendarHeader from './CustomCalendarHeader';

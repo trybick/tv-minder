@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { getShowDetailsForFollowedShows } from '~/store/legacy/tv/actions';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/user.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
+import { getShowDetailsForFollowedShows } from '~/store/tv/actions';
 
 import FollowingList from './FollowingList';
 import NoFollowedShowsMessage from './NoFollowedShowsMessage';

@@ -1,7 +1,7 @@
 import { Grid } from '@chakra-ui/react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { ShowForDisplay } from '~/store/legacy/tv/types/transformed';
+import { ShowForDisplay } from '~/store/tv/types/transformed';
 
 import Show from './Show';
 

@@ -13,7 +13,7 @@ import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
-} from '~/store/legacy/tv/selectors';
+} from '~/store/tv/selectors';
 import { abbreviateNumber } from '~/utils/formatting';
 
 import VideoTrailerButton from './VideoTrailerButton';

@@ -1,6 +1,6 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
 
-import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
+import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { maybePluralize } from '~/utils/formatting';
 
 import SearchResult from './SearchResult';

@@ -5,11 +5,11 @@ import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
+import { userApi } from '~/store/rtk/api/user.api';
 import {
   selectCalendarEpisodesForDisplay,
   selectIsLoadingCalendarEpisodes,
-} from '~/store/legacy/tv/selectors';
-import { userApi } from '~/store/rtk/api/user.api';
+} from '~/store/tv/selectors';
 import dayjs from '~/utils/dayjs';
 
 import NoFollowedShowsBanner from './NoFollowedShowsBanner';

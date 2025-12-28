@@ -6,7 +6,7 @@ import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
-} from '~/store/legacy/tv/selectors';
+} from '~/store/tv/selectors';
 import dayjs from '~/utils/dayjs';
 
 import EpisodesTable from './EpisodesTable';

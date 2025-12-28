@@ -2,11 +2,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 import localforage from 'localforage';
 import { persistReducer } from 'redux-persist';
 
-import { tvReducer } from './legacy/tv/reducers';
 import { baseApi } from './rtk/api/baseApi';
 import modalsReducer from './rtk/slices/modals.slice';
 import searchInputReducer from './rtk/slices/searchInput.slice';
 import userReducer from './rtk/slices/user.slice';
+import { tvReducer } from './tv/reducers';
 
 // Why use redux-perist?
 // The main reason to use redux-persist is to persist the 'logged in' state.

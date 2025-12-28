@@ -2,15 +2,15 @@ import { Box } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { saveSearchQueryAction } from '~/store/legacy/tv/actions';
-import { selectSavedQueries } from '~/store/legacy/tv/selectors';
-import { searchShowsByQuery } from '~/store/legacy/tv/services/searchShowsByQuery';
-import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
-import { SavedQuery } from '~/store/legacy/tv/types/transformed';
 import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
+import { saveSearchQueryAction } from '~/store/tv/actions';
+import { selectSavedQueries } from '~/store/tv/selectors';
+import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
+import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { SavedQuery } from '~/store/tv/types/transformed';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';

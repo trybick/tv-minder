@@ -1,5 +1,5 @@
-import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
-import { tmdbApi } from '~/store/legacy/tv/utils/tmdbApi';
+import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { tmdbApi } from '~/store/tv/utils/tmdbApi';
 
 let controller: AbortController | null = null;
 

@@ -1,10 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { ShowNavigationState } from '~/features/show/ShowPage';
-import { AppSelector, AppState } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
+import { AppSelector, AppState } from './..';
 import { PopularShow, ShowForDisplay } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 

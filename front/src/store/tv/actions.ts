@@ -1,9 +1,9 @@
-import { AppThunk } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
+import { AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import { TmdbSeason, TmdbShow, TmdbShowSummary } from './types/tmdbSchema';
 import { SavedQuery } from './types/transformed';

@@ -1,7 +1,7 @@
-import { TmdbSeason, TmdbShow } from '~/store/legacy/tv/types/tmdbSchema';
-import { CalendarEpisode } from '~/store/legacy/tv/types/transformed';
-import { formatSameDayEpisodes } from '~/store/legacy/tv/utils/formatting';
-import { tmdbApi } from '~/store/legacy/tv/utils/tmdbApi';
+import { TmdbSeason, TmdbShow } from '~/store/tv/types/tmdbSchema';
+import { CalendarEpisode } from '~/store/tv/types/transformed';
+import { formatSameDayEpisodes } from '~/store/tv/utils/formatting';
+import { tmdbApi } from '~/store/tv/utils/tmdbApi';
 import { isDateWithinOneMonth } from '~/utils/dates';
 import dayjs from '~/utils/dayjs';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
