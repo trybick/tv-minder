@@ -2,6 +2,7 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
+import handleErrors from '~/utils/handleErrors';
 
 import { AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
@@ -168,7 +169,7 @@ export const getShowDetailsWithSeasons =
     try {
       showData = await tmdbApi.getShow(showId);
     } catch (error) {
-      console.error('Failed to fetch show info:', error);
+      handleErrors(error);
       dispatch({
         type: SET_IS_LOADING_SHOW_DETAILS,
         payload: false,
@@ -250,7 +251,7 @@ export const getPopularShowsAction =
           payload: dataWithTimestamp,
         });
       } catch (error) {
-        console.error('Failed to fetch popular shows:', error);
+        handleErrors(error);
       }
     }
   };
@@ -279,7 +280,7 @@ export const getTopRatedShowsAction =
           payload: dataWithTimestamp,
         });
       } catch (error) {
-        console.error('Failed to fetch top rated shows:', error);
+        handleErrors(error);
       }
     }
   };

@@ -1,4 +1,4 @@
-export const isEmpty = (object: any) => {
+export const isEmpty = (object: unknown) => {
   if (object === undefined || object === null) {
     return true;
   }
