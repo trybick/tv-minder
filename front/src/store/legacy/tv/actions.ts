@@ -151,8 +151,7 @@ export const getShowDetailsWithSeasons =
       'day'
     );
     const hasValidCache =
-      cachedShowDetails[showId] &&
-      Object.hasOwn(cachedShowDetails[showId], 'seasonsWithEpisodes') &&
+      cachedShowDetails[showId]?.seasonsWithEpisodes &&
       cacheAge < cacheDurationDays.following;
     if (hasValidCache) {
       dispatch({

@@ -261,7 +261,7 @@ const createCache = (
   // If there are showIds missing from episode data, it means they were taken out because they
   // don't have active seasons. Add these showIds back in so we can cache that they are empty.
   showIds.forEach(id => {
-    if (!Object.hasOwn(cache, id)) {
+    if (!cache[id]) {
       cache[id] = {
         episodes: null,
         fetchedAt: dayjs().toISOString(),
