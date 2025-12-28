@@ -36,17 +36,17 @@ export const selectFollowedShowsDetails: AppSelector<ShowForDisplay[]> =
 
 export const selectActiveSeasonShows: AppSelector<ShowForDisplay[]> =
   createSelector(selectFollowedShowsDetails, shows =>
-    shows.filter(show => show.statusWithColor.status === 'Active Season')
+    shows.filter(show => show.status.isActiveSeason)
   );
 
 export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
   createSelector(selectFollowedShowsDetails, shows =>
-    shows.filter(show => show.statusWithColor.status === 'In Production')
+    shows.filter(show => show.status.isInProduction)
   );
 
 export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
   selectFollowedShowsDetails,
-  shows => shows.filter(show => show.statusWithColor.status === 'Ended')
+  shows => shows.filter(show => show.status.isEnded)
 );
 
 export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =

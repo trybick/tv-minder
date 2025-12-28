@@ -1,4 +1,4 @@
-import { StatusWithColor } from '~/store/tv/utils/formatting';
+import { ShowStatus } from '~/store/tv/utils/formatting';
 
 import { TmdbSeason, TmdbShow, TmdbShowSummary } from './tmdbSchema';
 
@@ -43,7 +43,7 @@ export type ShowForDisplay = {
   overview: string;
   posterPath: string | null;
   seasonsWithEpisodes: SeasonWithEpisodes[];
-  statusWithColor: StatusWithColor;
+  status: ShowStatus;
   videoTrailerKey: string | undefined;
   voteAverage: string;
   voteCount: number;

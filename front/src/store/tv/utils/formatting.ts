@@ -11,41 +11,37 @@ import { TmdbShowWithSeasons } from '~/store/tv/types/transformed';
 import dayjs from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
 
-type Status = 'Ended' | 'In Production' | 'Premiering Soon' | 'Active Season';
-
-export type StatusWithColor = {
-  status: Status;
-  color: string;
+export type ShowStatus = {
+  isEnded: boolean;
+  isActiveSeason: boolean;
+  isInProduction: boolean;
+  isPremieringSoon: boolean;
 };
 
-export const getStatusWithColor = (
+export const getShowStatus = (
   originalStatus: string,
   lastEpisodeForDisplay: EpisodeForDisplay | null | undefined,
   nextEpisodeForDisplay: EpisodeForDisplay | null | undefined
-): StatusWithColor => {
-  const hasCurrentlyActiveSeason =
+): ShowStatus => {
+  const isActiveSeason = Boolean(
     lastEpisodeForDisplay &&
     ((nextEpisodeForDisplay &&
       dayjs(nextEpisodeForDisplay.airDate).diff(
         lastEpisodeForDisplay.airDate,
         'day'
       ) < 45) ||
-      dayjs().diff(lastEpisodeForDisplay.airDate, 'day') < 14);
-  const isPremieringSoon =
+      dayjs().diff(lastEpisodeForDisplay.airDate, 'day') < 14)
+  );
+  const isPremieringSoon = Boolean(
     nextEpisodeForDisplay &&
     dayjs(nextEpisodeForDisplay.airDate).diff(dayjs().startOf('day'), 'day') <
       60 &&
-    nextEpisodeForDisplay.episodeNumber === '01';
+    nextEpisodeForDisplay.episodeNumber === '01'
+  );
+  const isEnded = originalStatus === 'Ended';
+  const isInProduction = !isEnded && !isPremieringSoon && !isActiveSeason;
 
-  if (originalStatus === 'Ended') {
-    return { status: 'Ended', color: 'red' };
-  } else if (isPremieringSoon) {
-    return { status: 'Premiering Soon', color: 'purple' };
-  } else if (hasCurrentlyActiveSeason) {
-    return { status: 'Active Season', color: 'green' };
-  } else {
-    return { status: 'In Production', color: 'blue' };
-  }
+  return { isEnded, isActiveSeason, isInProduction, isPremieringSoon };
 };
 
 export const getVideoTrailerKey = (
@@ -176,7 +172,7 @@ export const mapShowInfoForDisplay = (
       }
     : null;
 
-  const statusWithColor = getStatusWithColor(
+  const showStatus = getShowStatus(
     status,
     lastEpisodeForDisplay,
     nextEpisodeForDisplay
@@ -208,7 +204,7 @@ export const mapShowInfoForDisplay = (
     overview,
     posterPath,
     seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes ?? {}),
-    statusWithColor,
+    status: showStatus,
     videoTrailerKey: getVideoTrailerKey(videos),
     voteAverage: voteAverageForDisplay,
     voteCount,
