@@ -13,15 +13,7 @@ import {
   SET_SEARCH_QUERY,
   ShowDetailsCached,
 } from './actions';
-import { TmdbShowSummary } from './types/tmdbSchema';
-import { CalendarEpisode } from './types/transformed';
-
-export type SavedQuery = {
-  query: string;
-  results: TmdbShowSummary[];
-  timeSaved: string;
-  totalResults: number;
-};
+import { CalendarEpisode, SavedQuery } from './types/transformed';
 
 export type EpisodeCacheEntry = {
   episodes: CalendarEpisode[] | null;

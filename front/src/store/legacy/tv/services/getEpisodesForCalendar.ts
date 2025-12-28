@@ -219,7 +219,7 @@ const calculateEpisodesForDisplay = (
       episodeName,
       episodeNumber,
       network: network ?? '',
-      overview,
+      overview: overview ?? '',
       runtime: runtime ?? 0,
       seasonNumber,
       showId,
@@ -248,7 +248,7 @@ const createCache = (
 
   episodesData.forEach(episode => {
     const { showId } = episode;
-    if (cache[showId]?.episodes) {
+    if (cache[showId]?.episodes?.length) {
       cache[showId].episodes.push(episode);
     } else {
       cache[showId] = {

@@ -4,9 +4,9 @@ import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import { SavedQuery } from './reducers';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import { TmdbSeason, TmdbShow, TmdbShowSummary } from './types/tmdbSchema';
+import { SavedQuery } from './types/transformed';
 import { tmdbApi } from './utils/tmdbApi';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
