@@ -1,6 +1,6 @@
 import { StatusWithColor } from '~/store/tv/utils/formatting';
 
-import { TmdbShowSummary } from './tmdbSchema';
+import { TmdbSeason, TmdbShow, TmdbShowSummary } from './tmdbSchema';
 
 export type EpisodeForDisplay = {
   airDate: string;
@@ -13,39 +13,39 @@ export type Genre = {
 };
 
 export type EpisodeForSeason = {
-  airDate: string;
+  airDate: string | null;
   episodeNumber: number;
   name: string;
   voteAverage: string;
 };
 
 export type SeasonWithEpisodes = {
-  airDate: string;
+  airDate: string | null;
   episodes: EpisodeForSeason[];
   id: number;
   isSpecialsSeason: boolean;
   name: string;
   nameForDisplay: string;
   overview: string;
-  posterPath: string;
+  posterPath: string | null;
   seasonNumber: number;
 };
 
 export type ShowForDisplay = {
-  backdropPath: string;
+  backdropPath: string | null;
   episodeRunTime: number | undefined;
-  firstAirDate: string;
+  firstAirDate: string | null;
   language: string | undefined;
   genreNames: string[];
   id: number;
   name: string;
-  network: string;
+  network: string | undefined;
   overview: string;
-  posterPath: string;
+  posterPath: string | null;
   seasonsWithEpisodes: SeasonWithEpisodes[];
   statusWithColor: StatusWithColor;
   videoTrailerKey: string | undefined;
-  voteAverage: number;
+  voteAverage: string;
   voteCount: number;
   yearsActive: string;
 };
@@ -80,4 +80,8 @@ export type SavedQuery = {
   results: TmdbShowSummary[];
   timeSaved: string;
   totalResults: number;
+};
+
+export type TmdbShowWithSeasons = TmdbShow & {
+  seasonsWithEpisodes?: Record<number, TmdbSeason>;
 };

@@ -1,3 +1,4 @@
+import { TmdbSeason, TmdbShow } from '~/store/tv/types/tmdbSchema';
 import {
   CalendarEpisode,
   EpisodeForDisplay,
@@ -6,6 +7,7 @@ import {
   SeasonWithEpisodes,
   ShowForDisplay,
 } from '~/store/tv/types/transformed';
+import { TmdbShowWithSeasons } from '~/store/tv/types/transformed';
 import dayjs from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
 
@@ -18,8 +20,8 @@ export type StatusWithColor = {
 
 export const getStatusWithColor = (
   originalStatus: string,
-  lastEpisodeForDisplay: Record<string, any>,
-  nextEpisodeForDisplay: Record<string, any>
+  lastEpisodeForDisplay: EpisodeForDisplay | null | undefined,
+  nextEpisodeForDisplay: EpisodeForDisplay | null | undefined
 ): StatusWithColor => {
   const hasCurrentlyActiveSeason =
     lastEpisodeForDisplay &&
@@ -46,14 +48,16 @@ export const getStatusWithColor = (
   }
 };
 
-export const getVideoTrailerKey = (videos: any): string | undefined => {
+export const getVideoTrailerKey = (
+  videos: TmdbShow['videos']
+): string | undefined => {
   if (!videos?.results.length) {
     return;
   }
   const { results } = videos;
   const matchingVideo = results
-    ?.filter((video: any) => video.site === 'YouTube')
-    ?.find((video: any) => {
+    .filter(video => video.site === 'YouTube')
+    .find(video => {
       if (video.name === 'Official Trailer') {
         return video;
       } else if (video.name.includes('Trailer')) {
@@ -64,7 +68,7 @@ export const getVideoTrailerKey = (videos: any): string | undefined => {
 };
 
 const formatEpisodesForSeason = (
-  episodes: Record<string, any>[]
+  episodes: TmdbSeason['episodes']
 ): EpisodeForSeason[] => {
   if (isEmpty(episodes)) {
     return [];
@@ -86,7 +90,9 @@ const formatEpisodesForSeason = (
   });
 };
 
-const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
+const formatSeasons = (
+  seasons: Record<number, TmdbSeason>
+): SeasonWithEpisodes[] => {
   if (isEmpty(seasons)) {
     return [];
   }
@@ -111,7 +117,7 @@ const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
 
     return {
       airDate,
-      episodes: episodes.length && formatEpisodesForSeason(episodes),
+      episodes: episodes.length ? formatEpisodesForSeason(episodes) : [],
       id,
       isSpecialsSeason,
       name,
@@ -133,7 +139,9 @@ const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
   return camelCaseSeasons.filter(season => season.episodes.length);
 };
 
-export const mapShowInfoForDisplay = (show: any): ShowForDisplay => {
+export const mapShowInfoForDisplay = (
+  show: TmdbShowWithSeasons
+): ShowForDisplay => {
   const {
     backdrop_path: backdropPath,
     episode_run_time: episodeRunTime,
@@ -154,15 +162,19 @@ export const mapShowInfoForDisplay = (show: any): ShowForDisplay => {
     vote_count: voteCount,
   } = show;
 
-  const lastEpisodeForDisplay: EpisodeForDisplay = lastEpisodeToAir && {
-    airDate: lastEpisodeToAir?.air_date,
-    episodeNumber: String(lastEpisodeToAir?.episode_number).padStart(2, '0'),
-  };
+  const lastEpisodeForDisplay: EpisodeForDisplay | null = lastEpisodeToAir
+    ? {
+        airDate: lastEpisodeToAir.air_date,
+        episodeNumber: String(lastEpisodeToAir.episode_number).padStart(2, '0'),
+      }
+    : null;
 
-  const nextEpisodeForDisplay: EpisodeForDisplay = nextEpisodeToAir && {
-    airDate: nextEpisodeToAir?.air_date,
-    episodeNumber: String(nextEpisodeToAir?.episode_number).padStart(2, '0'),
-  };
+  const nextEpisodeForDisplay: EpisodeForDisplay | null = nextEpisodeToAir
+    ? {
+        airDate: nextEpisodeToAir.air_date,
+        episodeNumber: String(nextEpisodeToAir.episode_number).padStart(2, '0'),
+      }
+    : null;
 
   const statusWithColor = getStatusWithColor(
     status,
@@ -170,19 +182,17 @@ export const mapShowInfoForDisplay = (show: any): ShowForDisplay => {
     nextEpisodeForDisplay
   );
 
-  const genreNames: string[] = genres
+  const genreNames: string[] = (genres ?? [])
     .slice(0, 2)
     .map((genre: Genre) => genre.name);
 
-  const yearsActive =
-    firstAirDate &&
-    `${dayjs(firstAirDate).year()}-${
-      status === 'Ended' ? dayjs(lastEpisodeToAir?.air_date).year() : ''
-    }`;
+  const yearsActive = firstAirDate
+    ? `${dayjs(firstAirDate).year()}-${
+        status === 'Ended' ? dayjs(lastEpisodeToAir?.air_date).year() : ''
+      }`
+    : '';
 
-  const language = spokenLanguages
-    .map((lang: any) => lang.english_name)
-    .join(', ');
+  const language = spokenLanguages?.map(lang => lang.english_name).join(', ');
 
   const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
 
@@ -194,10 +204,10 @@ export const mapShowInfoForDisplay = (show: any): ShowForDisplay => {
     language,
     id,
     name,
-    network: networks[0]?.name,
+    network: networks?.[0]?.name,
     overview,
     posterPath,
-    seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes),
+    seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes ?? {}),
     statusWithColor,
     videoTrailerKey: getVideoTrailerKey(videos),
     voteAverage: voteAverageForDisplay,
