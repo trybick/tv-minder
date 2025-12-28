@@ -6,7 +6,7 @@ import { saveSearchQueryAction } from '~/store/legacy/tv/actions';
 import { selectSavedQueries } from '~/store/legacy/tv/selectors';
 import { searchShowsByQuery } from '~/store/legacy/tv/services/searchShowsByQuery';
 import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
-import { SavedQuery } from '~/store/legacy/tv/types/tvTransformed';
+import { SavedQuery } from '~/store/legacy/tv/types/transformed';
 import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,

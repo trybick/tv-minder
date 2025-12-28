@@ -1,5 +1,5 @@
 import { TmdbSeason, TmdbShow } from '~/store/legacy/tv/types/tmdbSchema';
-import { CalendarEpisode } from '~/store/legacy/tv/types/tvTransformed';
+import { CalendarEpisode } from '~/store/legacy/tv/types/transformed';
 import { formatSameDayEpisodes } from '~/store/legacy/tv/utils/formatting';
 import { tmdbApi } from '~/store/legacy/tv/utils/tmdbApi';
 import { isDateWithinOneMonth } from '~/utils/dates';

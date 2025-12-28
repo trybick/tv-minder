@@ -5,7 +5,7 @@ import { AppSelector, AppState } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import { PopularShow, ShowForDisplay } from './types/tvTransformed';
+import { PopularShow, ShowForDisplay } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;

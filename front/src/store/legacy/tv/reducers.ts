@@ -14,7 +14,7 @@ import {
   ShowDetailsCached,
 } from './actions';
 import { TmdbShowSummary } from './types/tmdbSchema';
-import { CalendarEpisode } from './types/tvTransformed';
+import { CalendarEpisode } from './types/transformed';
 
 export type SavedQuery = {
   query: string;

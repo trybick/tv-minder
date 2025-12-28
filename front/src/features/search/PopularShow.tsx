@@ -8,7 +8,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/legacy/tv/actions';
-import { PopularShow as PopularShowType } from '~/store/legacy/tv/types/tvTransformed';
+import { PopularShow as PopularShowType } from '~/store/legacy/tv/types/transformed';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
