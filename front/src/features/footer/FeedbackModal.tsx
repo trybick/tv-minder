@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
 } from '@chakra-ui/react';
+import * as Sentry from '@sentry/react';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiSend } from 'react-icons/fi';
@@ -79,6 +80,12 @@ const FeedbackModal = () => {
       setFormError('root', {
         type: 'server',
         message,
+      });
+      Sentry.captureException(error, {
+        extra: {
+          feedback,
+          email: formattedEmail,
+        },
       });
     }
   };

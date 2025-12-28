@@ -13,6 +13,11 @@ function sendToSentry(error: Error, context?: Record<string, unknown>) {
   });
 }
 
+/**
+ * Handles errors and sends them to Sentry.
+ * For old redux/ky calls that don't use RTK Query.
+ * @param error - The error to handle.
+ */
 export default function handleErrors(error: unknown) {
   if (error instanceof HTTPError) {
     const { status } = error.response;

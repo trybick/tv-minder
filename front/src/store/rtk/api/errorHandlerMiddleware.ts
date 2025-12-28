@@ -11,6 +11,7 @@ export const errorHandlerMiddleware = createListenerMiddleware();
 const endpointsWithErrorToasts = [
   userApi.endpoints.followShow.matchRejected,
   userApi.endpoints.unfollowShow.matchRejected,
+  userApi.endpoints.getFollowedShows.matchRejected,
 ];
 
 errorHandlerMiddleware.startListening({
