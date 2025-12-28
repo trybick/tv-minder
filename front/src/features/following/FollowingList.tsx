@@ -5,8 +5,8 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectActiveSeasonShows,
-  selectBasicShowInfoForFollowedShows,
   selectEndedShows,
+  selectFollowedShowsDetails,
   selectInProductionShows,
 } from '~/store/legacy/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
@@ -17,7 +17,7 @@ const FollowingList = () => {
   const isMobile = useIsMobile();
   const [currentTab, setCurrentTab] = useState<string | null>('all');
 
-  const allFollowedShows = useAppSelector(selectBasicShowInfoForFollowedShows);
+  const followedShowsDetails = useAppSelector(selectFollowedShowsDetails);
   const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
   const inProductionShows = useAppSelector(selectInProductionShows);
   const endedShows = useAppSelector(selectEndedShows);
@@ -61,7 +61,7 @@ const FollowingList = () => {
         </Tabs.List>
 
         <Tabs.Content value="all">
-          <SubSectionOfShows shows={allFollowedShows} />
+          <SubSectionOfShows shows={followedShowsDetails} />
         </Tabs.Content>
 
         <Tabs.Content value="active">

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { getBasicShowInfoForFollowedShows } from '~/store/legacy/tv/actions';
+import { getShowDetailsForFollowedShows } from '~/store/legacy/tv/actions';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/user.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
@@ -22,7 +22,7 @@ const FollowingPage = () => {
   });
 
   useEffect(() => {
-    dispatch(getBasicShowInfoForFollowedShows());
+    dispatch(getShowDetailsForFollowedShows());
   }, [dispatch, followedShows]);
 
   const isNoFollowedShows = !isLoading && followedShows.length === 0;

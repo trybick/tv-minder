@@ -1,11 +1,11 @@
 import {
-  BasicShowInfo,
   CalendarEpisode,
   EpisodeForDisplay,
   EpisodeForSeason,
   Genre,
   SeasonWithEpisodes,
-} from '~/types/external';
+  ShowForDisplay,
+} from '~/store/legacy/tv/types/transformed';
 import dayjs from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
 
@@ -133,7 +133,7 @@ const formatSeasons = (seasons: Record<number, any>): SeasonWithEpisodes[] => {
   return camelCaseSeasons.filter(season => season.episodes.length);
 };
 
-export const mapShowInfoForDisplay = (show: any): BasicShowInfo => {
+export const mapShowInfoForDisplay = (show: any): ShowForDisplay => {
   const {
     backdrop_path: backdropPath,
     episode_run_time: episodeRunTime,
@@ -215,10 +215,10 @@ export const formatSameDayEpisodes = (
   const sameDayEpisodesByEpisodeID: Record<number, CalendarEpisode> = {};
   episodesForDisplay.reduce((prev, next) => {
     if (prev?.showName === next.showName && prev?.date === next.date) {
-      if (!sameDayEpisodesByEpisodeID.hasOwnProperty(prev.episodeId)) {
+      if (!sameDayEpisodesByEpisodeID[prev.episodeId]) {
         sameDayEpisodesByEpisodeID[prev.episodeId] = prev;
       }
-      if (!sameDayEpisodesByEpisodeID.hasOwnProperty(next.episodeId)) {
+      if (!sameDayEpisodesByEpisodeID[next.episodeId]) {
         sameDayEpisodesByEpisodeID[next.episodeId] = next;
       }
     }

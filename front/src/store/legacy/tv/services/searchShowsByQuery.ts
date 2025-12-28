@@ -1,22 +1,12 @@
-import ky from 'ky';
-
-import ENDPOINTS from '~/app/endpoints';
-import { ShowSearchResult } from '~/types/external';
-import handleErrors from '~/utils/handleErrors';
-
-export type ReturnedSearchResult = {
-  page: number;
-  results: ShowSearchResult[];
-  total_pages: number;
-  total_results: number;
-};
+import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
+import { tmdbApi } from '~/store/legacy/tv/utils/tmdbApi';
 
 let controller: AbortController | null = null;
 
 export const searchShowsByQuery = async (
   query: string
 ): Promise<{
-  results: ShowSearchResult[];
+  results: TmdbShowSummary[];
   totalResults: number;
 }> => {
   if (controller) {
@@ -24,19 +14,16 @@ export const searchShowsByQuery = async (
   }
   controller = new AbortController();
 
-  const data = await ky
-    .get(`${ENDPOINTS.THE_MOVIE_DB}/search/tv`, {
-      searchParams: {
-        api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY,
-        query,
-      },
-      signal: controller.signal,
-    })
-    .json<ReturnedSearchResult>()
-    .catch(handleErrors);
-
-  return {
-    results: data?.results ?? [],
-    totalResults: data?.total_results ?? 0,
-  };
+  try {
+    const data = await tmdbApi.search(query, controller.signal);
+    return {
+      results: data.results,
+      totalResults: data.total_results,
+    };
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      return { results: [], totalResults: 0 };
+    }
+    throw error;
+  }
 };

@@ -7,12 +7,12 @@ import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
-import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/legacy/tv/actions';
-import { ShowSearchResult } from '~/types/external';
+import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/legacy/tv/actions';
+import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
-  showToDisplay: ShowSearchResult;
+  showToDisplay: TmdbShowSummary;
 };
 
 const SearchResult = ({ showToDisplay }: Props) => {
@@ -33,7 +33,7 @@ const SearchResult = ({ showToDisplay }: Props) => {
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     dispatch({
-      type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+      type: SET_IS_LOADING_SHOW_DETAILS,
       payload: true,
     });
     const state: ShowNavigationState = {

@@ -7,8 +7,8 @@ import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch } from '~/store';
-import { SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW } from '~/store/legacy/tv/actions';
-import { PopularShow as PopularShowType } from '~/types/external';
+import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/legacy/tv/actions';
+import { PopularShow as PopularShowType } from '~/store/legacy/tv/types/transformed';
 import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
@@ -26,7 +26,7 @@ const PopularShow = ({ show }: Props) => {
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     dispatch({
-      type: SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
+      type: SET_IS_LOADING_SHOW_DETAILS,
       payload: true,
     });
     const state: ShowNavigationState = {

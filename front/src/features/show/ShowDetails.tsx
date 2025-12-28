@@ -12,7 +12,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingBasicShowInfoForShow,
+  selectIsLoadingShowDetails,
 } from '~/store/legacy/tv/selectors';
 import { abbreviateNumber } from '~/utils/formatting';
 
@@ -20,7 +20,7 @@ import VideoTrailerButton from './VideoTrailerButton';
 
 const ShowDetails = () => {
   const isMobile = useIsMobile();
-  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const {
     episodeRunTime,

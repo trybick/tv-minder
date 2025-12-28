@@ -6,7 +6,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingBasicShowInfoForShow,
+  selectIsLoadingShowDetails,
   selectShowDataFromHistory,
 } from '~/store/legacy/tv/selectors';
 import { createImageUrl } from '~/utils/createImageUrl';
@@ -14,7 +14,7 @@ import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 const ShowImage = () => {
   const isMobile = useIsMobile();
-  const isLoading = useAppSelector(selectIsLoadingBasicShowInfoForShow);
+  const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
   const showId = getShowIdFromUrl();

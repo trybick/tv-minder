@@ -1,43 +1,41 @@
 import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
 
-import { CalendarEpisode } from '~/types/external';
-import { ShowSearchResult } from '~/types/external';
-
 import {
-  SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS,
-  SAVE_BASIC_SHOW_INFO_FOR_SHOW,
+  PopularShowCached,
   SAVE_CALENDAR_EPISODES_CACHE,
   SAVE_POPULAR_SHOWS,
+  SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
+  SAVE_SHOW_DETAILS_FOR_SHOW,
   SAVE_TOP_RATED_SHOWS,
   SET_CURRENT_CALENDAR_EPISODES,
-  SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW,
   SET_IS_LOADING_CALENDAR_EPISODES,
+  SET_IS_LOADING_SHOW_DETAILS,
   SET_SEARCH_QUERY,
+  ShowDetailsCached,
 } from './actions';
+import { CalendarEpisode, SavedQuery } from './types/transformed';
 
-export type SavedQuery = {
-  query: string;
-  results: ShowSearchResult[];
-  timeSaved: string;
-  totalResults: number;
+export type EpisodeCacheEntry = {
+  episodes: CalendarEpisode[] | null;
+  fetchedAt: string;
 };
 
 type State = {
   savedQueries: SavedQuery[];
-  episodeData: Record<number, any>;
-  basicShowInfo: Record<number, any>;
-  isLoadingBasicShowInfoForShow: boolean;
+  episodeData: Record<number, EpisodeCacheEntry>;
+  showDetails: Record<number, ShowDetailsCached>;
+  isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
-  popularShows: Record<string, any>[];
-  topRatedShows: Record<string, any>[];
+  popularShows: PopularShowCached[];
+  topRatedShows: PopularShowCached[];
 };
 
-const initialState = {
+const initialState: State = {
   savedQueries: [],
   episodeData: {},
-  basicShowInfo: {},
-  isLoadingBasicShowInfoForShow: false,
+  showDetails: {},
+  isLoadingShowDetails: false,
   calendarEpisodesForDisplay: [],
   isLoadingCalendarEpisodes: true,
   popularShows: [],
@@ -68,23 +66,23 @@ export const tvReducer: Reducer<State, Action> = (
         episodeData: { ...state.episodeData, ...action.payload },
       };
     }
-    case SAVE_BASIC_SHOW_INFO_FOR_FOLLOWED_SHOWS: {
+    case SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS: {
       return {
         ...state,
-        basicShowInfo: { ...action.payload },
+        showDetails: { ...action.payload },
       };
     }
-    case SAVE_BASIC_SHOW_INFO_FOR_SHOW: {
+    case SAVE_SHOW_DETAILS_FOR_SHOW: {
       return {
         ...state,
-        basicShowInfo: { ...state.basicShowInfo, ...action.payload },
-        isLoadingBasicShowInfoForShow: false,
+        showDetails: { ...state.showDetails, ...action.payload },
+        isLoadingShowDetails: false,
       };
     }
-    case SET_IS_LOADING_BASIC_SHOW_INFO_FOR_SHOW: {
+    case SET_IS_LOADING_SHOW_DETAILS: {
       return {
         ...state,
-        isLoadingBasicShowInfoForShow: action.payload,
+        isLoadingShowDetails: action.payload,
       };
     }
     case SET_CURRENT_CALENDAR_EPISODES: {

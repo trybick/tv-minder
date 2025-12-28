@@ -3,14 +3,14 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '~/store';
 import { saveSearchQueryAction } from '~/store/legacy/tv/actions';
-import { SavedQuery } from '~/store/legacy/tv/reducers';
 import { selectSavedQueries } from '~/store/legacy/tv/selectors';
 import { searchShowsByQuery } from '~/store/legacy/tv/services/searchShowsByQuery';
+import { TmdbShowSummary } from '~/store/legacy/tv/types/tmdbSchema';
+import { SavedQuery } from '~/store/legacy/tv/types/transformed';
 import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import { ShowSearchResult } from '~/types/external';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import cacheDurationDays from '~/utils/cacheDurations';
 import dayjs from '~/utils/dayjs';
@@ -28,7 +28,7 @@ const SearchPage = () => {
   const [inputValue, setInputValue] = useState('');
   const [isInputDirty, setIsInputDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [shows, setShows] = useState<ShowSearchResult[]>([]);
+  const [shows, setShows] = useState<TmdbShowSummary[]>([]);
   const [totalResults, setTotalResults] = useState(0);
 
   const handleClearInput = useCallback(() => {

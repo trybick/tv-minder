@@ -1,12 +1,12 @@
 import { Grid } from '@chakra-ui/react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { BasicShowInfo } from '~/types/external';
+import { ShowForDisplay } from '~/store/legacy/tv/types/transformed';
 
 import Show from './Show';
 
 type Props = {
-  shows: BasicShowInfo[];
+  shows: ShowForDisplay[];
 };
 
 const SubSectionOfShows = (props: Props) => {
