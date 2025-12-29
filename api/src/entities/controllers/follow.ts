@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import User from 'models/user';
 import logger from 'utils/logger';
 
 export const createFollow = async (req: Request, res: Response) => {
-  const userId: number = res.locals.userId;
+  const userId: mongoose.Types.ObjectId = res.locals.userId;
   const showId: number = req.body.showId;
 
   if (!userId || !showId) {
@@ -24,7 +25,7 @@ export const createFollow = async (req: Request, res: Response) => {
 };
 
 export const deleteFollow = async (req: Request, res: Response) => {
-  const userId: number = res.locals.userId;
+  const userId: mongoose.Types.ObjectId = res.locals.userId;
   const showId: number = req.body.showId;
 
   if (!userId || !showId) {
@@ -45,7 +46,7 @@ export const deleteFollow = async (req: Request, res: Response) => {
 };
 
 export const getFollows = async (req: Request, res: Response) => {
-  const userId: number = res.locals.userId;
+  const userId: mongoose.Types.ObjectId = res.locals.userId;
 
   try {
     const user = await User.findOne({ _id: userId });
