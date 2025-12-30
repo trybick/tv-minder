@@ -12,7 +12,7 @@ import { applyViewTransition } from '~/utils/applyViewTransition';
 import LoginButton from './LoginButton';
 import Logo from './Logo';
 import LogoutButton from './LogoutButton';
-import NavigationLinks from './NavigationLinks';
+import NavigationLinks from './NavLinksContainer';
 import SignUpButton from './SignUpButton';
 
 const HeaderMobile = () => {

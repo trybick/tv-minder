@@ -32,7 +32,7 @@ const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
       <Button
         color="cyan.500"
         fontSize="1.2rem"
-        fontWeight="600"
+        fontWeight="700"
         p="16px"
         variant="plain"
         _hover={{

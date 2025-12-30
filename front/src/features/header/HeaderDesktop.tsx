@@ -1,7 +1,7 @@
 import { Flex, Separator } from '@chakra-ui/react';
 
 import Logo from './Logo';
-import NavigationLinks from './NavigationLinks';
+import NavigationLinks from './NavLinksContainer';
 import RightSectionDesktop from './RightSectionDesktop';
 
 const HeaderDesktop = () => {
