@@ -16,7 +16,7 @@ import SettingsPage from '~/features/settings/SettingsPage';
 import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { useGetFollowedShowsQuery } from '~/store/rtk/api/user.api';
+import { useGetFollowedShowsQuery } from '~/store/rtk/api/follow.api';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { getIsProduction } from '~/utils/env';

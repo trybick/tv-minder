@@ -1,6 +1,6 @@
 import { baseApi } from './baseApi';
 
-export const userApi = baseApi.injectEndpoints({
+export const followApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getFollowedShows: builder.query<number[], void>({
       query: () => ({
@@ -20,11 +20,15 @@ export const userApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
-            if (!draft.includes(showId)) {
-              draft.push(showId);
+          followApi.util.updateQueryData(
+            'getFollowedShows',
+            undefined,
+            draft => {
+              if (!draft.includes(showId)) {
+                draft.push(showId);
+              }
             }
-          })
+          )
         );
         try {
           await queryFulfilled;
@@ -45,12 +49,16 @@ export const userApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          userApi.util.updateQueryData('getFollowedShows', undefined, draft => {
-            const index = draft.findIndex(id => id === showId);
-            if (index !== -1) {
-              draft.splice(index, 1);
+          followApi.util.updateQueryData(
+            'getFollowedShows',
+            undefined,
+            draft => {
+              const index = draft.findIndex(id => id === showId);
+              if (index !== -1) {
+                draft.splice(index, 1);
+              }
             }
-          })
+          )
         );
         try {
           await queryFulfilled;
@@ -67,4 +75,4 @@ export const {
   useLazyGetFollowedShowsQuery,
   useFollowShowMutation,
   useUnfollowShowMutation,
-} = userApi;
+} = followApi;

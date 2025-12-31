@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { userApi } from '~/store/rtk/api/user.api';
+import { followApi } from '~/store/rtk/api/follow.api';
 
 import {
   selectIsLoggedIn,
@@ -11,7 +11,7 @@ export const selectFollowedShows = createSelector(
   [
     selectIsLoggedIn,
     selectUnregisteredFollowedShows,
-    userApi.endpoints.getFollowedShows.select(undefined),
+    followApi.endpoints.getFollowedShows.select(undefined),
   ],
   (isLoggedIn, unregisteredFollows, userFollowsQuery) => {
     if (isLoggedIn) {

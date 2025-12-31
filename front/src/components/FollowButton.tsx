@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import {
   useFollowShowMutation,
   useUnfollowShowMutation,
-} from '~/store/rtk/api/user.api';
+} from '~/store/rtk/api/follow.api';
 import { makeSelectIsShowFollowed } from '~/store/rtk/slices/user.selectors';
 import {
   selectHasLocalWarningToastBeenShown,

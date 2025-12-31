@@ -5,7 +5,7 @@ import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
-import { userApi } from '~/store/rtk/api/user.api';
+import { followApi } from '~/store/rtk/api/follow.api';
 import {
   selectCalendarEpisodesForDisplay,
   selectIsLoadingCalendarEpisodes,
@@ -29,7 +29,7 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
     selectIsLoadingCalendarEpisodes
   );
   const { isLoading: isLoadingFollowedShows } = useAppSelector(
-    userApi.endpoints.getFollowedShows.select(undefined)
+    followApi.endpoints.getFollowedShows.select(undefined)
   );
 
   const hasEpisodesInCurrentMonth = useMemo(() => {
