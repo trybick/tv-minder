@@ -91,8 +91,14 @@ const ShowDetails = () => {
             h={isLoading ? '28px' : 'unset'}
           >
             {genreNames?.map(genre => (
-              <Tag.Root colorPalette="gray" key={genre} mr="5px" size="lg">
-                {genre}
+              <Tag.Root
+                colorPalette="gray"
+                variant="outline"
+                key={genre}
+                mr="5px"
+                size="lg"
+              >
+                <Tag.Label>{genre}</Tag.Label>
               </Tag.Root>
             ))}
           </DelayedSkeleton>
