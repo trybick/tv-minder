@@ -17,7 +17,7 @@ import ShowPage from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/user.api';
-import { selectEmail, selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
+import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { gAnalyticsID } from '~/utils/constants';
 import { getIsProduction } from '~/utils/env';
 import { initSentry } from '~/utils/sentry';
@@ -28,23 +28,12 @@ const App = () => {
   const isMobile = useIsMobile();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const email = useAppSelector(selectEmail);
 
-  const { refetch: refetchFollowedShows } = useGetFollowedShowsQuery(
-    undefined,
-    {
-      skip: !isLoggedIn,
-      // This avoids subscribing and causing the whole App to re-render
-      selectFromResult: () => ({}),
-    }
-  );
-
-  // Refetch if email changes
-  useEffect(() => {
-    if (isLoggedIn) {
-      refetchFollowedShows();
-    }
-  }, [isLoggedIn, refetchFollowedShows, email]);
+  useGetFollowedShowsQuery(undefined, {
+    skip: !isLoggedIn,
+    refetchOnMountOrArgChange: true,
+    selectFromResult: () => ({}),
+  });
 
   useEffect(() => {
     if (getIsProduction()) {
