@@ -111,6 +111,16 @@ const ShowDetails = () => {
 
       <VideoTrailerButton videoId={videoTrailerKey} />
 
+      {overview && (
+        <Flex direction="column" mt="18px">
+          {isLoading ? (
+            <DelayedSkeletonText isLoading={isLoading} noOfLines={9} w="100%" />
+          ) : (
+            <Text>{overview}</Text>
+          )}
+        </Flex>
+      )}
+
       {isLoading ? (
         <DelayedSkeleton isLoading={isLoading} w="145px" h="40px" />
       ) : (
@@ -139,21 +149,6 @@ const ShowDetails = () => {
           )}
         </Flex>
       )}
-
-      <Flex direction="column" mt="18px">
-        {isLoading ? (
-          <DelayedSkeletonText isLoading={isLoading} noOfLines={9} w="100%" />
-        ) : (
-          <>
-            {overview && (
-              <Heading as="h4" fontSize={isMobile ? 'xl' : '20px'} mb="4px">
-                Overview
-              </Heading>
-            )}
-            {overview && <Text>{overview}</Text>}
-          </>
-        )}
-      </Flex>
     </Box>
   );
 };
