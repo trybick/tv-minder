@@ -2,12 +2,9 @@ import { Box, Flex, Separator } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useLocation } from 'wouter';
 
-import { ColorModeButton } from '~/components/ui/color-mode';
-import { useColorMode } from '~/components/ui/color-mode';
 import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
-import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import LoginButton from './LoginButton';
 import Logo from './Logo';
@@ -16,7 +13,6 @@ import NavigationLinks from './NavLinksContainer';
 import SignUpButton from './SignUpButton';
 
 const HeaderMobile = () => {
-  const { toggleColorMode } = useColorMode();
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -61,10 +57,6 @@ const HeaderMobile = () => {
               <NavigationLinks onClose={closeHeader} />
 
               <Flex alignItems="center" gap="12px" mt={4} ml="auto">
-                <ColorModeButton
-                  onClick={() => applyViewTransition(toggleColorMode)}
-                />
-
                 {isLoggedIn ? (
                   <LogoutButton />
                 ) : (

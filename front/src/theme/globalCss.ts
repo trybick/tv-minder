@@ -17,45 +17,37 @@ const desktopCalendarStyles = {
     marginBottom: '4px',
   },
 
-  // Day of the week headers background color
   '.fc-col-header-cell': {
-    backgroundColor: 'gray.100 !important',
-  },
-  '.dark .fc-col-header-cell': {
     backgroundColor: `${customColors.darkBg} !important`,
   },
 
   // This popover appears when there's more than four events in a day
-  '.dark .fc-more-popover': {
+  '.fc-more-popover': {
     backgroundColor: `${customColors.darkBg} !important`,
   },
 
   // Subtle gray colors instead of pure white
-  '.dark': {
+  ':root': {
     '--fc-border-color': `${whiteWithOpacity(0.2)} !important`,
     '--fc-page-bg-color': `${whiteWithOpacity(0.2)} !important`,
   },
   // Header day labels (Sun, Mon, etc.)
-  '.dark .fc-col-header-cell-cushion': {
+  '.fc-col-header-cell-cushion': {
     color: `${whiteWithOpacity(0.6)} !important`,
   },
   // Day numbers (1, 2, etc.)
-  '.dark .fc-daygrid-day-number': {
+  '.fc-daygrid-day-number': {
     color: `${whiteWithOpacity(0.7)} !important`,
   },
 };
 
 const mobileCalendarStyles = {
-  // Day of the week headers background color
   '.fc-list-day-cushion': {
-    backgroundColor: 'gray.300 !important',
-  },
-  '.dark .fc-list-day-cushion': {
     backgroundColor: 'gray.700 !important',
   },
 
   // Event hover color
-  '.dark .fc .fc-list-event:hover td': {
+  '.fc .fc-list-event:hover td': {
     backgroundColor: `${customColors.darkHover} !important`,
   },
 };

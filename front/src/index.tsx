@@ -16,7 +16,7 @@ const WrappedApp = () => (
         <GoogleOAuthProvider
           clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!}
         >
-          <ChakraProviderWithSystem defaultTheme="dark">
+          <ChakraProviderWithSystem>
             <App />
           </ChakraProviderWithSystem>
         </GoogleOAuthProvider>
