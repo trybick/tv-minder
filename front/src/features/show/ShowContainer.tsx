@@ -20,10 +20,10 @@ const ShowContainer = () => {
           <ShowDetails />
         </Flex>
       ) : (
-        <Grid gap="22px" gridTemplateColumns=".7fr 1fr">
+        <Grid gap="22px" gridTemplateColumns=".6fr 1fr">
           <Flex direction="column" gap="12px">
             <ShowImage />
-            <FollowButton showId={showId} />
+            <FollowButton showId={showId} size="xl" />
           </Flex>
           <ShowDetails />
         </Grid>

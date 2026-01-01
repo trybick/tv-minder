@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
-import { FaCheck } from 'react-icons/fa6';
+import { CiCircleMinus } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -75,7 +75,7 @@ const FollowButton = ({
       {...(followedWidth && { minW: followedWidth })}
       {...rest}
     >
-      <FaCheck />
+      <CiCircleMinus />
       Unfollow
     </Button>
   ) : (

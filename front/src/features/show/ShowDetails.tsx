@@ -106,7 +106,7 @@ const ShowDetails = () => {
       ) : null}
 
       {isMobile && id && (
-        <FollowButton mb="14px" showId={id} size="md" width="100%" />
+        <FollowButton mb="14px" showId={id} size="lg" width="100%" />
       )}
 
       <VideoTrailerButton videoId={videoTrailerKey} />

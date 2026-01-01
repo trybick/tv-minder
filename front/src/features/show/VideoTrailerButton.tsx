@@ -48,6 +48,7 @@ const VideoTrailerButton = ({ videoId }: Props) => {
             onClick={onOpen}
             variant={isMobile ? 'outline' : 'surface'}
             w={isMobile ? '100%' : 'unset'}
+            size={isMobile ? 'lg' : 'md'}
           >
             <Icon as={AiFillYoutube} boxSize="19px" color="#B2071D" mr="4px" />
             <Text display="inline" fontSize="15px" fontWeight="600">
