@@ -1,3 +1,10 @@
+const customColors = {
+  darkBg: '#1A202C',
+  darkHover: '#333333',
+};
+
+const whiteWithOpacity = (opacity: number) => `rgba(255, 255, 255, ${opacity})`;
+
 const desktopCalendarStyles = {
   // Height of each table row. Setting this height along with
   // <FullCalendar height="auto" /> seems like a good balance.
@@ -15,18 +22,26 @@ const desktopCalendarStyles = {
     backgroundColor: 'gray.100 !important',
   },
   '.dark .fc-col-header-cell': {
-    backgroundColor: '#1A202C !important',
+    backgroundColor: `${customColors.darkBg} !important`,
   },
 
-  // Set the "more" popover color which appears when there's more than four
-  // events in a day.
+  // This popover appears when there's more than four events in a day
   '.dark .fc-more-popover': {
-    backgroundColor: '#1A202C !important',
+    backgroundColor: `${customColors.darkBg} !important`,
   },
 
-  // Fix missing border-left. Not really sure why it happens
-  '.fc-scrollgrid-section-header > th': {
-    borderLeftWidth: '1px !important',
+  // Subtle gray colors instead of pure white
+  '.dark': {
+    '--fc-border-color': `${whiteWithOpacity(0.2)} !important`,
+    '--fc-page-bg-color': `${whiteWithOpacity(0.2)} !important`,
+  },
+  // Header day labels (Sun, Mon, etc.)
+  '.dark .fc-col-header-cell-cushion': {
+    color: `${whiteWithOpacity(0.6)} !important`,
+  },
+  // Day numbers (1, 2, etc.)
+  '.dark .fc-daygrid-day-number': {
+    color: `${whiteWithOpacity(0.7)} !important`,
   },
 };
 
@@ -41,7 +56,7 @@ const mobileCalendarStyles = {
 
   // Event hover color
   '.dark .fc .fc-list-event:hover td': {
-    backgroundColor: '#333333 !important',
+    backgroundColor: `${customColors.darkHover} !important`,
   },
 };
 
