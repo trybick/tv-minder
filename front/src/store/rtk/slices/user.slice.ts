@@ -5,7 +5,6 @@ import { setSentryUser } from '~/utils/sentry';
 export type UserState = {
   email: string;
   isGoogleUser: boolean;
-  hasLocalWarningToastBeenShown: boolean;
   isLoggedIn: boolean;
   unregisteredFollowedShows: number[];
 };
@@ -13,7 +12,6 @@ export type UserState = {
 const initialState: UserState = {
   email: '',
   isGoogleUser: false,
-  hasLocalWarningToastBeenShown: false,
   isLoggedIn: false,
   unregisteredFollowedShows: [],
 };
@@ -22,10 +20,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setHasLocalWarningToastBeenShown: state => {
-      state.hasLocalWarningToastBeenShown = true;
-    },
-
     setIsLoggedOut: state => {
       setSentryUser(null);
       state.isLoggedIn = false;
@@ -61,15 +55,12 @@ const userSlice = createSlice({
   selectors: {
     selectEmail: state => state.email,
     selectIsGoogleUser: state => state.isGoogleUser,
-    selectHasLocalWarningToastBeenShown: state =>
-      state.hasLocalWarningToastBeenShown,
     selectIsLoggedIn: state => state.isLoggedIn,
     selectUnregisteredFollowedShows: state => state.unregisteredFollowedShows,
   },
 });
 
 export const {
-  setHasLocalWarningToastBeenShown,
   setIsLoggedOut,
   setIsLoggedIn,
   unregisteredFollowShow,
@@ -79,7 +70,6 @@ export const {
 export const {
   selectEmail,
   selectIsGoogleUser,
-  selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
   selectUnregisteredFollowedShows,
 } = userSlice.selectors;

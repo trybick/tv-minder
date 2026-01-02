@@ -9,14 +9,10 @@ import {
 } from '~/store/rtk/api/follow.api';
 import { makeSelectIsShowFollowed } from '~/store/rtk/slices/user.selectors';
 import {
-  selectHasLocalWarningToastBeenShown,
   selectIsLoggedIn,
-  setHasLocalWarningToastBeenShown,
   unregisteredFollowShow,
   unregisteredUnfollowShow,
 } from '~/store/rtk/slices/user.slice';
-
-import { showToast } from './ui/toaster';
 
 type Props = {
   showId: number;
@@ -33,9 +29,6 @@ const FollowButton = ({
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const hasLocalWarningToastBeenShown = useAppSelector(
-    selectHasLocalWarningToastBeenShown
-  );
   const isFollowed = useAppSelector(makeSelectIsShowFollowed(showId));
 
   const [followShow] = useFollowShowMutation();
@@ -46,15 +39,6 @@ const FollowButton = ({
       await followShow(showId);
     } else {
       dispatch(unregisteredFollowShow(showId));
-      if (!hasLocalWarningToastBeenShown) {
-        dispatch(setHasLocalWarningToastBeenShown());
-        showToast({
-          title: "We're saving your shows",
-          description: 'You can sign up to avoid losing them',
-          type: 'warning',
-          duration: 7000,
-        });
-      }
     }
   }
 

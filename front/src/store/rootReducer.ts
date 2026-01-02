@@ -23,7 +23,7 @@ const rootPersistConfig = {
 const userPersistConfig = {
   key: 'user',
   storage: localforage,
-  blacklist: ['hasLocalWarningToastBeenShown'],
+  blacklist: [],
 };
 
 const tvPersistConfig = {
