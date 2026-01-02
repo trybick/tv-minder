@@ -2,6 +2,7 @@ import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import FullCalendar from '@fullcalendar/react';
 import { RefObject, useMemo } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+import { MdOutlineResetTv } from 'react-icons/md';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
@@ -85,6 +86,7 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
 
       <Flex align="center" gap={2} justifySelf="end">
         <Button size="sm" h="42px" variant="subtle" onClick={handleToday}>
+          <MdOutlineResetTv />
           today
         </Button>
         <Button size="sm" h="42px" variant="subtle" onClick={handlePrev}>
