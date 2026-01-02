@@ -4,11 +4,13 @@ import { applyViewTransition } from '~/utils/applyViewTransition';
 
 export function useCollapsibleHeader(ref: RefObject<HTMLDivElement | null>) {
   const [isHeaderOpen, setIsHeaderOpen] = useState(false);
+
   const toggleHeader = () => {
     applyViewTransition(() => {
       setIsHeaderOpen(prev => !prev);
     });
   };
+
   const closeHeader = () => {
     applyViewTransition(() => {
       setIsHeaderOpen(false);

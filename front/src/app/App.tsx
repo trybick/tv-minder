@@ -4,6 +4,7 @@ import ReactGA from 'react-ga4';
 import { Route, Switch } from 'wouter';
 
 import ErrorBoundary from '~/components/ErrorBoundary';
+import Modals from '~/components/Modals';
 import ProtectedRoute from '~/components/ProtectedRoute';
 import { Toaster } from '~/components/ui/toaster';
 import CalendarPage from '~/features/calendar/CalendarPage';
@@ -46,6 +47,7 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Toaster />
+      <Modals />
 
       <Flex direction="column" minH="97vh">
         {isMobile ? <MobileHeader /> : <DesktopHeader />}

@@ -14,8 +14,6 @@ import TMDBLogo from '~/assets/images/TMDB-logo.svg';
 import { useAppDispatch } from '~/store';
 import { setIsFeedbackModalOpen } from '~/store/rtk/slices/modals.slice';
 
-import FeedbackModal from './FeedbackModal';
-
 const Footer = () => {
   const dispatch = useAppDispatch();
 
@@ -71,7 +69,6 @@ const Footer = () => {
           </Button>
         </Flex>
       </Flex>
-      <FeedbackModal />
     </Box>
   );
 };
