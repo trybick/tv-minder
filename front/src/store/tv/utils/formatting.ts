@@ -217,6 +217,10 @@ export const mapShowInfoForDisplay = (
 export const formatSameDayEpisodes = (
   episodesForDisplay: CalendarEpisode[]
 ) => {
+  if (!episodesForDisplay.length) {
+    return [];
+  }
+
   // Combine episode objects with same show name and date
   const sameDayEpisodesByEpisodeID: Record<number, CalendarEpisode> = {};
   episodesForDisplay.reduce((prev, next) => {
