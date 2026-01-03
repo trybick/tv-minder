@@ -20,7 +20,7 @@ import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import dayjs from '~/utils/dayjs';
 
-import CustomCalendarHeader from './CustomCalendarHeader';
+import CalendarHeader from './CalendarHeader';
 import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
 
 const CalendarPage = () => {
@@ -128,7 +128,7 @@ const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        <CustomCalendarHeader
+        <CalendarHeader
           calendarRef={calendarRef}
           title={calendarTitle}
           viewRange={viewRange}

@@ -21,7 +21,7 @@ type Props = {
   viewRange: { start: Date; end: Date } | null;
 };
 
-const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
+const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
   const isMobile = useIsMobile();
 
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -65,7 +65,7 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       gap={3}
     >
       <Heading
-        fontSize="4xl"
+        fontSize="3xl"
         fontWeight="semibold"
         justifySelf="start"
         ml="2px"
@@ -98,4 +98,4 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
   );
 };
 
-export default CustomCalendarHeader;
+export default CalendarHeader;
