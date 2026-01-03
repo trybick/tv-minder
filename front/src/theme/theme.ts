@@ -22,6 +22,11 @@ const customConfig = defineConfig({
           color: 'fg.muted',
         },
       },
+      input: {
+        base: {
+          color: 'fg',
+        },
+      },
     },
     tokens: {
       fonts: {
