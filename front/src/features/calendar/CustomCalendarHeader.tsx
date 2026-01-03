@@ -13,8 +13,7 @@ import {
 } from '~/store/tv/selectors';
 import dayjs from '~/utils/dayjs';
 
-import NoFollowedShowsBanner from './NoFollowedShowsBanner';
-import UpdatingCalendarBanner from './UpdatingCalendarBanner';
+import LoadingEpisodesBanner from './LoadingEpisodesBanner';
 
 type Props = {
   calendarRef: RefObject<FullCalendar | null>;
@@ -76,12 +75,12 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       </Heading>
 
       <Box>
-        {!isMobile &&
-          (isLoadingCalendarEpisodes || isLoadingFollowedShows ? (
-            <UpdatingCalendarBanner />
-          ) : (
-            !hasEpisodesInCurrentMonth && <NoFollowedShowsBanner />
-          ))}
+        {!isMobile && (
+          <LoadingEpisodesBanner
+            isLoading={isLoadingCalendarEpisodes || isLoadingFollowedShows}
+            hasNoEpisodesThisMonth={!hasEpisodesInCurrentMonth}
+          />
+        )}
       </Box>
 
       <Flex align="center" gap={2} justifySelf="end">
