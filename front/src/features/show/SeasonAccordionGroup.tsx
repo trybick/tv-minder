@@ -32,7 +32,7 @@ const SeasonAccordionGroup = () => {
           <Accordion.ItemTrigger
             cursor="pointer"
             px={isMobile ? '8px' : '16px'}
-            py="4"
+            py={4}
             _hover={{ bg: 'whiteAlpha.50' }}
             _open={{ bg: 'whiteAlpha.50' }}
             transition="background 0.2s"
@@ -54,7 +54,7 @@ const SeasonAccordionGroup = () => {
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
-          <Accordion.ItemContent p="2">
+          <Accordion.ItemContent>
             <EpisodesTable episodes={episodes} />
           </Accordion.ItemContent>
         </Accordion.Item>
