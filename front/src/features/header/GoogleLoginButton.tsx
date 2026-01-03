@@ -6,7 +6,10 @@ import GoogleButton from 'react-google-button';
 import ENDPOINTS from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
 import { useAppDispatch } from '~/store';
-import { setIsSignUpModalOpen } from '~/store/rtk/slices/modals.slice';
+import {
+  setIsLoginModalOpen,
+  setIsSignUpModalOpen,
+} from '~/store/rtk/slices/modals.slice';
 import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import handleErrors from '~/utils/handleErrors';
 
@@ -49,6 +52,7 @@ const GoogleLoginButton = () => {
         .json<{ token: string; email: string }>()
         .then(res => {
           localStorage.setItem('jwt', res.token);
+          dispatch(setIsLoginModalOpen(false));
           dispatch(setIsSignUpModalOpen(false));
           dispatch(setIsLoggedIn({ email: res.email, isGoogleUser: true }));
         })
