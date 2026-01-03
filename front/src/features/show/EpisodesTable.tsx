@@ -11,6 +11,8 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { EpisodeForSeason } from '~/store/tv/types/transformed';
 import dayjs from '~/utils/dayjs';
 
+import TableHeader from './TableHeader';
+
 type Props = {
   episodes: EpisodeForSeason[];
 };
@@ -23,16 +25,7 @@ const EpisodesTable = ({ episodes }: Props) => {
       id: 'episodeNumber',
       accessorKey: 'episodeNumber',
       size: 40,
-      header: () => (
-        <Text
-          color="fg.muted"
-          fontSize="xs"
-          fontWeight="bold"
-          textTransform="uppercase"
-        >
-          Number
-        </Text>
-      ),
+      header: () => <TableHeader>Number</TableHeader>,
       cell: ({ row }) => (
         <Text color="fg.muted" fontSize="sm">
           {row.original.episodeNumber}
@@ -43,16 +36,7 @@ const EpisodesTable = ({ episodes }: Props) => {
       id: 'name',
       accessorKey: 'name',
       size: 100,
-      header: () => (
-        <Text
-          color="fg.muted"
-          fontSize="xs"
-          fontWeight="bold"
-          textTransform="uppercase"
-        >
-          Title
-        </Text>
-      ),
+      header: () => <TableHeader>Title</TableHeader>,
       cell: ({ row }) => (
         <Text fontWeight="semibold" fontSize="sm" color="fg">
           {row.original.name}
@@ -64,16 +48,7 @@ const EpisodesTable = ({ episodes }: Props) => {
       size: 80,
       accessorFn: row =>
         row.airDate && dayjs(row.airDate).format('MMM D, YYYY'),
-      header: () => (
-        <Text
-          color="fg.muted"
-          fontSize="xs"
-          fontWeight="bold"
-          textTransform="uppercase"
-        >
-          Air Date
-        </Text>
-      ),
+      header: () => <TableHeader>Air Date</TableHeader>,
       cell: ({ getValue }) => (
         <Text fontSize="sm" whiteSpace="nowrap" color="fg.muted">
           {getValue() as string}
@@ -84,15 +59,7 @@ const EpisodesTable = ({ episodes }: Props) => {
       id: 'voteAverage',
       size: 50,
       header: () => (
-        <Text
-          color="fg.muted"
-          fontSize="xs"
-          fontWeight="bold"
-          textTransform="uppercase"
-          textAlign="center"
-        >
-          Rating
-        </Text>
+        <TableHeader textProps={{ textAlign: 'center' }}>Rating</TableHeader>
       ),
       cell: ({ row }) => {
         const ratingStr = row.original.voteAverage;
@@ -140,7 +107,7 @@ const EpisodesTable = ({ episodes }: Props) => {
   });
 
   return (
-    <Table.Root size={isMobile ? 'sm' : 'md'} variant="line" interactive>
+    <Table.Root size={isMobile ? 'sm' : 'md'} variant="outline" interactive>
       <Table.Header>
         {getHeaderGroups().map(headerGroup => (
           <Table.Row key={headerGroup.id} borderBottomWidth="2px">
