@@ -58,9 +58,7 @@ const EpisodesTable = ({ episodes }: Props) => {
     {
       id: 'voteAverage',
       size: 50,
-      header: () => (
-        <TableHeader textProps={{ textAlign: 'center' }}>Rating</TableHeader>
-      ),
+      header: () => <TableHeader textAlign="center">Rating</TableHeader>,
       cell: ({ row }) => {
         const ratingStr = row.original.voteAverage;
         if (!ratingStr || ratingStr === '-') {

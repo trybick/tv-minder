@@ -3,11 +3,8 @@ import { ReactNode } from 'react';
 
 const TableHeader = ({
   children,
-  textProps,
-}: {
-  children: ReactNode;
-  textProps?: TextProps;
-}) => (
+  ...textProps
+}: { children: ReactNode } & TextProps) => (
   <Text
     color="fg.muted"
     fontSize="xs"
