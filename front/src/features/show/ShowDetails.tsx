@@ -116,7 +116,7 @@ const ShowDetails = () => {
           {isLoading ? (
             <DelayedSkeletonText isLoading={isLoading} noOfLines={9} w="100%" />
           ) : (
-            <Text>{overview}</Text>
+            <Text color="fg">{overview}</Text>
           )}
         </Flex>
       )}
