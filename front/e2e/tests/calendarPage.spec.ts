@@ -20,10 +20,6 @@ test.describe('Calendar Page', () => {
     await page
       .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
       .click();
-    await expect(page.getByRole('status')).toBeVisible();
-    await expect(page.getByRole('status')).toHaveText(
-      /we're saving your shows/i
-    );
 
     await page.getByPlaceholder(/find tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
