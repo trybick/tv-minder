@@ -6,10 +6,9 @@ const customColors = {
 const whiteWithOpacity = (opacity: number) => `rgba(255, 255, 255, ${opacity})`;
 
 const desktopCalendarStyles = {
-  // Height of each table row. Setting this height along with
-  // <FullCalendar height="auto" /> seems like a good balance.
+  // Height of each table row. Works with `height: auto` on <FullCalendar>.
   '.fc-scrollgrid tbody:first-of-type tr': {
-    height: '170px',
+    height: 'clamp(90px, 15vh, 190px)',
   },
 
   // Add vertical space between calendar events

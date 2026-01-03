@@ -113,7 +113,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
                       </Text>
                     </Flex>
                   )}
-                  {runtime && !isMulipleEvent && (
+                  {!!runtime && !isMulipleEvent && (
                     <Flex align="center" gap="2px">
                       <Icon
                         alignSelf="center"
