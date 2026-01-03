@@ -39,7 +39,7 @@ const ShowDetails = () => {
   return (
     <Box w="100%">
       <DelayedSkeleton isLoading={isLoading}>
-        <Heading as="h3" fontSize="3xl" mb="7px" color="fg.muted">
+        <Heading as="h3" fontSize="3xl" mb="7px">
           {name}{' '}
           {yearsActive && (
             <chakra.span fontSize="2xl" fontWeight="600">

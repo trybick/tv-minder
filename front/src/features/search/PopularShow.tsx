@@ -70,18 +70,11 @@ const PopularShow = ({ show }: Props) => {
           onClick={onShowClick}
           m="0 auto"
           textDecoration={isImageHovered ? 'underline' : 'none'}
-          textUnderlineOffset="2px"
           _hover={{
             textDecoration: 'underline',
           }}
         >
-          <Heading
-            as="button"
-            cursor="pointer"
-            fontSize="md"
-            lineClamp={1}
-            color="fg.muted"
-          >
+          <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
             {name}
           </Heading>
         </Link>

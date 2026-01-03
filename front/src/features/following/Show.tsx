@@ -66,19 +66,12 @@ const Show = (props: Props) => {
           onClick={onShowClick}
           textAlign="center"
           textDecoration={isImageHovered ? 'underline' : 'none'}
-          textUnderlineOffset="2px"
           _hover={{
             textDecoration: 'underline',
           }}
           href={`${ROUTES.SHOW}/${id}`}
         >
-          <Heading
-            as="button"
-            cursor="pointer"
-            fontSize="md"
-            lineClamp={1}
-            color="fg.muted"
-          >
+          <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
             {name}
           </Heading>
         </Link>

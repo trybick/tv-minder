@@ -22,20 +22,20 @@ const EpisodesTable = ({ episodes }: Props) => {
       id: 'episodeNumber',
       accessorKey: 'episodeNumber',
       size: 40,
-      header: () => <Text>#</Text>,
+      header: () => <Text color="fg.muted">#</Text>,
     },
     {
       id: 'name',
       accessorKey: 'name',
       size: 100,
-      header: () => <Text>Title</Text>,
+      header: () => <Text color="fg.muted">Title</Text>,
     },
     {
       id: 'airDate',
       size: 80,
       accessorFn: row =>
         row.airDate && dayjs(row.airDate).format('MMMM D, YYYY'),
-      header: () => <Text>Air Date</Text>,
+      header: () => <Text color="fg.muted">Air Date</Text>,
     },
     {
       id: 'voteAverage',
@@ -44,7 +44,11 @@ const EpisodesTable = ({ episodes }: Props) => {
         style: { textAlign: 'center' },
       },
       accessorFn: row => row.voteAverage,
-      header: () => <Text textAlign="center">Rating</Text>,
+      header: () => (
+        <Text color="fg.muted" textAlign="center">
+          Rating
+        </Text>
+      ),
       cell: ({ row }) => (
         <Text textAlign="center">{row.original.voteAverage}</Text>
       ),

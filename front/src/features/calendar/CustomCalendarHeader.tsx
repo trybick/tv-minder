@@ -67,7 +67,6 @@ const CustomCalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       <Heading
         fontSize="4xl"
         fontWeight="semibold"
-        color="fg.muted"
         justifySelf="start"
         ml="2px"
       >

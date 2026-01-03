@@ -70,7 +70,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
             </HoverCard.Arrow>
             <Box>
               <Link
-                color="white"
+                color="fg"
                 fontSize="14px"
                 mb="7px"
                 href={`${ROUTES.SHOW}/${showId}`}
@@ -78,10 +78,10 @@ const DesktopCalendarEventPopover = (props: Props) => {
               >
                 <Text lineClamp={1}>{showName}</Text>
               </Link>
-              <Text color="white" fontSize="lg" fontWeight="600" mb="3px">
+              <Text color="fg" fontSize="lg" fontWeight="600" mb="3px">
                 {seasonAndEpisodeNumbersFull}
               </Text>
-              <Text color="white" fontSize="sm" fontStyle="italic" mb="8px">
+              <Text color="fg" fontSize="sm" fontStyle="italic" mb="8px">
                 {!isMulipleEvent && episodeName}
               </Text>
 
@@ -93,9 +93,9 @@ const DesktopCalendarEventPopover = (props: Props) => {
                         alignSelf="center"
                         as={TbBoxMultiple}
                         boxSize="14px"
-                        color="white"
+                        color="fg"
                       />
-                      <Text color="white" fontSize="13px" fontWeight="500">
+                      <Text color="fg" fontSize="13px" fontWeight="500">
                         {`${multipleEventSpanAmount} episodes`}
                       </Text>
                     </Flex>
@@ -106,9 +106,9 @@ const DesktopCalendarEventPopover = (props: Props) => {
                         alignSelf="center"
                         as={HiOutlineVideoCamera}
                         boxSize="14px"
-                        color="white"
+                        color="fg"
                       />
-                      <Text color="white" fontSize="13px" fontWeight="500">
+                      <Text color="fg" fontSize="13px" fontWeight="500">
                         {network}
                       </Text>
                     </Flex>
@@ -119,9 +119,9 @@ const DesktopCalendarEventPopover = (props: Props) => {
                         alignSelf="center"
                         as={IoIosTimer}
                         boxSize="14px"
-                        color="white"
+                        color="fg"
                       />
-                      <Text color="white" fontSize="13px" fontWeight="500">
+                      <Text color="fg" fontSize="13px" fontWeight="500">
                         {runtime} mins
                       </Text>
                     </Flex>
@@ -130,7 +130,7 @@ const DesktopCalendarEventPopover = (props: Props) => {
               ) : null}
 
               {overview && !isMulipleEvent && (
-                <Text color="white" fontSize="sm" mt="9px">
+                <Text color="fg" fontSize="sm" mt="9px">
                   {overview}
                 </Text>
               )}

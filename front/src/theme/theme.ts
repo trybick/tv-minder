@@ -11,10 +11,18 @@ const customConfig = defineConfig({
     },
     body: {
       backgroundColor: 'bg.muted',
+      color: 'fg.muted',
     },
   },
 
   theme: {
+    recipes: {
+      heading: {
+        base: {
+          color: 'fg.muted',
+        },
+      },
+    },
     tokens: {
       fonts: {
         heading: { value: '"DM Sans", sans-serif' },
