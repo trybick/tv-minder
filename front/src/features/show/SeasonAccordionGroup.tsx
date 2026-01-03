@@ -22,27 +22,39 @@ const SeasonAccordionGroup = () => {
   const createAccordionItems = () =>
     seasonsWithEpisodes?.map(
       ({ airDate, episodes, id, isSpecialsSeason, nameForDisplay }) => (
-        <Accordion.Item key={id} value={id.toString()}>
+        <Accordion.Item
+          key={id}
+          value={id.toString()}
+          borderBottomWidth="1px"
+          borderColor="whiteAlpha.100"
+          _last={{ borderBottomWidth: 0 }}
+        >
           <Accordion.ItemTrigger
             cursor="pointer"
             px={isMobile ? '8px' : '16px'}
+            py="4"
+            _hover={{ bg: 'whiteAlpha.50' }}
+            _open={{ bg: 'whiteAlpha.50' }}
+            transition="background 0.2s"
           >
             <Box flex="1" textAlign="left">
-              <Text display="inline" fontSize="lg" fontWeight="600">
+              <Text display="inline" fontSize="lg" fontWeight="600" color="fg">
                 {nameForDisplay}
               </Text>{' '}
               {!isSpecialsSeason && airDate && (
-                <Text display="inline" fontSize="md">
+                <Text display="inline" fontSize="md" color="fg.muted" ml={0.5}>
                   ({dayjs(airDate).year()})
                 </Text>
               )}
             </Box>
             <Box mr="20px" textAlign="right">
-              <Text fontSize="md">{episodes.length} Episodes</Text>
+              <Text fontSize="sm" color="fg.muted">
+                {episodes.length} Episodes
+              </Text>
             </Box>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
-          <Accordion.ItemContent p={isMobile ? '10px 0 5px' : '10px'}>
+          <Accordion.ItemContent p="2">
             <EpisodesTable episodes={episodes} />
           </Accordion.ItemContent>
         </Accordion.Item>
