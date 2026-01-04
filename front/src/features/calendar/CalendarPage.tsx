@@ -16,6 +16,7 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import dayjs from '~/utils/dayjs';
@@ -38,6 +39,7 @@ const CalendarPage = () => {
 
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -60,6 +62,12 @@ const CalendarPage = () => {
       changeView('dayGridMonth');
     }
   }, [isMobile]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      calendarRef.current?.getApi().today();
+    }
+  }, [isLoggedIn]);
 
   const onEventClick = (eventInfo: EventClickArg) => {
     const showId = eventInfo.event.extendedProps.showId;
