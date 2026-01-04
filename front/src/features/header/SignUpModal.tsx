@@ -133,7 +133,7 @@ const SignUpModal = () => {
           </Dialog.Header>
 
           <Dialog.CloseTrigger asChild>
-            <CloseButton />
+            <CloseButton color="fg.muted" />
           </Dialog.CloseTrigger>
 
           {/* Since this component throws an error if it doesn't have the google
@@ -193,7 +193,7 @@ const SignUpModal = () => {
             </Dialog.Body>
 
             <Dialog.Footer>
-              <Button mr={3} onClick={onClose} variant="ghost">
+              <Button color="fg.muted" mr={3} onClick={onClose} variant="ghost">
                 Cancel
               </Button>
               <Button

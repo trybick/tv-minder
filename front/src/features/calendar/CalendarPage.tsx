@@ -109,7 +109,8 @@ const CalendarPage = () => {
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
     listDaySideFormat: false,
-    noEventsContent: 'New episodes will appear here!',
+    noEventsContent:
+      'No new episodes this month. Follow more shows to see them here.',
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     ref: calendarRef as RefObject<FullCalendar>,
     titleFormat: { month: 'long' },

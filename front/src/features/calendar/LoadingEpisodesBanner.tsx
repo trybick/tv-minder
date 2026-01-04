@@ -49,7 +49,7 @@ const LoadingEpisodesBanner = ({
       w="fit-content"
     >
       <Spinner size="sm" />
-      <Alert.Title fontSize="14px">Getting latest episodes</Alert.Title>
+      <Alert.Title fontSize="14px">Refreshing episodes</Alert.Title>
     </Alert.Root>
   );
 };

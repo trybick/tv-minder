@@ -70,8 +70,9 @@ const SeasonAccordionGroup = () => {
       <DelayedSkeleton isLoading={isLoading}>
         <Heading
           as="h4"
-          fontSize={isMobile ? 'xl' : '2xl'}
+          fontSize={isMobile ? '2xl' : '2xl'}
           ml={isMobile ? '' : '14px'}
+          mt={1}
         >
           Episodes
         </Heading>

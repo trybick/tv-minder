@@ -112,6 +112,7 @@ const FeedbackModal = () => {
             <Dialog.Title>Send Feedback</Dialog.Title>
             <Dialog.CloseTrigger asChild>
               <CloseButton
+                color="fg.muted"
                 onClick={() => {
                   resetForm();
                   dispatch(setIsFeedbackModalOpen(false));

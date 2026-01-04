@@ -27,6 +27,11 @@ const customConfig = defineConfig({
           color: 'fg',
         },
       },
+      textarea: {
+        base: {
+          color: 'fg',
+        },
+      },
     },
     tokens: {
       fonts: {

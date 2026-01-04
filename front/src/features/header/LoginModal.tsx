@@ -210,7 +210,7 @@ const LoginModal = () => {
             </Dialog.Header>
 
             <Dialog.CloseTrigger asChild>
-              <CloseButton />
+              <CloseButton color="fg.muted" />
             </Dialog.CloseTrigger>
 
             {/* Since this component throws an error if it doesn't have the google
@@ -294,6 +294,7 @@ const LoginModal = () => {
                       }}
                       px={0}
                       variant="plain"
+                      color="fg.muted"
                     >
                       {formOption === 0 ? (
                         'Forgot Password?'
@@ -309,6 +310,7 @@ const LoginModal = () => {
 
                 <Box>
                   <Button
+                    color="fg.muted"
                     onClick={() => handleFormClose(false)}
                     variant="ghost"
                   >
