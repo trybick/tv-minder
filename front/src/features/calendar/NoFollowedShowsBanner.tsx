@@ -2,11 +2,13 @@ import { Alert, Link } from '@chakra-ui/react';
 import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
 const NoFollowedShowsBanner = () => {
+  const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const followedShows = useAppSelector(selectFollowedShows);
 
@@ -19,9 +21,10 @@ const NoFollowedShowsBanner = () => {
     <Alert.Root
       colorPalette="cyan"
       status="info"
-      size="sm"
+      size={isMobile ? 'lg' : 'sm'}
       variant="subtle"
-      w="fit-content"
+      display="flex"
+      alignItems="center"
     >
       <Alert.Indicator />
       {followedShows.length ? (

@@ -22,6 +22,7 @@ import dayjs from '~/utils/dayjs';
 
 import CalendarHeader from './CalendarHeader';
 import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
+import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 
 const CalendarPage = () => {
   const dispatch = useAppDispatch();
@@ -109,8 +110,7 @@ const CalendarPage = () => {
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
     listDaySideFormat: false,
-    noEventsContent:
-      'No new episodes this month. Follow more shows to see them here.',
+    noEventsContent: <NoFollowedShowsBanner />,
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     ref: calendarRef as RefObject<FullCalendar>,
     titleFormat: { month: 'long' },
