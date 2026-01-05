@@ -9,7 +9,7 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import ky from 'ky';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 
@@ -69,6 +69,16 @@ const LoginModal = () => {
 
   // Forgot Password
   const [formOption, setFormOption] = useState(0);
+
+  useEffect(() => {
+    if (!isOpen) {
+      queueMicrotask(() => {
+        setIsSubmitLoading(false);
+        setFormOption(0);
+        resetForm();
+      });
+    }
+  }, [isOpen, resetForm]);
 
   const onSubmit = handleSubmit(
     ({ email, password, oneTimeCode }: FormInputs) => {
@@ -172,9 +182,7 @@ const LoginModal = () => {
 
   const handleFormClose = (isOpen: boolean) => {
     if (!isOpen) {
-      setFormOption(0);
       onClose();
-      resetForm();
     }
   };
 

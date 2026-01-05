@@ -7,7 +7,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import ky, { HTTPError } from 'ky';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import ENDPOINTS from '~/app/endpoints';
@@ -75,6 +75,15 @@ const SignUpModal = () => {
     reset: resetForm,
   } = useForm<FormInputs>();
 
+  useEffect(() => {
+    if (!isOpen) {
+      queueMicrotask(() => {
+        setIsSubmitLoading(false);
+        resetForm();
+      });
+    }
+  }, [isOpen, resetForm]);
+
   const onSubmit = handleSubmit(({ email, password }: FormInputs) => {
     setIsSubmitLoading(true);
     ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
@@ -114,7 +123,6 @@ const SignUpModal = () => {
   const handleFormClose = (isOpen: boolean) => {
     if (!isOpen) {
       onClose();
-      resetForm();
     }
   };
 
