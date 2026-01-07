@@ -40,14 +40,12 @@ export default function handleErrors(error: unknown) {
         }
       });
   } else if (error instanceof Error) {
-    if (error.name === 'AbortError') {
+    if (error.name === 'AbortError' || error.name === 'TimeoutError') {
       return;
     }
 
     let errorType: string;
-    if (error.name === 'TimeoutError') {
-      errorType = 'timeout';
-    } else if (error instanceof TypeError) {
+    if (error instanceof TypeError) {
       errorType = 'network_failure'; // Failed to fetch, CORS, etc.
     } else {
       errorType = 'unknown';

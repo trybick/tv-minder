@@ -4,6 +4,15 @@ import { getIsProduction } from './env';
 
 const sendToSentry = (error: object & Record<'status', unknown>) => {
   const status = error.status;
+
+  if (
+    'error' in error &&
+    typeof error.error === 'string' &&
+    (error.error.includes('Timeout') || error.error.includes('timed out'))
+  ) {
+    return;
+  }
+
   const shouldSend =
     getIsProduction() &&
     (status === 'FETCH_ERROR' ||
