@@ -36,118 +36,133 @@ const ShowDetails = () => {
     yearsActive,
   } = currentShowInfo || {};
 
+  const hasMetadata = network || episodeRunTime || language;
+
   return (
     <Box w="100%">
+      {/* Title & Year */}
       <DelayedSkeleton isLoading={isLoading}>
-        <Heading as="h3" fontSize="3xl" mb="7px">
-          {name}{' '}
+        <Heading as="h1" fontSize={{ base: '2xl', md: '3xl' }} mb={3}>
+          {name}
           {yearsActive && (
-            <chakra.span fontSize="2xl" fontWeight="600">
+            <chakra.span
+              color="fg.muted"
+              fontSize={{ base: 'lg', md: 'xl' }}
+              fontWeight="400"
+              ml={2}
+            >
               ({yearsActive})
             </chakra.span>
           )}
         </Heading>
       </DelayedSkeleton>
 
+      {/* Rating */}
       {(isLoading || (!isLoading && voteAverage)) && (
-        <DelayedSkeleton isLoading={isLoading} w="145px">
-          <Flex mb="18px">
-            <Icon
-              alignSelf="center"
-              as={FaStar}
-              boxSize="27px"
-              color="yellow.400"
-            />
-            <Flex direction="column" ml="4px">
-              <Text fontSize="16px">
-                <chakra.span fontSize="17px" fontWeight="700">
-                  {voteAverage}
-                </chakra.span>{' '}
-                <chakra.span fontSize="sm" verticalAlign="text-bottom">
-                  / 10
-                </chakra.span>
+        <DelayedSkeleton isLoading={isLoading} w="160px" mb={4}>
+          <Flex align="center" gap={2} mb={5}>
+            <Flex
+              align="center"
+              gap={1.5}
+              bg="whiteAlpha.100"
+              px={2.5}
+              py={1}
+              borderRadius="md"
+            >
+              <Icon as={FaStar} boxSize="16px" color="yellow.400" />
+              <Text fontSize="md" fontWeight="700" color="fg">
+                {voteAverage}
               </Text>
-              <Flex ml="2px" gap="2px">
-                <Text fontSize="xs" fontWeight="600">
-                  {abbreviateNumber(voteCount || 1)}{' '}
-                </Text>
-                <Icon
-                  as={BsFillPersonFill}
-                  boxSize="12px"
-                  m="auto 0"
-                  verticalAlign="middle"
-                />
-              </Flex>
+              <Text fontSize="sm" color="fg.muted">
+                / 10
+              </Text>
+            </Flex>
+            <Flex align="center" gap={1} color="fg.muted">
+              <Icon as={BsFillPersonFill} boxSize="14px" />
+              <Text fontSize="sm">{abbreviateNumber(voteCount || 1)}</Text>
             </Flex>
           </Flex>
         </DelayedSkeleton>
       )}
 
+      {/* Genres */}
       {isLoading || (!isLoading && genreNames?.length) ? (
-        <Box mb="18px">
+        <Box mb={5}>
           <DelayedSkeleton
             isLoading={isLoading}
-            w={isLoading ? '145px' : 'unset'}
+            w={isLoading ? '200px' : 'unset'}
             h={isLoading ? '28px' : 'unset'}
           >
-            {genreNames?.map(genre => (
-              <Tag.Root
-                colorPalette="gray"
-                variant="outline"
-                key={genre}
-                mr="5px"
-                size="lg"
-              >
-                <Tag.Label>{genre}</Tag.Label>
-              </Tag.Root>
-            ))}
+            <Flex gap={2} flexWrap="wrap">
+              {genreNames?.map(genre => (
+                <Tag.Root
+                  key={genre}
+                  size="md"
+                  variant="subtle"
+                  bg="whiteAlpha.100"
+                  borderRadius="full"
+                  px={3}
+                >
+                  <Tag.Label fontSize="sm" fontWeight="500" color="fg.muted">
+                    {genre}
+                  </Tag.Label>
+                </Tag.Root>
+              ))}
+            </Flex>
           </DelayedSkeleton>
         </Box>
       ) : null}
 
-      {isMobile && id && (
-        <FollowButton mb="14px" showId={id} size="lg" width="100%" />
-      )}
+      {/* Actions Row - Trailer + Mobile Follow */}
+      <Flex gap={3} mb={5} flexWrap="wrap">
+        <VideoTrailerButton videoId={videoTrailerKey} />
+        {isMobile && id && <FollowButton showId={id} size="lg" flex="1" />}
+      </Flex>
 
-      <VideoTrailerButton videoId={videoTrailerKey} />
-
+      {/* Overview */}
       {overview && (
-        <Flex direction="column" mt="18px">
+        <Box mb={6}>
           {isLoading ? (
-            <DelayedSkeletonText isLoading={isLoading} noOfLines={9} w="100%" />
+            <DelayedSkeletonText isLoading={isLoading} noOfLines={6} w="100%" />
           ) : (
-            <Text color="fg">{overview}</Text>
+            <Text
+              color="fg"
+              fontSize="md"
+              lineHeight="1.7"
+              letterSpacing="0.01em"
+            >
+              {overview}
+            </Text>
           )}
-        </Flex>
+        </Box>
       )}
 
+      {/* Metadata */}
       {isLoading ? (
-        <DelayedSkeleton isLoading={isLoading} w="145px" h="40px" />
+        <DelayedSkeleton isLoading={isLoading} w="180px" h="80px" />
       ) : (
-        <Flex direction="column" gap="4px" mt="18px">
-          {network && (
-            <Flex align="center" gap="6px">
-              <Icon
-                alignSelf="center"
-                as={HiOutlineVideoCamera}
-                boxSize="18px"
-              />
-              <Text fontSize="15px">{network}</Text>
-            </Flex>
-          )}
-          {episodeRunTime && (
-            <Flex align="center" gap="6px">
-              <Icon alignSelf="center" as={IoIosTimer} boxSize="18px" />
-              <Text fontSize="15px">{episodeRunTime} mins</Text>
-            </Flex>
-          )}
-          {language && (
-            <Flex align="center" gap="6px">
-              <Icon alignSelf="center" as={TbLanguage} boxSize="18px" />
-              <Text fontSize="15px">{language}</Text>
-            </Flex>
-          )}
-        </Flex>
+        hasMetadata && (
+          <Flex gap={4} flexWrap="wrap" color="fg.muted">
+            {network && (
+              <Flex align="center" gap={2}>
+                <Icon as={HiOutlineVideoCamera} boxSize="18px" opacity={0.7} />
+                <Text fontSize="sm">{network}</Text>
+              </Flex>
+            )}
+            {episodeRunTime && (
+              <Flex align="center" gap={2}>
+                <Icon as={IoIosTimer} boxSize="18px" opacity={0.7} />
+                <Text fontSize="sm">{episodeRunTime} min</Text>
+              </Flex>
+            )}
+            {language && (
+              <Flex align="center" gap={2}>
+                <Icon as={TbLanguage} boxSize="18px" opacity={0.7} />
+                <Text fontSize="sm">{language}</Text>
+              </Flex>
+            )}
+          </Flex>
+        )
       )}
     </Box>
   );

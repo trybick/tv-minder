@@ -66,17 +66,12 @@ const SeasonAccordionGroup = () => {
   }
 
   return (
-    <Flex direction="column" flex="1" mt={isMobile ? '18px' : '50px'}>
+    <Flex direction="column" flex="1" mt={isMobile ? 6 : 12}>
       <DelayedSkeleton isLoading={isLoading}>
-        <Heading
-          as="h4"
-          fontSize={isMobile ? '2xl' : '2xl'}
-          ml={isMobile ? '' : '14px'}
-          mt={1}
-        >
+        <Heading as="h2" fontSize="xl" fontWeight="600" mb={4}>
           Episodes
         </Heading>
-        <Accordion.Root mt="14px" w="100%" collapsible>
+        <Accordion.Root w="100%" collapsible>
           {createAccordionItems()}
         </Accordion.Root>
       </DelayedSkeleton>
