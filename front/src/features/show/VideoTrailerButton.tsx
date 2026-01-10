@@ -1,6 +1,5 @@
 import {
   AspectRatio,
-  Box,
   Button,
   Dialog,
   Icon,
@@ -35,51 +34,55 @@ const VideoTrailerButton = ({ videoId }: Props) => {
     width: '100%',
   };
 
-  return (
-    (isLoading || (!isLoading && videoId)) && (
-      <Box
-        alignSelf="center"
-        mb={isMobile ? '20px' : '9px'}
-        mt={isMobile ? '' : '20px'}
-      >
-        <DelayedSkeleton isLoading={isLoading} w="145px">
-          <Button
-            fontSize="16px"
-            onClick={onOpen}
-            variant={isMobile ? 'outline' : 'surface'}
-            w={isMobile ? '100%' : 'unset'}
-            size={isMobile ? 'lg' : 'md'}
-          >
-            <Icon as={AiFillYoutube} boxSize="19px" color="#B2071D" mr="4px" />
-            <Text display="inline" fontSize="15px" fontWeight="600">
-              Play Trailer
-            </Text>
-          </Button>
-        </DelayedSkeleton>
+  if (!isLoading && !videoId) {
+    return null;
+  }
 
-        <Dialog.Root
-          onOpenChange={onClose}
-          open={isOpen}
-          placement="center"
-          size="md"
-          lazyMount
+  return (
+    <>
+      <DelayedSkeleton
+        isLoading={isLoading}
+        w={isMobile ? '100%' : '145px'}
+        h="40px"
+      >
+        <Button
+          onClick={onOpen}
+          variant="surface"
+          size={isMobile ? 'lg' : 'md'}
+          bg="whiteAlpha.100"
+          _hover={{ bg: 'whiteAlpha.200' }}
+          borderRadius="lg"
+          w={isMobile ? '100%' : 'auto'}
         >
+          <Icon as={AiFillYoutube} boxSize="22px" color="red.500" />
+          <Text fontWeight="600" fontSize="sm">
+            Play Trailer
+          </Text>
+        </Button>
+      </DelayedSkeleton>
+
+      <Dialog.Root
+        onOpenChange={onClose}
+        open={isOpen}
+        placement="center"
+        size="md"
+        lazyMount
+      >
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
           <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Backdrop />
-            <Dialog.Content>
-              {isMobile ? (
-                <AspectRatio ratio={1}>
-                  <YouTube opts={mobileOptions} videoId={videoId} />
-                </AspectRatio>
-              ) : (
-                <YouTube opts={desktopOptions} videoId={videoId} />
-              )}
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Dialog.Root>
-      </Box>
-    )
+          <Dialog.Content>
+            {isMobile ? (
+              <AspectRatio ratio={1}>
+                <YouTube opts={mobileOptions} videoId={videoId} />
+              </AspectRatio>
+            ) : (
+              <YouTube opts={desktopOptions} videoId={videoId} />
+            )}
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Dialog.Root>
+    </>
   );
 };
 
