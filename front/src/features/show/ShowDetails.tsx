@@ -1,4 +1,13 @@
-import { Box, chakra, Flex, Heading, Icon, Tag, Text } from '@chakra-ui/react';
+import {
+  Box,
+  chakra,
+  Flex,
+  Grid,
+  Heading,
+  Icon,
+  Tag,
+  Text,
+} from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
@@ -114,10 +123,16 @@ const ShowDetails = () => {
       ) : null}
 
       {/* Actions Row - Trailer + Mobile Follow */}
-      <Flex gap={3} mb={5} flexWrap="wrap">
-        <VideoTrailerButton videoId={videoTrailerKey} />
-        {isMobile && id && <FollowButton showId={id} size="lg" flex="1" />}
-      </Flex>
+      {isMobile ? (
+        <Grid gap={3} mb={5} gridTemplateColumns="1fr 1fr">
+          {id && <FollowButton showId={id} size="lg" />}
+          <VideoTrailerButton videoId={videoTrailerKey} />
+        </Grid>
+      ) : (
+        <Box mb={5}>
+          <VideoTrailerButton videoId={videoTrailerKey} />
+        </Box>
+      )}
 
       {/* Overview */}
       {overview && (
