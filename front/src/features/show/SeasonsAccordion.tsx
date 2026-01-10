@@ -1,4 +1,4 @@
-import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Flex, Text } from '@chakra-ui/react';
 
 import DelayedSkeleton from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -11,7 +11,7 @@ import dayjs from '~/utils/dayjs';
 
 import EpisodesTable from './EpisodesTable';
 
-const SeasonAccordionGroup = () => {
+const SeasonsAccordion = () => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
@@ -68,9 +68,6 @@ const SeasonAccordionGroup = () => {
   return (
     <Flex direction="column" flex="1" mt={isMobile ? 6 : 12}>
       <DelayedSkeleton isLoading={isLoading}>
-        <Heading as="h2" fontSize="xl" fontWeight="600" mb={4}>
-          Episodes
-        </Heading>
         <Accordion.Root w="100%" collapsible>
           {createAccordionItems()}
         </Accordion.Root>
@@ -79,4 +76,4 @@ const SeasonAccordionGroup = () => {
   );
 };
 
-export default SeasonAccordionGroup;
+export default SeasonsAccordion;

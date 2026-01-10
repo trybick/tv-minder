@@ -4,7 +4,7 @@ import FollowButton from '~/components/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import SeasonAccordionGroup from './SeasonAccordionGroup';
+import SeasonsAccordion from './SeasonsAccordion';
 import ShowDetails from './ShowDetails';
 import ShowImage from './ShowImage';
 
@@ -29,7 +29,7 @@ const ShowContainer = () => {
         </Grid>
       )}
 
-      <SeasonAccordionGroup />
+      <SeasonsAccordion />
     </>
   );
 };
