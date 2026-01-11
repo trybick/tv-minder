@@ -18,12 +18,12 @@ import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
+  authApi,
   useChangePasswordForResetMutation,
   useLoginMutation,
   useRequestOneTimeCodeMutation,
   useVerifyOneTimeCodeMutation,
 } from '~/store/rtk/api/auth.api';
-import { baseApi } from '~/store/rtk/api/baseApi';
 import { selectIsLoginModalOpen } from '~/store/rtk/slices/modals.slice';
 import { emailRegex } from '~/utils/constants';
 import { getMessageFromError } from '~/utils/getMessageFromError';
@@ -85,7 +85,7 @@ const LoginModal = () => {
       queueMicrotask(() => {
         setFormMode(0);
         resetForm();
-        dispatch(baseApi.util.resetApiState());
+        authApi.util.resetApiState();
       });
     }
   }, [isOpen, resetForm, dispatch]);

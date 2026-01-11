@@ -14,10 +14,10 @@ import { PasswordInput } from '~/components/ui/password-input';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
+  authApi,
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
-import { baseApi } from '~/store/rtk/api/baseApi';
 import { selectIsSignUpModalOpen } from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
@@ -79,7 +79,7 @@ const SignUpModal = () => {
     if (!isOpen) {
       queueMicrotask(() => {
         resetForm();
-        dispatch(baseApi.util.resetApiState());
+        authApi.util.resetApiState();
       });
     }
   }, [isOpen, resetForm, dispatch]);
