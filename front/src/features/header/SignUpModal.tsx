@@ -53,22 +53,19 @@ const formValidation = {
 
 const SignUpModal = () => {
   const dispatch = useAppDispatch();
+  const isMobile = useIsMobile();
+
   const unregisteredFollowedShows = useAppSelector(
     selectUnregisteredFollowedShows
   );
-  const isMobile = useIsMobile();
-
-  // Modal
   const isOpen = useAppSelector(selectIsSignUpModalOpen);
 
-  // RTK Query mutations
   const [registerUser, { isLoading: isRegisterLoading }] =
     useRegisterMutation();
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
 
   const isSubmitLoading = isRegisterLoading || isLoginLoading;
 
-  // Form
   const {
     formState: { errors },
     handleSubmit,

@@ -43,17 +43,11 @@ const GoogleLoginButton = () => {
   const onGoogleLoginSuccess = async (response: TokenResponse) => {
     try {
       const { email, googleId } = await getGoogleUserDetails(response);
-
       await register({
         email,
         password: googleId,
         isGoogleUser: true,
-      })
-        .unwrap()
-        .catch(() => {
-          // Ignore registration errors - user might already exist
-        });
-
+      });
       await login({
         email,
         password: googleId,

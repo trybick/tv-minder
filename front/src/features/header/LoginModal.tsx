@@ -53,10 +53,10 @@ const LoginModal = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
 
-  // Modal
+  const [formMode, setFormMode] = useState(0);
+
   const isOpen = useAppSelector(selectIsLoginModalOpen);
 
-  // RTK Query mutations
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
   const [requestOneTimeCode, { isLoading: isRequestCodeLoading }] =
     useRequestOneTimeCodeMutation();
@@ -71,7 +71,6 @@ const LoginModal = () => {
     isVerifyCodeLoading ||
     isChangePasswordLoading;
 
-  // Form
   const {
     handleSubmit,
     formState: { errors },
@@ -81,13 +80,10 @@ const LoginModal = () => {
     reset: resetForm,
   } = useForm<FormInputs>();
 
-  // Forgot Password
-  const [currentFormOption, setCurrentFormOption] = useState(0);
-
   useEffect(() => {
     if (!isOpen) {
       queueMicrotask(() => {
-        setCurrentFormOption(0);
+        setFormMode(0);
         resetForm();
         dispatch(baseApi.util.resetApiState());
       });
@@ -96,7 +92,7 @@ const LoginModal = () => {
 
   const onSubmit = handleSubmit(
     async ({ email, password, oneTimeCode }: FormInputs) => {
-      switch (currentFormOption) {
+      switch (formMode) {
         case 0:
           await handleLogin(email, password);
           break;
@@ -129,7 +125,7 @@ const LoginModal = () => {
   const handleRequestGenerateOneTimeCode = async (email: string) => {
     try {
       await requestOneTimeCode({ email }).unwrap();
-      setCurrentFormOption(2);
+      setFormMode(2);
     } catch (err) {
       handleErrors(err);
       setError('root', {
@@ -145,7 +141,7 @@ const LoginModal = () => {
   ) => {
     try {
       await verifyOneTimeCode({ email, oneTimeCode }).unwrap();
-      setCurrentFormOption(3);
+      setFormMode(3);
     } catch (err) {
       handleErrors(err);
       setError('root', {
@@ -158,7 +154,7 @@ const LoginModal = () => {
   const handleChangePassword = async (email: string, password: string) => {
     try {
       await changePasswordForReset({ email, password }).unwrap();
-      setCurrentFormOption(0);
+      setFormMode(0);
       showToast({
         title: 'Password Changed',
         description: 'You can login with your new password',
@@ -175,13 +171,13 @@ const LoginModal = () => {
 
   const getSubmitButtonText = () => {
     let buttonText;
-    if (currentFormOption === 0) {
+    if (formMode === 0) {
       buttonText = 'Login';
-    } else if (currentFormOption === 1) {
+    } else if (formMode === 1) {
       buttonText = 'Send Code';
-    } else if (currentFormOption === 2) {
+    } else if (formMode === 2) {
       buttonText = 'Verify';
-    } else if (currentFormOption === 3) {
+    } else if (formMode === 3) {
       buttonText = 'Change Password';
     }
     return buttonText;
@@ -200,7 +196,7 @@ const LoginModal = () => {
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
               <Dialog.Title>
-                {currentFormOption === 0 ? 'Login' : 'Forgot Password'}
+                {formMode === 0 ? 'Login' : 'Forgot Password'}
               </Dialog.Title>
             </Dialog.Header>
 
@@ -211,13 +207,13 @@ const LoginModal = () => {
             {/* Since this component throws an error if it doesn't have the google
             secret key, don't render it during playweright tests. This allows us
             to run e2e tests for other users' PRs since forks don't have that key. */}
-            {currentFormOption === 0 && import.meta.env.VITE_CI !== 'true' && (
+            {formMode === 0 && import.meta.env.VITE_CI !== 'true' && (
               <GoogleLoginButton />
             )}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
-                {currentFormOption === 0 && (
+                {formMode === 0 && (
                   <InlineTextSeparator
                     alignItems="center"
                     fontSize="14px"
@@ -233,19 +229,17 @@ const LoginModal = () => {
                   <Input
                     _focus={{ borderColor: 'cyan.500' }}
                     borderColor="gray.500"
-                    disabled={
-                      currentFormOption === 2 || currentFormOption === 3
-                    }
+                    disabled={formMode === 2 || formMode === 3}
                     {...register('email', { ...formValidation.email })}
                     autoFocus={!isMobile}
                   />
                   <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                 </Field.Root>
 
-                {(currentFormOption === 0 || currentFormOption === 3) && (
+                {(formMode === 0 || formMode === 3) && (
                   <Field.Root invalid={!!errors?.password} mt={4}>
                     <Field.Label>
-                      {currentFormOption === 3 && 'New'} Password
+                      {formMode === 3 && 'New'} Password
                     </Field.Label>
                     <PasswordInput
                       _focus={{ borderColor: 'cyan.500' }}
@@ -260,7 +254,7 @@ const LoginModal = () => {
                   </Field.Root>
                 )}
 
-                {currentFormOption === 2 && (
+                {formMode === 2 && (
                   <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
                     <Field.Label>Enter Verification Code</Field.Label>
                     <Input
@@ -281,19 +275,19 @@ const LoginModal = () => {
 
               <Dialog.Footer as={Flex} flex={1} justifyContent="space-between">
                 <Box>
-                  {(currentFormOption === 0 || currentFormOption === 1) && (
+                  {(formMode === 0 || formMode === 1) && (
                     <Button
                       fontSize="0.88rem"
                       onClick={() => {
                         setValue('email', '');
                         setValue('password', '');
-                        setCurrentFormOption((currentFormOption + 1) % 2);
+                        setFormMode((formMode + 1) % 2);
                       }}
                       px={0}
                       variant="plain"
                       color="fg.muted"
                     >
-                      {currentFormOption === 0 ? (
+                      {formMode === 0 ? (
                         'Forgot Password?'
                       ) : (
                         <>
