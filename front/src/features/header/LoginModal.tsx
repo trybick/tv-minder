@@ -145,6 +145,7 @@ const LoginModal = () => {
     try {
       await verifyOneTimeCode({ email, oneTimeCode }).unwrap();
       setFormMode(3);
+      setValue('password', '');
     } catch (err) {
       getMessageFromError(err);
       setError('root', {
@@ -230,7 +231,6 @@ const LoginModal = () => {
                 <Field.Root invalid={!!errors?.email}>
                   <Field.Label>Email</Field.Label>
                   <Input
-                    _focus={{ borderColor: 'cyan.500' }}
                     borderColor="gray.500"
                     disabled={formMode === 2 || formMode === 3}
                     {...register('email', { ...formValidation.email })}
@@ -245,7 +245,6 @@ const LoginModal = () => {
                       {formMode === 3 && 'New'} Password
                     </Field.Label>
                     <PasswordInput
-                      _focus={{ borderColor: 'cyan.500' }}
                       borderColor="gray.500"
                       {...register('password', {
                         ...formValidation.password,

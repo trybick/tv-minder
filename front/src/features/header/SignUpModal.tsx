@@ -150,7 +150,6 @@ const SignUpModal = () => {
               <Field.Root invalid={!!errors?.email}>
                 <Field.Label>Email</Field.Label>
                 <Input
-                  _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('email', { ...formValidation.email })}
                   autoFocus={!isMobile}
@@ -161,7 +160,6 @@ const SignUpModal = () => {
               <Field.Root invalid={!!errors?.password} mt={4}>
                 <Field.Label>Password</Field.Label>
                 <PasswordInput
-                  _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('password', { ...formValidation.password })}
                 />
@@ -171,7 +169,6 @@ const SignUpModal = () => {
               <Field.Root invalid={!!errors?.confirmPassword} mt={4}>
                 <Field.Label>Confirm Password</Field.Label>
                 <PasswordInput
-                  _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('confirmPassword', {
                     ...formValidation.confirmPassword,
