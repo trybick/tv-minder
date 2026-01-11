@@ -12,7 +12,7 @@ test.describe('Home Page', () => {
       await page.goto('/');
 
       await expect(
-        page.getByRole('heading', { name: 'Popular' })
+        page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
 
       await page.getByPlaceholder(/find tv shows/i).fill('poker face');
@@ -22,7 +22,7 @@ test.describe('Home Page', () => {
       ).toBeVisible();
 
       await expect(
-        page.getByRole('heading', { name: 'Popular' })
+        page.getByRole('heading', { name: 'Trending Now' })
       ).not.toBeVisible();
       await page.getByRole('button', { name: /clear input/i }).click();
 
@@ -31,7 +31,7 @@ test.describe('Home Page', () => {
         page.getByRole('button', { name: /clear input/i })
       ).not.toBeVisible();
       await expect(
-        page.getByRole('heading', { name: 'Popular' })
+        page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
     });
 
@@ -41,7 +41,7 @@ test.describe('Home Page', () => {
       await page.goto('/');
 
       await expect(
-        page.getByRole('heading', { name: 'Popular' })
+        page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
 
       await page.getByPlaceholder(/find tv shows/i).fill('poker face');
@@ -51,7 +51,7 @@ test.describe('Home Page', () => {
       ).toBeVisible();
 
       await expect(
-        page.getByRole('heading', { name: 'Popular' })
+        page.getByRole('heading', { name: 'Trending Now' })
       ).not.toBeVisible();
 
       await page
@@ -63,7 +63,7 @@ test.describe('Home Page', () => {
         page.getByRole('button', { name: /clear input/i })
       ).not.toBeVisible();
       await expect(
-        page.getByRole('heading', { name: 'Popular' })
+        page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
     });
   });

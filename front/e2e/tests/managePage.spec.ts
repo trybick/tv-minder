@@ -16,7 +16,7 @@ test.describe('Manage Page', () => {
     await login(page);
 
     await page.getByRole('link', { name: /manage/i }).click();
-    await expect(page.getByText(/all/i)).toBeVisible();
+    await expect(page.getByText('Airing Now')).toBeVisible();
 
     await expect(page.getByRole('button', { name: /mobland/i })).toBeVisible();
     await expect(
@@ -35,7 +35,7 @@ test.describe('Manage Page', () => {
     await login(page);
 
     await page.getByRole('link', { name: /manage/i }).click();
-    await expect(page.getByText(/all/i)).toBeVisible();
+    await expect(page.getByText('Airing Now')).toBeVisible();
 
     await expect(page.getByRole('button', { name: /mobland/i })).toBeVisible();
     await expect(
