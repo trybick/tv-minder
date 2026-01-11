@@ -43,7 +43,12 @@ const ShowImage = () => {
   }
 
   return (
-    <DelayedSkeleton isLoading={shouldShowDesktopSkeleton}>
+    <DelayedSkeleton
+      isLoading={shouldShowDesktopSkeleton}
+      w="300px"
+      h={shouldShowDesktopSkeleton ? '450px' : undefined}
+      borderRadius="8px"
+    >
       <Image
         borderRadius="8px"
         onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}

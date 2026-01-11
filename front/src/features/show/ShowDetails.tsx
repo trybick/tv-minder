@@ -50,7 +50,11 @@ const ShowDetails = () => {
   return (
     <Box w="100%">
       {/* Title & Year */}
-      <DelayedSkeleton isLoading={isLoading}>
+      <DelayedSkeleton
+        isLoading={isLoading}
+        w={isLoading ? '280px' : undefined}
+        h={isLoading ? '36px' : undefined}
+      >
         <Heading as="h1" fontSize={{ base: '2xl', md: '3xl' }} mb={3}>
           {name}
           {yearsActive && (
@@ -135,7 +139,7 @@ const ShowDetails = () => {
       )}
 
       {/* Overview */}
-      {overview && (
+      {(isLoading || overview) && (
         <Box mb={6}>
           {isLoading ? (
             <DelayedSkeletonText isLoading={isLoading} noOfLines={6} w="100%" />

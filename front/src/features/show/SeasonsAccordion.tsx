@@ -67,7 +67,11 @@ const SeasonsAccordion = () => {
 
   return (
     <Flex direction="column" flex="1" mt={isMobile ? 6 : 12}>
-      <DelayedSkeleton isLoading={isLoading}>
+      <DelayedSkeleton
+        isLoading={isLoading}
+        w="100%"
+        h={isLoading ? '300px' : undefined}
+      >
         <Accordion.Root w="100%" collapsible>
           {createAccordionItems()}
         </Accordion.Root>
