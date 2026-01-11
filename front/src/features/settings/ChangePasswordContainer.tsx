@@ -1,5 +1,4 @@
 import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useForm } from 'react-hook-form';
 
 import { showToast } from '~/components/ui/toaster';
@@ -7,6 +6,7 @@ import { useAppSelector } from '~/store';
 import { useChangePasswordMutation } from '~/store/rtk/api/auth.api';
 import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
 import handleErrors from '~/utils/handleErrors';
+import { isFetchError } from '~/utils/isFetchError';
 
 type FormInputs = {
   oldPassword: string;
@@ -61,11 +61,6 @@ const ChangePasswordContainer = () => {
         });
       } catch (error) {
         handleErrors(error);
-        const isFetchError = (
-          e: unknown
-        ): e is { status: number } | FetchBaseQueryError =>
-          typeof e === 'object' && e !== null && 'status' in e;
-
         const isUnauthorizedError = isFetchError(error) && error.status === 401;
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'

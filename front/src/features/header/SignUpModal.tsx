@@ -6,7 +6,6 @@ import {
   Field,
   Input,
 } from '@chakra-ui/react';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -18,6 +17,7 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
+import { baseApi } from '~/store/rtk/api/baseApi';
 import {
   selectIsSignUpModalOpen,
   setIsSignUpModalOpen,
@@ -28,6 +28,7 @@ import {
 } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
+import { isFetchError } from '~/utils/isFetchError';
 
 import GoogleLoginButton from './GoogleLoginButton';
 
@@ -68,10 +69,9 @@ const SignUpModal = () => {
   const onClose = () => dispatch(setIsSignUpModalOpen(false));
 
   // RTK Query mutations
-  const [registerUser, { isLoading: isRegisterLoading, reset: resetRegister }] =
+  const [registerUser, { isLoading: isRegisterLoading }] =
     useRegisterMutation();
-  const [login, { isLoading: isLoginLoading, reset: resetLogin }] =
-    useLoginMutation();
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
 
   const isSubmitLoading = isRegisterLoading || isLoginLoading;
 
@@ -89,11 +89,10 @@ const SignUpModal = () => {
     if (!isOpen) {
       queueMicrotask(() => {
         resetForm();
-        resetRegister();
-        resetLogin();
+        dispatch(baseApi.util.resetApiState());
       });
     }
-  }, [isOpen, resetForm, resetRegister, resetLogin]);
+  }, [isOpen, resetForm, dispatch]);
 
   const onSubmit = handleSubmit(async ({ email, password }: FormInputs) => {
     try {
@@ -107,22 +106,15 @@ const SignUpModal = () => {
       onClose();
       dispatch(setIsLoggedIn({ email: res.email }));
     } catch (err) {
-      handleErrors(err);
       reset(undefined, { keepErrors: true });
-
-      const isFetchError = (e: unknown): e is { error: FetchBaseQueryError } =>
-        typeof e === 'object' && e !== null && 'error' in e;
-
-      if (
-        isFetchError(err) &&
-        'status' in err.error &&
-        err.error.status === 409
-      ) {
+      const is409Error = isFetchError(err) && err.status === 409;
+      if (is409Error) {
         setError('root', {
           type: 'manual',
           message: 'Email already registered. Please try again.',
         });
       } else {
+        handleErrors(err);
         setError('root', {
           type: 'manual',
           message: 'Could not sign up. Please try again.',

@@ -23,6 +23,7 @@ import {
   useRequestOneTimeCodeMutation,
   useVerifyOneTimeCodeMutation,
 } from '~/store/rtk/api/auth.api';
+import { baseApi } from '~/store/rtk/api/baseApi';
 import {
   selectIsLoginModalOpen,
   setIsLoginModalOpen,
@@ -61,20 +62,13 @@ const LoginModal = () => {
   const onClose = () => dispatch(setIsLoginModalOpen(false));
 
   // RTK Query mutations
-  const [login, { isLoading: isLoginLoading, reset: resetLogin }] =
-    useLoginMutation();
-  const [
-    requestOneTimeCode,
-    { isLoading: isRequestCodeLoading, reset: resetRequestCode },
-  ] = useRequestOneTimeCodeMutation();
-  const [
-    verifyOneTimeCode,
-    { isLoading: isVerifyCodeLoading, reset: resetVerifyCode },
-  ] = useVerifyOneTimeCodeMutation();
-  const [
-    changePasswordForReset,
-    { isLoading: isChangePasswordLoading, reset: resetChangePassword },
-  ] = useChangePasswordForResetMutation();
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
+  const [requestOneTimeCode, { isLoading: isRequestCodeLoading }] =
+    useRequestOneTimeCodeMutation();
+  const [verifyOneTimeCode, { isLoading: isVerifyCodeLoading }] =
+    useVerifyOneTimeCodeMutation();
+  const [changePasswordForReset, { isLoading: isChangePasswordLoading }] =
+    useChangePasswordForResetMutation();
 
   const isSubmitLoading =
     isLoginLoading ||
@@ -100,20 +94,10 @@ const LoginModal = () => {
       queueMicrotask(() => {
         setCurrentFormOption(0);
         resetForm();
-        resetLogin();
-        resetRequestCode();
-        resetVerifyCode();
-        resetChangePassword();
+        dispatch(baseApi.util.resetApiState());
       });
     }
-  }, [
-    isOpen,
-    resetForm,
-    resetLogin,
-    resetRequestCode,
-    resetVerifyCode,
-    resetChangePassword,
-  ]);
+  }, [isOpen, resetForm, dispatch]);
 
   const onSubmit = handleSubmit(
     async ({ email, password, oneTimeCode }: FormInputs) => {
