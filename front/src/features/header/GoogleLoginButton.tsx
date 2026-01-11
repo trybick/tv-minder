@@ -19,7 +19,7 @@ import handleErrors from '~/utils/handleErrors';
 
 const GoogleLoginButton = () => {
   const dispatch = useAppDispatch();
-  const [registerUser] = useRegisterMutation();
+  const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
 
   const onGoogleLoginError = () => {
@@ -38,7 +38,6 @@ const GoogleLoginButton = () => {
     ) {
       throw Error('Expected field access_token from google response');
     }
-    // Using ky here since this is an external Google API endpoint
     const userInfo = await ky
       .get(ENDPOINTS.GOOGLE_USER_INFO, {
         headers: { Authorization: `Bearer ${response.access_token}` },
@@ -52,8 +51,7 @@ const GoogleLoginButton = () => {
     try {
       const { email, googleId } = await getGoogleUserDetails(response);
 
-      // Register (will succeed or fail silently if already registered)
-      await registerUser({
+      await register({
         email,
         password: googleId,
         isGoogleUser: true,
@@ -63,7 +61,6 @@ const GoogleLoginButton = () => {
           // Ignore registration errors - user might already exist
         });
 
-      // Login
       const res = await login({
         email,
         password: googleId,
