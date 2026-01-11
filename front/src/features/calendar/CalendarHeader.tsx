@@ -86,17 +86,30 @@ const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
         <Button
           size="sm"
           h="42px"
-          variant="subtle"
+          variant="surface"
+          colorPalette="gray"
           onClick={handleToday}
           opacity={0.8}
         >
           <MdOutlineResetTv opacity={0.8} />
           today
         </Button>
-        <Button size="sm" h="42px" variant="subtle" onClick={handlePrev}>
+        <Button
+          size="sm"
+          h="42px"
+          variant="surface"
+          colorPalette="gray"
+          onClick={handlePrev}
+        >
           <LuChevronLeft opacity={0.8} />
         </Button>
-        <Button size="sm" h="42px" variant="subtle" onClick={handleNext}>
+        <Button
+          size="sm"
+          h="42px"
+          variant="surface"
+          colorPalette="gray"
+          onClick={handleNext}
+        >
           <LuChevronRight opacity={0.8} />
         </Button>
       </Flex>

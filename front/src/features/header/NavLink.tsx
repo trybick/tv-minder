@@ -40,7 +40,7 @@ const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
   return (
     <Link href={linkTo} onClick={handleClick}>
       <Button
-        color={isActive ? 'cyan.400' : 'gray.400'}
+        color={isActive ? 'cyan.500' : 'gray.500'}
         {...textDecorationProps}
         fontSize="1.2rem"
         fontWeight="700"

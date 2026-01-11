@@ -6,25 +6,25 @@ import {
   Field,
   Input,
 } from '@chakra-ui/react';
-import ky, { HTTPError } from 'ky';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import ENDPOINTS from '~/app/endpoints';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
+  useLoginMutation,
+  useRegisterMutation,
+} from '~/store/rtk/api/auth.api';
+import {
   selectIsSignUpModalOpen,
   setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
-import {
-  selectUnregisteredFollowedShows,
-  setIsLoggedIn,
-} from '~/store/rtk/slices/user.slice';
+import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
-import handleErrors from '~/utils/handleErrors';
+import { getMessageFromError } from '~/utils/getMessageFromError';
+import { isFetchError } from '~/utils/isFetchError';
 
 import GoogleLoginButton from './GoogleLoginButton';
 
@@ -54,18 +54,20 @@ const formValidation = {
 };
 
 const SignUpModal = () => {
+  const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
+
   const unregisteredFollowedShows = useAppSelector(
     selectUnregisteredFollowedShows
   );
-  const isMobile = useIsMobile();
-
-  // Modal
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const isOpen = useAppSelector(selectIsSignUpModalOpen);
-  const onClose = () => dispatch(setIsSignUpModalOpen(false));
 
-  // Form
+  const [registerUser, { isLoading: isRegisterLoading }] =
+    useRegisterMutation();
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
+
+  const isSubmitLoading = isRegisterLoading || isLoginLoading;
+
   const {
     formState: { errors },
     handleSubmit,
@@ -77,59 +79,40 @@ const SignUpModal = () => {
 
   useEffect(() => {
     if (!isOpen) {
-      queueMicrotask(() => {
-        setIsSubmitLoading(false);
-        resetForm();
-      });
+      resetForm();
     }
   }, [isOpen, resetForm]);
 
-  const onSubmit = handleSubmit(({ email, password }: FormInputs) => {
-    setIsSubmitLoading(true);
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
-      json: { email, password, unregisteredFollowedShows },
-    })
-      .then(() => {
-        return ky
-          .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-            json: { email, password },
-          })
-          .json<{ token: string; email: string }>();
-      })
-      .then(res => {
-        localStorage.setItem('jwt', res.token);
-        onClose();
-        dispatch(setIsLoggedIn({ email: res.email }));
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsSubmitLoading(false);
-        reset(undefined, { keepErrors: true });
-
-        if (err instanceof HTTPError && err.response?.status === 409) {
-          setError('root', {
-            type: 'manual',
-            message: 'Email already registered. Please try again.',
-          });
-        } else {
-          setError('root', {
-            type: 'manual',
-            message: 'Could not sign up. Please try again.',
-          });
-        }
-      });
-  });
-
-  const handleFormClose = (isOpen: boolean) => {
-    if (!isOpen) {
-      onClose();
+  const onSubmit = handleSubmit(async ({ email, password }: FormInputs) => {
+    try {
+      await registerUser({
+        email,
+        password,
+        unregisteredFollowedShows,
+      }).unwrap();
+      await login({ email, password }).unwrap();
+    } catch (err) {
+      reset(undefined, { keepErrors: true });
+      const is409Error = isFetchError(err) && err.status === 409;
+      if (is409Error) {
+        setError('root', {
+          type: 'manual',
+          message: 'Email already registered. Please try again.',
+        });
+      } else {
+        getMessageFromError(err);
+        setError('root', {
+          type: 'manual',
+          message: 'Could not sign up. Please try again.',
+        });
+      }
     }
-  };
+  });
 
   return (
     <Dialog.Root
-      onOpenChange={e => handleFormClose(e.open)}
       open={isOpen}
+      onOpenChange={e => dispatch(setIsSignUpModalOpen(e.open))}
       lazyMount
       unmountOnExit
     >
@@ -163,7 +146,6 @@ const SignUpModal = () => {
               <Field.Root invalid={!!errors?.email}>
                 <Field.Label>Email</Field.Label>
                 <Input
-                  _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('email', { ...formValidation.email })}
                   autoFocus={!isMobile}
@@ -174,7 +156,6 @@ const SignUpModal = () => {
               <Field.Root invalid={!!errors?.password} mt={4}>
                 <Field.Label>Password</Field.Label>
                 <PasswordInput
-                  _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('password', { ...formValidation.password })}
                 />
@@ -184,7 +165,6 @@ const SignUpModal = () => {
               <Field.Root invalid={!!errors?.confirmPassword} mt={4}>
                 <Field.Label>Confirm Password</Field.Label>
                 <PasswordInput
-                  _focus={{ borderColor: 'cyan.500' }}
                   borderColor="gray.500"
                   {...register('confirmPassword', {
                     ...formValidation.confirmPassword,
@@ -201,7 +181,12 @@ const SignUpModal = () => {
             </Dialog.Body>
 
             <Dialog.Footer>
-              <Button color="fg.muted" mr={3} onClick={onClose} variant="ghost">
+              <Button
+                color="fg.muted"
+                mr={3}
+                variant="ghost"
+                onClick={() => dispatch(setIsSignUpModalOpen(false))}
+              >
                 Cancel
               </Button>
               <Button
