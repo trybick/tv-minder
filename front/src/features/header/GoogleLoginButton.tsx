@@ -7,6 +7,10 @@ import ENDPOINTS from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
 import { useAppDispatch } from '~/store';
 import {
+  useLoginMutation,
+  useRegisterMutation,
+} from '~/store/rtk/api/auth.api';
+import {
   setIsLoginModalOpen,
   setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
@@ -15,6 +19,8 @@ import handleErrors from '~/utils/handleErrors';
 
 const GoogleLoginButton = () => {
   const dispatch = useAppDispatch();
+  const [registerUser] = useRegisterMutation();
+  const [login] = useLoginMutation();
 
   const onGoogleLoginError = () => {
     console.error('Google Login error');
@@ -32,6 +38,7 @@ const GoogleLoginButton = () => {
     ) {
       throw Error('Expected field access_token from google response');
     }
+    // Using ky here since this is an external Google API endpoint
     const userInfo = await ky
       .get(ENDPOINTS.GOOGLE_USER_INFO, {
         headers: { Authorization: `Bearer ${response.access_token}` },
@@ -42,29 +49,39 @@ const GoogleLoginButton = () => {
   };
 
   const onGoogleLoginSuccess = async (response: TokenResponse) => {
-    const { email, googleId } = await getGoogleUserDetails(response);
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
-      json: { email, password: googleId, isGoogleUser: true },
-    }).then(() => {
-      ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-        json: { email, password: googleId, isGoogleUser: true },
+    try {
+      const { email, googleId } = await getGoogleUserDetails(response);
+
+      // Register (will succeed or fail silently if already registered)
+      await registerUser({
+        email,
+        password: googleId,
+        isGoogleUser: true,
       })
-        .json<{ token: string; email: string }>()
-        .then(res => {
-          localStorage.setItem('jwt', res.token);
-          dispatch(setIsLoginModalOpen(false));
-          dispatch(setIsSignUpModalOpen(false));
-          dispatch(setIsLoggedIn({ email: res.email, isGoogleUser: true }));
-        })
-        .catch(error => {
-          handleErrors(error);
-          showToast({
-            title: 'Error in login',
-            description: 'Could not log in. Please try again.',
-            type: 'error',
-          });
+        .unwrap()
+        .catch(() => {
+          // Ignore registration errors - user might already exist
         });
-    });
+
+      // Login
+      const res = await login({
+        email,
+        password: googleId,
+        isGoogleUser: true,
+      }).unwrap();
+
+      localStorage.setItem('jwt', res.token);
+      dispatch(setIsLoginModalOpen(false));
+      dispatch(setIsSignUpModalOpen(false));
+      dispatch(setIsLoggedIn({ email: res.email, isGoogleUser: true }));
+    } catch (err) {
+      handleErrors(err);
+      showToast({
+        title: 'Error in login',
+        description: 'Could not log in. Please try again.',
+        type: 'error',
+      });
+    }
   };
 
   const handleClickGoogleLogin = useGoogleLogin({

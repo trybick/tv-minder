@@ -8,17 +8,21 @@ import {
   Input,
   Portal,
 } from '@chakra-ui/react';
-import ky from 'ky';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 
-import ENDPOINTS from '~/app/endpoints';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
+import {
+  useChangePasswordForResetMutation,
+  useLoginMutation,
+  useRequestOneTimeCodeMutation,
+  useVerifyOneTimeCodeMutation,
+} from '~/store/rtk/api/auth.api';
 import {
   selectIsLoginModalOpen,
   setIsLoginModalOpen,
@@ -53,9 +57,30 @@ const LoginModal = () => {
   const isMobile = useIsMobile();
 
   // Modal
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const isOpen = useAppSelector(selectIsLoginModalOpen);
   const onClose = () => dispatch(setIsLoginModalOpen(false));
+
+  // RTK Query mutations
+  const [login, { isLoading: isLoginLoading, reset: resetLogin }] =
+    useLoginMutation();
+  const [
+    requestOneTimeCode,
+    { isLoading: isRequestCodeLoading, reset: resetRequestCode },
+  ] = useRequestOneTimeCodeMutation();
+  const [
+    verifyOneTimeCode,
+    { isLoading: isVerifyCodeLoading, reset: resetVerifyCode },
+  ] = useVerifyOneTimeCodeMutation();
+  const [
+    changePasswordForReset,
+    { isLoading: isChangePasswordLoading, reset: resetChangePassword },
+  ] = useChangePasswordForResetMutation();
+
+  const isSubmitLoading =
+    isLoginLoading ||
+    isRequestCodeLoading ||
+    isVerifyCodeLoading ||
+    isChangePasswordLoading;
 
   // Form
   const {
@@ -68,116 +93,108 @@ const LoginModal = () => {
   } = useForm<FormInputs>();
 
   // Forgot Password
-  const [formOption, setFormOption] = useState(0);
+  const [currentFormOption, setCurrentFormOption] = useState(0);
 
   useEffect(() => {
     if (!isOpen) {
       queueMicrotask(() => {
-        setIsSubmitLoading(false);
-        setFormOption(0);
+        setCurrentFormOption(0);
         resetForm();
+        resetLogin();
+        resetRequestCode();
+        resetVerifyCode();
+        resetChangePassword();
       });
     }
-  }, [isOpen, resetForm]);
+  }, [
+    isOpen,
+    resetForm,
+    resetLogin,
+    resetRequestCode,
+    resetVerifyCode,
+    resetChangePassword,
+  ]);
 
   const onSubmit = handleSubmit(
-    ({ email, password, oneTimeCode }: FormInputs) => {
-      setIsSubmitLoading(true);
-      switch (formOption) {
+    async ({ email, password, oneTimeCode }: FormInputs) => {
+      switch (currentFormOption) {
         case 0:
-          handleLogin(email, password);
+          await handleLogin(email, password);
           break;
         case 1:
-          requestGenerateOneTimeCode(email);
+          await handleRequestGenerateOneTimeCode(email);
           break;
         case 2:
-          requestVerifyOneTimeCode(email, oneTimeCode);
+          await handleVerifyOneTimeCode(email, oneTimeCode);
           break;
         case 3:
-          requestChangePassword(email, password);
+          await handleChangePassword(email, password);
           break;
       }
     }
   );
 
-  const handleLogin = (email: string, password: string) => {
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-      json: { email, password },
-    })
-      .json<{ token: string; email: string }>()
-      .then(res => {
-        localStorage.setItem('jwt', res.token);
-        onClose();
-        dispatch(setIsLoggedIn({ email: res.email }));
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsSubmitLoading(false);
-        setError('root', {
-          type: 'manual',
-          message: 'Invalid login. Please try again.',
-        });
-        setValue('password', '');
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const res = await login({ email, password }).unwrap();
+      localStorage.setItem('jwt', res.token);
+      onClose();
+      dispatch(setIsLoggedIn({ email: res.email }));
+    } catch (err) {
+      handleErrors(err);
+      setError('root', {
+        type: 'manual',
+        message: 'Invalid login. Please try again.',
       });
+      setValue('password', '');
+    }
   };
 
-  const requestGenerateOneTimeCode = (email: string) => {
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/requestonetimecode`, {
-      json: { email },
-    })
-      .then(() => {
-        setIsSubmitLoading(false);
-        setFormOption(2);
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsSubmitLoading(false);
-        setError('root', {
-          type: 'manual',
-          message: 'The email is not registered',
-        });
+  const handleRequestGenerateOneTimeCode = async (email: string) => {
+    try {
+      await requestOneTimeCode({ email }).unwrap();
+      setCurrentFormOption(2);
+    } catch (err) {
+      handleErrors(err);
+      setError('root', {
+        type: 'manual',
+        message: 'The email is not registered',
       });
+    }
   };
 
-  const requestVerifyOneTimeCode = (email: string, oneTimeCode: string) => {
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/verifyonetimecode`, {
-      json: { email, oneTimeCode },
-    })
-      .then(() => {
-        setIsSubmitLoading(false);
-        setFormOption(3);
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsSubmitLoading(false);
-        setError('root', {
-          type: 'manual',
-          message: 'Invalid One Time Code',
-        });
+  const handleVerifyOneTimeCode = async (
+    email: string,
+    oneTimeCode: string
+  ) => {
+    try {
+      await verifyOneTimeCode({ email, oneTimeCode }).unwrap();
+      setCurrentFormOption(3);
+    } catch (err) {
+      handleErrors(err);
+      setError('root', {
+        type: 'manual',
+        message: 'Invalid One Time Code',
       });
+    }
   };
 
-  const requestChangePassword = (email: string, password: string) => {
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/changepasswordforreset`, {
-      json: { email, password },
-    })
-      .then(() => {
-        setIsSubmitLoading(false);
-        setFormOption(0);
-        showToast({
-          title: 'Password Changed',
-          description: 'You can login with your new password',
-          type: 'success',
-        });
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsSubmitLoading(false);
-        setError('root', {
-          type: 'manual',
-          message: 'Unable to change password',
-        });
+  const handleChangePassword = async (email: string, password: string) => {
+    try {
+      await changePasswordForReset({ email, password }).unwrap();
+      setCurrentFormOption(0);
+      showToast({
+        title: 'Password Changed',
+        description: 'You can login with your new password',
+        type: 'success',
       });
+    } catch (err) {
+      handleErrors(err);
+      setError('root', {
+        type: 'manual',
+        message: 'Unable to change password',
+      });
+    }
   };
 
   const handleFormClose = (isOpen: boolean) => {
@@ -188,13 +205,13 @@ const LoginModal = () => {
 
   const getSubmitButtonText = () => {
     let buttonText;
-    if (formOption === 0) {
+    if (currentFormOption === 0) {
       buttonText = 'Login';
-    } else if (formOption === 1) {
+    } else if (currentFormOption === 1) {
       buttonText = 'Send Code';
-    } else if (formOption === 2) {
+    } else if (currentFormOption === 2) {
       buttonText = 'Verify';
-    } else if (formOption === 3) {
+    } else if (currentFormOption === 3) {
       buttonText = 'Change Password';
     }
     return buttonText;
@@ -213,7 +230,7 @@ const LoginModal = () => {
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
               <Dialog.Title>
-                {formOption === 0 ? 'Login' : 'Forgot Password'}
+                {currentFormOption === 0 ? 'Login' : 'Forgot Password'}
               </Dialog.Title>
             </Dialog.Header>
 
@@ -224,13 +241,13 @@ const LoginModal = () => {
             {/* Since this component throws an error if it doesn't have the google
             secret key, don't render it during playweright tests. This allows us
             to run e2e tests for other users' PRs since forks don't have that key. */}
-            {formOption === 0 && import.meta.env.VITE_CI !== 'true' && (
+            {currentFormOption === 0 && import.meta.env.VITE_CI !== 'true' && (
               <GoogleLoginButton />
             )}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
-                {formOption === 0 && (
+                {currentFormOption === 0 && (
                   <InlineTextSeparator
                     alignItems="center"
                     fontSize="14px"
@@ -246,17 +263,19 @@ const LoginModal = () => {
                   <Input
                     _focus={{ borderColor: 'cyan.500' }}
                     borderColor="gray.500"
-                    disabled={formOption === 2 || formOption === 3}
+                    disabled={
+                      currentFormOption === 2 || currentFormOption === 3
+                    }
                     {...register('email', { ...formValidation.email })}
                     autoFocus={!isMobile}
                   />
                   <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                 </Field.Root>
 
-                {(formOption === 0 || formOption === 3) && (
+                {(currentFormOption === 0 || currentFormOption === 3) && (
                   <Field.Root invalid={!!errors?.password} mt={4}>
                     <Field.Label>
-                      {formOption === 3 && 'New'} Password
+                      {currentFormOption === 3 && 'New'} Password
                     </Field.Label>
                     <PasswordInput
                       _focus={{ borderColor: 'cyan.500' }}
@@ -271,7 +290,7 @@ const LoginModal = () => {
                   </Field.Root>
                 )}
 
-                {formOption === 2 && (
+                {currentFormOption === 2 && (
                   <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
                     <Field.Label>Enter Verification Code</Field.Label>
                     <Input
@@ -292,19 +311,19 @@ const LoginModal = () => {
 
               <Dialog.Footer as={Flex} flex={1} justifyContent="space-between">
                 <Box>
-                  {(formOption === 0 || formOption === 1) && (
+                  {(currentFormOption === 0 || currentFormOption === 1) && (
                     <Button
                       fontSize="0.88rem"
                       onClick={() => {
                         setValue('email', '');
                         setValue('password', '');
-                        setFormOption((formOption + 1) % 2);
+                        setCurrentFormOption((currentFormOption + 1) % 2);
                       }}
                       px={0}
                       variant="plain"
                       color="fg.muted"
                     >
-                      {formOption === 0 ? (
+                      {currentFormOption === 0 ? (
                         'Forgot Password?'
                       ) : (
                         <>

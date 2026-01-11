@@ -6,15 +6,18 @@ import {
   Field,
   Input,
 } from '@chakra-ui/react';
-import ky, { HTTPError } from 'ky';
-import { useEffect, useState } from 'react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import ENDPOINTS from '~/app/endpoints';
 import InlineTextSeparator from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
+import {
+  useLoginMutation,
+  useRegisterMutation,
+} from '~/store/rtk/api/auth.api';
 import {
   selectIsSignUpModalOpen,
   setIsSignUpModalOpen,
@@ -61,9 +64,16 @@ const SignUpModal = () => {
   const isMobile = useIsMobile();
 
   // Modal
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const isOpen = useAppSelector(selectIsSignUpModalOpen);
   const onClose = () => dispatch(setIsSignUpModalOpen(false));
+
+  // RTK Query mutations
+  const [registerUser, { isLoading: isRegisterLoading, reset: resetRegister }] =
+    useRegisterMutation();
+  const [login, { isLoading: isLoginLoading, reset: resetLogin }] =
+    useLoginMutation();
+
+  const isSubmitLoading = isRegisterLoading || isLoginLoading;
 
   // Form
   const {
@@ -78,46 +88,47 @@ const SignUpModal = () => {
   useEffect(() => {
     if (!isOpen) {
       queueMicrotask(() => {
-        setIsSubmitLoading(false);
         resetForm();
+        resetRegister();
+        resetLogin();
       });
     }
-  }, [isOpen, resetForm]);
+  }, [isOpen, resetForm, resetRegister, resetLogin]);
 
-  const onSubmit = handleSubmit(({ email, password }: FormInputs) => {
-    setIsSubmitLoading(true);
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/register`, {
-      json: { email, password, unregisteredFollowedShows },
-    })
-      .then(() => {
-        return ky
-          .post(`${ENDPOINTS.TV_MINDER_SERVER}/login`, {
-            json: { email, password },
-          })
-          .json<{ token: string; email: string }>();
-      })
-      .then(res => {
-        localStorage.setItem('jwt', res.token);
-        onClose();
-        dispatch(setIsLoggedIn({ email: res.email }));
-      })
-      .catch(err => {
-        handleErrors(err);
-        setIsSubmitLoading(false);
-        reset(undefined, { keepErrors: true });
+  const onSubmit = handleSubmit(async ({ email, password }: FormInputs) => {
+    try {
+      await registerUser({
+        email,
+        password,
+        unregisteredFollowedShows,
+      }).unwrap();
+      const res = await login({ email, password }).unwrap();
+      localStorage.setItem('jwt', res.token);
+      onClose();
+      dispatch(setIsLoggedIn({ email: res.email }));
+    } catch (err) {
+      handleErrors(err);
+      reset(undefined, { keepErrors: true });
 
-        if (err instanceof HTTPError && err.response?.status === 409) {
-          setError('root', {
-            type: 'manual',
-            message: 'Email already registered. Please try again.',
-          });
-        } else {
-          setError('root', {
-            type: 'manual',
-            message: 'Could not sign up. Please try again.',
-          });
-        }
-      });
+      const isFetchError = (e: unknown): e is { error: FetchBaseQueryError } =>
+        typeof e === 'object' && e !== null && 'error' in e;
+
+      if (
+        isFetchError(err) &&
+        'status' in err.error &&
+        err.error.status === 409
+      ) {
+        setError('root', {
+          type: 'manual',
+          message: 'Email already registered. Please try again.',
+        });
+      } else {
+        setError('root', {
+          type: 'manual',
+          message: 'Could not sign up. Please try again.',
+        });
+      }
+    }
   });
 
   const handleFormClose = (isOpen: boolean) => {

@@ -1,11 +1,10 @@
 import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
-import ky, { HTTPError } from 'ky';
-import { useState } from 'react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useForm } from 'react-hook-form';
 
-import ENDPOINTS from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
 import { useAppSelector } from '~/store';
+import { useChangePasswordMutation } from '~/store/rtk/api/auth.api';
 import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
 import handleErrors from '~/utils/handleErrors';
 
@@ -16,9 +15,10 @@ type FormInputs = {
 };
 
 const ChangePasswordContainer = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const email = useAppSelector(selectEmail);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
+
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   const {
     handleSubmit,
@@ -50,23 +50,23 @@ const ChangePasswordContainer = () => {
     errors?.['newPassword']?.message ||
     errors?.['newPasswordConfirmation']?.message;
 
-  const onSubmit = handleSubmit(({ oldPassword, newPassword }: FormInputs) => {
-    setIsLoading(true);
-    ky.post(`${ENDPOINTS.TV_MINDER_SERVER}/changepassword`, {
-      json: { email, oldPassword, newPassword },
-      timeout: 8000,
-    })
-      .then(() => {
+  const onSubmit = handleSubmit(
+    async ({ oldPassword, newPassword }: FormInputs) => {
+      try {
+        await changePassword({ email, oldPassword, newPassword }).unwrap();
         showToast({
           title: 'Password Changed!',
           description: 'Your Password has been updated.',
           type: 'success',
         });
-      })
-      .catch(error => {
+      } catch (error) {
         handleErrors(error);
-        const isUnauthorizedError =
-          error instanceof HTTPError && error.response?.status === 401;
+        const isFetchError = (
+          e: unknown
+        ): e is { status: number } | FetchBaseQueryError =>
+          typeof e === 'object' && e !== null && 'status' in e;
+
+        const isUnauthorizedError = isFetchError(error) && error.status === 401;
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
           : 'Your Password could not be updated.';
@@ -75,12 +75,11 @@ const ChangePasswordContainer = () => {
           description: errorDescription,
           type: 'error',
         });
-      })
-      .finally(() => {
-        setIsLoading(false);
+      } finally {
         resetForm();
-      });
-  });
+      }
+    }
+  );
 
   return (
     <Box
