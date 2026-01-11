@@ -24,7 +24,10 @@ import {
   useRequestOneTimeCodeMutation,
   useVerifyOneTimeCodeMutation,
 } from '~/store/rtk/api/auth.api';
-import { selectIsLoginModalOpen } from '~/store/rtk/slices/modals.slice';
+import {
+  selectIsLoginModalOpen,
+  setIsLoginModalOpen,
+} from '~/store/rtk/slices/modals.slice';
 import { emailRegex } from '~/utils/constants';
 import { getMessageFromError } from '~/utils/getMessageFromError';
 
@@ -184,7 +187,12 @@ const LoginModal = () => {
   };
 
   return (
-    <Dialog.Root open={isOpen} lazyMount unmountOnExit>
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={e => dispatch(setIsLoginModalOpen(e.open))}
+      lazyMount
+      unmountOnExit
+    >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -283,7 +291,7 @@ const LoginModal = () => {
                       color="fg.muted"
                     >
                       {formMode === 0 ? (
-                        'Forgot Password?'
+                        'Forgot password'
                       ) : (
                         <>
                           <Box as={TiArrowBack} />
@@ -295,11 +303,13 @@ const LoginModal = () => {
                 </Box>
 
                 <Box>
-                  <Dialog.CloseTrigger asChild>
-                    <Button color="fg.muted" variant="ghost">
-                      Cancel
-                    </Button>
-                  </Dialog.CloseTrigger>
+                  <Button
+                    color="fg.muted"
+                    variant="ghost"
+                    onClick={() => dispatch(setIsLoginModalOpen(false))}
+                  >
+                    Cancel
+                  </Button>
                   <Button
                     colorPalette="cyan"
                     loading={isSubmitLoading}

@@ -18,7 +18,10 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
-import { selectIsSignUpModalOpen } from '~/store/rtk/slices/modals.slice';
+import {
+  selectIsSignUpModalOpen,
+  setIsSignUpModalOpen,
+} from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
 import { getMessageFromError } from '~/utils/getMessageFromError';
@@ -111,7 +114,12 @@ const SignUpModal = () => {
   });
 
   return (
-    <Dialog.Root open={isOpen} lazyMount unmountOnExit>
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={e => dispatch(setIsSignUpModalOpen(e.open))}
+      lazyMount
+      unmountOnExit
+    >
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content bg="bg.muted">
@@ -180,11 +188,14 @@ const SignUpModal = () => {
             </Dialog.Body>
 
             <Dialog.Footer>
-              <Dialog.CloseTrigger asChild>
-                <Button color="fg.muted" mr={3} variant="ghost">
-                  Cancel
-                </Button>
-              </Dialog.CloseTrigger>
+              <Button
+                color="fg.muted"
+                mr={3}
+                variant="ghost"
+                onClick={() => dispatch(setIsSignUpModalOpen(false))}
+              >
+                Cancel
+              </Button>
               <Button
                 colorPalette="cyan"
                 loading={isSubmitLoading}
