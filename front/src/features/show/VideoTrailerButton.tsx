@@ -54,7 +54,12 @@ const VideoTrailerButton = ({ videoId }: Props) => {
           borderRadius="lg"
           w={isMobile ? '100%' : 'auto'}
         >
-          <Icon as={AiFillYoutube} boxSize="22px" color="red.500" />
+          <Icon
+            as={AiFillYoutube}
+            boxSize="22px"
+            color="red.500"
+            opacity={0.7}
+          />
           <Text fontWeight="600" fontSize="sm">
             Play Trailer
           </Text>

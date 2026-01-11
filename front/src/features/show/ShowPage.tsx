@@ -33,7 +33,7 @@ const ShowPage = () => {
     <>
       <title>{name ? `${name} | TV Minder` : 'TV Minder'}</title>
       <Box
-        m={isMobile ? '12px auto 40px' : '24px auto 40px'}
+        m={isMobile ? '0 auto 40px' : '24px auto 40px'}
         maxW="800px"
         width="100%"
         px={{ base: '20px', md: '30px' }}

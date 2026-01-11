@@ -62,7 +62,8 @@ const SearchInput = ({
         }
       >
         <Input
-          _focus={{ borderColor: 'cyan.500' }}
+          // cyan.500 with 50% opacity
+          _focus={{ borderColor: 'rgb(6,182,212, .8)' }}
           borderColor="gray.500"
           borderRadius="5px"
           fontSize="18px"

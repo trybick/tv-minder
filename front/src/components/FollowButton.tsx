@@ -59,7 +59,7 @@ const FollowButton = ({
       {...(followedWidth && { minW: followedWidth })}
       {...rest}
     >
-      <CiCircleMinus />
+      <CiCircleMinus opacity={0.8} />
       Unfollow
     </Button>
   ) : (
@@ -71,7 +71,11 @@ const FollowButton = ({
       {...(unfollowedWidth && { minW: unfollowedWidth })}
       {...rest}
     >
-      <IoMdAdd fontSize="22px" style={{ marginInlineEnd: '-0.2rem' }} />
+      <IoMdAdd
+        fontSize="22px"
+        opacity={0.8}
+        style={{ marginInlineEnd: '-0.2rem' }}
+      />
       Follow
     </Button>
   );

@@ -26,7 +26,7 @@ const Footer = () => {
         p={{ base: '1.4rem', sm: '1.2rem 2rem' }}
       >
         <Flex flex="1" justifyContent="flex-start">
-          <Flex flexDirection="column" gap="3px">
+          <Flex flexDirection="column" gap="3px" opacity={0.8}>
             <Text fontSize="10px" fontWeight="600">
               Data provided by
             </Text>
@@ -54,6 +54,7 @@ const Footer = () => {
               h="1.7rem"
               transition="color 0.2s"
               w="1.3rem"
+              opacity={0.9}
             />
           </Link>
         </Flex>
@@ -63,9 +64,10 @@ const Footer = () => {
             colorPalette="cyan"
             onClick={() => dispatch(setIsFeedbackModalOpen(true))}
             size="sm"
+            variant="subtle"
           >
             Feedback
-            <FaRegComment />
+            <FaRegComment opacity={0.8} />
           </Button>
         </Flex>
       </Flex>

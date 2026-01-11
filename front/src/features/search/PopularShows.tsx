@@ -65,14 +65,8 @@ const PopularShows = () => {
 
   return (
     <Box m="18px 0 30px" maxW="1500px" w="95%">
-      <Heading
-        as="h2"
-        color="fg.subtle"
-        fontSize="4xl"
-        fontWeight="600"
-        mb="26px"
-      >
-        Popular
+      <Heading as="h2" color="fg.subtle" fontSize="3xl" fontWeight="700" mb={6}>
+        Trending Now
       </Heading>
       <Flex
         gap="34px 30px"
@@ -140,12 +134,12 @@ const PopularShows = () => {
       <Heading
         as="h2"
         color="fg.subtle"
-        fontSize="4xl"
-        fontWeight="600"
-        mb="26px"
+        fontSize="3xl"
+        fontWeight="700"
+        mb={6}
         mt={isMobile ? '40px' : '50px'}
       >
-        Top Rated
+        All-Time Favorites
       </Heading>
       <Flex
         gap="34px 30px"
