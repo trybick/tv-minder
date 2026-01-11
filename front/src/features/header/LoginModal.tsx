@@ -28,9 +28,10 @@ import {
   setIsLoginModalOpen,
 } from '~/store/rtk/slices/modals.slice';
 import { emailRegex } from '~/utils/constants';
-import { getMessageFromError } from '~/utils/getMessageFromError';
 
 import GoogleLoginButton from './GoogleLoginButton';
+
+import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 type FormInputs = {
   email: string;
@@ -114,7 +115,7 @@ const LoginModal = () => {
     try {
       await login({ email, password }).unwrap();
     } catch (err) {
-      getMessageFromError(err);
+      handleRtkQueryError(err);
       setError('root', {
         type: 'manual',
         message: 'Invalid login. Please try again.',
@@ -128,7 +129,7 @@ const LoginModal = () => {
       await requestOneTimeCode({ email }).unwrap();
       setFormMode(2);
     } catch (err) {
-      getMessageFromError(err);
+      handleRtkQueryError(err);
       setError('root', {
         type: 'manual',
         message: 'The email is not registered',
@@ -145,7 +146,7 @@ const LoginModal = () => {
       setFormMode(3);
       setValue('password', '');
     } catch (err) {
-      getMessageFromError(err);
+      handleRtkQueryError(err);
       setError('root', {
         type: 'manual',
         message: 'Invalid One Time Code',
@@ -163,7 +164,7 @@ const LoginModal = () => {
         type: 'success',
       });
     } catch (err) {
-      getMessageFromError(err);
+      handleRtkQueryError(err);
       setError('root', {
         type: 'manual',
         message: 'Unable to change password',

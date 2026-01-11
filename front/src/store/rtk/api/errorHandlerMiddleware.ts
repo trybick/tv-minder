@@ -1,9 +1,10 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
 import { showToast } from '~/components/ui/toaster';
-import { getMessageFromError } from '~/utils/getMessageFromError';
 
 import { followApi } from './follow.api';
+
+import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 export const errorHandlerMiddleware = createListenerMiddleware();
 
@@ -24,7 +25,7 @@ errorHandlerMiddleware.startListening({
     }
 
     const error = action.payload;
-    const { title, message } = getMessageFromError(error);
+    const { title, message } = handleRtkQueryError(error);
 
     showToast({
       title,

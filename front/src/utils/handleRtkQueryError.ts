@@ -31,7 +31,7 @@ const sendToSentry = (error: object & Record<'status', unknown>) => {
  * @param error - The error to get the message from.
  * @returns A title and message for the error.
  */
-export const getMessageFromError = (error: unknown) => {
+export const handleRtkQueryError = (error: unknown) => {
   let title = 'Error';
   let message = 'Something went wrong';
 

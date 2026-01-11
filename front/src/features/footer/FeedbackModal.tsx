@@ -21,7 +21,8 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { selectEmail } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
-import { getMessageFromError } from '~/utils/getMessageFromError';
+
+import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 type FormValues = {
   feedback: string;
@@ -76,7 +77,7 @@ const FeedbackModal = () => {
       resetForm();
       dispatch(setIsFeedbackModalOpen(false));
     } catch (error) {
-      const { message } = getMessageFromError(error);
+      const { message } = handleRtkQueryError(error);
       setFormError('root', {
         type: 'server',
         message,

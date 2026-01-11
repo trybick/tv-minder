@@ -23,10 +23,11 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
-import { getMessageFromError } from '~/utils/getMessageFromError';
 import { isFetchError } from '~/utils/isFetchError';
 
 import GoogleLoginButton from './GoogleLoginButton';
+
+import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 type FormInputs = {
   email: string;
@@ -100,7 +101,7 @@ const SignUpModal = () => {
           message: 'Email already registered. Please try again.',
         });
       } else {
-        getMessageFromError(err);
+        handleRtkQueryError(err);
         setError('root', {
           type: 'manual',
           message: 'Could not sign up. Please try again.',
