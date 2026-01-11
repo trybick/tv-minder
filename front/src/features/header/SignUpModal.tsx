@@ -52,8 +52,8 @@ const formValidation = {
 };
 
 const SignUpModal = () => {
-  const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
+  const dispatch = useAppDispatch();
 
   const unregisteredFollowedShows = useAppSelector(
     selectUnregisteredFollowedShows
@@ -111,12 +111,7 @@ const SignUpModal = () => {
   });
 
   return (
-    <Dialog.Root
-      onOpenChange={e => !e.open && dispatch(baseApi.util.resetApiState())}
-      open={isOpen}
-      lazyMount
-      unmountOnExit
-    >
+    <Dialog.Root open={isOpen} lazyMount unmountOnExit>
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content bg="bg.muted">

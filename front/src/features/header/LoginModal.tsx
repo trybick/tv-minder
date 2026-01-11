@@ -50,8 +50,8 @@ const formValidation = {
 };
 
 const LoginModal = () => {
-  const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
+  const dispatch = useAppDispatch();
 
   const [formMode, setFormMode] = useState(0);
 
@@ -184,12 +184,7 @@ const LoginModal = () => {
   };
 
   return (
-    <Dialog.Root
-      onOpenChange={e => !e.open && dispatch(baseApi.util.resetApiState())}
-      open={isOpen}
-      lazyMount
-      unmountOnExit
-    >
+    <Dialog.Root open={isOpen} lazyMount unmountOnExit>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
