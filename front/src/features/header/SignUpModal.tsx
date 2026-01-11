@@ -14,7 +14,6 @@ import { PasswordInput } from '~/components/ui/password-input';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
-  authApi,
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
@@ -80,12 +79,9 @@ const SignUpModal = () => {
 
   useEffect(() => {
     if (!isOpen) {
-      queueMicrotask(() => {
-        resetForm();
-        authApi.util.resetApiState();
-      });
+      resetForm();
     }
-  }, [isOpen, resetForm, dispatch]);
+  }, [isOpen, resetForm]);
 
   const onSubmit = handleSubmit(async ({ email, password }: FormInputs) => {
     try {

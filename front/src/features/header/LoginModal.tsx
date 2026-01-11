@@ -18,7 +18,6 @@ import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
-  authApi,
   useChangePasswordForResetMutation,
   useLoginMutation,
   useRequestOneTimeCodeMutation,
@@ -88,10 +87,9 @@ const LoginModal = () => {
       queueMicrotask(() => {
         setFormMode(0);
         resetForm();
-        authApi.util.resetApiState();
       });
     }
-  }, [isOpen, resetForm, dispatch]);
+  }, [isOpen, resetForm]);
 
   const onSubmit = handleSubmit(
     async ({ email, password, oneTimeCode }: FormInputs) => {
