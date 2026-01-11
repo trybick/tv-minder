@@ -24,11 +24,7 @@ import {
   useVerifyOneTimeCodeMutation,
 } from '~/store/rtk/api/auth.api';
 import { baseApi } from '~/store/rtk/api/baseApi';
-import {
-  selectIsLoginModalOpen,
-  setIsLoginModalOpen,
-} from '~/store/rtk/slices/modals.slice';
-import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
+import { selectIsLoginModalOpen } from '~/store/rtk/slices/modals.slice';
 import { emailRegex } from '~/utils/constants';
 import handleErrors from '~/utils/handleErrors';
 
@@ -59,7 +55,6 @@ const LoginModal = () => {
 
   // Modal
   const isOpen = useAppSelector(selectIsLoginModalOpen);
-  const onClose = () => dispatch(setIsLoginModalOpen(false));
 
   // RTK Query mutations
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
@@ -120,10 +115,7 @@ const LoginModal = () => {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const res = await login({ email, password }).unwrap();
-      localStorage.setItem('jwt', res.token);
-      onClose();
-      dispatch(setIsLoggedIn({ email: res.email }));
+      await login({ email, password }).unwrap();
     } catch (err) {
       handleErrors(err);
       setError('root', {
@@ -181,12 +173,6 @@ const LoginModal = () => {
     }
   };
 
-  const handleFormClose = (isOpen: boolean) => {
-    if (!isOpen) {
-      onClose();
-    }
-  };
-
   const getSubmitButtonText = () => {
     let buttonText;
     if (currentFormOption === 0) {
@@ -203,7 +189,7 @@ const LoginModal = () => {
 
   return (
     <Dialog.Root
-      onOpenChange={e => handleFormClose(e.open)}
+      onOpenChange={e => !e.open && dispatch(baseApi.util.resetApiState())}
       open={isOpen}
       lazyMount
       unmountOnExit
@@ -320,13 +306,11 @@ const LoginModal = () => {
                 </Box>
 
                 <Box>
-                  <Button
-                    color="fg.muted"
-                    onClick={() => handleFormClose(false)}
-                    variant="ghost"
-                  >
-                    Cancel
-                  </Button>
+                  <Dialog.CloseTrigger asChild>
+                    <Button color="fg.muted" variant="ghost">
+                      Cancel
+                    </Button>
+                  </Dialog.CloseTrigger>
                   <Button
                     colorPalette="cyan"
                     loading={isSubmitLoading}

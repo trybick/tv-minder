@@ -1,4 +1,9 @@
 import ENDPOINTS from '~/app/endpoints';
+import {
+  setIsLoginModalOpen,
+  setIsSignUpModalOpen,
+} from '~/store/rtk/slices/modals.slice';
+import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
 import { baseApi } from './baseApi';
 
@@ -53,6 +58,19 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          localStorage.setItem('jwt', data.token);
+          dispatch(setIsLoginModalOpen(false));
+          dispatch(setIsSignUpModalOpen(false));
+          dispatch(
+            setIsLoggedIn({ email: data.email, isGoogleUser: arg.isGoogleUser })
+          );
+        } catch {
+          // Error handling done in components
+        }
+      },
     }),
 
     register: builder.mutation<void, RegisterRequest>({

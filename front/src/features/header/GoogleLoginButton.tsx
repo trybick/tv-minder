@@ -5,20 +5,13 @@ import GoogleButton from 'react-google-button';
 
 import ENDPOINTS from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
-import { useAppDispatch } from '~/store';
 import {
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
-import {
-  setIsLoginModalOpen,
-  setIsSignUpModalOpen,
-} from '~/store/rtk/slices/modals.slice';
-import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import handleErrors from '~/utils/handleErrors';
 
 const GoogleLoginButton = () => {
-  const dispatch = useAppDispatch();
   const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
 
@@ -61,16 +54,11 @@ const GoogleLoginButton = () => {
           // Ignore registration errors - user might already exist
         });
 
-      const res = await login({
+      await login({
         email,
         password: googleId,
         isGoogleUser: true,
       }).unwrap();
-
-      localStorage.setItem('jwt', res.token);
-      dispatch(setIsLoginModalOpen(false));
-      dispatch(setIsSignUpModalOpen(false));
-      dispatch(setIsLoggedIn({ email: res.email, isGoogleUser: true }));
     } catch (err) {
       handleErrors(err);
       showToast({
