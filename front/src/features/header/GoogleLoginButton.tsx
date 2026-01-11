@@ -9,7 +9,7 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
-import handleErrors from '~/utils/handleErrors';
+import { getMessageFromError } from '~/utils/getMessageFromError';
 
 const GoogleLoginButton = () => {
   const [register] = useRegisterMutation();
@@ -54,7 +54,7 @@ const GoogleLoginButton = () => {
         isGoogleUser: true,
       }).unwrap();
     } catch (err) {
-      handleErrors(err);
+      getMessageFromError(err);
       showToast({
         title: 'Error in login',
         description: 'Could not log in. Please try again.',

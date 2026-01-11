@@ -21,7 +21,7 @@ import { baseApi } from '~/store/rtk/api/baseApi';
 import { selectIsSignUpModalOpen } from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
-import handleErrors from '~/utils/handleErrors';
+import { getMessageFromError } from '~/utils/getMessageFromError';
 import { isFetchError } from '~/utils/isFetchError';
 
 import GoogleLoginButton from './GoogleLoginButton';
@@ -101,7 +101,7 @@ const SignUpModal = () => {
           message: 'Email already registered. Please try again.',
         });
       } else {
-        handleErrors(err);
+        getMessageFromError(err);
         setError('root', {
           type: 'manual',
           message: 'Could not sign up. Please try again.',

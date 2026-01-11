@@ -5,7 +5,7 @@ import { showToast } from '~/components/ui/toaster';
 import { useAppSelector } from '~/store';
 import { useChangePasswordMutation } from '~/store/rtk/api/auth.api';
 import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
-import handleErrors from '~/utils/handleErrors';
+import { getMessageFromError } from '~/utils/getMessageFromError';
 import { isFetchError } from '~/utils/isFetchError';
 
 type FormInputs = {
@@ -60,7 +60,7 @@ const ChangePasswordContainer = () => {
           type: 'success',
         });
       } catch (error) {
-        handleErrors(error);
+        getMessageFromError(error);
         const isUnauthorizedError = isFetchError(error) && error.status === 401;
         const errorDescription = isUnauthorizedError
           ? 'Your current password was not correct.'
