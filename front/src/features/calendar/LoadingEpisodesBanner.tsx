@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import NoFollowedShowsBanner from './NoFollowedShowsBanner';
 
-const MIN_SHOW_MS = 1500;
+const MIN_SHOW_MS = 2000;
 
 const LoadingEpisodesBanner = ({
   isLoading,
@@ -49,7 +49,7 @@ const LoadingEpisodesBanner = ({
       w="fit-content"
     >
       <Spinner size="sm" />
-      <Alert.Title fontSize="14px">Refreshing episodes</Alert.Title>
+      <Alert.Title fontSize="14px">Refreshing</Alert.Title>
     </Alert.Root>
   );
 };
