@@ -137,7 +137,7 @@ test.describe('Login and Signup flows', () => {
 
     await page.goto('/');
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.getByRole('button', { name: 'Forgot Password?' }).click();
+    await page.getByRole('button', { name: 'Forgot password' }).click();
 
     await page.getByRole('textbox', { name: /email/i }).fill(email);
     await page.getByRole('button', { name: 'Send Code' }).click();
