@@ -1,4 +1,4 @@
-import { authStorage } from '~/utils/auth';
+import { authStorage } from '~/utils/authStorage';
 
 import { baseApi } from './baseApi';
 

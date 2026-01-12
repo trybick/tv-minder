@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { authStorage } from '~/utils/auth';
+import { authStorage } from '~/utils/authStorage';
 import { setSentryUser } from '~/utils/sentry';
+
+type SetIsLoggedInPayload = {
+  email: string;
+  token: string;
+  isGoogleUser?: boolean;
+};
 
 export type UserState = {
   email: string;
@@ -31,14 +37,7 @@ const userSlice = createSlice({
       state.token = null;
     },
 
-    setIsLoggedIn: (
-      state,
-      action: PayloadAction<{
-        email: string;
-        token: string;
-        isGoogleUser?: boolean;
-      }>
-    ) => {
+    setIsLoggedIn: (state, action: PayloadAction<SetIsLoggedInPayload>) => {
       const { email, token, isGoogleUser = false } = action.payload;
       authStorage.setToken(token);
       setSentryUser(email);
