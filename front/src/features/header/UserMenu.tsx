@@ -18,7 +18,6 @@ const UserMenu = () => {
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
   const handleLogout = () => {
-    localStorage.removeItem('jwt');
     dispatch(setIsLoggedOut());
   };
 

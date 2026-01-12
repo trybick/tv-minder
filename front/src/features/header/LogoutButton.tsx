@@ -7,7 +7,6 @@ const LogoutButton = () => {
   const dispatch = useAppDispatch();
 
   const onLogout = () => {
-    localStorage.removeItem('jwt');
     dispatch(setIsLoggedOut());
   };
 

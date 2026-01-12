@@ -1,12 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { authStorage } from '~/utils/authStorage';
 import { setSentryUser } from '~/utils/sentry';
+
+type SetIsLoggedInPayload = {
+  email: string;
+  token: string;
+  isGoogleUser?: boolean;
+};
 
 export type UserState = {
   email: string;
   isGoogleUser: boolean;
   isLoggedIn: boolean;
   unregisteredFollowedShows: number[];
+  token: string | null;
 };
 
 const initialState: UserState = {
@@ -14,6 +22,7 @@ const initialState: UserState = {
   isGoogleUser: false,
   isLoggedIn: false,
   unregisteredFollowedShows: [],
+  token: authStorage.getToken(),
 };
 
 const userSlice = createSlice({
@@ -21,19 +30,20 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setIsLoggedOut: state => {
+      authStorage.clearToken();
       setSentryUser(null);
       state.isLoggedIn = false;
       state.email = '';
+      state.token = null;
     },
 
-    setIsLoggedIn: (
-      state,
-      action: PayloadAction<{ email: string; isGoogleUser?: boolean }>
-    ) => {
-      const { email, isGoogleUser = false } = action.payload;
+    setIsLoggedIn: (state, action: PayloadAction<SetIsLoggedInPayload>) => {
+      const { email, token, isGoogleUser = false } = action.payload;
+      authStorage.setToken(token);
       setSentryUser(email);
       state.isLoggedIn = true;
       state.email = email;
+      state.token = token;
       state.isGoogleUser = isGoogleUser;
       state.unregisteredFollowedShows = [];
     },
@@ -56,6 +66,7 @@ const userSlice = createSlice({
     selectEmail: state => state.email,
     selectIsGoogleUser: state => state.isGoogleUser,
     selectIsLoggedIn: state => state.isLoggedIn,
+    selectToken: state => state.token,
     selectUnregisteredFollowedShows: state => state.unregisteredFollowedShows,
   },
 });
@@ -71,6 +82,7 @@ export const {
   selectEmail,
   selectIsGoogleUser,
   selectIsLoggedIn,
+  selectToken,
   selectUnregisteredFollowedShows,
 } = userSlice.selectors;
 
