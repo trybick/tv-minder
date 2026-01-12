@@ -61,11 +61,14 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem('jwt', data.token);
           dispatch(setIsLoginModalOpen(false));
           dispatch(setIsSignUpModalOpen(false));
           dispatch(
-            setIsLoggedIn({ email: data.email, isGoogleUser: arg.isGoogleUser })
+            setIsLoggedIn({
+              email: data.email,
+              token: data.token,
+              isGoogleUser: arg.isGoogleUser,
+            })
           );
         } catch {
           // Error handling done in components
