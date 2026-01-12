@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Button, ButtonProps } from '@chakra-ui/react';
 import { CiCircleMinus } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
@@ -34,21 +35,21 @@ const FollowButton = ({
   const [followShow] = useFollowShowMutation();
   const [unfollowShow] = useUnfollowShowMutation();
 
-  async function onFollowShow() {
+  const onFollowShow = useCallback(async () => {
     if (isLoggedIn) {
       await followShow(showId);
     } else {
       dispatch(unregisteredFollowShow(showId));
     }
-  }
+  }, [isLoggedIn, followShow, showId, dispatch]);
 
-  async function onUnfollowShow() {
+  const onUnfollowShow = useCallback(async () => {
     if (isLoggedIn) {
       await unfollowShow(showId);
     } else {
       dispatch(unregisteredUnfollowShow(showId));
     }
-  }
+  }, [isLoggedIn, unfollowShow, showId, dispatch]);
 
   return isFollowed ? (
     <Button
