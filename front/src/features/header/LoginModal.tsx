@@ -28,10 +28,9 @@ import {
   setIsLoginModalOpen,
 } from '~/store/rtk/slices/modals.slice';
 import { emailRegex } from '~/utils/constants';
+import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 import GoogleLoginButton from './GoogleLoginButton';
-
-import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 type FormInputs = {
   email: string;
@@ -52,20 +51,20 @@ const formValidation = {
   },
 };
 
-const FormMode = {
+const FormModes = {
   Login: 'login',
   ForgotPassword: 'forgotPassword',
   VerifyCode: 'verifyCode',
   ChangePassword: 'changePassword',
 } as const;
 
-type FormMode = (typeof FormMode)[keyof typeof FormMode];
+type FormMode = (typeof FormModes)[keyof typeof FormModes];
 
 const LoginModal = () => {
   const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
 
-  const [formMode, setFormMode] = useState<FormMode>(FormMode.Login);
+  const [formMode, setFormMode] = useState<FormMode>(FormModes.Login);
 
   const isOpen = useAppSelector(selectIsLoginModalOpen);
 
@@ -95,7 +94,7 @@ const LoginModal = () => {
   useEffect(() => {
     if (!isOpen) {
       queueMicrotask(() => {
-        setFormMode(FormMode.Login);
+        setFormMode(FormModes.Login);
         resetForm();
       });
     }
@@ -104,16 +103,16 @@ const LoginModal = () => {
   const onSubmit = handleSubmit(
     async ({ email, password, oneTimeCode }: FormInputs) => {
       switch (formMode) {
-        case FormMode.Login:
+        case FormModes.Login:
           await handleLogin(email, password);
           break;
-        case FormMode.ForgotPassword:
+        case FormModes.ForgotPassword:
           await handleRequestGenerateOneTimeCode(email);
           break;
-        case FormMode.VerifyCode:
+        case FormModes.VerifyCode:
           await handleVerifyOneTimeCode(email, oneTimeCode);
           break;
-        case FormMode.ChangePassword:
+        case FormModes.ChangePassword:
           await handleChangePassword(email, password);
           break;
       }
@@ -136,7 +135,7 @@ const LoginModal = () => {
   const handleRequestGenerateOneTimeCode = async (email: string) => {
     try {
       await requestOneTimeCode({ email }).unwrap();
-      setFormMode(FormMode.VerifyCode);
+      setFormMode(FormModes.VerifyCode);
     } catch (err) {
       handleRtkQueryError(err);
       setError('root', {
@@ -152,7 +151,7 @@ const LoginModal = () => {
   ) => {
     try {
       await verifyOneTimeCode({ email, oneTimeCode }).unwrap();
-      setFormMode(FormMode.ChangePassword);
+      setFormMode(FormModes.ChangePassword);
       setValue('password', '');
     } catch (err) {
       handleRtkQueryError(err);
@@ -166,7 +165,7 @@ const LoginModal = () => {
   const handleChangePassword = async (email: string, password: string) => {
     try {
       await changePasswordForReset({ email, password }).unwrap();
-      setFormMode(FormMode.Login);
+      setFormMode(FormModes.Login);
       showToast({
         title: 'Password Changed',
         description: 'You can login with your new password',
@@ -183,13 +182,13 @@ const LoginModal = () => {
 
   const getSubmitButtonText = () => {
     let buttonText;
-    if (formMode === FormMode.Login) {
+    if (formMode === FormModes.Login) {
       buttonText = 'Login';
-    } else if (formMode === FormMode.ForgotPassword) {
+    } else if (formMode === FormModes.ForgotPassword) {
       buttonText = 'Send Code';
-    } else if (formMode === FormMode.VerifyCode) {
+    } else if (formMode === FormModes.VerifyCode) {
       buttonText = 'Verify';
-    } else if (formMode === FormMode.ChangePassword) {
+    } else if (formMode === FormModes.ChangePassword) {
       buttonText = 'Change Password';
     }
     return buttonText;
@@ -208,7 +207,7 @@ const LoginModal = () => {
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
               <Dialog.Title>
-                {formMode === FormMode.Login ? 'Login' : 'Forgot Password'}
+                {formMode === FormModes.Login ? 'Login' : 'Forgot Password'}
               </Dialog.Title>
             </Dialog.Header>
 
@@ -219,13 +218,12 @@ const LoginModal = () => {
             {/* Since this component throws an error if it doesn't have the google
             secret key, don't render it during playweright tests. This allows us
             to run e2e tests for other users' PRs since forks don't have that key. */}
-            {formMode === FormMode.Login && import.meta.env.VITE_CI !== 'true' && (
-              <GoogleLoginButton />
-            )}
+            {formMode === FormModes.Login &&
+              import.meta.env.VITE_CI !== 'true' && <GoogleLoginButton />}
 
             <Box as="form" onSubmit={onSubmit}>
               <Dialog.Body pb={6}>
-                {formMode === FormMode.Login && (
+                {formMode === FormModes.Login && (
                   <InlineTextSeparator
                     alignItems="center"
                     fontSize="14px"
@@ -241,8 +239,8 @@ const LoginModal = () => {
                   <Input
                     borderColor="gray.500"
                     disabled={
-                      formMode === FormMode.VerifyCode ||
-                      formMode === FormMode.ChangePassword
+                      formMode === FormModes.VerifyCode ||
+                      formMode === FormModes.ChangePassword
                     }
                     {...register('email', { ...formValidation.email })}
                     autoFocus={!isMobile}
@@ -250,11 +248,11 @@ const LoginModal = () => {
                   <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                 </Field.Root>
 
-                {(formMode === FormMode.Login ||
-                  formMode === FormMode.ChangePassword) && (
+                {(formMode === FormModes.Login ||
+                  formMode === FormModes.ChangePassword) && (
                   <Field.Root invalid={!!errors?.password} mt={4}>
                     <Field.Label>
-                      {formMode === FormMode.ChangePassword && 'New'} Password
+                      {formMode === FormModes.ChangePassword && 'New'} Password
                     </Field.Label>
                     <PasswordInput
                       borderColor="gray.500"
@@ -268,7 +266,7 @@ const LoginModal = () => {
                   </Field.Root>
                 )}
 
-                {formMode === FormMode.VerifyCode && (
+                {formMode === FormModes.VerifyCode && (
                   <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
                     <Field.Label>Enter Verification Code</Field.Label>
                     <Input
@@ -289,24 +287,24 @@ const LoginModal = () => {
 
               <Dialog.Footer as={Flex} flex={1} justifyContent="space-between">
                 <Box>
-                  {(formMode === FormMode.Login ||
-                    formMode === FormMode.ForgotPassword) && (
+                  {(formMode === FormModes.Login ||
+                    formMode === FormModes.ForgotPassword) && (
                     <Button
                       fontSize="0.88rem"
                       onClick={() => {
                         setValue('email', '');
                         setValue('password', '');
                         setFormMode(
-                          formMode === FormMode.Login
-                            ? FormMode.ForgotPassword
-                            : FormMode.Login
+                          formMode === FormModes.Login
+                            ? FormModes.ForgotPassword
+                            : FormModes.Login
                         );
                       }}
                       px={0}
                       variant="plain"
                       color="fg.muted"
                     >
-                      {formMode === FormMode.Login ? (
+                      {formMode === FormModes.Login ? (
                         'Forgot password'
                       ) : (
                         <>

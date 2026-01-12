@@ -5,9 +5,8 @@ import { showToast } from '~/components/ui/toaster';
 import { useAppSelector } from '~/store';
 import { useChangePasswordMutation } from '~/store/rtk/api/auth.api';
 import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
-import { isFetchError } from '~/utils/isFetchError';
-
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
+import { isFetchError } from '~/utils/isFetchError';
 
 type FormInputs = {
   oldPassword: string;

@@ -9,7 +9,6 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
-
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 const GoogleLoginButton = () => {

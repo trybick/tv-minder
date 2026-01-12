@@ -23,11 +23,10 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
+import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 import { isFetchError } from '~/utils/isFetchError';
 
 import GoogleLoginButton from './GoogleLoginButton';
-
-import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 type FormInputs = {
   email: string;

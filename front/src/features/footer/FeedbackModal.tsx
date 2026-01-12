@@ -21,7 +21,6 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { selectEmail } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
-
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 type FormValues = {
