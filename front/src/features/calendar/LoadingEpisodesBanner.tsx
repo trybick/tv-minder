@@ -1,6 +1,9 @@
 import { Alert, Spinner } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
+import { useAppSelector } from '~/store';
+import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+
 import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
 
 const MIN_SHOW_MS = 2000;
@@ -15,8 +18,14 @@ export const LoadingEpisodesBanner = ({
   const [isShown, setIsShown] = useState(false);
   const shownAt = useRef<number>(0);
 
+  const followedShows = useAppSelector(selectFollowedShows);
+
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
+
+    if (!followedShows.length) {
+      return;
+    }
 
     if (isLoading && !isShown) {
       queueMicrotask(() => {
@@ -34,7 +43,7 @@ export const LoadingEpisodesBanner = ({
     }
 
     return () => clearTimeout(timer);
-  }, [isLoading, isShown]);
+  }, [isLoading, isShown, followedShows.length]);
 
   if (!isShown) {
     return hasNoEpisodesThisMonth ? <NoFollowedShowsBanner /> : null;
