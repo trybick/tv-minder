@@ -22,7 +22,12 @@ const isJWTData = (decoded: unknown): decoded is JWTData => {
 };
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  const providedToken = req.body?.token || req.query.token;
+  const authHeader = req.headers.authorization;
+  // Prefer Authorization header, fall back to body/query for backwards compatibility
+  const providedToken =
+    (authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null) ||
+    req.body?.token ||
+    req.query.token;
 
   if (!providedToken) {
     res.status(401).json({ message: 'Token required' });

@@ -1,24 +1,16 @@
-import { authStorage } from '~/utils/authStorage';
-
 import { baseApi } from './baseApi';
 
 export const followApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getFollowedShows: builder.query<number[], void>({
-      query: () => ({
-        url: '/follow',
-        params: { token: authStorage.getToken() },
-      }),
+      query: () => '/follow',
     }),
 
     followShow: builder.mutation<{ showId: number }, number>({
       query: showId => ({
         url: '/follow',
         method: 'POST',
-        body: {
-          showId,
-          token: authStorage.getToken(),
-        },
+        body: { showId },
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
@@ -44,10 +36,7 @@ export const followApi = baseApi.injectEndpoints({
       query: showId => ({
         url: '/follow',
         method: 'DELETE',
-        body: {
-          showId,
-          token: authStorage.getToken(),
-        },
+        body: { showId },
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
