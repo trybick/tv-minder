@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
 
-import ChangePasswordContainer from './ChangePasswordContainer';
+import { ChangePasswordContainer } from './ChangePasswordContainer';
 
-const SettingsPage = () => {
+export const SettingsPage = () => {
   return (
     <>
       <title>Settings | TV Minder</title>
@@ -12,5 +12,3 @@ const SettingsPage = () => {
     </>
   );
 };
-
-export default SettingsPage;

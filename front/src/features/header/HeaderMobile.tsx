@@ -6,13 +6,13 @@ import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import LoginButton from './LoginButton';
-import Logo from './Logo';
-import LogoutButton from './LogoutButton';
-import NavigationLinks from './NavLinksContainer';
-import SignUpButton from './SignUpButton';
+import { LoginButton } from './LoginButton';
+import { Logo } from './Logo';
+import { LogoutButton } from './LogoutButton';
+import { NavigationLinks } from './NavLinksContainer';
+import { SignUpButton } from './SignUpButton';
 
-const HeaderMobile = () => {
+export const HeaderMobile = () => {
   const [location] = useLocation();
   const isShowPage = location.includes('/show/');
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -75,5 +75,3 @@ const HeaderMobile = () => {
     </>
   );
 };
-
-export default HeaderMobile;

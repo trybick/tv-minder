@@ -7,7 +7,7 @@ import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
-const NoFollowedShowsBanner = () => {
+export const NoFollowedShowsBanner = () => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const followedShows = useAppSelector(selectFollowedShows);
@@ -45,5 +45,3 @@ const NoFollowedShowsBanner = () => {
     </Alert.Root>
   );
 };
-
-export default NoFollowedShowsBanner;

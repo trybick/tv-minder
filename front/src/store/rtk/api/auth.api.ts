@@ -1,4 +1,4 @@
-import ENDPOINTS from '~/app/endpoints';
+import { ENDPOINTS } from '~/app/endpoints';
 import {
   setIsLoginModalOpen,
   setIsSignUpModalOpen,

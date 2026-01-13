@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react';
 import { type, Type } from 'arktype';
 import ky, { Options } from 'ky';
 
-import ENDPOINTS from '~/app/endpoints';
+import { ENDPOINTS } from '~/app/endpoints';
 import {
   tmdbSchema,
   TmdbSearchResult,

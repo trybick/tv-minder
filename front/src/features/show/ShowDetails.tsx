@@ -14,9 +14,9 @@ import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
 
-import DelayedSkeleton from '~/components/DelayedSkeleton';
-import DelayedSkeletonText from '~/components/DelayedSkeletonText';
-import FollowButton from '~/components/FollowButton';
+import { DelayedSkeleton } from '~/components/DelayedSkeleton';
+import { DelayedSkeletonText } from '~/components/DelayedSkeletonText';
+import { FollowButton } from '~/components/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
@@ -25,9 +25,9 @@ import {
 } from '~/store/tv/selectors';
 import { abbreviateNumber } from '~/utils/formatting';
 
-import VideoTrailerButton from './VideoTrailerButton';
+import { VideoTrailerButton } from './VideoTrailerButton';
 
-const ShowDetails = () => {
+export const ShowDetails = () => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
@@ -186,5 +186,3 @@ const ShowDetails = () => {
     </Box>
   );
 };
-
-export default ShowDetails;

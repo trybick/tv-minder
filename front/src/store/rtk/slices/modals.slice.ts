@@ -45,4 +45,4 @@ export const {
   selectIsFeedbackModalOpen,
 } = modalsSlice.selectors;
 
-export default modalsSlice.reducer;
+export const modalsReducer = modalsSlice.reducer;

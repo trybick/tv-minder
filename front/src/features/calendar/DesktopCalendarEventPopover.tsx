@@ -20,7 +20,7 @@ type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };
 };
 
-const DesktopCalendarEventPopover = (props: Props) => {
+export const DesktopCalendarEventPopover = (props: Props) => {
   const { eventInfo } = props;
   const { backgroundColor } = eventInfo;
   const { title } = eventInfo.event;
@@ -141,5 +141,3 @@ const DesktopCalendarEventPopover = (props: Props) => {
     </HoverCard.Root>
   );
 };
-
-export default DesktopCalendarEventPopover;

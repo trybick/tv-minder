@@ -3,9 +3,9 @@ import { Flex } from '@chakra-ui/react';
 import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
 import { NoResultsFound } from './NoResultsFound';
-import PopularShows from './PopularShows';
-import SearchResults from './SearchResults';
-import SearchResultsSkeleton from './SearchResultsSkeleton';
+import { PopularShows } from './PopularShows';
+import { SearchResults } from './SearchResults';
+import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 
 type Props = {
   isInputDirty: boolean;
@@ -14,7 +14,7 @@ type Props = {
   totalResults: number;
 };
 
-const SearchContainer = ({
+export const SearchContainer = ({
   isInputDirty,
   isLoading,
   shows,
@@ -32,5 +32,3 @@ const SearchContainer = ({
     )}
   </Flex>
 );
-
-export default SearchContainer;

@@ -2,7 +2,7 @@ import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import FollowButton from '~/components/FollowButton';
+import { FollowButton } from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
@@ -15,7 +15,7 @@ type Props = {
   show: PopularShowType;
 };
 
-const PopularShow = ({ show }: Props) => {
+export const PopularShow = ({ show }: Props) => {
   const { id, name, posterPath } = show;
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
@@ -89,5 +89,3 @@ const PopularShow = ({ show }: Props) => {
     </Flex>
   );
 };
-
-export default PopularShow;

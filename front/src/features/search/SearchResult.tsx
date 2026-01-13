@@ -2,7 +2,7 @@ import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
 import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import FollowButton from '~/components/FollowButton';
+import { FollowButton } from '~/components/FollowButton';
 import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
@@ -15,7 +15,7 @@ type Props = {
   showToDisplay: TmdbShowSummary;
 };
 
-const SearchResult = ({ showToDisplay }: Props) => {
+export const SearchResult = ({ showToDisplay }: Props) => {
   const {
     first_air_date: firstAirDate,
     id: showId,
@@ -98,5 +98,3 @@ const SearchResult = ({ showToDisplay }: Props) => {
     </Box>
   );
 };
-
-export default SearchResult;

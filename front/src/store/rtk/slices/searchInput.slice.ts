@@ -26,4 +26,4 @@ export const { setShouldResetSearchInput } = searchInputSlice.actions;
 
 export const { selectShouldResetSearchInput } = searchInputSlice.selectors;
 
-export default searchInputSlice.reducer;
+export const searchInputReducer = searchInputSlice.reducer;

@@ -9,13 +9,13 @@ import {
   selectIsLoggedIn,
 } from '~/store/rtk/slices/user.slice';
 
-import NavLink from './NavLink';
+import { NavLink } from './NavLink';
 
 interface Props {
   onClose?: () => void;
 }
 
-const NavigationLinks = ({ onClose }: Props) => {
+export const NavigationLinks = ({ onClose }: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
   const isMobile = useIsMobile();
@@ -49,5 +49,3 @@ const NavigationLinks = ({ onClose }: Props) => {
     </Flex>
   );
 };
-
-export default NavigationLinks;

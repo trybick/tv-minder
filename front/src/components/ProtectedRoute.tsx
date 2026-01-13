@@ -9,10 +9,8 @@ type Props = {
   children: ReactNode;
 };
 
-const ProtectedRoute = ({ children }: Props) => {
+export const ProtectedRoute = ({ children }: Props) => {
   const isUserLoggedIn = useAppSelector(selectIsLoggedIn);
 
   return isUserLoggedIn ? <>{children}</> : <Redirect to={ROUTES.HOME} />;
 };
-
-export default ProtectedRoute;

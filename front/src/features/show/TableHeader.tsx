@@ -1,7 +1,7 @@
 import { Text, TextProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-const TableHeader = ({
+export const TableHeader = ({
   children,
   ...textProps
 }: { children: ReactNode } & TextProps) => (
@@ -15,5 +15,3 @@ const TableHeader = ({
     {children}
   </Text>
 );
-
-export default TableHeader;

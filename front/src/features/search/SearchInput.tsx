@@ -11,7 +11,7 @@ type Props = {
   inputValue: string;
 };
 
-const SearchInput = ({
+export const SearchInput = ({
   handleChange,
   handleClearInput,
   inputRef,
@@ -77,5 +77,3 @@ const SearchInput = ({
     </Flex>
   );
 };
-
-export default SearchInput;

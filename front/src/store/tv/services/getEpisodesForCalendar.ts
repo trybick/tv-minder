@@ -3,7 +3,7 @@ import { CalendarEpisode } from '~/store/tv/types/transformed';
 import { formatSameDayEpisodes } from '~/store/tv/utils/formatting';
 import { tmdbApi } from '~/store/tv/utils/tmdbApi';
 import { isDateWithinOneMonth } from '~/utils/dates';
-import dayjs from '~/utils/dayjs';
+import { dayjs } from '~/utils/dayjs';
 import { getUniqueColorsForShowIds } from '~/utils/getUniqueColorsForShowIds';
 
 type ShowWithLatestSeasons = {

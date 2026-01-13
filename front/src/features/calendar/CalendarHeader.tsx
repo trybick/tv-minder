@@ -11,9 +11,9 @@ import {
   selectCalendarEpisodesForDisplay,
   selectIsLoadingCalendarEpisodes,
 } from '~/store/tv/selectors';
-import dayjs from '~/utils/dayjs';
+import { dayjs } from '~/utils/dayjs';
 
-import LoadingEpisodesBanner from './LoadingEpisodesBanner';
+import { LoadingEpisodesBanner } from './LoadingEpisodesBanner';
 
 type Props = {
   calendarRef: RefObject<FullCalendar | null>;
@@ -21,7 +21,7 @@ type Props = {
   viewRange: { start: Date; end: Date } | null;
 };
 
-const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
+export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
   const isMobile = useIsMobile();
 
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
@@ -116,5 +116,3 @@ const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
     </Box>
   );
 };
-
-export default CalendarHeader;

@@ -9,7 +9,7 @@ import {
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
-import DelayedSkeleton from '~/components/DelayedSkeleton';
+import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
@@ -18,7 +18,7 @@ type Props = {
   videoId: string | undefined;
 };
 
-const VideoTrailerButton = ({ videoId }: Props) => {
+export const VideoTrailerButton = ({ videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
@@ -90,5 +90,3 @@ const VideoTrailerButton = ({ videoId }: Props) => {
     </>
   );
 };
-
-export default VideoTrailerButton;

@@ -23,9 +23,9 @@ import {
 } from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
-import PopularShow from './PopularShow';
+import { PopularShow } from './PopularShow';
 
-const PopularShows = () => {
+export const PopularShows = () => {
   const dispatch = useAppDispatch();
   const popularShows = useAppSelector(selectPopularShowsForDisplay);
   const topRatedShows = useAppSelector(selectTopRatedShowsForDisplay);
@@ -203,5 +203,3 @@ const PopularShows = () => {
     </Box>
   );
 };
-
-export default PopularShows;

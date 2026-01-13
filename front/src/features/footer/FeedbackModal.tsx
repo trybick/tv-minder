@@ -28,7 +28,7 @@ type FormValues = {
   email: string;
 };
 
-const FeedbackModal = () => {
+export const FeedbackModal = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
   const isOpen = useAppSelector(selectIsFeedbackModalOpen);
@@ -167,5 +167,3 @@ const FeedbackModal = () => {
     </Dialog.Root>
   );
 };
-
-export default FeedbackModal;

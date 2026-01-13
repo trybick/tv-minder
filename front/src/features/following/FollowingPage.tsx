@@ -8,10 +8,10 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getShowDetailsForFollowedShows } from '~/store/tv/actions';
 
-import FollowingList from './FollowingList';
-import NoFollowedShowsMessage from './NoFollowedShowsMessage';
+import { FollowingList } from './FollowingList';
+import { NoFollowedShowsMessage } from './NoFollowedShowsMessage';
 
-const FollowingPage = () => {
+export const FollowingPage = () => {
   const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
   const followedShows = useAppSelector(selectFollowedShows);
@@ -36,5 +36,3 @@ const FollowingPage = () => {
     </>
   );
 };
-
-export default FollowingPage;
