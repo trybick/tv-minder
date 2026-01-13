@@ -62,6 +62,7 @@ export const UserMenu = () => {
                     onClick={() => navigate(ROUTES.SETTINGS)}
                     p="8px 8px"
                     value="settings"
+                    color="gray.200"
                   >
                     <VscSettingsGear />
                     Settings
@@ -72,6 +73,7 @@ export const UserMenu = () => {
                   onClick={handleLogout}
                   p="8px 8px"
                   value="logout"
+                  color="gray.200"
                 >
                   <SlLogout />
                   Logout
