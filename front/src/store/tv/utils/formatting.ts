@@ -8,7 +8,7 @@ import {
   ShowForDisplay,
 } from '~/store/tv/types/transformed';
 import { TmdbShowWithSeasons } from '~/store/tv/types/transformed';
-import dayjs from '~/utils/dayjs';
+import { dayjs } from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
 
 export type ShowStatus = {

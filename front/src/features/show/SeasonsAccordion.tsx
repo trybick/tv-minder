@@ -1,17 +1,17 @@
 import { Accordion, Box, Flex, Text } from '@chakra-ui/react';
 
-import DelayedSkeleton from '~/components/DelayedSkeleton';
+import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
 } from '~/store/tv/selectors';
-import dayjs from '~/utils/dayjs';
+import { dayjs } from '~/utils/dayjs';
 
-import EpisodesTable from './EpisodesTable';
+import { EpisodesTable } from './EpisodesTable';
 
-const SeasonsAccordion = () => {
+export const SeasonsAccordion = () => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
@@ -79,5 +79,3 @@ const SeasonsAccordion = () => {
     </Flex>
   );
 };
-
-export default SeasonsAccordion;

@@ -3,14 +3,14 @@ import { Box, Stack, Tag } from '@chakra-ui/react';
 import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { maybePluralize } from '~/utils/formatting';
 
-import SearchResult from './SearchResult';
+import { SearchResult } from './SearchResult';
 
 type Props = {
   shows: TmdbShowSummary[];
   totalResults: number;
 };
 
-const SearchResults = ({ shows, totalResults }: Props) => {
+export const SearchResults = ({ shows, totalResults }: Props) => {
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'result')}`;
 
   return (
@@ -29,5 +29,3 @@ const SearchResults = ({ shows, totalResults }: Props) => {
     </Box>
   );
 };
-
-export default SearchResults;

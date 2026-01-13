@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TiArrowBack } from 'react-icons/ti';
 
-import InlineTextSeparator from '~/components/InlineTextSeparator';
+import { InlineTextSeparator } from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -30,7 +30,7 @@ import {
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
-import GoogleLoginButton from './GoogleLoginButton';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 type FormInputs = {
   email: string;
@@ -60,7 +60,7 @@ const FormModes = {
 
 type FormMode = (typeof FormModes)[keyof typeof FormModes];
 
-const LoginModal = () => {
+export const LoginModal = () => {
   const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
 
@@ -342,5 +342,3 @@ const LoginModal = () => {
     </Dialog.Root>
   );
 };
-
-export default LoginModal;

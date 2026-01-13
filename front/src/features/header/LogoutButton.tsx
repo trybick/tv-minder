@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 import { useAppDispatch } from '~/store';
 import { setIsLoggedOut } from '~/store/rtk/slices/user.slice';
 
-const LogoutButton = () => {
+export const LogoutButton = () => {
   const dispatch = useAppDispatch();
 
   const onLogout = () => {
@@ -16,5 +16,3 @@ const LogoutButton = () => {
     </Button>
   );
 };
-
-export default LogoutButton;

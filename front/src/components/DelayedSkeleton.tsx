@@ -7,7 +7,7 @@ interface Props extends SkeletonProps {
   isLoading: boolean;
 }
 
-const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
+export const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
   const [shouldShowSkeleton, setShouldShowSkeleton] = useState(false);
 
   useEffect(() => {
@@ -38,5 +38,3 @@ const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
 
   return null;
 };
-
-export default DelayedSkeleton;

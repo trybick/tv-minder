@@ -1,11 +1,11 @@
 import { Alert, Spinner } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
-import NoFollowedShowsBanner from './NoFollowedShowsBanner';
+import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
 
 const MIN_SHOW_MS = 2000;
 
-const LoadingEpisodesBanner = ({
+export const LoadingEpisodesBanner = ({
   isLoading,
   hasNoEpisodesThisMonth,
 }: {
@@ -53,5 +53,3 @@ const LoadingEpisodesBanner = ({
     </Alert.Root>
   );
 };
-
-export default LoadingEpisodesBanner;

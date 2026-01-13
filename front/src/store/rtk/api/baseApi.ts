@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import ENDPOINTS from '~/app/endpoints';
+import { ENDPOINTS } from '~/app/endpoints';
 import type { RootState } from '~/store';
 
 export const baseApi = createApi({

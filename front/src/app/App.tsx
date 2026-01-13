@@ -3,18 +3,18 @@ import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
 import { Route, Switch } from 'wouter';
 
-import ErrorBoundary from '~/components/ErrorBoundary';
-import Modals from '~/components/Modals';
-import ProtectedRoute from '~/components/ProtectedRoute';
+import { ErrorBoundary } from '~/components/ErrorBoundary';
+import { Modals } from '~/components/Modals';
+import { ProtectedRoute } from '~/components/ProtectedRoute';
 import { Toaster } from '~/components/ui/toaster';
-import CalendarPage from '~/features/calendar/CalendarPage';
-import FollowingPage from '~/features/following/FollowingPage';
-import Footer from '~/features/footer/Footer';
-import DesktopHeader from '~/features/header/HeaderDesktop';
-import MobileHeader from '~/features/header/HeaderMobile';
-import SearchPage from '~/features/search/SearchPage';
-import SettingsPage from '~/features/settings/SettingsPage';
-import ShowPage from '~/features/show/ShowPage';
+import { CalendarPage } from '~/features/calendar/CalendarPage';
+import { FollowingPage } from '~/features/following/FollowingPage';
+import { Footer } from '~/features/footer/Footer';
+import { HeaderDesktop } from '~/features/header/HeaderDesktop';
+import { HeaderMobile } from '~/features/header/HeaderMobile';
+import { SearchPage } from '~/features/search/SearchPage';
+import { SettingsPage } from '~/features/settings/SettingsPage';
+import { ShowPage } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/follow.api';
@@ -25,7 +25,7 @@ import { initSentry } from '~/utils/sentry';
 
 import { ROUTES } from './routes';
 
-const App = () => {
+export const App = () => {
   const isMobile = useIsMobile();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -50,7 +50,7 @@ const App = () => {
       <Modals />
 
       <Flex direction="column" minH="97vh">
-        {isMobile ? <MobileHeader /> : <DesktopHeader />}
+        {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
 
         <Switch>
           <Route path={ROUTES.HOME}>
@@ -81,5 +81,3 @@ const App = () => {
     </ErrorBoundary>
   );
 };
-
-export default App;

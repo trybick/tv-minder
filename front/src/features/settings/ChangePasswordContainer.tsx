@@ -14,7 +14,7 @@ type FormInputs = {
   newPasswordConfirmation: string;
 };
 
-const ChangePasswordContainer = () => {
+export const ChangePasswordContainer = () => {
   const email = useAppSelector(selectEmail);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
 
@@ -153,5 +153,3 @@ const ChangePasswordContainer = () => {
     </Box>
   );
 };
-
-export default ChangePasswordContainer;

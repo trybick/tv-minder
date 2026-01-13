@@ -11,9 +11,9 @@ import {
 } from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
-import SubSectionOfShows from './SubSectionOfShows';
+import { SubSectionOfShows } from './SubSectionOfShows';
 
-const FollowingList = () => {
+export const FollowingList = () => {
   const isMobile = useIsMobile();
   const [currentTab, setCurrentTab] = useState<string | null>('all');
 
@@ -79,5 +79,3 @@ const FollowingList = () => {
     </Box>
   );
 };
-
-export default FollowingList;

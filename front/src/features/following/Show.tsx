@@ -14,7 +14,7 @@ type Props = {
   show: ShowForDisplay;
 };
 
-const Show = (props: Props) => {
+export const Show = (props: Props) => {
   const {
     show: { id, name, posterPath },
   } = props;
@@ -79,5 +79,3 @@ const Show = (props: Props) => {
     </Flex>
   );
 };
-
-export default Show;

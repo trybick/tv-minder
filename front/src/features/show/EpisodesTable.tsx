@@ -9,15 +9,15 @@ import { FaStar } from 'react-icons/fa';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { EpisodeForSeason } from '~/store/tv/types/transformed';
-import dayjs from '~/utils/dayjs';
+import { dayjs } from '~/utils/dayjs';
 
-import TableHeader from './TableHeader';
+import { TableHeader } from './TableHeader';
 
 type Props = {
   episodes: EpisodeForSeason[];
 };
 
-const EpisodesTable = ({ episodes }: Props) => {
+export const EpisodesTable = ({ episodes }: Props) => {
   const isMobile = useIsMobile();
 
   const columns: ColumnDef<EpisodeForSeason>[] = [
@@ -147,5 +147,3 @@ const EpisodesTable = ({ episodes }: Props) => {
     </Table.Root>
   );
 };
-
-export default EpisodesTable;

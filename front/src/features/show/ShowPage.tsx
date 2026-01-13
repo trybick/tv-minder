@@ -6,14 +6,14 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { getShowDetailsWithSeasons } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
 
-import ShowContainer from './ShowContainer';
+import { ShowContainer } from './ShowContainer';
 
 export type ShowNavigationState = {
   posterSource: string;
   name: string;
 };
 
-const ShowPage = () => {
+export const ShowPage = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
   const showInfo = useAppSelector(selectCurrentShowInfo);
@@ -43,5 +43,3 @@ const ShowPage = () => {
     </>
   );
 };
-
-export default ShowPage;

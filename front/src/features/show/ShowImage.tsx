@@ -1,7 +1,7 @@
 import { Image } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import DelayedSkeleton from '~/components/DelayedSkeleton';
+import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
@@ -12,7 +12,7 @@ import {
 import { createImageUrl } from '~/utils/createImageUrl';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-const ShowImage = () => {
+export const ShowImage = () => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
@@ -61,5 +61,3 @@ const ShowImage = () => {
     </DelayedSkeleton>
   );
 };
-
-export default ShowImage;

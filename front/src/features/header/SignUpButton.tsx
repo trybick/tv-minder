@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 import { useAppDispatch } from '~/store';
 import { setIsSignUpModalOpen } from '~/store/rtk/slices/modals.slice';
 
-const SignUpButton = () => {
+export const SignUpButton = () => {
   const dispatch = useAppDispatch();
 
   return (
@@ -16,5 +16,3 @@ const SignUpButton = () => {
     </Button>
   );
 };
-
-export default SignUpButton;

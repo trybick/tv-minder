@@ -86,4 +86,4 @@ export const {
   selectUnregisteredFollowedShows,
 } = userSlice.selectors;
 
-export default userSlice.reducer;
+export const userReducer = userSlice.reducer;

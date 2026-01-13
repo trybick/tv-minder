@@ -9,7 +9,7 @@ import {
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import InlineTextSeparator from '~/components/InlineTextSeparator';
+import { InlineTextSeparator } from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -26,7 +26,7 @@ import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 import { isFetchError } from '~/utils/isFetchError';
 
-import GoogleLoginButton from './GoogleLoginButton';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 type FormInputs = {
   email: string;
@@ -53,7 +53,7 @@ const formValidation = {
   },
 };
 
-const SignUpModal = () => {
+export const SignUpModal = () => {
   const isMobile = useIsMobile();
   const dispatch = useAppDispatch();
 
@@ -204,5 +204,3 @@ const SignUpModal = () => {
     </Dialog.Root>
   );
 };
-
-export default SignUpModal;

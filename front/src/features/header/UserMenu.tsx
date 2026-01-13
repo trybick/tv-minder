@@ -11,7 +11,7 @@ import {
   setIsLoggedOut,
 } from '~/store/rtk/slices/user.slice';
 
-const UserMenu = () => {
+export const UserMenu = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const email = useAppSelector(selectEmail);
@@ -84,5 +84,3 @@ const UserMenu = () => {
     </Box>
   );
 };
-
-export default UserMenu;

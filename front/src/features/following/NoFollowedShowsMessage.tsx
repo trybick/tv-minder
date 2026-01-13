@@ -5,7 +5,7 @@ import { ROUTES } from '~/app/routes';
 import noShowsImage from '~/assets/images/tv-remote.jpg';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
-const NoFollowedShowsMessage = () => {
+export const NoFollowedShowsMessage = () => {
   const navigate = useNavigateWithAnimation();
 
   const handleClickHome = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -37,5 +37,3 @@ const NoFollowedShowsMessage = () => {
     </Flex>
   );
 };
-
-export default NoFollowedShowsMessage;

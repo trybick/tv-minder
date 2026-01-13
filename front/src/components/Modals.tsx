@@ -1,8 +1,8 @@
-import FeedbackModal from '~/features/footer/FeedbackModal';
-import LoginModal from '~/features/header/LoginModal';
-import SignUpModal from '~/features/header/SignUpModal';
+import { FeedbackModal } from '~/features/footer/FeedbackModal';
+import { LoginModal } from '~/features/header/LoginModal';
+import { SignUpModal } from '~/features/header/SignUpModal';
 
-const Modals = () => {
+export const Modals = () => {
   return (
     <>
       <LoginModal />
@@ -11,5 +11,3 @@ const Modals = () => {
     </>
   );
 };
-
-export default Modals;

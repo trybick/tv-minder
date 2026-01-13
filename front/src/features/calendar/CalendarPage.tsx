@@ -19,13 +19,13 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
-import dayjs from '~/utils/dayjs';
+import { dayjs } from '~/utils/dayjs';
 
-import CalendarHeader from './CalendarHeader';
-import DesktopCalendarEventPopover from './DesktopCalendarEventPopover';
-import NoFollowedShowsBanner from './NoFollowedShowsBanner';
+import { CalendarHeader } from './CalendarHeader';
+import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
+import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
 
-const CalendarPage = () => {
+export const CalendarPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const isMobile = useIsMobile();
@@ -151,5 +151,3 @@ const CalendarPage = () => {
     </>
   );
 };
-
-export default CalendarPage;

@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 import { useAppDispatch } from '~/store';
 import { setIsLoginModalOpen } from '~/store/rtk/slices/modals.slice';
 
-const LoginButton = () => {
+export const LoginButton = () => {
   const dispatch = useAppDispatch();
 
   return (
@@ -17,5 +17,3 @@ const LoginButton = () => {
     </Button>
   );
 };
-
-export default LoginButton;

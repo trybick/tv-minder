@@ -3,7 +3,7 @@ import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import ky from 'ky';
 import GoogleButton from 'react-google-button';
 
-import ENDPOINTS from '~/app/endpoints';
+import { ENDPOINTS } from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
 import {
   useLoginMutation,
@@ -11,7 +11,7 @@ import {
 } from '~/store/rtk/api/auth.api';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
-const GoogleLoginButton = () => {
+export const GoogleLoginButton = () => {
   const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
 
@@ -74,5 +74,3 @@ const GoogleLoginButton = () => {
     </Flex>
   );
 };
-
-export default GoogleLoginButton;

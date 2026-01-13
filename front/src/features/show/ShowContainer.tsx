@@ -1,14 +1,14 @@
 import { Flex, Grid } from '@chakra-ui/react';
 
-import FollowButton from '~/components/FollowButton';
+import { FollowButton } from '~/components/FollowButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import SeasonsAccordion from './SeasonsAccordion';
-import ShowDetails from './ShowDetails';
-import ShowImage from './ShowImage';
+import { SeasonsAccordion } from './SeasonsAccordion';
+import { ShowDetails } from './ShowDetails';
+import { ShowImage } from './ShowImage';
 
-const ShowContainer = () => {
+export const ShowContainer = () => {
   const isMobile = useIsMobile();
   const showId = getShowIdFromUrl();
 
@@ -33,5 +33,3 @@ const ShowContainer = () => {
     </>
   );
 };
-
-export default ShowContainer;

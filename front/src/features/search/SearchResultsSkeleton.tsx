@@ -1,6 +1,6 @@
 import { Box, Grid, Skeleton, Stack } from '@chakra-ui/react';
 
-const SearchResultsSkeleton = () => {
+export const SearchResultsSkeleton = () => {
   return (
     <Box w={{ base: '100%', md: 'unset' }}>
       <Skeleton
@@ -37,5 +37,3 @@ const SearchResultsSkeleton = () => {
     </Box>
   );
 };
-
-export default SearchResultsSkeleton;

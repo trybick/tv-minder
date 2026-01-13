@@ -13,7 +13,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
+export const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const [location] = useLocation();
@@ -60,5 +60,3 @@ const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
     </Link>
   );
 };
-
-export default NavLink;

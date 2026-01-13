@@ -13,7 +13,7 @@ interface Props {
   onClose?: () => void;
 }
 
-const Logo = ({ onClose }: Props) => {
+export const Logo = ({ onClose }: Props) => {
   const dispatch = useAppDispatch();
   const [location] = useLocation();
   const navigate = useNavigateWithAnimation();
@@ -44,5 +44,3 @@ const Logo = ({ onClose }: Props) => {
     </Flex>
   );
 };
-
-export default Logo;

@@ -1,10 +1,10 @@
 import { Flex, Separator } from '@chakra-ui/react';
 
-import Logo from './Logo';
-import NavigationLinks from './NavLinksContainer';
-import RightSectionDesktop from './RightSectionDesktop';
+import { Logo } from './Logo';
+import { NavigationLinks } from './NavLinksContainer';
+import { RightSectionDesktop } from './RightSectionDesktop';
 
-const HeaderDesktop = () => {
+export const HeaderDesktop = () => {
   return (
     <>
       <Flex
@@ -22,5 +22,3 @@ const HeaderDesktop = () => {
     </>
   );
 };
-
-export default HeaderDesktop;

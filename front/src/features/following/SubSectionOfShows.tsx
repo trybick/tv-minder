@@ -3,13 +3,13 @@ import { Grid } from '@chakra-ui/react';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { ShowForDisplay } from '~/store/tv/types/transformed';
 
-import Show from './Show';
+import { Show } from './Show';
 
 type Props = {
   shows: ShowForDisplay[];
 };
 
-const SubSectionOfShows = (props: Props) => {
+export const SubSectionOfShows = (props: Props) => {
   const { shows } = props;
   const isMobile = useIsMobile();
 
@@ -25,5 +25,3 @@ const SubSectionOfShows = (props: Props) => {
     </Grid>
   );
 };
-
-export default SubSectionOfShows;

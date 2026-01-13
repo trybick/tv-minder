@@ -12,14 +12,14 @@ import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { SavedQuery } from '~/store/tv/types/transformed';
 import { applyViewTransition } from '~/utils/applyViewTransition';
-import cacheDurationDays from '~/utils/cacheDurations';
-import dayjs from '~/utils/dayjs';
+import { cacheDurationDays } from '~/utils/cacheDurations';
+import { dayjs } from '~/utils/dayjs';
 import { useDebouncedFunction } from '~/utils/debounce';
 
-import SearchContainer from './SearchContainer';
-import SearchInput from './SearchInput';
+import { SearchContainer } from './SearchContainer';
+import { SearchInput } from './SearchInput';
 
-const SearchPage = () => {
+export const SearchPage = () => {
   const dispatch = useAppDispatch();
   const savedQueries = useAppSelector(selectSavedQueries);
   const shouldResetSearchInput = useAppSelector(selectShouldResetSearchInput);
@@ -117,5 +117,3 @@ const SearchPage = () => {
     </Box>
   );
 };
-
-export default SearchPage;
