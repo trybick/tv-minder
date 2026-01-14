@@ -6,7 +6,7 @@ export const followApi = baseApi.injectEndpoints({
       query: () => '/follow',
     }),
 
-    followShow: builder.mutation<{ showId: number }, number>({
+    followShow: builder.mutation<void, number>({
       query: showId => ({
         url: '/follow',
         method: 'POST',
@@ -32,7 +32,7 @@ export const followApi = baseApi.injectEndpoints({
       },
     }),
 
-    unfollowShow: builder.mutation<{ showId: number }, number>({
+    unfollowShow: builder.mutation<void, number>({
       query: showId => ({
         url: '/follow',
         method: 'DELETE',

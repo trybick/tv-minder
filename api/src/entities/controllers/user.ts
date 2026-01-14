@@ -23,13 +23,9 @@ export const registerUser = async (req: Request, res: Response) => {
           followedShows: req.body.unregisteredFollowedShows || [],
         });
         await newUser.save();
-        res.status(201).json({
-          message: 'Google user stored to database',
-        });
+        res.status(204).send();
       } else {
-        res.status(202).json({
-          message: 'Google user is already registered in database',
-        });
+        res.status(204).send();
       }
     } else {
       if (!emailRegex.test(req.body.email)) {
@@ -53,9 +49,7 @@ export const registerUser = async (req: Request, res: Response) => {
       });
       await newUser.save();
 
-      res.status(201).json({
-        message: 'User created',
-      });
+      res.status(204).send();
     }
   } catch (error) {
     logger.error('Registration error:', error);
@@ -97,7 +91,6 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({
-      message: 'Auth successful',
       token,
       email: user.email,
       isGoogleUser: req.body?.isGoogleUser,
@@ -131,9 +124,7 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
       }
     }
 
-    res.status(200).json({
-      message: 'If your email is registered, you will receive a one-time code',
-    });
+    res.status(204).send();
   } catch (error) {
     logger.error('Error in requestOneTimeCode:', error);
     return res.status(500).json({
@@ -159,9 +150,7 @@ export const verifyOneTimeCode = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(200).json({
-      message: 'Code verified successfully',
-    });
+    res.status(204).send();
   } catch (error) {
     logger.error('Verification error:', error);
     return res.status(500).json({
@@ -185,9 +174,7 @@ export const changePasswordForReset = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(200).json({
-      message: 'Password Changed',
-    });
+    res.status(204).send();
   } catch (error) {
     logger.error('Password reset error:', error);
     return res.status(500).json({
@@ -218,9 +205,7 @@ export const changePasswordForSettings = async (req: Request, res: Response) => 
 
     await User.findOneAndUpdate({ email: req.body.email }, { password: hash });
 
-    return res.status(200).json({
-      message: 'Password changed',
-    });
+    return res.status(204).send();
   } catch (error) {
     logger.error('Password change error:', error);
     return res.status(500).json({

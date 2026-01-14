@@ -15,7 +15,7 @@ export const createFollow = async (req: Request, res: Response) => {
 
   try {
     await User.findOneAndUpdate({ _id: userId }, { $addToSet: { followedShows: showId } });
-    res.status(201).json({ message: 'Follow added.' });
+    res.status(204).send();
   } catch (error) {
     logger.error('Error adding follow:', error);
     return res.status(500).json({
@@ -36,7 +36,7 @@ export const deleteFollow = async (req: Request, res: Response) => {
 
   try {
     await User.findOneAndUpdate({ _id: userId }, { $pull: { followedShows: showId } });
-    res.status(200).json({ message: 'Follow removed.' });
+    res.status(204).send();
   } catch (error) {
     logger.error('Error removing follow:', error);
     return res.status(500).json({

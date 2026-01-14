@@ -12,7 +12,7 @@ export const sendContactMessage = async (req: Request, res: Response) => {
       subject: 'TV Minder: New feedback',
       text: emailContent,
     });
-    res.status(200).json({ message: 'Message sent' });
+    res.status(204).send();
   } catch (error) {
     logger.error('Error sending feedback message:', error);
     res.status(500).json({ message: 'Failed to send message' });
