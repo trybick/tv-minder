@@ -10,6 +10,7 @@ import { persistStore } from 'redux-persist';
 import { persistedReducer } from './rootReducer';
 import { baseApi } from './rtk/api/baseApi';
 import { errorHandlerMiddleware } from './rtk/api/errorHandlerMiddleware';
+import { tmdbRtkApi } from './rtk/api/tmdb.api';
 import { modalsReducer } from './rtk/slices/modals.slice';
 import { searchInputReducer } from './rtk/slices/searchInput.slice';
 import { userReducer } from './rtk/slices/user.slice';
@@ -21,6 +22,7 @@ export type AppState = {
   searchInput: ReturnType<typeof searchInputReducer>;
   modals: ReturnType<typeof modalsReducer>;
   [baseApi.reducerPath]: ReturnType<typeof baseApi.reducer>;
+  [tmdbRtkApi.reducerPath]: ReturnType<typeof tmdbRtkApi.reducer>;
 };
 
 export const store = configureStore({
@@ -34,7 +36,11 @@ export const store = configureStore({
       // too long. Re-enable this after migrating to RTK Query
       serializableCheck: false,
       immutableCheck: false,
-    }).concat(baseApi.middleware, errorHandlerMiddleware.middleware),
+    }).concat(
+      baseApi.middleware,
+      tmdbRtkApi.middleware,
+      errorHandlerMiddleware.middleware
+    ),
 });
 
 export const persistor = persistStore(store);

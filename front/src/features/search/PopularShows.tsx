@@ -8,37 +8,36 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useAppDispatch, useAppSelector } from '~/store';
-import {
-  getPopularShowsAction,
-  getTopRatedShowsAction,
-} from '~/store/tv/actions';
+import { useAppSelector } from '~/store';
 import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
-} from '~/store/tv/selectors';
+  useGetPopularShowsQuery,
+  useGetTopRatedShowsQuery,
+} from '~/store/rtk/api/tmdb.api';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import { PopularShow } from './PopularShow';
 
 export const PopularShows = () => {
-  const dispatch = useAppDispatch();
+  // RTK Query hooks - data fetching is automatic, no useEffect needed
+  // The queries will dedupe if called multiple times, cache the results,
+  // and automatically refetch when stale (based on keepUnusedDataFor)
+  useGetPopularShowsQuery();
+  useGetTopRatedShowsQuery();
+
+  // Selectors transform the RTK Query cache into display format
   const popularShows = useAppSelector(selectPopularShowsForDisplay);
   const topRatedShows = useAppSelector(selectTopRatedShowsForDisplay);
+
   const isMobile = useIsMobile();
   const { open: isPopularExpanded, onToggle: onTogglePopular } =
     useDisclosure();
   const { open: isTopRatedExpanded, onToggle: onToggleTopRated } =
     useDisclosure();
-
-  useEffect(() => {
-    dispatch(getPopularShowsAction());
-    dispatch(getTopRatedShowsAction());
-  }, [dispatch]);
 
   const numberShowsInFirstRow =
     useBreakpointValue(

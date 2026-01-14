@@ -3,6 +3,7 @@ import localforage from 'localforage';
 import { persistReducer } from 'redux-persist';
 
 import { baseApi } from './rtk/api/baseApi';
+import { tmdbRtkApi } from './rtk/api/tmdb.api';
 import { modalsReducer } from './rtk/slices/modals.slice';
 import { searchInputReducer } from './rtk/slices/searchInput.slice';
 import { userReducer } from './rtk/slices/user.slice';
@@ -17,7 +18,14 @@ import { tvReducer } from './tv/reducers';
 const rootPersistConfig = {
   key: 'root',
   storage: localforage,
-  blacklist: ['user', 'tv', 'searchInput', 'modals', baseApi.reducerPath],
+  blacklist: [
+    'user',
+    'tv',
+    'searchInput',
+    'modals',
+    baseApi.reducerPath,
+    tmdbRtkApi.reducerPath,
+  ],
 };
 
 const userPersistConfig = {
@@ -38,12 +46,23 @@ const searchInputPersistConfig = {
   blacklist: ['shouldResetSearchInput'],
 };
 
+// RTK Query API persist config - uses its own caching with keepUnusedDataFor
+const tmdbApiPersistConfig = {
+  key: 'tmdbApi',
+  storage: localforage,
+  blacklist: [], // RTK Query manages its own cache invalidation
+};
+
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   tv: persistReducer(tvPersistConfig, tvReducer),
   searchInput: persistReducer(searchInputPersistConfig, searchInputReducer),
   modals: modalsReducer,
   [baseApi.reducerPath]: baseApi.reducer,
+  [tmdbRtkApi.reducerPath]: persistReducer(
+    tmdbApiPersistConfig,
+    tmdbRtkApi.reducer
+  ),
 });
 
 export const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
