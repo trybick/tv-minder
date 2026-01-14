@@ -59,8 +59,8 @@ test.describe('Login and Signup flows', () => {
       path: '/api.tv-minder.com/login',
       method: 'POST',
       body: {
-        token: '123',
         email,
+        password,
       },
     });
 

@@ -9,8 +9,8 @@ export const login = async (page: Page) => {
     path: '/api.tv-minder.com/login',
     method: 'POST',
     body: {
-      token: '123',
       email,
+      password,
     },
   });
 
