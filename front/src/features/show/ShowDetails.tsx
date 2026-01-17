@@ -4,7 +4,6 @@ import {
   Flex,
   Grid,
   Heading,
-  HStack,
   Icon,
   Stat,
   Status,
@@ -15,7 +14,6 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
-import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { TbLanguage } from 'react-icons/tb';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -205,15 +203,15 @@ export const ShowDetails = () => {
               borderWidth="1px"
               borderColor="whiteAlpha.100"
             >
-              <HStack justify="space-between" mb={2}>
-                <Stat.Label color="fg.muted" fontWeight="medium">
-                  Last Aired
-                </Stat.Label>
-                <Icon as={MdSkipPrevious} boxSize="20px" color="fg.muted" />
-              </HStack>
+              <Stat.Label color="fg.muted" fontWeight="medium">
+                Last Aired
+              </Stat.Label>
               <Stat.ValueText fontSize="xl" fontWeight="bold">
                 {dayjs(lastEpisodeAirDate).format('MMM D, YYYY')}
               </Stat.ValueText>
+              <Stat.HelpText>
+                {dayjs(lastEpisodeAirDate).fromNow()}
+              </Stat.HelpText>
             </Stat.Root>
           )}
           {nextEpisodeAirDate && (
@@ -224,15 +222,15 @@ export const ShowDetails = () => {
               borderWidth="1px"
               borderColor="whiteAlpha.100"
             >
-              <HStack justify="space-between" mb={2}>
-                <Stat.Label color="fg.muted" fontWeight="medium">
-                  Next Episode
-                </Stat.Label>
-                <Icon as={MdSkipNext} boxSize="20px" color="green.400" />
-              </HStack>
-              <Stat.ValueText fontSize="xl" fontWeight="bold">
+              <Stat.Label color="fg" fontWeight="medium">
+                Next Episode
+              </Stat.Label>
+              <Stat.ValueText color="fg" fontSize="xl" fontWeight="bold">
                 {dayjs(nextEpisodeAirDate).format('MMM D, YYYY')}
               </Stat.ValueText>
+              <Stat.HelpText color="fg">
+                {dayjs(nextEpisodeAirDate).fromNow()}
+              </Stat.HelpText>
             </Stat.Root>
           )}
         </Grid>
@@ -271,7 +269,7 @@ export const ShowDetails = () => {
               <Flex align="center" gap={2}>
                 <Icon as={TbLanguage} boxSize="18px" opacity={0.7} />
                 <Text fontSize="sm" fontWeight="500">
-                  {language.toUpperCase()}
+                  {language}
                 </Text>
               </Flex>
             )}
