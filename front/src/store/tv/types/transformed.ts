@@ -38,8 +38,10 @@ export type ShowForDisplay = {
   language: string | undefined;
   genreNames: string[];
   id: number;
+  lastEpisodeAirDate: string | null;
   name: string;
   network: string | undefined;
+  nextEpisodeAirDate: string | null;
   overview: string;
   posterPath: string | null;
   seasonsWithEpisodes: SeasonWithEpisodes[];

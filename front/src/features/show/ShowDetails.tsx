@@ -5,6 +5,7 @@ import {
   Grid,
   Heading,
   Icon,
+  Status,
   Tag,
   Text,
 } from '@chakra-ui/react';
@@ -12,6 +13,7 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
+import { MdHistory, MdUpdate } from 'react-icons/md';
 import { TbLanguage } from 'react-icons/tb';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -23,6 +25,7 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
 } from '~/store/tv/selectors';
+import { dayjs } from '~/utils/dayjs';
 import { abbreviateNumber } from '~/utils/formatting';
 
 import { VideoTrailerButton } from './VideoTrailerButton';
@@ -36,16 +39,39 @@ export const ShowDetails = () => {
     genreNames,
     id,
     language,
+    lastEpisodeAirDate,
     name,
     network,
+    nextEpisodeAirDate,
     overview,
+    status,
     videoTrailerKey,
     voteAverage,
     voteCount,
     yearsActive,
   } = currentShowInfo || {};
 
-  const hasMetadata = network || episodeRunTime || language;
+  const getStatusDisplay = () => {
+    if (!status) return null;
+    if (status.isEnded) {
+      return { label: 'Ended', color: 'gray' as const };
+    }
+    if (status.isActiveSeason) {
+      return { label: 'Airing Now', color: 'green' as const };
+    }
+    if (status.isPremieringSoon) {
+      return { label: 'Premiering Soon', color: 'blue' as const };
+    }
+    if (status.isInProduction) {
+      return { label: 'In Production', color: 'orange' as const };
+    }
+    return null;
+  };
+
+  const statusDisplay = getStatusDisplay();
+
+  const hasMetadata = network || episodeRunTime || language || statusDisplay;
+  const hasAirDates = lastEpisodeAirDate || nextEpisodeAirDate;
 
   return (
     <Box w="100%">
@@ -161,7 +187,12 @@ export const ShowDetails = () => {
         <DelayedSkeleton isLoading={isLoading} w="180px" h="80px" />
       ) : (
         hasMetadata && (
-          <Flex gap={4} flexWrap="wrap" color="fg.muted">
+          <Flex
+            gap={4}
+            flexWrap="wrap"
+            color="fg.muted"
+            mb={hasAirDates ? 3 : 0}
+          >
             {network && (
               <Flex align="center" gap={2}>
                 <Icon as={HiOutlineVideoCamera} boxSize="18px" opacity={0.7} />
@@ -180,8 +211,57 @@ export const ShowDetails = () => {
                 <Text fontSize="sm">{language}</Text>
               </Flex>
             )}
+            {statusDisplay && (
+              <Status.Root colorPalette={statusDisplay.color} size="md">
+                <Status.Indicator />
+                <Text fontSize="sm" fontWeight="500">
+                  {statusDisplay.label}
+                </Text>
+              </Status.Root>
+            )}
           </Flex>
         )
+      )}
+
+      {/* Air Dates */}
+      {!isLoading && hasAirDates && (
+        <Box
+          mt={5}
+          p={4}
+          bg="whiteAlpha.50"
+          borderRadius="lg"
+          borderWidth="1px"
+          borderColor="whiteAlpha.100"
+        >
+          <Flex gap={3} flexDirection="column">
+            {lastEpisodeAirDate && (
+              <Flex align="center" gap={3}>
+                <Icon as={MdHistory} boxSize="22px" color="fg.muted" />
+                <Box>
+                  <Text fontSize="xs" color="fg.muted" fontWeight="500">
+                    Last Aired
+                  </Text>
+                  <Text fontSize="md" color="fg" fontWeight="600">
+                    {dayjs(lastEpisodeAirDate).format('MMMM D, YYYY')}
+                  </Text>
+                </Box>
+              </Flex>
+            )}
+            {nextEpisodeAirDate && (
+              <Flex align="center" gap={3}>
+                <Icon as={MdUpdate} boxSize="22px" color="green.400" />
+                <Box>
+                  <Text fontSize="xs" color="fg.muted" fontWeight="500">
+                    Next Episode
+                  </Text>
+                  <Text fontSize="md" color="fg" fontWeight="600">
+                    {dayjs(nextEpisodeAirDate).format('MMMM D, YYYY')}
+                  </Text>
+                </Box>
+              </Flex>
+            )}
+          </Flex>
+        </Box>
       )}
     </Box>
   );
