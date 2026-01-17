@@ -4,7 +4,9 @@ import {
   Flex,
   Grid,
   Heading,
+  HStack,
   Icon,
+  Stat,
   Status,
   Tag,
   Text,
@@ -13,7 +15,7 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
-import { MdHistory, MdUpdate } from 'react-icons/md';
+import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { TbLanguage } from 'react-icons/tb';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -75,98 +77,108 @@ export const ShowDetails = () => {
 
   return (
     <Box w="100%">
-      {/* Title & Year */}
-      <DelayedSkeleton
-        isLoading={isLoading}
-        w={isLoading ? '280px' : undefined}
-        h={isLoading ? '36px' : undefined}
+      {/* Title & Status */}
+      <Flex
+        justify="space-between"
+        align="flex-start"
+        wrap="nowrap"
+        gap={4}
+        mb={3}
       >
-        <Heading as="h1" fontSize={{ base: '2xl', md: '3xl' }} mb={3}>
-          {name}
-          {yearsActive && (
-            <chakra.span
-              color="fg.muted"
-              fontSize={{ base: 'lg', md: 'xl' }}
-              fontWeight="400"
-              ml={2}
-            >
-              ({yearsActive})
-            </chakra.span>
-          )}
-        </Heading>
-      </DelayedSkeleton>
+        <DelayedSkeleton
+          isLoading={isLoading}
+          w={isLoading ? '280px' : 'auto'}
+          h={isLoading ? '36px' : 'auto'}
+        >
+          <Heading as="h1" fontSize={{ base: '2xl', md: '3xl' }}>
+            {name}
+            {yearsActive && (
+              <chakra.span
+                color="fg.muted"
+                fontSize={{ base: 'lg', md: 'xl' }}
+                fontWeight="400"
+                ml={2}
+              >
+                ({yearsActive})
+              </chakra.span>
+            )}
+          </Heading>
+        </DelayedSkeleton>
 
-      {/* Rating */}
-      {(isLoading || (!isLoading && voteAverage)) && (
-        <DelayedSkeleton isLoading={isLoading} w="160px" mb={4}>
-          <Flex align="center" gap={2} mb={5}>
-            <Flex
-              align="center"
-              gap={1.5}
-              bg="whiteAlpha.100"
-              px={2.5}
-              py={1}
-              borderRadius="md"
-            >
+        {statusDisplay && !isLoading && (
+          <Status.Root
+            colorPalette={statusDisplay.color}
+            size="md"
+            px={3}
+            py={1}
+            borderRadius="full"
+            flexShrink={0}
+          >
+            <Status.Indicator />
+            <Text fontSize="xs" fontWeight="bold" letterSpacing="wider">
+              {statusDisplay.label.toUpperCase()}
+            </Text>
+          </Status.Root>
+        )}
+      </Flex>
+
+      {/* Rating & Genres */}
+      <Flex align="center" gap={4} mb={5} flexWrap="wrap">
+        {(isLoading || (!isLoading && voteAverage)) && (
+          <DelayedSkeleton isLoading={isLoading} w="120px">
+            <Flex align="center" gap={1.5}>
               <Icon as={FaStar} boxSize="16px" color="yellow.400" />
               <Text fontSize="md" fontWeight="700" color="fg">
                 {voteAverage}
               </Text>
-              <Text fontSize="sm" color="fg.muted">
-                / 10
-              </Text>
+              <Flex align="center" gap={1} color="fg.muted" ml={1}>
+                <Icon as={BsFillPersonFill} boxSize="14px" />
+                <Text fontSize="xs">{abbreviateNumber(voteCount || 1)}</Text>
+              </Flex>
             </Flex>
-            <Flex align="center" gap={1} color="fg.muted">
-              <Icon as={BsFillPersonFill} boxSize="14px" />
-              <Text fontSize="sm">{abbreviateNumber(voteCount || 1)}</Text>
-            </Flex>
-          </Flex>
-        </DelayedSkeleton>
-      )}
+          </DelayedSkeleton>
+        )}
 
-      {/* Genres */}
-      {isLoading || (!isLoading && genreNames?.length) ? (
-        <Box mb={5}>
+        {isLoading || (!isLoading && genreNames?.length) ? (
           <DelayedSkeleton
             isLoading={isLoading}
-            w={isLoading ? '200px' : 'unset'}
-            h={isLoading ? '28px' : 'unset'}
+            w={isLoading ? '200px' : 'auto'}
           >
             <Flex gap={2} flexWrap="wrap">
               {genreNames?.map(genre => (
                 <Tag.Root
                   key={genre}
-                  size="md"
+                  size="sm"
                   variant="subtle"
                   bg="whiteAlpha.100"
                   borderRadius="full"
-                  px={3}
+                  px={2}
                 >
-                  <Tag.Label fontSize="sm" fontWeight="500" color="fg.muted">
+                  <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
                     {genre}
                   </Tag.Label>
                 </Tag.Root>
               ))}
             </Flex>
           </DelayedSkeleton>
-        </Box>
-      ) : null}
+        ) : null}
+      </Flex>
 
       {/* Actions Row - Trailer + Mobile Follow */}
       {isMobile ? (
-        <Grid gap={3} mb={5} gridTemplateColumns="1fr 1fr">
+        <Grid gap={3} mb={6} gridTemplateColumns="1fr 1fr">
           {id && <FollowButton showId={id} size="lg" />}
           <VideoTrailerButton videoId={videoTrailerKey} />
         </Grid>
       ) : (
-        <Box mb={5}>
+        <Box mb={6}>
           <VideoTrailerButton videoId={videoTrailerKey} />
         </Box>
       )}
 
       {/* Overview */}
       {(isLoading || overview) && (
-        <Box mb={6}>
+        <Box mb={8}>
           {isLoading ? (
             <DelayedSkeletonText isLoading={isLoading} noOfLines={6} w="100%" />
           ) : (
@@ -182,86 +194,89 @@ export const ShowDetails = () => {
         </Box>
       )}
 
-      {/* Metadata */}
+      {/* Air Dates Section */}
+      {!isLoading && hasAirDates && (
+        <Grid gap={4} templateColumns={{ base: '1fr', sm: '1fr 1fr' }} mb={8}>
+          {lastEpisodeAirDate && (
+            <Stat.Root
+              p={4}
+              bg="whiteAlpha.50"
+              borderRadius="xl"
+              borderWidth="1px"
+              borderColor="whiteAlpha.100"
+            >
+              <HStack justify="space-between" mb={2}>
+                <Stat.Label color="fg.muted" fontWeight="medium">
+                  Last Aired
+                </Stat.Label>
+                <Icon as={MdSkipPrevious} boxSize="20px" color="fg.muted" />
+              </HStack>
+              <Stat.ValueText fontSize="xl" fontWeight="bold">
+                {dayjs(lastEpisodeAirDate).format('MMM D, YYYY')}
+              </Stat.ValueText>
+            </Stat.Root>
+          )}
+          {nextEpisodeAirDate && (
+            <Stat.Root
+              p={4}
+              bg="whiteAlpha.50"
+              borderRadius="xl"
+              borderWidth="1px"
+              borderColor="whiteAlpha.100"
+            >
+              <HStack justify="space-between" mb={2}>
+                <Stat.Label color="fg.muted" fontWeight="medium">
+                  Next Episode
+                </Stat.Label>
+                <Icon as={MdSkipNext} boxSize="20px" color="green.400" />
+              </HStack>
+              <Stat.ValueText fontSize="xl" fontWeight="bold">
+                {dayjs(nextEpisodeAirDate).format('MMM D, YYYY')}
+              </Stat.ValueText>
+            </Stat.Root>
+          )}
+        </Grid>
+      )}
+
+      {/* Metadata Footer */}
       {isLoading ? (
-        <DelayedSkeleton isLoading={isLoading} w="180px" h="80px" />
+        <DelayedSkeleton isLoading={isLoading} w="180px" h="24px" />
       ) : (
         hasMetadata && (
           <Flex
-            gap={4}
+            gap={6}
             flexWrap="wrap"
             color="fg.muted"
-            mb={hasAirDates ? 3 : 0}
+            pt={4}
+            borderTop="1px solid"
+            borderColor="whiteAlpha.100"
           >
             {network && (
               <Flex align="center" gap={2}>
                 <Icon as={HiOutlineVideoCamera} boxSize="18px" opacity={0.7} />
-                <Text fontSize="sm">{network}</Text>
+                <Text fontSize="sm" fontWeight="500">
+                  {network}
+                </Text>
               </Flex>
             )}
             {episodeRunTime && (
               <Flex align="center" gap={2}>
                 <Icon as={IoIosTimer} boxSize="18px" opacity={0.7} />
-                <Text fontSize="sm">{episodeRunTime} min</Text>
+                <Text fontSize="sm" fontWeight="500">
+                  {episodeRunTime} min
+                </Text>
               </Flex>
             )}
             {language && (
               <Flex align="center" gap={2}>
                 <Icon as={TbLanguage} boxSize="18px" opacity={0.7} />
-                <Text fontSize="sm">{language}</Text>
-              </Flex>
-            )}
-            {statusDisplay && (
-              <Status.Root colorPalette={statusDisplay.color} size="md">
-                <Status.Indicator />
                 <Text fontSize="sm" fontWeight="500">
-                  {statusDisplay.label}
+                  {language.toUpperCase()}
                 </Text>
-              </Status.Root>
+              </Flex>
             )}
           </Flex>
         )
-      )}
-
-      {/* Air Dates */}
-      {!isLoading && hasAirDates && (
-        <Box
-          mt={5}
-          p={4}
-          bg="whiteAlpha.50"
-          borderRadius="lg"
-          borderWidth="1px"
-          borderColor="whiteAlpha.100"
-        >
-          <Flex gap={3} flexDirection="column">
-            {lastEpisodeAirDate && (
-              <Flex align="center" gap={3}>
-                <Icon as={MdHistory} boxSize="22px" color="fg.muted" />
-                <Box>
-                  <Text fontSize="xs" color="fg.muted" fontWeight="500">
-                    Last Aired
-                  </Text>
-                  <Text fontSize="md" color="fg" fontWeight="600">
-                    {dayjs(lastEpisodeAirDate).format('MMMM D, YYYY')}
-                  </Text>
-                </Box>
-              </Flex>
-            )}
-            {nextEpisodeAirDate && (
-              <Flex align="center" gap={3}>
-                <Icon as={MdUpdate} boxSize="22px" color="green.400" />
-                <Box>
-                  <Text fontSize="xs" color="fg.muted" fontWeight="500">
-                    Next Episode
-                  </Text>
-                  <Text fontSize="md" color="fg" fontWeight="600">
-                    {dayjs(nextEpisodeAirDate).format('MMMM D, YYYY')}
-                  </Text>
-                </Box>
-              </Flex>
-            )}
-          </Flex>
-        </Box>
       )}
     </Box>
   );
