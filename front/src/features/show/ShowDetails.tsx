@@ -73,6 +73,12 @@ export const ShowDetails = () => {
   const hasMetadata = network || episodeRunTime || language || statusDisplay;
   const hasAirDates = lastEpisodeAirDate || nextEpisodeAirDate;
 
+  const formatAirDate = (date: string) => {
+    const dateObj = dayjs(date);
+    const isCurrentYear = dateObj.isSame(dayjs(), 'year');
+    return dateObj.format(isCurrentYear ? 'MMM D' : 'MMM D, YYYY');
+  };
+
   return (
     <Box w="100%">
       {/* Title & Status */}
@@ -205,15 +211,15 @@ export const ShowDetails = () => {
               boxShadow="sm"
             >
               <Flex align="center" gap={2} mb={1}>
-                <Icon as={HiOutlineCalendar} color="blue.400" boxSize="16px" />
+                <Icon as={HiOutlineCalendar} color="cyan.500" boxSize="16px" />
                 <Stat.Label color="fg" fontWeight="semibold">
                   Next Episode
                 </Stat.Label>
               </Flex>
               <Stat.ValueText color="fg" fontSize="xl" fontWeight="bold">
-                {dayjs(nextEpisodeAirDate).format('MMM D, YYYY')}
+                {formatAirDate(nextEpisodeAirDate)}
               </Stat.ValueText>
-              <Stat.HelpText color="blue.400" fontWeight="semibold">
+              <Stat.HelpText color="cyan.500" fontWeight="semibold">
                 {dayjs(nextEpisodeAirDate).fromNow()}
               </Stat.HelpText>
             </Stat.Root>
@@ -235,7 +241,7 @@ export const ShowDetails = () => {
                 fontWeight="bold"
                 opacity={0.8}
               >
-                {dayjs(lastEpisodeAirDate).format('MMM D, YYYY')}
+                {formatAirDate(lastEpisodeAirDate)}
               </Stat.ValueText>
               <Stat.HelpText color="fg.muted">
                 {dayjs(lastEpisodeAirDate).fromNow()}
