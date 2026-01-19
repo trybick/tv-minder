@@ -109,6 +109,26 @@ export const ShowDetails = () => {
           </Heading>
         </DelayedSkeleton>
 
+        <VideoTrailerButton videoId={videoTrailerKey} />
+      </Flex>
+
+      {/* Rating & Status */}
+      <Flex align="center" gap={4} mb={5} flexWrap="wrap">
+        {(isLoading || (!isLoading && voteAverage)) && (
+          <DelayedSkeleton isLoading={isLoading} w="120px">
+            <Flex align="center" gap={1.5}>
+              <Icon as={FaStar} boxSize="16px" color="yellow.400" />
+              <Text fontSize="md" fontWeight="700" color="fg">
+                {voteAverage}
+              </Text>
+              <Flex align="center" gap={1} color="fg.muted" ml={1}>
+                <Icon as={BsFillPersonFill} boxSize="14px" />
+                <Text fontSize="xs">{abbreviateNumber(voteCount || 1)}</Text>
+              </Flex>
+            </Flex>
+          </DelayedSkeleton>
+        )}
+
         {statusDisplay && !isLoading && (
           <Status.Root
             colorPalette={statusDisplay.color}
@@ -126,57 +146,59 @@ export const ShowDetails = () => {
         )}
       </Flex>
 
-      {/* Rating & Genres */}
-      <Flex align="center" gap={4} mb={5} flexWrap="wrap">
-        {(isLoading || (!isLoading && voteAverage)) && (
-          <DelayedSkeleton isLoading={isLoading} w="120px">
-            <Flex align="center" gap={1.5}>
-              <Icon as={FaStar} boxSize="16px" color="yellow.400" />
-              <Text fontSize="md" fontWeight="700" color="fg">
-                {voteAverage}
-              </Text>
-              <Flex align="center" gap={1} color="fg.muted" ml={1}>
-                <Icon as={BsFillPersonFill} boxSize="14px" />
-                <Text fontSize="xs">{abbreviateNumber(voteCount || 1)}</Text>
-              </Flex>
-            </Flex>
-          </DelayedSkeleton>
-        )}
-
-        {isLoading || (!isLoading && genreNames?.length) ? (
-          <DelayedSkeleton
-            isLoading={isLoading}
-            w={isLoading ? '200px' : 'auto'}
-          >
-            <Flex gap={2} flexWrap="wrap">
-              {genreNames?.map(genre => (
-                <Tag.Root
-                  key={genre}
-                  size="sm"
-                  variant="subtle"
-                  bg="whiteAlpha.100"
-                  borderRadius="full"
-                  px={2}
-                >
-                  <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
-                    {genre}
-                  </Tag.Label>
-                </Tag.Root>
-              ))}
-            </Flex>
-          </DelayedSkeleton>
-        ) : null}
-      </Flex>
-
-      {/* Actions Row - Trailer + Mobile Follow */}
+      {/* Actions Row - Genres + Mobile Follow */}
       {isMobile ? (
         <Grid gap={3} mb={6} gridTemplateColumns="1fr 1fr">
           {id && <FollowButton showId={id} size="lg" />}
-          <VideoTrailerButton videoId={videoTrailerKey} />
+          {isLoading || (!isLoading && genreNames?.length) ? (
+            <DelayedSkeleton
+              isLoading={isLoading}
+              w={isLoading ? '100%' : 'auto'}
+            >
+              <Flex gap={2} flexWrap="wrap">
+                {genreNames?.map(genre => (
+                  <Tag.Root
+                    key={genre}
+                    size="sm"
+                    variant="subtle"
+                    bg="whiteAlpha.100"
+                    borderRadius="full"
+                    px={2}
+                  >
+                    <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
+                      {genre}
+                    </Tag.Label>
+                  </Tag.Root>
+                ))}
+              </Flex>
+            </DelayedSkeleton>
+          ) : null}
         </Grid>
       ) : (
         <Box mb={6}>
-          <VideoTrailerButton videoId={videoTrailerKey} />
+          {isLoading || (!isLoading && genreNames?.length) ? (
+            <DelayedSkeleton
+              isLoading={isLoading}
+              w={isLoading ? '200px' : 'auto'}
+            >
+              <Flex gap={2} flexWrap="wrap">
+                {genreNames?.map(genre => (
+                  <Tag.Root
+                    key={genre}
+                    size="sm"
+                    variant="subtle"
+                    bg="whiteAlpha.100"
+                    borderRadius="full"
+                    px={2}
+                  >
+                    <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
+                      {genre}
+                    </Tag.Label>
+                  </Tag.Root>
+                ))}
+              </Flex>
+            </DelayedSkeleton>
+          ) : null}
         </Box>
       )}
 
@@ -211,15 +233,15 @@ export const ShowDetails = () => {
               boxShadow="sm"
             >
               <Flex align="center" gap={2} mb={1}>
-                <Icon as={HiOutlineCalendar} color="cyan.500" boxSize="16px" />
-                <Stat.Label color="fg" fontWeight="semibold">
+                <Icon as={HiOutlineCalendar} color="cyan.600" boxSize="16px" />
+                <Stat.Label color="fg.muted" fontWeight="semibold">
                   Next Episode
                 </Stat.Label>
               </Flex>
-              <Stat.ValueText color="fg" fontSize="xl" fontWeight="bold">
+              <Stat.ValueText color="fg.muted" fontSize="xl" fontWeight="bold">
                 {formatAirDate(nextEpisodeAirDate)}
               </Stat.ValueText>
-              <Stat.HelpText color="cyan.500" fontWeight="semibold">
+              <Stat.HelpText color="cyan.600" fontWeight="semibold">
                 {dayjs(nextEpisodeAirDate).fromNow()}
               </Stat.HelpText>
             </Stat.Root>

@@ -42,25 +42,19 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
     <>
       <DelayedSkeleton
         isLoading={isLoading}
-        w={isMobile ? '100%' : '145px'}
+        w={isMobile ? 'auto' : '145px'}
         h="40px"
       >
         <Button
           onClick={onOpen}
           variant="surface"
-          size={isMobile ? 'lg' : 'md'}
-          bg="whiteAlpha.100"
-          _hover={{ bg: 'whiteAlpha.200' }}
-          borderRadius="lg"
-          w={isMobile ? '100%' : 'auto'}
+          size="sm"
+          colorPalette="gray"
+          borderRadius="full"
+          px={4}
         >
-          <Icon
-            as={AiFillYoutube}
-            boxSize="22px"
-            color="red.500"
-            opacity={0.7}
-          />
-          <Text fontWeight="600" fontSize="sm">
+          <Icon as={AiFillYoutube} boxSize="18px" color="red.500" />
+          <Text fontWeight="600" fontSize="xs">
             Play Trailer
           </Text>
         </Button>
