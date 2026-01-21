@@ -32,11 +32,14 @@ import { dayjs } from '~/utils/dayjs';
 import { abbreviateNumber } from '~/utils/formatting';
 
 import { VideoTrailerButton } from './VideoTrailerButton';
+import { getStatusForDisplay } from './getStatusForDisplay';
 
 export const ShowDetails = () => {
   const isMobile = useIsMobile();
+
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
+
   const {
     episodeRunTime,
     genreNames,
@@ -54,35 +57,16 @@ export const ShowDetails = () => {
     yearsActive,
   } = currentShowInfo || {};
 
-  const getStatusDisplay = () => {
-    if (!status) return null;
-    if (status.isEnded) {
-      return { label: 'Ended', color: 'gray' as const };
-    }
-    if (status.isActiveSeason) {
-      return { label: 'Airing Now', color: 'green' as const };
-    }
-    if (status.isPremieringSoon) {
-      return { label: 'Premiering Soon', color: 'blue' as const };
-    }
-    if (status.isInProduction) {
-      return { label: 'In Production', color: 'orange' as const };
-    }
-    return null;
-  };
-
-  const statusDisplay = getStatusDisplay();
-
-  const hasMetadata = network || episodeRunTime || language || statusDisplay;
+  const statusForDisplay = getStatusForDisplay(status);
+  const hasMetadata = network || episodeRunTime || language || statusForDisplay;
   const hasAirDates = lastEpisodeAirDate || nextEpisodeAirDate;
+  const shouldCollapseOverview = overview && overview.length > 263;
 
   const formatAirDate = (date: string) => {
     const dateObj = dayjs(date);
     const isCurrentYear = dateObj.isSame(dayjs(), 'year');
     return dateObj.format(isCurrentYear ? 'MMM D' : 'MMM D, YYYY');
   };
-
-  const shouldCollapseOverview = overview && overview.length > 263;
 
   return (
     <Box w="100%">
@@ -134,9 +118,9 @@ export const ShowDetails = () => {
           </DelayedSkeleton>
         )}
 
-        {statusDisplay && !isLoading && (
+        {statusForDisplay && !isLoading && (
           <Status.Root
-            colorPalette={statusDisplay.color}
+            colorPalette={statusForDisplay.color}
             size="md"
             px={3}
             py={1}
@@ -145,7 +129,7 @@ export const ShowDetails = () => {
           >
             <Status.Indicator />
             <Text fontSize="xs" fontWeight="bold" letterSpacing="wider">
-              {statusDisplay.label.toUpperCase()}
+              {statusForDisplay.label.toUpperCase()}
             </Text>
           </Status.Root>
         )}
