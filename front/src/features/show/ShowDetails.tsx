@@ -1,6 +1,8 @@
 import {
   Box,
+  Button,
   chakra,
+  Collapsible,
   Flex,
   Grid,
   Heading,
@@ -12,7 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
-import { HiOutlineCalendar, HiOutlineVideoCamera } from 'react-icons/hi';
+import {
+  HiChevronDown,
+  HiOutlineCalendar,
+  HiOutlineVideoCamera,
+} from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
 
@@ -207,6 +213,45 @@ export const ShowDetails = () => {
         <Box mb={8}>
           {isLoading ? (
             <DelayedSkeletonText isLoading={isLoading} noOfLines={6} w="100%" />
+          ) : overview && overview.length > 300 ? (
+            <Collapsible.Root collapsedHeight="100px">
+              <Collapsible.Content
+                overflow="hidden"
+                _closed={{
+                  maskImage:
+                    'linear-gradient(to bottom, black 60px, transparent 100%)',
+                }}
+              >
+                <Text
+                  color="fg"
+                  fontSize="md"
+                  lineHeight="1.7"
+                  letterSpacing="0.01em"
+                >
+                  {overview}
+                </Text>
+              </Collapsible.Content>
+              <Collapsible.Trigger asChild>
+                <Button
+                  variant="ghost"
+                  size="xs"
+                  color="fg.muted"
+                  mt={2}
+                  px={0}
+                  _hover={{ bg: 'transparent', color: 'fg' }}
+                >
+                  <Collapsible.Context>
+                    {api => (api.open ? 'Show Less' : 'Show More')}
+                  </Collapsible.Context>
+                  <Collapsible.Indicator
+                    transition="transform 0.2s"
+                    _open={{ transform: 'rotate(180deg)' }}
+                  >
+                    <HiChevronDown />
+                  </Collapsible.Indicator>
+                </Button>
+              </Collapsible.Trigger>
+            </Collapsible.Root>
           ) : (
             <Text
               color="fg"
