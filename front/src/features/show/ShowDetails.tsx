@@ -14,12 +14,9 @@ import {
 } from '@chakra-ui/react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
-import {
-  HiChevronDown,
-  HiOutlineCalendar,
-  HiOutlineVideoCamera,
-} from 'react-icons/hi';
+import { HiOutlineCalendar, HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
+import { LuChevronDown } from 'react-icons/lu';
 import { TbLanguage } from 'react-icons/tb';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -84,6 +81,8 @@ export const ShowDetails = () => {
     const isCurrentYear = dateObj.isSame(dayjs(), 'year');
     return dateObj.format(isCurrentYear ? 'MMM D' : 'MMM D, YYYY');
   };
+
+  const shouldCollapseOverview = overview && overview.length > 263;
 
   return (
     <Box w="100%">
@@ -210,10 +209,10 @@ export const ShowDetails = () => {
 
       {/* Overview */}
       {(isLoading || overview) && (
-        <Box mb={8}>
+        <Box mb={shouldCollapseOverview ? 4 : 8}>
           {isLoading ? (
             <DelayedSkeletonText isLoading={isLoading} noOfLines={6} w="100%" />
-          ) : overview && overview.length > 300 ? (
+          ) : shouldCollapseOverview ? (
             <Collapsible.Root collapsedHeight="100px">
               <Collapsible.Content
                 overflow="hidden"
@@ -231,23 +230,22 @@ export const ShowDetails = () => {
                   {overview}
                 </Text>
               </Collapsible.Content>
-              <Collapsible.Trigger asChild>
+              <Collapsible.Trigger asChild mt={2}>
                 <Button
-                  variant="ghost"
-                  size="xs"
+                  variant="plain"
+                  size="sm"
                   color="fg.muted"
-                  mt={2}
                   px={0}
-                  _hover={{ bg: 'transparent', color: 'fg' }}
+                  _hover={{ color: 'fg' }}
                 >
                   <Collapsible.Context>
-                    {api => (api.open ? 'Show Less' : 'Show More')}
+                    {api => (api.open ? 'Show less' : 'Show more')}
                   </Collapsible.Context>
                   <Collapsible.Indicator
                     transition="transform 0.2s"
                     _open={{ transform: 'rotate(180deg)' }}
                   >
-                    <HiChevronDown />
+                    <LuChevronDown />
                   </Collapsible.Indicator>
                 </Button>
               </Collapsible.Trigger>
