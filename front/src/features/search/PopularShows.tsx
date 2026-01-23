@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { usePreloadBackdrops } from '~/hooks/usePreloadBackdrops';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   getPopularShowsAction,
@@ -39,6 +40,9 @@ export const PopularShows = () => {
     dispatch(getPopularShowsAction());
     dispatch(getTopRatedShowsAction());
   }, [dispatch]);
+
+  usePreloadBackdrops(popularShows?.map(s => s.backdropPath) ?? []);
+  usePreloadBackdrops(topRatedShows?.map(s => s.backdropPath) ?? []);
 
   const numberShowsInFirstRow =
     useBreakpointValue(

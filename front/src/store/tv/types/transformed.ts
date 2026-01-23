@@ -53,6 +53,7 @@ export type ShowForDisplay = {
 };
 
 export type PopularShow = {
+  backdropPath: string | null | undefined;
   id: number;
   fetchedAt: string;
   name: string;

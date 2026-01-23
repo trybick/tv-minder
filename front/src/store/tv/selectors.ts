@@ -55,8 +55,15 @@ export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
     shows =>
       shows &&
       Object.values(shows)?.map(show => {
-        const { id, fetchedAt, name, poster_path: posterPath } = show;
+        const {
+          backdrop_path: backdropPath,
+          id,
+          fetchedAt,
+          name,
+          poster_path: posterPath,
+        } = show;
         return {
+          backdropPath,
           id,
           fetchedAt,
           name,
@@ -78,8 +85,15 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
           show => !popularShows?.some(popularShow => popularShow.id === show.id)
         )
         ?.map(show => {
-          const { id, fetchedAt, name, poster_path: posterPath } = show;
+          const {
+            backdrop_path: backdropPath,
+            id,
+            fetchedAt,
+            name,
+            poster_path: posterPath,
+          } = show;
           return {
+            backdropPath,
             id,
             fetchedAt,
             name,
@@ -105,6 +119,7 @@ export const selectShowDataFromHistory = createSelector(
       return {
         posterSource: historyState.posterSource,
         name: historyState.name,
+        backdropSource: historyState.backdropSource,
       };
     }
     return null;

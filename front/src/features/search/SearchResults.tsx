@@ -1,5 +1,6 @@
 import { Box, Stack, Tag } from '@chakra-ui/react';
 
+import { usePreloadBackdrops } from '~/hooks/usePreloadBackdrops';
 import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { maybePluralize } from '~/utils/formatting';
 
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const SearchResults = ({ shows, totalResults }: Props) => {
+  usePreloadBackdrops(shows.map(s => s.backdrop_path));
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'result')}`;
 
   return (

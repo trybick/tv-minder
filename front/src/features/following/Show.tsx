@@ -16,7 +16,7 @@ type Props = {
 
 export const Show = (props: Props) => {
   const {
-    show: { id, name, posterPath },
+    show: { backdropPath, id, name, posterPath },
   } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
@@ -24,6 +24,9 @@ export const Show = (props: Props) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   const posterSource = createImageUrl(posterPath, isMobile);
+  const backdropSource = backdropPath
+    ? createImageUrl(backdropPath, true, true)
+    : undefined;
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -34,6 +37,7 @@ export const Show = (props: Props) => {
     const state: ShowNavigationState = {
       posterSource,
       name,
+      backdropSource,
     };
     navigate(`${ROUTES.SHOW}/${id}`, { state });
   };

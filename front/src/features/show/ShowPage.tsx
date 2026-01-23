@@ -11,6 +11,7 @@ import { ShowContainer } from './ShowContainer';
 export type ShowNavigationState = {
   posterSource: string;
   name: string;
+  backdropSource?: string;
 };
 
 export const ShowPage = () => {

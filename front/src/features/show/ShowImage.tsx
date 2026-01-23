@@ -25,6 +25,10 @@ export const ShowImage = () => {
     !currentShowInfo?.posterPath;
 
   if (isMobile) {
+    const backdropSrc =
+      showDataFromHistory?.backdropSource ||
+      createImageUrl(currentShowInfo?.backdropPath, isMobile, true);
+
     return (
       <DelayedSkeleton isLoading={isLoading} h="232px" w="100%">
         <Image
@@ -35,7 +39,7 @@ export const ShowImage = () => {
           mr="-50vw"
           position="relative"
           right="50%"
-          src={createImageUrl(currentShowInfo?.backdropPath, isMobile, true)}
+          src={backdropSrc}
           width="100vw"
         />
       </DelayedSkeleton>

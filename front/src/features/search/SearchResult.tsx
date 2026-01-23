@@ -17,6 +17,7 @@ type Props = {
 
 export const SearchResult = ({ showToDisplay }: Props) => {
   const {
+    backdrop_path: backdropPath,
     first_air_date: firstAirDate,
     id: showId,
     name,
@@ -29,6 +30,9 @@ export const SearchResult = ({ showToDisplay }: Props) => {
   const isMobile = useIsMobile();
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource = createImageUrl(posterPath, isMobile);
+  const backdropSource = backdropPath
+    ? createImageUrl(backdropPath, true, true)
+    : undefined;
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -39,6 +43,7 @@ export const SearchResult = ({ showToDisplay }: Props) => {
     const state: ShowNavigationState = {
       posterSource,
       name,
+      backdropSource,
     };
     navigate(`${ROUTES.SHOW}/${showId}`, { state });
   };

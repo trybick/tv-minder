@@ -1,6 +1,7 @@
 import { Grid } from '@chakra-ui/react';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { usePreloadBackdrops } from '~/hooks/usePreloadBackdrops';
 import { ShowForDisplay } from '~/store/tv/types/transformed';
 
 import { Show } from './Show';
@@ -12,6 +13,7 @@ type Props = {
 export const SubSectionOfShows = (props: Props) => {
   const { shows } = props;
   const isMobile = useIsMobile();
+  usePreloadBackdrops(shows.map(s => s.backdropPath));
 
   return (
     <Grid
