@@ -5,8 +5,8 @@ import { useIsMobile } from '~/hooks/useIsMobile';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { SeasonsAccordion } from './SeasonsAccordion';
-import { ShowDetails } from './ShowDetails';
 import { ShowImage } from './ShowImage';
+import { ShowDetails } from './showDetails/ShowDetails';
 
 export const ShowContainer = () => {
   const isMobile = useIsMobile();
