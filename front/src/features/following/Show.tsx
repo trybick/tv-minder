@@ -2,11 +2,8 @@ import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { useAppDispatch } from '~/store';
-import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/tv/actions';
+import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import { ShowForDisplay } from '~/store/tv/types/transformed';
 import { createImageUrl } from '~/utils/createImageUrl';
 
@@ -18,25 +15,14 @@ export const Show = (props: Props) => {
   const {
     show: { id, name, posterPath },
   } = props;
-  const dispatch = useAppDispatch();
-  const navigate = useNavigateWithAnimation();
+  const navigateToShow = useNavigateToShow();
   const isMobile = useIsMobile();
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   const posterSource = createImageUrl(posterPath, isMobile);
 
-  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    dispatch({
-      type: SET_IS_LOADING_SHOW_DETAILS,
-      payload: true,
-    });
-    const state: ShowNavigationState = {
-      posterSource,
-      name,
-    };
-    navigate(`${ROUTES.SHOW}/${id}`, { state });
-  };
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) =>
+    navigateToShow(e, { showId: id, name, posterSource });
 
   return (
     <Flex
