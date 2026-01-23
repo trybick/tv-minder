@@ -13,6 +13,9 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
+/**
+ * Network/runtime/language row for the show.
+ */
 export const Metadata = ({ show }: Props) => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);

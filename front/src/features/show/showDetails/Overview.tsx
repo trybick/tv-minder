@@ -11,6 +11,10 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
+/**
+ * Overview text.
+ * Desktop long text collapses; mobile shows full text.
+ * */
 export const Overview = ({ show }: Props) => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);

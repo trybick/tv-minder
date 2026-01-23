@@ -14,6 +14,9 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
+/**
+ * Rating with star/vote count and show status.
+ */
 export const RatingRow = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { voteAverage, voteCount, status } = show || {};

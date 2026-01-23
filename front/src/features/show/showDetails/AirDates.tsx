@@ -10,6 +10,10 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
+/**
+ * Renders next/last episode air date cards.
+ * Mobile stacks cards; desktop uses two columns.
+ * */
 export const AirDates = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { lastEpisodeAirDate, nextEpisodeAirDate } = show || {};

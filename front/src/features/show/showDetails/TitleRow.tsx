@@ -10,6 +10,9 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
+/**
+ * Show title, years active, and trailer button.
+ */
 export const TitleRow = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { name, yearsActive, videoTrailerKey } = show || {};

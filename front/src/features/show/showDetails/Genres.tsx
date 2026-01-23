@@ -11,6 +11,10 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
+/**
+ * Mobile: Follow button + genres.
+ * Desktop: genres only.
+ * */
 export const Genres = ({ show }: Props) => {
   const isMobile = useIsMobile();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
