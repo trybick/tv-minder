@@ -13,44 +13,20 @@ type Props = {
 
 export const Genres = ({ show }: Props) => {
   const isMobile = useIsMobile();
-
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-
   const { id, genreNames } = show || {};
 
-  return isMobile ? (
+  return (
     <Box mb={6}>
-      {id && <FollowButton showId={id} size="lg" w="100%" />}
+      {isMobile && id && <FollowButton showId={id} size="lg" w="100%" />}
+
       {isLoading || (!isLoading && genreNames?.length) ? (
         <DelayedSkeleton
           isLoading={isLoading}
-          w={isLoading ? '100%' : 'auto'}
-          mt={3}
+          w={isLoading ? (isMobile ? '100%' : '200px') : 'auto'}
+          mt={isMobile ? 3 : undefined}
         >
-          <Flex gap={2} flexWrap="wrap" mt={isMobile ? 6 : 0}>
-            {genreNames?.map(genre => (
-              <Tag.Root
-                key={genre}
-                size="sm"
-                variant="subtle"
-                bg="whiteAlpha.100"
-                borderRadius="full"
-                px={2}
-              >
-                <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
-                  {genre}
-                </Tag.Label>
-              </Tag.Root>
-            ))}
-          </Flex>
-        </DelayedSkeleton>
-      ) : null}
-    </Box>
-  ) : (
-    <Box mb={6}>
-      {isLoading || (!isLoading && genreNames?.length) ? (
-        <DelayedSkeleton isLoading={isLoading} w={isLoading ? '200px' : 'auto'}>
-          <Flex gap={2} flexWrap="wrap">
+          <Flex gap={2} flexWrap="wrap" mt={isMobile ? 6 : undefined}>
             {genreNames?.map(genre => (
               <Tag.Root
                 key={genre}
