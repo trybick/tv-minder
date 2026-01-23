@@ -13,9 +13,7 @@ type Props = {
 
 export const Overview = ({ show }: Props) => {
   const isMobile = useIsMobile();
-
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-
   const { overview } = show || {};
 
   const shouldCollapseOverview =

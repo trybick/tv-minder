@@ -14,7 +14,7 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
-export const Rating = ({ show }: Props) => {
+export const RatingRow = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { voteAverage, voteCount, status } = show || {};
   const statusForDisplay = getStatusForDisplay(status);

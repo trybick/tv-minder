@@ -7,16 +7,16 @@ import { AirDates } from './AirDates';
 import { Genres } from './Genres';
 import { Metadata } from './Metadata';
 import { Overview } from './Overview';
-import { Rating } from './Rating';
-import { Title } from './Title';
+import { RatingRow } from './RatingRow';
+import { TitleRow } from './TitleRow';
 
 export const ShowDetails = () => {
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
 
   return (
     <Box w="100%">
-      <Title show={currentShowInfo} />
-      <Rating show={currentShowInfo} />
+      <TitleRow show={currentShowInfo} />
+      <RatingRow show={currentShowInfo} />
       <Genres show={currentShowInfo} />
       <Overview show={currentShowInfo} />
       <AirDates show={currentShowInfo} />

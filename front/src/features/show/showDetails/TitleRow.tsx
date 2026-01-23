@@ -10,7 +10,7 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
-export const Title = ({ show }: Props) => {
+export const TitleRow = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { name, yearsActive, videoTrailerKey } = show || {};
 
