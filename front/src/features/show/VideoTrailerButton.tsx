@@ -9,7 +9,6 @@ import {
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
-import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
@@ -34,31 +33,25 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
     width: '100%',
   };
 
-  if (!isLoading && !videoId) {
+  if (isLoading || !videoId) {
     return null;
   }
 
   return (
     <>
-      <DelayedSkeleton
-        isLoading={isLoading}
-        w={isMobile ? 'auto' : '145px'}
-        h="40px"
+      <Button
+        onClick={onOpen}
+        variant="surface"
+        size="sm"
+        colorPalette="gray"
+        borderRadius="full"
+        px={4}
       >
-        <Button
-          onClick={onOpen}
-          variant="surface"
-          size="sm"
-          colorPalette="gray"
-          borderRadius="full"
-          px={4}
-        >
-          <Icon as={AiFillYoutube} boxSize="18px" color="red.500" />
-          <Text fontWeight="600" fontSize="xs">
-            Play Trailer
-          </Text>
-        </Button>
-      </DelayedSkeleton>
+        <Icon as={AiFillYoutube} boxSize="18px" color="red.500" />
+        <Text fontWeight="600" fontSize="xs">
+          Play Trailer
+        </Text>
+      </Button>
 
       <Dialog.Root
         onOpenChange={onClose}
