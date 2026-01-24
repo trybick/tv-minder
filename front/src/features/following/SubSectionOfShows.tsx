@@ -15,8 +15,11 @@ export const SubSectionOfShows = (props: Props) => {
 
   return (
     <Grid
-      gap={isMobile ? '20px' : '40px 44px'}
-      gridTemplateColumns="repeat(auto-fill, minmax(150px, 1fr))"
+      gap={isMobile ? '12px' : '24px 28px'}
+      gridTemplateColumns={{
+        base: 'repeat(auto-fill, minmax(160px, 1fr))',
+        md: 'repeat(auto-fill, minmax(190px, 1fr))',
+      }}
       justifyContent="center"
     >
       {shows.map(show => (

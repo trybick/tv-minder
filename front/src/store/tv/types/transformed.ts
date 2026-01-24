@@ -59,7 +59,9 @@ export type ShowForDisplay = {
 export type PopularShow = {
   id: number;
   fetchedAt: string;
+  firstAirDate: string | null;
   name: string;
+  overview: string;
   posterPath: string | null | undefined;
 };
 

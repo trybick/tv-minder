@@ -57,11 +57,20 @@ export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
     shows =>
       shows &&
       Object.values(shows)?.map(show => {
-        const { id, fetchedAt, name, poster_path: posterPath } = show;
-        return {
+        const {
           id,
           fetchedAt,
           name,
+          overview,
+          first_air_date: firstAirDate,
+          poster_path: posterPath,
+        } = show;
+        return {
+          id,
+          fetchedAt,
+          firstAirDate: firstAirDate ?? null,
+          name,
+          overview,
           posterPath,
         };
       })
@@ -80,11 +89,20 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
           show => !popularShows?.some(popularShow => popularShow.id === show.id)
         )
         ?.map(show => {
-          const { id, fetchedAt, name, poster_path: posterPath } = show;
-          return {
+          const {
             id,
             fetchedAt,
             name,
+            overview,
+            first_air_date: firstAirDate,
+            poster_path: posterPath,
+          } = show;
+          return {
+            id,
+            fetchedAt,
+            firstAirDate: firstAirDate ?? null,
+            name,
+            overview,
             posterPath,
           };
         })

@@ -1,5 +1,5 @@
-import { AspectRatio, Flex, Heading, Image, Link } from '@chakra-ui/react';
-import { type MouseEvent, useState } from 'react';
+import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
+import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
@@ -12,10 +12,10 @@ type Props = {
 
 export const Show = (props: Props) => {
   const {
-    show: { id, name, posterPath },
+    show: { id, name, posterPath, firstAirDate },
   } = props;
   const navigateToShow = useNavigateToShow();
-  const [isImageHovered, setIsImageHovered] = useState(false);
+  const yearForDisplay = firstAirDate?.substring(0, 4);
 
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: posterPath });
@@ -26,44 +26,49 @@ export const Show = (props: Props) => {
 
   return (
     <Flex
-      border="1px solid"
-      borderColor="border.emphasized"
-      borderRadius="6px"
       direction="column"
       key={id}
-      shadow="sm"
+      h="100%"
+      borderRadius="lg"
+      border="1px solid"
+      borderColor="whiteAlpha.100"
+      overflow="hidden"
+      transition="all 0.2s"
+      _hover={{ borderColor: 'whiteAlpha.400' }}
     >
-      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${id}`} display="block">
-        <AspectRatio ratio={2 / 3} w="100%">
-          <Image
-            alt={`show-${name}`}
-            borderRadius="6px 6px 0 0"
-            onError={e => (e.currentTarget.src = placeholder)}
-            src={posterSource}
-            objectFit="cover"
-            onMouseEnter={() => setIsImageHovered(true)}
-            onMouseLeave={() => setIsImageHovered(false)}
-            viewTransitionName={`show-image-${id}`}
-          />
-        </AspectRatio>
+      <Link
+        onClick={onShowClick}
+        href={`${ROUTES.SHOW}/${id}`}
+        display="block"
+        position="relative"
+      >
+        <Image
+          alt={`show-${name}`}
+          aspectRatio={2 / 3}
+          objectFit="cover"
+          w="100%"
+          onError={e => (e.currentTarget.src = placeholder)}
+          src={posterSource}
+          viewTransitionName={`show-image-${id}`}
+        />
       </Link>
-      <Flex direction="column" p="14px">
-        <Link
-          fontSize="16px"
-          fontWeight="500"
-          m="0 auto"
-          onClick={onShowClick}
-          textAlign="center"
-          textDecoration={isImageHovered ? 'underline' : 'none'}
-          _hover={{
-            textDecoration: 'underline',
-          }}
-          href={`${ROUTES.SHOW}/${id}`}
-        >
-          <Heading as="button" cursor="pointer" fontSize="md" lineClamp={1}>
-            {name}
-          </Heading>
-        </Link>
+      <Flex direction="column" p="3" gap="2" flex="1" justify="space-between">
+        <Box>
+          <Link
+            onClick={onShowClick}
+            href={`${ROUTES.SHOW}/${id}`}
+            _hover={{ textDecoration: 'underline' }}
+          >
+            <Text fontWeight="semibold" lineClamp={1} fontSize="sm">
+              {name}
+            </Text>
+          </Link>
+          {yearForDisplay && (
+            <Text fontSize="xs" color="fg.muted" mt="0.5">
+              {yearForDisplay}
+            </Text>
+          )}
+        </Box>
       </Flex>
     </Flex>
   );
