@@ -84,7 +84,13 @@ export const PopularShow = ({ show }: Props) => {
             onClick={onShowClick}
             _hover={{ textDecoration: 'underline' }}
           >
-            <Text fontWeight="semibold" lineClamp={1} fontSize="sm">
+            <Text
+              as="button"
+              cursor="pointer"
+              fontWeight="semibold"
+              lineClamp={1}
+              fontSize="sm"
+            >
               {name}
             </Text>
           </Link>

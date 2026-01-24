@@ -85,7 +85,13 @@ export const Show = (props: Props) => {
             href={`${ROUTES.SHOW}/${id}`}
             _hover={{ textDecoration: 'underline' }}
           >
-            <Text fontWeight="semibold" lineClamp={1} fontSize="sm">
+            <Text
+              as="button"
+              cursor="pointer"
+              fontWeight="semibold"
+              lineClamp={1}
+              fontSize="sm"
+            >
               {name}
             </Text>
           </Link>
