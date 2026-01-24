@@ -2,6 +2,7 @@ import { Image } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
+import { useImageUrl } from '~/hooks/useImageUrl';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppSelector } from '~/store';
 import {
@@ -9,14 +10,16 @@ import {
   selectIsLoadingShowDetails,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
-import { createImageUrl } from '~/utils/createImageUrl';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 export const ShowImage = () => {
   const isMobile = useIsMobile();
+
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
+
+  const { getImageUrl, placeholder } = useImageUrl();
   const showId = getShowIdFromUrl();
 
   const shouldShowDesktopSkeleton =
@@ -35,7 +38,10 @@ export const ShowImage = () => {
           mr="-50vw"
           position="relative"
           right="50%"
-          src={createImageUrl(currentShowInfo?.backdropPath, isMobile, true)}
+          src={getImageUrl({
+            path: currentShowInfo?.backdropPath,
+            quality: 'high',
+          })}
           width="100vw"
         />
       </DelayedSkeleton>
@@ -51,10 +57,10 @@ export const ShowImage = () => {
     >
       <Image
         borderRadius="8px"
-        onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}
+        onError={e => (e.currentTarget.src = placeholder)}
         src={
           showDataFromHistory?.posterSource ||
-          createImageUrl(currentShowInfo?.posterPath, isMobile)
+          getImageUrl({ path: currentShowInfo?.posterPath })
         }
         viewTransitionName={`show-image-${showId}`}
       />
