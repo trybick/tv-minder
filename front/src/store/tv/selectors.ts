@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { ShowNavigationState } from '~/features/show/ShowPage';
+import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
@@ -103,6 +103,7 @@ export const selectShowDataFromHistory = createSelector(
   (historyState): ShowNavigationState | null => {
     if (historyState?.posterSource) {
       return {
+        showId: historyState.showId,
         posterSource: historyState.posterSource,
         name: historyState.name,
       };
