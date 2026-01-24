@@ -50,6 +50,7 @@ export const SearchInput = ({
               onClick={handleClearInput}
               size="sm"
               variant="plain"
+              color="fg.muted"
             >
               <IoClose size="19px" />
             </IconButton>
