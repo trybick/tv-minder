@@ -1,4 +1,4 @@
-import { Image } from '@chakra-ui/react';
+import { AspectRatio, Image } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -55,15 +55,18 @@ export const ShowImage = () => {
       h={shouldShowDesktopSkeleton ? '450px' : undefined}
       borderRadius="8px"
     >
-      <Image
-        borderRadius="8px"
-        onError={e => (e.currentTarget.src = placeholder)}
-        src={
-          showDataFromHistory?.posterSource ||
-          getImageUrl({ path: currentShowInfo?.posterPath })
-        }
-        viewTransitionName={`show-image-${showId}`}
-      />
+      <AspectRatio ratio={2 / 3} w="100%">
+        <Image
+          borderRadius="8px"
+          onError={e => (e.currentTarget.src = placeholder)}
+          src={
+            showDataFromHistory?.posterSource ||
+            getImageUrl({ path: currentShowInfo?.posterPath })
+          }
+          objectFit="cover"
+          viewTransitionName={`show-image-${showId}`}
+        />
+      </AspectRatio>
     </DelayedSkeleton>
   );
 };

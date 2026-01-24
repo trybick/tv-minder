@@ -1,4 +1,13 @@
-import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Image,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
@@ -38,16 +47,22 @@ export const SearchResult = ({ showToDisplay }: Props) => {
       aria-label={`search-result-${name}`}
     >
       <Grid gap={4} templateColumns="100px 1fr">
-        <Flex w="100px">
-          <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
+        <Link
+          onClick={onShowClick}
+          href={`${ROUTES.SHOW}/${showId}`}
+          w="100px"
+          display="block"
+        >
+          <AspectRatio ratio={2 / 3} w="100%">
             <Image
               borderRadius="6px"
               onError={e => (e.currentTarget.src = placeholder)}
               src={posterSource}
+              objectFit="cover"
               viewTransitionName={`show-image-${showId}`}
             />
-          </Link>
-        </Flex>
+          </AspectRatio>
+        </Link>
 
         <Flex direction="column" justifyContent="space-evenly" minW="0">
           <Flex w="100%">
