@@ -3,11 +3,8 @@ import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
-import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { useAppDispatch } from '~/store';
-import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/tv/actions';
+import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { createImageUrl } from '~/utils/createImageUrl';
 
@@ -24,24 +21,13 @@ export const SearchResult = ({ showToDisplay }: Props) => {
     poster_path: posterPath,
   } = showToDisplay;
 
-  const navigate = useNavigateWithAnimation();
-  const dispatch = useAppDispatch();
+  const navigateToShow = useNavigateToShow();
   const isMobile = useIsMobile();
   const yearForDisplay = firstAirDate?.substring(0, 4);
   const posterSource = createImageUrl(posterPath, isMobile);
 
-  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    dispatch({
-      type: SET_IS_LOADING_SHOW_DETAILS,
-      payload: true,
-    });
-    const state: ShowNavigationState = {
-      posterSource,
-      name,
-    };
-    navigate(`${ROUTES.SHOW}/${showId}`, { state });
-  };
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) =>
+    navigateToShow(e, { showId, name, posterSource });
 
   return (
     <Box

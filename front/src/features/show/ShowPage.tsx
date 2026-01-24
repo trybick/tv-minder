@@ -8,11 +8,6 @@ import { selectCurrentShowInfo } from '~/store/tv/selectors';
 
 import { ShowContainer } from './ShowContainer';
 
-export type ShowNavigationState = {
-  posterSource: string;
-  name: string;
-};
-
 export const ShowPage = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();

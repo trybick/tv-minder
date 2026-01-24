@@ -3,11 +3,8 @@ import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
-import { ShowNavigationState } from '~/features/show/ShowPage';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { useAppDispatch } from '~/store';
-import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/tv/actions';
+import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import { PopularShow as PopularShowType } from '~/store/tv/types/transformed';
 import { createImageUrl } from '~/utils/createImageUrl';
 
@@ -16,25 +13,14 @@ type Props = {
 };
 
 export const PopularShow = ({ show }: Props) => {
-  const { id, name, posterPath } = show;
-  const dispatch = useAppDispatch();
-  const navigate = useNavigateWithAnimation();
+  const { id: showId, name, posterPath } = show;
+  const navigateToShow = useNavigateToShow();
   const isMobile = useIsMobile();
   const [isImageHovered, setIsImageHovered] = useState(false);
   const posterSource = createImageUrl(posterPath, isMobile);
 
-  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    dispatch({
-      type: SET_IS_LOADING_SHOW_DETAILS,
-      payload: true,
-    });
-    const state: ShowNavigationState = {
-      posterSource,
-      name,
-    };
-    navigate(`${ROUTES.SHOW}/${id}`, { state });
-  };
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) =>
+    navigateToShow(e, { showId, name, posterSource });
 
   return (
     <Flex
@@ -48,7 +34,7 @@ export const PopularShow = ({ show }: Props) => {
       w={isMobile ? '140px' : '190px'}
       shadow="sm"
     >
-      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${id}`}>
+      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
         <Image
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
@@ -60,13 +46,13 @@ export const PopularShow = ({ show }: Props) => {
           onMouseLeave={() => setIsImageHovered(false)}
           maxHeight="342px"
           objectFit="cover"
-          viewTransitionName={`show-image-${id}`}
+          viewTransitionName={`show-image-${showId}`}
         />
       </Link>
 
       <Flex direction="column" mt="5px" p="8px 12px">
         <Link
-          href={`${ROUTES.SHOW}/${id}`}
+          href={`${ROUTES.SHOW}/${showId}`}
           onClick={onShowClick}
           m="0 auto"
           textDecoration={isImageHovered ? 'underline' : 'none'}
@@ -82,7 +68,7 @@ export const PopularShow = ({ show }: Props) => {
         <FollowButton
           m="14px auto 9px"
           minW="108px"
-          showId={id}
+          showId={showId}
           size={isMobile ? 'sm' : 'md'}
         />
       </Flex>
