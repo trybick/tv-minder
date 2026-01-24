@@ -1,11 +1,17 @@
 import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
-import { type MouseEvent, useState } from 'react';
+import { type MouseEvent, useMemo, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
+import { useAppSelector } from '~/store';
+import {
+  selectSearchShowDetails,
+  selectShowDetails,
+} from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { mapShowInfoForDisplay } from '~/store/tv/utils/formatting';
 
 type Props = {
   showToDisplay: TmdbShowSummary;
@@ -24,8 +30,27 @@ export const SearchResult = ({ showToDisplay }: Props) => {
 
   const [isHovered, setIsHovered] = useState(false);
 
+  const showDetails = useAppSelector(selectShowDetails);
+  const searchShowDetails = useAppSelector(selectSearchShowDetails);
+
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: posterPath });
+
+  const statusForBadge = useMemo(() => {
+    const cachedShow = showDetails?.[showId] ?? searchShowDetails?.[showId];
+    if (!cachedShow) {
+      return null;
+    }
+    const { status } = mapShowInfoForDisplay(cachedShow);
+    if (status.isActiveSeason) {
+      return { label: 'Currently Airing', color: 'green.500' } as const;
+    }
+    if (status.isPremieringSoon) {
+      return { label: 'Premiering Soon', color: 'purple.500' } as const;
+    }
+
+    return null;
+  }, [showDetails, searchShowDetails, showId]);
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     navigateToShow(e, { showId, name, posterSource });
@@ -61,7 +86,26 @@ export const SearchResult = ({ showToDisplay }: Props) => {
           src={posterSource}
           viewTransitionName={`show-image-${showId}`}
         />
-        {/* Overlay with description on hover - desktop only */}
+
+        {statusForBadge && (
+          <Box
+            position="absolute"
+            top="2"
+            left="2"
+            bg={statusForBadge.color}
+            color="white"
+            fontSize="xs"
+            fontWeight="bold"
+            px="2"
+            py="1"
+            borderRadius="md"
+            letterSpacing="0.2px"
+            textTransform="uppercase"
+          >
+            {statusForBadge.label}
+          </Box>
+        )}
+
         {overview && (
           <Box
             position="absolute"
@@ -80,7 +124,7 @@ export const SearchResult = ({ showToDisplay }: Props) => {
         )}
       </Link>
 
-      <Flex direction="column" p="3" gap="2" flex="1">
+      <Flex direction="column" p="3" gap="2" flex="1" justify="space-between">
         <Box>
           <Link
             onClick={onShowClick}

@@ -12,7 +12,10 @@ import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import { saveSearchQueryAction } from '~/store/tv/actions';
+import {
+  getShowDetailsForSearchResults,
+  saveSearchQueryAction,
+} from '~/store/tv/actions';
 import { selectSavedQueries } from '~/store/tv/selectors';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
@@ -105,6 +108,7 @@ export const SearchPage = () => {
     setShows(results);
     setTotalResults(totalResults);
     setIsLoading(false);
+    dispatch(getShowDetailsForSearchResults(results.map(show => show.id)));
   });
 
   return (

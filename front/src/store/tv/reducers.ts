@@ -4,6 +4,7 @@ import {
   type PopularShowCached,
   SAVE_CALENDAR_EPISODES_CACHE,
   SAVE_POPULAR_SHOWS,
+  SAVE_SEARCH_SHOW_DETAILS,
   SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
   SAVE_SHOW_DETAILS_FOR_SHOW,
   SAVE_TOP_RATED_SHOWS,
@@ -24,6 +25,7 @@ type State = {
   savedQueries: SavedQuery[];
   episodeData: Record<number, EpisodeCacheEntry>;
   showDetails: Record<number, ShowDetailsCached>;
+  searchShowDetails: Record<number, ShowDetailsCached>;
   isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
@@ -35,6 +37,7 @@ const initialState: State = {
   savedQueries: [],
   episodeData: {},
   showDetails: {},
+  searchShowDetails: {},
   isLoadingShowDetails: false,
   calendarEpisodesForDisplay: [],
   isLoadingCalendarEpisodes: true,
@@ -77,6 +80,12 @@ export const tvReducer: Reducer<State, Action> = (
         ...state,
         showDetails: { ...state.showDetails, ...action.payload },
         isLoadingShowDetails: false,
+      };
+    }
+    case SAVE_SEARCH_SHOW_DETAILS: {
+      return {
+        ...state,
+        searchShowDetails: { ...state.searchShowDetails, ...action.payload },
       };
     }
     case SET_IS_LOADING_SHOW_DETAILS: {
