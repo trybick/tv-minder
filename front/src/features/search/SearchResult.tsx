@@ -3,10 +3,9 @@ import { MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
-import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   showToDisplay: TmdbShowSummary;
@@ -20,14 +19,15 @@ export const SearchResult = ({ showToDisplay }: Props) => {
     overview,
     poster_path: posterPath,
   } = showToDisplay;
-
-  const navigateToShow = useNavigateToShow();
-  const isMobile = useIsMobile();
   const yearForDisplay = firstAirDate?.substring(0, 4);
-  const posterSource = createImageUrl(posterPath, isMobile);
+  const navigateToShow = useNavigateToShow();
 
-  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) =>
+  const { getImageUrl, placeholder } = useImageUrl();
+  const posterSource = getImageUrl({ path: posterPath });
+
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     navigateToShow(e, { showId, name, posterSource });
+  };
 
   return (
     <Box
@@ -42,9 +42,7 @@ export const SearchResult = ({ showToDisplay }: Props) => {
           <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
             <Image
               borderRadius="6px"
-              onError={e =>
-                (e.currentTarget.src = createImageUrl(null, isMobile))
-              }
+              onError={e => (e.currentTarget.src = placeholder)}
               src={posterSource}
               viewTransitionName={`show-image-${showId}`}
             />
