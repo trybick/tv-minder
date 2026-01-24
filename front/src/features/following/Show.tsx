@@ -88,7 +88,6 @@ export const Show = (props: Props) => {
       position="relative"
     >
       <CloseButton
-        aria-label={`Unfollow ${name}`}
         onClick={onRequestUnfollow}
         position="absolute"
         right="2"

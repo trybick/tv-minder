@@ -9,7 +9,6 @@ import {
 import * as Sentry from '@sentry/react';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { FiSend } from 'react-icons/fi';
 
 import { showToast } from '~/components/ui/toaster';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -159,7 +158,6 @@ export const FeedbackModal = () => {
               onClick={handleSubmit(onSubmit)}
             >
               Send
-              <FiSend />
             </Button>
           </Dialog.Footer>
         </Dialog.Content>
