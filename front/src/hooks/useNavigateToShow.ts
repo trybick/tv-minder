@@ -18,7 +18,9 @@ export const useNavigateToShow = () => {
 
   const navigateToShow = useCallback(
     (e: MouseEvent<HTMLAnchorElement>, state: ShowNavigationState) => {
+      // Preventing default prevents the link's href from being triggered
       e.preventDefault();
+
       dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
       navigate(`${ROUTES.SHOW}/${state.showId}`, { state });
     },

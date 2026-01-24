@@ -32,6 +32,14 @@ export const FollowingList = () => {
   const premieringSoonShows = useAppSelector(selectPremieringSoonShows);
   const endedShows = useAppSelector(selectEndedShows);
 
+  const tabLabels = {
+    all: 'All',
+    active: isMobile ? 'Current' : 'Airing Now',
+    premieringSoon: isMobile ? 'Soon' : 'Premiering Soon',
+    inProduction: isMobile ? 'Production' : 'In Production',
+    ended: 'Ended',
+  };
+
   return (
     <Box mt={isMobile ? '20px' : '32px'} px={isMobile ? '10px' : 'unset'}>
       <Tabs.Root
@@ -52,18 +60,21 @@ export const FollowingList = () => {
           overflowX={isMobile ? 'auto' : 'visible'}
           overflowY="hidden"
           flexWrap={isMobile ? 'nowrap' : 'wrap'}
-          justifyContent={isMobile ? 'flex-start' : 'center'}
+          justifyContent="center"
           maxW={isMobile ? '100%' : '720px'}
+          w={isMobile ? '100%' : 'auto'}
           mx={isMobile ? '0' : 'auto'}
           px={isMobile ? '2' : '0'}
+          whiteSpace="nowrap"
         >
           <Tabs.Trigger
             value={tabs.all}
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
+            px={isMobile ? 2 : 'unset'}
           >
-            All
+            {tabLabels.all}
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!activeSeasonShows.length}
@@ -71,8 +82,9 @@ export const FollowingList = () => {
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
+            px={isMobile ? 2 : 'unset'}
           >
-            Airing Now
+            {tabLabels.active}
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!premieringSoonShows.length}
@@ -80,8 +92,9 @@ export const FollowingList = () => {
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
+            px={isMobile ? 2 : 'unset'}
           >
-            Premiering Soon
+            {tabLabels.premieringSoon}
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!inProductionShows.length}
@@ -89,8 +102,9 @@ export const FollowingList = () => {
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
+            px={isMobile ? 2 : 'unset'}
           >
-            In Production
+            {tabLabels.inProduction}
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!endedShows.length}
@@ -98,8 +112,9 @@ export const FollowingList = () => {
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
+            px={isMobile ? 2 : 'unset'}
           >
-            Ended
+            {tabLabels.ended}
           </Tabs.Trigger>
         </Tabs.List>
 

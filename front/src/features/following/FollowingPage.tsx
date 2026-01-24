@@ -30,7 +30,7 @@ export const FollowingPage = () => {
   return (
     <>
       <title>Manage | TV Minder</title>
-      <Box m="0 auto 30px" maxW="1170px" w={isMobile ? 'unset' : '90%'}>
+      <Box m="0 auto 30px" maxW="1170px" w={isMobile ? '100%' : '90%'}>
         {isNoFollowedShows ? <NoFollowedShowsMessage /> : <FollowingList />}
       </Box>
     </>
