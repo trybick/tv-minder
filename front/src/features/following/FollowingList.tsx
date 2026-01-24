@@ -8,29 +8,41 @@ import {
   selectEndedShows,
   selectFollowedShowsDetails,
   selectInProductionShows,
+  selectPremieringSoonShows,
 } from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import { SubSectionOfShows } from './SubSectionOfShows';
 
+const tabs = {
+  all: 'all',
+  active: 'active',
+  premieringSoon: 'premieringSoon',
+  inProduction: 'inProduction',
+  ended: 'ended',
+};
+
 export const FollowingList = () => {
   const isMobile = useIsMobile();
-  const [currentTab, setCurrentTab] = useState<string | null>('all');
+  const [currentTab, setCurrentTab] = useState<keyof typeof tabs>('all');
 
   const followedShowsDetails = useAppSelector(selectFollowedShowsDetails);
   const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
   const inProductionShows = useAppSelector(selectInProductionShows);
+  const premieringSoonShows = useAppSelector(selectPremieringSoonShows);
   const endedShows = useAppSelector(selectEndedShows);
 
   return (
     <Box mt={isMobile ? '20px' : '32px'} px={isMobile ? '10px' : 'unset'}>
       <Tabs.Root
         colorPalette="cyan"
-        defaultValue="all"
+        defaultValue={tabs.all}
         m="0 auto"
         variant="line"
         value={currentTab}
-        onValueChange={e => applyViewTransition(() => setCurrentTab(e.value))}
+        onValueChange={e =>
+          applyViewTransition(() => setCurrentTab(e.value as keyof typeof tabs))
+        }
         fitted={false}
         size={isMobile ? 'sm' : 'md'}
       >
@@ -46,7 +58,7 @@ export const FollowingList = () => {
           px={isMobile ? '2' : '0'}
         >
           <Tabs.Trigger
-            value="all"
+            value={tabs.all}
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
@@ -55,7 +67,7 @@ export const FollowingList = () => {
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!activeSeasonShows.length}
-            value="active"
+            value={tabs.active}
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
@@ -63,8 +75,17 @@ export const FollowingList = () => {
             Airing Now
           </Tabs.Trigger>
           <Tabs.Trigger
+            disabled={!premieringSoonShows.length}
+            value={tabs.premieringSoon}
+            fontSize={isMobile ? 'sm' : 'md'}
+            minW={isMobile ? 'max-content' : undefined}
+            flexShrink={isMobile ? 0 : 1}
+          >
+            Premiering Soon
+          </Tabs.Trigger>
+          <Tabs.Trigger
             disabled={!inProductionShows.length}
-            value="inProduction"
+            value={tabs.inProduction}
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
@@ -73,7 +94,7 @@ export const FollowingList = () => {
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!endedShows.length}
-            value="ended"
+            value={tabs.ended}
             fontSize={isMobile ? 'sm' : 'md'}
             minW={isMobile ? 'max-content' : undefined}
             flexShrink={isMobile ? 0 : 1}
@@ -82,19 +103,23 @@ export const FollowingList = () => {
           </Tabs.Trigger>
         </Tabs.List>
 
-        <Tabs.Content value="all">
+        <Tabs.Content value={tabs.all}>
           <SubSectionOfShows shows={followedShowsDetails} />
         </Tabs.Content>
 
-        <Tabs.Content value="active">
+        <Tabs.Content value={tabs.active}>
           <SubSectionOfShows shows={activeSeasonShows} />
         </Tabs.Content>
 
-        <Tabs.Content value="inProduction">
+        <Tabs.Content value={tabs.premieringSoon}>
+          <SubSectionOfShows shows={premieringSoonShows} />
+        </Tabs.Content>
+
+        <Tabs.Content value={tabs.inProduction}>
           <SubSectionOfShows shows={inProductionShows} />
         </Tabs.Content>
 
-        <Tabs.Content value="ended">
+        <Tabs.Content value={tabs.ended}>
           <SubSectionOfShows shows={endedShows} />
         </Tabs.Content>
       </Tabs.Root>

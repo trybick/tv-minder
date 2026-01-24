@@ -46,6 +46,11 @@ export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
     shows.filter(show => show.status.isInProduction)
   );
 
+export const selectPremieringSoonShows: AppSelector<ShowForDisplay[]> =
+  createSelector(selectFollowedShowsDetails, shows =>
+    shows.filter(show => show.status.isPremieringSoon)
+  );
+
 export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
   selectFollowedShowsDetails,
   shows => shows.filter(show => show.status.isEnded)
@@ -57,11 +62,20 @@ export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
     shows =>
       shows &&
       Object.values(shows)?.map(show => {
-        const { id, fetchedAt, name, poster_path: posterPath } = show;
-        return {
+        const {
           id,
           fetchedAt,
           name,
+          overview,
+          first_air_date: firstAirDate,
+          poster_path: posterPath,
+        } = show;
+        return {
+          id,
+          fetchedAt,
+          firstAirDate: firstAirDate ?? null,
+          name,
+          overview,
           posterPath,
         };
       })
@@ -80,11 +94,20 @@ export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
           show => !popularShows?.some(popularShow => popularShow.id === show.id)
         )
         ?.map(show => {
-          const { id, fetchedAt, name, poster_path: posterPath } = show;
-          return {
+          const {
             id,
             fetchedAt,
             name,
+            overview,
+            first_air_date: firstAirDate,
+            poster_path: posterPath,
+          } = show;
+          return {
+            id,
+            fetchedAt,
+            firstAirDate: firstAirDate ?? null,
+            name,
+            overview,
             posterPath,
           };
         })
