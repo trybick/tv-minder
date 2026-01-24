@@ -12,6 +12,7 @@ import {
 } from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
+import { FollowingTabTrigger } from './FollowingTabTrigger';
 import { SubSectionOfShows } from './SubSectionOfShows';
 
 const tabs = {
@@ -67,55 +68,27 @@ export const FollowingList = () => {
           px={isMobile ? '2' : '0'}
           whiteSpace="nowrap"
         >
-          <Tabs.Trigger
-            value={tabs.all}
-            fontSize={isMobile ? 'sm' : 'md'}
-            minW={isMobile ? 'max-content' : undefined}
-            flexShrink={isMobile ? 0 : 1}
-            px={isMobile ? 2 : 'unset'}
-          >
-            {tabLabels.all}
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            disabled={!activeSeasonShows.length}
+          <FollowingTabTrigger value={tabs.all} label={tabLabels.all} />
+          <FollowingTabTrigger
             value={tabs.active}
-            fontSize={isMobile ? 'sm' : 'md'}
-            minW={isMobile ? 'max-content' : undefined}
-            flexShrink={isMobile ? 0 : 1}
-            px={isMobile ? 2 : 'unset'}
-          >
-            {tabLabels.active}
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            disabled={!premieringSoonShows.length}
+            label={tabLabels.active}
+            isDisabled={!activeSeasonShows.length}
+          />
+          <FollowingTabTrigger
             value={tabs.premieringSoon}
-            fontSize={isMobile ? 'sm' : 'md'}
-            minW={isMobile ? 'max-content' : undefined}
-            flexShrink={isMobile ? 0 : 1}
-            px={isMobile ? 2 : 'unset'}
-          >
-            {tabLabels.premieringSoon}
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            disabled={!inProductionShows.length}
+            label={tabLabels.premieringSoon}
+            isDisabled={!premieringSoonShows.length}
+          />
+          <FollowingTabTrigger
             value={tabs.inProduction}
-            fontSize={isMobile ? 'sm' : 'md'}
-            minW={isMobile ? 'max-content' : undefined}
-            flexShrink={isMobile ? 0 : 1}
-            px={isMobile ? 2 : 'unset'}
-          >
-            {tabLabels.inProduction}
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            disabled={!endedShows.length}
+            label={tabLabels.inProduction}
+            isDisabled={!inProductionShows.length}
+          />
+          <FollowingTabTrigger
             value={tabs.ended}
-            fontSize={isMobile ? 'sm' : 'md'}
-            minW={isMobile ? 'max-content' : undefined}
-            flexShrink={isMobile ? 0 : 1}
-            px={isMobile ? 2 : 'unset'}
-          >
-            {tabLabels.ended}
-          </Tabs.Trigger>
+            label={tabLabels.ended}
+            isDisabled={!endedShows.length}
+          />
         </Tabs.List>
 
         <Tabs.Content value={tabs.all}>
