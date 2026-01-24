@@ -1,9 +1,24 @@
-import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
-import { type MouseEvent } from 'react';
+import {
+  Box,
+  Button,
+  CloseButton,
+  Dialog,
+  Flex,
+  Image,
+  Link,
+  Text,
+} from '@chakra-ui/react';
+import { type MouseEvent, useCallback, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
+import { useAppDispatch, useAppSelector } from '~/store';
+import { useUnfollowShowMutation } from '~/store/rtk/api/follow.api';
+import {
+  selectIsLoggedIn,
+  unregisteredUnfollowShow,
+} from '~/store/rtk/slices/user.slice';
 import { type ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
@@ -11,12 +26,19 @@ type Props = {
 };
 
 export const Show = (props: Props) => {
+  const dispatch = useAppDispatch();
+  const navigateToShow = useNavigateToShow();
+
   const {
     show: { id, name, posterPath, firstAirDate, status },
   } = props;
   const yearForDisplay = firstAirDate?.substring(0, 4);
 
-  const navigateToShow = useNavigateToShow();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
+  const [unfollowShow] = useUnfollowShowMutation();
 
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: posterPath });
@@ -31,6 +53,27 @@ export const Show = (props: Props) => {
     navigateToShow(e, { showId: id, name, posterSource });
   };
 
+  const onRequestUnfollow = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsConfirmOpen(true);
+  }, []);
+
+  const onConfirmUnfollow = useCallback(
+    async (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (isLoggedIn) {
+        await unfollowShow(id);
+      } else {
+        dispatch(unregisteredUnfollowShow(id));
+      }
+      setIsConfirmOpen(false);
+    },
+    [dispatch, id, isLoggedIn, unfollowShow]
+  );
+
   return (
     <Flex
       direction="column"
@@ -42,7 +85,62 @@ export const Show = (props: Props) => {
       overflow="hidden"
       transition="all 0.2s"
       _hover={{ borderColor: 'whiteAlpha.400' }}
+      position="relative"
     >
+      <CloseButton
+        aria-label={`Unfollow ${name}`}
+        onClick={onRequestUnfollow}
+        position="absolute"
+        right="2"
+        size="xs"
+        top="2"
+        variant="plain"
+        color="fg.muted"
+        bg="blackAlpha.600"
+        _hover={{ color: 'white', bg: 'blackAlpha.800' }}
+        zIndex="1"
+      />
+      <Dialog.Root
+        open={isConfirmOpen}
+        onOpenChange={e => setIsConfirmOpen(e.open)}
+        size="sm"
+        lazyMount
+        unmountOnExit
+      >
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content bg="bg.muted">
+            <Dialog.Header>
+              <Dialog.Title>Confirm Unfollow</Dialog.Title>
+              <Dialog.CloseTrigger asChild>
+                <CloseButton color="fg.muted" />
+              </Dialog.CloseTrigger>
+            </Dialog.Header>
+            <Dialog.Body>
+              <Text color="fg.muted" fontSize="md">
+                {`Are you sure you want to unfollow ${name}?`}
+              </Text>
+            </Dialog.Body>
+            <Dialog.Footer gap="4">
+              <Button
+                variant="ghost"
+                onClick={() => setIsConfirmOpen(false)}
+                color="fg.muted"
+              >
+                Back
+              </Button>
+              <Button
+                colorPalette="red"
+                onClick={onConfirmUnfollow}
+                variant="surface"
+              >
+                Unfollow
+              </Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Dialog.Root>
+
       <Link
         onClick={onShowClick}
         href={`${ROUTES.SHOW}/${id}`}
