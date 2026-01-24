@@ -31,7 +31,7 @@ export const FollowingList = () => {
         variant="line"
         value={currentTab}
         onValueChange={e => applyViewTransition(() => setCurrentTab(e.value))}
-        fitted={!isMobile}
+        fitted={false}
         size={isMobile ? 'sm' : 'md'}
       >
         <Tabs.List
@@ -40,6 +40,9 @@ export const FollowingList = () => {
           overflowX={isMobile ? 'auto' : 'visible'}
           overflowY="hidden"
           flexWrap={isMobile ? 'nowrap' : 'wrap'}
+          justifyContent={isMobile ? 'flex-start' : 'center'}
+          maxW={isMobile ? '100%' : '720px'}
+          mx={isMobile ? '0' : 'auto'}
           px={isMobile ? '2' : '0'}
         >
           <Tabs.Trigger
