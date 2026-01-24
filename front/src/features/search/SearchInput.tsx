@@ -35,7 +35,9 @@ export const SearchInput = ({
     <Flex
       direction="column"
       justify="center"
-      m="58px auto 40px"
+      mt={6}
+      mb={isMobile ? '20px' : '40px'}
+      mx="auto"
       p="0 25px"
       w={['100%', 'sm', 'md', 'lg']}
     >

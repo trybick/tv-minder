@@ -81,13 +81,13 @@ export const SearchResult = ({ showToDisplay }: Props) => {
       </Link>
 
       <Flex direction="column" p="3" gap="2" flex="1">
-        <Box flex="1">
+        <Box>
           <Link
             onClick={onShowClick}
             href={`${ROUTES.SHOW}/${showId}`}
             _hover={{ textDecoration: 'underline' }}
           >
-            <Text fontWeight="semibold" lineClamp={2} fontSize="sm" minH="2lh">
+            <Text fontWeight="semibold" lineClamp={1} fontSize="sm">
               {name}
             </Text>
           </Link>
@@ -98,7 +98,7 @@ export const SearchResult = ({ showToDisplay }: Props) => {
           )}
         </Box>
 
-        <FollowButton showId={showId} size="sm" w="100%" />
+        <FollowButton showId={showId} size="sm" w="100%" mt={0.5} />
       </Flex>
     </Flex>
   );
