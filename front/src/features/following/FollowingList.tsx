@@ -28,33 +28,52 @@ export const FollowingList = () => {
         colorPalette="cyan"
         defaultValue="all"
         m="0 auto"
-        variant={isMobile ? 'enclosed' : 'line'}
+        variant="line"
         value={currentTab}
         onValueChange={e => applyViewTransition(() => setCurrentTab(e.value))}
-        fitted
+        fitted={!isMobile}
+        size={isMobile ? 'sm' : 'md'}
       >
-        <Tabs.List mb="22px">
-          <Tabs.Trigger value="all" fontSize="md">
+        <Tabs.List
+          mb="22px"
+          gap={isMobile ? '2' : '0'}
+          overflowX={isMobile ? 'auto' : 'visible'}
+          overflowY="hidden"
+          flexWrap={isMobile ? 'nowrap' : 'wrap'}
+          px={isMobile ? '2' : '0'}
+        >
+          <Tabs.Trigger
+            value="all"
+            fontSize={isMobile ? 'sm' : 'md'}
+            minW={isMobile ? 'max-content' : undefined}
+            flexShrink={isMobile ? 0 : 1}
+          >
             All
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!activeSeasonShows.length}
             value="active"
-            fontSize="md"
+            fontSize={isMobile ? 'sm' : 'md'}
+            minW={isMobile ? 'max-content' : undefined}
+            flexShrink={isMobile ? 0 : 1}
           >
             Airing Now
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!inProductionShows.length}
-            fontSize="md"
             value="inProduction"
+            fontSize={isMobile ? 'sm' : 'md'}
+            minW={isMobile ? 'max-content' : undefined}
+            flexShrink={isMobile ? 0 : 1}
           >
             In Production
           </Tabs.Trigger>
           <Tabs.Trigger
             disabled={!endedShows.length}
             value="ended"
-            fontSize="md"
+            fontSize={isMobile ? 'sm' : 'md'}
+            minW={isMobile ? 'max-content' : undefined}
+            flexShrink={isMobile ? 0 : 1}
           >
             Ended
           </Tabs.Trigger>
