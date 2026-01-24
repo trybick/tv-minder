@@ -43,7 +43,7 @@ export const SearchResult = ({ showToDisplay }: Props) => {
     }
     const { status } = mapShowInfoForDisplay(cachedShow);
     if (status.isActiveSeason) {
-      return { label: 'Currently Airing', color: 'green.500' } as const;
+      return { label: 'Airing Now', color: 'green.500' } as const;
     }
     if (status.isPremieringSoon) {
       return { label: 'Premiering Soon', color: 'purple.500' } as const;

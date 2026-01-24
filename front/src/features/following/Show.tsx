@@ -22,7 +22,7 @@ export const Show = (props: Props) => {
   const posterSource = getImageUrl({ path: posterPath });
 
   const statusForBadge = status.isActiveSeason
-    ? ({ label: 'Currently Airing', color: 'green.500' } as const)
+    ? ({ label: 'Airing Now', color: 'green.500' } as const)
     : status.isPremieringSoon
       ? ({ label: 'Premiering Soon', color: 'purple.500' } as const)
       : null;

@@ -149,7 +149,7 @@ export const getShowDetailsForFollowedShows =
 
 /*
  * Fetch the full show details for search results to get the last episode data
- * so we can show the 'Currently Airing' badge in the search results.
+ * so we can show the 'Airing Now' badge in the search results.
  */
 export const getShowDetailsForSearchResults =
   (showIds: number[]): AppThunk =>
