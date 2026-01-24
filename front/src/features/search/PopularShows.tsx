@@ -65,7 +65,7 @@ export const PopularShows = () => {
 
   return (
     <Box m="18px 0 30px" maxW="1500px" w="95%">
-      <Heading as="h2" color="fg.subtle" fontSize="3xl" fontWeight="700" mb={6}>
+      <Heading as="h2" color="fg.subtle" fontSize="2xl" fontWeight="700" mb={6}>
         Trending Now
       </Heading>
       <Flex
@@ -116,9 +116,10 @@ export const PopularShows = () => {
             mx="auto"
             onClick={handleTogglePopular}
             variant="plain"
+            color="fg.muted"
           >
             <Text
-              fontSize="17px"
+              fontSize="md"
               _hover={{
                 textDecoration: 'underline',
                 textUnderlineOffset: '2px',
@@ -134,7 +135,7 @@ export const PopularShows = () => {
       <Heading
         as="h2"
         color="fg.subtle"
-        fontSize="3xl"
+        fontSize="2xl"
         fontWeight="700"
         mb={6}
         mt={6}
@@ -186,9 +187,10 @@ export const PopularShows = () => {
             mx="auto"
             onClick={handleToggleTopRated}
             variant="plain"
+            color="fg.muted"
           >
             <Text
-              fontSize="17px"
+              fontSize="md"
               _hover={{
                 textDecoration: 'underline',
                 textUnderlineOffset: '2px',
@@ -196,7 +198,7 @@ export const PopularShows = () => {
             >
               See More
             </Text>
-            <AiOutlineCaretDown style={{ width: '15px' }} />
+            <AiOutlineCaretDown color="fg.muted" style={{ width: '15px' }} />
           </Button>
         )}
       </Flex>
