@@ -12,13 +12,19 @@ type Props = {
 
 export const Show = (props: Props) => {
   const {
-    show: { id, name, posterPath, firstAirDate },
+    show: { id, name, posterPath, firstAirDate, status },
   } = props;
   const navigateToShow = useNavigateToShow();
   const yearForDisplay = firstAirDate?.substring(0, 4);
 
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: posterPath });
+
+  const statusForBadge = status.isActiveSeason
+    ? ({ label: 'Currently Airing', color: 'green.500' } as const)
+    : status.isPremieringSoon
+      ? ({ label: 'Premiering Soon', color: 'purple.500' } as const)
+      : null;
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     navigateToShow(e, { showId: id, name, posterSource });
@@ -51,6 +57,25 @@ export const Show = (props: Props) => {
           src={posterSource}
           viewTransitionName={`show-image-${id}`}
         />
+
+        {statusForBadge && (
+          <Box
+            position="absolute"
+            top="2"
+            left="2"
+            bg={statusForBadge.color}
+            color="white"
+            fontSize="xs"
+            fontWeight="bold"
+            px="2"
+            py="1"
+            borderRadius="md"
+            letterSpacing="0.2px"
+            textTransform="uppercase"
+          >
+            {statusForBadge.label}
+          </Box>
+        )}
       </Link>
       <Flex direction="column" p="3" gap="2" flex="1" justify="space-between">
         <Box>
