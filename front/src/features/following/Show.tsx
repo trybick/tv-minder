@@ -14,8 +14,9 @@ export const Show = (props: Props) => {
   const {
     show: { id, name, posterPath, firstAirDate, status },
   } = props;
-  const navigateToShow = useNavigateToShow();
   const yearForDisplay = firstAirDate?.substring(0, 4);
+
+  const navigateToShow = useNavigateToShow();
 
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: posterPath });
