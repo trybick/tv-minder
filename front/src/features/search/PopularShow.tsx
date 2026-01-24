@@ -3,10 +3,10 @@ import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
+import { useImageUrl } from '~/hooks/useImageUrl';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import { PopularShow as PopularShowType } from '~/store/tv/types/transformed';
-import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   show: PopularShowType;
@@ -14,13 +14,16 @@ type Props = {
 
 export const PopularShow = ({ show }: Props) => {
   const { id: showId, name, posterPath } = show;
-  const navigateToShow = useNavigateToShow();
   const isMobile = useIsMobile();
+  const navigateToShow = useNavigateToShow();
   const [isImageHovered, setIsImageHovered] = useState(false);
-  const posterSource = createImageUrl(posterPath, isMobile);
 
-  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) =>
+  const { getImageUrl, placeholder } = useImageUrl();
+  const posterSource = getImageUrl({ path: posterPath });
+
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     navigateToShow(e, { showId, name, posterSource });
+  };
 
   return (
     <Flex
@@ -39,7 +42,7 @@ export const PopularShow = ({ show }: Props) => {
           alt={`popular-show-${name}`}
           borderRadius="8px 8px 0 0"
           cursor="pointer"
-          onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}
+          onError={e => (e.currentTarget.src = placeholder)}
           src={posterSource}
           w="100%"
           onMouseEnter={() => setIsImageHovered(true)}

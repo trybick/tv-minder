@@ -2,10 +2,9 @@ import { Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import { ShowForDisplay } from '~/store/tv/types/transformed';
-import { createImageUrl } from '~/utils/createImageUrl';
 
 type Props = {
   show: ShowForDisplay;
@@ -16,13 +15,14 @@ export const Show = (props: Props) => {
     show: { id, name, posterPath },
   } = props;
   const navigateToShow = useNavigateToShow();
-  const isMobile = useIsMobile();
   const [isImageHovered, setIsImageHovered] = useState(false);
 
-  const posterSource = createImageUrl(posterPath, isMobile);
+  const { getImageUrl, placeholder } = useImageUrl();
+  const posterSource = getImageUrl({ path: posterPath });
 
-  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) =>
+  const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     navigateToShow(e, { showId: id, name, posterSource });
+  };
 
   return (
     <Flex
@@ -37,7 +37,7 @@ export const Show = (props: Props) => {
         <Image
           alt={`show-${name}`}
           borderRadius="6px"
-          onError={e => (e.currentTarget.src = createImageUrl(null, isMobile))}
+          onError={e => (e.currentTarget.src = placeholder)}
           src={posterSource}
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
