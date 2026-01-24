@@ -21,7 +21,9 @@ export const useImageUrl = () => {
 
   const getImageUrl = useCallback(
     ({ path, quality = 'low' }: GetImageUrlParams) => {
-      if (!path) return placeholder;
+      if (!path) {
+        return placeholder;
+      }
       const baseUrl = quality === 'high' ? HIGH_QUALITY_URL : BASE_URL;
       return `${baseUrl}${path}`;
     },

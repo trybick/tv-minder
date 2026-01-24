@@ -52,6 +52,13 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/consistent-type-imports': [
+        'warn',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'inline-type-imports',
+        },
+      ],
     },
   },
 
@@ -82,6 +89,7 @@ export default [
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react-hooks/incompatible-library': 'off',
+      'react/no-unstable-nested-components': 'warn',
     },
   },
 
@@ -149,6 +157,7 @@ export default [
     rules: {
       'arrow-parens': ['warn', 'as-needed'],
       'no-prototype-builtins': 'off',
+      curly: ['warn', 'all'],
 
       'sort-imports': [
         'warn',

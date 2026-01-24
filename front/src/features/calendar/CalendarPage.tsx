@@ -1,14 +1,14 @@
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import {
-  CalendarOptions,
-  EventClickArg,
-  EventContentArg,
+  type CalendarOptions,
+  type EventClickArg,
+  type EventContentArg,
 } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { type RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';

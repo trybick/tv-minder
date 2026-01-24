@@ -1,4 +1,4 @@
-import { ShowStatus } from '~/store/tv/utils/formatting';
+import { type ShowStatus } from '~/store/tv/utils/formatting';
 
 export const getStatusForDisplay = (status: ShowStatus | undefined) => {
   if (!status) {

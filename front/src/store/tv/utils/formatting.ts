@@ -1,13 +1,13 @@
-import { TmdbSeason, TmdbShow } from '~/store/tv/types/tmdbSchema';
+import { type TmdbSeason, type TmdbShow } from '~/store/tv/types/tmdbSchema';
 import {
-  CalendarEpisode,
-  EpisodeForDisplay,
-  EpisodeForSeason,
-  Genre,
-  SeasonWithEpisodes,
-  ShowForDisplay,
+  type CalendarEpisode,
+  type EpisodeForDisplay,
+  type EpisodeForSeason,
+  type Genre,
+  type SeasonWithEpisodes,
+  type ShowForDisplay,
 } from '~/store/tv/types/transformed';
-import { TmdbShowWithSeasons } from '~/store/tv/types/transformed';
+import { type TmdbShowWithSeasons } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 import { isEmpty } from '~/utils/object';
 

@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback } from 'react';
+import { type MouseEvent, useCallback } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useAppDispatch } from '~/store';

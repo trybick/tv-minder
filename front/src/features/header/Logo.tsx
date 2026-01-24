@@ -1,5 +1,5 @@
 import { Button, Flex, Image, Link } from '@chakra-ui/react';
-import { MouseEvent } from 'react';
+import { type MouseEvent } from 'react';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';

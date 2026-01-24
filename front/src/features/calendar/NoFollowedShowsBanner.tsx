@@ -1,5 +1,5 @@
 import { Alert, Link } from '@chakra-ui/react';
-import { MouseEvent } from 'react';
+import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useIsMobile } from '~/hooks/useIsMobile';

@@ -1,4 +1,4 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 type FetchErrorWithStatus = { status: number } | FetchBaseQueryError;
 

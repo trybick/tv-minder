@@ -1,5 +1,5 @@
 import { Box, Container, Icon, Text, VStack } from '@chakra-ui/react';
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { TbFileSad } from 'react-icons/tb';
 
 interface Props {

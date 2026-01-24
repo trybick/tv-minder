@@ -1,4 +1,4 @@
-import { Skeleton, SkeletonProps } from '@chakra-ui/react';
+import { Skeleton, type SkeletonProps } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 import { SKELETON_DELAY } from '~/utils/constants';

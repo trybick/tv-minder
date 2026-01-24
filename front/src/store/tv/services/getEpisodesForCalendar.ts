@@ -1,5 +1,5 @@
-import { TmdbSeason, TmdbShow } from '~/store/tv/types/tmdbSchema';
-import { CalendarEpisode } from '~/store/tv/types/transformed';
+import { type TmdbSeason, type TmdbShow } from '~/store/tv/types/tmdbSchema';
+import { type CalendarEpisode } from '~/store/tv/types/transformed';
 import { formatSameDayEpisodes } from '~/store/tv/utils/formatting';
 import { tmdbApi } from '~/store/tv/utils/tmdbApi';
 import { isDateWithinOneMonth } from '~/utils/dates';

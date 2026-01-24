@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
-import FullCalendar from '@fullcalendar/react';
-import { RefObject, useMemo } from 'react';
+import type FullCalendar from '@fullcalendar/react';
+import { type RefObject, useMemo } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { MdOutlineResetTv } from 'react-icons/md';
 

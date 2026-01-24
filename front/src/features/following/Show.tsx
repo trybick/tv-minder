@@ -1,10 +1,10 @@
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
-import { MouseEvent, useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
-import { ShowForDisplay } from '~/store/tv/types/transformed';
+import { type ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
   show: ShowForDisplay;

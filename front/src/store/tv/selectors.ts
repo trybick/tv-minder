@@ -4,8 +4,8 @@ import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
-import { AppSelector, AppState } from './..';
-import { PopularShow, ShowForDisplay } from './types/transformed';
+import { type AppSelector, type AppState } from './..';
+import { type PopularShow, type ShowForDisplay } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;

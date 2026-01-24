@@ -1,5 +1,5 @@
 import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
-import { ChangeEvent, RefObject, useEffect } from 'react';
+import { type ChangeEvent, type RefObject, useEffect } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
 import { useIsMobile } from '~/hooks/useIsMobile';

@@ -1,14 +1,14 @@
 import * as Sentry from '@sentry/react';
-import { type, Type } from 'arktype';
-import ky, { Options } from 'ky';
+import { type, type Type } from 'arktype';
+import ky, { type Options } from 'ky';
 
 import { ENDPOINTS } from '~/app/endpoints';
 import {
   tmdbSchema,
-  TmdbSearchResult,
-  TmdbSeason,
-  TmdbShow,
-  TmdbShowList,
+  type TmdbSearchResult,
+  type TmdbSeason,
+  type TmdbShow,
+  type TmdbShowList,
 } from '~/store/tv/types/tmdbSchema';
 
 const api = ky.create({

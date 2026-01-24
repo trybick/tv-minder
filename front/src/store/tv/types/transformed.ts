@@ -1,6 +1,10 @@
-import { ShowStatus } from '~/store/tv/utils/formatting';
+import { type ShowStatus } from '~/store/tv/utils/formatting';
 
-import { TmdbSeason, TmdbShow, TmdbShowSummary } from './tmdbSchema';
+import {
+  type TmdbSeason,
+  type TmdbShow,
+  type TmdbShowSummary,
+} from './tmdbSchema';
 
 export type EpisodeForDisplay = {
   airDate: string;

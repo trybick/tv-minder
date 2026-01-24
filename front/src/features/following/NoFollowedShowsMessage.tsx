@@ -1,5 +1,5 @@
 import { Button, Flex, Image, Link, Text } from '@chakra-ui/react';
-import { MouseEvent } from 'react';
+import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import noShowsImage from '~/assets/images/tv-remote.jpg';

@@ -7,8 +7,8 @@ import {
   Portal,
   Text,
 } from '@chakra-ui/react';
-import { EventContentArg } from '@fullcalendar/core';
-import { MouseEvent } from 'react';
+import { type EventContentArg } from '@fullcalendar/core';
+import { type MouseEvent } from 'react';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple } from 'react-icons/tb';

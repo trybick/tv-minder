@@ -1,4 +1,4 @@
-import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { tmdbApi } from '~/store/tv/utils/tmdbApi';
 
 let controller: AbortController | null = null;

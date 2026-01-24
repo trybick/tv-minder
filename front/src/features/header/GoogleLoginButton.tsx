@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import ky from 'ky';
 import GoogleButton from 'react-google-button';
 

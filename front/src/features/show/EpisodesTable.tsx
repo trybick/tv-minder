@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unstable-nested-components */
 import { Badge, Flex, Icon, Table, Text } from '@chakra-ui/react';
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -8,7 +9,7 @@ import {
 import { FaStar } from 'react-icons/fa';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { EpisodeForSeason } from '~/store/tv/types/transformed';
+import { type EpisodeForSeason } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 
 import { TableHeader } from './TableHeader';

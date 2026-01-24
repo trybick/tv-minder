@@ -1,7 +1,7 @@
-import { Action, AnyAction, Reducer } from '@reduxjs/toolkit';
+import { type Action, type AnyAction, type Reducer } from '@reduxjs/toolkit';
 
 import {
-  PopularShowCached,
+  type PopularShowCached,
   SAVE_CALENDAR_EPISODES_CACHE,
   SAVE_POPULAR_SHOWS,
   SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
@@ -11,9 +11,9 @@ import {
   SET_IS_LOADING_CALENDAR_EPISODES,
   SET_IS_LOADING_SHOW_DETAILS,
   SET_SEARCH_QUERY,
-  ShowDetailsCached,
+  type ShowDetailsCached,
 } from './actions';
-import { CalendarEpisode, SavedQuery } from './types/transformed';
+import { type CalendarEpisode, type SavedQuery } from './types/transformed';
 
 export type EpisodeCacheEntry = {
   episodes: CalendarEpisode[] | null;

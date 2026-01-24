@@ -1,12 +1,12 @@
 import { Flex, Heading, Image, Link } from '@chakra-ui/react';
-import { MouseEvent, useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
-import { PopularShow as PopularShowType } from '~/store/tv/types/transformed';
+import { type PopularShow as PopularShowType } from '~/store/tv/types/transformed';
 
 type Props = {
   show: PopularShowType;

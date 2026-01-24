@@ -4,10 +4,14 @@ import { dayjs } from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import { handleKyError } from '~/utils/handleKyError';
 
-import { AppThunk } from './..';
+import { type AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
-import { TmdbSeason, TmdbShow, TmdbShowSummary } from './types/tmdbSchema';
-import { SavedQuery } from './types/transformed';
+import {
+  type TmdbSeason,
+  type TmdbShow,
+  type TmdbShowSummary,
+} from './types/tmdbSchema';
+import { type SavedQuery } from './types/transformed';
 import { tmdbApi } from './utils/tmdbApi';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';

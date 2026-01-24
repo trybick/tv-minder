@@ -1,5 +1,5 @@
-import { Text, TextProps } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { Text, type TextProps } from '@chakra-ui/react';
+import { type ReactNode } from 'react';
 
 export const TableHeader = ({
   children,

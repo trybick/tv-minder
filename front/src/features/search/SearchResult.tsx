@@ -1,11 +1,11 @@
 import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
-import { MouseEvent } from 'react';
+import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { FollowButton } from '~/components/FollowButton';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
-import { TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
 type Props = {
   showToDisplay: TmdbShowSummary;

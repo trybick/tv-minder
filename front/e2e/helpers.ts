@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 import { email, password } from './mockData';
 import { mockRequest } from './mockRequest';

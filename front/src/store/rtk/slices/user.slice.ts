@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { authStorage } from '~/utils/authStorage';
 import { setSentryUser } from '~/utils/sentry';
