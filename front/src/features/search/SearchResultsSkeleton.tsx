@@ -1,39 +1,30 @@
-import { Box, Grid, Skeleton, Stack } from '@chakra-ui/react';
+import { Box, Flex, Grid, Skeleton } from '@chakra-ui/react';
 
 export const SearchResultsSkeleton = () => {
   return (
-    <Box w={{ base: '100%', md: 'unset' }}>
-      <Skeleton
-        height="24px"
-        width="100px"
-        mb="24px"
-        ml="auto"
-        mr={{ base: '10px', md: '0' }}
-      />
+    <Box w="100%" maxW="1200px" px={{ base: '3', md: '6' }}>
+      <Skeleton height="20px" width="80px" mb="4" ml="auto" />
 
-      <Stack gap={5} m="0 auto" w={{ base: '96%', md: '500px' }}>
-        {[...Array(5)].map((_, index) => (
-          <Box
-            key={index}
-            borderRadius="6px"
-            borderWidth="1px"
-            p="14px"
-            shadow="md"
-          >
-            <Grid gap={4} templateColumns="100px 1fr">
-              <Box w="100px">
-                <Skeleton height="150px" borderRadius="6px" />
-              </Box>
-
-              <Box>
-                <Skeleton height="24px" width="70%" mb="2" />
-                <Skeleton height="20px" width="40px" mb="4" />
-                <Skeleton height="80px" width="100%" />
-              </Box>
-            </Grid>
-          </Box>
+      <Grid
+        templateColumns={{
+          base: 'repeat(2, 1fr)',
+          sm: 'repeat(3, 1fr)',
+          md: 'repeat(4, 1fr)',
+          lg: 'repeat(5, 1fr)',
+        }}
+        gap={{ base: '5', md: '6' }}
+      >
+        {[...Array(10)].map((_, index) => (
+          <Flex key={index} direction="column">
+            <Skeleton aspectRatio={2 / 3} w="100%" borderRadius="md" />
+            <Flex direction="column" pt="3" gap="2">
+              <Skeleton height="16px" width="80%" />
+              <Skeleton height="12px" width="40px" />
+              <Skeleton height="32px" width="100%" mt="1" />
+            </Flex>
+          </Flex>
         ))}
-      </Stack>
+      </Grid>
     </Box>
   );
 };

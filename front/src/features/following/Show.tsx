@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Link } from '@chakra-ui/react';
+import { AspectRatio, Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { type MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
@@ -33,16 +33,19 @@ export const Show = (props: Props) => {
       key={id}
       shadow="sm"
     >
-      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${id}`}>
-        <Image
-          alt={`show-${name}`}
-          borderRadius="6px"
-          onError={e => (e.currentTarget.src = placeholder)}
-          src={posterSource}
-          onMouseEnter={() => setIsImageHovered(true)}
-          onMouseLeave={() => setIsImageHovered(false)}
-          viewTransitionName={`show-image-${id}`}
-        />
+      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${id}`} display="block">
+        <AspectRatio ratio={2 / 3} w="100%">
+          <Image
+            alt={`show-${name}`}
+            borderRadius="6px 6px 0 0"
+            onError={e => (e.currentTarget.src = placeholder)}
+            src={posterSource}
+            objectFit="cover"
+            onMouseEnter={() => setIsImageHovered(true)}
+            onMouseLeave={() => setIsImageHovered(false)}
+            viewTransitionName={`show-image-${id}`}
+          />
+        </AspectRatio>
       </Link>
       <Flex direction="column" p="14px">
         <Link

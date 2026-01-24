@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Link } from '@chakra-ui/react';
+import { AspectRatio, Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { type MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
@@ -37,20 +37,25 @@ export const PopularShow = ({ show }: Props) => {
       w={isMobile ? '140px' : '190px'}
       shadow="sm"
     >
-      <Link onClick={onShowClick} href={`${ROUTES.SHOW}/${showId}`}>
-        <Image
-          alt={`popular-show-${name}`}
-          borderRadius="8px 8px 0 0"
-          cursor="pointer"
-          onError={e => (e.currentTarget.src = placeholder)}
-          src={posterSource}
-          w="100%"
-          onMouseEnter={() => setIsImageHovered(true)}
-          onMouseLeave={() => setIsImageHovered(false)}
-          maxHeight="342px"
-          objectFit="cover"
-          viewTransitionName={`show-image-${showId}`}
-        />
+      <Link
+        onClick={onShowClick}
+        href={`${ROUTES.SHOW}/${showId}`}
+        display="block"
+      >
+        <AspectRatio ratio={2 / 3} w="100%">
+          <Image
+            alt={`popular-show-${name}`}
+            borderRadius="8px 8px 0 0"
+            cursor="pointer"
+            onError={e => (e.currentTarget.src = placeholder)}
+            src={posterSource}
+            w="100%"
+            onMouseEnter={() => setIsImageHovered(true)}
+            onMouseLeave={() => setIsImageHovered(false)}
+            objectFit="cover"
+            viewTransitionName={`show-image-${showId}`}
+          />
+        </AspectRatio>
       </Link>
 
       <Flex direction="column" mt="5px" p="8px 12px">

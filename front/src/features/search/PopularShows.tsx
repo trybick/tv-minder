@@ -137,7 +137,7 @@ export const PopularShows = () => {
         fontSize="3xl"
         fontWeight="700"
         mb={6}
-        mt={isMobile ? '40px' : '50px'}
+        mt={6}
       >
         All-Time Favorites
       </Heading>

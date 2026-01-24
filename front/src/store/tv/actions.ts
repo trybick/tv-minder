@@ -25,6 +25,7 @@ export const SAVE_SHOW_DETAILS_FOR_SHOW = 'SAVE_SHOW_DETAILS_FOR_SHOW';
 export const SET_IS_LOADING_SHOW_DETAILS = 'SET_IS_LOADING_SHOW_DETAILS';
 export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
 export const SAVE_TOP_RATED_SHOWS = 'SAVE_TOP_RATED_SHOWS';
+export const SAVE_SEARCH_SHOW_DETAILS = 'SAVE_SEARCH_SHOW_DETAILS';
 
 export const saveSearchQueryAction =
   (query: SavedQuery): AppThunk =>
@@ -144,6 +145,59 @@ export const getShowDetailsForFollowedShows =
       type: SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
       payload: combinedData,
     });
+  };
+
+/*
+ * Fetch the full show details for search results to get the last episode data
+ * so we can show the 'Currently Airing' badge in the search results.
+ */
+export const getShowDetailsForSearchResults =
+  (showIds: number[]): AppThunk =>
+  async (dispatch, getState) => {
+    if (!showIds?.length) {
+      return;
+    }
+    const {
+      showDetails: cachedShowDetails,
+      searchShowDetails: cachedSearchShowDetails,
+    } = getState().tv;
+    const idsToFetch = showIds.filter(showId => {
+      const cachedShow =
+        cachedShowDetails[showId] ?? cachedSearchShowDetails[showId];
+      if (!cachedShow?._fetchedAt) {
+        return true;
+      }
+      const cacheAge = dayjs().diff(dayjs(cachedShow._fetchedAt), 'day');
+      return cacheAge >= cacheDurationDays.search;
+    });
+
+    if (!idsToFetch.length) {
+      return;
+    }
+
+    const results = await Promise.allSettled(
+      idsToFetch.map(showId => tmdbApi.getShow(showId))
+    );
+    const combinedData: Record<number, ShowDetailsCached> = {};
+
+    results.forEach(result => {
+      if (result.status === 'fulfilled') {
+        const showData = result.value;
+        combinedData[showData.id] = {
+          ...showData,
+          _fetchedAt: dayjs().toISOString(),
+        };
+      } else {
+        handleKyError(result.reason);
+      }
+    });
+
+    if (Object.keys(combinedData).length) {
+      dispatch({
+        type: SAVE_SEARCH_SHOW_DETAILS,
+        payload: combinedData,
+      });
+    }
   };
 
 export const getShowDetailsWithSeasons =

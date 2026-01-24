@@ -1,4 +1,4 @@
-import { Box, Stack, Tag } from '@chakra-ui/react';
+import { Box, Grid, Text } from '@chakra-ui/react';
 
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { maybePluralize } from '~/utils/formatting';
@@ -14,18 +14,24 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
   const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'result')}`;
 
   return (
-    <Box m="0 auto">
-      <Box mr={{ base: '14px', md: '2px' }} textAlign="right">
-        <Tag.Root colorPalette="gray" fontSize="0.84rem" mb="24px" size="lg">
-          {totalMatchesText}
-        </Tag.Root>
-      </Box>
+    <Box w="100%" maxW="1200px" px={{ base: '3', md: '6' }}>
+      <Text fontSize="md" color="fg.muted" textAlign="right" mb="4">
+        {totalMatchesText}
+      </Text>
 
-      <Stack gap={5} m="0 auto" w={{ base: '96%', md: '500px' }}>
+      <Grid
+        templateColumns={{
+          base: 'repeat(2, 1fr)',
+          sm: 'repeat(3, 1fr)',
+          md: 'repeat(4, 1fr)',
+          lg: 'repeat(5, 1fr)',
+        }}
+        gap={{ base: '3', md: '4' }}
+      >
         {shows.map(show => (
           <SearchResult key={show.id} showToDisplay={show} />
         ))}
-      </Stack>
+      </Grid>
     </Box>
   );
 };
