@@ -46,6 +46,11 @@ export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
     shows.filter(show => show.status.isInProduction)
   );
 
+export const selectPremieringSoonShows: AppSelector<ShowForDisplay[]> =
+  createSelector(selectFollowedShowsDetails, shows =>
+    shows.filter(show => show.status.isPremieringSoon)
+  );
+
 export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
   selectFollowedShowsDetails,
   shows => shows.filter(show => show.status.isEnded)

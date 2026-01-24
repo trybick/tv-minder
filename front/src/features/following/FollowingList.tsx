@@ -8,6 +8,7 @@ import {
   selectEndedShows,
   selectFollowedShowsDetails,
   selectInProductionShows,
+  selectPremieringSoonShows,
 } from '~/store/tv/selectors';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 
@@ -20,6 +21,7 @@ export const FollowingList = () => {
   const followedShowsDetails = useAppSelector(selectFollowedShowsDetails);
   const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
   const inProductionShows = useAppSelector(selectInProductionShows);
+  const premieringSoonShows = useAppSelector(selectPremieringSoonShows);
   const endedShows = useAppSelector(selectEndedShows);
 
   return (
@@ -63,6 +65,15 @@ export const FollowingList = () => {
             Airing Now
           </Tabs.Trigger>
           <Tabs.Trigger
+            disabled={!premieringSoonShows.length}
+            value="premieringSoon"
+            fontSize={isMobile ? 'sm' : 'md'}
+            minW={isMobile ? 'max-content' : undefined}
+            flexShrink={isMobile ? 0 : 1}
+          >
+            Premiering Soon
+          </Tabs.Trigger>
+          <Tabs.Trigger
             disabled={!inProductionShows.length}
             value="inProduction"
             fontSize={isMobile ? 'sm' : 'md'}
@@ -88,6 +99,10 @@ export const FollowingList = () => {
 
         <Tabs.Content value="active">
           <SubSectionOfShows shows={activeSeasonShows} />
+        </Tabs.Content>
+
+        <Tabs.Content value="premieringSoon">
+          <SubSectionOfShows shows={premieringSoonShows} />
         </Tabs.Content>
 
         <Tabs.Content value="inProduction">
