@@ -1,0 +1,63 @@
+---
+description: TV Minder project structure and conventions
+alwaysApply: true
+---
+
+# TV Minder Project
+
+A TV show tracking app with React frontend and Express API.
+
+## Monorepo Structure
+
+- `front/` - React frontend (Vite, Chakra UI v3, Redux Toolkit)
+- `api/` - Express API (MongoDB/Mongoose, JWT auth)
+
+## Frontend Conventions
+
+### Imports
+
+Use the `~/` alias for absolute imports:
+
+```tsx
+import { useAppSelector } from '~/store';
+import { ROUTES } from '~/app/routes';
+```
+
+### State Management
+
+- Redux Toolkit with RTK Query for API calls
+- RTK Query is used across the app except `store/tv/` which is legacy Redux interacting with the TMDB API
+- Use typed hooks: `useAppSelector`, `useAppDispatch`
+- Selectors in `store/tv/selectors.ts`
+
+### Routing
+
+Uses **wouter** (not react-router):
+
+```tsx
+import { useLocation } from 'wouter';
+import { Link } from 'wouter';
+```
+
+### Feature Structure
+
+Features organized in `features/` folder:
+
+- `calendar/` - Calendar view
+- `following/` - User's followed shows
+- `search/` - Search functionality
+- `show/` - Show details page
+- `header/`, `footer/` - Layout components
+
+### Hooks
+
+Custom hooks in `hooks/`:
+
+- `useIsMobile()` - Responsive breakpoint
+- `useImageUrl()` - TMDB image URLs with placeholder
+- `useNavigateToShow()` - Navigate with view transitions
+
+### Testing
+
+- Unit: Vitest + Testing Library
+- E2E: Playwright

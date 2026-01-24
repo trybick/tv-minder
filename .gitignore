@@ -18,4 +18,4 @@
 
 npm-debug.log*
 .vscode
-.cursor
+debug.log

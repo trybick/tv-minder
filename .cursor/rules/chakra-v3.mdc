@@ -1,0 +1,61 @@
+---
+description: Chakra UI v3 patterns and conventions
+globs: front/**/*.tsx
+alwaysApply: false
+---
+
+# Chakra UI v3
+
+This project uses **Chakra UI v3** which has significant API changes from v2.
+
+## MCP Server Available
+
+Use the `project-0-tv-minder-chakra-ui` MCP server for Chakra docs:
+- `get_component_example` - Get component usage examples
+- `get_component_props` - Get component props
+- `v2_to_v3_code_review` - Review code for v2→v3 migration issues
+
+## Key v3 Patterns
+
+### Compound Components
+Components use dot notation (not separate imports):
+
+```tsx
+// ✅ v3
+<Tabs.Root>
+  <Tabs.List>
+    <Tabs.Trigger value="one">Tab 1</Tabs.Trigger>
+  </Tabs.List>
+  <Tabs.Content value="one">Content</Tabs.Content>
+</Tabs.Root>
+
+// ❌ v2 (don't use)
+<Tabs>
+  <TabList>
+    <Tab>Tab 1</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>Content</TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+### Color Palette
+Use `colorPalette` prop instead of `colorScheme`:
+
+```tsx
+// ✅ v3
+<Button colorPalette="cyan">Click</Button>
+
+// ❌ v2
+<Button colorScheme="cyan">Click</Button>
+```
+
+### Semantic Tokens
+Use semantic color tokens:
+- `fg.muted` for muted text
+- `whiteAlpha.100`, `whiteAlpha.400` for borders/overlays
+- `blackAlpha.800` for dark overlays
+
+### No ChakraProvider
+Use the custom `Provider` from `~/components/ui/provider.tsx` which wraps theme config.

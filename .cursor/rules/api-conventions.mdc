@@ -1,0 +1,54 @@
+---
+description: Express API conventions and patterns
+globs: api/**/*.ts
+alwaysApply: false
+---
+
+# API Conventions
+
+Express 5 API with MongoDB/Mongoose.
+
+## Module Aliases
+
+Use configured aliases (not relative paths):
+```ts
+import User from 'models/user';
+import logger from 'utils/logger';
+import { limiter } from 'utils/limiter';
+```
+
+Available aliases: `config`, `entities`, `controllers`, `models`, `routes`, `middleware`, `utils`
+
+## Controller Pattern
+
+Controllers receive typed `Request`/`Response`, access user from `res.locals`:
+
+```ts
+export const handler = async (req: Request, res: Response) => {
+  const userId: mongoose.Types.ObjectId = res.locals.userId;
+  const { showId } = req.body;
+
+  if (!userId || !showId) {
+    return res.status(422).json({ message: 'Incorrect parameters' });
+  }
+
+  try {
+    // ... logic
+    res.status(204).send();
+  } catch (error) {
+    logger.error('Error description:', error);
+    return res.status(500).json({ message: 'User-friendly error message' });
+  }
+};
+```
+
+## Auth
+- JWT tokens verified via `verifyToken` middleware
+- User ID stored in `res.locals.userId`
+
+## Logging
+Use the custom `logger` from `utils/logger`:
+```ts
+logger.success('Server started');
+logger.error('Error message:', error);
+```

@@ -22,7 +22,7 @@ export const FollowingTabTrigger = ({
       fontSize={isMobile ? 'sm' : 'md'}
       minW={isMobile ? 'max-content' : undefined}
       flexShrink={isMobile ? 0 : 1}
-      px={isMobile ? 2 : 'unset'}
+      px={isMobile ? 2 : 5}
     >
       {label}
     </Tabs.Trigger>
