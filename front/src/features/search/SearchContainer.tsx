@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/react';
 
+import { PopularShows } from '~/features/popularshows/PopularShows';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
 import { NoResultsFound } from './NoResultsFound';
-import { PopularShows } from './PopularShows';
 import { SearchResults } from './SearchResults';
 import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 

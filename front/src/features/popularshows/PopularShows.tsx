@@ -2,7 +2,6 @@ import { Box, Heading } from '@chakra-ui/react';
 import { useEffect, useMemo } from 'react';
 
 import { mapPopularShow } from '~/components/ShowCard';
-import { ShowSection } from '~/features/popularshows/ShowSection';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   getPopularShowsAction,
@@ -12,6 +11,8 @@ import {
   selectPopularShowsForDisplay,
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
+
+import { ShowSection } from './ShowSection';
 
 export const PopularShows = () => {
   const dispatch = useAppDispatch();
