@@ -73,7 +73,7 @@ export const UserMenu = () => {
                   onClick={handleLogout}
                   p="8px 8px"
                   value="logout"
-                  color="gray.200"
+                  color="red.500"
                 >
                   <SlLogout />
                   Logout
