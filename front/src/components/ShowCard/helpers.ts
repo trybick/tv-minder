@@ -44,8 +44,12 @@ export const mapPopularShow = (show: PopularShow): ShowItem => ({
 
 export type StatusBadge = { label: string; color: string };
 
-export const getStatusBadge = (status?: ShowStatus | null): StatusBadge | null => {
-  if (!status) return null;
+export const getStatusBadge = (
+  status?: ShowStatus | null
+): StatusBadge | null => {
+  if (!status) {
+    return null;
+  }
   if (status.isActiveSeason) {
     return { label: 'Airing Now', color: 'green.500' };
   }

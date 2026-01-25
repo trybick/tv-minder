@@ -1,10 +1,7 @@
 import { Box, Grid, Text } from '@chakra-ui/react';
 import { useMemo } from 'react';
 
-import {
-  getStatusBadge,
-  mapTmdbShowSummary,
-} from '~/components/ShowCard';
+import { getStatusBadge, mapTmdbShowSummary } from '~/components/ShowCard';
 import { useAppSelector } from '~/store';
 import {
   selectSearchShowDetails,
@@ -36,7 +33,9 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
    */
   const getSearchStatusBadge = (showId: number) => {
     const cachedShow = showDetails?.[showId] ?? searchShowDetails?.[showId];
-    if (!cachedShow) return null;
+    if (!cachedShow) {
+      return null;
+    }
     const { status } = mapShowInfoForDisplay(cachedShow);
     return getStatusBadge(status);
   };

@@ -1,4 +1,4 @@
-import { Image, Link } from '@chakra-ui/react';
+import { Image as ChakraImage, Link } from '@chakra-ui/react';
 import { type MouseEvent, type PropsWithChildren } from 'react';
 
 import { ROUTES } from '~/app/routes';
@@ -29,7 +29,7 @@ export const Image = ({ show, children }: Props) => {
       transition="transform 0.2s"
       _hover={{ transform: 'scale(1.03)' }}
     >
-      <Image
+      <ChakraImage
         alt={`show-${show.name}`}
         aspectRatio={2 / 3}
         objectFit="cover"

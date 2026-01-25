@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import {
-  getStatusBadge,
+  type getStatusBadge,
   ShowCard,
   type ShowItem,
 } from '~/components/ShowCard';

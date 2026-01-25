@@ -6,7 +6,9 @@ type Props = {
 };
 
 export const Overview = ({ overview, isHovered }: Props) => {
-  if (!overview) return null;
+  if (!overview) {
+    return null;
+  }
 
   return (
     <Box
