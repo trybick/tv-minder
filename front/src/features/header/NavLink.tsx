@@ -1,5 +1,6 @@
-import { Button, Link } from '@chakra-ui/react';
+import { Button, HStack, Icon, Link } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
+import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
@@ -9,11 +10,12 @@ import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 interface Props {
   linkTo: string;
   text: string;
+  icon: IconType;
   onClose?: () => void;
   onClick?: () => void;
 }
 
-export const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
+export const NavLink = ({ linkTo, text, icon, onClose, onClick }: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const [location] = useLocation();
@@ -55,7 +57,10 @@ export const NavLink = ({ linkTo, text, onClose, onClick }: Props) => {
           mr: '-16px',
         })}
       >
-        {text}
+        <HStack as="span" gap={2}>
+          <Icon as={icon} size="sm" />
+          <span>{text}</span>
+        </HStack>
       </Button>
     </Link>
   );

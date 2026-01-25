@@ -8,7 +8,6 @@ import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
 import { LoginButton } from './LoginButton';
 import { Logo } from './Logo';
-import { LogoutButton } from './LogoutButton';
 import { NavigationLinks } from './NavLinksContainer';
 import { SignUpButton } from './SignUpButton';
 
@@ -56,16 +55,12 @@ export const HeaderMobile = () => {
             <Flex direction="column" gap="2px">
               <NavigationLinks onClose={closeHeader} />
 
-              <Flex alignItems="center" gap="12px" mt={4} ml="auto">
-                {isLoggedIn ? (
-                  <LogoutButton />
-                ) : (
-                  <>
-                    <SignUpButton />
-                    <LoginButton />
-                  </>
-                )}
-              </Flex>
+              {!isLoggedIn ? (
+                <Flex alignItems="center" gap="12px" mt={4} ml="auto">
+                  <SignUpButton />
+                  <LoginButton />
+                </Flex>
+              ) : null}
             </Flex>
           </Box>
         )}
