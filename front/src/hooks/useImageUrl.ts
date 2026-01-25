@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 import placeholderImageLandscape from '~/assets/images/placeholder-image-landscape.png';
 import placeholderImage from '~/assets/images/placeholder-image.png';
 
@@ -19,16 +17,13 @@ export const useImageUrl = () => {
   const isMobile = useIsMobile();
   const placeholder = isMobile ? placeholderImageLandscape : placeholderImage;
 
-  const getImageUrl = useCallback(
-    ({ path, quality = 'low' }: GetImageUrlParams) => {
-      if (!path) {
-        return placeholder;
-      }
-      const baseUrl = quality === 'high' ? HIGH_QUALITY_URL : BASE_URL;
-      return `${baseUrl}${path}`;
-    },
-    [placeholder]
-  );
+  const getImageUrl = ({ path, quality = 'low' }: GetImageUrlParams) => {
+    if (!path) {
+      return placeholder;
+    }
+    const baseUrl = quality === 'high' ? HIGH_QUALITY_URL : BASE_URL;
+    return `${baseUrl}${path}`;
+  };
 
   return { getImageUrl, placeholder };
 };

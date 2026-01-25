@@ -8,7 +8,7 @@ import {
   Link,
   Text,
 } from '@chakra-ui/react';
-import { type MouseEvent, useCallback, useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
@@ -53,26 +53,23 @@ export const Show = (props: Props) => {
     navigateToShow(e, { showId: id, name, posterSource });
   };
 
-  const onRequestUnfollow = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+  const onRequestUnfollow = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsConfirmOpen(true);
-  }, []);
+  };
 
-  const onConfirmUnfollow = useCallback(
-    async (e: MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
+  const onConfirmUnfollow = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-      if (isLoggedIn) {
-        await unfollowShow(id);
-      } else {
-        dispatch(unregisteredUnfollowShow(id));
-      }
-      setIsConfirmOpen(false);
-    },
-    [dispatch, id, isLoggedIn, unfollowShow]
-  );
+    if (isLoggedIn) {
+      await unfollowShow(id);
+    } else {
+      dispatch(unregisteredUnfollowShow(id));
+    }
+    setIsConfirmOpen(false);
+  };
 
   return (
     <Flex

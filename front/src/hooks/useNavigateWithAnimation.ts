@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useLocation } from 'wouter';
 
 type NavigateOptions = {
@@ -11,27 +10,24 @@ type NavigateOptions = {
 export const useNavigateWithAnimation = () => {
   const [, navigate] = useLocation();
 
-  const navigateWithAnimation = useCallback(
-    (to: string, options?: NavigateOptions) => {
-      if (!document.startViewTransition) {
-        navigate(to, options);
-        return;
-      }
+  const navigateWithAnimation = (to: string, options?: NavigateOptions) => {
+    if (!document.startViewTransition) {
+      navigate(to, options);
+      return;
+    }
 
-      if (options?.skipImageTransition) {
-        document.body.classList.add('skip-image-transition');
-      }
+    if (options?.skipImageTransition) {
+      document.body.classList.add('skip-image-transition');
+    }
 
-      const transition = document.startViewTransition(() => {
-        navigate(to, options);
-      });
+    const transition = document.startViewTransition(() => {
+      navigate(to, options);
+    });
 
-      transition.finished.finally(() => {
-        document.body.classList.remove('skip-image-transition');
-      });
-    },
-    [navigate]
-  );
+    transition.finished.finally(() => {
+      document.body.classList.remove('skip-image-transition');
+    });
+  };
 
   return navigateWithAnimation;
 };
