@@ -12,7 +12,7 @@ import {
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
 
-import { ShowSection } from './ShowSection';
+import { ShowSection } from '../popularshows/ShowSection';
 
 export const PopularShows = () => {
   const dispatch = useAppDispatch();

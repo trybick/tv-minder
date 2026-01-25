@@ -13,7 +13,7 @@ type Props = {
   showName: string;
 };
 
-export const Unfollow = ({ showId, showName }: Props) => {
+export const UnfollowXButton = ({ showId, showName }: Props) => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);

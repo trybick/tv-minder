@@ -18,12 +18,12 @@ export const SearchResultCard = ({ show, badge }: Props) => {
     <ShowCard.Root show={show} onHoverChange={setIsHovered}>
       <ShowCard.Image show={show}>
         {badge && <ShowCard.StatusBadge {...badge} />}
-        <ShowCard.OverviewOverlay overview={show.overview} isHovered={isHovered} />
+        <ShowCard.Overview overview={show.overview} isHovered={isHovered} />
       </ShowCard.Image>
-      <ShowCard.Details>
+      <ShowCard.BottomSection>
         <ShowCard.Title show={show} />
-        <ShowCard.Follow showId={show.id} />
-      </ShowCard.Details>
+        <ShowCard.FollowButton showId={show.id} />
+      </ShowCard.BottomSection>
     </ShowCard.Root>
   );
 };

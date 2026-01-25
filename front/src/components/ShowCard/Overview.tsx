@@ -5,7 +5,7 @@ type Props = {
   isHovered: boolean;
 };
 
-export const OverviewOverlay = ({ overview, isHovered }: Props) => {
+export const Overview = ({ overview, isHovered }: Props) => {
   if (!overview) return null;
 
   return (

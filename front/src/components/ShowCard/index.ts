@@ -1,21 +1,21 @@
-import { Details } from './Details';
-import { Follow } from './Follow';
+import { BottomSection } from './BottomSection';
+import { FollowButton } from './FollowButton';
 import { Image } from './Image';
-import { OverviewOverlay } from './OverviewOverlay';
+import { Overview } from './Overview';
 import { Root } from './Root';
 import { StatusBadge } from './StatusBadge';
 import { Title } from './Title';
-import { Unfollow } from './Unfollow';
+import { UnfollowXButton } from './UnfollowXButton';
 
 export const ShowCard = {
   Root,
   Image,
   StatusBadge,
-  OverviewOverlay,
-  Details,
+  Overview,
+  BottomSection,
   Title,
-  Follow,
-  Unfollow,
+  FollowButton,
+  UnfollowXButton,
 };
 
 export {
