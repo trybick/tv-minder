@@ -1,17 +1,21 @@
 import { Grid } from '@chakra-ui/react';
+import { useMemo } from 'react';
 
+import {
+  getStatusBadge,
+  mapShowForDisplay,
+  ShowCard,
+} from '~/components/ShowCard';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { type ShowForDisplay } from '~/store/tv/types/transformed';
-
-import { Show } from './Show';
 
 type Props = {
   shows: ShowForDisplay[];
 };
 
-export const SubSectionOfShows = (props: Props) => {
-  const { shows } = props;
+export const SubSectionOfShows = ({ shows }: Props) => {
   const isMobile = useIsMobile();
+  const showItems = useMemo(() => shows.map(mapShowForDisplay), [shows]);
 
   return (
     <Grid
@@ -22,9 +26,20 @@ export const SubSectionOfShows = (props: Props) => {
       }}
       justifyContent="center"
     >
-      {shows.map(show => (
-        <Show key={show.id} show={show} />
-      ))}
+      {showItems.map(show => {
+        const badge = getStatusBadge(show.status);
+        return (
+          <ShowCard.Root key={show.id} show={show}>
+            <ShowCard.Unfollow showId={show.id} showName={show.name} />
+            <ShowCard.Image show={show}>
+              {badge && <ShowCard.StatusBadge {...badge} />}
+            </ShowCard.Image>
+            <ShowCard.Details>
+              <ShowCard.Title show={show} />
+            </ShowCard.Details>
+          </ShowCard.Root>
+        );
+      })}
     </Grid>
   );
 };
