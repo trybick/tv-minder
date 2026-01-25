@@ -74,6 +74,8 @@ export const UserMenu = () => {
                   p="8px 8px"
                   value="logout"
                   color="red.500"
+                  gap="8px"
+                  _hover={{ bg: 'red.900' }}
                 >
                   <SlLogout />
                   Logout
