@@ -73,7 +73,7 @@ test.describe('Home Page', () => {
       page,
     }) => {
       await page.goto('/');
-      await page.getByRole('button', { name: /mobland/i }).click();
+      await page.getByRole('link', { name: /mobland/i }).click();
 
       await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
     });

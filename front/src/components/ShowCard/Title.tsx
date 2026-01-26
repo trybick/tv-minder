@@ -32,7 +32,7 @@ export const Title = ({ show }: Props) => {
         </Text>
       </Link>
       {show.firstAirDate && (
-        <Text fontSize="xs" color="fg.muted" mt="0.5">
+        <Text fontSize="xs" color="fg.muted" mt="0.5px">
           {show.firstAirDate.substring(0, 4)}
         </Text>
       )}
