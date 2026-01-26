@@ -6,10 +6,6 @@ import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import { PopularShowCard } from './PopularShowCard';
 
-/**
- * Number of columns per breakpoint. Used to determine grid layout
- * and how many items to show when collapsed.
- */
 export const COLUMNS_PER_BREAKPOINT = {
   base: 2,
   md: 3,
