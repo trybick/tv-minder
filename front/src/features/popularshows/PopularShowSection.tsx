@@ -6,12 +6,12 @@ import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import { PopularShowCard } from './PopularShowCard';
 
-export const COLUMNS_PER_BREAKPOINT = {
-  base: 2,
-  md: 3,
-  lg: 4,
-  xl: 5,
-  '2xl': 6,
+const templateColumns = {
+  base: 'repeat(2, 1fr)',
+  md: `repeat(3, 1fr)`,
+  lg: `repeat(4, 1fr)`,
+  xl: `repeat(5, 1fr)`,
+  '2xl': `repeat(6, 1fr)`,
 } as const;
 
 type Props = {
@@ -28,31 +28,20 @@ export const PopularShowSection = ({ shows }: Props) => {
   // When collapsed, show enough items to fill one row at the largest breakpoint (2xl = 6).
   // On smaller screens this may result in 2-3 rows, which is an acceptable trade-off
   // to avoid needing useBreakpointValue and the complexity it adds.
-  const visibleShows = isExpanded
-    ? shows
-    : shows.slice(0, COLUMNS_PER_BREAKPOINT['2xl']);
+  const minShowsToRender = 6;
+  const visibleShows = isExpanded ? shows : shows.slice(0, minShowsToRender);
 
   return (
     <>
       <Box position="relative">
-        <Grid
-          templateColumns={{
-            base: `repeat(${COLUMNS_PER_BREAKPOINT.base}, 1fr)`,
-            md: `repeat(${COLUMNS_PER_BREAKPOINT.md}, 1fr)`,
-            lg: `repeat(${COLUMNS_PER_BREAKPOINT.lg}, 1fr)`,
-            xl: `repeat(${COLUMNS_PER_BREAKPOINT.xl}, 1fr)`,
-            '2xl': `repeat(${COLUMNS_PER_BREAKPOINT['2xl']}, 1fr)`,
-          }}
-          gap="34px 30px"
-          mt="14px"
-        >
+        <Grid templateColumns={templateColumns} gap="34px 30px" mt="14px">
           {visibleShows.map(show => (
             <PopularShowCard key={show.id} show={show} />
           ))}
         </Grid>
       </Box>
 
-      {!isExpanded && shows.length > COLUMNS_PER_BREAKPOINT['2xl'] && (
+      {!isExpanded && shows.length > minShowsToRender && (
         <Button
           colorPalette="cyan"
           mt="30px"
