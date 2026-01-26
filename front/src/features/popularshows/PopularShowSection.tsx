@@ -18,7 +18,7 @@ type Props = {
   shows: ShowItem[];
 };
 
-export const ShowSection = ({ shows }: Props) => {
+export const PopularShowSection = ({ shows }: Props) => {
   const { open: isExpanded, onToggle } = useDisclosure();
 
   const handleToggle = () => {

@@ -12,7 +12,7 @@ import {
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
 
-import { ShowSection } from './ShowSection';
+import { PopularShowSection } from './PopularShowSection';
 
 export const PopularShows = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ export const PopularShows = () => {
       <Heading as="h2" color="fg.subtle" fontSize="2xl" fontWeight="700" mb={6}>
         Trending Now
       </Heading>
-      <ShowSection shows={popularShowItems} />
+      <PopularShowSection shows={popularShowItems} />
 
       <Heading
         as="h2"
@@ -50,7 +50,7 @@ export const PopularShows = () => {
       >
         All-Time Favorites
       </Heading>
-      <ShowSection shows={topRatedShowItems} />
+      <PopularShowSection shows={topRatedShowItems} />
     </Box>
   );
 };
