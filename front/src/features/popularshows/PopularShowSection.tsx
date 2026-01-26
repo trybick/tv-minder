@@ -1,4 +1,11 @@
-import { Box, Button, Grid, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Grid,
+  Text,
+  useBreakpointValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 
 import { type ShowItem } from '~/components/ShowCard';
@@ -6,13 +13,20 @@ import { applyViewTransition } from '~/utils/applyViewTransition';
 
 import { PopularShowCard } from './PopularShowCard';
 
-const templateColumns = {
-  base: 'repeat(2, 1fr)',
-  md: `repeat(3, 1fr)`,
-  lg: `repeat(4, 1fr)`,
-  xl: `repeat(5, 1fr)`,
-  '2xl': `repeat(6, 1fr)`,
+const columnsByBreakpoint = {
+  base: 2,
+  md: 3,
+  lg: 4,
+  xl: 5,
+  '2xl': 6,
 } as const;
+
+const templateColumns = Object.fromEntries(
+  Object.entries(columnsByBreakpoint).map(([key, value]) => [
+    key,
+    `repeat(${value}, 1fr)`,
+  ])
+);
 
 type Props = {
   shows: ShowItem[];
@@ -21,15 +35,15 @@ type Props = {
 export const PopularShowSection = ({ shows }: Props) => {
   const { open: isExpanded, onToggle } = useDisclosure();
 
+  const minShowsToRender =
+    useBreakpointValue(columnsByBreakpoint, { ssr: false }) ??
+    columnsByBreakpoint.base;
+
+  const visibleShows = isExpanded ? shows : shows.slice(0, minShowsToRender);
+
   const handleToggle = () => {
     applyViewTransition(onToggle);
   };
-
-  // When collapsed, show enough items to fill one row at the largest breakpoint (2xl = 6).
-  // On smaller screens this may result in 2-3 rows, which is an acceptable trade-off
-  // to avoid needing useBreakpointValue and the complexity it adds.
-  const minShowsToRender = 6;
-  const visibleShows = isExpanded ? shows : shows.slice(0, minShowsToRender);
 
   return (
     <>
