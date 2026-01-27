@@ -13,8 +13,11 @@ export const mockRequest = async ({
   status?: number;
   body?: any;
 }) => {
-  await page.route(`**${path}`, async route => {
+  const pattern = path.startsWith('*') ? path : `**${path}`;
+
+  await page.route(pattern, async route => {
     if (method !== route.request().method()) {
+      await route.fallback();
       return;
     }
 

@@ -16,17 +16,25 @@ test.describe('Manage Page', () => {
     await login(page);
 
     await page.getByRole('link', { name: /manage/i }).click();
-    await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible();
 
-    await expect(page.getByRole('link', { name: /mobland/i })).toBeVisible();
+    // Wait for followed shows data to load
+    await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible({
+      timeout: 10000,
+    });
+
     await expect(
-      page.getByRole('button', { name: /poker face/i })
+      page.getByRole('link', { name: /mobland/i }).first()
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /poker face/i }).first()
     ).toBeVisible();
 
     await page.getByRole('tab', { name: /airing now/i }).click();
-    await expect(page.getByRole('link', { name: /mobland/i })).toBeVisible();
     await expect(
-      page.getByRole('button', { name: /poker face/i })
+      page.getByRole('link', { name: /mobland/i }).first()
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /poker face/i }).first()
     ).toBeVisible();
   });
 
@@ -35,14 +43,23 @@ test.describe('Manage Page', () => {
     await login(page);
 
     await page.getByRole('link', { name: /manage/i }).click();
-    await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible();
 
-    await expect(page.getByRole('link', { name: /mobland/i })).toBeVisible();
+    // Wait for followed shows data to load
+    await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible({
+      timeout: 10000,
+    });
+
     await expect(
-      page.getByRole('button', { name: /poker face/i })
+      page.getByRole('link', { name: /mobland/i }).first()
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /poker face/i }).first()
     ).toBeVisible();
 
-    await page.getByRole('link', { name: /mobland/i }).click();
+    await page
+      .getByRole('link', { name: /mobland/i })
+      .first()
+      .click();
     await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
 
     mockRequest({
@@ -62,9 +79,9 @@ test.describe('Manage Page', () => {
 
     await page.getByRole('link', { name: /manage/i }).click();
 
-    await expect(page.getByText(/mobland/i)).not.toBeVisible();
+    await expect(page.getByLabel(/show-card-mobland/i)).toHaveCount(0);
     await expect(
-      page.getByRole('button', { name: /poker face/i })
+      page.getByRole('link', { name: /poker face/i }).first()
     ).toBeVisible();
   });
 });
