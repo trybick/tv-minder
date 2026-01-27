@@ -9,7 +9,7 @@ export const showCardColumnsByBreakpoint = {
   '2xl': 6,
 } as const;
 
-const showCardTemplateColumns = Object.fromEntries(
+export const showCardTemplateColumns = Object.fromEntries(
   Object.entries(showCardColumnsByBreakpoint).map(([key, value]) => [
     key,
     `repeat(${value}, 1fr)`,
