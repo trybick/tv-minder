@@ -1,4 +1,3 @@
-import { Grid } from '@chakra-ui/react';
 import { useMemo } from 'react';
 
 import {
@@ -6,7 +5,6 @@ import {
   mapShowForDisplay,
   ShowCard,
 } from '~/components/ShowCard';
-import { useIsMobile } from '~/hooks/useIsMobile';
 import { type ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
@@ -14,18 +12,10 @@ type Props = {
 };
 
 export const SubSectionOfShows = ({ shows }: Props) => {
-  const isMobile = useIsMobile();
   const showItems = useMemo(() => shows.map(mapShowForDisplay), [shows]);
 
   return (
-    <Grid
-      gap={isMobile ? '12px' : '24px 28px'}
-      gridTemplateColumns={{
-        base: 'repeat(auto-fill, minmax(160px, 1fr))',
-        md: 'repeat(auto-fill, minmax(190px, 1fr))',
-      }}
-      justifyContent="center"
-    >
+    <ShowCard.Grid>
       {showItems.map(show => {
         const badge = getStatusBadge(show.status);
         return (
@@ -40,6 +30,6 @@ export const SubSectionOfShows = ({ shows }: Props) => {
           </ShowCard.Root>
         );
       })}
-    </Grid>
+    </ShowCard.Grid>
   );
 };

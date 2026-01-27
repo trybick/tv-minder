@@ -17,6 +17,7 @@ export type ShowItem = {
   status?: ShowStatus | null;
 };
 
+// TmdbShowSummary -> ShowItem
 export const mapTmdbShowSummary = (show: TmdbShowSummary): ShowItem => ({
   id: show.id,
   name: show.name,
@@ -25,6 +26,7 @@ export const mapTmdbShowSummary = (show: TmdbShowSummary): ShowItem => ({
   overview: show.overview,
 });
 
+// ShowForDisplay -> ShowItem
 export const mapShowForDisplay = (show: ShowForDisplay): ShowItem => ({
   id: show.id,
   name: show.name,
@@ -34,6 +36,7 @@ export const mapShowForDisplay = (show: ShowForDisplay): ShowItem => ({
   status: show.status,
 });
 
+// PopularShow -> ShowItem
 export const mapPopularShow = (show: PopularShow): ShowItem => ({
   id: show.id,
   name: show.name,

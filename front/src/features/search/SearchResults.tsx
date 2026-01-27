@@ -1,7 +1,11 @@
-import { Box, Grid, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { useMemo } from 'react';
 
-import { getStatusBadge, mapTmdbShowSummary } from '~/components/ShowCard';
+import {
+  getStatusBadge,
+  mapTmdbShowSummary,
+  ShowCard,
+} from '~/components/ShowCard';
 import { useAppSelector } from '~/store';
 import {
   selectSearchShowDetails,
@@ -46,15 +50,7 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
         {totalMatchesText}
       </Text>
 
-      <Grid
-        templateColumns={{
-          base: 'repeat(2, 1fr)',
-          sm: 'repeat(3, 1fr)',
-          md: 'repeat(4, 1fr)',
-          lg: 'repeat(5, 1fr)',
-        }}
-        gap={{ base: '3', md: '4' }}
-      >
+      <ShowCard.Grid>
         {showItems.map(show => (
           <SearchResultCard
             key={show.id}
@@ -62,7 +58,7 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
             badge={getSearchStatusBadge(show.id)}
           />
         ))}
-      </Grid>
+      </ShowCard.Grid>
     </Box>
   );
 };
