@@ -182,11 +182,7 @@ export const mapShowInfoForDisplay = (
     .slice(0, 2)
     .map((genre: Genre) => genre.name);
 
-  const yearsActive = firstAirDate
-    ? `${dayjs(firstAirDate).year()}-${
-        status === 'Ended' ? dayjs(lastEpisodeToAir?.air_date).year() : ''
-      }`
-    : '';
+  const startYear = firstAirDate ? `${dayjs(firstAirDate).year()}` : '';
 
   const language = spokenLanguages?.map(lang => lang.english_name).join(', ');
 
@@ -210,7 +206,7 @@ export const mapShowInfoForDisplay = (
     videoTrailerKey: getVideoTrailerKey(videos),
     voteAverage: voteAverageForDisplay,
     voteCount,
-    yearsActive,
+    startYear,
   };
 };
 

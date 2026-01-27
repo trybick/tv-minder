@@ -53,7 +53,7 @@ export type ShowForDisplay = {
   videoTrailerKey: string | undefined;
   voteAverage: string;
   voteCount: number;
-  yearsActive: string;
+  startYear: string;
 };
 
 export type PopularShow = {

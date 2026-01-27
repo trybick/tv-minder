@@ -15,7 +15,7 @@ type Props = {
  */
 export const TitleRow = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-  const { name, yearsActive, videoTrailerKey } = show || {};
+  const { name, startYear, videoTrailerKey } = show || {};
 
   return (
     <Flex
@@ -32,14 +32,14 @@ export const TitleRow = ({ show }: Props) => {
       >
         <Heading as="h1" fontSize={{ base: '2xl', md: '3xl' }}>
           {name}
-          {yearsActive && (
+          {startYear && (
             <chakra.span
               color="fg.muted"
               fontSize={{ base: 'lg', md: 'xl' }}
               fontWeight="400"
               ml={2}
             >
-              ({yearsActive})
+              ({startYear})
             </chakra.span>
           )}
         </Heading>
