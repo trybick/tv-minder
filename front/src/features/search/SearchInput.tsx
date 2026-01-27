@@ -35,8 +35,8 @@ export const SearchInput = ({
     <Flex
       direction="column"
       justify="center"
-      mt={6}
-      mb={isMobile ? '20px' : '40px'}
+      mt={4}
+      mb={isMobile ? '16px' : '32px'}
       mx="auto"
       p="0 25px"
       w={['100%', 'sm', 'md', 'lg']}
@@ -51,30 +51,39 @@ export const SearchInput = ({
               size="sm"
               variant="plain"
               color="fg.muted"
+              _hover={{ color: 'fg' }}
             >
-              <IoClose size="19px" />
+              <IoClose size="20px" />
             </IconButton>
           )
         }
         startElement={
           <IoSearch
-            color="gray.300"
-            size="19px"
-            style={{ marginLeft: '3px', top: '9px' }}
+            color="var(--chakra-colors-fg-muted)"
+            size="20px"
+            style={{ marginLeft: '4px' }}
           />
         }
       >
         <Input
-          borderColor="gray.500"
-          borderRadius="5px"
-          fontSize="18px"
-          h="60px"
+          borderColor="whiteAlpha.200"
+          borderRadius="xl"
+          fontSize="17px"
+          h="56px"
           onChange={handleChange}
-          placeholder="Find TV shows"
+          placeholder="Search for TV shows..."
           ref={inputRef}
           value={inputValue}
           variant="outline"
           autoFocus={!isMobile}
+          bg="whiteAlpha.50"
+          _hover={{ borderColor: 'whiteAlpha.300' }}
+          _focus={{
+            borderColor: 'cyan.500/60',
+            bg: 'whiteAlpha.100',
+            boxShadow: '0 0 0 1px var(--chakra-colors-cyan-500)',
+          }}
+          _placeholder={{ color: 'fg.muted' }}
         />
       </InputGroup>
     </Flex>

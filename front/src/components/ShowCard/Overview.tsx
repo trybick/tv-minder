@@ -14,14 +14,14 @@ export const Overview = ({ overview, isHovered }: Props) => {
     <Box
       position="absolute"
       inset="0"
-      bg="blackAlpha.800"
+      bg="linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.4) 100%)"
       opacity={isHovered ? 1 : 0}
-      transition="opacity 0.2s"
-      p="3"
+      transition="opacity 0.25s ease-out"
+      p="3.5"
       display={{ base: 'none', md: 'flex' }}
       alignItems="flex-end"
     >
-      <Text fontSize="sm" lineClamp={6} color="white">
+      <Text fontSize="sm" lineClamp={6} color="white" lineHeight="1.5">
         {overview}
       </Text>
     </Box>
