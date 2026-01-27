@@ -76,6 +76,11 @@ test.describe('Calendar Page', () => {
     await page.getByRole('button', { name: 'calendar' }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
+    // Wait for episode data to load
+    await expect(page.getByText(/poker face/i).first()).toBeVisible({
+      timeout: 10000,
+    });
+
     await expect(page.getByText(/poker face/i)).toHaveCount(10);
     await expect(page.getByText(/mobland/i)).toHaveCount(2);
 
