@@ -37,6 +37,7 @@ export const Image = ({ show, children }: Props) => {
         src={posterSource}
         viewTransitionName={`show-image-${show.id}`}
         transition="transform 0.3s ease-out"
+        // Uses parent's data-group to scale on hover.
         _groupHover={{ transform: 'scale(1.05)' }}
       />
       {children}

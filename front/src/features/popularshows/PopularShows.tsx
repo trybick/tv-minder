@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Separator, Text } from '@chakra-ui/react';
+import { Box, Separator } from '@chakra-ui/react';
 import { useEffect, useMemo } from 'react';
 import { HiOutlineFire, HiOutlineStar } from 'react-icons/hi2';
 
@@ -14,39 +14,7 @@ import {
 } from '~/store/tv/selectors';
 
 import { PopularShowSection } from './PopularShowSection';
-
-type SectionHeadingProps = {
-  icon: React.ReactNode;
-  title: string;
-  subtitle?: string;
-};
-
-const SectionHeading = ({ icon, title, subtitle }: SectionHeadingProps) => (
-  <Flex align="center" gap={3} mb={5}>
-    <Flex
-      align="center"
-      justify="center"
-      w="40px"
-      h="40px"
-      borderRadius="lg"
-      bg="cyan.500/15"
-      color="cyan.400"
-      fontSize="xl"
-    >
-      {icon}
-    </Flex>
-    <Box>
-      <Heading as="h2" fontSize={{ base: 'xl', md: '2xl' }} fontWeight="700" color="fg">
-        {title}
-      </Heading>
-      {subtitle && (
-        <Text fontSize="sm" color="fg.muted" mt="1px">
-          {subtitle}
-        </Text>
-      )}
-    </Box>
-  </Flex>
-);
+import { SectionHeading } from './SectionHeading';
 
 export const PopularShows = () => {
   const dispatch = useAppDispatch();

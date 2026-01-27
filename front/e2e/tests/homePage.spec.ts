@@ -15,7 +15,7 @@ test.describe('Home Page', () => {
         page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
 
-      await page.getByPlaceholder(/find tv shows/i).fill('poker face');
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
         page.getByRole('button', { name: /follow/i }).first()
@@ -26,7 +26,9 @@ test.describe('Home Page', () => {
       ).not.toBeVisible();
       await page.getByRole('button', { name: /clear input/i }).click();
 
-      await expect(page.getByPlaceholder(/find tv shows/i)).toHaveValue('');
+      await expect(page.getByPlaceholder(/search for tv shows/i)).toHaveValue(
+        ''
+      );
       await expect(
         page.getByRole('button', { name: /clear input/i })
       ).not.toBeVisible();
@@ -44,7 +46,7 @@ test.describe('Home Page', () => {
         page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
 
-      await page.getByPlaceholder(/find tv shows/i).fill('poker face');
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
         page.getByRole('button', { name: /follow/i }).first()
@@ -58,7 +60,9 @@ test.describe('Home Page', () => {
         .getByRole('heading', { name: /tv minder logo/i })
         .click({ position: { x: 0.25, y: 0.5 } });
 
-      await expect(page.getByPlaceholder(/find tv shows/i)).toHaveValue('');
+      await expect(page.getByPlaceholder(/search for tv shows/i)).toHaveValue(
+        ''
+      );
       await expect(
         page.getByRole('button', { name: /clear input/i })
       ).not.toBeVisible();

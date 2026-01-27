@@ -29,6 +29,7 @@ export const Root = ({ show, children, onHoverChange, ...props }: Props) => (
     bg="whiteAlpha.50"
     onMouseEnter={() => onHoverChange?.(true)}
     onMouseLeave={() => onHoverChange?.(false)}
+    // Enables Chakra _groupHover for child elements.
     data-group
     {...props}
   >
