@@ -18,13 +18,13 @@ test.describe('Manage Page', () => {
     await page.getByRole('link', { name: /manage/i }).click();
     await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible();
 
-    await expect(page.getByRole('button', { name: /mobland/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /mobland/i })).toBeVisible();
     await expect(
       page.getByRole('button', { name: /poker face/i })
     ).toBeVisible();
 
     await page.getByRole('tab', { name: /airing now/i }).click();
-    await expect(page.getByRole('button', { name: /mobland/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /mobland/i })).toBeVisible();
     await expect(
       page.getByRole('button', { name: /poker face/i })
     ).toBeVisible();
@@ -37,12 +37,12 @@ test.describe('Manage Page', () => {
     await page.getByRole('link', { name: /manage/i }).click();
     await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible();
 
-    await expect(page.getByRole('button', { name: /mobland/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /mobland/i })).toBeVisible();
     await expect(
       page.getByRole('button', { name: /poker face/i })
     ).toBeVisible();
 
-    await page.getByRole('button', { name: /mobland/i }).click();
+    await page.getByRole('link', { name: /mobland/i }).click();
     await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
 
     mockRequest({
