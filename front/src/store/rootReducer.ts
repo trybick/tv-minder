@@ -56,7 +56,10 @@ const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   tv: persistReducer(tvPersistConfig, tvReducer),
   searchInput: persistReducer(searchInputPersistConfig, searchInputReducer),
-  recentShows: persistReducer(recentShowsPersistConfig, recentShowsSlice.reducer),
+  recentShows: persistReducer(
+    recentShowsPersistConfig,
+    recentShowsSlice.reducer
+  ),
   modals: modalsReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
