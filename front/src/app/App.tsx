@@ -8,6 +8,7 @@ import { Modals } from '~/components/Modals';
 import { ProtectedRoute } from '~/components/ProtectedRoute';
 import { Toaster } from '~/components/ui/toaster';
 import { CalendarPage } from '~/features/calendar/CalendarPage';
+import { CommandPaletteProvider } from '~/features/commandPalette';
 import { FollowingPage } from '~/features/following/FollowingPage';
 import { Footer } from '~/features/footer/Footer';
 import { HeaderDesktop } from '~/features/header/HeaderDesktop';
@@ -46,38 +47,40 @@ export const App = () => {
 
   return (
     <ErrorBoundary>
-      <Toaster />
-      <Modals />
+      <CommandPaletteProvider>
+        <Toaster />
+        <Modals />
 
-      <Flex direction="column" minH="97vh">
-        {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
+        <Flex direction="column" minH="97vh">
+          {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
 
-        <Switch>
-          <Route path={ROUTES.HOME}>
-            <SearchPage />
-          </Route>
-          <Route path={ROUTES.CALENDAR}>
-            <CalendarPage />
-          </Route>
+          <Switch>
+            <Route path={ROUTES.HOME}>
+              <SearchPage />
+            </Route>
+            <Route path={ROUTES.CALENDAR}>
+              <CalendarPage />
+            </Route>
 
-          <Route path={ROUTES.MANAGE}>
-            <ProtectedRoute>
-              <FollowingPage />
-            </ProtectedRoute>
-          </Route>
-          <Route path={ROUTES.SETTINGS}>
-            <ProtectedRoute>
-              <SettingsPage />
-            </ProtectedRoute>
-          </Route>
+            <Route path={ROUTES.MANAGE}>
+              <ProtectedRoute>
+                <FollowingPage />
+              </ProtectedRoute>
+            </Route>
+            <Route path={ROUTES.SETTINGS}>
+              <ProtectedRoute>
+                <SettingsPage />
+              </ProtectedRoute>
+            </Route>
 
-          <Route path={`${ROUTES.SHOW}/:showId`}>
-            <ShowPage />
-          </Route>
-        </Switch>
-      </Flex>
+            <Route path={`${ROUTES.SHOW}/:showId`}>
+              <ShowPage />
+            </Route>
+          </Switch>
+        </Flex>
 
-      <Footer />
+        <Footer />
+      </CommandPaletteProvider>
     </ErrorBoundary>
   );
 };
