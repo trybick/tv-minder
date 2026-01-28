@@ -11,6 +11,7 @@ This project uses **Chakra UI v3** which has significant API changes from v2.
 ## MCP Server Available
 
 Use the `project-0-tv-minder-chakra-ui` MCP server for Chakra docs:
+
 - `get_component_example` - Get component usage examples
 - `get_component_props` - Get component props
 - `v2_to_v3_code_review` - Review code for v2→v3 migration issues
@@ -18,6 +19,7 @@ Use the `project-0-tv-minder-chakra-ui` MCP server for Chakra docs:
 ## Key v3 Patterns
 
 ### Compound Components
+
 Components use dot notation (not separate imports):
 
 ```tsx
@@ -41,6 +43,7 @@ Components use dot notation (not separate imports):
 ```
 
 ### Color Palette
+
 Use `colorPalette` prop instead of `colorScheme`:
 
 ```tsx
@@ -52,10 +55,25 @@ Use `colorPalette` prop instead of `colorScheme`:
 ```
 
 ### Semantic Tokens
+
 Use semantic color tokens:
+
 - `fg.muted` for muted text
 - `whiteAlpha.100`, `whiteAlpha.400` for borders/overlays
 - `blackAlpha.800` for dark overlays
 
 ### No ChakraProvider
+
 Use the custom `Provider` from `~/components/ui/provider.tsx` which wraps theme config.
+
+## Padding and Margin Units
+
+Use numbers like `4` or `8` instead of `16px` or `32px`.
+
+```tsx
+// ✅ v3
+<Box p="4">Content</Box>
+
+// ❌ v2
+<Box p="16px">Content</Box>
+```
