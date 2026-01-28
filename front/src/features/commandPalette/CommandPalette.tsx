@@ -271,7 +271,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
                       loading="lazy"
                     />
                     <span className="cmdk-item-name">{show.name}</span>
-                    {show.first_air_date && (
+                    {show.first_air_date && show.first_air_date.length >= 4 && (
                       <span className="cmdk-item-year">
                         ({show.first_air_date.slice(0, 4)})
                       </span>
