@@ -3,10 +3,8 @@ import { Command } from 'cmdk';
 import {
   createContext,
   type ReactNode,
-  useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -21,14 +19,21 @@ import {
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { useAppSelector } from '~/store';
+import { useAppDispatch, useAppSelector } from '~/store';
+import { selectRecentShows } from '~/store/rtk/slices/recentShows.slice';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
-import { selectFollowedShowsDetails } from '~/store/tv/selectors';
-import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
+import {
+  selectFollowedShowsDetails,
+  selectSavedQueries,
+} from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
-import { getRecentShows } from '~/utils/recentShows';
 
 import './commandPalette.css';
+import {
+  fetchAndCacheResults,
+  filterOutFollowedShows,
+  findCachedQuery,
+} from './searchHelpers';
 
 const PAGES = [
   { name: 'Discover', route: ROUTES.HOME, icon: MdHome, requiresAuth: false },
@@ -46,7 +51,6 @@ const PAGES = [
   },
 ];
 
-// Context for opening the command palette
 type CommandPaletteContextType = {
   openPalette: () => void;
 };
@@ -71,35 +75,24 @@ type Props = {
 
 export const CommandPaletteProvider = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [tmdbResults, setTmdbResults] = useState<TmdbShowSummary[]>([]);
   const [isSearchingTmdb, setIsSearchingTmdb] = useState(false);
-  const [recentShows, setRecentShows] = useState<
-    ReturnType<typeof getRecentShows>
-  >([]);
   const searchTimeoutRef = useRef<number | null>(null);
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const followedShows = useAppSelector(selectFollowedShowsDetails);
+  const savedQueries = useAppSelector(selectSavedQueries);
+  const recentShows = useAppSelector(selectRecentShows);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const { getImageUrl } = useImageUrl();
 
-  // Load recent shows when palette opens
-  useEffect(() => {
-    if (isOpen) {
-      setRecentShows(getRecentShows());
-    }
-  }, [isOpen]);
-
-  // Filter followed shows by search query
   const filteredFollowedShows = followedShows.filter(show =>
-    show.name.toLowerCase().includes(search.toLowerCase())
+    show.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Available pages based on auth state
   const availablePages = PAGES.filter(page => !page.requiresAuth || isLoggedIn);
 
-  // Toggle command palette with Cmd+K / Ctrl+K
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -107,23 +100,22 @@ export const CommandPaletteProvider = ({ children }: Props) => {
         setIsOpen(prev => !prev);
       }
     };
-
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, []);
 
-  // Search TMDB when query changes and no followed show matches
+  // TMDB search
   useEffect(() => {
     if (searchTimeoutRef.current) {
       window.clearTimeout(searchTimeoutRef.current);
     }
 
-    const trimmedSearch = search.trim();
+    const followedIds = new Set(followedShows.map(s => s.id));
+    const query = searchTerm.trim();
+    const shouldSkipSearch =
+      query.length < 2 || filteredFollowedShows.length > 0;
 
-    // Don't search TMDB if:
-    // - Query is too short
-    // - We have matching followed shows
-    if (trimmedSearch.length < 2 || filteredFollowedShows.length > 0) {
+    if (shouldSkipSearch) {
       setTmdbResults([]);
       setIsSearchingTmdb(false);
       return;
@@ -133,10 +125,12 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
     searchTimeoutRef.current = window.setTimeout(async () => {
       try {
-        const { results } = await searchShowsByQuery(trimmedSearch);
-        // Filter out shows already in followed shows
-        const followedIds = new Set(followedShows.map(s => s.id));
-        setTmdbResults(results.filter(r => !followedIds.has(r.id)).slice(0, 8));
+        const cached = findCachedQuery(savedQueries, query);
+        const results = cached
+          ? cached.results
+          : await fetchAndCacheResults(query, dispatch);
+
+        setTmdbResults(filterOutFollowedShows(results, followedIds));
       } catch {
         setTmdbResults([]);
       } finally {
@@ -149,41 +143,34 @@ export const CommandPaletteProvider = ({ children }: Props) => {
         window.clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [search, filteredFollowedShows.length, followedShows]);
+  }, [
+    searchTerm,
+    filteredFollowedShows.length,
+    savedQueries,
+    dispatch,
+    followedShows,
+  ]);
 
-  // Reset state when closing
   useEffect(() => {
     if (!isOpen) {
-      setSearch('');
+      setSearchTerm('');
       setTmdbResults([]);
     }
   }, [isOpen]);
 
-  const handleNavigateToShow = useCallback(
-    (showId: number) => {
-      setIsOpen(false);
-      navigate(`${ROUTES.SHOW}/${showId}`);
-    },
-    [navigate]
-  );
-
-  const handleNavigateToPage = useCallback(
-    (route: string) => {
-      setIsOpen(false);
-      navigate(route);
-    },
-    [navigate]
-  );
-
-  const openPalette = useCallback(() => {
-    setIsOpen(true);
-  }, []);
-
-  const contextValue = useMemo(() => ({ openPalette }), [openPalette]);
-
-  const handleClose = useCallback(() => {
+  const handleNavigateToShow = (showId: number) => {
     setIsOpen(false);
-  }, []);
+    navigate(`${ROUTES.SHOW}/${showId}`);
+  };
+
+  const handleNavigateToPage = (route: string) => {
+    setIsOpen(false);
+    navigate(route);
+  };
+
+  const handleClose = () => setIsOpen(false);
+
+  const contextValue = { openPalette: () => setIsOpen(true) };
 
   return (
     <CommandPaletteContext.Provider value={contextValue}>
@@ -196,14 +183,13 @@ export const CommandPaletteProvider = ({ children }: Props) => {
         className="cmdk-dialog"
         loop
       >
-        {/* Explicit backdrop for click-to-close */}
         <Box className="cmdk-backdrop" onClick={handleClose} />
 
         <Box className="cmdk-wrapper">
           <Flex className="cmdk-input-wrapper">
             <Command.Input
-              value={search}
-              onValueChange={setSearch}
+              value={searchTerm}
+              onValueChange={setSearchTerm}
               placeholder="Search shows, navigate pages..."
               className="cmdk-input"
             />
@@ -216,13 +202,14 @@ export const CommandPaletteProvider = ({ children }: Props) => {
               <MdClose size={18} />
             </Box>
           </Flex>
+
           <Command.List className="cmdk-list">
             <Command.Empty className="cmdk-empty">
               {isSearchingTmdb ? 'Searching...' : 'No results found.'}
             </Command.Empty>
 
-            {/* Recent Shows - only show when not searching */}
-            {!search && recentShows.length > 0 && (
+            {/* Recent Shows */}
+            {!searchTerm && recentShows.length > 0 && (
               <Command.Group heading="Recent" className="cmdk-group">
                 {recentShows.slice(0, 5).map(show => (
                   <Command.Item

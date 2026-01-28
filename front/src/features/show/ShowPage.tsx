@@ -4,9 +4,9 @@ import { useParams } from 'wouter';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { addRecentShow } from '~/store/rtk/slices/recentShows.slice';
 import { getShowDetailsWithSeasons } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
-import { addRecentShow } from '~/utils/recentShows';
 
 import { ShowContainer } from './ShowContainer';
 
@@ -17,7 +17,8 @@ export const ShowPage = () => {
   const showInfo = useAppSelector(selectCurrentShowInfo);
   const name = window.history.state?.name || showInfo?.name;
 
-  // Scroll to top of page when the page is loaded or show changes
+  // Scroll to top of page when the page is loaded. This solves this issue of
+  // the page loading scrolled down when the previous page was scrolled.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [showId]);
@@ -29,13 +30,15 @@ export const ShowPage = () => {
   // Track recent show visits
   useEffect(() => {
     if (showInfo?.id && showInfo?.name) {
-      addRecentShow({
-        id: showInfo.id,
-        name: showInfo.name,
-        posterPath: showInfo.posterPath,
-      });
+      dispatch(
+        addRecentShow({
+          id: showInfo.id,
+          name: showInfo.name,
+          posterPath: showInfo.posterPath,
+        })
+      );
     }
-  }, [showInfo?.id, showInfo?.name, showInfo?.posterPath]);
+  }, [dispatch, showInfo?.id, showInfo?.name, showInfo?.posterPath]);
 
   return (
     <>
