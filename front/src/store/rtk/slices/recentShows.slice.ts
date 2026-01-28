@@ -1,10 +1,4 @@
-import {
-  createSelector,
-  createSlice,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
-
-import { type AppState } from '~/store';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 const MAX_RECENT_SHOWS = 8;
 
@@ -26,26 +20,18 @@ export const recentShowsSlice = createSlice({
   name: 'recentShows',
   initialState,
   reducers: {
+    // Remove if already exists, add to front, and limit size
     addRecentShow: (state, action: PayloadAction<RecentShow>) => {
-      // Remove if already exists
       state.shows = state.shows.filter(s => s.id !== action.payload.id);
-      // Add to front
       state.shows.unshift(action.payload);
-      // Limit size
       state.shows = state.shows.slice(0, MAX_RECENT_SHOWS);
     },
-    clearRecentShows: state => {
-      state.shows = [];
-    },
+  },
+  selectors: {
+    selectRecentShows: state => state.shows,
   },
 });
 
-export const { addRecentShow, clearRecentShows } = recentShowsSlice.actions;
+export const { addRecentShow } = recentShowsSlice.actions;
 
-// Selectors
-const selectRecentShowsState = (state: AppState) => state.recentShows;
-
-export const selectRecentShows = createSelector(
-  selectRecentShowsState,
-  state => state.shows
-);
+export const { selectRecentShows } = recentShowsSlice.selectors;
