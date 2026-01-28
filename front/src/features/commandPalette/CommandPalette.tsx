@@ -214,7 +214,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
                 {recentShows.slice(0, 5).map(show => (
                   <Command.Item
                     key={`recent-${show.id}`}
-                    value={`recent-${show.name}-${show.id}`}
+                    value={`${show.name} ${show.id}`}
                     onSelect={() => handleNavigateToShow(show.id)}
                     className="cmdk-item"
                   >
@@ -231,13 +231,36 @@ export const CommandPaletteProvider = ({ children }: Props) => {
               </Command.Group>
             )}
 
+            {/* Followed Shows - before search results and pages */}
+            {filteredFollowedShows.length > 0 && (
+              <Command.Group heading="Following" className="cmdk-group">
+                {filteredFollowedShows.slice(0, 8).map(show => (
+                  <Command.Item
+                    key={`followed-${show.id}`}
+                    value={show.name}
+                    onSelect={() => handleNavigateToShow(show.id)}
+                    className="cmdk-item"
+                  >
+                    <Image
+                      src={getImageUrl({ path: show.posterPath })}
+                      alt={show.name}
+                      className="cmdk-item-poster"
+                      loading="lazy"
+                    />
+                    <span className="cmdk-item-name">{show.name}</span>
+                    <span className="cmdk-item-badge">Following</span>
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            )}
+
             {/* TMDB Search Results */}
             {tmdbResults.length > 0 && (
               <Command.Group heading="Search Results" className="cmdk-group">
                 {tmdbResults.map(show => (
                   <Command.Item
                     key={`tmdb-${show.id}`}
-                    value={`tmdb-${show.name}-${show.id}`}
+                    value={`${show.name} ${show.id}`}
                     onSelect={() => handleNavigateToShow(show.id)}
                     className="cmdk-item"
                   >
@@ -258,14 +281,15 @@ export const CommandPaletteProvider = ({ children }: Props) => {
               </Command.Group>
             )}
 
-            {/* Pages */}
+            {/* Pages - use exact keywords to prevent fuzzy matching */}
             <Command.Group heading="Pages" className="cmdk-group">
               {availablePages.map(page => {
                 const Icon = page.icon;
                 return (
                   <Command.Item
                     key={page.route}
-                    value={`page-${page.name}`}
+                    value={page.name}
+                    keywords={[page.name.toLowerCase()]}
                     onSelect={() => handleNavigateToPage(page.route)}
                     className="cmdk-item"
                   >
@@ -275,29 +299,6 @@ export const CommandPaletteProvider = ({ children }: Props) => {
                 );
               })}
             </Command.Group>
-
-            {/* Followed Shows */}
-            {filteredFollowedShows.length > 0 && (
-              <Command.Group heading="Following" className="cmdk-group">
-                {filteredFollowedShows.slice(0, 8).map(show => (
-                  <Command.Item
-                    key={`followed-${show.id}`}
-                    value={`followed-${show.name}`}
-                    onSelect={() => handleNavigateToShow(show.id)}
-                    className="cmdk-item"
-                  >
-                    <Image
-                      src={getImageUrl({ path: show.posterPath })}
-                      alt={show.name}
-                      className="cmdk-item-poster"
-                      loading="lazy"
-                    />
-                    <span className="cmdk-item-name">{show.name}</span>
-                    <span className="cmdk-item-badge">Following</span>
-                  </Command.Item>
-                ))}
-              </Command.Group>
-            )}
           </Command.List>
         </Box>
       </Command.Dialog>
