@@ -1,5 +1,2 @@
-export {
-  CommandPaletteProvider,
-  useCommandPalette,
-} from './CommandPalette';
+export { CommandPaletteProvider, useCommandPalette } from './CommandPalette';
 export { CommandPaletteButton } from './CommandPaletteButton';

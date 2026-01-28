@@ -50,7 +50,11 @@ export const NavLink = ({
       };
 
   return (
-    <Link href={linkTo} onClick={handleClick} title={iconOnly ? text : undefined}>
+    <Link
+      href={linkTo}
+      onClick={handleClick}
+      title={iconOnly ? text : undefined}
+    >
       <Button
         color={isActive ? 'cyan.500' : 'gray.500'}
         {...textDecorationProps}

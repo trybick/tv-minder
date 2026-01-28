@@ -23,10 +23,10 @@ export const addRecentShow = (show: Omit<RecentShow, 'visitedAt'>): void => {
     // Remove if already exists
     const filtered = recent.filter(s => s.id !== show.id);
     // Add to front with timestamp
-    const updated = [
-      { ...show, visitedAt: Date.now() },
-      ...filtered,
-    ].slice(0, MAX_RECENT_SHOWS);
+    const updated = [{ ...show, visitedAt: Date.now() }, ...filtered].slice(
+      0,
+      MAX_RECENT_SHOWS
+    );
     localStorage.setItem(RECENT_SHOWS_KEY, JSON.stringify(updated));
   } catch {
     // Ignore localStorage errors
