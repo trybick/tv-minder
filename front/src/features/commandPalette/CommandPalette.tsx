@@ -15,7 +15,6 @@ import {
   MdClose,
   MdHistory,
   MdHome,
-  MdSettings,
   MdViewList,
 } from 'react-icons/md';
 
@@ -43,12 +42,6 @@ const PAGES = [
     name: 'Manage Shows',
     route: ROUTES.MANAGE,
     icon: MdViewList,
-    requiresAuth: true,
-  },
-  {
-    name: 'Settings',
-    route: ROUTES.SETTINGS,
-    icon: MdSettings,
     requiresAuth: true,
   },
 ];
@@ -104,9 +97,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
   );
 
   // Available pages based on auth state
-  const availablePages = PAGES.filter(
-    page => !page.requiresAuth || isLoggedIn
-  );
+  const availablePages = PAGES.filter(page => !page.requiresAuth || isLoggedIn);
 
   // Toggle command palette with Cmd+K / Ctrl+K
   useEffect(() => {
@@ -253,29 +244,6 @@ export const CommandPaletteProvider = ({ children }: Props) => {
               </Command.Group>
             )}
 
-            {/* Followed Shows */}
-            {filteredFollowedShows.length > 0 && (
-              <Command.Group heading="Following" className="cmdk-group">
-                {filteredFollowedShows.slice(0, 8).map(show => (
-                  <Command.Item
-                    key={`followed-${show.id}`}
-                    value={`followed-${show.name}`}
-                    onSelect={() => handleNavigateToShow(show.id)}
-                    className="cmdk-item"
-                  >
-                    <Image
-                      src={getImageUrl({ path: show.posterPath })}
-                      alt={show.name}
-                      className="cmdk-item-poster"
-                      loading="lazy"
-                    />
-                    <span className="cmdk-item-name">{show.name}</span>
-                    <span className="cmdk-item-badge">Following</span>
-                  </Command.Item>
-                ))}
-              </Command.Group>
-            )}
-
             {/* TMDB Search Results */}
             {tmdbResults.length > 0 && (
               <Command.Group heading="Search Results" className="cmdk-group">
@@ -320,6 +288,29 @@ export const CommandPaletteProvider = ({ children }: Props) => {
                 );
               })}
             </Command.Group>
+
+            {/* Followed Shows */}
+            {filteredFollowedShows.length > 0 && (
+              <Command.Group heading="Following" className="cmdk-group">
+                {filteredFollowedShows.slice(0, 8).map(show => (
+                  <Command.Item
+                    key={`followed-${show.id}`}
+                    value={`followed-${show.name}`}
+                    onSelect={() => handleNavigateToShow(show.id)}
+                    className="cmdk-item"
+                  >
+                    <Image
+                      src={getImageUrl({ path: show.posterPath })}
+                      alt={show.name}
+                      className="cmdk-item-poster"
+                      loading="lazy"
+                    />
+                    <span className="cmdk-item-name">{show.name}</span>
+                    <span className="cmdk-item-badge">Following</span>
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            )}
           </Command.List>
         </Box>
       </Command.Dialog>
