@@ -21,7 +21,7 @@ test.describe('Calendar Page', () => {
       .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
       .click();
 
-    await page.getByPlaceholder(/find tv shows/i).fill('poker face');
+    await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
 
     await page

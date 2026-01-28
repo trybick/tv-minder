@@ -11,13 +11,13 @@ export const SearchResultsSkeleton = () => {
         templateColumns={showCardTemplateColumns}
         gap={{ base: '3', md: '4' }}
       >
-        {[...Array(10)].map((_, index) => (
+        {[...Array(12)].map((_, index) => (
           <Flex key={index} direction="column">
             <Skeleton aspectRatio={2 / 3} w="100%" borderRadius="md" />
             <Flex direction="column" pt="3" gap="2">
               <Skeleton height="16px" width="80%" />
               <Skeleton height="12px" width="40px" />
-              <Skeleton height="32px" width="100%" mt="1" />
+              <Box height="32px" width="100%" mt="1" />
             </Flex>
           </Flex>
         ))}

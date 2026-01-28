@@ -25,14 +25,15 @@ export const Title = ({ show }: Props) => {
       <Link
         onClick={onShowClick}
         href={`${ROUTES.SHOW}/${show.id}`}
-        _hover={{ textDecoration: 'underline' }}
+        _hover={{ textDecoration: 'underline', color: 'cyan.400' }}
+        transition="color 0.15s"
       >
-        <Text fontWeight="semibold" lineClamp={1} fontSize="sm">
+        <Text fontWeight="600" lineClamp={1} fontSize="sm" color="fg">
           {show.name}
         </Text>
       </Link>
       {show.firstAirDate && (
-        <Text fontSize="xs" color="fg.muted" mt="0.5px">
+        <Text fontSize="xs" color="fg.muted" mt="1">
           {show.firstAirDate.substring(0, 4)}
         </Text>
       )}

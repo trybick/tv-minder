@@ -26,8 +26,7 @@ export const Image = ({ show, children }: Props) => {
       href={`${ROUTES.SHOW}/${show.id}`}
       position="relative"
       display="block"
-      transition="transform 0.2s"
-      _hover={{ transform: 'scale(1.03)' }}
+      overflow="hidden"
     >
       <ChakraImage
         alt={`show-${show.name}`}
@@ -37,6 +36,9 @@ export const Image = ({ show, children }: Props) => {
         onError={e => (e.currentTarget.src = placeholder)}
         src={posterSource}
         viewTransitionName={`show-image-${show.id}`}
+        transition="transform 0.3s ease-out"
+        // Uses parent's data-group to scale on hover.
+        _groupHover={{ transform: 'scale(1.05)' }}
       />
       {children}
     </Link>

@@ -21,7 +21,7 @@ type Props = PropsWithChildren<GridProps>;
 export const Grid = ({ children, ...props }: Props) => (
   <ChakraGrid
     templateColumns={showCardTemplateColumns}
-    gap={{ base: '3', md: '4' }}
+    gap={{ base: '3', md: '5' }}
     {...props}
   >
     {children}

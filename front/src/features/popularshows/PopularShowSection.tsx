@@ -1,11 +1,10 @@
 import {
   Box,
   Button,
-  Text,
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { AiOutlineCaretDown } from 'react-icons/ai';
+import { HiChevronDown } from 'react-icons/hi2';
 
 import {
   ShowCard,
@@ -36,7 +35,7 @@ export const PopularShowSection = ({ shows }: Props) => {
   return (
     <>
       <Box position="relative">
-        <ShowCard.Grid mt="14px">
+        <ShowCard.Grid>
           {visibleShows.map(show => (
             <PopularShowCard key={show.id} show={show} />
           ))}
@@ -46,23 +45,20 @@ export const PopularShowSection = ({ shows }: Props) => {
       {!isExpanded && shows.length > minShowsToRender && (
         <Button
           colorPalette="cyan"
-          mt="30px"
+          mt={8}
           mx="auto"
           display="flex"
           onClick={handleToggle}
-          variant="plain"
-          color="fg.muted"
+          variant="outline"
+          size="sm"
+          borderColor="whiteAlpha.200"
+          _hover={{
+            bg: 'whiteAlpha.100',
+            borderColor: 'cyan.500/50',
+          }}
         >
-          <Text
-            fontSize="md"
-            _hover={{
-              textDecoration: 'underline',
-              textUnderlineOffset: '2px',
-            }}
-          >
-            See More
-          </Text>
-          <AiOutlineCaretDown style={{ width: '15px' }} />
+          Show More
+          <HiChevronDown />
         </Button>
       )}
     </>

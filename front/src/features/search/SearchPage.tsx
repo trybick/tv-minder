@@ -112,7 +112,7 @@ export const SearchPage = () => {
   });
 
   return (
-    <Box p={{ base: '0 10px 25px', md: '25px 15px 20px' }}>
+    <Box p={{ base: '0 12px 30px', md: '20px 20px 30px' }}>
       <title>Discover | TV Minder</title>
       <SearchInput
         handleChange={handleChange}

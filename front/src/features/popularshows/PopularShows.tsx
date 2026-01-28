@@ -1,5 +1,6 @@
-import { Box, Heading } from '@chakra-ui/react';
+import { Box, Separator } from '@chakra-ui/react';
 import { useEffect, useMemo } from 'react';
+import { HiOutlineFire, HiOutlineStar } from 'react-icons/hi2';
 
 import { mapPopularShow } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -13,6 +14,7 @@ import {
 } from '~/store/tv/selectors';
 
 import { PopularShowSection } from './PopularShowSection';
+import { SectionHeading } from './SectionHeading';
 
 export const PopularShows = () => {
   const dispatch = useAppDispatch();
@@ -34,23 +36,26 @@ export const PopularShows = () => {
   );
 
   return (
-    <Box m="18px 0 30px" maxW="1500px" w="95%">
-      <Heading as="h2" color="fg.subtle" fontSize="2xl" fontWeight="700" mb={6}>
-        Trending Now
-      </Heading>
-      <PopularShowSection shows={popularShowItems} />
+    <Box maxW="1500px" w="95%" pt={2} pb={8}>
+      <Box>
+        <SectionHeading
+          icon={<HiOutlineFire />}
+          title="Trending Now"
+          subtitle="What everyone's watching this week"
+        />
+        <PopularShowSection shows={popularShowItems} />
+      </Box>
 
-      <Heading
-        as="h2"
-        color="fg.subtle"
-        fontSize="2xl"
-        fontWeight="700"
-        mb={6}
-        mt={6}
-      >
-        All-Time Favorites
-      </Heading>
-      <PopularShowSection shows={topRatedShowItems} />
+      <Separator my={10} borderColor="whiteAlpha.100" />
+
+      <Box>
+        <SectionHeading
+          icon={<HiOutlineStar />}
+          title="All-Time Favorites"
+          subtitle="Highest rated shows of all time"
+        />
+        <PopularShowSection shows={topRatedShowItems} />
+      </Box>
     </Box>
   );
 };
