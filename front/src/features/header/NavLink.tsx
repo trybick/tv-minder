@@ -13,9 +13,17 @@ interface Props {
   icon: IconType;
   onClose?: () => void;
   onClick?: () => void;
+  iconOnly?: boolean;
 }
 
-export const NavLink = ({ linkTo, text, icon, onClose, onClick }: Props) => {
+export const NavLink = ({
+  linkTo,
+  text,
+  icon,
+  onClose,
+  onClick,
+  iconOnly,
+}: Props) => {
   const isMobile = useIsMobile();
   const navigate = useNavigateWithAnimation();
   const [location] = useLocation();
@@ -32,35 +40,46 @@ export const NavLink = ({ linkTo, text, icon, onClose, onClick }: Props) => {
     }
   };
 
-  const textDecorationProps = {
-    textDecoration: isActive ? 'underline' : 'none',
-    textDecorationColor: 'cyan.400',
-    textDecorationThickness: '1px',
-    textUnderlineOffset: '6px',
-  };
+  const textDecorationProps = iconOnly
+    ? {}
+    : {
+        textDecoration: isActive ? 'underline' : 'none',
+        textDecorationColor: 'cyan.400',
+        textDecorationThickness: '1px',
+        textUnderlineOffset: '6px',
+      };
 
   return (
-    <Link href={linkTo} onClick={handleClick}>
+    <Link
+      href={linkTo}
+      onClick={handleClick}
+      title={iconOnly ? text : undefined}
+    >
       <Button
         color={isActive ? 'cyan.500' : 'gray.500'}
         {...textDecorationProps}
         fontSize="1.2rem"
         fontWeight="700"
-        p="16px"
+        p={iconOnly ? '10px' : '16px'}
+        minW={iconOnly ? 'auto' : undefined}
         variant="plain"
         _hover={{
           color: 'cyan.400',
           ...textDecorationProps,
-          textDecoration: 'underline',
+          ...(iconOnly ? {} : { textDecoration: 'underline' }),
         }}
         {...(isMobile && {
           mr: '-16px',
         })}
       >
-        <HStack as="span" gap={2}>
-          <Icon as={icon} size="sm" />
-          <span>{text}</span>
-        </HStack>
+        {iconOnly ? (
+          <Icon as={icon} boxSize={5} />
+        ) : (
+          <HStack as="span" gap={2}>
+            <Icon as={icon} size="sm" />
+            <span>{text}</span>
+          </HStack>
+        )}
       </Button>
     </Link>
   );

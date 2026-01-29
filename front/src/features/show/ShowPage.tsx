@@ -1,8 +1,10 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { useParams } from 'wouter';
 
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { addRecentShow } from '~/store/rtk/slices/recentShows.slice';
 import { getShowDetailsWithSeasons } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
 
@@ -11,6 +13,7 @@ import { ShowContainer } from './ShowContainer';
 export const ShowPage = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
+  const { showId } = useParams<{ showId: string }>();
   const showInfo = useAppSelector(selectCurrentShowInfo);
   const name = window.history.state?.name || showInfo?.name;
 
@@ -18,11 +21,24 @@ export const ShowPage = () => {
   // the page loading scrolled down when the previous page was scrolled.
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [showId]);
 
   useEffect(() => {
     dispatch(getShowDetailsWithSeasons());
-  }, [dispatch]);
+  }, [dispatch, showId]);
+
+  // Track recent show visits
+  useEffect(() => {
+    if (showInfo?.id && showInfo?.name) {
+      dispatch(
+        addRecentShow({
+          id: showInfo.id,
+          name: showInfo.name,
+          posterPath: showInfo.posterPath,
+        })
+      );
+    }
+  }, [dispatch, showInfo?.id, showInfo?.name, showInfo?.posterPath]);
 
   return (
     <>

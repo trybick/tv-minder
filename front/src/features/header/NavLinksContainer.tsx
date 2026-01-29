@@ -2,6 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { FiCalendar, FiCompass, FiList, FiSettings } from 'react-icons/fi';
 
 import { ROUTES } from '~/app/routes';
+import { useIsCompactDesktop } from '~/hooks/useIsCompactDesktop';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
@@ -21,13 +22,14 @@ export const NavigationLinks = ({ onClose }: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
   const isMobile = useIsMobile();
+  const isCompactDesktop = useIsCompactDesktop();
   const dispatch = useAppDispatch();
 
   return (
     <Flex
       flex="1"
       justifyContent="center"
-      gap="10px"
+      gap={isCompactDesktop ? '4px' : '10px'}
       {...(isMobile && {
         flexDirection: 'column',
         alignItems: 'flex-end',
@@ -39,12 +41,14 @@ export const NavigationLinks = ({ onClose }: Props) => {
         icon={FiCompass}
         onClose={onClose}
         onClick={() => dispatch(setShouldResetSearchInput(true))}
+        iconOnly={isCompactDesktop}
       />
       <NavLink
         linkTo={ROUTES.CALENDAR}
         text="Calendar"
         icon={FiCalendar}
         onClose={onClose}
+        iconOnly={isCompactDesktop}
       />
 
       {isLoggedIn && (
@@ -53,6 +57,7 @@ export const NavigationLinks = ({ onClose }: Props) => {
           text="Manage"
           icon={FiList}
           onClose={onClose}
+          iconOnly={isCompactDesktop}
         />
       )}
 

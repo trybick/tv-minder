@@ -15,6 +15,7 @@ import { persistedReducer } from './rootReducer';
 import { baseApi } from './rtk/api/baseApi';
 import { errorHandlerMiddleware } from './rtk/api/errorHandlerMiddleware';
 import { type modalsReducer } from './rtk/slices/modals.slice';
+import { type recentShowsSlice } from './rtk/slices/recentShows.slice';
 import { type searchInputReducer } from './rtk/slices/searchInput.slice';
 import { type userReducer } from './rtk/slices/user.slice';
 import { type tvReducer } from './tv/reducers';
@@ -23,6 +24,7 @@ export type AppState = {
   user: ReturnType<typeof userReducer>;
   tv: ReturnType<typeof tvReducer>;
   searchInput: ReturnType<typeof searchInputReducer>;
+  recentShows: ReturnType<typeof recentShowsSlice.reducer>;
   modals: ReturnType<typeof modalsReducer>;
   [baseApi.reducerPath]: ReturnType<typeof baseApi.reducer>;
 };

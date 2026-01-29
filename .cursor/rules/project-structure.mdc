@@ -70,3 +70,11 @@ Custom hooks in `hooks/`:
 ### Components
 
 - When defining a React component props type, name it `Props` (not `ComponentNameProps`)
+
+### React Conventions
+
+- Don't use useCallback or useMemo unless memoizing is actually necessary
+
+### Comments
+
+- IMPORTANT: do not add comments to the code unless the code is very complex or difficult to understand
