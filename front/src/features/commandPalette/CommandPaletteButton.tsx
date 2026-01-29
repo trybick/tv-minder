@@ -3,7 +3,7 @@ import { MdSearch } from 'react-icons/md';
 
 import { useIsCompactDesktop } from '~/hooks/useIsCompactDesktop';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { getIsMac } from '~/utils/isMac';
+import { getIsMac } from '~/utils/getIsMac';
 
 type Props = {
   onClick: () => void;
