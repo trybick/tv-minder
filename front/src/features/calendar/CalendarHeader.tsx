@@ -4,7 +4,7 @@ import { type RefObject, useMemo } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { MdOutlineResetTv } from 'react-icons/md';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { followApi } from '~/store/rtk/api/follow.api';
 import {
@@ -22,7 +22,7 @@ type Props = {
 };
 
 export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
 
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
   const isLoadingCalendarEpisodes = useAppSelector(

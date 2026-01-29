@@ -2,7 +2,7 @@ import { Box, Button, Collapsible, Text } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
 
 import { DelayedSkeletonText } from '~/components/DelayedSkeletonText';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
@@ -16,7 +16,7 @@ type Props = {
  * Desktop long text collapses; mobile shows full text.
  * */
 export const Overview = ({ show }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { overview } = show || {};
 

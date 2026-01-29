@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useParams } from 'wouter';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { addRecentShow } from '~/store/rtk/slices/recentShows.slice';
 import { getShowDetailsWithSeasons } from '~/store/tv/actions';
@@ -12,7 +12,7 @@ import { ShowContainer } from './ShowContainer';
 
 export const ShowPage = () => {
   const dispatch = useAppDispatch();
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const { showId } = useParams<{ showId: string }>();
   const showInfo = useAppSelector(selectCurrentShowInfo);
   const name = window.history.state?.name || showInfo?.name;

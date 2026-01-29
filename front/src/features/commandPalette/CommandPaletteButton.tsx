@@ -1,8 +1,7 @@
 import { Box, Flex, Kbd } from '@chakra-ui/react';
 import { MdSearch } from 'react-icons/md';
 
-import { useIsCompactDesktop } from '~/hooks/useIsCompactDesktop';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { getIsMac } from '~/utils/getIsMac';
 
 type Props = {
@@ -10,8 +9,7 @@ type Props = {
 };
 
 export const CommandPaletteButton = ({ onClick }: Props) => {
-  const isMobile = useIsMobile();
-  const isCompactDesktop = useIsCompactDesktop();
+  const { isMobile, isCompactDesktop } = useResponsiveLayout();
 
   const modifierKey = getIsMac() ? '⌘' : 'Ctrl';
 

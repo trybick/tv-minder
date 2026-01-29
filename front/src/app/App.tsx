@@ -16,7 +16,7 @@ import { HeaderMobile } from '~/features/header/HeaderMobile';
 import { SearchPage } from '~/features/search/SearchPage';
 import { SettingsPage } from '~/features/settings/SettingsPage';
 import { ShowPage } from '~/features/show/ShowPage';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/follow.api';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
@@ -27,7 +27,7 @@ import { initSentry } from '~/utils/sentry';
 import { ROUTES } from './routes';
 
 export const App = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 

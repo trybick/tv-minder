@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/follow.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
@@ -12,7 +12,7 @@ import { FollowingList } from './FollowingList';
 import { NoFollowedShowsMessage } from './NoFollowedShowsMessage';
 
 export const FollowingPage = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
   const followedShows = useAppSelector(selectFollowedShows);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
