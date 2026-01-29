@@ -39,36 +39,36 @@ export const HelpPopover = () => {
 
       <Portal>
         <Popover.Positioner>
-          <Popover.Content maxW="580px">
+          <Popover.Content maxW="360px">
             <Popover.Arrow>
               <Popover.ArrowTip />
             </Popover.Arrow>
-            <Popover.Body p={8}>
-              <Text fontWeight="600" fontSize="xl" mb={6} textAlign="center">
+            <Popover.Body px={5} py={4}>
+              <Text fontWeight="600" fontSize="md" mb={4} textAlign="center">
                 How It Works
               </Text>
 
-              <Flex direction="column" gap={6}>
+              <Flex direction="column" gap={4}>
                 {steps.map((step, index) => (
-                  <Flex key={index} align="flex-start" gap={4}>
+                  <Flex key={index} align="center" gap={3}>
                     <Flex
                       align="center"
                       justify="center"
-                      w="52px"
-                      h="52px"
-                      borderRadius="full"
+                      w="40px"
+                      h="40px"
+                      borderRadius="lg"
                       bg="cyan.500/15"
                       color="cyan.400"
-                      fontSize="xl"
+                      fontSize="lg"
                       flexShrink={0}
                     >
                       {step.icon}
                     </Flex>
-                    <Box>
-                      <Text fontWeight="600" fontSize="md">
+                    <Box flex={1}>
+                      <Text fontWeight="600" fontSize="sm">
                         {step.title}
                       </Text>
-                      <Text fontSize="sm" color="fg.muted" lineHeight="short">
+                      <Text fontSize="sm" color="fg.muted">
                         {step.description}
                       </Text>
                     </Box>
