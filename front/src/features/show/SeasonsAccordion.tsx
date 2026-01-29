@@ -1,7 +1,7 @@
 import { Accordion, Box, Flex, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
@@ -12,7 +12,7 @@ import { dayjs } from '~/utils/dayjs';
 import { EpisodesTable } from './EpisodesTable';
 
 export const SeasonsAccordion = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const { seasonsWithEpisodes } = currentShowInfo || {};

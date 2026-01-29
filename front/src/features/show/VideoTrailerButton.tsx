@@ -9,7 +9,7 @@ import {
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 
@@ -19,7 +19,7 @@ type Props = {
 
 export const VideoTrailerButton = ({ videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
   const desktopOptions = {

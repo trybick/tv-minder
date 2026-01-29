@@ -4,7 +4,7 @@ import { IoIosTimer } from 'react-icons/io';
 import { TbLanguage } from 'react-icons/tb';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
@@ -17,7 +17,7 @@ type Props = {
  * Network/runtime/language row for the show.
  */
 export const Metadata = ({ show }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { network, episodeRunTime, language } = show || {};
   const hasMetadata = network || episodeRunTime || language;

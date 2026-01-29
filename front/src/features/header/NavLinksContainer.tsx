@@ -2,8 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { FiCalendar, FiCompass, FiList, FiSettings } from 'react-icons/fi';
 
 import { ROUTES } from '~/app/routes';
-import { useIsCompactDesktop } from '~/hooks/useIsCompactDesktop';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 import {
@@ -21,8 +20,7 @@ interface Props {
 export const NavigationLinks = ({ onClose }: Props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isGoogleUser = useAppSelector(selectIsGoogleUser);
-  const isMobile = useIsMobile();
-  const isCompactDesktop = useIsCompactDesktop();
+  const { isMobile, isCompactDesktop } = useResponsiveLayout();
   const dispatch = useAppDispatch();
 
   return (

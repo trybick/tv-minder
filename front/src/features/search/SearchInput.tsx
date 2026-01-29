@@ -2,7 +2,7 @@ import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
 import { type ChangeEvent, type RefObject, useEffect } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -17,7 +17,7 @@ export const SearchInput = ({
   inputRef,
   inputValue,
 }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
 
   useEffect(() => {
     function clearOnEsc(event: KeyboardEvent) {

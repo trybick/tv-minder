@@ -11,7 +11,7 @@ import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { showToast } from '~/components/ui/toaster';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { useSubmitFeedbackMutation } from '~/store/rtk/api/contact.api';
 import {
@@ -29,7 +29,7 @@ type FormValues = {
 
 export const FeedbackModal = () => {
   const dispatch = useAppDispatch();
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const isOpen = useAppSelector(selectIsFeedbackModalOpen);
   const initialRef = useRef<HTMLTextAreaElement>(null);
   const loggedInEmail = useAppSelector(selectEmail);

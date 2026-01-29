@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table';
 import { FaStar } from 'react-icons/fa';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { type EpisodeForSeason } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const EpisodesTable = ({ episodes }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
 
   const columns: ColumnDef<EpisodeForSeason>[] = [
     {

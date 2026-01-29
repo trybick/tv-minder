@@ -15,7 +15,7 @@ import { TiArrowBack } from 'react-icons/ti';
 import { InlineTextSeparator } from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
 import { showToast } from '~/components/ui/toaster';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   useChangePasswordForResetMutation,
@@ -61,7 +61,7 @@ const FormModes = {
 type FormMode = (typeof FormModes)[keyof typeof FormModes];
 
 export const LoginModal = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
 
   const [formMode, setFormMode] = useState<FormMode>(FormModes.Login);

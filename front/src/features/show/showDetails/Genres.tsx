@@ -2,7 +2,7 @@ import { Box, Flex, Tag } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { FollowButton } from '~/components/FollowButton';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
@@ -16,7 +16,7 @@ type Props = {
  * Desktop: genres only.
  * */
 export const Genres = ({ show }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { id, genreNames } = show || {};
 

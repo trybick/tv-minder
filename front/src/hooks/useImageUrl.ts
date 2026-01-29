@@ -1,7 +1,7 @@
 import placeholderImageLandscape from '~/assets/images/placeholder-image-landscape.png';
 import placeholderImage from '~/assets/images/placeholder-image.png';
 
-import { useIsMobile } from './useIsMobile';
+import { useResponsiveLayout } from './useResponsiveLayout';
 
 const BASE_URL = 'https://image.tmdb.org/t/p/w342';
 const HIGH_QUALITY_URL = 'https://image.tmdb.org/t/p/w780';
@@ -14,7 +14,7 @@ type GetImageUrlParams = {
 };
 
 export const useImageUrl = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const placeholder = isMobile ? placeholderImageLandscape : placeholderImage;
 
   const getImageUrl = ({ path, quality = 'low' }: GetImageUrlParams) => {

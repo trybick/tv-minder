@@ -12,7 +12,7 @@ import { type RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
@@ -28,7 +28,7 @@ import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
 export const CalendarPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const calendarRef = useRef<FullCalendar>(null);
 
   const [calendarTitle, setCalendarTitle] = useState('');

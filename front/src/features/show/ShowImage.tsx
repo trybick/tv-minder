@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useImageUrl } from '~/hooks/useImageUrl';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
@@ -13,7 +13,7 @@ import {
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 export const ShowImage = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
 
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);

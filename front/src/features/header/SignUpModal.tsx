@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 
 import { InlineTextSeparator } from '~/components/InlineTextSeparator';
 import { PasswordInput } from '~/components/ui/password-input';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   useLoginMutation,
@@ -54,7 +54,7 @@ const formValidation = {
 };
 
 export const SignUpModal = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
 
   const unregisteredFollowedShows = useAppSelector(

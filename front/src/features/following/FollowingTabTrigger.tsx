@@ -1,6 +1,6 @@
 import { Tabs } from '@chakra-ui/react';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 
 type TabTriggerProps = {
   value: string;
@@ -13,7 +13,7 @@ export const FollowingTabTrigger = ({
   label,
   isDisabled,
 }: TabTriggerProps) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
 
   return (
     <Tabs.Trigger

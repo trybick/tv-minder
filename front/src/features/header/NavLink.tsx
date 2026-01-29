@@ -4,7 +4,7 @@ import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 
 interface Props {
@@ -24,7 +24,7 @@ export const NavLink = ({
   onClick,
   iconOnly,
 }: Props) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const navigate = useNavigateWithAnimation();
   const [location] = useLocation();
   const isActive = location === linkTo;

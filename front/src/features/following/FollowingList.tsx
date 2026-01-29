@@ -1,7 +1,7 @@
 import { Box, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { useIsMobile } from '~/hooks/useIsMobile';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectActiveSeasonShows,
@@ -24,7 +24,7 @@ const tabs = {
 };
 
 export const FollowingList = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsiveLayout();
   const [currentTab, setCurrentTab] = useState<keyof typeof tabs>('all');
 
   const followedShowsDetails = useAppSelector(selectFollowedShowsDetails);
