@@ -13,7 +13,6 @@ import {
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
 
-import { HowItWorks } from './HowItWorks';
 import { PopularShowSection } from './PopularShowSection';
 import { SectionHeading } from './SectionHeading';
 
@@ -38,8 +37,6 @@ export const PopularShows = () => {
 
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
-      <HowItWorks />
-
       <Box>
         <SectionHeading
           icon={<HiOutlineFire />}

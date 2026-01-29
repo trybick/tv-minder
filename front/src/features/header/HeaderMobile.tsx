@@ -10,6 +10,7 @@ import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
+import { HelpPopover } from './HelpPopover';
 import { LoginButton } from './LoginButton';
 import { Logo } from './Logo';
 import { NavigationLinks } from './NavLinksContainer';
@@ -31,10 +32,11 @@ export const HeaderMobile = () => {
         <Flex align="center" as="nav" p="15px 24px" wrap="wrap">
           <Logo onClose={closeHeader} />
 
-          <Flex align="center" gap="8px">
+          <Flex align="center" gap="4px">
+            <HelpPopover />
             <CommandPaletteButton onClick={openPalette} />
 
-            <Box cursor="pointer" onClick={toggleHeader}>
+            <Box cursor="pointer" onClick={toggleHeader} p="8px">
               <svg
                 fill="teal"
                 viewBox="0 0 20 20"
