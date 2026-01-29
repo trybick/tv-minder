@@ -4,8 +4,8 @@ import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
-import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 
 interface Props {
   linkTo: string;

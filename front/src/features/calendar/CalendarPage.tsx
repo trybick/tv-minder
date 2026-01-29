@@ -12,8 +12,8 @@ import { type RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
-import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
