@@ -3,6 +3,7 @@ import { MdSearch } from 'react-icons/md';
 
 import { useIsCompactDesktop } from '~/hooks/useIsCompactDesktop';
 import { useIsMobile } from '~/hooks/useIsMobile';
+import { getIsMac } from '~/utils/isMac';
 
 type Props = {
   onClick: () => void;
@@ -11,6 +12,8 @@ type Props = {
 export const CommandPaletteButton = ({ onClick }: Props) => {
   const isMobile = useIsMobile();
   const isCompactDesktop = useIsCompactDesktop();
+
+  const modifierKey = getIsMac() ? '⌘' : 'Ctrl';
 
   // Mobile: just an icon button
   if (isMobile) {
@@ -53,7 +56,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       >
         <MdSearch size={16} />
         <Flex gap="2px">
-          <Kbd size="sm">⌘</Kbd>
+          <Kbd size="sm">{modifierKey}</Kbd>
           <Kbd size="sm">K</Kbd>
         </Flex>
       </Flex>
@@ -88,7 +91,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         Search...
       </Box>
       <Flex gap="4px">
-        <Kbd size="sm">⌘</Kbd>
+        <Kbd size="sm">{modifierKey}</Kbd>
         <Kbd size="sm">K</Kbd>
       </Flex>
     </Flex>

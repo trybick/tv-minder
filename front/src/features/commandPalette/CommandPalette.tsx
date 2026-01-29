@@ -74,19 +74,20 @@ type Props = {
 };
 
 export const CommandPaletteProvider = ({ children }: Props) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigateWithAnimation();
+  const { getImageUrl } = useImageUrl();
+
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [tmdbResults, setTmdbResults] = useState<TmdbShowSummary[]>([]);
   const [isSearchingTmdb, setIsSearchingTmdb] = useState(false);
   const searchTimeoutRef = useRef<number | null>(null);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigateWithAnimation();
   const followedShows = useAppSelector(selectFollowedShowsDetails);
   const savedQueries = useAppSelector(selectSavedQueries);
   const recentShows = useAppSelector(selectRecentShows);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const { getImageUrl } = useImageUrl();
 
   const filteredFollowedShows = followedShows.filter(show =>
     show.name.toLowerCase().includes(searchTerm.toLowerCase())

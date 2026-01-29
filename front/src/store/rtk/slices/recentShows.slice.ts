@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-const MAX_RECENT_SHOWS = 8;
+const MAX_RECENT_SHOWS = 5;
 
 type RecentShow = {
   id: number;
@@ -35,3 +35,5 @@ export const recentShowsSlice = createSlice({
 export const { addRecentShow } = recentShowsSlice.actions;
 
 export const { selectRecentShows } = recentShowsSlice.selectors;
+
+export const recentShowsReducer = recentShowsSlice.reducer;
