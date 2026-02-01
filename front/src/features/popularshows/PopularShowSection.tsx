@@ -26,57 +26,39 @@ export const PopularShowSection = ({ shows }: Props) => {
       gap="5"
       allowMouseDrag
     >
-      <Carousel.Control position="relative" width="full">
+      <Carousel.ItemGroup>
+        {shows.map((show, index) => (
+          <Carousel.Item key={show.id} index={index}>
+            <PopularShowCard show={show} />
+          </Carousel.Item>
+        ))}
+      </Carousel.ItemGroup>
+
+      <Carousel.Control justifyContent="center" gap="4" mt={4}>
         <Carousel.PrevTrigger asChild>
           <IconButton
             aria-label="Previous"
-            variant="plain"
-            color="white"
-            position="absolute"
-            left="-16"
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            opacity={0.7}
-            w="16"
-            h="16"
-            _hover={{ opacity: 1 }}
-            _disabled={{ opacity: 0.2, cursor: 'not-allowed' }}
+            size="sm"
+            variant="ghost"
+            colorPalette="cyan"
           >
-            <HiChevronLeft style={{ width: '40px', height: '40px' }} />
+            <HiChevronLeft />
           </IconButton>
         </Carousel.PrevTrigger>
 
-        <Carousel.ItemGroup width="full">
-          {shows.map((show, index) => (
-            <Carousel.Item key={show.id} index={index}>
-              <PopularShowCard show={show} />
-            </Carousel.Item>
-          ))}
-        </Carousel.ItemGroup>
+        <Carousel.Indicators />
 
         <Carousel.NextTrigger asChild>
           <IconButton
             aria-label="Next"
-            variant="plain"
-            color="white"
-            position="absolute"
-            right="-16"
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            opacity={0.7}
-            w="16"
-            h="16"
-            _hover={{ opacity: 1 }}
-            _disabled={{ opacity: 0.2, cursor: 'not-allowed' }}
+            size="sm"
+            variant="ghost"
+            colorPalette="cyan"
           >
-            <HiChevronRight style={{ width: '40px', height: '40px' }} />
+            <HiChevronRight />
           </IconButton>
         </Carousel.NextTrigger>
       </Carousel.Control>
-
-      <Carousel.Indicators mt={4} />
     </Carousel.Root>
   );
 };
