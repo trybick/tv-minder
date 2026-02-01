@@ -22,7 +22,9 @@ export const PopularShowSection = ({ shows }: Props) => {
     useBreakpointValue(slidesPerPageByBreakpoint, { ssr: false }) ??
     slidesPerPageByBreakpoint.base;
 
-  if (shows.length === 0) return null;
+  if (shows.length === 0) {
+    return null;
+  }
 
   return (
     <Carousel.Root
@@ -36,19 +38,20 @@ export const PopularShowSection = ({ shows }: Props) => {
         <Carousel.PrevTrigger asChild>
           <IconButton
             aria-label="Previous"
-            size="2xl"
             variant="plain"
             color="white"
             position="absolute"
-            left="-12"
+            left="-16"
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
-            opacity={0.8}
+            opacity={0.7}
+            w="16"
+            h="16"
             _hover={{ opacity: 1 }}
             _disabled={{ opacity: 0.2, cursor: 'not-allowed' }}
           >
-            <HiChevronLeft size={48} />
+            <HiChevronLeft style={{ width: '45px', height: '45px' }} />
           </IconButton>
         </Carousel.PrevTrigger>
 
@@ -63,19 +66,20 @@ export const PopularShowSection = ({ shows }: Props) => {
         <Carousel.NextTrigger asChild>
           <IconButton
             aria-label="Next"
-            size="2xl"
             variant="plain"
             color="white"
             position="absolute"
-            right="-12"
+            right="-16"
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
-            opacity={0.8}
+            opacity={0.7}
+            w="16"
+            h="16"
             _hover={{ opacity: 1 }}
             _disabled={{ opacity: 0.2, cursor: 'not-allowed' }}
           >
-            <HiChevronRight size={48} />
+            <HiChevronRight style={{ width: '45px', height: '45px' }} />
           </IconButton>
         </Carousel.NextTrigger>
       </Carousel.Control>
