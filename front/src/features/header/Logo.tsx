@@ -35,7 +35,7 @@ export const Logo = ({ onClose }: Props) => {
           <Image
             alt="TV Minder logo"
             display="inline"
-            h="30px"
+            h="24px"
             src={logo}
             verticalAlign="middle"
           />

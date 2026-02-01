@@ -22,7 +22,7 @@ export const UserMenu = () => {
   };
 
   return (
-    <Box>
+    <Box ml={0.5}>
       <Menu.Root
         // @ts-ignore - colorPalette is a valid prop for the Menu.Root component
         colorPalette="customCyan"
@@ -33,7 +33,7 @@ export const UserMenu = () => {
           cursor="pointer"
           focusRing="none"
         >
-          <Avatar.Root size="sm">
+          <Avatar.Root size="xs">
             <Avatar.Fallback name={email} />
           </Avatar.Root>
         </Menu.Trigger>

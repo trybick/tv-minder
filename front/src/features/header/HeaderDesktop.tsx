@@ -11,7 +11,7 @@ export const HeaderDesktop = () => {
         align="center"
         as="nav"
         justify="space-between"
-        p="17px 1.6rem 15px"
+        p="10px 1.6rem"
       >
         <Logo />
         <NavigationLinks />

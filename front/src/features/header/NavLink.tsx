@@ -44,9 +44,9 @@ export const NavLink = ({
     ? {}
     : {
         textDecoration: isActive ? 'underline' : 'none',
-        textDecorationColor: 'cyan.400',
-        textDecorationThickness: '1px',
-        textUnderlineOffset: '6px',
+        textDecorationColor: 'cyan.500',
+        textDecorationThickness: '2px',
+        textUnderlineOffset: '4px',
       };
 
   return (
@@ -56,15 +56,15 @@ export const NavLink = ({
       title={iconOnly ? text : undefined}
     >
       <Button
-        color={isActive ? 'cyan.500' : 'gray.500'}
+        color={isActive ? 'fg' : 'fg.muted'}
         {...textDecorationProps}
-        fontSize="1.2rem"
-        fontWeight="700"
-        p={iconOnly ? '10px' : '16px'}
+        fontSize="md"
+        fontWeight="semibold"
+        p={iconOnly ? '8px' : '12px'}
         minW={iconOnly ? 'auto' : undefined}
         variant="plain"
         _hover={{
-          color: 'cyan.400',
+          color: 'fg',
           ...textDecorationProps,
           ...(iconOnly ? {} : { textDecoration: 'underline' }),
         }}

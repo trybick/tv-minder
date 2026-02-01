@@ -66,7 +66,7 @@ export const Footer = () => {
             size="sm"
             variant="subtle"
           >
-            Feedback
+            Send Feedback
             <FaRegComment opacity={0.8} />
           </Button>
         </Flex>
