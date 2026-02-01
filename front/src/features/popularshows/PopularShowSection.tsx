@@ -1,66 +1,77 @@
 import {
   Box,
-  Button,
+  Carousel,
+  IconButton,
   useBreakpointValue,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { HiChevronDown } from 'react-icons/hi2';
+import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
-import {
-  ShowCard,
-  showCardColumnsByBreakpoint,
-  type ShowItem,
-} from '~/components/ShowCard';
-import { applyViewTransition } from '~/utils/applyViewTransition';
+import { type ShowItem } from '~/components/ShowCard';
 
 import { PopularShowCard } from './PopularShowCard';
+
+const slidesPerPageByBreakpoint = {
+  base: 2,
+  md: 3,
+  lg: 4,
+  xl: 5,
+  '2xl': 6,
+} as const;
 
 type Props = {
   shows: ShowItem[];
 };
 
 export const PopularShowSection = ({ shows }: Props) => {
-  const { open: isExpanded, onToggle } = useDisclosure();
+  const slidesPerPage =
+    useBreakpointValue(slidesPerPageByBreakpoint, { ssr: false }) ??
+    slidesPerPageByBreakpoint.base;
 
-  const minShowsToRender =
-    useBreakpointValue(showCardColumnsByBreakpoint, { ssr: false }) ??
-    showCardColumnsByBreakpoint.base;
-
-  const visibleShows = isExpanded ? shows : shows.slice(0, minShowsToRender);
-
-  const handleToggle = () => {
-    applyViewTransition(onToggle);
-  };
+  if (shows.length === 0) return null;
 
   return (
-    <>
-      <Box position="relative">
-        <ShowCard.Grid>
-          {visibleShows.map(show => (
-            <PopularShowCard key={show.id} show={show} />
-          ))}
-        </ShowCard.Grid>
-      </Box>
+    <Carousel.Root
+      slideCount={shows.length}
+      slidesPerPage={slidesPerPage}
+      slidesPerMove={slidesPerPage}
+      gap="5"
+      allowMouseDrag
+    >
+      <Carousel.ItemGroup>
+        {shows.map((show, index) => (
+          <Carousel.Item key={show.id} index={index}>
+            <PopularShowCard show={show} />
+          </Carousel.Item>
+        ))}
+      </Carousel.ItemGroup>
 
-      {!isExpanded && shows.length > minShowsToRender && (
-        <Button
-          colorPalette="cyan"
-          mt={8}
-          mx="auto"
-          display="flex"
-          onClick={handleToggle}
-          variant="outline"
-          size="sm"
-          borderColor="whiteAlpha.200"
-          _hover={{
-            bg: 'whiteAlpha.100',
-            borderColor: 'cyan.500/50',
-          }}
-        >
-          Show More
-          <HiChevronDown />
-        </Button>
-      )}
-    </>
+      <Carousel.Control justifyContent="center" gap="4" mt={4}>
+        <Carousel.PrevTrigger asChild>
+          <IconButton
+            aria-label="Previous"
+            size="sm"
+            variant="ghost"
+            colorPalette="cyan"
+          >
+            <HiChevronLeft />
+          </IconButton>
+        </Carousel.PrevTrigger>
+
+        <Box display={{ base: 'none', md: 'flex' }}>
+          <Carousel.Indicators />
+        </Box>
+
+        <Carousel.NextTrigger asChild>
+          <IconButton
+            aria-label="Next"
+            size="sm"
+            variant="ghost"
+            colorPalette="cyan"
+          >
+            <HiChevronRight />
+          </IconButton>
+        </Carousel.NextTrigger>
+      </Carousel.Control>
+    </Carousel.Root>
   );
 };
