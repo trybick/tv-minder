@@ -43,7 +43,7 @@ export const PopularShowSection = ({ shows }: Props) => {
             _hover={{ opacity: 1 }}
             _disabled={{ opacity: 0.2, cursor: 'not-allowed' }}
           >
-            <HiChevronLeft style={{ width: '45px', height: '45px' }} />
+            <HiChevronLeft style={{ width: '40px', height: '40px' }} />
           </IconButton>
         </Carousel.PrevTrigger>
 
@@ -71,7 +71,7 @@ export const PopularShowSection = ({ shows }: Props) => {
             _hover={{ opacity: 1 }}
             _disabled={{ opacity: 0.2, cursor: 'not-allowed' }}
           >
-            <HiChevronRight style={{ width: '45px', height: '45px' }} />
+            <HiChevronRight style={{ width: '40px', height: '40px' }} />
           </IconButton>
         </Carousel.NextTrigger>
       </Carousel.Control>
