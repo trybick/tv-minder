@@ -1,7 +1,7 @@
 import { Grid as ChakraGrid, type GridProps } from '@chakra-ui/react';
 import { type PropsWithChildren } from 'react';
 
-export const showCardColumnsByBreakpoint = {
+export const showElementsByBreakpoint = {
   base: 2,
   md: 3,
   lg: 4,
@@ -10,7 +10,7 @@ export const showCardColumnsByBreakpoint = {
 } as const;
 
 export const showCardTemplateColumns = Object.fromEntries(
-  Object.entries(showCardColumnsByBreakpoint).map(([key, value]) => [
+  Object.entries(showElementsByBreakpoint).map(([key, value]) => [
     key,
     `repeat(${value}, 1fr)`,
   ])

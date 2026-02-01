@@ -29,4 +29,4 @@ export {
   type StatusBadge,
 } from './helpers';
 
-export { showCardColumnsByBreakpoint } from './Grid';
+export { showElementsByBreakpoint } from './Grid';

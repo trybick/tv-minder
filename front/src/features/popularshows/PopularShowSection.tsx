@@ -1,17 +1,9 @@
 import { Carousel, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
-import { type ShowItem } from '~/components/ShowCard';
+import { showElementsByBreakpoint, type ShowItem } from '~/components/ShowCard';
 
 import { PopularShowCard } from './PopularShowCard';
-
-const slidesPerPageByBreakpoint = {
-  base: 2,
-  md: 3,
-  lg: 4,
-  xl: 5,
-  '2xl': 6,
-} as const;
 
 type Props = {
   shows: ShowItem[];
@@ -19,8 +11,8 @@ type Props = {
 
 export const PopularShowSection = ({ shows }: Props) => {
   const slidesPerPage =
-    useBreakpointValue(slidesPerPageByBreakpoint, { ssr: false }) ??
-    slidesPerPageByBreakpoint.base;
+    useBreakpointValue(showElementsByBreakpoint, { ssr: false }) ??
+    showElementsByBreakpoint.base;
 
   if (shows.length === 0) {
     return null;
