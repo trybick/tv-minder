@@ -1,6 +1,5 @@
-import { Avatar, Box, Menu, Portal } from '@chakra-ui/react';
-import { SlLogout } from 'react-icons/sl';
-import { VscSettingsGear } from 'react-icons/vsc';
+import { Avatar, Box, Menu, Portal, Text } from '@chakra-ui/react';
+import { LuLogOut, LuSettings } from 'react-icons/lu';
 
 import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
@@ -23,16 +22,8 @@ export const UserMenu = () => {
 
   return (
     <Box ml={0.5}>
-      <Menu.Root
-        // @ts-ignore - colorPalette is a valid prop for the Menu.Root component
-        colorPalette="customCyan"
-        positioning={{ placement: 'bottom-end' }}
-      >
-        <Menu.Trigger
-          aria-label="Page Options"
-          cursor="pointer"
-          focusRing="none"
-        >
+      <Menu.Root positioning={{ placement: 'bottom-end', gutter: 8 }}>
+        <Menu.Trigger aria-label="User menu" cursor="pointer" rounded="full">
           <Avatar.Root size="xs">
             <Avatar.Fallback name={email} />
           </Avatar.Root>
@@ -40,18 +31,15 @@ export const UserMenu = () => {
 
         <Portal>
           <Menu.Positioner>
-            <Menu.Content zIndex={4}>
-              <Menu.ItemGroup>
-                <Menu.Item
-                  cursor="default"
-                  value="email"
-                  _hover={{ bg: 'transparent' }}
-                  color="fg"
-                  opacity={0.7}
-                >
+            <Menu.Content minW="200px" zIndex={4}>
+              <Box px="3" py="2">
+                <Text fontSize="xs" color="fg.muted" fontWeight="medium">
+                  Signed in as
+                </Text>
+                <Text fontSize="sm" color="fg" fontWeight="semibold" truncate>
                   {email}
-                </Menu.Item>
-              </Menu.ItemGroup>
+                </Text>
+              </Box>
 
               <Menu.Separator />
 
@@ -60,25 +48,21 @@ export const UserMenu = () => {
                   <Menu.Item
                     cursor="pointer"
                     onClick={() => navigate(ROUTES.SETTINGS)}
-                    p="8px 8px"
                     value="settings"
-                    color="gray.200"
                   >
-                    <VscSettingsGear />
+                    <LuSettings />
                     Settings
                   </Menu.Item>
                 )}
                 <Menu.Item
                   cursor="pointer"
                   onClick={handleLogout}
-                  p="8px 8px"
                   value="logout"
-                  color="red.500"
-                  gap="8px"
-                  _hover={{ bg: 'red.900' }}
+                  color="red.400"
+                  _hover={{ bg: 'red.950', color: 'red.300' }}
                 >
-                  <SlLogout />
-                  Logout
+                  <LuLogOut />
+                  Log out
                 </Menu.Item>
               </Menu.ItemGroup>
             </Menu.Content>
