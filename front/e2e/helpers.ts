@@ -37,5 +37,5 @@ export const login = async (page: Page) => {
   await page.getByRole('textbox', { name: /password/i }).fill(password);
 
   await page.getByRole('dialog').getByRole('button', { name: 'Login' }).click();
-  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'User menu' })).toBeVisible();
 };

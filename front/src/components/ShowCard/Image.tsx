@@ -6,6 +6,7 @@ import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 
 import { type ShowItem } from './helpers';
+import { usePreventClickOnDrag } from './usePreventClickOnDrag';
 
 type Props = PropsWithChildren<{
   show: ShowItem;
@@ -13,16 +14,21 @@ type Props = PropsWithChildren<{
 
 export const Image = ({ show, children }: Props) => {
   const navigateToShow = useNavigateToShow();
+  const { dragListeners, shouldCancelClick } = usePreventClickOnDrag();
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: show.posterPath });
 
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (shouldCancelClick(e)) {
+      return;
+    }
     navigateToShow(e, { showId: show.id, name: show.name, posterSource });
   };
 
   return (
     <Link
       onClick={onShowClick}
+      {...dragListeners}
       href={`${ROUTES.SHOW}/${show.id}`}
       position="relative"
       display="block"

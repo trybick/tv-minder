@@ -7,12 +7,7 @@ import { RightSectionDesktop } from './RightSectionDesktop';
 export const HeaderDesktop = () => {
   return (
     <>
-      <Flex
-        align="center"
-        as="nav"
-        justify="space-between"
-        p="10px 1.6rem"
-      >
+      <Flex align="center" as="nav" justify="space-between" p="10px 1.6rem">
         <Logo />
         <NavigationLinks />
         <RightSectionDesktop />

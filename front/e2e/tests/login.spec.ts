@@ -10,7 +10,7 @@ test.describe('Login and Signup flows', () => {
     await page.goto('/');
     await login(page);
 
-    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    const userMenu = page.getByRole('button', { name: 'User menu' });
     await expect(userMenu).toBeVisible();
 
     await userMenu.click();
@@ -86,8 +86,7 @@ test.describe('Login and Signup flows', () => {
       .getByRole('button', { name: 'Sign Up' })
       .click();
 
-    await expect(signupModal).not.toBeVisible();
-    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    const userMenu = page.getByRole('button', { name: 'User menu' });
     await expect(userMenu).toBeVisible();
   });
 
@@ -160,9 +159,9 @@ test.describe('Login and Signup flows', () => {
     await page.goto('/');
     await login(page);
 
-    const userMenu = page.getByRole('button', { name: 'Page Options' });
+    const userMenu = page.getByRole('button', { name: 'User menu' });
     await userMenu.click();
-    await page.getByRole('menuitem', { name: 'Logout' }).click();
+    await page.getByRole('menuitem', { name: 'Log out' }).click();
 
     await expect(
       page.getByRole('navigation').getByRole('button', { name: 'Login' })
