@@ -1,45 +1,46 @@
-import { Carousel, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Carousel as ChakraCarousel,
+  IconButton,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import { Children, type ReactNode } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
 import { showElementsByBreakpoint } from '~/components/ShowCard';
 
-type Props<T> = {
-  items: T[];
-  keyExtractor: (item: T) => string | number;
-  renderItem: (item: T) => React.ReactNode;
+type Props = {
+  children: ReactNode;
 };
 
-export const ShowCarousel = <T,>({
-  items,
-  keyExtractor,
-  renderItem,
-}: Props<T>) => {
+export const Carousel = ({ children }: Props) => {
   const slidesPerPage =
     useBreakpointValue(showElementsByBreakpoint, { ssr: false }) ??
     showElementsByBreakpoint.base;
 
-  if (items.length === 0) {
+  const childArray = Children.toArray(children);
+
+  if (childArray.length === 0) {
     return null;
   }
 
   return (
-    <Carousel.Root
-      slideCount={items.length}
+    <ChakraCarousel.Root
+      slideCount={childArray.length}
       slidesPerPage={slidesPerPage}
       slidesPerMove={slidesPerPage}
       gap="5"
       allowMouseDrag
     >
-      <Carousel.ItemGroup>
-        {items.map((item, index) => (
-          <Carousel.Item key={keyExtractor(item)} index={index}>
-            {renderItem(item)}
-          </Carousel.Item>
+      <ChakraCarousel.ItemGroup>
+        {childArray.map((child, index) => (
+          <ChakraCarousel.Item key={index} index={index}>
+            {child}
+          </ChakraCarousel.Item>
         ))}
-      </Carousel.ItemGroup>
+      </ChakraCarousel.ItemGroup>
 
-      <Carousel.Control justifyContent="center" gap="4" mt={4}>
-        <Carousel.PrevTrigger asChild>
+      <ChakraCarousel.Control justifyContent="center" gap="4" mt={4}>
+        <ChakraCarousel.PrevTrigger asChild>
           <IconButton
             aria-label="Previous"
             size="sm"
@@ -48,11 +49,11 @@ export const ShowCarousel = <T,>({
           >
             <HiChevronLeft />
           </IconButton>
-        </Carousel.PrevTrigger>
+        </ChakraCarousel.PrevTrigger>
 
-        <Carousel.Indicators />
+        <ChakraCarousel.Indicators />
 
-        <Carousel.NextTrigger asChild>
+        <ChakraCarousel.NextTrigger asChild>
           <IconButton
             aria-label="Next"
             size="sm"
@@ -61,8 +62,8 @@ export const ShowCarousel = <T,>({
           >
             <HiChevronRight />
           </IconButton>
-        </Carousel.NextTrigger>
-      </Carousel.Control>
-    </Carousel.Root>
+        </ChakraCarousel.NextTrigger>
+      </ChakraCarousel.Control>
+    </ChakraCarousel.Root>
   );
 };
