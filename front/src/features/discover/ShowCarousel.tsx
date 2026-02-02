@@ -1,35 +1,39 @@
 import { Carousel, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
-import { showElementsByBreakpoint, type ShowItem } from '~/components/ShowCard';
+import { showElementsByBreakpoint } from '~/components/ShowCard';
 
-import { PopularShowCard } from './PopularShowCard';
-
-type Props = {
-  shows: ShowItem[];
+type Props<T> = {
+  items: T[];
+  keyExtractor: (item: T) => string | number;
+  renderItem: (item: T) => React.ReactNode;
 };
 
-export const PopularShowSection = ({ shows }: Props) => {
+export const ShowCarousel = <T,>({
+  items,
+  keyExtractor,
+  renderItem,
+}: Props<T>) => {
   const slidesPerPage =
     useBreakpointValue(showElementsByBreakpoint, { ssr: false }) ??
     showElementsByBreakpoint.base;
 
-  if (shows.length === 0) {
+  if (items.length === 0) {
     return null;
   }
 
   return (
     <Carousel.Root
-      slideCount={shows.length}
+      slideCount={items.length}
       slidesPerPage={slidesPerPage}
       slidesPerMove={slidesPerPage}
       gap="5"
       allowMouseDrag
     >
       <Carousel.ItemGroup>
-        {shows.map((show, index) => (
-          <Carousel.Item key={show.id} index={index}>
-            <PopularShowCard show={show} />
+        {items.map((item, index) => (
+          <Carousel.Item key={keyExtractor(item)} index={index}>
+            {renderItem(item)}
           </Carousel.Item>
         ))}
       </Carousel.ItemGroup>
