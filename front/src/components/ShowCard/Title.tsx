@@ -5,14 +5,11 @@ import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 
-import { type ShowItem } from './helpers';
+import { useShowCardContext } from './context';
 import { usePreventClickOnDrag } from './usePreventClickOnDrag';
 
-type Props = {
-  show: ShowItem;
-};
-
-export const Title = ({ show }: Props) => {
+export const Title = () => {
+  const { show } = useShowCardContext();
   const navigateToShow = useNavigateToShow();
   const { dragListeners, shouldCancelClick } = usePreventClickOnDrag();
   const { getImageUrl } = useImageUrl();

@@ -64,8 +64,8 @@ Custom hooks in `hooks/`:
 
 ### Validation
 
-- After significant codebase changes, run `npm run validate`
-- If it fails, fix the TypeScript error(s) before continuing
+- After changing more than a few lines of code, run `npm run validate`
+- If it fails, fix the TypeScript/Eslint error(s) before continuing
 
 ### Components
 

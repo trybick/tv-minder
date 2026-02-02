@@ -20,12 +20,12 @@ export const SubSectionOfShows = ({ shows }: Props) => {
         const badge = getStatusBadge(show.status);
         return (
           <ShowCard.Root key={show.id} show={show}>
-            <ShowCard.UnfollowXButton showId={show.id} showName={show.name} />
-            <ShowCard.Image show={show}>
+            <ShowCard.UnfollowXButton />
+            <ShowCard.Image>
               {badge && <ShowCard.StatusBadge {...badge} />}
             </ShowCard.Image>
             <ShowCard.BottomSection>
-              <ShowCard.Title show={show} />
+              <ShowCard.Title />
             </ShowCard.BottomSection>
           </ShowCard.Root>
         );

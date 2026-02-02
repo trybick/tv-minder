@@ -1,9 +1,8 @@
 import { FollowButton as BaseFollowButton } from '~/components/FollowButton';
 
-type Props = {
-  showId: number;
-};
+import { useShowCardContext } from './context';
 
-export const FollowButton = ({ showId }: Props) => (
-  <BaseFollowButton showId={showId} size="sm" w="100%" mt={0.5} />
-);
+export const FollowButton = () => {
+  const { show } = useShowCardContext();
+  return <BaseFollowButton showId={show.id} size="sm" w="100%" mt={0.5} />;
+};

@@ -85,4 +85,19 @@ export const tmdbApi = {
    */
   getTopRated: (): Promise<TmdbShowList> =>
     fetchTmdb('tv/top_rated', tmdbSchema.showList),
+
+  /**
+   * Get similar TV shows based on a show ID.
+   * Endpoint: /tv/{series_id}/similar
+   * NOTE: This seems to give not useful results that don't seem similar.
+   */
+  getSimilar: (showId: number): Promise<TmdbShowList> =>
+    fetchTmdb(`tv/${showId}/similar`, tmdbSchema.showList),
+
+  /**
+   * Get recommended TV shows based on a show ID.
+   * Endpoint: /tv/{series_id}/recommendations
+   */
+  getRecommendations: (showId: number): Promise<TmdbShowList> =>
+    fetchTmdb(`tv/${showId}/recommendations`, tmdbSchema.showList),
 };
