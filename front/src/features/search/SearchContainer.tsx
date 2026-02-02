@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
-import { PopularShows } from '~/features/popularshows/PopularShows';
+import { DiscoverShows } from '~/features/discover/DiscoverShows';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
 import { NoResultsFound } from './NoResultsFound';
@@ -28,7 +28,7 @@ export const SearchContainer = ({
     ) : isInputDirty ? (
       <NoResultsFound />
     ) : (
-      <PopularShows />
+      <DiscoverShows />
     )}
   </Flex>
 );

@@ -6,7 +6,7 @@ type Props = {
   show: ShowItem;
 };
 
-export const PopularShowCard = ({ show }: Props) => {
+export const DiscoverShowCard = ({ show }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (

@@ -2,7 +2,7 @@ import { Box, Separator } from '@chakra-ui/react';
 import { useEffect, useMemo } from 'react';
 import { HiOutlineFire, HiOutlineStar } from 'react-icons/hi2';
 
-import { mapPopularShow } from '~/components/ShowCard';
+import { mapPopularShow, type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   getPopularShowsAction,
@@ -13,10 +13,14 @@ import {
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
 
-import { PopularShowSection } from './PopularShowSection';
-import { SectionHeading } from './SectionHeading';
+import { Carousel } from './Carousel';
+import { DiscoverHeader } from './DiscoverHeader';
+import { DiscoverShowCard } from './DiscoverShowCard';
 
-export const PopularShows = () => {
+const keyExtractor = (show: ShowItem) => show.id;
+const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
+
+export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const popularShows = useAppSelector(selectPopularShowsForDisplay);
   const topRatedShows = useAppSelector(selectTopRatedShowsForDisplay);
@@ -38,23 +42,31 @@ export const PopularShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       <Box>
-        <SectionHeading
+        <DiscoverHeader
           icon={<HiOutlineFire />}
           title="Trending Now"
           subtitle="What everyone's watching this week"
         />
-        <PopularShowSection shows={popularShowItems} />
+        <Carousel
+          items={popularShowItems}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
       </Box>
 
       <Separator my={10} borderColor="whiteAlpha.100" />
 
       <Box>
-        <SectionHeading
+        <DiscoverHeader
           icon={<HiOutlineStar />}
           title="All-Time Favorites"
           subtitle="Highest rated shows of all time"
         />
-        <PopularShowSection shows={topRatedShowItems} />
+        <Carousel
+          items={topRatedShowItems}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
       </Box>
     </Box>
   );

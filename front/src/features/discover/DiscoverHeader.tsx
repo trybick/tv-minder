@@ -7,7 +7,7 @@ type Props = {
   subtitle: string;
 };
 
-export const SectionHeading = ({ icon, title, subtitle }: Props) => (
+export const DiscoverHeader = ({ icon, title, subtitle }: Props) => (
   <Flex align="center" gap={3} mb={5}>
     <Flex
       align="center"
