@@ -3,38 +3,38 @@ import {
   IconButton,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { Children, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
 import { showElementsByBreakpoint } from '~/components/ShowCard';
 
-type Props = {
-  children: ReactNode;
+type Props<T> = {
+  items: T[];
+  keyExtractor: (item: T) => string | number;
+  renderItem: (item: T) => ReactNode;
 };
 
-export const Carousel = ({ children }: Props) => {
+export const Carousel = <T,>({ items, keyExtractor, renderItem }: Props<T>) => {
   const slidesPerPage =
     useBreakpointValue(showElementsByBreakpoint, { ssr: false }) ??
     showElementsByBreakpoint.base;
 
-  const childArray = Children.toArray(children);
-
-  if (childArray.length === 0) {
+  if (items.length === 0) {
     return null;
   }
 
   return (
     <ChakraCarousel.Root
-      slideCount={childArray.length}
+      slideCount={items.length}
       slidesPerPage={slidesPerPage}
       slidesPerMove={slidesPerPage}
       gap="5"
       allowMouseDrag
     >
       <ChakraCarousel.ItemGroup>
-        {childArray.map((child, index) => (
-          <ChakraCarousel.Item key={index} index={index}>
-            {child}
+        {items.map((item, index) => (
+          <ChakraCarousel.Item key={keyExtractor(item)} index={index}>
+            {renderItem(item)}
           </ChakraCarousel.Item>
         ))}
       </ChakraCarousel.ItemGroup>

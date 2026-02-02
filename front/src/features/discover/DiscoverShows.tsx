@@ -13,9 +13,9 @@ import {
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
 
+import { Carousel } from './Carousel';
+import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverShowCard } from './DiscoverShowCard';
-import { SectionHeading } from './SectionHeading';
-import { ShowCarousel } from './ShowCarousel';
 
 const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
@@ -42,12 +42,12 @@ export const DiscoverShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       <Box>
-        <SectionHeading
+        <DiscoverHeader
           icon={<HiOutlineFire />}
           title="Trending Now"
           subtitle="What everyone's watching this week"
         />
-        <ShowCarousel
+        <Carousel
           items={popularShowItems}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
@@ -57,12 +57,12 @@ export const DiscoverShows = () => {
       <Separator my={10} borderColor="whiteAlpha.100" />
 
       <Box>
-        <SectionHeading
+        <DiscoverHeader
           icon={<HiOutlineStar />}
           title="All-Time Favorites"
           subtitle="Highest rated shows of all time"
         />
-        <ShowCarousel
+        <Carousel
           items={topRatedShowItems}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
