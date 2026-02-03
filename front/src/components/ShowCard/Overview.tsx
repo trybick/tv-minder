@@ -1,12 +1,15 @@
 import { Box, Text } from '@chakra-ui/react';
 
+import { useShowCardContext } from './context';
+
 type Props = {
-  overview: string | undefined;
   isHovered: boolean;
 };
 
-export const Overview = ({ overview, isHovered }: Props) => {
-  if (!overview) {
+export const Overview = ({ isHovered }: Props) => {
+  const { show } = useShowCardContext();
+
+  if (!show.overview) {
     return null;
   }
 
@@ -22,7 +25,7 @@ export const Overview = ({ overview, isHovered }: Props) => {
       alignItems="flex-end"
     >
       <Text fontSize="sm" lineClamp={6} color="white" lineHeight="1.5">
-        {overview}
+        {show.overview}
       </Text>
     </Box>
   );

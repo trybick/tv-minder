@@ -20,13 +20,13 @@ export const SearchResultCard = ({ show, badge }: Props) => {
       onHoverChange={setIsHovered}
       aria-label="search-result"
     >
-      <ShowCard.Image show={show}>
+      <ShowCard.Image>
         {badge && <ShowCard.StatusBadge {...badge} />}
-        <ShowCard.Overview overview={show.overview} isHovered={isHovered} />
+        <ShowCard.Overview isHovered={isHovered} />
       </ShowCard.Image>
       <ShowCard.BottomSection>
-        <ShowCard.Title show={show} />
-        <ShowCard.FollowButton showId={show.id} />
+        <ShowCard.Title />
+        <ShowCard.FollowButton />
       </ShowCard.BottomSection>
     </ShowCard.Root>
   );

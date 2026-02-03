@@ -1,4 +1,4 @@
-import { Button, CloseButton, Dialog, Text } from '@chakra-ui/react';
+import { Button, CloseButton, Dialog, Portal, Text } from '@chakra-ui/react';
 import { type MouseEvent, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -8,12 +8,11 @@ import {
   unregisteredUnfollowShow,
 } from '~/store/rtk/slices/user.slice';
 
-type Props = {
-  showId: number;
-  showName: string;
-};
+import { useShowCardContext } from './context';
 
-export const UnfollowXButton = ({ showId, showName }: Props) => {
+export const UnfollowXButton = () => {
+  const { show } = useShowCardContext();
+  const { id: showId, name: showName } = show;
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -51,46 +50,48 @@ export const UnfollowXButton = ({ showId, showName }: Props) => {
         _hover={{ color: 'white', bg: 'blackAlpha.800' }}
         zIndex="1"
       />
-      <Dialog.Root
-        open={isConfirmOpen}
-        onOpenChange={e => setIsConfirmOpen(e.open)}
-        size="sm"
-        lazyMount
-        unmountOnExit
-      >
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content bg="bg.muted">
-            <Dialog.Header>
-              <Dialog.Title>Confirm Unfollow</Dialog.Title>
-              <Dialog.CloseTrigger asChild>
-                <CloseButton color="fg.muted" />
-              </Dialog.CloseTrigger>
-            </Dialog.Header>
-            <Dialog.Body>
-              <Text color="fg.muted" fontSize="md">
-                {`Are you sure you want to unfollow ${showName}?`}
-              </Text>
-            </Dialog.Body>
-            <Dialog.Footer gap="4">
-              <Button
-                variant="ghost"
-                onClick={() => setIsConfirmOpen(false)}
-                color="fg.muted"
-              >
-                Back
-              </Button>
-              <Button
-                colorPalette="red"
-                onClick={onConfirmUnfollow}
-                variant="surface"
-              >
-                Unfollow
-              </Button>
-            </Dialog.Footer>
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Dialog.Root>
+      <Portal>
+        <Dialog.Root
+          open={isConfirmOpen}
+          onOpenChange={e => setIsConfirmOpen(e.open)}
+          size="sm"
+          lazyMount
+          unmountOnExit
+        >
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content bg="bg.muted">
+              <Dialog.Header>
+                <Dialog.Title>Confirm Unfollow</Dialog.Title>
+                <Dialog.CloseTrigger asChild>
+                  <CloseButton color="fg.muted" />
+                </Dialog.CloseTrigger>
+              </Dialog.Header>
+              <Dialog.Body>
+                <Text color="fg.muted" fontSize="md">
+                  {`Are you sure you want to unfollow ${showName}?`}
+                </Text>
+              </Dialog.Body>
+              <Dialog.Footer gap="4">
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsConfirmOpen(false)}
+                  color="fg.muted"
+                >
+                  Back
+                </Button>
+                <Button
+                  colorPalette="red"
+                  onClick={onConfirmUnfollow}
+                  variant="surface"
+                >
+                  Unfollow
+                </Button>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Dialog.Root>
+      </Portal>
     </>
   );
 };

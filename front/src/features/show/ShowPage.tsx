@@ -9,6 +9,7 @@ import { getShowDetailsWithSeasons } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
 
 import { ShowContainer } from './ShowContainer';
+import { SimilarShows } from './SimilarShows';
 
 export const ShowPage = () => {
   const dispatch = useAppDispatch();
@@ -50,6 +51,7 @@ export const ShowPage = () => {
         px={{ base: '20px', md: '30px' }}
       >
         <ShowContainer />
+        <SimilarShows />
       </Box>
     </>
   );

@@ -2,6 +2,7 @@ import { Box, Separator } from '@chakra-ui/react';
 import { useEffect, useMemo } from 'react';
 import { HiOutlineFire, HiOutlineStar } from 'react-icons/hi2';
 
+import { Carousel } from '~/components/Carousel';
 import { mapPopularShow, type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
@@ -13,7 +14,6 @@ import {
   selectTopRatedShowsForDisplay,
 } from '~/store/tv/selectors';
 
-import { Carousel } from './Carousel';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverShowCard } from './DiscoverShowCard';
 
