@@ -29,18 +29,18 @@ export const HeaderMobile = () => {
   return (
     <>
       <Box position="relative" ref={headerWrapperRef}>
-        <Flex align="center" as="nav" p="15px 24px" wrap="wrap">
+        <Flex align="center" as="nav" px="4" py="2" wrap="wrap">
           <Logo onClose={closeHeader} />
 
-          <Flex align="center" gap="4px">
+          <Flex align="center" gap="1">
             <HelpPopover />
             <CommandPaletteButton onClick={openPalette} />
 
-            <Box cursor="pointer" onClick={toggleHeader} p="8px">
+            <Box cursor="pointer" onClick={toggleHeader} p="2">
               <svg
                 fill="teal"
                 viewBox="0 0 20 20"
-                width="24px"
+                width="20px"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title>Menu</title>
@@ -61,9 +61,10 @@ export const HeaderMobile = () => {
             borderTopWidth="0"
             shadow="lg"
             zIndex="dropdown"
-            p="18px 24px"
+            px="5"
+            py="4"
           >
-            <Flex direction="column" gap="2px">
+            <Flex direction="column">
               <NavigationLinks onClose={closeHeader} />
 
               {!isLoggedIn ? (

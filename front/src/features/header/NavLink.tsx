@@ -58,9 +58,9 @@ export const NavLink = ({
       <Button
         color={isActive ? 'fg' : 'fg.muted'}
         {...textDecorationProps}
-        fontSize="md"
+        fontSize="sm"
         fontWeight="semibold"
-        p={iconOnly ? '8px' : '12px'}
+        p={iconOnly ? '1.5' : '2'}
         minW={iconOnly ? 'auto' : undefined}
         variant="plain"
         _hover={{
@@ -69,14 +69,14 @@ export const NavLink = ({
           ...(iconOnly ? {} : { textDecoration: 'underline' }),
         }}
         {...(isMobile && {
-          mr: '-16px',
+          mr: '-2',
         })}
       >
         {iconOnly ? (
-          <Icon as={icon} boxSize={5} />
+          <Icon as={icon} boxSize={4} />
         ) : (
-          <HStack as="span" gap={2}>
-            <Icon as={icon} size="sm" />
+          <HStack as="span" gap="1.5">
+            <Icon as={icon} size="xs" />
             <span>{text}</span>
           </HStack>
         )}

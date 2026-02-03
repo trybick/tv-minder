@@ -5,6 +5,7 @@ import { useLocation } from 'wouter';
 import { ROUTES } from '~/app/routes';
 import logo from '~/assets/images/logo.svg';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 import { applyViewTransition } from '~/utils/applyViewTransition';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const Logo = ({ onClose }: Props) => {
+  const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
   const [location] = useLocation();
   const navigate = useNavigateWithAnimation();
@@ -35,7 +37,7 @@ export const Logo = ({ onClose }: Props) => {
           <Image
             alt="TV Minder logo"
             display="inline"
-            h="24px"
+            h={isMobile ? '18px' : '24px'}
             src={logo}
             verticalAlign="middle"
           />

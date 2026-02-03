@@ -27,7 +27,7 @@ export const NavigationLinks = ({ onClose }: Props) => {
     <Flex
       flex="1"
       justifyContent="center"
-      gap={isCompactDesktop ? '4px' : '10px'}
+      gap={1}
       {...(isMobile && {
         flexDirection: 'column',
         alignItems: 'flex-end',
@@ -68,7 +68,11 @@ export const NavigationLinks = ({ onClose }: Props) => {
         />
       ) : null}
 
-      {isMobile && isLoggedIn ? <LogoutButton /> : null}
+      {isMobile && isLoggedIn ? (
+        <Flex justify="flex-end" mt="2">
+          <LogoutButton />
+        </Flex>
+      ) : null}
     </Flex>
   );
 };

@@ -14,6 +14,10 @@ type Props = PropsWithChildren<
   }
 >;
 
+/**
+ * ShowCard is used for inside the Carousel component but also in search
+ * results and Following list.
+ */
 export const Root = ({
   show,
   children,
