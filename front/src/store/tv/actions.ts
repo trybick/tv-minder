@@ -1,3 +1,5 @@
+import { type Dayjs } from 'dayjs';
+
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { cacheDurationDays } from '~/utils/cacheDurations';
 import { dayjs } from '~/utils/dayjs';
@@ -339,26 +341,34 @@ const CAROUSEL_FETCHERS: Record<
   documentary: () => tmdbApi.discoverByGenre(GENRE_IDS.DOCUMENTARY),
 };
 
+const isCacheValid = (
+  cached: DiscoverShowCached[] | undefined,
+  now: Dayjs
+): boolean => {
+  if (!cached?.length) {
+    return false;
+  }
+  const cacheAge = now.diff(dayjs(cached[0].fetchedAt), 'day');
+  return cacheAge < cacheDurationDays.discoverShows;
+};
+
 export const fetchDiscoverShowsAction =
   (): AppThunk => async (dispatch, getState) => {
     const { discoverShows } = getState().tv;
     const now = dayjs();
 
-    const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(key => {
-      const cached = discoverShows[key];
-      const firstShow = cached?.[0];
-      const cacheAge = firstShow?.fetchedAt
-        ? now.diff(dayjs(firstShow.fetchedAt), 'day')
-        : Infinity;
-      return !cached?.length || cacheAge >= cacheDurationDays.discoverShows;
-    });
+    const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(
+      key => !isCacheValid(discoverShows[key], now)
+    );
 
     if (!keysToFetch.length) {
       return;
     }
 
-    const priorityKeys = keysToFetch.slice(0, 3);
-    const remainingKeys = keysToFetch.slice(3);
+    const [priorityKeys, remainingKeys] = [
+      keysToFetch.slice(0, 3),
+      keysToFetch.slice(3),
+    ];
 
     const fetchCarousel = async (key: DiscoverCarouselKey) => {
       try {
@@ -377,7 +387,9 @@ export const fetchDiscoverShowsAction =
     };
 
     if (priorityKeys.length) {
-      const priorityResults = await Promise.all(priorityKeys.map(fetchCarousel));
+      const priorityResults = await Promise.all(
+        priorityKeys.map(fetchCarousel)
+      );
       const priorityData: Partial<DiscoverShowsState> = {};
       priorityResults.forEach(result => {
         if (result) {
