@@ -357,8 +357,11 @@ export const fetchDiscoverShowsAction =
       return;
     }
 
-    const results = await Promise.allSettled(
-      keysToFetch.map(async key => {
+    const priorityKeys = keysToFetch.slice(0, 3);
+    const remainingKeys = keysToFetch.slice(3);
+
+    const fetchCarousel = async (key: DiscoverCarouselKey) => {
+      try {
         const data = await CAROUSEL_FETCHERS[key]();
         return {
           key,
@@ -367,19 +370,37 @@ export const fetchDiscoverShowsAction =
             fetchedAt: now.toISOString(),
           })),
         };
-      })
-    );
-
-    const newData: Partial<DiscoverShowsState> = {};
-    results.forEach(result => {
-      if (result.status === 'fulfilled') {
-        newData[result.value.key] = result.value.shows;
-      } else {
-        handleKyError(result.reason);
+      } catch (error) {
+        handleKyError(error);
+        return null;
       }
-    });
+    };
 
-    if (Object.keys(newData).length) {
-      dispatch({ type: SAVE_DISCOVER_SHOWS, payload: newData });
+    if (priorityKeys.length) {
+      const priorityResults = await Promise.all(priorityKeys.map(fetchCarousel));
+      const priorityData: Partial<DiscoverShowsState> = {};
+      priorityResults.forEach(result => {
+        if (result) {
+          priorityData[result.key] = result.shows;
+        }
+      });
+      if (Object.keys(priorityData).length) {
+        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: priorityData });
+      }
+    }
+
+    if (remainingKeys.length) {
+      const remainingResults = await Promise.all(
+        remainingKeys.map(fetchCarousel)
+      );
+      const remainingData: Partial<DiscoverShowsState> = {};
+      remainingResults.forEach(result => {
+        if (result) {
+          remainingData[result.key] = result.shows;
+        }
+      });
+      if (Object.keys(remainingData).length) {
+        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: remainingData });
+      }
     }
   };
