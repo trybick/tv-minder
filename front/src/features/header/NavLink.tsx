@@ -49,6 +49,14 @@ export const NavLink = ({
         textUnderlineOffset: '4px',
       };
 
+  const navLinkPadding = isMobile
+    ? iconOnly
+      ? '1.5'
+      : '2'
+    : iconOnly
+      ? '8px'
+      : '12px';
+
   return (
     <Link
       href={linkTo}
@@ -58,9 +66,9 @@ export const NavLink = ({
       <Button
         color={isActive ? 'fg' : 'fg.muted'}
         {...textDecorationProps}
-        fontSize="sm"
+        fontSize={isMobile ? 'sm' : 'md'}
         fontWeight="semibold"
-        p={iconOnly ? '1.5' : '2'}
+        p={navLinkPadding}
         minW={iconOnly ? 'auto' : undefined}
         variant="plain"
         _hover={{

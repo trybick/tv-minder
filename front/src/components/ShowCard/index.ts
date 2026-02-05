@@ -22,8 +22,6 @@ export const ShowCard = {
 
 export {
   getStatusBadge,
-  mapPopularShow,
-  mapShowForDisplay,
   mapTmdbShowSummary,
   type ShowItem,
   type StatusBadge,

@@ -72,17 +72,44 @@ test.describe('Home Page', () => {
     });
   });
 
-  test.describe('Popular Shows', () => {
+  test.describe('Discover Carousels', () => {
     test('should navigate to show page when clicking a show', async ({
       page,
     }) => {
       await page.goto('/');
-      await page
-        .getByRole('link', { name: /mobland/i })
-        .first()
-        .click();
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+
+      await expect(page.getByText('MobLand').first()).toBeVisible();
+      await page.getByText('MobLand').first().click();
 
       await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
+    });
+
+    test('should display multiple carousel sections', async ({ page }) => {
+      await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: 'Airing This Week' })
+      ).toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: 'Highest Rated' })
+      ).toBeVisible();
+    });
+
+    test('should show skeleton loaders when carousels are empty', async ({
+      page,
+    }) => {
+      await page.goto('/');
+      await page.waitForLoadState('networkidle');
+
+      const carousels = page.locator('[data-scope="carousel"]');
+      await expect(carousels.first()).toBeVisible();
     });
   });
 });

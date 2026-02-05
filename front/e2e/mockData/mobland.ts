@@ -137,8 +137,12 @@ export const moblandBasicInfo = {
 };
 
 export const moblandSeason1 = {
-  _id: '65df689a5f4b730185f8d454',
+  id: 381456,
+  season_number: 1,
   air_date: '2025-03-30',
+  name: 'Season 1',
+  overview: '',
+  poster_path: '/abeH7n5pcuQcwYcTxG6DTZvXLP1.jpg',
   episodes: [
     {
       air_date: '2025-03-30',

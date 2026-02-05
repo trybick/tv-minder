@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const DiscoverHeader = ({ icon, title, subtitle }: Props) => (
-  <Flex align="center" gap={3} mb={5}>
+  <Flex align="center" gap={3} mb={4}>
     <Flex
       align="center"
       justify="center"

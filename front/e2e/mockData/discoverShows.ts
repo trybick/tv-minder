@@ -1,4 +1,4 @@
-const popularShows = [
+const discoverShows = [
   {
     backdrop_path: '/y7OFTnu8Gh2KHWX0Y05y8OY9kCB.jpg',
     id: 232766,
@@ -361,9 +361,9 @@ const popularShows = [
   },
 ];
 
-export const popularShowsResponse = {
+export const discoverShowsResponse = {
   page: 1,
-  results: popularShows,
+  results: discoverShows,
   total_pages: 500,
   total_results: 10000,
 };

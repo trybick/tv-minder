@@ -1,10 +1,4 @@
-import { useMemo } from 'react';
-
-import {
-  getStatusBadge,
-  mapShowForDisplay,
-  ShowCard,
-} from '~/components/ShowCard';
+import { getStatusBadge, ShowCard } from '~/components/ShowCard';
 import { type ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
@@ -12,11 +6,9 @@ type Props = {
 };
 
 export const SubSectionOfShows = ({ shows }: Props) => {
-  const showItems = useMemo(() => shows.map(mapShowForDisplay), [shows]);
-
   return (
     <ShowCard.Grid>
-      {showItems.map(show => {
+      {shows.map(show => {
         const badge = getStatusBadge(show.status);
         return (
           <ShowCard.Root key={show.id} show={show}>

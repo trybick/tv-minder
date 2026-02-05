@@ -1,6 +1,8 @@
 import {
   Carousel as ChakraCarousel,
+  Flex,
   IconButton,
+  Skeleton,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { type ReactNode, useMemo } from 'react';
@@ -36,8 +38,41 @@ export const Carousel = <T,>({
     useBreakpointValue(slidesConfig, { ssr: false }) ?? slidesConfig.base;
   const contextValue = useMemo(() => ({ size }), [size]);
 
-  if (items.length === 0) {
-    return null;
+  if (!items?.length) {
+    return (
+      <CarouselProvider value={contextValue}>
+        <ChakraCarousel.Root
+          slideCount={slidesPerPage}
+          slidesPerPage={slidesPerPage}
+          gap="5"
+        >
+          <ChakraCarousel.ItemGroup>
+            {Array.from({ length: slidesPerPage }).map((_, index) => (
+              <ChakraCarousel.Item key={index} index={index}>
+                <Flex
+                  direction="column"
+                  borderRadius="xl"
+                  border="1px solid"
+                  borderColor="whiteAlpha.100"
+                  overflow="hidden"
+                  bg="whiteAlpha.50"
+                >
+                  <Skeleton aspectRatio={2 / 3} />
+                  <Flex
+                    direction="column"
+                    p={{ base: '2.5', md: '3' }}
+                    gap="2.5"
+                  >
+                    <Skeleton h="5" />
+                    <Skeleton h="8" />
+                  </Flex>
+                </Flex>
+              </ChakraCarousel.Item>
+            ))}
+          </ChakraCarousel.ItemGroup>
+        </ChakraCarousel.Root>
+      </CarouselProvider>
+    );
   }
 
   return (

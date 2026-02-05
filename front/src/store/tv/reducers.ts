@@ -1,13 +1,12 @@
 import { type Action, type AnyAction, type Reducer } from '@reduxjs/toolkit';
 
 import {
-  type PopularShowCached,
+  type DiscoverShowsState,
   SAVE_CALENDAR_EPISODES_CACHE,
-  SAVE_POPULAR_SHOWS,
+  SAVE_DISCOVER_SHOWS,
   SAVE_SEARCH_SHOW_DETAILS,
   SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
   SAVE_SHOW_DETAILS_FOR_SHOW,
-  SAVE_TOP_RATED_SHOWS,
   SET_CURRENT_CALENDAR_EPISODES,
   SET_IS_LOADING_CALENDAR_EPISODES,
   SET_IS_LOADING_SHOW_DETAILS,
@@ -29,8 +28,25 @@ type State = {
   isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
-  popularShows: PopularShowCached[];
-  topRatedShows: PopularShowCached[];
+  discoverShows: DiscoverShowsState;
+};
+
+const emptyDiscoverShows: DiscoverShowsState = {
+  trending: [],
+  airingThisWeek: [],
+  newShows: [],
+  comingSoon: [],
+  returningThisMonth: [],
+  mostRated: [],
+  highestRated: [],
+  netflix: [],
+  hbo: [],
+  disney: [],
+  appleTv: [],
+  action: [],
+  drama: [],
+  sciFi: [],
+  documentary: [],
 };
 
 const initialState: State = {
@@ -41,8 +57,7 @@ const initialState: State = {
   isLoadingShowDetails: false,
   calendarEpisodesForDisplay: [],
   isLoadingCalendarEpisodes: true,
-  popularShows: [],
-  topRatedShows: [],
+  discoverShows: emptyDiscoverShows,
 };
 
 export const tvReducer: Reducer<State, Action> = (
@@ -107,16 +122,10 @@ export const tvReducer: Reducer<State, Action> = (
         isLoadingCalendarEpisodes: action.payload,
       };
     }
-    case SAVE_POPULAR_SHOWS: {
+    case SAVE_DISCOVER_SHOWS: {
       return {
         ...state,
-        popularShows: action.payload,
-      };
-    }
-    case SAVE_TOP_RATED_SHOWS: {
-      return {
-        ...state,
-        topRatedShows: action.payload,
+        discoverShows: { ...state.discoverShows, ...action.payload },
       };
     }
     default:

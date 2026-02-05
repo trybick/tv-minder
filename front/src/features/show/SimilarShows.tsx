@@ -29,7 +29,7 @@ export const SimilarShows = () => {
     tmdbApi
       .getRecommendations(showInfo.id)
       .then(data => {
-        setSimilarShows(data.results);
+        setSimilarShows(data.results ?? []);
       })
       .catch(() => setSimilarShows([]))
       .finally(() => setIsLoading(false));

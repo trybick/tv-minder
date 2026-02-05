@@ -187,8 +187,12 @@ export const pokerFaceBasicInfo = {
 };
 
 export const pokerFaceSeason1 = {
-  _id: '60512a134ca676006b82bd3e',
+  id: 186440,
+  season_number: 1,
   air_date: '2023-01-26',
+  name: 'Season 1',
+  overview: '',
+  poster_path: '/tNUDDszo0Mw6QUhFYjcpUaOQjI9.jpg',
   episodes: [
     {
       air_date: '2023-01-26',
@@ -3585,8 +3589,13 @@ export const pokerFaceSeason1 = {
 };
 
 export const pokerFaceSeason2 = {
-  _id: '67d1aa6076a9d73467810787',
+  id: 445980,
+  season_number: 2,
   air_date: '2025-05-08',
+  name: 'Season 2',
+  overview:
+    'From minor league baseball to big box retail, from funeral homes to alligator farms and even a grade school talent show, Charlie navigates her crime solving existential road-trip with deadpan wit, human empathy, and her signature uncanny lie-detecting ability.',
+  poster_path: '/fkgZo3vKcD3pZ7cbNltLtu7c0Oo.jpg',
   episodes: [
     {
       air_date: '2025-05-08',

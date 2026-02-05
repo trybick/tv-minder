@@ -56,7 +56,7 @@ export type ShowForDisplay = {
   startYear: string;
 };
 
-export type PopularShow = {
+export type DiscoverShow = {
   id: number;
   fetchedAt: string;
   firstAirDate: string | null;

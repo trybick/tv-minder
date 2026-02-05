@@ -1,4 +1,4 @@
-export * from './popularShows';
+export * from './discoverShows';
 export * from './topRatedShows';
 export * from './searchPokerFace';
 export * from './misc';
