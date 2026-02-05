@@ -8,17 +8,20 @@ export const test = base.extend<{ page: Page }>({
     await page.clock.setFixedTime(new Date('2025-06-06T10:00:00'));
 
     // Don't load images to reduce API bandwidth
-    await page.route('**/*', route => {
+    await page.route('**/*', async route => {
       if (route.request().resourceType() === 'image') {
-        route.abort();
+        await route.abort();
       } else {
-        route.fallback();
+        await route.fallback();
       }
     });
 
     await globalMockRequests(page);
 
     await use(page);
+
+    // Avoid any pending routing work during teardown.
+    await page.unroute('**/*');
   },
 });
 
