@@ -366,8 +366,8 @@ export const fetchDiscoverShowsAction =
     }
 
     const [priorityKeys, remainingKeys] = [
-      keysToFetch.slice(0, 3),
-      keysToFetch.slice(3),
+      keysToFetch.slice(0, 1),
+      keysToFetch.slice(1),
     ];
 
     const fetchCarousel = async (key: DiscoverCarouselKey) => {

@@ -85,7 +85,7 @@ export const selectDiscoverShowsForDisplay: AppSelector<DiscoverShowsForDisplay>
         show => !seenIds.has(show.id) && !!show.poster_path
       );
       result[key] = toDisplayFormat(filtered);
-      filtered.slice(0, 5).forEach(show => seenIds.add(show.id));
+      filtered.slice(0, 4).forEach(show => seenIds.add(show.id));
     }
 
     return result;

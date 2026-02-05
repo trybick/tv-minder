@@ -89,7 +89,7 @@ export const tmdbApi = {
     fetchTmdb(`tv/${showId}/recommendations`, tmdbSchema.showList),
 
   // ─────────────────────────────────────────────────────────────
-  // DISCOVER ENDPOINTS - Ordered to match carousel config
+  // DISCOVER ENDPOINTS
   // ─────────────────────────────────────────────────────────────
 
   /**
