@@ -187,6 +187,7 @@ export const pokerFaceBasicInfo = {
 };
 
 export const pokerFaceSeason1 = {
+  _id: 186440,
   id: 186440,
   season_number: 1,
   air_date: '2023-01-26',
@@ -3583,6 +3584,7 @@ export const pokerFaceSeason1 = {
 };
 
 export const pokerFaceSeason2 = {
+  _id: 445980,
   id: 445980,
   season_number: 2,
   air_date: '2025-05-08',
