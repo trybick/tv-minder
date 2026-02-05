@@ -9,17 +9,17 @@ import {
   pokerFaceSeason2,
   searchPokerFaceResponse,
 } from '../mockData';
-import { popularShowsResponse } from '../mockData/popularShows';
+import { discoverShowsResponse } from '../mockData/discoverShows';
 import { topRatedShowsResponse } from '../mockData/topRatedShows';
 import { mockRequest } from '../mockRequest';
 
 export const globalMockRequests = async (page: Page) => {
   await Promise.all([
-    // Popular
+    // Trending
     mockRequest({
       page,
       path: '/api.themoviedb.org/3/trending/tv/week**',
-      body: popularShowsResponse,
+      body: discoverShowsResponse,
     }),
 
     // Top rated
@@ -39,21 +39,15 @@ export const globalMockRequests = async (page: Page) => {
     // Mobland
     mockRequest({
       page,
-      path: '/api.themoviedb.org/3/tv/247718*',
-      body: moblandBasicInfo,
-    }),
-    mockRequest({
-      page,
       path: '/api.themoviedb.org/3/tv/247718/season/1**',
       body: moblandSeason1,
     }),
-
-    // Poker Face
     mockRequest({
       page,
-      path: '/api.themoviedb.org/3/tv/120998*',
-      body: pokerFaceBasicInfo,
+      path: '/api.themoviedb.org/3/tv/247718*',
+      body: moblandBasicInfo,
     }),
+
     mockRequest({
       page,
       path: '/api.themoviedb.org/3/tv/120998/season/1**',
@@ -64,8 +58,14 @@ export const globalMockRequests = async (page: Page) => {
       path: '/api.themoviedb.org/3/tv/120998/season/2**',
       body: pokerFaceSeason2,
     }),
+    // Poker Face
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998*',
+      body: pokerFaceBasicInfo,
+    }),
 
-    // TV Minder: follow (matches both localhost:5000 and api.tv-minder.com)
+    // TV Minder: follow
     mockRequest({
       page,
       path: '**/follow',
