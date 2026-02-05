@@ -285,7 +285,7 @@ const NETWORK_IDS = {
   NETFLIX: 213,
   HBO: 49,
   DISNEY_PLUS: 2739,
-  APPLE_TV_PLUS: 2552,
+  APPLE_TV: 2552,
 } as const;
 
 const GENRE_IDS = {
@@ -334,7 +334,7 @@ const CAROUSEL_FETCHERS: Record<
   netflix: () => tmdbApi.discoverByNetwork(NETWORK_IDS.NETFLIX),
   hbo: () => tmdbApi.discoverByNetwork(NETWORK_IDS.HBO),
   disney: () => tmdbApi.discoverByNetwork(NETWORK_IDS.DISNEY_PLUS),
-  appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV_PLUS),
+  appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
   action: () => tmdbApi.discoverByGenre(GENRE_IDS.ACTION),
   drama: () => tmdbApi.discoverByGenre(GENRE_IDS.DRAMA),
   sciFi: () => tmdbApi.discoverByGenre(GENRE_IDS.SCIFI),
