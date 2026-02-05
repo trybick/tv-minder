@@ -3580,12 +3580,6 @@ export const pokerFaceSeason1 = {
       ],
     },
   ],
-  name: 'Season 1',
-  overview: '',
-  id: 186440,
-  poster_path: '/tNUDDszo0Mw6QUhFYjcpUaOQjI9.jpg',
-  season_number: 1,
-  vote_average: 7.2,
 };
 
 export const pokerFaceSeason2 = {
@@ -5102,11 +5096,4 @@ export const pokerFaceSeason2 = {
       guest_stars: [],
     },
   ],
-  name: 'Season 2',
-  overview:
-    'From minor league baseball to big box retail, from funeral homes to alligator farms and even a grade school talent show, Charlie navigates her crime solving existential road-trip with deadpan wit, human empathy, and her signature uncanny lie-detecting ability.',
-  id: 445980,
-  poster_path: '/fkgZo3vKcD3pZ7cbNltLtu7c0Oo.jpg',
-  season_number: 2,
-  vote_average: 5.6,
 };

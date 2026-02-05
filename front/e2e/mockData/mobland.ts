@@ -9624,10 +9624,4 @@ export const moblandSeason1 = {
       ],
     },
   ],
-  name: 'Season 1',
-  overview: '',
-  id: 381456,
-  poster_path: '/abeH7n5pcuQcwYcTxG6DTZvXLP1.jpg',
-  season_number: 1,
-  vote_average: 8.7,
 };
