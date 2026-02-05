@@ -9,31 +9,24 @@ import {
   pokerFaceSeason2,
   searchPokerFaceResponse,
 } from '../mockData';
-import { discoverShowsResponse } from '../mockData/discoverShows';
+import { popularShowsResponse } from '../mockData/popularShows';
+import { topRatedShowsResponse } from '../mockData/topRatedShows';
 import { mockRequest } from '../mockRequest';
 
-const emptyShowsResponse = {
-  page: 1,
-  results: [],
-  total_pages: 0,
-  total_results: 0,
-};
-
 export const globalMockRequests = async (page: Page) => {
-  // General API mocks (order doesn't matter for these)
   await Promise.all([
-    // Discover - Trending/Popular (needs data for tests)
+    // Popular
     mockRequest({
       page,
       path: '/api.themoviedb.org/3/trending/tv/week**',
-      body: discoverShowsResponse,
+      body: popularShowsResponse,
     }),
 
-    // Discover - All other carousel endpoints
+    // Top rated
     mockRequest({
       page,
-      path: '/api.themoviedb.org/3/discover/tv**',
-      body: emptyShowsResponse,
+      path: '/api.themoviedb.org/3/tv/top_rated**',
+      body: topRatedShowsResponse,
     }),
 
     // Search "poker face"
@@ -43,6 +36,35 @@ export const globalMockRequests = async (page: Page) => {
       body: searchPokerFaceResponse,
     }),
 
+    // Mobland
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/247718*',
+      body: moblandBasicInfo,
+    }),
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/247718/season/1**',
+      body: moblandSeason1,
+    }),
+
+    // Poker Face
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998*',
+      body: pokerFaceBasicInfo,
+    }),
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998/season/1**',
+      body: pokerFaceSeason1,
+    }),
+    mockRequest({
+      page,
+      path: '/api.themoviedb.org/3/tv/120998/season/2**',
+      body: pokerFaceSeason2,
+    }),
+
     // TV Minder: follow (matches both localhost:5000 and api.tv-minder.com)
     mockRequest({
       page,
@@ -50,46 +72,4 @@ export const globalMockRequests = async (page: Page) => {
       body: followResponse,
     }),
   ]);
-
-  // Show-specific mocks - ORDER MATTERS for Playwright route matching
-  // More specific paths must be registered BEFORE catch-all patterns
-
-  // Mobland - specific paths MUST come before the catch-all
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/247718/season/**',
-    body: moblandSeason1,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/247718/recommendations**',
-    body: emptyShowsResponse,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/247718**',
-    body: moblandBasicInfo,
-  });
-
-  // Poker Face - specific paths MUST come before the catch-all
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/120998/season/1**',
-    body: pokerFaceSeason1,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/120998/season/2**',
-    body: pokerFaceSeason2,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/120998/recommendations**',
-    body: emptyShowsResponse,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/120998**',
-    body: pokerFaceBasicInfo,
-  });
 };
