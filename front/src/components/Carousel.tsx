@@ -38,6 +38,14 @@ export const Carousel = <T,>({
     useBreakpointValue(slidesConfig, { ssr: false }) ?? slidesConfig.base;
   const contextValue = useMemo(() => ({ size }), [size]);
 
+  const buttonSize =
+    size === 'sm'
+      ? { base: 'sm' as const, md: 'md' as const }
+      : { base: 'md' as const, md: 'lg' as const };
+  const buttonDimensions =
+    size === 'sm' ? { base: 8, md: 10 } : { base: 10, md: 12 };
+  const iconSize = size === 'sm' ? 16 : 24;
+
   if (!items?.length) {
     return (
       <CarouselProvider value={contextValue}>
@@ -102,9 +110,9 @@ export const Carousel = <T,>({
             top="50%"
             transform="translate(-50%, -50%)"
             zIndex={1}
-            size={{ base: 'md', md: 'lg' }}
-            minW={{ base: 10, md: 12 }}
-            h={{ base: 10, md: 12 }}
+            size={buttonSize}
+            minW={buttonDimensions}
+            h={buttonDimensions}
             borderRadius="full"
             bg="blackAlpha.700"
             color="white"
@@ -112,7 +120,7 @@ export const Carousel = <T,>({
             _hover={{ bg: 'blackAlpha.800' }}
             _active={{ bg: 'blackAlpha.900' }}
           >
-            <HiChevronLeft size={24} />
+            <HiChevronLeft size={iconSize} />
           </IconButton>
         </ChakraCarousel.PrevTrigger>
 
@@ -124,9 +132,9 @@ export const Carousel = <T,>({
             top="50%"
             transform="translate(50%, -50%)"
             zIndex={1}
-            size={{ base: 'md', md: 'lg' }}
-            minW={{ base: 10, md: 12 }}
-            h={{ base: 10, md: 12 }}
+            size={buttonSize}
+            minW={buttonDimensions}
+            h={buttonDimensions}
             borderRadius="full"
             bg="blackAlpha.700"
             color="white"
@@ -134,7 +142,7 @@ export const Carousel = <T,>({
             _hover={{ bg: 'blackAlpha.800' }}
             _active={{ bg: 'blackAlpha.900' }}
           >
-            <HiChevronRight size={24} />
+            <HiChevronRight size={iconSize} />
           </IconButton>
         </ChakraCarousel.NextTrigger>
 
