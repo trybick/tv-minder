@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from '@chakra-ui/react';
+import { Button, type ButtonProps, Flex, Icon } from '@chakra-ui/react';
 import { CiCircleMinus } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 
@@ -56,11 +56,38 @@ export const FollowButton = ({
       colorPalette="gray"
       onClick={onUnfollowShow}
       variant="surface"
+      role="group"
+      borderWidth="1px"
+      borderColor="whiteAlpha.200"
+      _hover={{
+        bg: 'red.600',
+        borderColor: 'red.600',
+        color: 'white',
+      }}
+      _active={{ bg: 'red.700', borderColor: 'red.700' }}
       {...(followedWidth && { minW: followedWidth })}
       {...rest}
     >
-      <CiCircleMinus opacity={0.8} />
-      Unfollow
+      <Flex align="center" gap={2}>
+        <Flex
+          align="center"
+          gap={2}
+          display="flex"
+          _groupHover={{ display: 'none' }}
+        >
+          <Icon as={CiCircleMinus} boxSize="18px" opacity={0.9} />
+          Following
+        </Flex>
+        <Flex
+          align="center"
+          gap={2}
+          display="none"
+          _groupHover={{ display: 'flex' }}
+        >
+          <Icon as={CiCircleMinus} boxSize="18px" opacity={0.95} />
+          Unfollow
+        </Flex>
+      </Flex>
     </Button>
   ) : (
     <Button
@@ -71,9 +98,10 @@ export const FollowButton = ({
       {...(unfollowedWidth && { minW: unfollowedWidth })}
       {...rest}
     >
-      <IoMdAdd
-        fontSize="22px"
-        opacity={0.8}
+      <Icon
+        as={IoMdAdd}
+        boxSize="22px"
+        opacity={0.85}
         style={{ marginInlineEnd: '-0.2rem' }}
       />
       Follow

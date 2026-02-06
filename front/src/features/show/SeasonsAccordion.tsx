@@ -26,7 +26,7 @@ export const SeasonsAccordion = () => {
           key={id}
           value={id.toString()}
           borderBottomWidth="1px"
-          borderColor="whiteAlpha.100"
+          borderColor="whiteAlpha.200"
           _last={{ borderBottomWidth: 0 }}
         >
           <Accordion.ItemTrigger
@@ -37,21 +37,31 @@ export const SeasonsAccordion = () => {
             _open={{ bg: 'whiteAlpha.50' }}
             transition="background 0.2s"
           >
-            <Box flex="1" textAlign="left">
-              <Text display="inline" fontSize="lg" fontWeight="600" color="fg">
-                {nameForDisplay}
-              </Text>{' '}
-              {!isSpecialsSeason && airDate && (
-                <Text display="inline" fontSize="md" color="fg.muted" ml={0.5}>
-                  ({dayjs(airDate).year()})
-                </Text>
-              )}
-            </Box>
-            <Box mr="20px" textAlign="right">
+            <Flex flex="1" direction="column" textAlign="left" gap={1}>
+              <Box>
+                <Text
+                  display="inline"
+                  fontSize="lg"
+                  fontWeight="600"
+                  color="fg"
+                >
+                  {nameForDisplay}
+                </Text>{' '}
+                {!isSpecialsSeason && airDate && (
+                  <Text
+                    display="inline"
+                    fontSize="md"
+                    color="fg.muted"
+                    ml={0.5}
+                  >
+                    ({dayjs(airDate).year()})
+                  </Text>
+                )}
+              </Box>
               <Text fontSize="sm" color="fg.muted">
                 {episodes.length} Episodes
               </Text>
-            </Box>
+            </Flex>
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
           <Accordion.ItemContent>
