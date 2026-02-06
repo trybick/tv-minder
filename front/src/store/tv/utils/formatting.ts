@@ -113,7 +113,7 @@ const formatSeasons = (
 
     return {
       airDate,
-      episodes: episodes.length ? formatEpisodesForSeason(episodes) : [],
+      episodes: episodes?.length ? formatEpisodesForSeason(episodes) : [],
       id,
       isSpecialsSeason,
       name,

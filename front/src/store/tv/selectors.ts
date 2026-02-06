@@ -5,7 +5,12 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { type AppSelector, type AppState } from './..';
-import { type PopularShow, type ShowForDisplay } from './types/transformed';
+import {
+  DISCOVER_CAROUSEL_KEYS,
+  type DiscoverCarouselKey,
+  type DiscoverShowCached,
+} from './actions';
+import { type DiscoverShow, type ShowForDisplay } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
@@ -18,8 +23,7 @@ export const selectCalendarEpisodesForDisplay = (state: AppState) =>
   state.tv.calendarEpisodesForDisplay;
 export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
   state.tv.isLoadingCalendarEpisodes;
-export const selectPopularShows = (state: AppState) => state.tv.popularShows;
-export const selectTopRatedShows = (state: AppState) => state.tv.topRatedShows;
+export const selectDiscoverShows = (state: AppState) => state.tv.discoverShows;
 
 export const selectFollowedShowsDetails: AppSelector<ShowForDisplay[]> =
   createSelector(
@@ -56,62 +60,36 @@ export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
   shows => shows.filter(show => show.status.isEnded)
 );
 
-export const selectPopularShowsForDisplay: AppSelector<PopularShow[]> =
-  createSelector(
-    selectPopularShows,
-    shows =>
-      shows &&
-      Object.values(shows)?.map(show => {
-        const {
-          id,
-          fetchedAt,
-          name,
-          overview,
-          first_air_date: firstAirDate,
-          poster_path: posterPath,
-        } = show;
-        return {
-          id,
-          fetchedAt,
-          firstAirDate: firstAirDate ?? null,
-          name,
-          overview,
-          posterPath,
-        };
-      })
-  );
+const toDisplayFormat = (shows: DiscoverShowCached[]): DiscoverShow[] =>
+  shows?.map(show => ({
+    id: show.id,
+    fetchedAt: show.fetchedAt,
+    firstAirDate: show.first_air_date ?? null,
+    name: show.name,
+    overview: show.overview,
+    posterPath: show.poster_path,
+  })) ?? [];
 
-export const selectTopRatedShowsForDisplay: AppSelector<PopularShow[]> =
-  createSelector(
-    selectTopRatedShows,
-    selectPopularShows,
-    (topRatedShows, popularShows) =>
-      topRatedShows &&
-      Object.values(topRatedShows)
-        // Remove shows that are already in popularShows to avoid duplicate
-        // showId viewTransitionName on the same page.
-        ?.filter(
-          show => !popularShows?.some(popularShow => popularShow.id === show.id)
-        )
-        ?.map(show => {
-          const {
-            id,
-            fetchedAt,
-            name,
-            overview,
-            first_air_date: firstAirDate,
-            poster_path: posterPath,
-          } = show;
-          return {
-            id,
-            fetchedAt,
-            firstAirDate: firstAirDate ?? null,
-            name,
-            overview,
-            posterPath,
-          };
-        })
-  );
+export type DiscoverShowsForDisplay = Record<
+  DiscoverCarouselKey,
+  DiscoverShow[]
+>;
+
+export const selectDiscoverShowsForDisplay: AppSelector<DiscoverShowsForDisplay> =
+  createSelector(selectDiscoverShows, discoverShows => {
+    const result = {} as DiscoverShowsForDisplay;
+    const seenIds = new Set<number>();
+
+    for (const key of DISCOVER_CAROUSEL_KEYS) {
+      const filtered = (discoverShows[key] ?? []).filter(
+        show => !seenIds.has(show.id) && !!show.poster_path
+      );
+      result[key] = toDisplayFormat(filtered);
+      filtered.slice(0, 4).forEach(show => seenIds.add(show.id));
+    }
+
+    return result;
+  });
 
 export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
   createSelector(

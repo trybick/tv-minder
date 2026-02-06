@@ -64,7 +64,7 @@ Custom hooks in `hooks/`:
 
 ### Validation
 
-- After changing more than a few lines of code, run `npm run validate`
+- After changing more than 10 lines of code, run `npm run validate`
 - If it fails, fix the TypeScript/Eslint error(s) before continuing
 
 ### Components
@@ -73,8 +73,25 @@ Custom hooks in `hooks/`:
 
 ### React Conventions
 
-- Don't use useCallback or useMemo unless memoizing is actually necessary
+- Don't use useCallback or useMemo unless there's a very good reason to memoize.
+- Always use braces for component function bodies, even for single-expression returns. This makes future refactoring cleaner with minimal diffs.
+
+```tsx
+// ✅ Good - uses braces
+export const MyComponent = () => {
+  return <div>Hello</div>;
+};
+
+// ❌ Bad - direct return
+export const MyComponent = () => <div>Hello</div>;
+```
 
 ### Comments
 
 - IMPORTANT: do not add comments to the code unless the code is very complex or difficult to understand
+
+### Testing
+
+Primarily we use e2e tests which can be run with `npm run test:e2e`. Do this
+only when explictly asked to. It should connect to the already running local
+web server on port 4000 without needing to start it again.

@@ -2,6 +2,6 @@
 export const cacheDurationDays = {
   calendar: 1,
   following: 1,
-  popularShows: 3,
+  discoverShows: 4,
   search: 5,
 };

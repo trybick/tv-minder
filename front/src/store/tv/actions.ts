@@ -1,3 +1,5 @@
+import { type Dayjs } from 'dayjs';
+
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { cacheDurationDays } from '~/utils/cacheDurations';
 import { dayjs } from '~/utils/dayjs';
@@ -9,6 +11,7 @@ import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import {
   type TmdbSeason,
   type TmdbShow,
+  type TmdbShowList,
   type TmdbShowSummary,
 } from './types/tmdbSchema';
 import { type SavedQuery } from './types/transformed';
@@ -23,9 +26,8 @@ export const SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS =
   'SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS';
 export const SAVE_SHOW_DETAILS_FOR_SHOW = 'SAVE_SHOW_DETAILS_FOR_SHOW';
 export const SET_IS_LOADING_SHOW_DETAILS = 'SET_IS_LOADING_SHOW_DETAILS';
-export const SAVE_POPULAR_SHOWS = 'SAVE_POPULAR_SHOWS';
-export const SAVE_TOP_RATED_SHOWS = 'SAVE_TOP_RATED_SHOWS';
 export const SAVE_SEARCH_SHOW_DETAILS = 'SAVE_SEARCH_SHOW_DETAILS';
+export const SAVE_DISCOVER_SHOWS = 'SAVE_DISCOVER_SHOWS';
 
 export const saveSearchQueryAction =
   (query: SavedQuery): AppThunk =>
@@ -271,74 +273,146 @@ export const getShowDetailsWithSeasons =
     });
   };
 
-export type PopularShowCached = TmdbShowSummary & {
+export type DiscoverShowCached = TmdbShowSummary & {
   fetchedAt: string;
 };
 
-export const getPopularShowsAction =
+// ─────────────────────────────────────────────────────────────
+// DISCOVER SHOWS - Consolidated carousel fetching
+// ─────────────────────────────────────────────────────────────
+
+const NETWORK_IDS = {
+  NETFLIX: 213,
+  HBO: 49,
+  DISNEY_PLUS: 2739,
+  APPLE_TV: 2552,
+} as const;
+
+const GENRE_IDS = {
+  ACTION: 10759,
+  DRAMA: 18,
+  DOCUMENTARY: 99,
+  SCIFI: 10765,
+} as const;
+
+export const DISCOVER_CAROUSEL_KEYS = [
+  'trending',
+  'airingThisWeek',
+  'newShows',
+  'comingSoon',
+  'returningThisMonth',
+  'mostRated',
+  'highestRated',
+  'netflix',
+  'hbo',
+  'disney',
+  'appleTv',
+  'action',
+  'drama',
+  'sciFi',
+  'documentary',
+] as const;
+
+export type DiscoverCarouselKey = (typeof DISCOVER_CAROUSEL_KEYS)[number];
+
+export type DiscoverShowsState = Record<
+  DiscoverCarouselKey,
+  DiscoverShowCached[]
+>;
+
+const CAROUSEL_FETCHERS: Record<
+  DiscoverCarouselKey,
+  () => Promise<TmdbShowList>
+> = {
+  trending: tmdbApi.getTrending,
+  airingThisWeek: tmdbApi.discoverAiringThisWeek,
+  newShows: tmdbApi.discoverNewShows,
+  comingSoon: tmdbApi.discoverComingSoon,
+  returningThisMonth: tmdbApi.discoverReturningThisMonth,
+  mostRated: tmdbApi.discoverMostRated,
+  highestRated: tmdbApi.discoverHighestRated,
+  netflix: () => tmdbApi.discoverByNetwork(NETWORK_IDS.NETFLIX),
+  hbo: () => tmdbApi.discoverByNetwork(NETWORK_IDS.HBO),
+  disney: () => tmdbApi.discoverByNetwork(NETWORK_IDS.DISNEY_PLUS),
+  appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
+  action: () => tmdbApi.discoverByGenre(GENRE_IDS.ACTION),
+  drama: () => tmdbApi.discoverByGenre(GENRE_IDS.DRAMA),
+  sciFi: () => tmdbApi.discoverByGenre(GENRE_IDS.SCIFI),
+  documentary: () => tmdbApi.discoverByGenre(GENRE_IDS.DOCUMENTARY),
+};
+
+const isCacheValid = (
+  cached: DiscoverShowCached[] | undefined,
+  now: Dayjs
+): boolean => {
+  if (!cached?.length) {
+    return false;
+  }
+  const cacheAge = now.diff(dayjs(cached[0].fetchedAt), 'day');
+  return cacheAge < cacheDurationDays.discoverShows;
+};
+
+export const fetchDiscoverShowsAction =
   (): AppThunk => async (dispatch, getState) => {
-    const { popularShows: cachedPopularShows } = getState().tv;
+    const { discoverShows } = getState().tv;
+    const now = dayjs();
 
-    // Check if popular shows has a valid cache
-    const firstShow = cachedPopularShows?.[0];
-    const cacheAge = firstShow?.fetchedAt
-      ? dayjs().diff(dayjs(firstShow.fetchedAt), 'day')
-      : Infinity;
-    const isCacheValid =
-      cachedPopularShows?.length && cacheDurationDays.popularShows > cacheAge;
+    const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(
+      key => !isCacheValid(discoverShows[key], now)
+    );
 
-    if (!isCacheValid) {
+    if (!keysToFetch.length) {
+      return;
+    }
+
+    const [priorityKeys, remainingKeys] = [
+      keysToFetch.slice(0, 1),
+      keysToFetch.slice(1),
+    ];
+
+    const fetchCarousel = async (key: DiscoverCarouselKey) => {
       try {
-        // The Popular Shows feature used to use the '/tv/popular' endpoint but that was returning
-        // a lot foreign shows. Using the '/trending' endpoint seems to have better results.
-        // Full possibly useful endpoints status:
-        //   - /trending = useful, current Popular Shows list
-        //   - /top-rated = useful and accurate
-        //   - /popular = not useful, foreign shows
-        //   - /airing_today = not useful, foreign shows
-        //   - /on_the_air = not useful, foreign shows
-        const data = await tmdbApi.getTrending();
-        const dataWithTimestamp: PopularShowCached[] = data.results.map(
-          show => ({
+        const data = await CAROUSEL_FETCHERS[key]();
+        return {
+          key,
+          shows: data.results.map(show => ({
             ...show,
-            fetchedAt: dayjs().toISOString(),
-          })
-        );
-        dispatch({
-          type: SAVE_POPULAR_SHOWS,
-          payload: dataWithTimestamp,
-        });
+            fetchedAt: now.toISOString(),
+          })),
+        };
       } catch (error) {
         handleKyError(error);
+        return null;
+      }
+    };
+
+    if (priorityKeys.length) {
+      const priorityResults = await Promise.all(
+        priorityKeys.map(fetchCarousel)
+      );
+      const priorityData: Partial<DiscoverShowsState> = {};
+      priorityResults.forEach(result => {
+        if (result) {
+          priorityData[result.key] = result.shows;
+        }
+      });
+      if (Object.keys(priorityData).length) {
+        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: priorityData });
       }
     }
-  };
 
-export const getTopRatedShowsAction =
-  (): AppThunk => async (dispatch, getState) => {
-    const { topRatedShows: cachedTopRatedShows } = getState().tv;
-    const firstShow = cachedTopRatedShows?.[0];
-    const cacheAge = firstShow?.fetchedAt
-      ? dayjs().diff(dayjs(firstShow.fetchedAt), 'day')
-      : Infinity;
-    const isCacheValid =
-      cachedTopRatedShows?.length && cacheDurationDays.popularShows > cacheAge;
-
-    if (!isCacheValid) {
-      try {
-        const data = await tmdbApi.getTopRated();
-        const dataWithTimestamp: PopularShowCached[] = data.results.map(
-          show => ({
-            ...show,
-            fetchedAt: dayjs().toISOString(),
-          })
-        );
-        dispatch({
-          type: SAVE_TOP_RATED_SHOWS,
-          payload: dataWithTimestamp,
-        });
-      } catch (error) {
-        handleKyError(error);
+    if (remainingKeys.length) {
+      const remainingResults = await Promise.all(
+        remainingKeys.map(fetchCarousel)
+      );
+      const remainingData: Partial<DiscoverShowsState> = {};
+      remainingResults.forEach(result => {
+        if (result) {
+          remainingData[result.key] = result.shows;
+        }
+      });
+      if (Object.keys(remainingData).length) {
+        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: remainingData });
       }
     }
   };

@@ -1,73 +1,159 @@
 import { Box, Separator } from '@chakra-ui/react';
-import { useEffect, useMemo } from 'react';
-import { HiOutlineFire, HiOutlineStar } from 'react-icons/hi2';
+import { type ReactNode, useEffect } from 'react';
+import { FaFighterJet } from 'react-icons/fa';
+import { GiReturnArrow, GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
+import {
+  HiOutlineCalendar,
+  HiOutlineChartBar,
+  HiOutlineFire,
+  HiOutlineSignal,
+  HiOutlineSparkles,
+  HiOutlineStar,
+} from 'react-icons/hi2';
+import { MdOutlineMovie } from 'react-icons/md';
+import { SiAppletv, SiHbo, SiNetflix } from 'react-icons/si';
+import { TbBrandDisney } from 'react-icons/tb';
 
 import { Carousel } from '~/components/Carousel';
-import { mapPopularShow, type ShowItem } from '~/components/ShowCard';
+import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
-  getPopularShowsAction,
-  getTopRatedShowsAction,
+  type DiscoverCarouselKey,
+  fetchDiscoverShowsAction,
 } from '~/store/tv/actions';
-import {
-  selectPopularShowsForDisplay,
-  selectTopRatedShowsForDisplay,
-} from '~/store/tv/selectors';
+import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverShowCard } from './DiscoverShowCard';
+
+type CarouselConfig = {
+  key: DiscoverCarouselKey;
+  icon: ReactNode;
+  title: string;
+  subtitle: string;
+};
+
+const CAROUSEL_CONFIGS: CarouselConfig[] = [
+  {
+    key: 'trending',
+    icon: <HiOutlineFire />,
+    title: 'Trending Now',
+    subtitle: "What everyone's watching this week",
+  },
+  {
+    key: 'airingThisWeek',
+    icon: <HiOutlineSignal />,
+    title: 'Airing This Week',
+    subtitle: 'New episodes from the past 7 days',
+  },
+  {
+    key: 'newShows',
+    icon: <HiOutlineSparkles />,
+    title: 'Fresh & New',
+    subtitle: 'Shows that premiered recently',
+  },
+  {
+    key: 'comingSoon',
+    icon: <HiOutlineCalendar />,
+    title: 'Coming Soon',
+    subtitle: 'Premiering in the next 30 days',
+  },
+  {
+    key: 'returningThisMonth',
+    icon: <GiReturnArrow />,
+    title: 'Returning This Month',
+    subtitle: 'Shows coming back with new seasons',
+  },
+  {
+    key: 'mostRated',
+    icon: <HiOutlineChartBar />,
+    title: 'Most Rated',
+    subtitle: 'Shows with the most reviews',
+  },
+  {
+    key: 'highestRated',
+    icon: <HiOutlineStar />,
+    title: 'Highest Rated',
+    subtitle: 'Top rated shows by viewers',
+  },
+  {
+    key: 'netflix',
+    icon: <SiNetflix />,
+    title: 'Netflix',
+    subtitle: 'Popular shows on Netflix',
+  },
+  {
+    key: 'hbo',
+    icon: <SiHbo />,
+    title: 'HBO / Max',
+    subtitle: 'Premium HBO content',
+  },
+  {
+    key: 'disney',
+    icon: <TbBrandDisney />,
+    title: 'Disney+',
+    subtitle: 'Disney, Marvel, Star Wars & more',
+  },
+  {
+    key: 'appleTv',
+    icon: <SiAppletv />,
+    title: 'Apple TV+',
+    subtitle: 'Award-winning Apple originals',
+  },
+  {
+    key: 'action',
+    icon: <FaFighterJet />,
+    title: 'Action & Adventure',
+    subtitle: 'Thrilling action-packed shows',
+  },
+  {
+    key: 'drama',
+    icon: <GiTheaterCurtains />,
+    title: 'Drama',
+    subtitle: 'Compelling dramatic series',
+  },
+  {
+    key: 'sciFi',
+    icon: <GiSpaceship />,
+    title: 'Sci-Fi & Fantasy',
+    subtitle: 'Explore new worlds and dimensions',
+  },
+  {
+    key: 'documentary',
+    icon: <MdOutlineMovie />,
+    title: 'Documentary',
+    subtitle: 'Real stories and fascinating facts',
+  },
+];
 
 const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
-  const popularShows = useAppSelector(selectPopularShowsForDisplay);
-  const topRatedShows = useAppSelector(selectTopRatedShowsForDisplay);
+  const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
 
   useEffect(() => {
-    dispatch(getPopularShowsAction());
-    dispatch(getTopRatedShowsAction());
+    dispatch(fetchDiscoverShowsAction());
   }, [dispatch]);
-
-  const popularShowItems = useMemo(
-    () => popularShows?.map(mapPopularShow) ?? [],
-    [popularShows]
-  );
-  const topRatedShowItems = useMemo(
-    () => topRatedShows?.map(mapPopularShow) ?? [],
-    [topRatedShows]
-  );
 
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
-      <Box>
-        <DiscoverHeader
-          icon={<HiOutlineFire />}
-          title="Trending Now"
-          subtitle="What everyone's watching this week"
-        />
-        <Carousel
-          items={popularShowItems}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-        />
-      </Box>
-
-      <Separator my={10} borderColor="whiteAlpha.100" />
-
-      <Box>
-        <DiscoverHeader
-          icon={<HiOutlineStar />}
-          title="All-Time Favorites"
-          subtitle="Highest rated shows of all time"
-        />
-        <Carousel
-          items={topRatedShowItems}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-        />
-      </Box>
+      {CAROUSEL_CONFIGS.map((config, index) => (
+        <Box key={config.key}>
+          {index > 0 && <Separator my={5} borderColor="whiteAlpha.200" />}
+          <DiscoverHeader
+            icon={config.icon}
+            title={config.title}
+            subtitle={config.subtitle}
+          />
+          <Carousel
+            items={discoverShows[config.key]}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+          />
+        </Box>
+      ))}
     </Box>
   );
 };
