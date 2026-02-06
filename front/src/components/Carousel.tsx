@@ -83,6 +83,8 @@ export const Carousel = <T,>({
         slidesPerMove={slidesPerPage}
         gap="5"
         allowMouseDrag
+        position="relative"
+        overflow="visible"
       >
         <ChakraCarousel.ItemGroup>
           {items.map((item, index) => (
@@ -92,31 +94,51 @@ export const Carousel = <T,>({
           ))}
         </ChakraCarousel.ItemGroup>
 
-        <ChakraCarousel.Control justifyContent="center" gap="4" mt={4}>
-          <ChakraCarousel.PrevTrigger asChild>
-            <IconButton
-              aria-label="Previous"
-              size="sm"
-              variant="ghost"
-              colorPalette="cyan"
-            >
-              <HiChevronLeft />
-            </IconButton>
-          </ChakraCarousel.PrevTrigger>
+        <ChakraCarousel.PrevTrigger asChild>
+          <IconButton
+            aria-label="Previous"
+            position="absolute"
+            left={0}
+            top="50%"
+            transform="translate(-50%, -50%)"
+            zIndex={1}
+            size={{ base: 'md', md: 'lg' }}
+            minW={{ base: 10, md: 12 }}
+            h={{ base: 10, md: 12 }}
+            borderRadius="full"
+            bg="blackAlpha.700"
+            color="white"
+            boxShadow="md"
+            _hover={{ bg: 'blackAlpha.800' }}
+            _active={{ bg: 'blackAlpha.900' }}
+          >
+            <HiChevronLeft size={24} />
+          </IconButton>
+        </ChakraCarousel.PrevTrigger>
 
-          <ChakraCarousel.Indicators />
+        <ChakraCarousel.NextTrigger asChild>
+          <IconButton
+            aria-label="Next"
+            position="absolute"
+            right={0}
+            top="50%"
+            transform="translate(50%, -50%)"
+            zIndex={1}
+            size={{ base: 'md', md: 'lg' }}
+            minW={{ base: 10, md: 12 }}
+            h={{ base: 10, md: 12 }}
+            borderRadius="full"
+            bg="blackAlpha.700"
+            color="white"
+            boxShadow="md"
+            _hover={{ bg: 'blackAlpha.800' }}
+            _active={{ bg: 'blackAlpha.900' }}
+          >
+            <HiChevronRight size={24} />
+          </IconButton>
+        </ChakraCarousel.NextTrigger>
 
-          <ChakraCarousel.NextTrigger asChild>
-            <IconButton
-              aria-label="Next"
-              size="sm"
-              variant="ghost"
-              colorPalette="cyan"
-            >
-              <HiChevronRight />
-            </IconButton>
-          </ChakraCarousel.NextTrigger>
-        </ChakraCarousel.Control>
+        <ChakraCarousel.Indicators mt={2} />
       </ChakraCarousel.Root>
     </CarouselProvider>
   );
