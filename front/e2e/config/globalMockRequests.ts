@@ -59,13 +59,13 @@ export const globalMockRequests = async (page: Page) => {
   ]);
 
   // Show-specific mocks - ORDER MATTERS for Playwright route matching
-  // More specific paths must be registered BEFORE catch-all patterns
+  // Most recent route wins, so register GENERIC patterns first, SPECIFIC patterns last
 
-  // Mobland
+  // Mobland - generic first, then specific
   await mockRequest({
     page,
-    path: '/api.themoviedb.org/3/tv/247718/season/**',
-    body: moblandSeason1,
+    path: '/api.themoviedb.org/3/tv/247718**',
+    body: moblandBasicInfo,
   });
   await mockRequest({
     page,
@@ -74,11 +74,21 @@ export const globalMockRequests = async (page: Page) => {
   });
   await mockRequest({
     page,
-    path: '/api.themoviedb.org/3/tv/247718**',
-    body: moblandBasicInfo,
+    path: '/api.themoviedb.org/3/tv/247718/season/**',
+    body: moblandSeason1,
   });
 
-  // Poker Face
+  // Poker Face - generic first, then specific
+  await mockRequest({
+    page,
+    path: '/api.themoviedb.org/3/tv/120998**',
+    body: pokerFaceBasicInfo,
+  });
+  await mockRequest({
+    page,
+    path: '/api.themoviedb.org/3/tv/120998/recommendations**',
+    body: emptyShowsResponse,
+  });
   await mockRequest({
     page,
     path: '/api.themoviedb.org/3/tv/120998/season/1**',
@@ -88,15 +98,5 @@ export const globalMockRequests = async (page: Page) => {
     page,
     path: '/api.themoviedb.org/3/tv/120998/season/2**',
     body: pokerFaceSeason2,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/120998/recommendations**',
-    body: emptyShowsResponse,
-  });
-  await mockRequest({
-    page,
-    path: '/api.themoviedb.org/3/tv/120998**',
-    body: pokerFaceBasicInfo,
   });
 };

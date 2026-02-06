@@ -17,9 +17,12 @@ test.describe('Calendar Page', () => {
   test('shows episodes on calendar for logged out user', async ({ page }) => {
     await page.goto('/');
 
-    await page
-      .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
-      .click();
+    // Wait for carousel to load (new Carousel shows skeleton while data loads)
+    await expect(page.getByText('MobLand').first()).toBeVisible({
+      timeout: 10000,
+    });
+
+    await page.getByLabel(`follow-button-${showTitleToId.mobland}`).click();
 
     await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
@@ -39,7 +42,7 @@ test.describe('Calendar Page', () => {
       })
     ).toHaveText(/unfollow/i);
 
-    await page.getByRole('button', { name: 'calendar' }).click();
+    await page.getByRole('link', { name: /calendar/i }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
     // Numbers are doubled because of the popover
@@ -73,7 +76,7 @@ test.describe('Calendar Page', () => {
     await page.goto('/');
     await login(page);
 
-    await page.getByRole('button', { name: 'calendar' }).click();
+    await page.getByRole('link', { name: /calendar/i }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
     // Wait for episode data to load
