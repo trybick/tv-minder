@@ -211,7 +211,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
             {/* Recent Shows */}
             {!searchTerm && recentShows.length > 0 && (
-              <Command.Group heading="Recent" className="cmdk-group">
+              <Command.Group heading="Recently Viewed" className="cmdk-group">
                 {recentShows.slice(0, 5).map(show => (
                   <Command.Item
                     key={`recent-${show.id}`}
