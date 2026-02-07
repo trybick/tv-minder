@@ -1,9 +1,11 @@
+import { type ButtonProps } from '@chakra-ui/react';
 import { createContext, useContext } from 'react';
 
 import { type ShowItem } from './helpers';
 
 type ShowCardContextValue = {
   show: ShowItem;
+  followButtonSize?: ButtonProps['size'];
 };
 
 const ShowCardContext = createContext<ShowCardContextValue | null>(null);

@@ -1,4 +1,4 @@
-import { Flex, type FlexProps } from '@chakra-ui/react';
+import { type ButtonProps, Flex, type FlexProps } from '@chakra-ui/react';
 import { type PropsWithChildren, useMemo } from 'react';
 
 import { useCarouselContext } from '~/components/carouselContext';
@@ -10,6 +10,7 @@ type Props = PropsWithChildren<
   FlexProps & {
     show: ShowItem;
     onHoverChange?: (isHovered: boolean) => void;
+    followButtonSize?: ButtonProps['size'];
   }
 >;
 
@@ -17,12 +18,21 @@ type Props = PropsWithChildren<
  * ShowCard is used for inside the Carousel component but also in search
  * results and Following list.
  */
-export const Root = ({ show, children, onHoverChange, ...props }: Props) => {
+export const Root = ({
+  show,
+  children,
+  onHoverChange,
+  followButtonSize = 'md',
+  ...props
+}: Props) => {
   const { size } = useCarouselContext();
   const isSmall = size === 'sm';
   const borderRadius = isSmall ? 'md' : 'xl';
 
-  const contextValue = useMemo(() => ({ show }), [show]);
+  const contextValue = useMemo(
+    () => ({ show, followButtonSize }),
+    [show, followButtonSize]
+  );
 
   return (
     <ShowCardProvider value={contextValue}>

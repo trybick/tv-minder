@@ -5,7 +5,7 @@ type Props = {
 };
 
 export const SimilarShowCard = ({ show }: Props) => (
-  <ShowCard.Root show={show}>
+  <ShowCard.Root show={show} followButtonSize="sm">
     <ShowCard.Image />
     <ShowCard.BottomSection>
       <ShowCard.Title />
