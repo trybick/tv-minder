@@ -14,6 +14,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true,
+      },
       manifest: false,
       workbox: {
         globPatterns: [],
@@ -21,11 +24,11 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.themoviedb\.org\/3\/.*/,
-            handler: 'StaleWhileRevalidate',
+            handler: 'CacheFirst',
             options: {
               cacheName: 'tmdb-api-cache',
               expiration: {
-                maxEntries: 400,
+                maxEntries: 500,
                 maxAgeSeconds: 60 * 60 * 5,
               },
               cacheableResponse: {
