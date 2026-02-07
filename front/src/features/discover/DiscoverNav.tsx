@@ -9,15 +9,19 @@ type Props = {
   items: CarouselConfig[];
 };
 
+/** Gap between scrolled-to section and top of page */
 const SCROLL_OFFSET = 70;
 
 export const DiscoverNav = ({ items }: Props) => {
   const firstKey = items[0]?.key ?? 'trending';
   const [activeKey, setActiveKey] = useState<DiscoverCarouselKey>(firstKey);
+
   const navRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<Map<DiscoverCarouselKey, HTMLButtonElement>>(
     new Map()
   );
+
+  // Prevents unwanted intermediate updates during the scroll animation
   const isClickScrolling = useRef(false);
 
   const scrollPillIntoView = useCallback((key: DiscoverCarouselKey) => {
@@ -27,11 +31,14 @@ export const DiscoverNav = ({ items }: Props) => {
       const pillLeft = pill.offsetLeft;
       const pillWidth = pill.offsetWidth;
       const navWidth = nav.offsetWidth;
+      // Calculate scroll position to center the pill in the nav container
       const scrollLeft = pillLeft - navWidth / 2 + pillWidth / 2;
       nav.scrollTo({ left: scrollLeft, behavior: 'smooth' });
     }
   }, []);
 
+  // Set up Intersection Observers to detect which carousel section is visible
+  // This automatically updates the active pill as the user scrolls through the page
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -65,11 +72,12 @@ export const DiscoverNav = ({ items }: Props) => {
 
     setActiveKey(key);
     scrollPillIntoView(key);
-
     isClickScrolling.current = true;
+
     const top = el.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
     window.scrollTo({ top, behavior: 'smooth' });
 
+    // Re-enable Intersection Observer after scroll animation completes (~800ms)
     setTimeout(() => {
       isClickScrolling.current = false;
     }, 800);
