@@ -42,11 +42,9 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
       <Button
         onClick={onOpen}
         variant="surface"
-        size={isMobile ? 'sm' : 'sm'}
+        size="sm"
         borderRadius="full"
-        px={4}
-        boxShadow="md"
-        _hover={{ boxShadow: 'lg' }}
+        px={isMobile ? 3 : 4}
         transition="all 0.15s ease"
       >
         <Icon as={AiFillYoutube} boxSize="20px" opacity={0.9} />
