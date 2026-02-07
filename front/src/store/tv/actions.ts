@@ -303,14 +303,14 @@ export const DISCOVER_CAROUSEL_KEYS = [
   'returningThisMonth',
   'mostRated',
   'highestRated',
-  'netflix',
-  'hbo',
-  'disney',
-  'appleTv',
   'action',
   'drama',
   'sciFi',
   'documentary',
+  'netflix',
+  'hbo',
+  'disney',
+  'appleTv',
 ] as const;
 
 export type DiscoverCarouselKey = (typeof DISCOVER_CAROUSEL_KEYS)[number];
@@ -331,14 +331,14 @@ const CAROUSEL_FETCHERS: Record<
   returningThisMonth: tmdbApi.discoverReturningThisMonth,
   mostRated: tmdbApi.discoverMostRated,
   highestRated: tmdbApi.discoverHighestRated,
-  netflix: () => tmdbApi.discoverByNetwork(NETWORK_IDS.NETFLIX),
-  hbo: () => tmdbApi.discoverByNetwork(NETWORK_IDS.HBO),
-  disney: () => tmdbApi.discoverByNetwork(NETWORK_IDS.DISNEY_PLUS),
-  appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
   action: () => tmdbApi.discoverByGenre(GENRE_IDS.ACTION),
   drama: () => tmdbApi.discoverByGenre(GENRE_IDS.DRAMA),
   sciFi: () => tmdbApi.discoverByGenre(GENRE_IDS.SCIFI),
   documentary: () => tmdbApi.discoverByGenre(GENRE_IDS.DOCUMENTARY),
+  netflix: () => tmdbApi.discoverByNetwork(NETWORK_IDS.NETFLIX),
+  hbo: () => tmdbApi.discoverByNetwork(NETWORK_IDS.HBO),
+  disney: () => tmdbApi.discoverByNetwork(NETWORK_IDS.DISNEY_PLUS),
+  appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
 };
 
 const isCacheValid = (

@@ -26,7 +26,7 @@ import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverShowCard } from './DiscoverShowCard';
 
-type CarouselConfig = {
+export type CarouselConfig = {
   key: DiscoverCarouselKey;
   icon: ReactNode;
   title: string;
@@ -77,30 +77,6 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
     subtitle: 'Top rated shows by viewers',
   },
   {
-    key: 'netflix',
-    icon: <SiNetflix />,
-    title: 'Netflix',
-    subtitle: 'Popular shows on Netflix',
-  },
-  {
-    key: 'hbo',
-    icon: <SiHbo />,
-    title: 'HBO / Max',
-    subtitle: 'Premium HBO content',
-  },
-  {
-    key: 'disney',
-    icon: <TbBrandDisney />,
-    title: 'Disney+',
-    subtitle: 'Disney, Marvel, Star Wars & more',
-  },
-  {
-    key: 'appleTv',
-    icon: <SiAppletv />,
-    title: 'Apple TV+',
-    subtitle: 'Award-winning Apple originals',
-  },
-  {
     key: 'action',
     icon: <FaFighterJet />,
     title: 'Action & Adventure',
@@ -124,6 +100,30 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
     title: 'Documentary',
     subtitle: 'Real stories and fascinating facts',
   },
+  {
+    key: 'netflix',
+    icon: <SiNetflix />,
+    title: 'Netflix',
+    subtitle: 'Popular shows on Netflix',
+  },
+  {
+    key: 'hbo',
+    icon: <SiHbo />,
+    title: 'HBO / Max',
+    subtitle: 'Premium HBO content',
+  },
+  {
+    key: 'disney',
+    icon: <TbBrandDisney />,
+    title: 'Disney+',
+    subtitle: 'Disney, Marvel, Star Wars & more',
+  },
+  {
+    key: 'appleTv',
+    icon: <SiAppletv />,
+    title: 'Apple TV+',
+    subtitle: 'Award-winning Apple originals',
+  },
 ];
 
 const keyExtractor = (show: ShowItem) => show.id;
@@ -140,7 +140,7 @@ export const DiscoverShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       {CAROUSEL_CONFIGS.map((config, index) => (
-        <Box key={config.key}>
+        <Box key={config.key} id={`discover-${config.key}`}>
           {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
           <DiscoverHeader
             icon={config.icon}
