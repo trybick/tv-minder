@@ -28,9 +28,10 @@ export const DelayedSkeletonText = ({ isLoading, ...props }: Props) => {
     };
   }, [isLoading]);
 
-  if (isLoading && shouldShowSkeleton) {
-    return <SkeletonText {...props} />;
+  if (!shouldShowSkeleton) {
+    // Reserve the final space during the delay window.
+    return <SkeletonText {...props} visibility="hidden" animation="none" />;
   }
 
-  return null;
+  return <SkeletonText {...props} />;
 };

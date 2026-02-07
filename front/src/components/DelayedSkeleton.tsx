@@ -36,5 +36,14 @@ export const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
     return <Skeleton {...props}>{children}</Skeleton>;
   }
 
-  return null;
+  if (!shouldShowSkeleton) {
+    // Preserve layout during the delay window without showing skeleton shimmer.
+    return (
+      <Skeleton {...props} visibility="hidden" animation="none">
+        {children}
+      </Skeleton>
+    );
+  }
+
+  return <Skeleton {...props}>{children}</Skeleton>;
 };

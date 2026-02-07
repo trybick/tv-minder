@@ -60,6 +60,32 @@ const viewTransitionStyles = {
   'body.skip-image-transition *': {
     viewTransitionName: 'none !important',
   },
+  // Smooth and consistent view transitions for show images
+  '::view-transition-old(root)': {
+    animationDuration: '0.25s',
+    animationTimingFunction: 'ease-in-out',
+  },
+  '::view-transition-new(root)': {
+    animationDuration: '0.25s',
+    animationTimingFunction: 'ease-in-out',
+  },
+  // Specific styling for show image transitions
+  '::view-transition-group(show-image)': {
+    animationDuration: '0.3s',
+    animationTimingFunction: 'ease-in-out',
+  },
+  '::view-transition-old(show-image)': {
+    animationDuration: '0.3s',
+    mixBlendMode: 'normal',
+  },
+  '::view-transition-new(show-image)': {
+    animationDuration: '0.3s',
+    mixBlendMode: 'normal',
+  },
+  // Prevent layout shift during transitions
+  '::view-transition-image-pair(show-image)': {
+    isolation: 'isolate',
+  },
 };
 
 export const globalCss = {
