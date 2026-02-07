@@ -10,14 +10,9 @@ import {
   type TmdbShowList,
   type TmdbShowSummary,
 } from './types/tmdbSchema';
-import {
-  type SavedQuery,
-  type TmdbShowWithSeasons,
-} from './types/transformed';
+import { type TmdbShowWithSeasons } from './types/transformed';
 import { tmdbApi } from './utils/tmdbApi';
 
-export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
-export const SAVE_CALENDAR_EPISODES_CACHE = 'SAVE_CALENDAR_EPISODES_CACHE';
 export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
 export const SET_IS_LOADING_CALENDAR_EPISODES =
   'SET_IS_LOADING_CALENDAR_EPISODES';
@@ -28,94 +23,47 @@ export const SET_IS_LOADING_SHOW_DETAILS = 'SET_IS_LOADING_SHOW_DETAILS';
 export const SAVE_SEARCH_SHOW_DETAILS = 'SAVE_SEARCH_SHOW_DETAILS';
 export const SAVE_DISCOVER_SHOWS = 'SAVE_DISCOVER_SHOWS';
 
-export const saveSearchQueryAction =
-  (query: SavedQuery): AppThunk =>
-  dispatch => {
-    dispatch({
-      type: SET_SEARCH_QUERY,
-      payload: query,
-    });
-  };
-
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
-    dispatch({
-      type: SET_IS_LOADING_CALENDAR_EPISODES,
-      payload: true,
-    });
-
     const state = getState();
-    const { episodeData: storedEpisodeData } = state.tv;
-    const userFollowedShowsIds = selectFollowedShows(state);
+    const hasExistingData = state.tv.calendarEpisodesForDisplay.length > 0;
 
-    const cachedIds = userFollowedShowsIds.filter(
-      id => id in storedEpisodeData
-    );
-    const cachedData = cachedIds.flatMap(id =>
-      storedEpisodeData[id].episodes !== null
-        ? Object.values(storedEpisodeData[id].episodes)
-        : []
-    );
-    const nonCachedIds = userFollowedShowsIds.filter(
-      id => !(id in storedEpisodeData)
-    );
-    let fetchedData;
-    if (nonCachedIds?.length) {
-      const { cache, fetchedEpisodeData } =
-        await getEpisodesForCalendar(nonCachedIds);
-      fetchedData = fetchedEpisodeData;
-      dispatch({
-        type: SAVE_CALENDAR_EPISODES_CACHE,
-        payload: cache,
-      });
+    if (!hasExistingData) {
+      dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
     }
 
-    const combinedEpisodesForDisplay = (cachedData || []).concat(
-      fetchedData || []
-    );
+    const userFollowedShowsIds = selectFollowedShows(state);
+    const { fetchedEpisodeData } =
+      await getEpisodesForCalendar(userFollowedShowsIds);
+
     dispatch({
       type: SET_CURRENT_CALENDAR_EPISODES,
-      payload: combinedEpisodesForDisplay,
+      payload: fetchedEpisodeData,
     });
   };
 
 export const getShowDetailsForFollowedShows =
   (): AppThunk => async (dispatch, getState) => {
-    const state = getState();
-    const { showDetails: cachedShowDetails } = state.tv;
-    const followedShowsSource = selectFollowedShows(state);
+    const followedShowsSource = selectFollowedShows(getState());
 
     if (!followedShowsSource?.length) {
       return;
     }
 
-    const combinedData: Record<number, TmdbShowWithSeasons> = {};
-
-    const cachedIds = followedShowsSource.filter(
-      id => cachedShowDetails[id] !== undefined
+    const results = await Promise.allSettled(
+      followedShowsSource.map(id => tmdbApi.getShow(id))
     );
-    cachedIds.forEach(id => {
-      combinedData[id] = cachedShowDetails[id];
+
+    const data: Record<number, TmdbShowWithSeasons> = {};
+    results.forEach(result => {
+      if (result.status === 'fulfilled') {
+        data[result.value.id] = result.value;
+      }
     });
-
-    const nonCachedIds = followedShowsSource.filter(
-      id => cachedShowDetails[id] === undefined
-    );
-    if (nonCachedIds?.length) {
-      const results = await Promise.allSettled(
-        nonCachedIds.map(id => tmdbApi.getShow(id))
-      );
-
-      results.forEach(result => {
-        if (result.status === 'fulfilled') {
-          combinedData[result.value.id] = result.value;
-        }
-      });
-    }
 
     dispatch({
       type: SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
-      payload: combinedData,
+      payload: data,
     });
   };
 
@@ -125,56 +73,38 @@ export const getShowDetailsForFollowedShows =
  */
 export const getShowDetailsForSearchResults =
   (showIds: number[]): AppThunk =>
-  async (dispatch, getState) => {
+  async dispatch => {
     if (!showIds?.length) {
-      return;
-    }
-    const {
-      showDetails: cachedShowDetails,
-      searchShowDetails: cachedSearchShowDetails,
-    } = getState().tv;
-    const idsToFetch = showIds.filter(
-      showId =>
-        cachedShowDetails[showId] === undefined &&
-        cachedSearchShowDetails[showId] === undefined
-    );
-
-    if (!idsToFetch.length) {
       return;
     }
 
     const results = await Promise.allSettled(
-      idsToFetch.map(showId => tmdbApi.getShow(showId))
+      showIds.map(showId => tmdbApi.getShow(showId))
     );
-    const combinedData: Record<number, TmdbShowWithSeasons> = {};
+    const data: Record<number, TmdbShowWithSeasons> = {};
 
     results.forEach(result => {
       if (result.status === 'fulfilled') {
-        combinedData[result.value.id] = result.value;
+        data[result.value.id] = result.value;
       } else {
         handleKyError(result.reason);
       }
     });
 
-    if (Object.keys(combinedData).length) {
-      dispatch({
-        type: SAVE_SEARCH_SHOW_DETAILS,
-        payload: combinedData,
-      });
+    if (Object.keys(data).length) {
+      dispatch({ type: SAVE_SEARCH_SHOW_DETAILS, payload: data });
     }
   };
 
 export const getShowDetailsWithSeasons =
   (): AppThunk => async (dispatch, getState) => {
     const showId = getShowIdFromUrl();
-    const { showDetails: cachedShowDetails } = getState().tv;
+    const hasExistingData =
+      getState().tv.showDetails[showId]?.seasonsWithEpisodes;
 
-    if (cachedShowDetails[showId]?.seasonsWithEpisodes) {
-      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
-      return;
+    if (!hasExistingData) {
+      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
     }
-
-    dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
 
     let showData: TmdbShow;
     try {
@@ -248,10 +178,7 @@ export const DISCOVER_CAROUSEL_KEYS = [
 
 export type DiscoverCarouselKey = (typeof DISCOVER_CAROUSEL_KEYS)[number];
 
-export type DiscoverShowsState = Record<
-  DiscoverCarouselKey,
-  TmdbShowSummary[]
->;
+export type DiscoverShowsState = Record<DiscoverCarouselKey, TmdbShowSummary[]>;
 
 const CAROUSEL_FETCHERS: Record<
   DiscoverCarouselKey,
@@ -274,60 +201,41 @@ const CAROUSEL_FETCHERS: Record<
   appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
 };
 
-export const fetchDiscoverShowsAction =
-  (): AppThunk => async (dispatch, getState) => {
-    const { discoverShows } = getState().tv;
-
-    const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(
-      key => !discoverShows[key]?.length
-    );
-
-    if (!keysToFetch.length) {
-      return;
-    }
-
-    const [priorityKeys, remainingKeys] = [
-      keysToFetch.slice(0, 1),
-      keysToFetch.slice(1),
-    ];
-
-    const fetchCarousel = async (key: DiscoverCarouselKey) => {
-      try {
-        const data = await CAROUSEL_FETCHERS[key]();
-        return { key, shows: data.results };
-      } catch (error) {
-        handleKyError(error);
-        return null;
-      }
-    };
-
-    if (priorityKeys.length) {
-      const priorityResults = await Promise.all(
-        priorityKeys.map(fetchCarousel)
-      );
-      const priorityData: Partial<DiscoverShowsState> = {};
-      priorityResults.forEach(result => {
-        if (result) {
-          priorityData[result.key] = result.shows;
-        }
-      });
-      if (Object.keys(priorityData).length) {
-        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: priorityData });
-      }
-    }
-
-    if (remainingKeys.length) {
-      const remainingResults = await Promise.all(
-        remainingKeys.map(fetchCarousel)
-      );
-      const remainingData: Partial<DiscoverShowsState> = {};
-      remainingResults.forEach(result => {
-        if (result) {
-          remainingData[result.key] = result.shows;
-        }
-      });
-      if (Object.keys(remainingData).length) {
-        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: remainingData });
-      }
+export const fetchDiscoverShowsAction = (): AppThunk => async dispatch => {
+  const fetchCarousel = async (key: DiscoverCarouselKey) => {
+    try {
+      const data = await CAROUSEL_FETCHERS[key]();
+      return { key, shows: data.results };
+    } catch (error) {
+      handleKyError(error);
+      return null;
     }
   };
+
+  const [priorityKeys, remainingKeys] = [
+    DISCOVER_CAROUSEL_KEYS.slice(0, 1),
+    DISCOVER_CAROUSEL_KEYS.slice(1),
+  ];
+
+  const priorityResults = await Promise.all(priorityKeys.map(fetchCarousel));
+  const priorityData: Partial<DiscoverShowsState> = {};
+  priorityResults.forEach(result => {
+    if (result) {
+      priorityData[result.key] = result.shows;
+    }
+  });
+  if (Object.keys(priorityData).length) {
+    dispatch({ type: SAVE_DISCOVER_SHOWS, payload: priorityData });
+  }
+
+  const remainingResults = await Promise.all(remainingKeys.map(fetchCarousel));
+  const remainingData: Partial<DiscoverShowsState> = {};
+  remainingResults.forEach(result => {
+    if (result) {
+      remainingData[result.key] = result.shows;
+    }
+  });
+  if (Object.keys(remainingData).length) {
+    dispatch({ type: SAVE_DISCOVER_SHOWS, payload: remainingData });
+  }
+};

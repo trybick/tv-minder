@@ -1,10 +1,6 @@
 import { type ShowStatus } from '~/store/tv/utils/formatting';
 
-import {
-  type TmdbSeason,
-  type TmdbShow,
-  type TmdbShowSummary,
-} from './tmdbSchema';
+import { type TmdbSeason, type TmdbShow } from './tmdbSchema';
 
 export type EpisodeForDisplay = {
   airDate: string;
@@ -80,12 +76,6 @@ export type CalendarEpisode = {
   showId: number;
   showName: string;
   title: string;
-};
-
-export type SavedQuery = {
-  query: string;
-  results: TmdbShowSummary[];
-  totalResults: number;
 };
 
 export type TmdbShowWithSeasons = TmdbShow & {

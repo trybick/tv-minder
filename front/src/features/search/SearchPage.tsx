@@ -12,14 +12,9 @@ import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import {
-  getShowDetailsForSearchResults,
-  saveSearchQueryAction,
-} from '~/store/tv/actions';
-import { selectSavedQueries } from '~/store/tv/selectors';
+import { getShowDetailsForSearchResults } from '~/store/tv/actions';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
-import { type SavedQuery } from '~/store/tv/types/transformed';
 import { applyViewTransition } from '~/utils/applyViewTransition';
 import { useDebouncedFunction } from '~/utils/debounce';
 
@@ -28,7 +23,6 @@ import { SearchInput } from './SearchInput';
 
 export const SearchPage = () => {
   const dispatch = useAppDispatch();
-  const savedQueries = useAppSelector(selectSavedQueries);
   const shouldResetSearchInput = useAppSelector(selectShouldResetSearchInput);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,20 +63,8 @@ export const SearchPage = () => {
     }
   };
 
-  const getQueryData = async (query: string): Promise<SavedQuery> => {
-    const cached = savedQueries.find(data => data.query === query);
-    if (cached) {
-      return cached;
-    }
-
-    const { results, totalResults } = await searchShowsByQuery(query);
-    const queryData: SavedQuery = { query, results, totalResults };
-    dispatch(saveSearchQueryAction(queryData));
-    return queryData;
-  };
-
   const handleSearch = useDebouncedFunction(async (query: string) => {
-    const { results, totalResults } = await getQueryData(query);
+    const { results, totalResults } = await searchShowsByQuery(query);
     if (!results) {
       return;
     }

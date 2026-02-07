@@ -26,9 +26,8 @@ export const getEpisodesForCalendar = async (showIds: number[]) => {
   const latestAiredSeasons = await getLatestAiredSeasons(showIds);
   const fullSeasonData = await getFullSeasonData(latestAiredSeasons);
   const fetchedEpisodeData = calculateEpisodesForDisplay(fullSeasonData);
-  const cache = createCache(fetchedEpisodeData, showIds);
 
-  return { cache, fetchedEpisodeData };
+  return { fetchedEpisodeData };
 };
 
 const getLatestAiredSeasons = async (
@@ -232,34 +231,3 @@ const calculateEpisodesForDisplay = (
   return formatSameDayEpisodes(episodesForDisplay);
 };
 
-type EpisodeCache = {
-  [showId: number]: {
-    episodes: CalendarEpisode[] | null;
-  };
-};
-
-const createCache = (
-  episodesData: CalendarEpisode[],
-  showIds: number[]
-): EpisodeCache => {
-  const cache: EpisodeCache = {};
-
-  episodesData.forEach(episode => {
-    const { showId } = episode;
-    if (cache[showId]?.episodes?.length) {
-      cache[showId].episodes.push(episode);
-    } else {
-      cache[showId] = { episodes: [episode] };
-    }
-  });
-
-  // If there are showIds missing from episode data, it means they were taken out because they
-  // don't have active seasons. Add these showIds back in so we can cache that they are empty.
-  showIds.forEach(id => {
-    if (!cache[id]) {
-      cache[id] = { episodes: null };
-    }
-  });
-
-  return cache;
-};

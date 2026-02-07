@@ -13,7 +13,6 @@ import { type DiscoverShow, type ShowForDisplay } from './types/transformed';
 import { type TmdbShowSummary } from './types/tmdbSchema';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
-export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
 export const selectShowDetails = (state: AppState) => state.tv.showDetails;
 export const selectSearchShowDetails = (state: AppState) =>
   state.tv.searchShowDetails;
