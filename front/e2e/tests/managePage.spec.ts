@@ -69,12 +69,10 @@ test.describe('Manage Page', () => {
     });
 
     await page
-      .getByRole('button', { name: `follow-button-${showTitleToId.mobland}` })
+      .getByLabel(`follow-button-${showTitleToId.mobland}`)
       .click();
     await expect(
-      page.getByRole('button', {
-        name: `follow-button-${showTitleToId.mobland}`,
-      })
+      page.getByLabel(`follow-button-${showTitleToId.mobland}`)
     ).toHaveText(/follow/i);
 
     await page.getByRole('link', { name: /manage/i }).click();

@@ -193,6 +193,7 @@ export const pokerFaceSeason1 = {
   name: 'Season 1',
   overview: '',
   poster_path: '/tNUDDszo0Mw6QUhFYjcpUaOQjI9.jpg',
+  vote_average: 7.2,
   episodes: [
     {
       air_date: '2023-01-26',
@@ -3580,12 +3581,6 @@ export const pokerFaceSeason1 = {
       ],
     },
   ],
-  name: 'Season 1',
-  overview: '',
-  id: 186440,
-  poster_path: '/tNUDDszo0Mw6QUhFYjcpUaOQjI9.jpg',
-  season_number: 1,
-  vote_average: 7.2,
 };
 
 export const pokerFaceSeason2 = {

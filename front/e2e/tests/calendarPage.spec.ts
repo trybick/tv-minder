@@ -28,19 +28,15 @@ test.describe('Calendar Page', () => {
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
 
     await page
-      .getByRole('button', {
-        name: `follow-button-${showTitleToId.pokerface}`,
-      })
+      .getByLabel(`follow-button-${showTitleToId.pokerface}`)
       .click();
     await page
       .getByRole('link', { name: /poker face/i })
       .first()
       .click();
     await expect(
-      page.getByRole('button', {
-        name: `follow-button-${showTitleToId.pokerface}`,
-      })
-    ).toHaveText(/unfollow/i);
+      page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
+    ).toHaveText(/following/i);
 
     await page.getByRole('link', { name: /calendar/i }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
@@ -61,14 +57,10 @@ test.describe('Calendar Page', () => {
     ).toBeVisible();
 
     await page
-      .getByRole('button', {
-        name: `follow-button-${showTitleToId.pokerface}`,
-      })
+      .getByLabel(`follow-button-${showTitleToId.pokerface}`)
       .click();
     await expect(
-      page.getByRole('button', {
-        name: `follow-button-${showTitleToId.pokerface}`,
-      })
+      page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
     ).toHaveText(/follow/i);
   });
 
@@ -105,14 +97,10 @@ test.describe('Calendar Page', () => {
     });
 
     await page
-      .getByRole('button', {
-        name: `follow-button-${showTitleToId.pokerface}`,
-      })
+      .getByLabel(`follow-button-${showTitleToId.pokerface}`)
       .click();
     await expect(
-      page.getByRole('button', {
-        name: `follow-button-${showTitleToId.pokerface}`,
-      })
+      page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
     ).toHaveText(/follow/i);
   });
 });
