@@ -41,17 +41,16 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
     <>
       <Button
         onClick={onOpen}
-        variant="solid"
+        variant="surface"
         size={isMobile ? 'sm' : 'sm'}
         borderRadius="full"
         px={4}
         boxShadow="md"
-        _hover={{ boxShadow: 'lg', transform: 'translateY(-1px)' }}
-        _active={{ transform: 'translateY(0px)' }}
+        _hover={{ boxShadow: 'lg' }}
         transition="all 0.15s ease"
       >
-        <Icon as={AiFillYoutube} boxSize="20px" />
-        <Text fontWeight="700" fontSize="sm">
+        <Icon as={AiFillYoutube} boxSize="20px" opacity={0.9} />
+        <Text fontWeight="600" fontSize="sm" opacity={0.9}>
           Play Trailer
         </Text>
       </Button>

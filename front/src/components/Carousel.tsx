@@ -40,10 +40,8 @@ export const Carousel = <T,>({
 
   const buttonSize =
     size === 'sm'
-      ? { base: 'sm' as const, md: 'md' as const }
-      : { base: 'md' as const, md: 'lg' as const };
-  const buttonDimensions =
-    size === 'sm' ? { base: 8, md: 10 } : { base: 10, md: 12 };
+      ? { base: 'lg' as const, md: 'xl' as const }
+      : { base: 'xl' as const, md: '2xl' as const };
   const iconSize = size === 'sm' ? 16 : 24;
 
   if (!items?.length) {
@@ -111,8 +109,6 @@ export const Carousel = <T,>({
             transform="translate(-50%, -50%)"
             zIndex={1}
             size={buttonSize}
-            minW={buttonDimensions}
-            h={buttonDimensions}
             borderRadius="full"
             bg="blackAlpha.700"
             color="white"
@@ -133,8 +129,6 @@ export const Carousel = <T,>({
             transform="translate(50%, -50%)"
             zIndex={1}
             size={buttonSize}
-            minW={buttonDimensions}
-            h={buttonDimensions}
             borderRadius="full"
             bg="blackAlpha.700"
             color="white"
