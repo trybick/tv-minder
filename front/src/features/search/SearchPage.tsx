@@ -21,8 +21,6 @@ import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { type SavedQuery } from '~/store/tv/types/transformed';
 import { applyViewTransition } from '~/utils/applyViewTransition';
-import { cacheDurationDays } from '~/utils/cacheDurations';
-import { dayjs } from '~/utils/dayjs';
 import { useDebouncedFunction } from '~/utils/debounce';
 
 import { SearchContainer } from './SearchContainer';
@@ -71,31 +69,15 @@ export const SearchPage = () => {
     }
   };
 
-  const getIsCacheValid = (index: number) => {
-    const { timeSaved } = savedQueries[index];
-    const diff = dayjs().diff(dayjs(timeSaved), 'day');
-    return cacheDurationDays.search > diff;
-  };
-
-  // Save network calls to cache with a timestamp
   const getQueryData = async (query: string): Promise<SavedQuery> => {
-    let queryData: SavedQuery;
-    const index = savedQueries.findIndex(data => data.query === query);
-    const isCached = index > -1;
-
-    if (isCached && getIsCacheValid(index)) {
-      queryData = savedQueries[index];
-    } else {
-      const { results, totalResults } = await searchShowsByQuery(query);
-      queryData = {
-        query,
-        results,
-        timeSaved: dayjs().toISOString(),
-        totalResults,
-      };
-      dispatch(saveSearchQueryAction(queryData));
+    const cached = savedQueries.find(data => data.query === query);
+    if (cached) {
+      return cached;
     }
 
+    const { results, totalResults } = await searchShowsByQuery(query);
+    const queryData: SavedQuery = { query, results, totalResults };
+    dispatch(saveSearchQueryAction(queryData));
     return queryData;
   };
 

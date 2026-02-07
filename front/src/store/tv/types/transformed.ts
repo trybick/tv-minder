@@ -58,7 +58,6 @@ export type ShowForDisplay = {
 
 export type DiscoverShow = {
   id: number;
-  fetchedAt: string;
   firstAirDate: string | null;
   name: string;
   overview: string;
@@ -86,7 +85,6 @@ export type CalendarEpisode = {
 export type SavedQuery = {
   query: string;
   results: TmdbShowSummary[];
-  timeSaved: string;
   totalResults: number;
 };
 

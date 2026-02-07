@@ -1,8 +1,4 @@
-import { type Dayjs } from 'dayjs';
-
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { cacheDurationDays } from '~/utils/cacheDurations';
-import { dayjs } from '~/utils/dayjs';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import { handleKyError } from '~/utils/handleKyError';
 
@@ -14,7 +10,10 @@ import {
   type TmdbShowList,
   type TmdbShowSummary,
 } from './types/tmdbSchema';
-import { type SavedQuery } from './types/transformed';
+import {
+  type SavedQuery,
+  type TmdbShowWithSeasons,
+} from './types/transformed';
 import { tmdbApi } from './utils/tmdbApi';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
@@ -49,22 +48,18 @@ export const getEpisodesForCalendarAction =
     const { episodeData: storedEpisodeData } = state.tv;
     const userFollowedShowsIds = selectFollowedShows(state);
 
-    const cachedIds = Object.keys(storedEpisodeData);
-    const validCachedIds = userFollowedShowsIds.filter(
-      id =>
-        cachedIds.includes(String(id)) &&
-        cacheDurationDays.calendar >
-          dayjs().diff(dayjs(storedEpisodeData[id].fetchedAt), 'day')
+    const cachedIds = userFollowedShowsIds.filter(
+      id => id in storedEpisodeData
     );
-    const cachedData = validCachedIds.flatMap(id =>
+    const cachedData = cachedIds.flatMap(id =>
       storedEpisodeData[id].episodes !== null
         ? Object.values(storedEpisodeData[id].episodes)
         : []
     );
-    let fetchedData;
     const nonCachedIds = userFollowedShowsIds.filter(
-      id => !validCachedIds.includes(id)
+      id => !(id in storedEpisodeData)
     );
+    let fetchedData;
     if (nonCachedIds?.length) {
       const { cache, fetchedEpisodeData } =
         await getEpisodesForCalendar(nonCachedIds);
@@ -84,48 +79,27 @@ export const getEpisodesForCalendarAction =
     });
   };
 
-export type ShowDetailsCached = TmdbShow & {
-  _fetchedAt: string;
-  seasonsWithEpisodes?: Record<number, TmdbSeason>;
-};
-
 export const getShowDetailsForFollowedShows =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const { showDetails: cachedShowDetails } = state.tv;
     const followedShowsSource = selectFollowedShows(state);
 
-    // Prevent wiping cached data if no followed shows
     if (!followedShowsSource?.length) {
       return;
     }
 
-    const combinedData: Record<number, ShowDetailsCached> = {};
+    const combinedData: Record<number, TmdbShowWithSeasons> = {};
 
-    // Get cached data and add to combinedData
-    const cachedIds = cachedShowDetails && Object.keys(cachedShowDetails);
-    const validCachedIds =
-      cachedShowDetails &&
-      followedShowsSource?.filter(id => {
-        const cacheAge = dayjs().diff(
-          dayjs(cachedShowDetails[id]?._fetchedAt),
-          'day'
-        );
-        return (
-          cachedIds?.includes(String(id)) &&
-          cacheAge < cacheDurationDays.following
-        );
-      });
+    const cachedIds = followedShowsSource.filter(
+      id => cachedShowDetails[id] !== undefined
+    );
+    cachedIds.forEach(id => {
+      combinedData[id] = cachedShowDetails[id];
+    });
 
-    if (validCachedIds?.length) {
-      validCachedIds.forEach(id => {
-        combinedData[id] = cachedShowDetails[id];
-      });
-    }
-
-    // Fetch data for ids that are not cached and add to combinedData
-    const nonCachedIds = followedShowsSource?.filter(
-      id => !validCachedIds?.includes(id)
+    const nonCachedIds = followedShowsSource.filter(
+      id => cachedShowDetails[id] === undefined
     );
     if (nonCachedIds?.length) {
       const results = await Promise.allSettled(
@@ -134,11 +108,7 @@ export const getShowDetailsForFollowedShows =
 
       results.forEach(result => {
         if (result.status === 'fulfilled') {
-          const res = result.value;
-          combinedData[res.id] = {
-            ...res,
-            _fetchedAt: dayjs().toISOString(),
-          };
+          combinedData[result.value.id] = result.value;
         }
       });
     }
@@ -163,15 +133,11 @@ export const getShowDetailsForSearchResults =
       showDetails: cachedShowDetails,
       searchShowDetails: cachedSearchShowDetails,
     } = getState().tv;
-    const idsToFetch = showIds.filter(showId => {
-      const cachedShow =
-        cachedShowDetails[showId] ?? cachedSearchShowDetails[showId];
-      if (!cachedShow?._fetchedAt) {
-        return true;
-      }
-      const cacheAge = dayjs().diff(dayjs(cachedShow._fetchedAt), 'day');
-      return cacheAge >= cacheDurationDays.search;
-    });
+    const idsToFetch = showIds.filter(
+      showId =>
+        cachedShowDetails[showId] === undefined &&
+        cachedSearchShowDetails[showId] === undefined
+    );
 
     if (!idsToFetch.length) {
       return;
@@ -180,15 +146,11 @@ export const getShowDetailsForSearchResults =
     const results = await Promise.allSettled(
       idsToFetch.map(showId => tmdbApi.getShow(showId))
     );
-    const combinedData: Record<number, ShowDetailsCached> = {};
+    const combinedData: Record<number, TmdbShowWithSeasons> = {};
 
     results.forEach(result => {
       if (result.status === 'fulfilled') {
-        const showData = result.value;
-        combinedData[showData.id] = {
-          ...showData,
-          _fetchedAt: dayjs().toISOString(),
-        };
+        combinedData[result.value.id] = result.value;
       } else {
         handleKyError(result.reason);
       }
@@ -205,24 +167,13 @@ export const getShowDetailsForSearchResults =
 export const getShowDetailsWithSeasons =
   (): AppThunk => async (dispatch, getState) => {
     const showId = getShowIdFromUrl();
-    // If we already have show details with seasons and cache is valid, do nothing
     const { showDetails: cachedShowDetails } = getState().tv;
-    const cacheAge = dayjs().diff(
-      dayjs(cachedShowDetails[showId]?._fetchedAt),
-      'day'
-    );
-    const hasValidCache =
-      cachedShowDetails[showId]?.seasonsWithEpisodes &&
-      cacheAge < cacheDurationDays.following;
-    if (hasValidCache) {
-      dispatch({
-        type: SET_IS_LOADING_SHOW_DETAILS,
-        payload: false,
-      });
+
+    if (cachedShowDetails[showId]?.seasonsWithEpisodes) {
+      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
       return;
     }
 
-    // If we don't have a valid cache, fetch the show details
     dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
 
     let showData: TmdbShow;
@@ -230,22 +181,10 @@ export const getShowDetailsWithSeasons =
       showData = await tmdbApi.getShow(showId);
     } catch (error) {
       handleKyError(error);
-      dispatch({
-        type: SET_IS_LOADING_SHOW_DETAILS,
-        payload: false,
-      });
+      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
       return;
     }
 
-    // Create an object to allow merging show data with season data
-    const combinedData: Record<number, ShowDetailsCached> = {
-      [showId]: {
-        ...showData,
-        _fetchedAt: dayjs().toISOString(),
-      },
-    };
-
-    // Fetch full seasons and episodes data
     const seasonNumbers: number[] =
       showData.seasons?.map(season => season.season_number) ?? [];
 
@@ -253,7 +192,6 @@ export const getShowDetailsWithSeasons =
       seasonNumbers.map(seasonNumber => tmdbApi.getSeason(showId, seasonNumber))
     );
 
-    // Merge the season data
     const seasonsWithEpisodes: Record<number, TmdbSeason> = {};
     seasonResults.forEach(result => {
       if (result.status === 'fulfilled') {
@@ -262,9 +200,8 @@ export const getShowDetailsWithSeasons =
       }
     });
 
-    combinedData[showId] = {
-      ...combinedData[showId],
-      seasonsWithEpisodes,
+    const combinedData: Record<number, TmdbShowWithSeasons> = {
+      [showId]: { ...showData, seasonsWithEpisodes },
     };
 
     dispatch({
@@ -272,10 +209,6 @@ export const getShowDetailsWithSeasons =
       payload: combinedData,
     });
   };
-
-export type DiscoverShowCached = TmdbShowSummary & {
-  fetchedAt: string;
-};
 
 // ─────────────────────────────────────────────────────────────
 // DISCOVER SHOWS - Consolidated carousel fetching
@@ -317,7 +250,7 @@ export type DiscoverCarouselKey = (typeof DISCOVER_CAROUSEL_KEYS)[number];
 
 export type DiscoverShowsState = Record<
   DiscoverCarouselKey,
-  DiscoverShowCached[]
+  TmdbShowSummary[]
 >;
 
 const CAROUSEL_FETCHERS: Record<
@@ -341,24 +274,12 @@ const CAROUSEL_FETCHERS: Record<
   appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
 };
 
-const isCacheValid = (
-  cached: DiscoverShowCached[] | undefined,
-  now: Dayjs
-): boolean => {
-  if (!cached?.length) {
-    return false;
-  }
-  const cacheAge = now.diff(dayjs(cached[0].fetchedAt), 'day');
-  return cacheAge < cacheDurationDays.discoverShows;
-};
-
 export const fetchDiscoverShowsAction =
   (): AppThunk => async (dispatch, getState) => {
     const { discoverShows } = getState().tv;
-    const now = dayjs();
 
     const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(
-      key => !isCacheValid(discoverShows[key], now)
+      key => !discoverShows[key]?.length
     );
 
     if (!keysToFetch.length) {
@@ -373,13 +294,7 @@ export const fetchDiscoverShowsAction =
     const fetchCarousel = async (key: DiscoverCarouselKey) => {
       try {
         const data = await CAROUSEL_FETCHERS[key]();
-        return {
-          key,
-          shows: data.results.map(show => ({
-            ...show,
-            fetchedAt: now.toISOString(),
-          })),
-        };
+        return { key, shows: data.results };
       } catch (error) {
         handleKyError(error);
         return null;

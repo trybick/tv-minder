@@ -8,9 +8,9 @@ import { type AppSelector, type AppState } from './..';
 import {
   DISCOVER_CAROUSEL_KEYS,
   type DiscoverCarouselKey,
-  type DiscoverShowCached,
 } from './actions';
 import { type DiscoverShow, type ShowForDisplay } from './types/transformed';
+import { type TmdbShowSummary } from './types/tmdbSchema';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectSavedQueries = (state: AppState) => state.tv.savedQueries;
@@ -60,10 +60,9 @@ export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
   shows => shows.filter(show => show.status.isEnded)
 );
 
-const toDisplayFormat = (shows: DiscoverShowCached[]): DiscoverShow[] =>
+const toDisplayFormat = (shows: TmdbShowSummary[]): DiscoverShow[] =>
   shows?.map(show => ({
     id: show.id,
-    fetchedAt: show.fetchedAt,
     firstAirDate: show.first_air_date ?? null,
     name: show.name,
     overview: show.overview,

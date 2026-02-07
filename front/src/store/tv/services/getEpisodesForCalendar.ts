@@ -232,11 +232,9 @@ const calculateEpisodesForDisplay = (
   return formatSameDayEpisodes(episodesForDisplay);
 };
 
-// Create a cache object which will be persisted to the redux store
 type EpisodeCache = {
   [showId: number]: {
     episodes: CalendarEpisode[] | null;
-    fetchedAt: string;
   };
 };
 
@@ -251,10 +249,7 @@ const createCache = (
     if (cache[showId]?.episodes?.length) {
       cache[showId].episodes.push(episode);
     } else {
-      cache[showId] = {
-        episodes: [episode],
-        fetchedAt: dayjs().toISOString(),
-      };
+      cache[showId] = { episodes: [episode] };
     }
   });
 
@@ -262,10 +257,7 @@ const createCache = (
   // don't have active seasons. Add these showIds back in so we can cache that they are empty.
   showIds.forEach(id => {
     if (!cache[id]) {
-      cache[id] = {
-        episodes: null,
-        fetchedAt: dayjs().toISOString(),
-      };
+      cache[id] = { episodes: null };
     }
   });
 

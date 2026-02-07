@@ -11,20 +11,22 @@ import {
   SET_IS_LOADING_CALENDAR_EPISODES,
   SET_IS_LOADING_SHOW_DETAILS,
   SET_SEARCH_QUERY,
-  type ShowDetailsCached,
 } from './actions';
-import { type CalendarEpisode, type SavedQuery } from './types/transformed';
+import {
+  type CalendarEpisode,
+  type SavedQuery,
+  type TmdbShowWithSeasons,
+} from './types/transformed';
 
 export type EpisodeCacheEntry = {
   episodes: CalendarEpisode[] | null;
-  fetchedAt: string;
 };
 
 type State = {
   savedQueries: SavedQuery[];
   episodeData: Record<number, EpisodeCacheEntry>;
-  showDetails: Record<number, ShowDetailsCached>;
-  searchShowDetails: Record<number, ShowDetailsCached>;
+  showDetails: Record<number, TmdbShowWithSeasons>;
+  searchShowDetails: Record<number, TmdbShowWithSeasons>;
   isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;

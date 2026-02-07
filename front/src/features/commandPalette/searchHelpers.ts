@@ -3,20 +3,12 @@ import { saveSearchQueryAction } from '~/store/tv/actions';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { type SavedQuery } from '~/store/tv/types/transformed';
-import { cacheDurationDays } from '~/utils/cacheDurations';
-import { dayjs } from '~/utils/dayjs';
 
 export const findCachedQuery = (
   savedQueries: SavedQuery[],
   query: string
 ): SavedQuery | undefined => {
-  const cached = savedQueries.find(q => q.query === query);
-  if (!cached) {
-    return undefined;
-  }
-  const isExpired =
-    dayjs().diff(dayjs(cached.timeSaved), 'day') >= cacheDurationDays.search;
-  return isExpired ? undefined : cached;
+  return savedQueries.find(q => q.query === query);
 };
 
 export const fetchAndCacheResults = async (
@@ -24,14 +16,7 @@ export const fetchAndCacheResults = async (
   dispatch: ReturnType<typeof useAppDispatch>
 ): Promise<TmdbShowSummary[]> => {
   const { results, totalResults } = await searchShowsByQuery(query);
-  dispatch(
-    saveSearchQueryAction({
-      query,
-      results,
-      timeSaved: dayjs().toISOString(),
-      totalResults,
-    })
-  );
+  dispatch(saveSearchQueryAction({ query, results, totalResults }));
   return results;
 };
 
