@@ -27,6 +27,9 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               cacheName: 'tmdb-api-cache',
+              matchOptions: {
+                ignoreVary: true,
+              },
               expiration: {
                 maxEntries: 500,
                 maxAgeSeconds: 60 * 60 * 5,
