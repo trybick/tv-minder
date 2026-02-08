@@ -1,5 +1,5 @@
-import { Button, HStack, Icon, Link } from '@chakra-ui/react';
-import { type MouseEvent } from 'react';
+import { Button, chakra, HStack, Icon, Link } from '@chakra-ui/react';
+import { type MouseEvent, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
@@ -29,6 +29,8 @@ export const NavLink = ({
   const [location] = useLocation();
   const isActive = location === linkTo;
 
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onClose?.();
@@ -39,15 +41,6 @@ export const NavLink = ({
       navigate(linkTo);
     }
   };
-
-  const textDecorationProps = iconOnly
-    ? {}
-    : {
-        textDecoration: isActive ? 'underline' : 'none',
-        textDecorationColor: 'cyan.500',
-        textDecorationThickness: '2px',
-        textUnderlineOffset: '4px',
-      };
 
   const navLinkPadding = isMobile
     ? iconOnly
@@ -62,20 +55,16 @@ export const NavLink = ({
       href={linkTo}
       onClick={handleClick}
       title={iconOnly ? text : undefined}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Button
-        color={isActive ? 'fg' : 'fg.muted'}
-        {...textDecorationProps}
+        color={isActive || isHovered ? 'fg' : 'fg.muted'}
         fontSize={isMobile ? 'sm' : 'md'}
         fontWeight="semibold"
         p={navLinkPadding}
         minW={iconOnly ? 'auto' : undefined}
         variant="plain"
-        _hover={{
-          color: 'fg',
-          ...textDecorationProps,
-          ...(iconOnly ? {} : { textDecoration: 'underline' }),
-        }}
         {...(isMobile && {
           mr: '-2',
         })}
@@ -84,8 +73,15 @@ export const NavLink = ({
           <Icon as={icon} boxSize={4} />
         ) : (
           <HStack as="span" gap="1.5">
-            <Icon as={icon} size="xs" />
-            <span>{text}</span>
+            <Icon as={icon} boxSize="1.1em" />
+            <chakra.span
+              textDecoration={isActive || isHovered ? 'underline' : 'none'}
+              textDecorationColor="cyan.500"
+              textDecorationThickness="2px"
+              textUnderlineOffset="4px"
+            >
+              {text}
+            </chakra.span>
           </HStack>
         )}
       </Button>
