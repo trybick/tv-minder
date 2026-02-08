@@ -12,17 +12,10 @@ import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import {
-  getShowDetailsForSearchResults,
-  saveSearchQueryAction,
-} from '~/store/tv/actions';
-import { selectSavedQueries } from '~/store/tv/selectors';
+import { getShowDetailsForSearchResults } from '~/store/tv/actions';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
-import { type SavedQuery } from '~/store/tv/types/transformed';
 import { applyViewTransition } from '~/utils/applyViewTransition';
-import { cacheDurationDays } from '~/utils/cacheDurations';
-import { dayjs } from '~/utils/dayjs';
 import { useDebouncedFunction } from '~/utils/debounce';
 
 import { SearchContainer } from './SearchContainer';
@@ -30,7 +23,6 @@ import { SearchInput } from './SearchInput';
 
 export const SearchPage = () => {
   const dispatch = useAppDispatch();
-  const savedQueries = useAppSelector(selectSavedQueries);
   const shouldResetSearchInput = useAppSelector(selectShouldResetSearchInput);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -71,36 +63,8 @@ export const SearchPage = () => {
     }
   };
 
-  const getIsCacheValid = (index: number) => {
-    const { timeSaved } = savedQueries[index];
-    const diff = dayjs().diff(dayjs(timeSaved), 'day');
-    return cacheDurationDays.search > diff;
-  };
-
-  // Save network calls to cache with a timestamp
-  const getQueryData = async (query: string): Promise<SavedQuery> => {
-    let queryData: SavedQuery;
-    const index = savedQueries.findIndex(data => data.query === query);
-    const isCached = index > -1;
-
-    if (isCached && getIsCacheValid(index)) {
-      queryData = savedQueries[index];
-    } else {
-      const { results, totalResults } = await searchShowsByQuery(query);
-      queryData = {
-        query,
-        results,
-        timeSaved: dayjs().toISOString(),
-        totalResults,
-      };
-      dispatch(saveSearchQueryAction(queryData));
-    }
-
-    return queryData;
-  };
-
   const handleSearch = useDebouncedFunction(async (query: string) => {
-    const { results, totalResults } = await getQueryData(query);
+    const { results, totalResults } = await searchShowsByQuery(query);
     if (!results) {
       return;
     }

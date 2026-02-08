@@ -16,6 +16,10 @@ import { dayjs } from '~/utils/dayjs';
 const api = ky.create({
   prefixUrl: ENDPOINTS.THE_MOVIE_DB,
   searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
+  // May need these headers to fix some requests not caching in service worker
+  // headers: {
+  //   'Accept-Encoding': 'gzip, deflate, br',
+  // },
 });
 
 /**

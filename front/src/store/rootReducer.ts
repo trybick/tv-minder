@@ -9,9 +9,9 @@ import { searchInputReducer } from './rtk/slices/searchInput.slice';
 import { userReducer } from './rtk/slices/user.slice';
 import { tvReducer } from './tv/reducers';
 
-// Why use redux-perist?
-// The main reason to use redux-persist is to persist the 'logged in' state.
-// We also persist all the TV data to cut down on API calls.
+// Redux Persist is used for small UI/session state (login, preferences).
+// TV/TMDB data is NOT persisted here — it's cached at the network layer
+// by the service worker (see vite.config.ts runtimeCaching).
 
 // There is some weirdness with the persist config whitelist and blacklist. The
 // way to get it work seems to be blacklist all keys AND blacklist nested keys.
@@ -34,12 +34,6 @@ const userPersistConfig = {
   blacklist: [],
 };
 
-const tvPersistConfig = {
-  key: 'tv',
-  storage: localforage,
-  blacklist: ['isLoadingCalendarEpisodes', 'isLoadingShowDetails'],
-};
-
 const searchInputPersistConfig = {
   key: 'searchInput',
   storage: localforage,
@@ -54,7 +48,7 @@ const recentShowsPersistConfig = {
 
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
-  tv: persistReducer(tvPersistConfig, tvReducer),
+  tv: tvReducer,
   searchInput: persistReducer(searchInputPersistConfig, searchInputReducer),
   recentShows: persistReducer(recentShowsPersistConfig, recentShowsReducer),
   modals: modalsReducer,

@@ -2,7 +2,6 @@ import { type Action, type AnyAction, type Reducer } from '@reduxjs/toolkit';
 
 import {
   type DiscoverShowsState,
-  SAVE_CALENDAR_EPISODES_CACHE,
   SAVE_DISCOVER_SHOWS,
   SAVE_SEARCH_SHOW_DETAILS,
   SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
@@ -10,21 +9,15 @@ import {
   SET_CURRENT_CALENDAR_EPISODES,
   SET_IS_LOADING_CALENDAR_EPISODES,
   SET_IS_LOADING_SHOW_DETAILS,
-  SET_SEARCH_QUERY,
-  type ShowDetailsCached,
 } from './actions';
-import { type CalendarEpisode, type SavedQuery } from './types/transformed';
-
-export type EpisodeCacheEntry = {
-  episodes: CalendarEpisode[] | null;
-  fetchedAt: string;
-};
+import {
+  type CalendarEpisode,
+  type TmdbShowWithSeasons,
+} from './types/transformed';
 
 type State = {
-  savedQueries: SavedQuery[];
-  episodeData: Record<number, EpisodeCacheEntry>;
-  showDetails: Record<number, ShowDetailsCached>;
-  searchShowDetails: Record<number, ShowDetailsCached>;
+  showDetails: Record<number, TmdbShowWithSeasons>;
+  searchShowDetails: Record<number, TmdbShowWithSeasons>;
   isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
@@ -50,8 +43,6 @@ const emptyDiscoverShows: DiscoverShowsState = {
 };
 
 const initialState: State = {
-  savedQueries: [],
-  episodeData: {},
   showDetails: {},
   searchShowDetails: {},
   isLoadingShowDetails: false,
@@ -65,25 +56,6 @@ export const tvReducer: Reducer<State, Action> = (
   action: AnyAction
 ) => {
   switch (action.type) {
-    case SET_SEARCH_QUERY: {
-      return {
-        ...state,
-        savedQueries: state.savedQueries
-          ? [
-              ...state.savedQueries.filter(
-                savedQuery => savedQuery.query !== action.payload.query
-              ),
-              action.payload,
-            ]
-          : [action.payload],
-      };
-    }
-    case SAVE_CALENDAR_EPISODES_CACHE: {
-      return {
-        ...state,
-        episodeData: { ...state.episodeData, ...action.payload },
-      };
-    }
     case SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS: {
       return {
         ...state,

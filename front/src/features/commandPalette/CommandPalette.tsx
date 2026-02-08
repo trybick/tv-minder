@@ -19,21 +19,14 @@ import {
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
-import { useAppDispatch, useAppSelector } from '~/store';
+import { useAppSelector } from '~/store';
 import { selectRecentShows } from '~/store/rtk/slices/recentShows.slice';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
-import {
-  selectFollowedShowsDetails,
-  selectSavedQueries,
-} from '~/store/tv/selectors';
+import { selectFollowedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
 import './commandPalette.css';
-import {
-  fetchAndCacheResults,
-  filterOutFollowedShows,
-  findCachedQuery,
-} from './searchHelpers';
+import { fetchResults, filterOutFollowedShows } from './searchHelpers';
 
 const PAGES = [
   { name: 'Discover', route: ROUTES.HOME, icon: MdHome, requiresAuth: false },
@@ -74,7 +67,6 @@ type Props = {
 };
 
 export const CommandPaletteProvider = ({ children }: Props) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigateWithAnimation();
   const { getImageUrl } = useImageUrl();
 
@@ -85,7 +77,6 @@ export const CommandPaletteProvider = ({ children }: Props) => {
   const searchTimeoutRef = useRef<number | null>(null);
 
   const followedShows = useAppSelector(selectFollowedShowsDetails);
-  const savedQueries = useAppSelector(selectSavedQueries);
   const recentShows = useAppSelector(selectRecentShows);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
@@ -126,11 +117,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
     searchTimeoutRef.current = window.setTimeout(async () => {
       try {
-        const cached = findCachedQuery(savedQueries, query);
-        const results = cached
-          ? cached.results
-          : await fetchAndCacheResults(query, dispatch);
-
+        const results = await fetchResults(query);
         setTmdbResults(filterOutFollowedShows(results, followedIds));
       } catch {
         setTmdbResults([]);
@@ -144,13 +131,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
         window.clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [
-    searchTerm,
-    filteredFollowedShows.length,
-    savedQueries,
-    dispatch,
-    followedShows,
-  ]);
+  }, [searchTerm, filteredFollowedShows.length, followedShows]);
 
   useEffect(() => {
     if (!isOpen) {
