@@ -56,7 +56,7 @@ export const Carousel = <T,>({
           position="relative"
           overflow="visible"
         >
-          <ChakraCarousel.ItemGroup>
+          <ChakraCarousel.ItemGroup overflow="hidden">
             {Array.from({ length: slidesPerPage }).map((_, index) => (
               <ChakraCarousel.Item key={index} index={index}>
                 <Flex
@@ -97,7 +97,7 @@ export const Carousel = <T,>({
         position="relative"
         overflow="visible"
       >
-        <ChakraCarousel.ItemGroup>
+        <ChakraCarousel.ItemGroup overflow="hidden">
           {items.map((item, index) => (
             <ChakraCarousel.Item key={keyExtractor(item)} index={index}>
               {renderItem(item)}
