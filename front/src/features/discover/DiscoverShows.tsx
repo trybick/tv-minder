@@ -16,7 +16,6 @@ import { TbBrandDisney } from 'react-icons/tb';
 
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
-import { useIsNearViewport } from '~/hooks/useIsNearViewport';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   type DiscoverCarouselKey,
@@ -27,6 +26,7 @@ import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
+import { LazyCarouselSection } from './LazyCarouselSection';
 
 export type CarouselConfig = {
   key: DiscoverCarouselKey;
@@ -131,37 +131,7 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
 const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
-const EAGER_COUNT = 3;
-
-type LazyCarouselSectionProps = {
-  config: CarouselConfig;
-  items: ShowItem[];
-  index: number;
-};
-
-const LazyCarouselSection = ({
-  config,
-  items,
-  index,
-}: LazyCarouselSectionProps) => {
-  const { ref, isNear } = useIsNearViewport();
-
-  return (
-    <Box ref={ref} key={config.key} id={`discover-${config.key}`}>
-      {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
-      <DiscoverHeader
-        icon={config.icon}
-        title={config.title}
-        subtitle={config.subtitle}
-      />
-      <Carousel
-        items={isNear ? items : []}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-      />
-    </Box>
-  );
-};
+const EAGER_COUNT = 2;
 
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
