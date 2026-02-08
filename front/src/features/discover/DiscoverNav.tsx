@@ -77,7 +77,6 @@ export const DiscoverNav = ({ items }: Props) => {
     const top = el.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
     window.scrollTo({ top, behavior: 'smooth' });
 
-    // Re-enable Intersection Observer after scroll animation completes (~800ms)
     setTimeout(() => {
       isClickScrolling.current = false;
     }, 800);

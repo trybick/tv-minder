@@ -50,7 +50,11 @@ export const Carousel = <T,>({
         <ChakraCarousel.Root
           slideCount={slidesPerPage}
           slidesPerPage={slidesPerPage}
+          slidesPerMove={slidesPerPage}
           gap="5"
+          allowMouseDrag
+          position="relative"
+          overflow="visible"
         >
           <ChakraCarousel.ItemGroup>
             {Array.from({ length: slidesPerPage }).map((_, index) => (
@@ -69,13 +73,14 @@ export const Carousel = <T,>({
                     p={{ base: '2.5', md: '3' }}
                     gap="2.5"
                   >
-                    <Skeleton h="5" />
-                    <Skeleton h="8" />
+                    <Skeleton h="11" />
+                    <Skeleton h="11" />
                   </Flex>
                 </Flex>
               </ChakraCarousel.Item>
             ))}
           </ChakraCarousel.ItemGroup>
+          <ChakraCarousel.Indicators mt={2} />
         </ChakraCarousel.Root>
       </CarouselProvider>
     );

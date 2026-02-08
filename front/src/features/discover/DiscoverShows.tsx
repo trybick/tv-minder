@@ -179,13 +179,11 @@ const LazyCarouselSection = ({
         title={config.title}
         subtitle={config.subtitle}
       />
-      {isNear && (
-        <Carousel
-          items={items}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-        />
-      )}
+      <Carousel
+        items={isNear ? items : []}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+      />
     </Box>
   );
 };
