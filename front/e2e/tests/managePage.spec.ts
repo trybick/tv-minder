@@ -68,9 +68,7 @@ test.describe('Manage Page', () => {
       method: 'DELETE',
     });
 
-    await page
-      .getByLabel(`follow-button-${showTitleToId.mobland}`)
-      .click();
+    await page.getByLabel(`follow-button-${showTitleToId.mobland}`).click();
     await expect(
       page.getByLabel(`follow-button-${showTitleToId.mobland}`)
     ).toHaveText(/follow/i);

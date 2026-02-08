@@ -27,9 +27,7 @@ test.describe('Calendar Page', () => {
     await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
 
-    await page
-      .getByLabel(`follow-button-${showTitleToId.pokerface}`)
-      .click();
+    await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
     await page
       .getByRole('link', { name: /poker face/i })
       .first()
@@ -56,9 +54,7 @@ test.describe('Calendar Page', () => {
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
 
-    await page
-      .getByLabel(`follow-button-${showTitleToId.pokerface}`)
-      .click();
+    await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
     await expect(
       page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
     ).toHaveText(/follow/i);
@@ -96,9 +92,7 @@ test.describe('Calendar Page', () => {
       method: 'DELETE',
     });
 
-    await page
-      .getByLabel(`follow-button-${showTitleToId.pokerface}`)
-      .click();
+    await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
     await expect(
       page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
     ).toHaveText(/follow/i);

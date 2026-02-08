@@ -18,6 +18,7 @@ export default [
     'dist/*',
     'playwright-report/*',
     'test-results/*',
+    'dev-dist/*',
   ]),
 
   // Base JavaScript config

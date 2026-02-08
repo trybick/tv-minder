@@ -5,12 +5,9 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { type AppSelector, type AppState } from './..';
-import {
-  DISCOVER_CAROUSEL_KEYS,
-  type DiscoverCarouselKey,
-} from './actions';
-import { type DiscoverShow, type ShowForDisplay } from './types/transformed';
+import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
 import { type TmdbShowSummary } from './types/tmdbSchema';
+import { type DiscoverShow, type ShowForDisplay } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectShowDetails = (state: AppState) => state.tv.showDetails;
