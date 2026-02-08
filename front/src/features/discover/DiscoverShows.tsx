@@ -2,6 +2,7 @@ import { Box, Separator } from '@chakra-ui/react';
 import { type ReactNode, useEffect } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
 import { GiReturnArrow, GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
+import { QueryStatus } from '@reduxjs/toolkit/query';
 import {
   HiOutlineCalendar,
   HiOutlineChartBar,
@@ -18,7 +19,9 @@ import { TbBrandDisney } from 'react-icons/tb';
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { followApi } from '~/store/rtk/api/follow.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import {
   type DiscoverCarouselKey,
   fetchForYouShowsAction,
@@ -151,8 +154,12 @@ const EAGER_COUNT = 2;
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const followedShows = useAppSelector(selectFollowedShows);
   const forYouShows = useAppSelector(selectForYouShowsForDisplay);
+  const followedShowsQuery = useAppSelector(
+    followApi.endpoints.getFollowedShows.select(undefined)
+  );
 
   useEffect(() => {
     dispatch(fetchDiscoverShowsAction());
@@ -164,7 +171,15 @@ export const DiscoverShows = () => {
     }
   }, [dispatch, followedShows.length]);
 
-  const carouselConfigs = forYouShows.length
+  const isFollowedShowsPending =
+    isLoggedIn &&
+    (followedShowsQuery.status === QueryStatus.uninitialized ||
+      followedShowsQuery.status === QueryStatus.pending);
+
+  const shouldIncludeForYouSection =
+    isFollowedShowsPending || followedShows.length >= 2;
+
+  const carouselConfigs = shouldIncludeForYouSection
     ? [FOR_YOU_CONFIG, ...BASE_CAROUSEL_CONFIGS]
     : BASE_CAROUSEL_CONFIGS;
 
