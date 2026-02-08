@@ -26,6 +26,7 @@ import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
+import { LazyCarouselSection } from './LazyCarouselSection';
 
 export type CarouselConfig = {
   key: DiscoverCarouselKey;
@@ -130,6 +131,8 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
 const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
+const EAGER_COUNT = 2;
+
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
@@ -141,21 +144,30 @@ export const DiscoverShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       <DiscoverNav items={CAROUSEL_CONFIGS} />
-      {CAROUSEL_CONFIGS.map((config, index) => (
-        <Box key={config.key} id={`discover-${config.key}`}>
-          {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
-          <DiscoverHeader
-            icon={config.icon}
-            title={config.title}
-            subtitle={config.subtitle}
-          />
-          <Carousel
+      {CAROUSEL_CONFIGS.map((config, index) =>
+        index < EAGER_COUNT ? (
+          <Box key={config.key} id={`discover-${config.key}`}>
+            {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
+            <DiscoverHeader
+              icon={config.icon}
+              title={config.title}
+              subtitle={config.subtitle}
+            />
+            <Carousel
+              items={discoverShows[config.key]}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+            />
+          </Box>
+        ) : (
+          <LazyCarouselSection
+            key={config.key}
+            config={config}
             items={discoverShows[config.key]}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
+            index={index}
           />
-        </Box>
-      ))}
+        )
+      )}
     </Box>
   );
 };
