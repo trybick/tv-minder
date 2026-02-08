@@ -3,7 +3,6 @@ import { type MouseEvent, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
-import { ROUTES } from '~/app/routes';
 import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 
@@ -35,11 +34,8 @@ export const NavLink = ({
     e.preventDefault();
     onClose?.();
     onClick?.();
-    if (linkTo === ROUTES.MANAGE) {
-      navigate(linkTo, { skipImageTransition: true });
-    } else {
-      navigate(linkTo);
-    }
+    // Skip image transitions for all navlinks. Avoids flickering.
+    navigate(linkTo, { skipImageTransition: true });
   };
 
   const navLinkPadding = isMobile
