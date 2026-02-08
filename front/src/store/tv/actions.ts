@@ -26,11 +26,11 @@ export const SAVE_DISCOVER_SHOWS = 'SAVE_DISCOVER_SHOWS';
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
-    const hasExistingData = state.tv.calendarEpisodesForDisplay.length > 0;
-
-    if (!hasExistingData) {
-      dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
+    if (state.tv.calendarEpisodesForDisplay.length > 0) {
+      return;
     }
+
+    dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
 
     const userFollowedShowsIds = selectFollowedShows(state);
     const { fetchedEpisodeData } =
@@ -44,14 +44,20 @@ export const getEpisodesForCalendarAction =
 
 export const getShowDetailsForFollowedShows =
   (): AppThunk => async (dispatch, getState) => {
-    const followedShowsSource = selectFollowedShows(getState());
-
+    const state = getState();
+    const followedShowsSource = selectFollowedShows(state);
     if (!followedShowsSource?.length) {
       return;
     }
 
+    const { showDetails } = state.tv;
+    const idsToFetch = followedShowsSource.filter(id => !showDetails[id]);
+    if (!idsToFetch.length) {
+      return;
+    }
+
     const results = await Promise.allSettled(
-      followedShowsSource.map(id => tmdbApi.getShow(id))
+      idsToFetch.map(id => tmdbApi.getShow(id))
     );
 
     const data: Record<number, TmdbShowWithSeasons> = {};
@@ -63,7 +69,7 @@ export const getShowDetailsForFollowedShows =
 
     dispatch({
       type: SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
-      payload: data,
+      payload: { ...showDetails, ...data },
     });
   };
 
@@ -73,13 +79,21 @@ export const getShowDetailsForFollowedShows =
  */
 export const getShowDetailsForSearchResults =
   (showIds: number[]): AppThunk =>
-  async dispatch => {
+  async (dispatch, getState) => {
     if (!showIds?.length) {
       return;
     }
 
+    const { showDetails, searchShowDetails } = getState().tv;
+    const idsToFetch = showIds.filter(
+      id => !showDetails[id] && !searchShowDetails[id]
+    );
+    if (!idsToFetch.length) {
+      return;
+    }
+
     const results = await Promise.allSettled(
-      showIds.map(showId => tmdbApi.getShow(showId))
+      idsToFetch.map(showId => tmdbApi.getShow(showId))
     );
     const data: Record<number, TmdbShowWithSeasons> = {};
 
@@ -99,12 +113,14 @@ export const getShowDetailsForSearchResults =
 export const getShowDetailsWithSeasons =
   (): AppThunk => async (dispatch, getState) => {
     const showId = getShowIdFromUrl();
-    const hasExistingData =
-      getState().tv.showDetails[showId]?.seasonsWithEpisodes;
+    const existing = getState().tv.showDetails[showId];
 
-    if (!hasExistingData) {
-      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
+    if (existing?.seasonsWithEpisodes) {
+      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
+      return;
     }
+
+    dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
 
     let showData: TmdbShow;
     try {
@@ -130,13 +146,9 @@ export const getShowDetailsWithSeasons =
       }
     });
 
-    const combinedData: Record<number, TmdbShowWithSeasons> = {
-      [showId]: { ...showData, seasonsWithEpisodes },
-    };
-
     dispatch({
       type: SAVE_SHOW_DETAILS_FOR_SHOW,
-      payload: combinedData,
+      payload: { [showId]: { ...showData, seasonsWithEpisodes } },
     });
   };
 
@@ -201,41 +213,54 @@ const CAROUSEL_FETCHERS: Record<
   appleTv: () => tmdbApi.discoverByNetwork(NETWORK_IDS.APPLE_TV),
 };
 
-export const fetchDiscoverShowsAction = (): AppThunk => async dispatch => {
-  const fetchCarousel = async (key: DiscoverCarouselKey) => {
-    try {
-      const data = await CAROUSEL_FETCHERS[key]();
-      return { key, shows: data.results };
-    } catch (error) {
-      handleKyError(error);
-      return null;
+export const fetchDiscoverShowsAction =
+  (): AppThunk => async (dispatch, getState) => {
+    const { discoverShows } = getState().tv;
+    const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(
+      key => !discoverShows[key]?.length
+    );
+    if (!keysToFetch.length) {
+      return;
+    }
+
+    const fetchCarousel = async (key: DiscoverCarouselKey) => {
+      try {
+        const data = await CAROUSEL_FETCHERS[key]();
+        return { key, shows: data.results };
+      } catch (error) {
+        handleKyError(error);
+        return null;
+      }
+    };
+
+    const [priorityKeys, remainingKeys] = [
+      keysToFetch.slice(0, 1),
+      keysToFetch.slice(1),
+    ];
+
+    const priorityResults = await Promise.all(priorityKeys.map(fetchCarousel));
+    const priorityData: Partial<DiscoverShowsState> = {};
+    priorityResults.forEach(result => {
+      if (result) {
+        priorityData[result.key] = result.shows;
+      }
+    });
+    if (Object.keys(priorityData).length) {
+      dispatch({ type: SAVE_DISCOVER_SHOWS, payload: priorityData });
+    }
+
+    if (remainingKeys.length) {
+      const remainingResults = await Promise.all(
+        remainingKeys.map(fetchCarousel)
+      );
+      const remainingData: Partial<DiscoverShowsState> = {};
+      remainingResults.forEach(result => {
+        if (result) {
+          remainingData[result.key] = result.shows;
+        }
+      });
+      if (Object.keys(remainingData).length) {
+        dispatch({ type: SAVE_DISCOVER_SHOWS, payload: remainingData });
+      }
     }
   };
-
-  const [priorityKeys, remainingKeys] = [
-    DISCOVER_CAROUSEL_KEYS.slice(0, 1),
-    DISCOVER_CAROUSEL_KEYS.slice(1),
-  ];
-
-  const priorityResults = await Promise.all(priorityKeys.map(fetchCarousel));
-  const priorityData: Partial<DiscoverShowsState> = {};
-  priorityResults.forEach(result => {
-    if (result) {
-      priorityData[result.key] = result.shows;
-    }
-  });
-  if (Object.keys(priorityData).length) {
-    dispatch({ type: SAVE_DISCOVER_SHOWS, payload: priorityData });
-  }
-
-  const remainingResults = await Promise.all(remainingKeys.map(fetchCarousel));
-  const remainingData: Partial<DiscoverShowsState> = {};
-  remainingResults.forEach(result => {
-    if (result) {
-      remainingData[result.key] = result.shows;
-    }
-  });
-  if (Object.keys(remainingData).length) {
-    dispatch({ type: SAVE_DISCOVER_SHOWS, payload: remainingData });
-  }
-};
