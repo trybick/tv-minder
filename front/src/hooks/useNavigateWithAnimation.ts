@@ -1,3 +1,4 @@
+import { flushSync } from 'react-dom';
 import { useLocation } from 'wouter';
 
 type NavigateOptions = {
@@ -21,7 +22,9 @@ export const useNavigateWithAnimation = () => {
     }
 
     const transition = document.startViewTransition(() => {
-      navigate(to, options);
+      flushSync(() => {
+        navigate(to, options);
+      });
     });
 
     transition.finished.finally(() => {

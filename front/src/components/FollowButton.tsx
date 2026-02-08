@@ -3,11 +3,8 @@ import { CiCircleMinus } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import {
-  useFollowShowMutation,
-  useUnfollowShowMutation,
-} from '~/store/rtk/api/follow.api';
-import { makeSelectIsShowFollowed } from '~/store/rtk/slices/user.selectors';
+import { followApi } from '~/store/rtk/api/follow.api';
+import { selectFollowedShowsSet } from '~/store/rtk/slices/user.selectors';
 import {
   selectIsLoggedIn,
   unregisteredFollowShow,
@@ -29,22 +26,23 @@ export const FollowButton = ({
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isFollowed = useAppSelector(makeSelectIsShowFollowed(showId));
+  const isFollowed = useAppSelector(state =>
+    selectFollowedShowsSet(state).has(showId)
+  );
 
-  const [followShow] = useFollowShowMutation();
-  const [unfollowShow] = useUnfollowShowMutation();
-
-  const onFollowShow = async () => {
+  const onFollowShow = () => {
     if (isLoggedIn) {
-      await followShow(showId);
+      dispatch(followApi.endpoints.followShow.initiate(showId));
     } else {
+      // Use manual dispatch instead of RTK mutation to avoid the cost of
+      // subscription across many FollowButtons
       dispatch(unregisteredFollowShow(showId));
     }
   };
 
-  const onUnfollowShow = async () => {
+  const onUnfollowShow = () => {
     if (isLoggedIn) {
-      await unfollowShow(showId);
+      dispatch(followApi.endpoints.unfollowShow.initiate(showId));
     } else {
       dispatch(unregisteredUnfollowShow(showId));
     }

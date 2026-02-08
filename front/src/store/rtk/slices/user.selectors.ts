@@ -21,7 +21,7 @@ export const selectFollowedShows = createSelector(
   }
 );
 
-export const makeSelectIsShowFollowed = (showId: number) =>
-  createSelector([selectFollowedShows], followedShows =>
-    followedShows.includes(showId)
-  );
+export const selectFollowedShowsSet = createSelector(
+  [selectFollowedShows],
+  followedShows => new Set(followedShows)
+);
