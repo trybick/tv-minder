@@ -8,6 +8,8 @@ type NavigateOptions = {
   skipImageTransition?: boolean;
 };
 
+let activeTransition: ViewTransition | null = null;
+
 export const useNavigateWithAnimation = () => {
   const [, navigate] = useLocation();
 
@@ -15,6 +17,10 @@ export const useNavigateWithAnimation = () => {
     if (!document.startViewTransition) {
       navigate(to, options);
       return;
+    }
+
+    if (activeTransition) {
+      activeTransition.skipTransition();
     }
 
     if (options?.skipImageTransition) {
@@ -27,7 +33,10 @@ export const useNavigateWithAnimation = () => {
       });
     });
 
+    activeTransition = transition;
+
     transition.finished.finally(() => {
+      activeTransition = null;
       document.body.classList.remove('skip-image-transition');
     });
   };
