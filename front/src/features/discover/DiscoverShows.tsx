@@ -6,6 +6,7 @@ import {
   HiOutlineCalendar,
   HiOutlineChartBar,
   HiOutlineFire,
+  HiOutlineHeart,
   HiOutlineSignal,
   HiOutlineSparkles,
   HiOutlineStar,
@@ -17,26 +18,39 @@ import { TbBrandDisney } from 'react-icons/tb';
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import {
   type DiscoverCarouselKey,
+  fetchForYouShowsAction,
   fetchDiscoverShowsAction,
 } from '~/store/tv/actions';
-import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
+import {
+  selectDiscoverShowsForDisplay,
+  selectForYouShowsForDisplay,
+} from '~/store/tv/selectors';
 
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
-import { ForYouCarousel } from './ForYouCarousel';
 import { LazyCarouselSection } from './LazyCarouselSection';
 
+type DiscoverSectionKey = DiscoverCarouselKey | 'forYou';
+
 export type CarouselConfig = {
-  key: DiscoverCarouselKey;
+  key: DiscoverSectionKey;
   icon: ReactNode;
   title: string;
   subtitle: string;
 };
 
-const CAROUSEL_CONFIGS: CarouselConfig[] = [
+const FOR_YOU_CONFIG: CarouselConfig = {
+  key: 'forYou',
+  icon: <HiOutlineHeart />,
+  title: 'For You',
+  subtitle: 'Recommended based on shows you follow',
+};
+
+const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
   {
     key: 'trending',
     icon: <HiOutlineFire />,
@@ -137,16 +151,27 @@ const EAGER_COUNT = 2;
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
+  const followedShows = useAppSelector(selectFollowedShows);
+  const forYouShows = useAppSelector(selectForYouShowsForDisplay);
 
   useEffect(() => {
     dispatch(fetchDiscoverShowsAction());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (followedShows.length >= 2) {
+      dispatch(fetchForYouShowsAction());
+    }
+  }, [dispatch, followedShows.length]);
+
+  const carouselConfigs = forYouShows.length
+    ? [FOR_YOU_CONFIG, ...BASE_CAROUSEL_CONFIGS]
+    : BASE_CAROUSEL_CONFIGS;
+
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
-      <DiscoverNav items={CAROUSEL_CONFIGS} />
-      <ForYouCarousel />
-      {CAROUSEL_CONFIGS.map((config, index) =>
+      <DiscoverNav items={carouselConfigs} />
+      {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>
             {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
@@ -156,7 +181,11 @@ export const DiscoverShows = () => {
               subtitle={config.subtitle}
             />
             <Carousel
-              items={discoverShows[config.key]}
+              items={
+                config.key === 'forYou'
+                  ? forYouShows
+                  : discoverShows[config.key]
+              }
               keyExtractor={keyExtractor}
               renderItem={renderItem}
             />
@@ -165,7 +194,9 @@ export const DiscoverShows = () => {
           <LazyCarouselSection
             key={config.key}
             config={config}
-            items={discoverShows[config.key]}
+            items={
+              config.key === 'forYou' ? forYouShows : discoverShows[config.key]
+            }
             index={index}
           />
         )
