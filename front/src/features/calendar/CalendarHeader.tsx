@@ -82,36 +82,39 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
         )}
       </Box>
 
-      <Flex align="center" gap={2} justifySelf="end">
+      <Flex align="center" gap={5} justifySelf="end">
         <Button
           size="sm"
           h="42px"
           variant="surface"
-          colorPalette="gray"
+          colorPalette="cyan"
           onClick={handleToday}
           opacity={0.8}
         >
           <MdOutlineResetTv opacity={0.8} />
           today
         </Button>
-        <Button
-          size="sm"
-          h="42px"
-          variant="surface"
-          colorPalette="gray"
-          onClick={handlePrev}
-        >
-          <LuChevronLeft opacity={0.8} />
-        </Button>
-        <Button
-          size="sm"
-          h="42px"
-          variant="surface"
-          colorPalette="gray"
-          onClick={handleNext}
-        >
-          <LuChevronRight opacity={0.8} />
-        </Button>
+
+        <Flex gap={2}>
+          <Button
+            size="sm"
+            h="42px"
+            variant="surface"
+            colorPalette="cyan"
+            onClick={handlePrev}
+          >
+            <LuChevronLeft opacity={0.8} />
+          </Button>
+          <Button
+            size="sm"
+            h="42px"
+            variant="surface"
+            colorPalette="cyan"
+            onClick={handleNext}
+          >
+            <LuChevronRight opacity={0.8} />
+          </Button>
+        </Flex>
       </Flex>
     </Box>
   );
