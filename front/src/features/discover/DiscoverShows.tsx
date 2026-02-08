@@ -1,5 +1,5 @@
 import { Box, Separator } from '@chakra-ui/react';
-import { type ReactNode, useEffect } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
 import { GiReturnArrow, GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
 import {
@@ -26,6 +26,32 @@ import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
+
+const useIsNearViewport = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isNear, setIsNear] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsNear(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '400px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isNear };
+};
 
 export type CarouselConfig = {
   key: DiscoverCarouselKey;
@@ -130,6 +156,40 @@ const CAROUSEL_CONFIGS: CarouselConfig[] = [
 const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
+const EAGER_COUNT = 3;
+
+type LazyCarouselSectionProps = {
+  config: CarouselConfig;
+  items: ShowItem[];
+  index: number;
+};
+
+const LazyCarouselSection = ({
+  config,
+  items,
+  index,
+}: LazyCarouselSectionProps) => {
+  const { ref, isNear } = useIsNearViewport();
+
+  return (
+    <Box ref={ref} key={config.key} id={`discover-${config.key}`}>
+      {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
+      <DiscoverHeader
+        icon={config.icon}
+        title={config.title}
+        subtitle={config.subtitle}
+      />
+      {isNear && (
+        <Carousel
+          items={items}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
+      )}
+    </Box>
+  );
+};
+
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
@@ -141,21 +201,30 @@ export const DiscoverShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       <DiscoverNav items={CAROUSEL_CONFIGS} />
-      {CAROUSEL_CONFIGS.map((config, index) => (
-        <Box key={config.key} id={`discover-${config.key}`}>
-          {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
-          <DiscoverHeader
-            icon={config.icon}
-            title={config.title}
-            subtitle={config.subtitle}
-          />
-          <Carousel
+      {CAROUSEL_CONFIGS.map((config, index) =>
+        index < EAGER_COUNT ? (
+          <Box key={config.key} id={`discover-${config.key}`}>
+            {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
+            <DiscoverHeader
+              icon={config.icon}
+              title={config.title}
+              subtitle={config.subtitle}
+            />
+            <Carousel
+              items={discoverShows[config.key]}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+            />
+          </Box>
+        ) : (
+          <LazyCarouselSection
+            key={config.key}
+            config={config}
             items={discoverShows[config.key]}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
+            index={index}
           />
-        </Box>
-      ))}
+        )
+      )}
     </Box>
   );
 };
