@@ -50,7 +50,6 @@ export const Carousel = <T,>({
         <ChakraCarousel.Root
           slideCount={slidesPerPage}
           slidesPerPage={slidesPerPage}
-          slidesPerMove={slidesPerPage}
           gap="5"
           allowMouseDrag
           position="relative"

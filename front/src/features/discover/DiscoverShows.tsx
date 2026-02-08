@@ -1,5 +1,5 @@
 import { Box, Separator } from '@chakra-ui/react';
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
 import { GiReturnArrow, GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
 import {
@@ -16,6 +16,7 @@ import { TbBrandDisney } from 'react-icons/tb';
 
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
+import { useIsNearViewport } from '~/hooks/useIsNearViewport';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   type DiscoverCarouselKey,
@@ -26,32 +27,6 @@ import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
-
-const useIsNearViewport = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isNear, setIsNear] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsNear(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '400px' }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, isNear };
-};
 
 export type CarouselConfig = {
   key: DiscoverCarouselKey;
