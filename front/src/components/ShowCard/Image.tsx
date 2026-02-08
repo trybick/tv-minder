@@ -15,10 +15,21 @@ export const Image = ({ children }: PropsWithChildren) => {
   const { getImageUrl, placeholder } = useImageUrl();
   const posterSource = getImageUrl({ path: show.posterPath });
 
+  // Since the same show can be rendered in multiple carousels which causes
+  // duplicate view transitions, that causes it to be ignored so we need to
+  // manually set the view transition name here.
+  const addViewTransitionName = (e: MouseEvent<HTMLAnchorElement>) => {
+    const img = e.currentTarget.querySelector('img');
+    if (img) {
+      img.style.viewTransitionName = `show-image-${show.id}`;
+    }
+  };
+
   const onShowClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (shouldCancelClick(e)) {
       return;
     }
+    addViewTransitionName(e);
     navigateToShow(e, { showId: show.id, name: show.name, posterSource });
   };
 
@@ -38,7 +49,6 @@ export const Image = ({ children }: PropsWithChildren) => {
         w="100%"
         onError={e => (e.currentTarget.src = placeholder)}
         src={posterSource}
-        viewTransitionName={`show-image-${show.id}`}
       />
       {children}
     </Link>
