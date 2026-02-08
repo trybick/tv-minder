@@ -1,12 +1,14 @@
 import { Box, Heading, Skeleton, Text, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { Carousel } from '~/components/Carousel';
 import { mapTmdbShowSummary, type ShowItem } from '~/components/ShowCard';
-import { useAppSelector } from '~/store';
-import { selectCurrentShowInfo } from '~/store/tv/selectors';
-import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
-import { tmdbApi } from '~/store/tv/utils/tmdbApi';
+import { useAppDispatch, useAppSelector } from '~/store';
+import { getRecommendationsForSingleShow } from '~/store/tv/actions';
+import {
+  selectCurrentShowInfo,
+  selectRecommendations,
+} from '~/store/tv/selectors';
 
 import { SimilarShowCard } from './SimilarShowCard';
 
@@ -14,30 +16,22 @@ const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <SimilarShowCard show={show} />;
 
 export const SimilarShows = () => {
+  const dispatch = useAppDispatch();
   const showInfo = useAppSelector(selectCurrentShowInfo);
-  const [similarShows, setSimilarShows] = useState<TmdbShowSummary[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const recommendations = useAppSelector(selectRecommendations);
+
+  const showId = showInfo?.id;
+  const similarShows = showId ? recommendations[showId] : undefined;
 
   useEffect(() => {
-    if (!showInfo?.id) {
-      return;
+    if (showId) {
+      dispatch(getRecommendationsForSingleShow(showId));
     }
+  }, [dispatch, showId]);
 
-    queueMicrotask(() => {
-      setIsLoading(true);
-    });
-    tmdbApi
-      .getRecommendations(showInfo.id)
-      .then(data => {
-        setSimilarShows(data.results ?? []);
-      })
-      .catch(() => setSimilarShows([]))
-      .finally(() => setIsLoading(false));
-  }, [showInfo?.id]);
+  const showItems = similarShows?.map(mapTmdbShowSummary) ?? [];
 
-  const showItems = similarShows.map(mapTmdbShowSummary);
-
-  if (isLoading) {
+  if (!similarShows) {
     return (
       <Box mt={10}>
         <Skeleton height="24px" width="200px" mb={4} />

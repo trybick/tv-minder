@@ -26,6 +26,7 @@ import { selectDiscoverShowsForDisplay } from '~/store/tv/selectors';
 import { DiscoverHeader } from './DiscoverHeader';
 import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
+import { ForYouCarousel } from './ForYouCarousel';
 import { LazyCarouselSection } from './LazyCarouselSection';
 
 export type CarouselConfig = {
@@ -144,6 +145,7 @@ export const DiscoverShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       <DiscoverNav items={CAROUSEL_CONFIGS} />
+      <ForYouCarousel />
       {CAROUSEL_CONFIGS.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>
