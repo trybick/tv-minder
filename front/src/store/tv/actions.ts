@@ -170,6 +170,10 @@ export const getRecommendationsForSingleShow =
       });
     } catch (error) {
       handleKyError(error);
+      dispatch({
+        type: SAVE_RECOMMENDATIONS,
+        payload: { showId, results: [] },
+      });
     }
   };
 
@@ -209,20 +213,36 @@ export const fetchForYouShowsAction =
     );
 
     const followedSet = new Set(followedShows);
-    const combined: TmdbShowSummary[] = [];
+    const lists: TmdbShowSummary[][] = [];
 
     for (const result of results) {
-      if (result.status !== 'fulfilled') {
-        continue;
+      if (result.status === 'fulfilled') {
+        const filtered = result.value.results.filter(
+          show => !followedSet.has(show.id)
+        );
+        lists.push(filtered);
+      } else {
+        handleKyError(result.reason);
       }
-      for (const show of result.value.results) {
-        if (!followedSet.has(show.id)) {
-          combined.push(show);
+    }
+
+    if (lists.length === 0) {
+      dispatch({ type: SAVE_FOR_YOU_SHOWS, payload: [] });
+      return;
+    }
+
+    const interleaved: TmdbShowSummary[] = [];
+    const maxLength = Math.max(...lists.map(list => list.length));
+
+    for (let i = 0; i < maxLength; i++) {
+      for (const list of lists) {
+        if (i < list.length) {
+          interleaved.push(list[i]);
         }
       }
     }
 
-    dispatch({ type: SAVE_FOR_YOU_SHOWS, payload: combined });
+    dispatch({ type: SAVE_FOR_YOU_SHOWS, payload: interleaved });
   };
 
 // ─────────────────────────────────────────────────────────────
