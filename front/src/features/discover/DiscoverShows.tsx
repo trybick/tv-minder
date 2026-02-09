@@ -1,8 +1,8 @@
 import { Box, Separator } from '@chakra-ui/react';
+import { QueryStatus } from '@reduxjs/toolkit/query';
 import { type ReactNode, useEffect } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
 import { GiReturnArrow, GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
-import { QueryStatus } from '@reduxjs/toolkit/query';
 import {
   HiOutlineCalendar,
   HiOutlineChartBar,
@@ -24,8 +24,8 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import {
   type DiscoverCarouselKey,
-  fetchForYouShowsAction,
   fetchDiscoverShowsAction,
+  fetchForYouShowsAction,
 } from '~/store/tv/actions';
 import {
   selectDiscoverShowsForDisplay,
