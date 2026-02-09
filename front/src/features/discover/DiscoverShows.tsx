@@ -157,7 +157,7 @@ export const DiscoverShows = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const followedShows = useAppSelector(selectFollowedShows);
   const forYouShows = useAppSelector(selectForYouShowsForDisplay);
-  const followedShowsQuery = useAppSelector(
+  const { status: getFollowedShowsStatus } = useAppSelector(
     followApi.endpoints.getFollowedShows.select(undefined)
   );
 
@@ -171,13 +171,13 @@ export const DiscoverShows = () => {
     }
   }, [dispatch, followedShows.length]);
 
-  const isFollowedShowsPending =
+  const isLoggedInAndFollowedShowsPending =
     isLoggedIn &&
-    (followedShowsQuery.status === QueryStatus.uninitialized ||
-      followedShowsQuery.status === QueryStatus.pending);
+    (getFollowedShowsStatus === QueryStatus.uninitialized ||
+      getFollowedShowsStatus === QueryStatus.pending);
 
   const shouldIncludeForYouSection =
-    isFollowedShowsPending || followedShows.length >= 2;
+    isLoggedInAndFollowedShowsPending || followedShows.length >= 2;
 
   const carouselConfigs = shouldIncludeForYouSection
     ? [FOR_YOU_CONFIG, ...BASE_CAROUSEL_CONFIGS]
