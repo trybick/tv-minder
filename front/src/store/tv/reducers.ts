@@ -3,6 +3,8 @@ import { type Action, type AnyAction, type Reducer } from '@reduxjs/toolkit';
 import {
   type DiscoverShowsState,
   SAVE_DISCOVER_SHOWS,
+  SAVE_FOR_YOU_SHOWS,
+  SAVE_RECOMMENDATIONS,
   SAVE_SEARCH_SHOW_DETAILS,
   SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
   SAVE_SHOW_DETAILS_FOR_SHOW,
@@ -10,6 +12,7 @@ import {
   SET_IS_LOADING_CALENDAR_EPISODES,
   SET_IS_LOADING_SHOW_DETAILS,
 } from './actions';
+import { type TmdbShowSummary } from './types/tmdbSchema';
 import {
   type CalendarEpisode,
   type TmdbShowWithSeasons,
@@ -22,6 +25,8 @@ type State = {
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
   discoverShows: DiscoverShowsState;
+  recommendations: Record<number, TmdbShowSummary[]>;
+  forYouShows: TmdbShowSummary[];
 };
 
 const emptyDiscoverShows: DiscoverShowsState = {
@@ -49,6 +54,8 @@ const initialState: State = {
   calendarEpisodesForDisplay: [],
   isLoadingCalendarEpisodes: true,
   discoverShows: emptyDiscoverShows,
+  recommendations: {},
+  forYouShows: [],
 };
 
 export const tvReducer: Reducer<State, Action> = (
@@ -98,6 +105,21 @@ export const tvReducer: Reducer<State, Action> = (
       return {
         ...state,
         discoverShows: { ...state.discoverShows, ...action.payload },
+      };
+    }
+    case SAVE_RECOMMENDATIONS: {
+      return {
+        ...state,
+        recommendations: {
+          ...state.recommendations,
+          [action.payload.showId]: action.payload.results,
+        },
+      };
+    }
+    case SAVE_FOR_YOU_SHOWS: {
+      return {
+        ...state,
+        forYouShows: action.payload,
       };
     }
     default:

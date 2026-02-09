@@ -22,6 +22,8 @@ export const SAVE_SHOW_DETAILS_FOR_SHOW = 'SAVE_SHOW_DETAILS_FOR_SHOW';
 export const SET_IS_LOADING_SHOW_DETAILS = 'SET_IS_LOADING_SHOW_DETAILS';
 export const SAVE_SEARCH_SHOW_DETAILS = 'SAVE_SEARCH_SHOW_DETAILS';
 export const SAVE_DISCOVER_SHOWS = 'SAVE_DISCOVER_SHOWS';
+export const SAVE_RECOMMENDATIONS = 'SAVE_RECOMMENDATIONS';
+export const SAVE_FOR_YOU_SHOWS = 'SAVE_FOR_YOU_SHOWS';
 
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
@@ -150,6 +152,97 @@ export const getShowDetailsWithSeasons =
       type: SAVE_SHOW_DETAILS_FOR_SHOW,
       payload: { [showId]: { ...showData, seasonsWithEpisodes } },
     });
+  };
+
+export const getRecommendationsForSingleShow =
+  (showId: number): AppThunk =>
+  async (dispatch, getState) => {
+    const { recommendations } = getState().tv;
+    if (recommendations[showId]) {
+      return;
+    }
+
+    try {
+      const data = await tmdbApi.getRecommendations(showId);
+      dispatch({
+        type: SAVE_RECOMMENDATIONS,
+        payload: { showId, results: data.results },
+      });
+    } catch (error) {
+      handleKyError(error);
+      dispatch({
+        type: SAVE_RECOMMENDATIONS,
+        payload: { showId, results: [] },
+      });
+    }
+  };
+
+const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
+
+function pickStableIndices(arrayLength: number, count: number): number[] {
+  const epoch = Math.floor(Date.now() / FIVE_HOURS_MS);
+  const indices: number[] = [];
+  for (let i = 0; i < count && i < arrayLength; i++) {
+    let index = (epoch + i * 7) % arrayLength;
+    while (indices.includes(index)) {
+      index = (index + 1) % arrayLength;
+    }
+    indices.push(index);
+  }
+  return indices;
+}
+
+export const fetchForYouShowsAction =
+  (): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    if (state.tv.forYouShows.length) {
+      return;
+    }
+
+    const followedShows = selectFollowedShows(state);
+    if (followedShows.length < 2) {
+      return;
+    }
+
+    const sorted = [...followedShows].sort((a, b) => a - b);
+    const indices = pickStableIndices(sorted.length, 2);
+    const selectedIds = indices.map(i => sorted[i]);
+
+    const results = await Promise.allSettled(
+      selectedIds.map(id => tmdbApi.getRecommendations(id))
+    );
+
+    const followedSet = new Set(followedShows);
+    const lists: TmdbShowSummary[][] = [];
+
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        const filtered = result.value.results.filter(
+          show => !followedSet.has(show.id)
+        );
+        lists.push(filtered);
+      } else {
+        handleKyError(result.reason);
+      }
+    }
+
+    if (lists.length === 0) {
+      dispatch({ type: SAVE_FOR_YOU_SHOWS, payload: [] });
+      return;
+    }
+
+    const interleaved: TmdbShowSummary[] = [];
+    const maxLength = Math.max(...lists.map(list => list.length));
+
+    for (let i = 0; i < maxLength; i++) {
+      for (const list of lists) {
+        if (i < list.length) {
+          interleaved.push(list[i]);
+        }
+      }
+    }
+
+    dispatch({ type: SAVE_FOR_YOU_SHOWS, payload: interleaved });
   };
 
 // ─────────────────────────────────────────────────────────────

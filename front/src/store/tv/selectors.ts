@@ -20,6 +20,9 @@ export const selectCalendarEpisodesForDisplay = (state: AppState) =>
 export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
   state.tv.isLoadingCalendarEpisodes;
 export const selectDiscoverShows = (state: AppState) => state.tv.discoverShows;
+export const selectRecommendations = (state: AppState) =>
+  state.tv.recommendations;
+export const selectForYouShows = (state: AppState) => state.tv.forYouShows;
 
 export const selectFollowedShowsDetails: AppSelector<ShowForDisplay[]> =
   createSelector(
@@ -85,6 +88,11 @@ export const selectDiscoverShowsForDisplay: AppSelector<DiscoverShowsForDisplay>
 
     return result;
   });
+
+export const selectForYouShowsForDisplay: AppSelector<DiscoverShow[]> =
+  createSelector(selectForYouShows, forYouShows =>
+    toDisplayFormat(forYouShows.filter(show => !!show.poster_path))
+  );
 
 export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
   createSelector(

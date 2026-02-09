@@ -1,30 +1,30 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { type DiscoverCarouselKey } from '~/store/tv/actions';
-
 import { type CarouselConfig } from './DiscoverShows';
 
 type Props = {
   items: CarouselConfig[];
 };
 
+type DiscoverSectionKey = CarouselConfig['key'];
+
 /** Gap between scrolled-to section and top of page */
 const SCROLL_OFFSET = 70;
 
 export const DiscoverNav = ({ items }: Props) => {
   const firstKey = items[0]?.key ?? 'trending';
-  const [activeKey, setActiveKey] = useState<DiscoverCarouselKey>(firstKey);
+  const [activeKey, setActiveKey] = useState<DiscoverSectionKey>(firstKey);
 
   const navRef = useRef<HTMLDivElement>(null);
-  const pillRefs = useRef<Map<DiscoverCarouselKey, HTMLButtonElement>>(
+  const pillRefs = useRef<Map<DiscoverSectionKey, HTMLButtonElement>>(
     new Map()
   );
 
   // Prevents unwanted intermediate updates during the scroll animation
   const isClickScrolling = useRef(false);
 
-  const scrollPillIntoView = useCallback((key: DiscoverCarouselKey) => {
+  const scrollPillIntoView = useCallback((key: DiscoverSectionKey) => {
     const pill = pillRefs.current.get(key);
     if (pill && navRef.current) {
       const nav = navRef.current;
@@ -64,7 +64,7 @@ export const DiscoverNav = ({ items }: Props) => {
     return () => observers.forEach(o => o.disconnect());
   }, [items, scrollPillIntoView]);
 
-  const handleClick = (key: DiscoverCarouselKey) => {
+  const handleClick = (key: DiscoverSectionKey) => {
     const el = document.getElementById(`discover-${key}`);
     if (!el) {
       return;
