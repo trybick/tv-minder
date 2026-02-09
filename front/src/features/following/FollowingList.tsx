@@ -10,7 +10,7 @@ import {
   selectInProductionShows,
   selectPremieringSoonShows,
 } from '~/store/tv/selectors';
-import { applyViewTransition } from '~/utils/applyViewTransition';
+import { applyViewTransition } from '~/utils/viewTransition';
 
 import { FollowingTabTrigger } from './FollowingTabTrigger';
 import { SubSectionOfShows } from './SubSectionOfShows';

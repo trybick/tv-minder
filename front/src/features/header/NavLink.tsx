@@ -3,8 +3,8 @@ import { type MouseEvent, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 interface Props {
   linkTo: string;

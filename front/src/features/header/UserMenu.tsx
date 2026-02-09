@@ -2,13 +2,13 @@ import { Avatar, Box, Menu, Portal, Text } from '@chakra-ui/react';
 import { LuLogOut, LuSettings } from 'react-icons/lu';
 
 import { ROUTES } from '~/app/routes';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   selectEmail,
   selectIsGoogleUser,
   setIsLoggedOut,
 } from '~/store/rtk/slices/user.slice';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 export const UserMenu = () => {
   const dispatch = useAppDispatch();

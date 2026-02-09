@@ -69,6 +69,16 @@ const viewTransitionStyles = {
     animationDuration: '0.25s',
     animationTimingFunction: 'ease-in-out',
   },
+  // Route transitions: fade-in only (hide old snapshot to prevent flashes)
+  'html[data-view-transition-kind="route"]::view-transition-old(root)': {
+    animationName: 'none',
+    animationDuration: '1ms',
+    opacity: 0,
+  },
+  'html[data-view-transition-kind="route"]::view-transition-new(root)': {
+    animationDuration: '0.25s',
+    animationTimingFunction: 'ease-in-out',
+  },
   // Specific styling for show image transitions
   '::view-transition-group(show-image)': {
     animationDuration: '0.3s',

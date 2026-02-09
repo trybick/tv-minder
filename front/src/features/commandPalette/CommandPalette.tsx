@@ -18,12 +18,12 @@ import {
 
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useAppSelector } from '~/store';
 import { selectRecentShows } from '~/store/rtk/slices/recentShows.slice';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { selectFollowedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 import './commandPalette.css';
 import { fetchResults, filterOutFollowedShows } from './searchHelpers';

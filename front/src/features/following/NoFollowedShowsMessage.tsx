@@ -3,7 +3,7 @@ import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
 import noShowsImage from '~/assets/images/tv-remote.jpg';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 export const NoFollowedShowsMessage = () => {
   const navigate = useNavigateWithAnimation();

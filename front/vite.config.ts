@@ -19,6 +19,7 @@ export default defineConfig({
       },
       manifest: false,
       workbox: {
+        disableDevLogs: true,
         globPatterns: [],
         navigateFallback: null,
         runtimeCaching: [

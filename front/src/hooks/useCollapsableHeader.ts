@@ -1,6 +1,6 @@
 import { type RefObject, useEffect, useState } from 'react';
 
-import { applyViewTransition } from '~/utils/applyViewTransition';
+import { applyViewTransition } from '~/utils/viewTransition';
 
 export function useCollapsibleHeader(ref: RefObject<HTMLDivElement | null>) {
   const [isHeaderOpen, setIsHeaderOpen] = useState(false);

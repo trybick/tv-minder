@@ -12,7 +12,6 @@ import { type RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
@@ -20,6 +19,7 @@ import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import { dayjs } from '~/utils/dayjs';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 import { CalendarHeader } from './CalendarHeader';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';

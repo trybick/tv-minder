@@ -14,7 +14,7 @@ import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple } from 'react-icons/tb';
 
 import { ROUTES } from '~/app/routes';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };

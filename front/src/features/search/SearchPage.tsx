@@ -15,8 +15,8 @@ import {
 import { getShowDetailsForSearchResults } from '~/store/tv/actions';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
-import { applyViewTransition } from '~/utils/applyViewTransition';
 import { useDebouncedFunction } from '~/utils/debounce';
+import { applyViewTransition } from '~/utils/viewTransition';
 
 import { SearchContainer } from './SearchContainer';
 import { SearchInput } from './SearchInput';

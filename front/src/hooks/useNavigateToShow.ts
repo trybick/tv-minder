@@ -3,8 +3,7 @@ import { type MouseEvent } from 'react';
 import { ROUTES } from '~/app/routes';
 import { useAppDispatch } from '~/store';
 import { SET_IS_LOADING_SHOW_DETAILS } from '~/store/tv/actions';
-
-import { useNavigateWithAnimation } from './useNavigateWithAnimation';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 export type ShowNavigationState = {
   showId: number;

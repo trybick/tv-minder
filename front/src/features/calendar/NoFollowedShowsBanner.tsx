@@ -2,10 +2,10 @@ import { Alert, Link } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 export const NoFollowedShowsBanner = () => {
   const { isMobile } = useResponsiveLayout();

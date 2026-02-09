@@ -4,11 +4,11 @@ import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import logo from '~/assets/images/logo.svg';
-import { useNavigateWithAnimation } from '~/hooks/useNavigateWithAnimation';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
-import { applyViewTransition } from '~/utils/applyViewTransition';
+import { useNavigateWithAnimation } from '~/utils/viewTransition';
+import { applyViewTransition } from '~/utils/viewTransition';
 
 interface Props {
   onClose?: () => void;
