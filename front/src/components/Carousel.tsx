@@ -26,6 +26,8 @@ const smallSlidesPerPage = {
   '2xl': 4,
 };
 
+const INDICATOR_PLACEHOLDER_COUNT = 24;
+
 export const Carousel = <T,>({
   items,
   keyExtractor,
@@ -56,28 +58,30 @@ export const Carousel = <T,>({
           overflow="visible"
         >
           <ChakraCarousel.ItemGroup overflow="hidden">
-            {Array.from({ length: slidesPerPage }).map((_, index) => (
-              <ChakraCarousel.Item key={index} index={index}>
-                <Flex
-                  direction="column"
-                  borderRadius="xl"
-                  border="1px solid"
-                  borderColor="whiteAlpha.100"
-                  overflow="hidden"
-                  bg="whiteAlpha.50"
-                >
-                  <Skeleton aspectRatio={2 / 3} />
+            {Array.from({ length: INDICATOR_PLACEHOLDER_COUNT }).map(
+              (_, index) => (
+                <ChakraCarousel.Item key={index} index={index}>
                   <Flex
                     direction="column"
-                    p={{ base: '2.5', md: '3' }}
-                    gap="2.5"
+                    borderRadius="xl"
+                    border="1px solid"
+                    borderColor="whiteAlpha.100"
+                    overflow="hidden"
+                    bg="whiteAlpha.50"
                   >
-                    <Skeleton h="11" />
-                    <Skeleton h="11" />
+                    <Skeleton aspectRatio={2 / 3} />
+                    <Flex
+                      direction="column"
+                      p={{ base: '2.5', md: '3' }}
+                      gap="2.5"
+                    >
+                      <Skeleton h="11" />
+                      <Skeleton h="11" />
+                    </Flex>
                   </Flex>
-                </Flex>
-              </ChakraCarousel.Item>
-            ))}
+                </ChakraCarousel.Item>
+              )
+            )}
           </ChakraCarousel.ItemGroup>
           <ChakraCarousel.Indicators mt={2} />
         </ChakraCarousel.Root>
