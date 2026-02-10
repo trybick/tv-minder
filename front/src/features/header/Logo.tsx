@@ -7,7 +7,6 @@ import logo from '~/assets/images/logo.svg';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
-import { useNavigateWithAnimation } from '~/utils/viewTransition';
 import { applyViewTransition } from '~/utils/viewTransition';
 
 interface Props {
@@ -17,8 +16,7 @@ interface Props {
 export const Logo = ({ onClose }: Props) => {
   const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
-  const [location] = useLocation();
-  const navigate = useNavigateWithAnimation();
+  const [location, navigate] = useLocation();
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

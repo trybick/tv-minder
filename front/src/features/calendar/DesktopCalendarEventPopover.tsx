@@ -12,9 +12,9 @@ import { type MouseEvent } from 'react';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
 import { IoIosTimer } from 'react-icons/io';
 import { TbBoxMultiple } from 'react-icons/tb';
+import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
-import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 type Props = {
   eventInfo: EventContentArg & { backgroundColor: string };
@@ -35,7 +35,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
     showName,
     seasonAndEpisodeNumbersFull,
   } = eventInfo.event.extendedProps;
-  const navigate = useNavigateWithAnimation();
+  const [, navigate] = useLocation();
 
   const handleClickTitle = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

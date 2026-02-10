@@ -10,6 +10,7 @@ import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import { type RefObject, useEffect, useRef, useState } from 'react';
 import { TbBoxMultiple } from 'react-icons/tb';
+import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -19,7 +20,6 @@ import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import { dayjs } from '~/utils/dayjs';
-import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 import { CalendarHeader } from './CalendarHeader';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
@@ -27,7 +27,7 @@ import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
 
 export const CalendarPage = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigateWithAnimation();
+  const [, navigate] = useLocation();
   const { isMobile } = useResponsiveLayout();
   const calendarRef = useRef<FullCalendar>(null);
 

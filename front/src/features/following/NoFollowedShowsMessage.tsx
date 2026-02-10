@@ -1,12 +1,12 @@
 import { Button, Flex, Image, Link, Text } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
+import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import noShowsImage from '~/assets/images/tv-remote.jpg';
-import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 export const NoFollowedShowsMessage = () => {
-  const navigate = useNavigateWithAnimation();
+  const [, navigate] = useLocation();
 
   const handleClickHome = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

@@ -4,7 +4,6 @@ import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
-import { useNavigateWithAnimation } from '~/utils/viewTransition';
 
 interface Props {
   linkTo: string;
@@ -24,8 +23,7 @@ export const NavLink = ({
   iconOnly,
 }: Props) => {
   const { isMobile } = useResponsiveLayout();
-  const navigate = useNavigateWithAnimation();
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const isActive = location === linkTo;
 
   const [isHovered, setIsHovered] = useState(false);
@@ -34,8 +32,7 @@ export const NavLink = ({
     e.preventDefault();
     onClose?.();
     onClick?.();
-    // Skip image transitions for all navlinks. Avoids flickering.
-    navigate(linkTo, { skipImageTransition: true });
+    navigate(linkTo);
   };
 
   const navLinkPadding = isMobile
