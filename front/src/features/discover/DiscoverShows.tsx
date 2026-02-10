@@ -162,14 +162,23 @@ export const DiscoverShows = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchDiscoverShowsAction());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (followedShows.length >= 2) {
-      dispatch(fetchForYouShowsAction());
+    const shouldWaitForFollowedShows =
+      isLoggedIn &&
+      (getFollowedShowsStatus === QueryStatus.uninitialized ||
+        getFollowedShowsStatus === QueryStatus.pending);
+    if (shouldWaitForFollowedShows) {
+      return;
     }
-  }, [dispatch, followedShows.length]);
+
+    const fetchSections = async () => {
+      if (followedShows.length >= 2) {
+        dispatch(fetchForYouShowsAction());
+      }
+      dispatch(fetchDiscoverShowsAction());
+    };
+
+    void fetchSections();
+  }, [dispatch, followedShows.length, isLoggedIn, getFollowedShowsStatus]);
 
   const isLoggedInAndFollowedShowsPending =
     isLoggedIn &&

@@ -232,12 +232,17 @@ export const fetchForYouShowsAction =
     }
 
     const interleaved: TmdbShowSummary[] = [];
+    const seenRecommendedIds = new Set<number>();
     const maxLength = Math.max(...lists.map(list => list.length));
 
     for (let i = 0; i < maxLength; i++) {
       for (const list of lists) {
         if (i < list.length) {
-          interleaved.push(list[i]);
+          const show = list[i];
+          if (!seenRecommendedIds.has(show.id)) {
+            interleaved.push(show);
+            seenRecommendedIds.add(show.id);
+          }
         }
       }
     }
