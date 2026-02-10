@@ -22,7 +22,7 @@ export const LazyCarouselSection = ({ config, items, index }: Props) => {
 
   return (
     <Box ref={ref} id={`discover-${config.key}`}>
-      {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
+      {index > 0 && <Separator my={7} borderColor="whiteAlpha.200" />}
       <DiscoverHeader
         icon={config.icon}
         title={config.title}

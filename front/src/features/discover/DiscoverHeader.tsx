@@ -8,16 +8,16 @@ type Props = {
 };
 
 export const DiscoverHeader = ({ icon, title, subtitle }: Props) => (
-  <Flex align="center" gap={3} mb={4}>
+  <Flex align="center" gap={2.5} mb={3}>
     <Flex
       align="center"
       justify="center"
-      w="40px"
-      h="40px"
+      w="34px"
+      h="34px"
       borderRadius="lg"
       bg="cyan.500/15"
       color="cyan.400"
-      fontSize="xl"
+      fontSize="lg"
     >
       {icon}
     </Flex>
@@ -25,14 +25,14 @@ export const DiscoverHeader = ({ icon, title, subtitle }: Props) => (
     <Box>
       <Heading
         as="h2"
-        fontSize={{ base: 'xl', md: '2xl' }}
+        fontSize={{ base: 'lg', md: 'xl' }}
         fontWeight="700"
         color="fg"
       >
         {title}
       </Heading>
 
-      <Text fontSize="sm" color="fg.muted" mt="1px">
+      <Text fontSize="xs" color="fg.muted" mt="1px">
         {subtitle}
       </Text>
     </Box>

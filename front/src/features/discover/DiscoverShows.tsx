@@ -189,7 +189,7 @@ export const DiscoverShows = () => {
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>
-            {index > 0 && <Separator my={6} borderColor="whiteAlpha.200" />}
+            {index > 0 && <Separator my={7} borderColor="whiteAlpha.200" />}
             <DiscoverHeader
               icon={config.icon}
               title={config.title}

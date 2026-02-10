@@ -90,8 +90,8 @@ export const DiscoverNav = ({ items }: Props) => {
       zIndex="10"
       bg={activeKey === firstKey ? 'bg/70' : 'bg/100'}
       mx={-3}
-      px={3}
-      py={3}
+      px={2.5}
+      py={2.5}
       mb={7}
       borderRadius="full"
     >
@@ -123,7 +123,7 @@ export const DiscoverNav = ({ items }: Props) => {
               px={3}
               py={1.5}
               borderRadius="full"
-              fontSize="sm"
+              fontSize="xs"
               fontWeight="medium"
               cursor="pointer"
               transition="all 0.2s"

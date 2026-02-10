@@ -8,7 +8,6 @@ import {
 import { type ReactNode, useMemo } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
-import { showElementsByBreakpoint } from './ShowCard';
 import { CarouselProvider, type CarouselSize } from './carouselContext';
 
 type Props<T> = {
@@ -18,13 +17,21 @@ type Props<T> = {
   size?: CarouselSize;
 };
 
-const smallSlidesPerPage = {
+const SMALL_SLIDES_PER_PAGE = {
   base: 2,
   md: 3,
   lg: 4,
   xl: 4,
   '2xl': 4,
 };
+
+export const DEFAULT_SLIDES_PER_PAGE = {
+  base: 2,
+  md: 4,
+  lg: 5,
+  xl: 6,
+  '2xl': 7,
+} as const;
 
 const INDICATOR_PLACEHOLDER_COUNT = 24;
 
@@ -35,7 +42,7 @@ export const Carousel = <T,>({
   size = 'md',
 }: Props<T>) => {
   const slidesConfig =
-    size === 'sm' ? smallSlidesPerPage : showElementsByBreakpoint;
+    size === 'sm' ? SMALL_SLIDES_PER_PAGE : DEFAULT_SLIDES_PER_PAGE;
   const slidesPerPage =
     useBreakpointValue(slidesConfig, { ssr: false }) ?? slidesConfig.base;
   const contextValue = useMemo(() => ({ size }), [size]);
