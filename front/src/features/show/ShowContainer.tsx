@@ -70,7 +70,10 @@ export const ShowContainer = () => {
           >
             {availableWatchProviders && (
               <Box minW={0}>
-                <WatchProviders watchProviders={availableWatchProviders} />
+                <WatchProviders
+                  showName={currentShowInfo?.name ?? ''}
+                  watchProviders={availableWatchProviders}
+                />
               </Box>
             )}
             {hasTrailers && (

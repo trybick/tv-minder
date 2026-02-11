@@ -11,8 +11,9 @@ import {
 import { useState } from 'react';
 import YouTube from 'react-youtube';
 
-import { YOUTUBE_PLAYER_OPTIONS } from '~/features/show/videoPlayerOptions';
 import { type ShowTrailer } from '~/store/tv/types/transformed';
+
+import { YOUTUBE_PLAYER_OPTIONS } from '~/features/show/videoPlayerOptions';
 
 const MAX_VISIBLE_TRAILERS = 4;
 const TRAILER_ROW_HEIGHT = 40;

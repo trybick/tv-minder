@@ -5,10 +5,11 @@ import { type ShowWatchProviders } from '~/store/tv/types/transformed';
 import { ProviderChips } from './ProviderChips';
 
 type Props = {
+  showName: string;
   watchProviders: ShowWatchProviders;
 };
 
-export const WatchProviders = ({ watchProviders }: Props) => {
+export const WatchProviders = ({ showName, watchProviders }: Props) => {
   const tmdbWatchUrl = watchProviders.link || 'https://www.themoviedb.org/';
 
   return (
@@ -39,6 +40,7 @@ export const WatchProviders = ({ watchProviders }: Props) => {
             </Text>
             <ProviderChips
               providers={watchProviders.flatrate}
+              showName={showName}
               tmdbWatchUrl={tmdbWatchUrl}
             />
           </Box>
@@ -50,6 +52,7 @@ export const WatchProviders = ({ watchProviders }: Props) => {
             </Text>
             <ProviderChips
               providers={watchProviders.rent}
+              showName={showName}
               tmdbWatchUrl={tmdbWatchUrl}
             />
           </Box>
@@ -61,6 +64,7 @@ export const WatchProviders = ({ watchProviders }: Props) => {
             </Text>
             <ProviderChips
               providers={watchProviders.buy}
+              showName={showName}
               tmdbWatchUrl={tmdbWatchUrl}
             />
           </Box>
