@@ -7,9 +7,9 @@ import { ENDPOINTS } from '~/app/endpoints';
 import {
   tmdbSchema,
   type TmdbSearchResult,
+  type TmdbSeason,
   type TmdbShow,
   type TmdbShowList,
-  type TmdbSeason,
 } from '~/store/tv/types/tmdbSchema';
 import { dayjs } from '~/utils/dayjs';
 
@@ -71,9 +71,11 @@ export const tmdbApi = {
       searchParams.watch_region = options.watchRegion;
     }
 
-    return fetchTmdb(`tv/${id}`, tmdbSchema.show, {
-      searchParams: Object.keys(searchParams).length ? searchParams : undefined,
-    });
+    return fetchTmdb(
+      `tv/${id}`,
+      tmdbSchema.show,
+      Object.keys(searchParams).length ? { searchParams } : undefined
+    );
   },
 
   /**

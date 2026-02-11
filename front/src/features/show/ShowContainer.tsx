@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from '@chakra-ui/react';
+import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 
 import { FollowButton } from '~/components/FollowButton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -13,7 +13,7 @@ import { SeasonsAccordion } from './SeasonsAccordion';
 import { ShowImage } from './ShowImage';
 import { ShowDetails } from './showDetails/ShowDetails';
 import { Reviews } from './showDetails/richContent/Reviews';
-import { Trailers } from './showDetails/richContent/Trailers';
+import { Videos } from './showDetails/richContent/Videos';
 import { WatchProviders } from './showDetails/richContent/WatchProviders';
 
 export const ShowContainer = () => {
@@ -22,7 +22,7 @@ export const ShowContainer = () => {
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
-  const { trailers = [], reviews = [], watchProviders } = currentShowInfo || {};
+  const { videos = [], reviews = [], watchProviders } = currentShowInfo || {};
 
   const availableWatchProviders =
     watchProviders &&
@@ -33,8 +33,6 @@ export const ShowContainer = () => {
     )
       ? watchProviders
       : null;
-  const hasTrailers = !!trailers.length;
-  const hasReviews = !!reviews.length;
 
   return (
     <>
@@ -44,8 +42,8 @@ export const ShowContainer = () => {
           <ShowDetails />
         </Flex>
       ) : (
-        <Grid gap="32px" gridTemplateColumns="280px 1fr">
-          <Flex direction="column" gap="14px">
+        <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
+          <Flex direction="column" gap={4}>
             <ShowImage />
             <FollowButton showId={showId} size="lg" />
           </Flex>
@@ -56,35 +54,47 @@ export const ShowContainer = () => {
       <Flex
         direction="column"
         gap={{ base: 8, md: 10 }}
-        mt={{ base: 8, md: 10 }}
+        mt={{ base: 5, md: 10 }}
       >
-        {!isLoading && (availableWatchProviders || hasTrailers) && (
-          <Grid
-            templateColumns={{
-              base: '1fr',
-              md: availableWatchProviders && hasTrailers ? '1fr 1fr' : '1fr',
-            }}
-            gap={5}
-            alignItems="start"
-            overflow="hidden"
-          >
-            {availableWatchProviders && (
-              <Box minW={0}>
-                <WatchProviders
-                  showName={currentShowInfo?.name ?? ''}
-                  watchProviders={availableWatchProviders}
-                />
-              </Box>
-            )}
-            {hasTrailers && (
-              <Box minW={0}>
-                <Trailers trailers={trailers} />
-              </Box>
-            )}
-          </Grid>
-        )}
+        {!isLoading && (
+          <>
+            <Box>
+              <Grid
+                templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+                gap={5}
+                alignItems="start"
+                overflow="hidden"
+              >
+                <Box minW={0}>
+                  <WatchProviders
+                    showName={currentShowInfo?.name ?? ''}
+                    watchProviders={availableWatchProviders}
+                  />
+                </Box>
+                <Box minW={0}>
+                  <Videos videos={videos} />
+                </Box>
+              </Grid>
+            </Box>
 
-        {!isLoading && hasReviews && <Reviews reviews={reviews} />}
+            <Box>
+              <Flex mb={5} direction="column" gap={1}>
+                <Heading
+                  as="h2"
+                  fontSize={{ base: 'xl', md: '2xl' }}
+                  letterSpacing="-0.02em"
+                >
+                  Reviews
+                </Heading>
+                <Text color="fg.muted" fontSize="sm">
+                  What viewers are saying about this show.
+                </Text>
+              </Flex>
+
+              <Reviews reviews={reviews} />
+            </Box>
+          </>
+        )}
 
         <SeasonsAccordion />
       </Flex>

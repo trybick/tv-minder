@@ -78,7 +78,11 @@ export const SeasonsAccordion = () => {
   return (
     <Flex direction="column" flex="1">
       <Box mb={4}>
-        <Heading as="h2" fontSize={{ base: 'xl', md: '2xl' }} letterSpacing="-0.02em">
+        <Heading
+          as="h2"
+          fontSize={{ base: 'xl', md: '2xl' }}
+          letterSpacing="-0.02em"
+        >
           Episodes
         </Heading>
         <Text color="fg.muted" fontSize="sm" mt={1}>

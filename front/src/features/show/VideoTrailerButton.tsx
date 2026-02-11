@@ -13,7 +13,11 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 
-import { YOUTUBE_PLAYER_OPTIONS } from './videoPlayerOptions';
+export const YOUTUBE_PLAYER_OPTIONS = {
+  height: '100%',
+  playerVars: { autoplay: 1 },
+  width: '100%',
+};
 
 type Props = {
   videoId: string | undefined;

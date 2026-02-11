@@ -62,11 +62,10 @@ Custom hooks in `hooks/`:
 - Unit: Vitest + Testing Library
 - E2E: Playwright
 
-### Validation
+### TypeScript Validation and Linting
 
-- After changing more than 10 lines of code, run `npm run validate`
-- If it fails, fix the TypeScript/Eslint error(s) before continuing
-- You can also run `npm run lint:fix` to automatically fix some of the linting errors.
+- After changing more than 10 lines of code, run `npm run validate`. If it fails, fix the TypeScript/Eslint error(s) before continuing
+- IMPORTANT: Only do the following lint step if explcitily asked to: you can run `npm run lint:fix` to automatically fix prettier formatting issues. Do not do this unless the prompt included a term like "run lint".
 
 ### Components
 

@@ -52,7 +52,7 @@ export type ShowForDisplay = {
   posterPath: string | null;
   seasonsWithEpisodes: SeasonWithEpisodes[];
   status: ShowStatus;
-  trailers: ShowTrailer[];
+  videos: ShowVideo[];
   reviews: ShowReview[];
   watchProviders: ShowWatchProviders | null;
   videoTrailerKey: string | undefined;
@@ -61,7 +61,7 @@ export type ShowForDisplay = {
   startYear: string;
 };
 
-export type ShowTrailer = {
+export type ShowVideo = {
   key: string;
   name: string;
   type: string;

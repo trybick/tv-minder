@@ -47,7 +47,11 @@ export const SimilarShows = () => {
   return (
     <Box mt={12} pt={8} borderTop="1px solid" borderColor="whiteAlpha.100">
       <VStack align="flex-start" gap={1} mb={4}>
-        <Heading as="h2" fontSize={{ base: 'xl', md: '2xl' }} letterSpacing="-0.02em">
+        <Heading
+          as="h2"
+          fontSize={{ base: 'xl', md: '2xl' }}
+          letterSpacing="-0.02em"
+        >
           Similar Shows
         </Heading>
         {showInfo?.name && (

@@ -11,7 +11,7 @@ import {
   type SeasonWithEpisodes,
   type ShowForDisplay,
   type ShowReview,
-  type ShowTrailer,
+  type ShowVideo,
   type ShowWatchProvider,
   type ShowWatchProviders,
 } from '~/store/tv/types/transformed';
@@ -81,7 +81,7 @@ export const getVideoTrailerKey = (
   return matchingVideo?.key || results[0]?.key || undefined;
 };
 
-const formatTrailers = (videos: VideoPayload | undefined): ShowTrailer[] => {
+const formatVideos = (videos: VideoPayload | undefined): ShowVideo[] => {
   if (!videos?.results.length) {
     return [];
   }
@@ -97,7 +97,7 @@ const formatTrailers = (videos: VideoPayload | undefined): ShowTrailer[] => {
       const bScore = Number(!!b.official) + Number(b.type === 'Trailer');
       return bScore - aScore;
     })
-    .map<ShowTrailer>(video => ({
+    .map<ShowVideo>(video => ({
       key: video.key,
       name: video.name,
       type: video.type,
@@ -308,7 +308,7 @@ export const mapShowInfoForDisplay = (
   const language = spokenLanguages?.map(lang => lang.english_name).join(', ');
 
   const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
-  const trailers = formatTrailers(showVideos ?? videos);
+  const videosForDisplay = formatVideos(showVideos ?? videos);
   const reviews = formatReviews(showReviews);
   const watchProviders = mapWatchProviders(showWatchProviders, watchRegion);
 
@@ -328,7 +328,7 @@ export const mapShowInfoForDisplay = (
     reviews,
     seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes ?? {}),
     status: showStatus,
-    trailers,
+    videos: videosForDisplay,
     videoTrailerKey: getVideoTrailerKey(showVideos ?? videos),
     voteAverage: voteAverageForDisplay,
     voteCount,
