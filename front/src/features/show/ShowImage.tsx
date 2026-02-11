@@ -51,8 +51,8 @@ export const ShowImage = () => {
   return (
     <DelayedSkeleton
       isLoading={shouldShowDesktopSkeleton}
-      w="300px"
-      h={shouldShowDesktopSkeleton ? '450px' : undefined}
+      w="270px"
+      h={shouldShowDesktopSkeleton ? '405px' : undefined}
       borderRadius="8px"
     >
       <AspectRatio ratio={2 / 3} w="100%">

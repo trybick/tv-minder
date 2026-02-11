@@ -5,7 +5,7 @@ import { selectCurrentShowInfo } from '~/store/tv/selectors';
 
 import { AirDates } from './AirDates';
 import { Genres } from './Genres';
-import { Metadata } from './Metadata';
+// import { Metadata } from './Metadata';
 import { Overview } from './Overview';
 import { RatingRow } from './RatingRow';
 import { TitleRow } from './TitleRow';
@@ -20,7 +20,8 @@ export const ShowDetails = () => {
       <Genres show={currentShowInfo} />
       <Overview show={currentShowInfo} />
       <AirDates show={currentShowInfo} />
-      <Metadata show={currentShowInfo} />
+      {/* Metadata removed for nowin favor of rich content */}
+      {/* <Metadata show={currentShowInfo} /> */}
     </Box>
   );
 };

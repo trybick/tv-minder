@@ -7,9 +7,9 @@ import { ENDPOINTS } from '~/app/endpoints';
 import {
   tmdbSchema,
   type TmdbSearchResult,
-  type TmdbSeason,
   type TmdbShow,
   type TmdbShowList,
+  type TmdbSeason,
 } from '~/store/tv/types/tmdbSchema';
 import { dayjs } from '~/utils/dayjs';
 
@@ -56,10 +56,25 @@ export const tmdbApi = {
    * Get detailed show info by ID.
    * Endpoint: /tv/{id}
    */
-  getShow: (id: number): Promise<TmdbShow> =>
-    fetchTmdb(`tv/${id}`, tmdbSchema.show, {
-      searchParams: { append_to_response: 'videos' },
-    }),
+  getShow: (
+    id: number,
+    options?: {
+      appendToResponse?: string;
+      watchRegion?: string;
+    }
+  ): Promise<TmdbShow> => {
+    const searchParams: Record<string, string> = {};
+    if (options?.appendToResponse) {
+      searchParams.append_to_response = options.appendToResponse;
+    }
+    if (options?.watchRegion) {
+      searchParams.watch_region = options.watchRegion;
+    }
+
+    return fetchTmdb(`tv/${id}`, tmdbSchema.show, {
+      searchParams: Object.keys(searchParams).length ? searchParams : undefined,
+    });
+  },
 
   /**
    * Get season details with episodes.

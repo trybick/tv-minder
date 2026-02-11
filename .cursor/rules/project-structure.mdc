@@ -66,6 +66,7 @@ Custom hooks in `hooks/`:
 
 - After changing more than 10 lines of code, run `npm run validate`
 - If it fails, fix the TypeScript/Eslint error(s) before continuing
+- You can also run `npm run lint:fix` to automatically fix some of the linting errors.
 
 ### Components
 
@@ -95,3 +96,31 @@ export const MyComponent = () => <div>Hello</div>;
 Primarily we use e2e tests which can be run with `npm run test:e2e`. Do this
 only when explictly asked to. It should connect to the already running local
 web server on port 4000 without needing to start it again.
+
+### Syntax
+
+Use double bangs for boolean values instead of Boolean keyword.
+
+```tsx
+// ✅ Good
+const value = !!value;
+```
+
+```tsx
+// ❌ Bad
+const value = Boolean(value);
+```
+
+### Date and Time
+
+Use dayjs for date and time manipulation.
+
+```tsx
+// ✅ Good
+const date = dayjs(date);
+```
+
+```tsx
+// ❌ Bad
+const date = new Date(date);
+```

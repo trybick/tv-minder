@@ -45,11 +45,14 @@ const show = type({
     name: 'string',
   }).or('null'),
   'videos?': type({
+    'id?': 'number',
     results: type({
       key: 'string',
       type: 'string',
       site: 'string',
       name: 'string',
+      'official?': 'boolean',
+      'published_at?': 'string',
     }).array(),
   }),
   'spoken_languages?': type({
@@ -60,6 +63,64 @@ const show = type({
 });
 
 export type TmdbShow = typeof show.infer;
+
+/**
+ * /tv/{show_id}/videos response
+ */
+const showVideos = type({
+  id: 'number',
+  results: type({
+    key: 'string',
+    type: 'string',
+    site: 'string',
+    name: 'string',
+    'official?': 'boolean',
+    'published_at?': 'string',
+  }).array(),
+});
+
+export type TmdbShowVideos = typeof showVideos.infer;
+
+/**
+ * /tv/{show_id}/reviews response
+ */
+const showReview = type({
+  id: 'string',
+  author: 'string',
+  content: 'string',
+  url: 'string',
+  created_at: 'string',
+  updated_at: 'string',
+});
+
+const showReviews = type({
+  id: 'number',
+  page: 'number',
+  'results?': showReview.array(),
+});
+
+export type TmdbShowReviews = typeof showReviews.infer;
+
+/**
+ * /tv/{show_id}/watch/providers response
+ */
+export type TmdbShowWatchProvider = {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string | null;
+};
+
+export type TmdbShowWatchRegion = {
+  link: string;
+  flatrate?: TmdbShowWatchProvider[];
+  rent?: TmdbShowWatchProvider[];
+  buy?: TmdbShowWatchProvider[];
+};
+
+export type TmdbShowWatchProviders = {
+  id: number;
+  results?: Record<string, TmdbShowWatchRegion>;
+};
 
 /**
  * /tv/{show_id}/season/{season_number} response
@@ -135,6 +196,8 @@ export type TmdbShowList = typeof showList.infer;
  */
 export const tmdbSchema = {
   show,
+  showVideos,
+  showReviews,
   season,
   searchResult,
   showList,
