@@ -1,20 +1,40 @@
-import { Flex, Grid } from '@chakra-ui/react';
+import { Box, Flex, Grid } from '@chakra-ui/react';
 
 import { FollowButton } from '~/components/FollowButton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
-import { selectCurrentShowInfo } from '~/store/tv/selectors';
+import {
+  selectCurrentShowInfo,
+  selectIsLoadingShowDetails,
+} from '~/store/tv/selectors';
 import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { SeasonsAccordion } from './SeasonsAccordion';
 import { ShowImage } from './ShowImage';
-import { RichContent } from './showDetails/RichContent';
 import { ShowDetails } from './showDetails/ShowDetails';
+import { Reviews } from './showDetails/richContent/Reviews';
+import { Trailers } from './showDetails/richContent/Trailers';
+import { WatchProviders } from './showDetails/richContent/WatchProviders';
 
 export const ShowContainer = () => {
   const { isMobile } = useResponsiveLayout();
   const showId = getShowIdFromUrl();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
+  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+
+  const { trailers = [], reviews = [], watchProviders } = currentShowInfo || {};
+
+  const availableWatchProviders =
+    watchProviders &&
+    !!(
+      watchProviders.flatrate.length ||
+      watchProviders.rent.length ||
+      watchProviders.buy.length
+    )
+      ? watchProviders
+      : null;
+  const hasTrailers = !!trailers.length;
+  const hasReviews = !!reviews.length;
 
   return (
     <>
@@ -38,7 +58,31 @@ export const ShowContainer = () => {
         gap={{ base: 8, md: 10 }}
         mt={{ base: 8, md: 10 }}
       >
-        <RichContent show={currentShowInfo} />
+        {!isLoading && (availableWatchProviders || hasTrailers) && (
+          <Grid
+            templateColumns={{
+              base: '1fr',
+              md: availableWatchProviders && hasTrailers ? '1fr 1fr' : '1fr',
+            }}
+            gap={5}
+            alignItems="start"
+            overflow="hidden"
+          >
+            {availableWatchProviders && (
+              <Box minW={0}>
+                <WatchProviders watchProviders={availableWatchProviders} />
+              </Box>
+            )}
+            {hasTrailers && (
+              <Box minW={0}>
+                <Trailers trailers={trailers} />
+              </Box>
+            )}
+          </Grid>
+        )}
+
+        {!isLoading && hasReviews && <Reviews reviews={reviews} />}
+
         <SeasonsAccordion />
       </Flex>
     </>

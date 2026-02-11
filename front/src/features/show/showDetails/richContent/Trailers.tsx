@@ -11,20 +11,17 @@ import {
 import { useState } from 'react';
 import YouTube from 'react-youtube';
 
-import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
+import { YOUTUBE_PLAYER_OPTIONS } from '~/features/show/videoPlayerOptions';
 import { type ShowTrailer } from '~/store/tv/types/transformed';
 
-import {
-  DESKTOP_YOUTUBE_PLAYER_OPTIONS,
-  MOBILE_YOUTUBE_PLAYER_OPTIONS,
-} from '~/features/show/videoPlayerOptions';
+const MAX_VISIBLE_TRAILERS = 4;
+const TRAILER_ROW_HEIGHT = 40;
 
 type Props = {
   trailers: ShowTrailer[];
 };
 
 export const Trailers = ({ trailers }: Props) => {
-  const { isMobile } = useResponsiveLayout();
   const { open: isOpen, onOpen, onClose } = useDisclosure();
   const [selectedTrailer, setSelectedTrailer] = useState<ShowTrailer | null>(
     null
@@ -55,9 +52,14 @@ export const Trailers = ({ trailers }: Props) => {
         letterSpacing="-0.01em"
         mb={3}
       >
-        Trailers
+        Videos
       </Heading>
-      <Flex direction="column" gap={1}>
+      <Flex
+        direction="column"
+        gap={1}
+        maxH={`${MAX_VISIBLE_TRAILERS * TRAILER_ROW_HEIGHT}px`}
+        overflowY="auto"
+      >
         {trailers.map(trailer => (
           <Button
             key={trailer.key}
@@ -75,10 +77,11 @@ export const Trailers = ({ trailers }: Props) => {
               fontSize="sm"
               textAlign="left"
               flex="1"
+              truncate
             >
               {trailer.name}
             </Text>
-            <Text fontSize="xs" color="fg.muted" ml={3}>
+            <Text fontSize="xs" color="fg.muted" ml={3} flexShrink={0}>
               {trailer.type}
             </Text>
           </Button>
@@ -93,7 +96,7 @@ export const Trailers = ({ trailers }: Props) => {
           }
         }}
         placement="center"
-        size="md"
+        size="xl"
         lazyMount
       >
         <Dialog.Backdrop />
@@ -105,20 +108,14 @@ export const Trailers = ({ trailers }: Props) => {
               </Dialog.Title>
             </Dialog.Header>
             <Dialog.Body pb={4}>
-              {selectedTrailer?.key &&
-                (isMobile ? (
-                  <AspectRatio ratio={1}>
-                    <YouTube
-                      opts={MOBILE_YOUTUBE_PLAYER_OPTIONS}
-                      videoId={selectedTrailer.key}
-                    />
-                  </AspectRatio>
-                ) : (
+              {selectedTrailer?.key && (
+                <AspectRatio ratio={16 / 9}>
                   <YouTube
-                    opts={DESKTOP_YOUTUBE_PLAYER_OPTIONS}
+                    opts={YOUTUBE_PLAYER_OPTIONS}
                     videoId={selectedTrailer.key}
                   />
-                ))}
+                </AspectRatio>
+              )}
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>

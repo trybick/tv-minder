@@ -13,10 +13,7 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 
-import {
-  DESKTOP_YOUTUBE_PLAYER_OPTIONS,
-  MOBILE_YOUTUBE_PLAYER_OPTIONS,
-} from './videoPlayerOptions';
+import { YOUTUBE_PLAYER_OPTIONS } from './videoPlayerOptions';
 
 type Props = {
   videoId: string | undefined;
@@ -55,7 +52,7 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
           }
         }}
         placement="center"
-        size="md"
+        size="xl"
         lazyMount
       >
         <Dialog.Backdrop />
@@ -65,19 +62,9 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
               <Dialog.Title fontSize="md">Official Trailer</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body pb={4}>
-              {isMobile ? (
-                <AspectRatio ratio={1}>
-                  <YouTube
-                    opts={MOBILE_YOUTUBE_PLAYER_OPTIONS}
-                    videoId={videoId}
-                  />
-                </AspectRatio>
-              ) : (
-                <YouTube
-                  opts={DESKTOP_YOUTUBE_PLAYER_OPTIONS}
-                  videoId={videoId}
-                />
-              )}
+              <AspectRatio ratio={16 / 9}>
+                <YouTube opts={YOUTUBE_PLAYER_OPTIONS} videoId={videoId} />
+              </AspectRatio>
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>

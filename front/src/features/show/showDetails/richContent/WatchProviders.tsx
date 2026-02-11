@@ -39,7 +39,7 @@ export const WatchProviders = ({ watchProviders }: Props) => {
             </Text>
             <ProviderChips
               providers={watchProviders.flatrate}
-              fallbackUrl={tmdbWatchUrl}
+              tmdbWatchUrl={tmdbWatchUrl}
             />
           </Box>
         )}
@@ -50,7 +50,7 @@ export const WatchProviders = ({ watchProviders }: Props) => {
             </Text>
             <ProviderChips
               providers={watchProviders.rent}
-              fallbackUrl={tmdbWatchUrl}
+              tmdbWatchUrl={tmdbWatchUrl}
             />
           </Box>
         )}
@@ -61,7 +61,7 @@ export const WatchProviders = ({ watchProviders }: Props) => {
             </Text>
             <ProviderChips
               providers={watchProviders.buy}
-              fallbackUrl={tmdbWatchUrl}
+              tmdbWatchUrl={tmdbWatchUrl}
             />
           </Box>
         )}
