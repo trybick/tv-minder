@@ -20,7 +20,7 @@ export const ShowDetails = () => {
       <Genres show={currentShowInfo} />
       <Overview show={currentShowInfo} />
       <AirDates show={currentShowInfo} />
-      {/* Metadata removed for nowin favor of rich content */}
+      {/* Metadata removed for now in favor of rich content */}
       {/* <Metadata show={currentShowInfo} /> */}
     </Box>
   );

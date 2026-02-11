@@ -97,7 +97,6 @@ const formatTrailers = (videos: VideoPayload | undefined): ShowTrailer[] => {
       const bScore = Number(!!b.official) + Number(b.type === 'Trailer');
       return bScore - aScore;
     })
-    .slice(0, 4)
     .map<ShowTrailer>(video => ({
       key: video.key,
       name: video.name,
