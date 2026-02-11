@@ -51,7 +51,7 @@ export const ShowImage = () => {
   return (
     <DelayedSkeleton
       isLoading={shouldShowDesktopSkeleton}
-      w="270px"
+      w="280px"
       h={shouldShowDesktopSkeleton ? '405px' : undefined}
       borderRadius="8px"
     >

@@ -24,16 +24,20 @@ export const ShowContainer = () => {
           <ShowDetails />
         </Flex>
       ) : (
-        <Grid gap="32px" gridTemplateColumns="270px 1fr">
+        <Grid gap="32px" gridTemplateColumns="280px 1fr">
           <Flex direction="column" gap="14px">
             <ShowImage />
-            <FollowButton showId={showId} size="xl" />
+            <FollowButton showId={showId} size="lg" />
           </Flex>
           <ShowDetails />
         </Grid>
       )}
 
-      <Flex direction="column" gap={{ base: 8, md: 10 }} mt={{ base: 8, md: 10 }}>
+      <Flex
+        direction="column"
+        gap={{ base: 8, md: 10 }}
+        mt={{ base: 8, md: 10 }}
+      >
         <RichContent show={currentShowInfo} />
         <SeasonsAccordion />
       </Flex>
