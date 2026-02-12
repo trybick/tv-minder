@@ -115,6 +115,16 @@ export type CalendarEpisode = {
   title: string;
 };
 
+export type DiscoverFilters = {
+  sortBy?: string;
+  genres?: number[];
+  voteAverageGte?: number;
+  firstAirDateGte?: string;
+  firstAirDateLte?: string;
+  withStatus?: string;
+  withOriginalLanguage?: string;
+};
+
 export type TmdbShowWithSeasons = TmdbShow & {
   seasonsWithEpisodes?: Record<number, TmdbSeason>;
   showVideos?: TmdbShowVideos;

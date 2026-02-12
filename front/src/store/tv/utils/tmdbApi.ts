@@ -11,15 +11,12 @@ import {
   type TmdbShow,
   type TmdbShowList,
 } from '~/store/tv/types/tmdbSchema';
+import { type DiscoverFilters } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 
 const api = ky.create({
   prefixUrl: ENDPOINTS.THE_MOVIE_DB,
   searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
-  // May need these headers to fix some requests not caching in service worker
-  // headers: {
-  //   'Accept-Encoding': 'gzip, deflate, br',
-  // },
 });
 
 /**
@@ -263,5 +260,54 @@ export const tmdbApi = {
         results: [...page1.results, ...page2.results],
       };
     }
+  },
+
+  /**
+   * Discover shows with user-defined filters.
+   * Endpoint: /discover/tv with arbitrary filter params
+   * Fetches 2 pages and merges results.
+   */
+  discoverWithFilters: async (
+    filters: DiscoverFilters,
+    signal?: AbortSignal
+  ): Promise<TmdbShowList> => {
+    const params: Record<string, string | number> = {
+      sort_by: filters.sortBy ?? 'popularity.desc',
+    };
+
+    if (filters.genres?.length) {
+      params.with_genres = filters.genres.join(',');
+    }
+    if (filters.voteAverageGte != null && filters.voteAverageGte > 0) {
+      params['vote_average.gte'] = filters.voteAverageGte;
+    }
+    if (filters.firstAirDateGte) {
+      params['first_air_date.gte'] = filters.firstAirDateGte;
+    }
+    if (filters.firstAirDateLte) {
+      params['first_air_date.lte'] = filters.firstAirDateLte;
+    }
+    if (filters.withStatus) {
+      params.with_status = filters.withStatus;
+    }
+    if (filters.withOriginalLanguage) {
+      params.with_original_language = filters.withOriginalLanguage;
+    }
+
+    const [page1, page2] = await Promise.all([
+      fetchTmdb('discover/tv', tmdbSchema.showList, {
+        searchParams: { ...params, page: 1 },
+        signal,
+      }),
+      fetchTmdb('discover/tv', tmdbSchema.showList, {
+        searchParams: { ...params, page: 2 },
+        signal,
+      }),
+    ]);
+
+    return {
+      ...page1,
+      results: [...page1.results, ...page2.results],
+    };
   },
 };
