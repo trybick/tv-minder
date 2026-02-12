@@ -7,7 +7,11 @@ import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import { type AppSelector, type AppState } from './..';
 import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
 import { type TmdbShowSummary } from './types/tmdbSchema';
-import { type DiscoverShow, type ShowForDisplay } from './types/transformed';
+import {
+  type DiscoverShow,
+  type ShowForDisplay,
+  type TmdbShowWithSeasons,
+} from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
 export const selectShowDetails = (state: AppState) => state.tv.showDetails;
@@ -24,18 +28,41 @@ export const selectRecommendations = (state: AppState) =>
   state.tv.recommendations;
 export const selectForYouShows = (state: AppState) => state.tv.forYouShows;
 
+const showDisplayCache = new WeakMap<TmdbShowWithSeasons, ShowForDisplay>();
+
+const mapShowInfoForDisplayCached = (
+  show: TmdbShowWithSeasons
+): ShowForDisplay => {
+  const cached = showDisplayCache.get(show);
+  if (cached) {
+    return cached;
+  }
+
+  const mapped = mapShowInfoForDisplay(show);
+  showDisplayCache.set(show, mapped);
+  return mapped;
+};
+
 export const selectFollowedShowsDetails: AppSelector<ShowForDisplay[]> =
   createSelector(
     selectShowDetails,
     selectFollowedShows,
     (showDetails, followedShows) => {
-      if (!showDetails || !followedShows) {
+      if (!showDetails || !followedShows?.length) {
         return [];
       }
-      return Object.values(showDetails)
-        .filter(show => followedShows.includes(show.id))
-        ?.map<ShowForDisplay>(mapShowInfoForDisplay)
-        ?.sort((a, b) => a.name.localeCompare(b.name));
+
+      const formattedFollowedShows: ShowForDisplay[] = [];
+      for (const showId of followedShows) {
+        const show = showDetails[showId];
+        if (show) {
+          formattedFollowedShows.push(mapShowInfoForDisplayCached(show));
+        }
+      }
+
+      return formattedFollowedShows.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
     }
   );
 
@@ -100,7 +127,7 @@ export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
     getShowIdFromUrl,
     (showDetails, currentShowId) => {
       const currentShow = showDetails[currentShowId];
-      return currentShow?.id ? mapShowInfoForDisplay(currentShow) : null;
+      return currentShow?.id ? mapShowInfoForDisplayCached(currentShow) : null;
     }
   );
 

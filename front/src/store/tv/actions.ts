@@ -75,9 +75,13 @@ export const getShowDetailsForFollowedShows =
       }
     });
 
+    if (!Object.keys(data).length) {
+      return;
+    }
+
     dispatch({
       type: SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
-      payload: { ...showDetails, ...data },
+      payload: data,
     });
   };
 

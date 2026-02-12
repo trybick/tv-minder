@@ -64,9 +64,12 @@ export const tvReducer: Reducer<State, Action> = (
 ) => {
   switch (action.type) {
     case SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS: {
+      if (!Object.keys(action.payload ?? {}).length) {
+        return state;
+      }
       return {
         ...state,
-        showDetails: { ...action.payload },
+        showDetails: { ...state.showDetails, ...action.payload },
       };
     }
     case SAVE_SHOW_DETAILS_FOR_SHOW: {
@@ -83,12 +86,18 @@ export const tvReducer: Reducer<State, Action> = (
       };
     }
     case SET_IS_LOADING_SHOW_DETAILS: {
+      if (state.isLoadingShowDetails === action.payload) {
+        return state;
+      }
       return {
         ...state,
         isLoadingShowDetails: action.payload,
       };
     }
     case SET_CURRENT_CALENDAR_EPISODES: {
+      if (state.calendarEpisodesForDisplay === action.payload) {
+        return state;
+      }
       return {
         ...state,
         calendarEpisodesForDisplay: action.payload,
@@ -96,6 +105,9 @@ export const tvReducer: Reducer<State, Action> = (
       };
     }
     case SET_IS_LOADING_CALENDAR_EPISODES: {
+      if (state.isLoadingCalendarEpisodes === action.payload) {
+        return state;
+      }
       return {
         ...state,
         isLoadingCalendarEpisodes: action.payload,
