@@ -1,4 +1,8 @@
-import { type TmdbSeason, type TmdbShow } from '~/store/tv/types/tmdbSchema';
+import {
+  type TmdbSeason,
+  type TmdbShowWatchProvider,
+  type TmdbShowWatchProviders,
+} from '~/store/tv/types/tmdbSchema';
 import {
   type CalendarEpisode,
   type EpisodeForDisplay,
@@ -6,6 +10,10 @@ import {
   type Genre,
   type SeasonWithEpisodes,
   type ShowForDisplay,
+  type ShowReview,
+  type ShowVideo,
+  type ShowWatchProvider,
+  type ShowWatchProviders,
 } from '~/store/tv/types/transformed';
 import { type TmdbShowWithSeasons } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
@@ -18,12 +26,22 @@ export type ShowStatus = {
   isPremieringSoon: boolean;
 };
 
+type VideoPayload = {
+  results: Array<{
+    key: string;
+    type: string;
+    site: string;
+    name: string;
+    official?: boolean;
+  }>;
+};
+
 export const getShowStatus = (
   originalStatus: string,
   lastEpisodeForDisplay: EpisodeForDisplay | null | undefined,
   nextEpisodeForDisplay: EpisodeForDisplay | null | undefined
 ): ShowStatus => {
-  const isActiveSeason = Boolean(
+  const isActiveSeason = !!(
     lastEpisodeForDisplay &&
     ((nextEpisodeForDisplay &&
       dayjs(nextEpisodeForDisplay.airDate).diff(
@@ -32,7 +50,7 @@ export const getShowStatus = (
       ) < 45) ||
       dayjs().diff(lastEpisodeForDisplay.airDate, 'day') < 14)
   );
-  const isPremieringSoon = Boolean(
+  const isPremieringSoon = !!(
     nextEpisodeForDisplay &&
     dayjs(nextEpisodeForDisplay.airDate).diff(dayjs().startOf('day'), 'day') <
       60 &&
@@ -45,7 +63,7 @@ export const getShowStatus = (
 };
 
 export const getVideoTrailerKey = (
-  videos: TmdbShow['videos']
+  videos: VideoPayload | undefined
 ): string | undefined => {
   if (!videos?.results.length) {
     return;
@@ -61,6 +79,105 @@ export const getVideoTrailerKey = (
       }
     });
   return matchingVideo?.key || results[0]?.key || undefined;
+};
+
+const formatVideos = (videos: VideoPayload | undefined): ShowVideo[] => {
+  if (!videos?.results.length) {
+    return [];
+  }
+
+  const onlyYoutube = videos.results.filter(video => video.site === 'YouTube');
+  if (!onlyYoutube.length) {
+    return [];
+  }
+
+  return onlyYoutube
+    .sort((a, b) => {
+      const aScore = Number(!!a.official) + Number(a.type === 'Trailer');
+      const bScore = Number(!!b.official) + Number(b.type === 'Trailer');
+      return bScore - aScore;
+    })
+    .map<ShowVideo>(video => ({
+      key: video.key,
+      name: video.name,
+      type: video.type,
+    }));
+};
+
+const formatReviews = (
+  reviews: TmdbShowWithSeasons['showReviews']
+): ShowReview[] =>
+  reviews?.results?.slice(0, 4).map(review => ({
+    id: review.id,
+    author: review.author,
+    content: review.content,
+    createdAt: review.created_at,
+    url: review.url,
+  })) ?? [];
+
+const mapWatchProviders = (
+  providers: TmdbShowWatchProviders | undefined,
+  requestedRegion: string | undefined
+): ShowWatchProviders | null => {
+  const regions = providers?.results;
+  if (!regions) {
+    return null;
+  }
+
+  const preferredRegion = requestedRegion?.toUpperCase();
+  const regionCandidates = [
+    preferredRegion,
+    'US',
+    ...Object.keys(regions),
+  ].filter((region): region is string => !!region);
+
+  const regionCode = regionCandidates.find(region => {
+    const entry = regions[region];
+    return !!(
+      entry &&
+      (entry.flatrate?.length || entry.rent?.length || entry.buy?.length)
+    );
+  });
+
+  if (!regionCode) {
+    return null;
+  }
+
+  const regionData = regions[regionCode];
+  if (!regionData) {
+    return null;
+  }
+
+  const mapProviders = (
+    entries: TmdbShowWatchProvider[] | undefined
+  ): ShowWatchProvider[] => {
+    if (!entries?.length) {
+      return [];
+    }
+
+    const seen = new Set<number>();
+    return entries
+      .filter(entry => {
+        if (seen.has(entry.provider_id)) {
+          return false;
+        }
+        seen.add(entry.provider_id);
+        return true;
+      })
+      .map(entry => ({
+        id: entry.provider_id,
+        name: entry.provider_name,
+        logoPath: entry.logo_path,
+      }));
+  };
+
+  return {
+    region: regionCode,
+    link: regionData.link,
+    flatrate: mapProviders(regionData.flatrate),
+    rent: mapProviders(regionData.rent),
+    buy: mapProviders(regionData.buy),
+  };
 };
 
 const formatEpisodesForSeason = (
@@ -151,9 +268,13 @@ export const mapShowInfoForDisplay = (
     overview,
     poster_path: posterPath,
     seasonsWithEpisodes,
+    showReviews,
+    showVideos,
+    showWatchProviders,
     spoken_languages: spokenLanguages,
     status,
     videos,
+    watchRegion,
     vote_average: voteAverage,
     vote_count: voteCount,
   } = show;
@@ -187,6 +308,9 @@ export const mapShowInfoForDisplay = (
   const language = spokenLanguages?.map(lang => lang.english_name).join(', ');
 
   const voteAverageForDisplay = voteAverage ? voteAverage.toFixed(1) : '-';
+  const videosForDisplay = formatVideos(showVideos ?? videos);
+  const reviews = formatReviews(showReviews);
+  const watchProviders = mapWatchProviders(showWatchProviders, watchRegion);
 
   return {
     backdropPath,
@@ -201,11 +325,14 @@ export const mapShowInfoForDisplay = (
     nextEpisodeAirDate: nextEpisodeToAir?.air_date ?? null,
     overview,
     posterPath,
+    reviews,
     seasonsWithEpisodes: formatSeasons(seasonsWithEpisodes ?? {}),
     status: showStatus,
-    videoTrailerKey: getVideoTrailerKey(videos),
+    videos: videosForDisplay,
+    videoTrailerKey: getVideoTrailerKey(showVideos ?? videos),
     voteAverage: voteAverageForDisplay,
     voteCount,
+    watchProviders,
     startYear,
   };
 };

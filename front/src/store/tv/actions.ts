@@ -8,7 +8,10 @@ import {
   type TmdbSeason,
   type TmdbShow,
   type TmdbShowList,
+  type TmdbShowReviews,
   type TmdbShowSummary,
+  type TmdbShowVideos,
+  type TmdbShowWatchProviders,
 } from './types/tmdbSchema';
 import { type TmdbShowWithSeasons } from './types/transformed';
 import { tmdbApi } from './utils/tmdbApi';
@@ -24,6 +27,9 @@ export const SAVE_SEARCH_SHOW_DETAILS = 'SAVE_SEARCH_SHOW_DETAILS';
 export const SAVE_DISCOVER_SHOWS = 'SAVE_DISCOVER_SHOWS';
 export const SAVE_RECOMMENDATIONS = 'SAVE_RECOMMENDATIONS';
 export const SAVE_FOR_YOU_SHOWS = 'SAVE_FOR_YOU_SHOWS';
+
+const DEFAULT_WATCH_REGION = 'US';
+const SHOW_APPEND_TO_RESPONSE = 'videos,reviews,watch/providers';
 
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
@@ -112,26 +118,72 @@ export const getShowDetailsForSearchResults =
     }
   };
 
+const getWatchRegion = () => {
+  if (typeof window === 'undefined') {
+    return DEFAULT_WATCH_REGION;
+  }
+
+  const region = window.navigator.language?.split('-')[1]?.toUpperCase();
+  if (region && region.length === 2) {
+    return region;
+  }
+
+  return DEFAULT_WATCH_REGION;
+};
+
+type ShowWithAppendedData = TmdbShow & {
+  reviews?: TmdbShowReviews;
+  'watch/providers'?: TmdbShowWatchProviders;
+};
+
+const getAppendedShowData = (showData: TmdbShow) => {
+  const appendedData = showData as ShowWithAppendedData;
+  return {
+    showVideos: appendedData.videos as TmdbShowVideos | undefined,
+    showReviews: appendedData.reviews,
+    showWatchProviders: appendedData['watch/providers'],
+  };
+};
+
 export const getShowDetailsWithSeasons =
   (): AppThunk => async (dispatch, getState) => {
     const showId = getShowIdFromUrl();
     const existing = getState().tv.showDetails[showId];
+    const hasRichContentData = !!(
+      existing?.showVideos ||
+      existing?.showReviews ||
+      existing?.showWatchProviders
+    );
 
-    if (existing?.seasonsWithEpisodes) {
+    if (existing?.seasonsWithEpisodes && hasRichContentData) {
       dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
       return;
     }
 
     dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
 
+    const watchRegion = getWatchRegion();
     let showData: TmdbShow;
     try {
-      showData = await tmdbApi.getShow(showId);
+      showData = await tmdbApi.getShow(showId, {
+        appendToResponse: SHOW_APPEND_TO_RESPONSE,
+        watchRegion,
+      });
     } catch (error) {
       handleKyError(error);
       dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
       return;
     }
+
+    const {
+      showVideos: appendedShowVideos,
+      showReviews: appendedShowReviews,
+      showWatchProviders: appendedShowWatchProviders,
+    } = getAppendedShowData(showData);
+    const showVideos: TmdbShowVideos | undefined = appendedShowVideos;
+    const showReviews: TmdbShowReviews | undefined = appendedShowReviews;
+    const showWatchProviders: TmdbShowWatchProviders | undefined =
+      appendedShowWatchProviders;
 
     const seasonNumbers: number[] =
       showData.seasons?.map(season => season.season_number) ?? [];
@@ -150,7 +202,16 @@ export const getShowDetailsWithSeasons =
 
     dispatch({
       type: SAVE_SHOW_DETAILS_FOR_SHOW,
-      payload: { [showId]: { ...showData, seasonsWithEpisodes } },
+      payload: {
+        [showId]: {
+          ...showData,
+          seasonsWithEpisodes,
+          showVideos,
+          showReviews,
+          showWatchProviders,
+          watchRegion,
+        },
+      },
     });
   };
 

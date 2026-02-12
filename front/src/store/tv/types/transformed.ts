@@ -1,6 +1,12 @@
 import { type ShowStatus } from '~/store/tv/utils/formatting';
 
-import { type TmdbSeason, type TmdbShow } from './tmdbSchema';
+import {
+  type TmdbSeason,
+  type TmdbShow,
+  type TmdbShowReviews,
+  type TmdbShowVideos,
+  type TmdbShowWatchProviders,
+} from './tmdbSchema';
 
 export type EpisodeForDisplay = {
   airDate: string;
@@ -46,10 +52,41 @@ export type ShowForDisplay = {
   posterPath: string | null;
   seasonsWithEpisodes: SeasonWithEpisodes[];
   status: ShowStatus;
+  videos: ShowVideo[];
+  reviews: ShowReview[];
+  watchProviders: ShowWatchProviders | null;
   videoTrailerKey: string | undefined;
   voteAverage: string;
   voteCount: number;
   startYear: string;
+};
+
+export type ShowVideo = {
+  key: string;
+  name: string;
+  type: string;
+};
+
+export type ShowReview = {
+  id: string;
+  author: string;
+  content: string;
+  createdAt: string;
+  url: string;
+};
+
+export type ShowWatchProvider = {
+  id: number;
+  name: string;
+  logoPath: string | null;
+};
+
+export type ShowWatchProviders = {
+  region: string;
+  link: string;
+  flatrate: ShowWatchProvider[];
+  rent: ShowWatchProvider[];
+  buy: ShowWatchProvider[];
 };
 
 export type DiscoverShow = {
@@ -80,4 +117,8 @@ export type CalendarEpisode = {
 
 export type TmdbShowWithSeasons = TmdbShow & {
   seasonsWithEpisodes?: Record<number, TmdbSeason>;
+  showVideos?: TmdbShowVideos;
+  showReviews?: TmdbShowReviews;
+  showWatchProviders?: TmdbShowWatchProviders;
+  watchRegion?: string;
 };

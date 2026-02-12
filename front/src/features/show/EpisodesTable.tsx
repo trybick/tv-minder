@@ -107,14 +107,20 @@ export const EpisodesTable = ({ episodes }: Props) => {
 
   return (
     <Table.Root size={isMobile ? 'sm' : 'md'} variant="outline" interactive>
-      <Table.Header>
+      <Table.Header bg="whiteAlpha.100">
         {getHeaderGroups().map(headerGroup => (
-          <Table.Row key={headerGroup.id} borderBottomWidth="2px">
+          <Table.Row
+            key={headerGroup.id}
+            borderBottomWidth="1px"
+            borderColor="whiteAlpha.200"
+            bg="whiteAlpha.100"
+          >
             {headerGroup.headers.map(header => (
               <Table.ColumnHeader
                 key={header.id}
                 py="4"
                 px={isMobile ? '2' : '4'}
+                bg="transparent"
               >
                 {header.isPlaceholder
                   ? null

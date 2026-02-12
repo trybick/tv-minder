@@ -1,4 +1,4 @@
-import { Accordion, Box, Flex, Text } from '@chakra-ui/react';
+import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -76,15 +76,35 @@ export const SeasonsAccordion = () => {
   }
 
   return (
-    <Flex direction="column" flex="1" mt={isMobile ? 6 : 12}>
+    <Flex direction="column" flex="1">
+      <Box mb={4}>
+        <Heading
+          as="h2"
+          fontSize={{ base: 'xl', md: '2xl' }}
+          letterSpacing="-0.02em"
+        >
+          Episodes
+        </Heading>
+        <Text color="fg.muted" fontSize="sm" mt={1}>
+          Browse all seasons and episode details.
+        </Text>
+      </Box>
       <DelayedSkeleton
         isLoading={isLoading}
         w="100%"
         h={isLoading ? '300px' : undefined}
       >
-        <Accordion.Root w="100%" collapsible>
-          {createAccordionItems()}
-        </Accordion.Root>
+        <Box
+          border="1px solid"
+          borderColor="whiteAlpha.100"
+          borderRadius="xl"
+          bg="whiteAlpha.50"
+          overflow="hidden"
+        >
+          <Accordion.Root w="100%" collapsible>
+            {createAccordionItems()}
+          </Accordion.Root>
+        </Box>
       </DelayedSkeleton>
     </Flex>
   );

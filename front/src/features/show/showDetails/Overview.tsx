@@ -20,8 +20,8 @@ export const Overview = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const { overview } = show || {};
 
-  const shouldCollapseOverview =
-    !isMobile && !!overview && overview.length > 260;
+  const shouldCollapseOverview = !isMobile && !!overview;
+  const shouldShowOverviewToggle = !!overview && overview.length > 120;
 
   if (!isLoading && !overview) {
     return null;
@@ -49,25 +49,29 @@ export const Overview = ({ show }: Props) => {
               {overview}
             </Text>
           </Collapsible.Content>
-          <Collapsible.Trigger asChild mt={2}>
-            <Button
-              variant="plain"
-              size="sm"
-              color="fg.muted"
-              px={0}
-              _hover={{ color: 'fg' }}
-            >
-              <Collapsible.Context>
-                {api => (api.open ? 'Show less' : 'Show more')}
-              </Collapsible.Context>
-              <Collapsible.Indicator
-                transition="transform 0.2s"
-                _open={{ transform: 'rotate(180deg)' }}
-              >
-                <LuChevronDown />
-              </Collapsible.Indicator>
-            </Button>
-          </Collapsible.Trigger>
+          {shouldShowOverviewToggle && (
+            <Collapsible.Context>
+              {api => (
+                <Collapsible.Trigger asChild mt={2}>
+                  <Button
+                    variant="plain"
+                    size="sm"
+                    color="fg.muted"
+                    px={0}
+                    _hover={{ color: 'fg' }}
+                  >
+                    {api.open ? 'Show less' : 'Show more'}
+                    <Collapsible.Indicator
+                      transition="transform 0.2s"
+                      _open={{ transform: 'rotate(180deg)' }}
+                    >
+                      <LuChevronDown />
+                    </Collapsible.Indicator>
+                  </Button>
+                </Collapsible.Trigger>
+              )}
+            </Collapsible.Context>
+          )}
         </Collapsible.Root>
       ) : (
         <Text color="fg" fontSize="md" lineHeight="1.7" letterSpacing="0.01em">

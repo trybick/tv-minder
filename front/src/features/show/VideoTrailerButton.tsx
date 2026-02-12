@@ -13,6 +13,12 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 
+export const YOUTUBE_PLAYER_OPTIONS = {
+  height: '100%',
+  playerVars: { autoplay: 1 },
+  width: '100%',
+};
+
 type Props = {
   videoId: string | undefined;
 };
@@ -21,17 +27,6 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
   const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-
-  const desktopOptions = {
-    height: '390',
-    playerVars: { autoplay: 1 },
-    width: '640',
-  };
-  const mobileOptions = {
-    height: '100%',
-    playerVars: { autoplay: 1 },
-    width: '100%',
-  };
 
   if (isLoading || !videoId) {
     return null;
@@ -54,23 +49,27 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
       </Button>
 
       <Dialog.Root
-        onOpenChange={onClose}
         open={isOpen}
+        onOpenChange={details => {
+          if (!details.open) {
+            onClose();
+          }
+        }}
         placement="center"
-        size="md"
+        size="xl"
         lazyMount
       >
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Backdrop />
-          <Dialog.Content>
-            {isMobile ? (
-              <AspectRatio ratio={1}>
-                <YouTube opts={mobileOptions} videoId={videoId} />
+          <Dialog.Content overflow="hidden">
+            <Dialog.Header>
+              <Dialog.Title fontSize="md">Official Trailer</Dialog.Title>
+            </Dialog.Header>
+            <Dialog.Body pb={4}>
+              <AspectRatio ratio={16 / 9}>
+                <YouTube opts={YOUTUBE_PLAYER_OPTIONS} videoId={videoId} />
               </AspectRatio>
-            ) : (
-              <YouTube opts={desktopOptions} videoId={videoId} />
-            )}
+            </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>
       </Dialog.Root>

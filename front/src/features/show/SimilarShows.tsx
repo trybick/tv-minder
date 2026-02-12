@@ -33,7 +33,7 @@ export const SimilarShows = () => {
 
   if (!similarShows) {
     return (
-      <Box mt={10}>
+      <Box mt={12} pt={8} borderTop="1px solid" borderColor="whiteAlpha.100">
         <Skeleton height="24px" width="200px" mb={4} />
         <Skeleton height="300px" />
       </Box>
@@ -45,9 +45,15 @@ export const SimilarShows = () => {
   }
 
   return (
-    <Box mt={10}>
+    <Box mt={12} pt={8} borderTop="1px solid" borderColor="whiteAlpha.100">
       <VStack align="flex-start" gap={1} mb={4}>
-        <Heading size="lg">Similar Shows</Heading>
+        <Heading
+          as="h2"
+          fontSize={{ base: 'xl', md: '2xl' }}
+          letterSpacing="-0.02em"
+        >
+          Similar Shows
+        </Heading>
         {showInfo?.name && (
           <Text color="fg.muted" fontSize="sm">
             {`Because you're viewing ${showInfo.name}`}
