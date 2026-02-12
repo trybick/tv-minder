@@ -1,5 +1,4 @@
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 import { handleKyError } from '~/utils/handleKyError';
 
 import { type AppThunk } from './..';
@@ -150,8 +149,8 @@ const getAppendedShowData = (showData: TmdbShow) => {
 };
 
 export const getShowDetailsWithSeasons =
-  (): AppThunk => async (dispatch, getState) => {
-    const showId = getShowIdFromUrl();
+  (showId: number): AppThunk =>
+  async (dispatch, getState) => {
     const existing = getState().tv.showDetails[showId];
     const hasRichContentData = !!(
       existing?.showVideos ||

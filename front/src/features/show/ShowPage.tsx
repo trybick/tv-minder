@@ -25,7 +25,9 @@ export const ShowPage = () => {
   }, [showId]);
 
   useEffect(() => {
-    dispatch(getShowDetailsWithSeasons());
+    if (showId) {
+      dispatch(getShowDetailsWithSeasons(+showId));
+    }
   }, [dispatch, showId]);
 
   // Track recent show visits

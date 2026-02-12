@@ -1,4 +1,5 @@
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react';
+import { useParams } from 'wouter';
 
 import { FollowButton } from '~/components/FollowButton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -7,7 +8,6 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
 } from '~/store/tv/selectors';
-import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { SeasonsAccordion } from './SeasonsAccordion';
 import { ShowImage } from './ShowImage';
@@ -18,7 +18,7 @@ import { WatchProviders } from './showDetails/richContent/WatchProviders';
 
 export const ShowContainer = () => {
   const { isMobile } = useResponsiveLayout();
-  const showId = getShowIdFromUrl();
+  const { showId } = useParams<{ showId: string }>();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
@@ -45,7 +45,7 @@ export const ShowContainer = () => {
         <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
           <Flex direction="column" gap={4}>
             <ShowImage />
-            <FollowButton showId={showId} size="lg" />
+            <FollowButton showId={+showId} size="lg" />
           </Flex>
           <ShowDetails />
         </Grid>
