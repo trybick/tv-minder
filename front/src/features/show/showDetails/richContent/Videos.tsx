@@ -17,7 +17,7 @@ import YouTube from 'react-youtube';
 import { YOUTUBE_PLAYER_OPTIONS } from '~/features/show/VideoTrailerButton';
 import { type ShowVideo } from '~/store/tv/types/transformed';
 
-const MAX_VISIBLE_VIDEOS = 6;
+const MAX_VISIBLE_VIDEOS = 4;
 const VIDEO_ROW_HEIGHT = 40;
 
 type Props = {

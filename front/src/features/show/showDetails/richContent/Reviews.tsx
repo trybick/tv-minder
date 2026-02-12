@@ -12,7 +12,7 @@ import { LuMessageSquare } from 'react-icons/lu';
 import { type ShowReview } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 
-const REVIEW_SNIPPET_MAX_CHARS = 360;
+const REVIEW_SNIPPET_MAX_CHARS = 280;
 
 const toSnippet = (content: string) => {
   if (content.length <= REVIEW_SNIPPET_MAX_CHARS) {

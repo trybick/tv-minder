@@ -3,6 +3,7 @@ import {
   Button,
   Dialog,
   Icon,
+  Portal,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -59,19 +60,21 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
         size="xl"
         lazyMount
       >
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content overflow="hidden">
-            <Dialog.Header>
-              <Dialog.Title fontSize="md">Official Trailer</Dialog.Title>
-            </Dialog.Header>
-            <Dialog.Body pb={4}>
-              <AspectRatio ratio={16 / 9}>
-                <YouTube opts={YOUTUBE_PLAYER_OPTIONS} videoId={videoId} />
-              </AspectRatio>
-            </Dialog.Body>
-          </Dialog.Content>
-        </Dialog.Positioner>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content overflow="hidden">
+              <Dialog.Header>
+                <Dialog.Title fontSize="md">Official Trailer</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body pb={4}>
+                <AspectRatio ratio={16 / 9}>
+                  <YouTube opts={YOUTUBE_PLAYER_OPTIONS} videoId={videoId} />
+                </AspectRatio>
+              </Dialog.Body>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
       </Dialog.Root>
     </>
   );
