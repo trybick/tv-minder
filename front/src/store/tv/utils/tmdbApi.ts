@@ -265,7 +265,6 @@ export const tmdbApi = {
   /**
    * Discover shows with user-defined filters.
    * Endpoint: /discover/tv with arbitrary filter params
-   * Fetches 2 pages and merges results.
    */
   discoverWithFilters: async (
     filters: DiscoverFilters,
@@ -294,20 +293,9 @@ export const tmdbApi = {
       params.with_original_language = filters.withOriginalLanguage;
     }
 
-    const [page1, page2] = await Promise.all([
-      fetchTmdb('discover/tv', tmdbSchema.showList, {
-        searchParams: { ...params, page: 1 },
-        signal,
-      }),
-      fetchTmdb('discover/tv', tmdbSchema.showList, {
-        searchParams: { ...params, page: 2 },
-        signal,
-      }),
-    ]);
-
-    return {
-      ...page1,
-      results: [...page1.results, ...page2.results],
-    };
+    return fetchTmdb('discover/tv', tmdbSchema.showList, {
+      searchParams: { ...params, page: 1 },
+      signal,
+    });
   },
 };
