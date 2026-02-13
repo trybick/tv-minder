@@ -5,7 +5,7 @@
 See new episodes of your favorite shows on a calendar like this:
 
 <p align="center">
-<img src="./demo.png" width="800px"/>
+<img src="./calendar.png" width="800px"/>
 </p>
 
 # Technologies
