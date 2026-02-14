@@ -29,15 +29,21 @@ export const TitleRow = ({ show }: Props) => {
         isLoading={isLoading}
         w={isLoading ? '280px' : 'auto'}
         h={isLoading ? '36px' : 'auto'}
+        flex="1 1 auto"
+        minW={0}
       >
-        <Heading as="h1" fontSize={{ base: '2xl', md: '3xl' }}>
-          {name}
+        <Heading
+          as="h1"
+          fontSize={{ base: '2xl', md: '3xl' }}
+          wordBreak="break-word"
+        >
+          {name}{' '}
           {startYear && (
             <chakra.span
               color="fg.muted"
               fontSize={{ base: 'lg', md: 'xl' }}
               fontWeight="400"
-              ml={2}
+              whiteSpace="nowrap"
             >
               ({startYear})
             </chakra.span>
