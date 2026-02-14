@@ -118,7 +118,7 @@ export const selectDiscoverShowsForDisplay: AppSelector<DiscoverShowsForDisplay>
 
 export const selectForYouShowsForDisplay: AppSelector<DiscoverShow[]> =
   createSelector(selectForYouShows, forYouShows =>
-    toDisplayFormat(forYouShows.filter(show => !!show.poster_path).slice(0, 29))
+    toDisplayFormat(forYouShows.slice(0, 29).filter(show => !!show.poster_path))
   );
 
 export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =

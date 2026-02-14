@@ -33,9 +33,6 @@ const SHOW_APPEND_TO_RESPONSE = 'videos,reviews,watch/providers';
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
-    if (state.tv.calendarEpisodesForDisplay.length > 0) {
-      return;
-    }
 
     dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
 
