@@ -171,7 +171,7 @@ export const DiscoverShows = () => {
     }
 
     const fetchSections = async () => {
-      if (followedShows.length >= 2) {
+      if (isLoggedIn) {
         dispatch(fetchForYouShowsAction());
       }
       dispatch(fetchDiscoverShowsAction());
@@ -180,15 +180,22 @@ export const DiscoverShows = () => {
     void fetchSections();
   }, [dispatch, followedShows.length, isLoggedIn, getFollowedShowsStatus]);
 
-  const isLoggedInAndFollowedShowsPending =
-    isLoggedIn &&
-    (getFollowedShowsStatus === QueryStatus.uninitialized ||
-      getFollowedShowsStatus === QueryStatus.pending);
+  const getShouldIncludeForYouSection = () => {
+    // Avoids For You section appearing on top after other carousels have loaded
+    const isGetFollowedShowsPending =
+      getFollowedShowsStatus === QueryStatus.uninitialized ||
+      getFollowedShowsStatus === QueryStatus.pending;
+    if (
+      isLoggedIn &&
+      (isGetFollowedShowsPending || followedShows.length >= 2)
+    ) {
+      return true;
+    }
 
-  const shouldIncludeForYouSection =
-    isLoggedInAndFollowedShowsPending || followedShows.length >= 2;
+    return false;
+  };
 
-  const carouselConfigs = shouldIncludeForYouSection
+  const carouselConfigs = getShouldIncludeForYouSection()
     ? [FOR_YOU_CONFIG, ...BASE_CAROUSEL_CONFIGS]
     : BASE_CAROUSEL_CONFIGS;
 
