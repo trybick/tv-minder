@@ -1,2 +1,31 @@
-User-Agent: *
-Disallow:
+User-agent: *
+Crawl-delay: 10
+
+# Block AI scrapers explicitly
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# Allow Google and Bing for real SEO
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
