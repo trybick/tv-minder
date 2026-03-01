@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Grid } from '@chakra-ui/react';
 
 import { useAppSelector } from '~/store';
 import {
@@ -11,10 +11,24 @@ import { Genres } from './Genres';
 import { Overview } from './Overview';
 import { RatingRow } from './RatingRow';
 import { TitleRow } from './TitleRow';
+import { Videos } from './richContent/Videos';
+import { WatchProviders } from './richContent/WatchProviders';
 
 export const ShowDetails = () => {
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
+
+  const { videos = [], watchProviders, name } = currentShowInfo || {};
+
+  const availableWatchProviders =
+    watchProviders &&
+    !!(
+      watchProviders.flatrate.length ||
+      watchProviders.rent.length ||
+      watchProviders.buy.length
+    )
+      ? watchProviders
+      : null;
 
   return (
     <Box
@@ -33,7 +47,27 @@ export const ShowDetails = () => {
       <RatingRow show={currentShowInfo} />
       <Genres show={currentShowInfo} />
       <Overview show={currentShowInfo} />
-      <AirDates show={currentShowInfo} />
+
+      {!isLoading && (
+        <>
+          <AirDates show={currentShowInfo} />
+          <Grid
+            templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+            gap={4}
+            alignItems="start"
+          >
+            <Box minW={0}>
+              <WatchProviders
+                showName={name ?? ''}
+                watchProviders={availableWatchProviders}
+              />
+            </Box>
+            <Box minW={0}>
+              <Videos videos={videos} />
+            </Box>
+          </Grid>
+        </>
+      )}
     </Box>
   );
 };

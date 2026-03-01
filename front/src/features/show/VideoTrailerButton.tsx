@@ -4,13 +4,11 @@ import {
   Dialog,
   Icon,
   Portal,
-  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiFillYoutube } from 'react-icons/ai';
 import YouTube from 'react-youtube';
 
-import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 
@@ -22,11 +20,11 @@ export const YOUTUBE_PLAYER_OPTIONS = {
 
 type Props = {
   videoId: string | undefined;
+  fullWidth?: boolean;
 };
 
-export const VideoTrailerButton = ({ videoId }: Props) => {
+export const VideoTrailerButton = ({ videoId, fullWidth }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
-  const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
   if (isLoading || !videoId) {
@@ -37,16 +35,17 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
     <>
       <Button
         onClick={onOpen}
-        variant="surface"
-        size="sm"
-        borderRadius="full"
-        px={isMobile ? 3 : 4}
+        variant="outline"
+        colorPalette="gray"
+        size={fullWidth ? 'lg' : 'sm'}
+        borderRadius={fullWidth ? 'md' : 'full'}
+        w={fullWidth ? '100%' : undefined}
         transition="all 0.15s ease"
+        borderColor="whiteAlpha.300"
+        _hover={{ bg: 'whiteAlpha.100', borderColor: 'whiteAlpha.400' }}
       >
-        <Icon as={AiFillYoutube} boxSize="20px" opacity={0.9} />
-        <Text fontWeight="600" fontSize="sm" opacity={0.9}>
-          Play Trailer
-        </Text>
+        <Icon as={AiFillYoutube} boxSize="20px" color="red.400" />
+        Play Trailer
       </Button>
 
       <Dialog.Root
