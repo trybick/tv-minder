@@ -51,9 +51,9 @@ export const Carousel = <T,>({
 
   const buttonSize =
     size === 'sm'
-      ? { base: 'lg' as const, md: 'xl' as const }
-      : { base: 'xl' as const, md: '2xl' as const };
-  const iconSize = size === 'sm' ? 16 : 24;
+      ? { base: 'md' as const, md: 'lg' as const }
+      : { base: 'lg' as const, md: 'xl' as const };
+  const iconSize = size === 'sm' ? 14 : 20;
 
   if (!items?.length) {
     return (
@@ -133,11 +133,14 @@ export const Carousel = <T,>({
             zIndex={1}
             size={buttonSize}
             borderRadius="full"
-            bg="blackAlpha.700"
-            color="white"
+            bg="gray.700"
+            color="whiteAlpha.900"
+            borderWidth="1px"
+            borderColor="whiteAlpha.300"
             boxShadow="md"
-            _hover={{ bg: 'blackAlpha.800' }}
-            _active={{ bg: 'blackAlpha.900' }}
+            _hover={{ bg: 'gray.600' }}
+            _active={{ bg: 'gray.800' }}
+            _disabled={{ display: 'none' }}
           >
             <HiChevronLeft size={iconSize} />
           </IconButton>
@@ -156,11 +159,14 @@ export const Carousel = <T,>({
             zIndex={1}
             size={buttonSize}
             borderRadius="full"
-            bg="blackAlpha.700"
-            color="white"
+            bg="gray.700"
+            color="whiteAlpha.900"
+            borderWidth="1px"
+            borderColor="whiteAlpha.300"
             boxShadow="md"
-            _hover={{ bg: 'blackAlpha.800' }}
-            _active={{ bg: 'blackAlpha.900' }}
+            _hover={{ bg: 'gray.600' }}
+            _active={{ bg: 'gray.800' }}
+            _disabled={{ display: 'none' }}
           >
             <HiChevronRight size={iconSize} />
           </IconButton>

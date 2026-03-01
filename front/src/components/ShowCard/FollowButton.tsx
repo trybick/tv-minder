@@ -9,6 +9,7 @@ export const FollowButton = () => {
       showId={show.id}
       size={followButtonSize}
       w="100%"
+      showName={show.name}
       mt={0.5}
     />
   );
