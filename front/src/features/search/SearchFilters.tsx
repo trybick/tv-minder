@@ -13,9 +13,11 @@ import {
   Wrap,
 } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
 import { type DiscoverFilters } from '~/store/tv/types/transformed';
+import { trackEvent } from '~/utils/analytics';
 
 const TV_GENRES = [
   { id: 10759, name: 'Action & Adventure' },
@@ -59,29 +61,43 @@ export const SearchFilters = ({
   onClear,
   activeFilterCount,
 }: Props) => {
-  const [draft, setDraft] = useState<DiscoverFilters>({ ...EMPTY_FILTERS });
   const [open, setOpen] = useState(false);
-
-  const toggleGenre = useCallback((genreId: number) => {
-    setDraft(prev => {
-      const current = prev.genres ?? [];
-      const next = current.includes(genreId)
-        ? current.filter(id => id !== genreId)
-        : [...current, genreId];
-      return { ...prev, genres: next };
+  const { getValues, handleSubmit, reset, setValue, watch } =
+    useForm<DiscoverFilters>({
+      defaultValues: { ...EMPTY_FILTERS },
     });
-  }, []);
 
-  const handleApply = useCallback(() => {
-    onApply(draft);
+  const sortBy = watch('sortBy') ?? 'popularity.desc';
+  const genres = watch('genres') ?? [];
+  const voteAverageGte = watch('voteAverageGte') ?? 0;
+  const firstAirDateGte = watch('firstAirDateGte') ?? '';
+  const firstAirDateLte = watch('firstAirDateLte') ?? '';
+
+  const toggleGenre = (genreId: number) => {
+    const currentGenres = getValues('genres') ?? [];
+    const nextGenres = currentGenres.includes(genreId)
+      ? currentGenres.filter(id => id !== genreId)
+      : [...currentGenres, genreId];
+    setValue('genres', nextGenres, { shouldDirty: true });
+  };
+
+  const handleApply = handleSubmit(values => {
+    onApply({
+      ...EMPTY_FILTERS,
+      ...values,
+      genres: values.genres ?? [],
+      voteAverageGte: values.voteAverageGte ?? 0,
+      firstAirDateGte: values.firstAirDateGte ?? '',
+      firstAirDateLte: values.firstAirDateLte ?? '',
+    });
     setOpen(false);
-  }, [draft, onApply]);
+  });
 
   const handleClear = useCallback(() => {
-    setDraft({ ...EMPTY_FILTERS });
+    reset({ ...EMPTY_FILTERS });
     onClear();
     setOpen(false);
-  }, [onClear]);
+  }, [onClear, reset]);
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
@@ -111,6 +127,9 @@ export const SearchFilters = ({
           color="fg.muted"
           _hover={{ color: 'fg' }}
           position="relative"
+          onClick={() =>
+            trackEvent({ category: 'Search', action: 'Filter Button Clicked' })
+          }
         >
           <HiOutlineAdjustmentsHorizontal size="20px" />
           {activeFilterCount > 0 && (
@@ -142,7 +161,7 @@ export const SearchFilters = ({
             boxShadow="xl"
           >
             <Popover.Body p="5">
-              <Stack gap="5">
+              <Stack as="form" gap="5" onSubmit={handleApply}>
                 {/* Sort By */}
                 <Box>
                   <Text
@@ -157,13 +176,12 @@ export const SearchFilters = ({
                   </Text>
                   <NativeSelect.Root size="sm" variant="outline">
                     <NativeSelect.Field
-                      value={draft.sortBy ?? 'popularity.desc'}
-                      onChange={e =>
-                        setDraft(prev => ({
-                          ...prev,
-                          sortBy: e.currentTarget.value,
-                        }))
-                      }
+                      value={sortBy}
+                      onChange={e => {
+                        setValue('sortBy', e.currentTarget.value, {
+                          shouldDirty: true,
+                        });
+                      }}
                       bg="whiteAlpha.50"
                       borderColor="whiteAlpha.200"
                     >
@@ -191,7 +209,7 @@ export const SearchFilters = ({
                   </Text>
                   <Wrap gap="1.5">
                     {TV_GENRES.map(genre => {
-                      const isSelected = draft.genres?.includes(genre.id);
+                      const isSelected = genres.includes(genre.id);
                       return (
                         <Button
                           key={genre.id}
@@ -202,6 +220,7 @@ export const SearchFilters = ({
                             isSelected ? 'cyan.500' : 'whiteAlpha.300'
                           }
                           onClick={() => toggleGenre(genre.id)}
+                          type="button"
                           fontWeight="normal"
                           borderRadius="full"
                           px="3"
@@ -226,9 +245,7 @@ export const SearchFilters = ({
                       Min Rating
                     </Text>
                     <Text fontSize="xs" color="fg.muted">
-                      {(draft.voteAverageGte ?? 0) > 0
-                        ? `${draft.voteAverageGte}+`
-                        : 'Any'}
+                      {voteAverageGte > 0 ? `${voteAverageGte}+` : 'Any'}
                     </Text>
                   </HStack>
                   <Slider.Root
@@ -237,13 +254,12 @@ export const SearchFilters = ({
                     min={0}
                     max={9}
                     step={1}
-                    value={[draft.voteAverageGte ?? 0]}
-                    onValueChange={e =>
-                      setDraft(prev => ({
-                        ...prev,
-                        voteAverageGte: e.value[0],
-                      }))
-                    }
+                    value={[voteAverageGte]}
+                    onValueChange={e => {
+                      setValue('voteAverageGte', e.value[0], {
+                        shouldDirty: true,
+                      });
+                    }}
                   >
                     <Slider.Control>
                       <Slider.Track>
@@ -270,16 +286,15 @@ export const SearchFilters = ({
                     <NativeSelect.Root size="sm" flex="1">
                       <NativeSelect.Field
                         value={
-                          draft.firstAirDateGte
-                            ? draft.firstAirDateGte.slice(0, 4)
-                            : ''
+                          firstAirDateGte ? firstAirDateGte.slice(0, 4) : ''
                         }
                         onChange={e => {
                           const year = e.currentTarget.value;
-                          setDraft(prev => ({
-                            ...prev,
-                            firstAirDateGte: year ? `${year}-01-01` : '',
-                          }));
+                          setValue(
+                            'firstAirDateGte',
+                            year ? `${year}-01-01` : '',
+                            { shouldDirty: true }
+                          );
                         }}
                         bg="whiteAlpha.50"
                         borderColor="whiteAlpha.200"
@@ -300,16 +315,15 @@ export const SearchFilters = ({
                     <NativeSelect.Root size="sm" flex="1">
                       <NativeSelect.Field
                         value={
-                          draft.firstAirDateLte
-                            ? draft.firstAirDateLte.slice(0, 4)
-                            : ''
+                          firstAirDateLte ? firstAirDateLte.slice(0, 4) : ''
                         }
                         onChange={e => {
                           const year = e.currentTarget.value;
-                          setDraft(prev => ({
-                            ...prev,
-                            firstAirDateLte: year ? `${year}-12-31` : '',
-                          }));
+                          setValue(
+                            'firstAirDateLte',
+                            year ? `${year}-12-31` : '',
+                            { shouldDirty: true }
+                          );
                         }}
                         bg="whiteAlpha.50"
                         borderColor="whiteAlpha.200"
@@ -332,10 +346,11 @@ export const SearchFilters = ({
                     variant="ghost"
                     color="fg.muted"
                     onClick={handleClear}
+                    type="button"
                   >
                     Clear
                   </Button>
-                  <Button size="sm" colorPalette="cyan" onClick={handleApply}>
+                  <Button size="sm" colorPalette="cyan" type="submit">
                     Apply Filters
                   </Button>
                 </HStack>
