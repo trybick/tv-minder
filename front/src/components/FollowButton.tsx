@@ -10,17 +10,20 @@ import {
   unregisteredFollowShow,
   unregisteredUnfollowShow,
 } from '~/store/rtk/slices/user.slice';
+import { trackEvent } from '~/utils/analytics';
 
 type Props = {
   showId: number;
   unfollowedWidth?: string;
   followedWidth?: string;
+  showName: string;
 };
 
 export const FollowButton = ({
   showId,
   followedWidth,
   unfollowedWidth,
+  showName,
   ...rest
 }: Props & ButtonProps) => {
   const dispatch = useAppDispatch();
@@ -31,6 +34,11 @@ export const FollowButton = ({
   );
 
   const onFollowShow = () => {
+    trackEvent({
+      category: 'Show',
+      action: 'Follow Show',
+      label: `${showName} (${showId.toString()})`,
+    });
     if (isLoggedIn) {
       dispatch(followApi.endpoints.followShow.initiate(showId));
     } else {
@@ -41,6 +49,11 @@ export const FollowButton = ({
   };
 
   const onUnfollowShow = () => {
+    trackEvent({
+      category: 'Show',
+      action: 'Unfollow Show',
+      label: `${showName} (${showId.toString()})`,
+    });
     if (isLoggedIn) {
       dispatch(followApi.endpoints.unfollowShow.initiate(showId));
     } else {

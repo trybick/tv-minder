@@ -10,6 +10,7 @@ import {
   selectInProductionShows,
   selectPremieringSoonShows,
 } from '~/store/tv/selectors';
+import { trackEvent } from '~/utils/analytics';
 import { applyViewTransition } from '~/utils/viewTransition';
 
 import { FollowingTabTrigger } from './FollowingTabTrigger';
@@ -41,6 +42,17 @@ export const FollowingList = () => {
     ended: 'Ended',
   };
 
+  const onTabChange = (details: Tabs.TabsValueChangeDetails) => {
+    trackEvent({
+      category: 'Manage',
+      action: 'Tab Changed',
+      label: `${details.value} (${currentTab})`,
+    });
+    applyViewTransition(() =>
+      setCurrentTab(details.value as keyof typeof tabs)
+    );
+  };
+
   return (
     <Box mt={isMobile ? '20px' : '32px'} px={isMobile ? '10px' : 'unset'}>
       <Tabs.Root
@@ -49,9 +61,7 @@ export const FollowingList = () => {
         m="0 auto"
         variant="line"
         value={currentTab}
-        onValueChange={e =>
-          applyViewTransition(() => setCurrentTab(e.value as keyof typeof tabs))
-        }
+        onValueChange={onTabChange}
         fitted={false}
         size={isMobile ? 'sm' : 'md'}
       >

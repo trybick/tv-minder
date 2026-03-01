@@ -22,7 +22,12 @@ export const ShowContainer = () => {
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
-  const { videos = [], reviews = [], watchProviders } = currentShowInfo || {};
+  const {
+    videos = [],
+    reviews = [],
+    watchProviders,
+    name,
+  } = currentShowInfo || {};
 
   const availableWatchProviders =
     watchProviders &&
@@ -45,7 +50,7 @@ export const ShowContainer = () => {
         <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
           <Flex direction="column" gap={4}>
             <ShowImage />
-            <FollowButton showId={+showId} size="lg" />
+            <FollowButton showId={+showId} size="lg" showName={name ?? ''} />
           </Flex>
           <ShowDetails />
         </Grid>

@@ -18,11 +18,13 @@ type Props = {
 export const Genres = ({ show }: Props) => {
   const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-  const { id, genreNames } = show || {};
+  const { id, genreNames, name } = show || {};
 
   return (
     <Box mb={6}>
-      {isMobile && id && <FollowButton showId={id} size="lg" w="100%" />}
+      {isMobile && id && (
+        <FollowButton showId={id} size="lg" w="100%" showName={name ?? ''} />
+      )}
 
       {isLoading || (!isLoading && genreNames?.length) ? (
         <DelayedSkeleton

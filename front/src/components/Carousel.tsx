@@ -8,6 +8,8 @@ import {
 import { type ReactNode, useMemo } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
+import { trackEvent } from '~/utils/analytics';
+
 import { CarouselProvider, type CarouselSize } from './carouselContext';
 
 type Props<T> = {
@@ -118,6 +120,12 @@ export const Carousel = <T,>({
         <ChakraCarousel.PrevTrigger asChild>
           <IconButton
             aria-label="Previous"
+            onClick={() =>
+              trackEvent({
+                category: 'Carousel',
+                action: 'Previous Arrow Clicked',
+              })
+            }
             position="absolute"
             left={0}
             top="50%"
@@ -138,6 +146,9 @@ export const Carousel = <T,>({
         <ChakraCarousel.NextTrigger asChild>
           <IconButton
             aria-label="Next"
+            onClick={() =>
+              trackEvent({ category: 'Carousel', action: 'Next Arrow Clicked' })
+            }
             position="absolute"
             right={0}
             top="50%"

@@ -1,6 +1,8 @@
 import { Box, Flex, Popover, Portal, Text } from '@chakra-ui/react';
 import { FiCalendar, FiHeart, FiHelpCircle, FiSearch } from 'react-icons/fi';
 
+import { trackEvent } from '~/utils/analytics';
+
 const steps = [
   {
     icon: <FiSearch />,
@@ -25,6 +27,9 @@ export const HelpPopover = () => {
       <Popover.Trigger asChild>
         <Box
           as="button"
+          onClick={() =>
+            trackEvent({ category: 'Help', action: 'Help Button Clicked' })
+          }
           p="8px"
           borderRadius="md"
           color="fg.muted"

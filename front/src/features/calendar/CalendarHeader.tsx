@@ -11,6 +11,7 @@ import {
   selectCalendarEpisodesForDisplay,
   selectIsLoadingCalendarEpisodes,
 } from '~/store/tv/selectors';
+import { trackEvent } from '~/utils/analytics';
 import { dayjs } from '~/utils/dayjs';
 
 import { LoadingEpisodesBanner } from './LoadingEpisodesBanner';
@@ -52,9 +53,20 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
     viewRange,
   ]);
 
-  const handlePrev = () => calendarRef.current?.getApi().prev();
-  const handleNext = () => calendarRef.current?.getApi().next();
-  const handleToday = () => calendarRef.current?.getApi().today();
+  const handlePrev = () => {
+    trackEvent({ category: 'Calendar', action: 'Previous Month Clicked' });
+    calendarRef.current?.getApi().prev();
+  };
+
+  const handleNext = () => {
+    trackEvent({ category: 'Calendar', action: 'Next Month Clicked' });
+    calendarRef.current?.getApi().next();
+  };
+
+  const handleToday = () => {
+    trackEvent({ category: 'Calendar', action: 'Today Clicked' });
+    calendarRef.current?.getApi().today();
+  };
 
   return (
     <Box

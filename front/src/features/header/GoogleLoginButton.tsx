@@ -9,6 +9,7 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
+import { trackEvent } from '~/utils/analytics';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 export const GoogleLoginButton = () => {
@@ -70,7 +71,15 @@ export const GoogleLoginButton = () => {
 
   return (
     <Flex justifyContent="center" mt="10px">
-      <GoogleButton onClick={() => handleClickGoogleLogin()} />
+      <GoogleButton
+        onClick={() => {
+          trackEvent({
+            category: 'Auth',
+            action: 'Google Login Button Pressed',
+          });
+          handleClickGoogleLogin();
+        }}
+      />
     </Flex>
   );
 };

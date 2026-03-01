@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+import { setAnalyticsUserId } from '~/utils/analytics';
 import { authStorage } from '~/utils/authStorage';
 import { setSentryUser } from '~/utils/sentry';
 
@@ -32,6 +33,7 @@ const userSlice = createSlice({
     setIsLoggedOut: state => {
       authStorage.clearToken();
       setSentryUser(null);
+      setAnalyticsUserId(null);
       state.isLoggedIn = false;
       state.email = '';
       state.token = null;
@@ -41,6 +43,7 @@ const userSlice = createSlice({
       const { email, token, isGoogleUser = false } = action.payload;
       authStorage.setToken(token);
       setSentryUser(email);
+      setAnalyticsUserId(email);
       state.isLoggedIn = true;
       state.email = email;
       state.token = token;

@@ -1,7 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import ReactGA from 'react-ga4';
-import { Route, Switch } from 'wouter';
+import { Route, Switch, useLocation } from 'wouter';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { Modals } from '~/components/Modals';
@@ -20,8 +19,8 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { useGetFollowedShowsQuery } from '~/store/rtk/api/follow.api';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
+import { initAnalytics, trackPageview } from '~/utils/analytics';
 import { gAnalyticsID } from '~/utils/constants';
-import { getIsProduction } from '~/utils/env';
 import { initSentry } from '~/utils/sentry';
 
 import { ROUTES } from './routes';
@@ -30,6 +29,7 @@ export const App = () => {
   const { isMobile } = useResponsiveLayout();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const [location] = useLocation();
 
   useGetFollowedShowsQuery(undefined, {
     skip: !isLoggedIn,
@@ -38,12 +38,13 @@ export const App = () => {
   });
 
   useEffect(() => {
-    if (getIsProduction()) {
-      ReactGA.initialize(gAnalyticsID);
-      ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
-      initSentry();
-    }
+    initAnalytics(gAnalyticsID);
+    initSentry();
   }, []);
+
+  useEffect(() => {
+    trackPageview(location);
+  }, [location]);
 
   return (
     <ErrorBoundary>

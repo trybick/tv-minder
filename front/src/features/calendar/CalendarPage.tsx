@@ -19,6 +19,7 @@ import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
+import { trackEvent } from '~/utils/analytics';
 import { dayjs } from '~/utils/dayjs';
 
 import { CalendarHeader } from './CalendarHeader';
@@ -71,6 +72,12 @@ export const CalendarPage = () => {
 
   const onEventClick = (eventInfo: EventClickArg) => {
     const showId = eventInfo.event.extendedProps.showId;
+    const showName = eventInfo.event.extendedProps.showName;
+    trackEvent({
+      category: 'Calendar',
+      action: 'Event Clicked',
+      label: `${showName} (${showId.toString()})`,
+    });
     navigate(`${ROUTES.SHOW}/${showId}`);
   };
 

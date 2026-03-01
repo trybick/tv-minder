@@ -17,6 +17,7 @@ import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { type DiscoverFilters } from '~/store/tv/types/transformed';
 import { tmdbApi } from '~/store/tv/utils/tmdbApi';
+import { trackEvent } from '~/utils/analytics';
 import { useDebouncedFunction } from '~/utils/debounce';
 import { handleKyError } from '~/utils/handleKyError';
 import { applyViewTransition } from '~/utils/viewTransition';
@@ -69,6 +70,12 @@ export const SearchPage = () => {
 
   // ── Text search ──────────────────────────────────────────────
   const handleSearch = useDebouncedFunction(async (query: string) => {
+    trackEvent({
+      category: 'Search',
+      action: 'Performed Search',
+      label: query,
+    });
+
     const { results } = await searchShowsByQuery(query);
     if (!results) {
       return;

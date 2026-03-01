@@ -27,6 +27,7 @@ import {
   selectIsLoginModalOpen,
   setIsLoginModalOpen,
 } from '~/store/rtk/slices/modals.slice';
+import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
@@ -104,6 +105,7 @@ export const LoginModal = () => {
     async ({ email, password, oneTimeCode }: FormInputs) => {
       switch (formMode) {
         case FormModes.Login:
+          trackEvent({ category: 'Auth', action: 'Login Form Submitted' });
           await handleLogin(email, password);
           break;
         case FormModes.ForgotPassword:
@@ -292,6 +294,12 @@ export const LoginModal = () => {
                     <Button
                       fontSize="0.88rem"
                       onClick={() => {
+                        if (formMode === FormModes.Login) {
+                          trackEvent({
+                            category: 'Auth',
+                            action: 'Forgot Password Button Pressed',
+                          });
+                        }
                         setValue('email', '');
                         setValue('password', '');
                         setFormMode(

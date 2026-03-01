@@ -2,6 +2,7 @@ import { Box, Flex, Kbd } from '@chakra-ui/react';
 import { MdSearch } from 'react-icons/md';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
+import { trackEvent } from '~/utils/analytics';
 import { getIsMac } from '~/utils/getIsMac';
 
 type Props = {
@@ -13,12 +14,17 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
 
   const modifierKey = getIsMac() ? '⌘' : 'Ctrl';
 
+  const handleClick = () => {
+    trackEvent({ category: 'Command Palette', action: 'Opened via Button' });
+    onClick();
+  };
+
   // Mobile: just an icon button
   if (isMobile) {
     return (
       <Box
         as="button"
-        onClick={onClick}
+        onClick={handleClick}
         p="8px"
         borderRadius="md"
         _hover={{ bg: 'whiteAlpha.100' }}
@@ -34,7 +40,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
     return (
       <Flex
         as="button"
-        onClick={onClick}
+        onClick={handleClick}
         alignItems="center"
         gap="6px"
         px="10px"
@@ -65,7 +71,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
   return (
     <Flex
       as="button"
-      onClick={onClick}
+      onClick={handleClick}
       alignItems="center"
       gap="12px"
       px="12px"

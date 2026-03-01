@@ -24,6 +24,7 @@ import { selectRecentShows } from '~/store/rtk/slices/recentShows.slice';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { selectFollowedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
+import { trackEvent } from '~/utils/analytics';
 
 import './commandPalette.css';
 import { fetchResults, filterOutFollowedShows } from './searchHelpers';
@@ -89,6 +90,10 @@ export const CommandPaletteProvider = ({ children }: Props) => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
+        trackEvent({
+          category: 'Command Palette',
+          action: 'Opened via Keyboard Shortcut',
+        });
         setIsOpen(prev => !prev);
       }
     };
@@ -117,6 +122,11 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
     searchTimeoutRef.current = window.setTimeout(async () => {
       try {
+        trackEvent({
+          category: 'Command Palette',
+          action: 'Performed Search',
+          label: query,
+        });
         const results = await fetchResults(query);
         setTmdbResults(filterOutFollowedShows(results, followedIds));
       } catch {

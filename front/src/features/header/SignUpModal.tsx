@@ -22,6 +22,7 @@ import {
   setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
+import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 import { isFetchError } from '~/utils/isFetchError';
@@ -84,6 +85,7 @@ export const SignUpModal = () => {
   }, [isOpen, resetForm]);
 
   const onSubmit = handleSubmit(async ({ email, password }: FormInputs) => {
+    trackEvent({ category: 'Auth', action: 'Sign Up Form Submitted' });
     try {
       await registerUser({
         email,
