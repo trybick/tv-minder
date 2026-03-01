@@ -28,39 +28,6 @@ import { ROUTES } from '~/app/routes';
 - Redux Toolkit with RTK Query for API calls
 - RTK Query is used across the app except `store/tv/` which is legacy Redux interacting with the TMDB API
 - Use typed hooks: `useAppSelector`, `useAppDispatch`
-- Selectors in `store/tv/selectors.ts`
-
-### Routing
-
-Uses **wouter** (not react-router):
-
-```tsx
-import { useLocation } from 'wouter';
-import { Link } from 'wouter';
-```
-
-### Feature Structure
-
-Features organized in `features/` folder:
-
-- `calendar/` - Calendar view
-- `following/` - User's followed shows
-- `search/` - Search functionality
-- `show/` - Show details page
-- `header/`, `footer/` - Layout components
-
-### Hooks
-
-Custom hooks in `hooks/`:
-
-- `useIsMobile()` - Responsive breakpoint
-- `useImageUrl()` - TMDB image URLs with placeholder
-- `useNavigateToShow()` - Navigate with view transitions
-
-### Testing
-
-- Unit: Vitest + Testing Library
-- E2E: Playwright
 
 ### TypeScript Validation and Linting
 
@@ -88,7 +55,7 @@ export const MyComponent = () => <div>Hello</div>;
 
 ### Comments
 
-- IMPORTANT: do not add comments to the code unless the code is very complex or difficult to understand
+- IMPORTANT: do not add any comments unless the code is very complex or difficult to understand.
 
 ### Testing
 
