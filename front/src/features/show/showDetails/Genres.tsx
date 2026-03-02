@@ -1,7 +1,6 @@
 import { Box, Flex, Tag } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
-import { FollowButton } from '~/components/FollowButton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
@@ -11,45 +10,39 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
-/**
- * Mobile: Follow button + genres.
- * Desktop: genres only.
- * */
 export const Genres = ({ show }: Props) => {
   const { isMobile } = useResponsiveLayout();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-  const { id, genreNames, name } = show || {};
+  const { genreNames } = show || {};
+
+  if (!isLoading && !genreNames?.length) {
+    return null;
+  }
 
   return (
-    <Box mb={6}>
-      {isMobile && id && (
-        <FollowButton showId={id} size="lg" w="100%" showName={name ?? ''} />
-      )}
-
-      {isLoading || (!isLoading && genreNames?.length) ? (
-        <DelayedSkeleton
-          isLoading={isLoading}
-          w={isLoading ? (isMobile ? '100%' : '200px') : 'auto'}
-          mt={isMobile ? 3 : undefined}
-        >
-          <Flex gap={2} flexWrap="wrap" mt={isMobile ? 6 : undefined}>
-            {genreNames?.map(genre => (
-              <Tag.Root
-                key={genre}
-                size="sm"
-                variant="subtle"
-                bg="whiteAlpha.100"
-                borderRadius="full"
-                px={2}
-              >
-                <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
-                  {genre}
-                </Tag.Label>
-              </Tag.Root>
-            ))}
-          </Flex>
-        </DelayedSkeleton>
-      ) : null}
+    <Box mb={5}>
+      <DelayedSkeleton
+        isLoading={isLoading}
+        w={isLoading ? (isMobile ? '100%' : '200px') : 'auto'}
+      >
+        <Flex gap={2} flexWrap="wrap">
+          {genreNames?.map(genre => (
+            <Tag.Root
+              key={genre}
+              size="md"
+              variant="subtle"
+              bg="whiteAlpha.100"
+              borderRadius="full"
+              px={3}
+              py={1}
+            >
+              <Tag.Label fontSize="xs" fontWeight="500" color="fg.muted">
+                {genre}
+              </Tag.Label>
+            </Tag.Root>
+          ))}
+        </Flex>
+      </DelayedSkeleton>
     </Box>
   );
 };

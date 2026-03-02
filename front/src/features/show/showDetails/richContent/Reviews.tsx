@@ -55,10 +55,10 @@ export const Reviews = ({ reviews }: Props) => {
 
   return (
     <Grid
-      templateColumns={{ base: '1fr', md: 'repeat(3, minmax(0, 1fr))' }}
+      templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0, 1fr))' }}
       gap={3}
     >
-      {reviews.slice(0, 3).map(review => (
+      {reviews.slice(0, 2).map(review => (
         <Box
           key={review.id}
           border="1px solid"

@@ -22,47 +22,27 @@ export const ShowImage = () => {
   const { getImageUrl, placeholder } = useImageUrl();
   const showId = getShowIdFromUrl();
 
-  const shouldShowDesktopSkeleton =
+  const shouldShowSkeleton =
     isLoading &&
     !showDataFromHistory?.posterSource &&
     !currentShowInfo?.posterPath;
 
-  if (isMobile) {
-    return (
-      <DelayedSkeleton isLoading={isLoading} h="232px" w="100%">
-        <Image
-          left="50%"
-          maxW="100vw"
-          minHeight="232px"
-          ml="-50vw"
-          mr="-50vw"
-          position="relative"
-          right="50%"
-          src={getImageUrl({
-            path: currentShowInfo?.backdropPath,
-            quality: 'high',
-          })}
-          width="100vw"
-        />
-      </DelayedSkeleton>
-    );
-  }
+  const posterSrc =
+    showDataFromHistory?.posterSource ||
+    getImageUrl({ path: currentShowInfo?.posterPath });
 
   return (
     <DelayedSkeleton
-      isLoading={shouldShowDesktopSkeleton}
-      w="280px"
-      h={shouldShowDesktopSkeleton ? '405px' : undefined}
+      isLoading={shouldShowSkeleton}
+      w={isMobile ? '200px' : '280px'}
+      h={shouldShowSkeleton ? (isMobile ? '300px' : '405px') : undefined}
       borderRadius="8px"
     >
-      <AspectRatio ratio={2 / 3} w="100%">
+      <AspectRatio ratio={2 / 3} w={isMobile ? '200px' : '100%'}>
         <Image
           borderRadius="8px"
           onError={e => (e.currentTarget.src = placeholder)}
-          src={
-            showDataFromHistory?.posterSource ||
-            getImageUrl({ path: currentShowInfo?.posterPath })
-          }
+          src={posterSrc}
           objectFit="cover"
           viewTransitionName={`show-image-${showId}`}
         />

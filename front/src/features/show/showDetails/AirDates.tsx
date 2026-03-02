@@ -1,5 +1,4 @@
-import { Flex, Grid, Icon, Stat } from '@chakra-ui/react';
-import { HiOutlineCalendar } from 'react-icons/hi';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
@@ -10,16 +9,28 @@ type Props = {
   show?: ShowForDisplay | null;
 };
 
-/**
- * Renders next/last episode air date cards.
- * Mobile stacks cards; desktop uses two columns.
- * */
+const getEmptyNextEpisodeText = (status?: ShowForDisplay['status']) => {
+  if (status?.isEnded) {
+    return { value: 'N/A', detail: 'Ended' };
+  }
+  if (status?.isInProduction) {
+    return { value: 'Not Announced Yet', detail: 'In Production' };
+  }
+  return { value: 'Not Announced Yet', detail: null };
+};
+
+const getEmptyLastAiredText = (status?: ShowForDisplay['status']) => {
+  if (status?.isEnded) {
+    return { value: 'N/A', detail: 'Ended' };
+  }
+  return { value: 'N/A', detail: null };
+};
+
 export const AirDates = ({ show }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-  const { lastEpisodeAirDate, nextEpisodeAirDate } = show || {};
-  const hasAirDates = lastEpisodeAirDate || nextEpisodeAirDate;
+  const { lastEpisodeAirDate, nextEpisodeAirDate, status } = show || {};
 
-  if (isLoading || !hasAirDates) {
+  if (isLoading) {
     return null;
   }
 
@@ -29,7 +40,7 @@ export const AirDates = ({ show }: Props) => {
     return dateObj.format(isCurrentYear ? 'MMM D' : 'MMM D, YYYY');
   };
 
-  const formatNextEpisodeRelativeText = (date: string) => {
+  const formatRelativeText = (date: string) => {
     const dateObj = dayjs(date);
     const now = dayjs();
 
@@ -40,64 +51,83 @@ export const AirDates = ({ show }: Props) => {
     return dateObj.fromNow();
   };
 
+  const emptyNext = getEmptyNextEpisodeText(status);
+  const emptyLast = getEmptyLastAiredText(status);
+
   return (
-    <Grid
-      gap={4}
-      mb={{ base: 5, md: 7 }}
-      templateColumns={{ base: '1fr', sm: 'repeat(2, minmax(0, 1fr))' }}
-      alignItems="stretch"
+    <Box
+      border="1px solid"
+      borderColor="whiteAlpha.100"
+      borderRadius="xl"
+      bg="whiteAlpha.50"
+      p={5}
+      mb={4}
     >
-      {lastEpisodeAirDate && (
-        <Stat.Root
-          p={4}
-          bg="whiteAlpha.50"
-          borderRadius="xl"
-          borderWidth="1px"
-          borderColor="whiteAlpha.100"
-          w="100%"
-          order={{ base: 2, sm: 1 }}
-        >
-          <Stat.Label color="fg.muted" fontWeight="medium">
-            Last Aired
-          </Stat.Label>
-          <Stat.ValueText
-            color="fg.muted"
-            fontSize="xl"
-            fontWeight="bold"
-            opacity={0.8}
-          >
-            {formatAirDate(lastEpisodeAirDate)}
-          </Stat.ValueText>
-          <Stat.HelpText color="fg.muted">
-            {dayjs(lastEpisodeAirDate).fromNow()}
-          </Stat.HelpText>
-        </Stat.Root>
-      )}
-      {nextEpisodeAirDate && (
-        <Stat.Root
-          p={4}
-          bg="whiteAlpha.100"
-          borderRadius="xl"
-          borderWidth="1px"
-          borderColor="whiteAlpha.300"
-          boxShadow="sm"
-          w="100%"
-          order={{ base: 1, sm: 2 }}
-        >
-          <Flex align="center" gap={2} mb={1}>
-            <Icon as={HiOutlineCalendar} color="cyan.600" boxSize="16px" />
-            <Stat.Label color="fg.muted" fontWeight="semibold">
-              Next Episode
-            </Stat.Label>
-          </Flex>
-          <Stat.ValueText color="fg.muted" fontSize="xl" fontWeight="bold">
-            {formatAirDate(nextEpisodeAirDate)}
-          </Stat.ValueText>
-          <Stat.HelpText color="cyan.600" fontWeight="semibold">
-            {formatNextEpisodeRelativeText(nextEpisodeAirDate)}
-          </Stat.HelpText>
-        </Stat.Root>
-      )}
-    </Grid>
+      <Heading
+        as="h3"
+        fontSize={{ base: 'md', md: 'lg' }}
+        fontWeight="700"
+        letterSpacing="-0.01em"
+        mb={4}
+      >
+        Recent Episodes
+      </Heading>
+
+      <Flex justify="space-around" gap={6} flexWrap="wrap">
+        <Box>
+          <Text fontSize="xs" color="fg.muted" mb={1.5} letterSpacing="widest">
+            LAST AIRED
+          </Text>
+          {lastEpisodeAirDate ? (
+            <>
+              <Text fontSize="xl" fontWeight="bold" color="fg" opacity={0.9}>
+                {formatAirDate(lastEpisodeAirDate)}
+              </Text>
+              <Text fontSize="sm" color="fg.muted" mt={1}>
+                {dayjs(lastEpisodeAirDate).fromNow()}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text fontSize="xl" fontWeight="bold" color="fg" opacity={0.5}>
+                {emptyLast.value}
+              </Text>
+              {emptyLast.detail && (
+                <Text fontSize="sm" color="fg.muted" mt={1}>
+                  {emptyLast.detail}
+                </Text>
+              )}
+            </>
+          )}
+        </Box>
+
+        <Box>
+          <Text fontSize="xs" color="fg.muted" mb={1.5} letterSpacing="widest">
+            NEXT EPISODE
+          </Text>
+          {nextEpisodeAirDate ? (
+            <>
+              <Text fontSize="xl" fontWeight="bold" color="fg">
+                {formatAirDate(nextEpisodeAirDate)}
+              </Text>
+              <Text fontSize="sm" color="fg.muted" fontWeight="medium" mt={1}>
+                {formatRelativeText(nextEpisodeAirDate)}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text fontSize="xl" fontWeight="bold" color="fg" opacity={0.5}>
+                {emptyNext.value}
+              </Text>
+              {emptyNext.detail && (
+                <Text fontSize="sm" color="fg.muted" mt={1}>
+                  {emptyNext.detail}
+                </Text>
+              )}
+            </>
+          )}
+        </Box>
+      </Flex>
+    </Box>
   );
 };

@@ -26,9 +26,6 @@ const getRatingDisplay = (voteAverage?: ShowForDisplay['voteAverage']) => {
   return { ratingForDisplay: rating.toFixed(1), ratingColor };
 };
 
-/**
- * Rating with star/vote count and show status.
- */
 export const RatingRow = ({ show }: Props) => {
   const { voteAverage, voteCount, status } = show || {};
 
@@ -38,25 +35,28 @@ export const RatingRow = ({ show }: Props) => {
   const ratingDisplay = getRatingDisplay(voteAverage);
 
   return (
-    <Flex align="center" gap={4} mb={5} flexWrap="wrap">
+    <Flex align="center" gap={4} mb={4} flexWrap="wrap">
       {(isLoading || (!isLoading && ratingDisplay?.ratingForDisplay)) && (
         <DelayedSkeleton isLoading={isLoading} w="120px">
-          <Flex align="center" gap={1.5}>
+          <Flex align="center" gap={2}>
             <Box
               bg={ratingDisplay?.ratingColor}
               color="white"
-              fontSize="sm"
+              fontSize="lg"
               fontWeight="bold"
-              px="2"
-              py="1"
-              borderRadius="md"
+              px={3}
+              py={1}
+              borderRadius="lg"
               letterSpacing="0.2px"
+              lineHeight="tall"
             >
               {ratingDisplay?.ratingForDisplay}
             </Box>
-            <Flex align="center" gap={1} color="fg.muted" ml={1}>
-              <Icon as={BsFillPersonFill} boxSize="14px" />
-              <Text fontSize="xs">{abbreviateNumber(voteCount || 1)}</Text>
+            <Flex align="center" gap={1} color="fg.muted">
+              <Icon as={BsFillPersonFill} boxSize="16px" />
+              <Text fontSize="md" fontWeight="semibold">
+                {abbreviateNumber(voteCount || 1)}
+              </Text>
             </Flex>
           </Flex>
         </DelayedSkeleton>
@@ -72,7 +72,7 @@ export const RatingRow = ({ show }: Props) => {
           flexShrink={0}
         >
           <Status.Indicator />
-          <Text fontSize="xs" fontWeight="bold" letterSpacing="wider">
+          <Text fontSize="sm" fontWeight="bold" letterSpacing="wider">
             {statusForDisplay.label.toUpperCase()}
           </Text>
         </Status.Root>

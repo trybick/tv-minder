@@ -11,10 +11,9 @@ import {
 
 import { SeasonsAccordion } from './SeasonsAccordion';
 import { ShowImage } from './ShowImage';
+import { VideoTrailerButton } from './VideoTrailerButton';
 import { ShowDetails } from './showDetails/ShowDetails';
 import { Reviews } from './showDetails/richContent/Reviews';
-import { Videos } from './showDetails/richContent/Videos';
-import { WatchProviders } from './showDetails/richContent/WatchProviders';
 
 export const ShowContainer = () => {
   const { isMobile } = useResponsiveLayout();
@@ -22,66 +21,28 @@ export const ShowContainer = () => {
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
-  const {
-    videos = [],
-    reviews = [],
-    watchProviders,
-    name,
-  } = currentShowInfo || {};
+  const { reviews = [], name, videoTrailerKey } = currentShowInfo || {};
 
-  const availableWatchProviders =
-    watchProviders &&
-    !!(
-      watchProviders.flatrate.length ||
-      watchProviders.rent.length ||
-      watchProviders.buy.length
-    )
-      ? watchProviders
-      : null;
-
-  return (
-    <>
-      {isMobile ? (
-        <Flex direction="column" gap="12px">
+  if (isMobile) {
+    return (
+      <Flex direction="column" gap={4}>
+        <Flex direction="column" align="center" gap={4}>
           <ShowImage />
-          <ShowDetails />
-        </Flex>
-      ) : (
-        <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
-          <Flex direction="column" gap={4}>
-            <ShowImage />
-            <FollowButton showId={+showId} size="lg" showName={name ?? ''} />
+          <Flex direction="column" gap={2} w="100%">
+            <FollowButton
+              showId={+showId}
+              size="lg"
+              w="100%"
+              showName={name ?? ''}
+            />
+            <VideoTrailerButton videoId={videoTrailerKey} />
           </Flex>
-          <ShowDetails />
-        </Grid>
-      )}
+        </Flex>
 
-      <Flex
-        direction="column"
-        gap={{ base: 8, md: 10 }}
-        mt={{ base: 5, md: 10 }}
-      >
-        {!isLoading && (
-          <>
-            <Box>
-              <Grid
-                templateColumns={{ base: '1fr', md: '1fr 1fr' }}
-                gap={5}
-                alignItems="start"
-                overflow="hidden"
-              >
-                <Box minW={0}>
-                  <WatchProviders
-                    showName={currentShowInfo?.name ?? ''}
-                    watchProviders={availableWatchProviders}
-                  />
-                </Box>
-                <Box minW={0}>
-                  <Videos videos={videos} />
-                </Box>
-              </Grid>
-            </Box>
+        <ShowDetails />
 
+        <Flex direction="column" gap={8}>
+          {!isLoading && (
             <Box>
               <Flex mb={5} direction="column" gap={1}>
                 <Heading
@@ -95,14 +56,52 @@ export const ShowContainer = () => {
                   What viewers are saying about this show.
                 </Text>
               </Flex>
-
               <Reviews reviews={reviews} />
             </Box>
-          </>
+          )}
+          <SeasonsAccordion />
+        </Flex>
+      </Flex>
+    );
+  }
+
+  return (
+    <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
+      <Flex
+        direction="column"
+        gap={2.5}
+        position="sticky"
+        top="24px"
+        alignSelf="start"
+      >
+        <ShowImage />
+        <FollowButton showId={+showId} size="lg" showName={name ?? ''} />
+        <VideoTrailerButton videoId={videoTrailerKey} />
+      </Flex>
+
+      <Flex direction="column" gap={8}>
+        <ShowDetails />
+
+        {!isLoading && (
+          <Box>
+            <Flex mb={5} direction="column" gap={1}>
+              <Heading
+                as="h2"
+                fontSize={{ base: 'xl', md: '2xl' }}
+                letterSpacing="-0.02em"
+              >
+                Reviews
+              </Heading>
+              <Text color="fg.muted" fontSize="sm">
+                What viewers are saying about this show.
+              </Text>
+            </Flex>
+            <Reviews reviews={reviews} />
+          </Box>
         )}
 
         <SeasonsAccordion />
       </Flex>
-    </>
+    </Grid>
   );
 };
