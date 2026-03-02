@@ -20,10 +20,9 @@ export const YOUTUBE_PLAYER_OPTIONS = {
 
 type Props = {
   videoId: string | undefined;
-  fullWidth?: boolean;
 };
 
-export const VideoTrailerButton = ({ videoId, fullWidth }: Props) => {
+export const VideoTrailerButton = ({ videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
@@ -37,9 +36,9 @@ export const VideoTrailerButton = ({ videoId, fullWidth }: Props) => {
         onClick={onOpen}
         variant="outline"
         colorPalette="gray"
-        size={fullWidth ? 'lg' : 'sm'}
-        borderRadius={fullWidth ? 'md' : 'full'}
-        w={fullWidth ? '100%' : undefined}
+        size="lg"
+        borderRadius="md"
+        w="100%"
         transition="all 0.15s ease"
         borderColor="whiteAlpha.300"
         _hover={{ bg: 'whiteAlpha.100', borderColor: 'whiteAlpha.400' }}

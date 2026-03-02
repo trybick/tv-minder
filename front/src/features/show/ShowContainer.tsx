@@ -28,14 +28,14 @@ export const ShowContainer = () => {
       <Flex direction="column" gap={4}>
         <Flex direction="column" align="center" gap={4}>
           <ShowImage />
-          <Flex direction="column" gap={3} w="100%">
+          <Flex direction="column" gap={2} w="100%">
             <FollowButton
               showId={+showId}
               size="lg"
               w="100%"
               showName={name ?? ''}
             />
-            <VideoTrailerButton videoId={videoTrailerKey} fullWidth />
+            <VideoTrailerButton videoId={videoTrailerKey} />
           </Flex>
         </Flex>
 
@@ -69,14 +69,14 @@ export const ShowContainer = () => {
     <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
       <Flex
         direction="column"
-        gap={4}
+        gap={2.5}
         position="sticky"
         top="24px"
         alignSelf="start"
       >
         <ShowImage />
         <FollowButton showId={+showId} size="lg" showName={name ?? ''} />
-        <VideoTrailerButton videoId={videoTrailerKey} fullWidth />
+        <VideoTrailerButton videoId={videoTrailerKey} />
       </Flex>
 
       <Flex direction="column" gap={8}>
