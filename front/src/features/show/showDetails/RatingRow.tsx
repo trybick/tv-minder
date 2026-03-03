@@ -1,4 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { LuUsers } from 'react-icons/lu';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useAppSelector } from '~/store';
@@ -39,7 +40,8 @@ const getRatingDisplay = (voteAverage?: ShowForDisplay['voteAverage']) => {
 
   return {
     letterGrade: getLetterGrade(rating),
-    ratingForDisplay: `${rating.toFixed(1)} / 10`,
+    ratingNumber: rating.toFixed(1),
+    ratingSuffix: '/ 10',
   };
 };
 
@@ -75,17 +77,34 @@ export const RatingRow = ({ show }: Props) => {
               {ratingDisplay?.letterGrade}
             </Text>
             <Box>
-              <Text
-                fontSize={{ base: 'xl', md: 'xl' }}
-                lineHeight="1.1"
-                color="fg"
-                fontWeight="700"
+              <Flex align="baseline" gap={1}>
+                <Text
+                  fontSize={{ base: 'xl', md: 'xl' }}
+                  lineHeight="1.1"
+                  color="fg"
+                  fontWeight="700"
+                >
+                  {ratingDisplay?.ratingNumber}
+                </Text>
+                <Text
+                  fontSize="sm"
+                  lineHeight="1.1"
+                  color="fg"
+                  fontWeight="500"
+                >
+                  {ratingDisplay?.ratingSuffix}
+                </Text>
+              </Flex>
+              <Flex
+                mt={1}
+                align="center"
+                gap={1.5}
+                color="fg.muted"
+                fontSize="xs"
               >
-                {ratingDisplay?.ratingForDisplay}
-              </Text>
-              <Text mt={1} color="fg.muted" fontSize="xs">
-                {peopleWatchedDisplay}
-              </Text>
+                <Box as={LuUsers} boxSize={3.5} display="inline-block" />
+                <Text>{peopleWatchedDisplay}</Text>
+              </Flex>
             </Box>
           </Flex>
         </DelayedSkeleton>
