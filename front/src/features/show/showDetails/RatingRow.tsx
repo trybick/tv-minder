@@ -1,6 +1,5 @@
 import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import { LuUsers } from 'react-icons/lu';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useAppSelector } from '~/store';
@@ -123,6 +122,15 @@ export const RatingRow = ({ show }: Props) => {
                 >
                   {ratingDisplay?.ratingSuffix}
                 </Text>
+                <Text
+                  fontSize="sm"
+                  lineHeight="1.1"
+                  color="fg.muted"
+                  fontWeight="500"
+                  ml={1.5}
+                >
+                  {peopleWatchedDisplay}
+                </Text>
               </Flex>
               <Box mt={1}>
                 <StarRating
@@ -131,16 +139,6 @@ export const RatingRow = ({ show }: Props) => {
                   emptyStars={ratingDisplay?.emptyStars ?? 5}
                 />
               </Box>
-              <Flex
-                mt={1}
-                align="center"
-                gap={1.5}
-                color="fg.muted"
-                fontSize="xs"
-              >
-                <Box as={LuUsers} boxSize={3.5} display="inline-block" />
-                <Text>{peopleWatchedDisplay}</Text>
-              </Flex>
             </Box>
           </Flex>
         </DelayedSkeleton>
