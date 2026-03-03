@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text } from '@chakra-ui/react';
+import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { LuUsers } from 'react-icons/lu';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -38,12 +39,40 @@ const getRatingDisplay = (voteAverage?: ShowForDisplay['voteAverage']) => {
     return null;
   }
 
+  const starsOutOf5 = (rating / 10) * 5;
+  const fullStars = Math.floor(starsOutOf5);
+  const hasHalfStar = starsOutOf5 % 1 >= 0.25 && starsOutOf5 % 1 < 0.75;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
   return {
     letterGrade: getLetterGrade(rating),
     ratingNumber: rating.toFixed(1),
     ratingSuffix: '/ 10',
+    fullStars,
+    hasHalfStar,
+    emptyStars,
   };
 };
+
+const StarRating = ({
+  fullStars,
+  hasHalfStar,
+  emptyStars,
+}: {
+  fullStars: number;
+  hasHalfStar: boolean;
+  emptyStars: number;
+}) => (
+  <Flex align="center" gap={0.5} color="yellow.400">
+    {Array.from({ length: fullStars }).map((_, i) => (
+      <Icon key={`full-${i}`} as={FaStar} boxSize={3} />
+    ))}
+    {hasHalfStar && <Icon as={FaStarHalfAlt} boxSize={3} />}
+    {Array.from({ length: emptyStars }).map((_, i) => (
+      <Icon key={`empty-${i}`} as={FaRegStar} boxSize={3} />
+    ))}
+  </Flex>
+);
 
 const getPeopleWatchedDisplay = (voteCount?: ShowForDisplay['voteCount']) => {
   const count = voteCount ?? 0;
@@ -95,6 +124,13 @@ export const RatingRow = ({ show }: Props) => {
                   {ratingDisplay?.ratingSuffix}
                 </Text>
               </Flex>
+              <Box mt={1}>
+                <StarRating
+                  fullStars={ratingDisplay?.fullStars ?? 0}
+                  hasHalfStar={!!ratingDisplay?.hasHalfStar}
+                  emptyStars={ratingDisplay?.emptyStars ?? 5}
+                />
+              </Box>
               <Flex
                 mt={1}
                 align="center"
