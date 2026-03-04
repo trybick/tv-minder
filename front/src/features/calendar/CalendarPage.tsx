@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Text } from '@chakra-ui/react';
+import { Box, Flex, Icon, Spinner, Text } from '@chakra-ui/react';
 import {
   type CalendarOptions,
   type EventClickArg,
@@ -15,10 +15,14 @@ import { useLocation } from 'wouter';
 import { ROUTES } from '~/app/routes';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
+import { followApi } from '~/store/rtk/api/follow.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
-import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
+import {
+  selectCalendarEpisodesForDisplay,
+  selectIsLoadingCalendarEpisodes,
+} from '~/store/tv/selectors';
 import { trackEvent } from '~/utils/analytics';
 import { dayjs } from '~/utils/dayjs';
 
@@ -38,9 +42,15 @@ export const CalendarPage = () => {
     end: Date;
   } | null>(null);
 
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const followedShows = useAppSelector(selectFollowedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isLoadingCalendarEpisodes = useAppSelector(
+    selectIsLoadingCalendarEpisodes
+  );
+  const { isLoading: isLoadingFollowedShows } = useAppSelector(
+    followApi.endpoints.getFollowedShows.select(undefined)
+  );
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -125,7 +135,17 @@ export const CalendarPage = () => {
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
     listDaySideFormat: false,
-    noEventsContent: <NoFollowedShowsBanner />,
+    noEventsContent:
+      isLoadingCalendarEpisodes || isLoadingFollowedShows ? (
+        isMobile ? (
+          <Flex align="center" gap={2} justify="center" py={6}>
+            <Spinner size="sm" />
+            <Text fontSize="14px">Loading episodes</Text>
+          </Flex>
+        ) : null
+      ) : (
+        <NoFollowedShowsBanner />
+      ),
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     ref: calendarRef as RefObject<FullCalendar>,
     titleFormat: { month: 'long' },
