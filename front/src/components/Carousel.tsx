@@ -20,7 +20,8 @@ type Props<T> = {
 };
 
 const SMALL_SLIDES_PER_PAGE = {
-  base: 3,
+  base: 2,
+  sm: 3,
   md: 4,
   lg: 4,
   xl: 4,
@@ -28,7 +29,8 @@ const SMALL_SLIDES_PER_PAGE = {
 };
 
 export const DEFAULT_SLIDES_PER_PAGE = {
-  base: 3,
+  base: 2,
+  sm: 3,
   md: 4,
   lg: 5,
   xl: 6,
