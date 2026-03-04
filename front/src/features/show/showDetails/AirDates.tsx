@@ -1,4 +1,5 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Badge, Box, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { FiClock, FiZap } from 'react-icons/fi';
 
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
@@ -53,6 +54,17 @@ export const AirDates = ({ show }: Props) => {
 
   const emptyNext = getEmptyNextEpisodeText(status);
   const emptyLast = getEmptyLastAiredText(status);
+  const now = dayjs().startOf('day');
+
+  const isLastEpisodeRecent = lastEpisodeAirDate
+    ? now.diff(dayjs(lastEpisodeAirDate).startOf('day'), 'day') <= 21 &&
+      !dayjs(lastEpisodeAirDate).isAfter(now, 'day')
+    : false;
+
+  const isNextEpisodeSoon = nextEpisodeAirDate
+    ? !dayjs(nextEpisodeAirDate).isBefore(now, 'day') &&
+      dayjs(nextEpisodeAirDate).startOf('day').diff(now, 'day') <= 21
+    : false;
 
   const cardStyles = {
     border: '1px solid',
@@ -67,17 +79,32 @@ export const AirDates = ({ show }: Props) => {
   return (
     <>
       <Box {...cardStyles}>
-        <Heading
-          as="h3"
-          fontSize="sm"
-          fontWeight="600"
-          color="fg.muted"
-          letterSpacing="widest"
-          mb={3}
-          textTransform="uppercase"
-        >
-          Last Aired
-        </Heading>
+        <Flex align="center" gap={2} mb={3}>
+          <Heading
+            as="h3"
+            fontSize="sm"
+            fontWeight="600"
+            color="fg.muted"
+            letterSpacing="widest"
+            textTransform="uppercase"
+          >
+            Last Aired
+          </Heading>
+          {isLastEpisodeRecent && (
+            <Badge
+              variant="subtle"
+              colorPalette="orange"
+              size="md"
+              borderRadius="full"
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Icon as={FiClock} boxSize={3} />
+              Recent
+            </Badge>
+          )}
+        </Flex>
         {lastEpisodeAirDate ? (
           <>
             <Text fontSize="xl" fontWeight="700" color="fg" lineHeight="1.2">
@@ -108,17 +135,32 @@ export const AirDates = ({ show }: Props) => {
       </Box>
 
       <Box {...cardStyles}>
-        <Heading
-          as="h3"
-          fontSize="sm"
-          fontWeight="600"
-          color="fg.muted"
-          letterSpacing="widest"
-          mb={3}
-          textTransform="uppercase"
-        >
-          Next Episode
-        </Heading>
+        <Flex align="center" gap={2} mb={3}>
+          <Heading
+            as="h3"
+            fontSize="sm"
+            fontWeight="600"
+            color="fg.muted"
+            letterSpacing="widest"
+            textTransform="uppercase"
+          >
+            Next Episode
+          </Heading>
+          {isNextEpisodeSoon && (
+            <Badge
+              variant="subtle"
+              colorPalette="green"
+              size="md"
+              borderRadius="full"
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Icon as={FiZap} boxSize={3} />
+              Soon
+            </Badge>
+          )}
+        </Flex>
         {nextEpisodeAirDate ? (
           <>
             <Text fontSize="xl" fontWeight="700" color="fg" lineHeight="1.2">
