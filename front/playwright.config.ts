@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseUrl = 'http://localhost:4174';
+const baseUrl = 'http://localhost:4000';
 
 export default defineConfig({
   testDir: './e2e/tests',
@@ -22,9 +22,9 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'VITE_E2E=true npm run start -- --port 4174',
+    command: 'npm run start',
     url: baseUrl,
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 20 * 1000,
   },
 
