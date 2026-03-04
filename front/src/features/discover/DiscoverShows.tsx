@@ -150,10 +150,8 @@ const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
 const EAGER_COUNT = 2;
-const E2E_CAROUSEL_COUNT = 3;
 
 export const DiscoverShows = () => {
-  const isE2E = import.meta.env.VITE_E2E === 'true';
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -200,14 +198,11 @@ export const DiscoverShows = () => {
   const carouselConfigs = getShouldIncludeForYouSection()
     ? [FOR_YOU_CONFIG, ...BASE_CAROUSEL_CONFIGS]
     : BASE_CAROUSEL_CONFIGS;
-  const visibleCarouselConfigs = isE2E
-    ? carouselConfigs.slice(0, E2E_CAROUSEL_COUNT)
-    : carouselConfigs;
 
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
-      <DiscoverNav items={visibleCarouselConfigs} />
-      {visibleCarouselConfigs.map((config, index) =>
+      <DiscoverNav items={carouselConfigs} />
+      {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>
             {index > 0 && <Separator my={7} borderColor="whiteAlpha.200" />}
