@@ -118,7 +118,7 @@ export const SignUpModal = () => {
       lazyMount
       unmountOnExit
     >
-      <Dialog.Backdrop />
+      <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
       <Dialog.Positioner>
         <Dialog.Content bg="bg.muted">
           <Dialog.Header>

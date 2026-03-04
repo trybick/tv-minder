@@ -204,7 +204,7 @@ export const LoginModal = () => {
       unmountOnExit
     >
       <Portal>
-        <Dialog.Backdrop />
+        <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
         <Dialog.Positioner>
           <Dialog.Content bg="bg.muted">
             <Dialog.Header>
