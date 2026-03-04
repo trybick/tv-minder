@@ -39,9 +39,10 @@ const getRatingDisplay = (voteAverage?: ShowForDisplay['voteAverage']) => {
     return null;
   }
 
-  const starsOutOf5 = (rating / 10) * 5;
-  const fullStars = Math.floor(starsOutOf5);
-  const hasHalfStar = starsOutOf5 % 1 >= 0.25 && starsOutOf5 % 1 < 0.75;
+  const normalizedRating = Math.min(Math.max(rating, 0), 10);
+  const roundedStarHalves = Math.round((normalizedRating / 10) * 5 * 2);
+  const fullStars = Math.floor(roundedStarHalves / 2);
+  const hasHalfStar = roundedStarHalves % 2 === 1;
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
   return {
