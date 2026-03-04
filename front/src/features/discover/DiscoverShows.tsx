@@ -84,30 +84,6 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
     subtitle: 'Top rated shows by viewers',
   },
   {
-    key: 'action',
-    icon: <FaFighterJet />,
-    title: 'Action & Adventure',
-    subtitle: 'Thrilling action-packed shows',
-  },
-  {
-    key: 'drama',
-    icon: <GiTheaterCurtains />,
-    title: 'Drama',
-    subtitle: 'Compelling dramatic series',
-  },
-  {
-    key: 'sciFi',
-    icon: <GiSpaceship />,
-    title: 'Sci-Fi & Fantasy',
-    subtitle: 'Explore new worlds and dimensions',
-  },
-  {
-    key: 'documentary',
-    icon: <MdOutlineMovie />,
-    title: 'Documentary',
-    subtitle: 'Real stories and fascinating facts',
-  },
-  {
     key: 'netflix',
     icon: <SiNetflix />,
     title: 'Netflix',
@@ -130,6 +106,30 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
     icon: <SiAppletv />,
     title: 'Apple TV+',
     subtitle: 'Award-winning Apple originals',
+  },
+  {
+    key: 'action',
+    icon: <FaFighterJet />,
+    title: 'Action & Adventure',
+    subtitle: 'Thrilling action-packed shows',
+  },
+  {
+    key: 'drama',
+    icon: <GiTheaterCurtains />,
+    title: 'Drama',
+    subtitle: 'Compelling dramatic series',
+  },
+  {
+    key: 'sciFi',
+    icon: <GiSpaceship />,
+    title: 'Sci-Fi & Fantasy',
+    subtitle: 'Explore new worlds and dimensions',
+  },
+  {
+    key: 'documentary',
+    icon: <MdOutlineMovie />,
+    title: 'Documentary',
+    subtitle: 'Real stories and fascinating facts',
   },
 ];
 

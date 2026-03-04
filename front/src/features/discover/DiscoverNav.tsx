@@ -90,14 +90,14 @@ export const DiscoverNav = ({ items }: Props) => {
       zIndex="10"
       bg={activeKey === firstKey ? 'bg/70' : 'bg/100'}
       mx={-3}
-      px={2.5}
-      py={2.5}
+      px={3.5}
+      py={3}
       mb={7}
       borderRadius="full"
     >
       <Flex
         ref={navRef}
-        gap={1.5}
+        gap={2}
         overflowX="auto"
         css={{
           scrollbarWidth: 'none',
@@ -119,11 +119,11 @@ export const DiscoverNav = ({ items }: Props) => {
               flexShrink={0}
               display="flex"
               alignItems="center"
-              gap={1.5}
-              px={3}
-              py={1.5}
+              gap={2}
+              px={4}
+              py={2}
               borderRadius="full"
-              fontSize="xs"
+              fontSize="sm"
               fontWeight="medium"
               cursor="pointer"
               transition="all 0.2s"
@@ -136,7 +136,7 @@ export const DiscoverNav = ({ items }: Props) => {
                 color: isActive ? 'cyan.300' : 'fg',
               }}
             >
-              <Box fontSize="xs">{item.icon}</Box>
+              <Box fontSize="sm">{item.icon}</Box>
               <Text whiteSpace="nowrap">{item.title}</Text>
             </Box>
           );
