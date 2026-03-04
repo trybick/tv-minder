@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
@@ -23,7 +23,7 @@ const getEmptyLastAiredText = (status?: ShowForDisplay['status']) => {
   if (status?.isEnded) {
     return { value: 'N/A', detail: 'Ended' };
   }
-  return { value: 'N/A', detail: null };
+  return { value: 'N/A', detail: 'Has not aired yet' };
 };
 
 export const AirDates = ({ show }: Props) => {
@@ -54,80 +54,99 @@ export const AirDates = ({ show }: Props) => {
   const emptyNext = getEmptyNextEpisodeText(status);
   const emptyLast = getEmptyLastAiredText(status);
 
+  const cardStyles = {
+    border: '1px solid',
+    borderColor: 'whiteAlpha.100',
+    borderRadius: 'xl',
+    bg: 'whiteAlpha.50',
+    p: 5,
+    minW: 0,
+    alignSelf: 'stretch',
+  } as const;
+
   return (
-    <Box
-      border="1px solid"
-      borderColor="whiteAlpha.100"
-      borderRadius="xl"
-      bg="whiteAlpha.50"
-      p={5}
-      mb={4}
-    >
-      <Heading
-        as="h3"
-        fontSize={{ base: 'md', md: 'lg' }}
-        fontWeight="700"
-        letterSpacing="-0.01em"
-        mb={4}
-      >
-        Recent Episodes
-      </Heading>
-
-      <Flex justify="space-around" gap={6} flexWrap="wrap">
-        <Box>
-          <Text fontSize="xs" color="fg.muted" mb={1.5} letterSpacing="widest">
-            LAST AIRED
-          </Text>
-          {lastEpisodeAirDate ? (
-            <>
-              <Text fontSize="xl" fontWeight="bold" color="fg" opacity={0.9}>
-                {formatAirDate(lastEpisodeAirDate)}
-              </Text>
+    <>
+      <Box {...cardStyles}>
+        <Heading
+          as="h3"
+          fontSize="sm"
+          fontWeight="600"
+          color="fg.muted"
+          letterSpacing="widest"
+          mb={3}
+          textTransform="uppercase"
+        >
+          Last Aired
+        </Heading>
+        {lastEpisodeAirDate ? (
+          <>
+            <Text fontSize="xl" fontWeight="700" color="fg" lineHeight="1.2">
+              {formatAirDate(lastEpisodeAirDate)}
+            </Text>
+            <Text fontSize="sm" color="fg.muted" mt={1}>
+              {dayjs(lastEpisodeAirDate).fromNow()}
+            </Text>
+          </>
+        ) : (
+          <>
+            <Text
+              fontSize="xl"
+              fontWeight="700"
+              color="fg"
+              opacity={0.4}
+              lineHeight="1.2"
+            >
+              {emptyLast.value}
+            </Text>
+            {emptyLast.detail && (
               <Text fontSize="sm" color="fg.muted" mt={1}>
-                {dayjs(lastEpisodeAirDate).fromNow()}
+                {emptyLast.detail}
               </Text>
-            </>
-          ) : (
-            <>
-              <Text fontSize="xl" fontWeight="bold" color="fg" opacity={0.5}>
-                {emptyLast.value}
-              </Text>
-              {emptyLast.detail && (
-                <Text fontSize="sm" color="fg.muted" mt={1}>
-                  {emptyLast.detail}
-                </Text>
-              )}
-            </>
-          )}
-        </Box>
+            )}
+          </>
+        )}
+      </Box>
 
-        <Box>
-          <Text fontSize="xs" color="fg.muted" mb={1.5} letterSpacing="widest">
-            NEXT EPISODE
-          </Text>
-          {nextEpisodeAirDate ? (
-            <>
-              <Text fontSize="xl" fontWeight="bold" color="fg">
-                {formatAirDate(nextEpisodeAirDate)}
+      <Box {...cardStyles}>
+        <Heading
+          as="h3"
+          fontSize="sm"
+          fontWeight="600"
+          color="fg.muted"
+          letterSpacing="widest"
+          mb={3}
+          textTransform="uppercase"
+        >
+          Next Episode
+        </Heading>
+        {nextEpisodeAirDate ? (
+          <>
+            <Text fontSize="xl" fontWeight="700" color="fg" lineHeight="1.2">
+              {formatAirDate(nextEpisodeAirDate)}
+            </Text>
+            <Text fontSize="sm" color="fg.muted" fontWeight="medium" mt={1}>
+              {formatRelativeText(nextEpisodeAirDate)}
+            </Text>
+          </>
+        ) : (
+          <>
+            <Text
+              fontSize="xl"
+              fontWeight="700"
+              color="fg"
+              opacity={0.4}
+              lineHeight="1.2"
+            >
+              {emptyNext.value}
+            </Text>
+            {emptyNext.detail && (
+              <Text fontSize="sm" color="fg.muted" mt={1}>
+                {emptyNext.detail}
               </Text>
-              <Text fontSize="sm" color="fg.muted" fontWeight="medium" mt={1}>
-                {formatRelativeText(nextEpisodeAirDate)}
-              </Text>
-            </>
-          ) : (
-            <>
-              <Text fontSize="xl" fontWeight="bold" color="fg" opacity={0.5}>
-                {emptyNext.value}
-              </Text>
-              {emptyNext.detail && (
-                <Text fontSize="sm" color="fg.muted" mt={1}>
-                  {emptyNext.detail}
-                </Text>
-              )}
-            </>
-          )}
-        </Box>
-      </Flex>
-    </Box>
+            )}
+          </>
+        )}
+      </Box>
+    </>
   );
 };

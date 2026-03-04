@@ -55,8 +55,6 @@ export const TitleRow = ({ show }: Props) => {
           size="md"
           px={3}
           py={1}
-          borderRadius="full"
-          flexShrink={0}
           mt={1}
         >
           <Status.Indicator />

@@ -1,11 +1,12 @@
-import { Box, Flex, Icon, Text } from '@chakra-ui/react';
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
 import { abbreviateNumber } from '~/utils/formatting';
+
+import { StarRating } from './StarRating';
 
 type Props = {
   show?: ShowForDisplay | null;
@@ -53,26 +54,6 @@ const getRatingDisplay = (voteAverage?: ShowForDisplay['voteAverage']) => {
   };
 };
 
-const StarRating = ({
-  fullStars,
-  hasHalfStar,
-  emptyStars,
-}: {
-  fullStars: number;
-  hasHalfStar: boolean;
-  emptyStars: number;
-}) => (
-  <Flex align="center" gap={0.5} color="yellow.400">
-    {Array.from({ length: fullStars }).map((_, i) => (
-      <Icon key={`full-${i}`} as={FaStar} boxSize={3} />
-    ))}
-    {hasHalfStar && <Icon as={FaStarHalfAlt} boxSize={3} />}
-    {Array.from({ length: emptyStars }).map((_, i) => (
-      <Icon key={`empty-${i}`} as={FaRegStar} boxSize={3} />
-    ))}
-  </Flex>
-);
-
 const getPeopleWatchedDisplay = (voteCount?: ShowForDisplay['voteCount']) => {
   const count = voteCount ?? 0;
 
@@ -89,20 +70,17 @@ export const RatingRow = ({ show }: Props) => {
 
   return (
     <Flex align="center" gap={3} mb={4} flexWrap="wrap">
-      {(isLoading || (!isLoading && ratingDisplay)) && (
-        <DelayedSkeleton
-          isLoading={isLoading}
-          w={{ base: '290px', md: '320px' }}
-        >
+      <DelayedSkeleton isLoading={isLoading} w={{ base: '290px', md: '320px' }}>
+        {ratingDisplay ? (
           <Flex align="center" gap={3}>
             <Text
               fontSize={{ base: '4xl', md: '5xl' }}
               fontWeight="800"
               lineHeight="0.95"
-              color="cyan.300"
+              color="cyan.400"
               letterSpacing="-0.02em"
             >
-              {ratingDisplay?.letterGrade}
+              {ratingDisplay.letterGrade}
             </Text>
             <Box>
               <Flex align="baseline" gap={1}>
@@ -112,7 +90,7 @@ export const RatingRow = ({ show }: Props) => {
                   color="fg"
                   fontWeight="700"
                 >
-                  {ratingDisplay?.ratingNumber}
+                  {ratingDisplay.ratingNumber}
                 </Text>
                 <Text
                   fontSize="sm"
@@ -120,7 +98,7 @@ export const RatingRow = ({ show }: Props) => {
                   color="fg"
                   fontWeight="500"
                 >
-                  {ratingDisplay?.ratingSuffix}
+                  {ratingDisplay.ratingSuffix}
                 </Text>
                 <Text
                   fontSize="sm"
@@ -134,15 +112,47 @@ export const RatingRow = ({ show }: Props) => {
               </Flex>
               <Box mt={1}>
                 <StarRating
-                  fullStars={ratingDisplay?.fullStars ?? 0}
-                  hasHalfStar={!!ratingDisplay?.hasHalfStar}
-                  emptyStars={ratingDisplay?.emptyStars ?? 5}
+                  fullStars={ratingDisplay.fullStars}
+                  hasHalfStar={ratingDisplay.hasHalfStar}
+                  emptyStars={ratingDisplay.emptyStars}
                 />
               </Box>
             </Box>
           </Flex>
-        </DelayedSkeleton>
-      )}
+        ) : (
+          <Flex align="center" gap={3} mb={0.5}>
+            <Text
+              fontSize={{ base: '3xl', md: '4xl' }}
+              fontWeight="800"
+              lineHeight="0.95"
+              color="fg.subtle"
+              letterSpacing="-0.02em"
+            >
+              —
+            </Text>
+            <Box>
+              <Flex align="baseline" gap={1}>
+                <Text
+                  fontSize={{ base: 'xl', md: 'xl' }}
+                  lineHeight="1.1"
+                  color="fg.subtle"
+                  fontWeight="700"
+                >
+                  No ratings
+                </Text>
+              </Flex>
+              <Box mt={1}>
+                <StarRating
+                  fullStars={0}
+                  hasHalfStar={false}
+                  emptyStars={5}
+                  color="fg.subtle"
+                />
+              </Box>
+            </Box>
+          </Flex>
+        )}
+      </DelayedSkeleton>
     </Flex>
   );
 };

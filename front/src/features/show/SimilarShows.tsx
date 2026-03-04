@@ -29,7 +29,9 @@ export const SimilarShows = () => {
     }
   }, [dispatch, showId]);
 
-  const showItems = similarShows?.map(mapTmdbShowSummary) ?? [];
+  const showItems =
+    similarShows?.map(mapTmdbShowSummary).filter(show => show.id !== showId) ??
+    [];
 
   if (!similarShows) {
     return (
