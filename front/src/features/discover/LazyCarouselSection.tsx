@@ -29,7 +29,11 @@ export const LazyCarouselSection = ({ config, items, index }: Props) => {
         subtitle={config.subtitle}
       />
       {isNear ? (
-        <Carousel items={items} keyExtractor={keyExtractor} renderItem={renderItem} />
+        <Carousel
+          items={items}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
       ) : (
         <Skeleton borderRadius="xl" h={{ base: '260px', md: '320px' }} />
       )}
