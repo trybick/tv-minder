@@ -60,7 +60,9 @@ export const Videos = ({ videos }: Props) => {
         return;
       }
 
-      const children = Array.from(contentElement.children) as HTMLButtonElement[];
+      const children = Array.from(
+        contentElement.children
+      ) as HTMLButtonElement[];
       const collapsedChildren = children.slice(0, MAX_VISIBLE_VIDEOS);
       const nextCollapsedHeight =
         collapsedChildren.reduce((sum, child) => sum + child.offsetHeight, 0) +
@@ -162,7 +164,9 @@ export const Videos = ({ videos }: Props) => {
               _hover={{ color: 'fg' }}
               onClick={() => setExpanded(prev => !prev)}
             >
-              {expanded ? 'Show less' : `Show ${videos.length - MAX_VISIBLE_VIDEOS} more`}
+              {expanded
+                ? 'Show less'
+                : `Show ${videos.length - MAX_VISIBLE_VIDEOS} more`}
               <Icon
                 as={LuChevronDown}
                 boxSize="16px"

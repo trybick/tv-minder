@@ -32,8 +32,10 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
 
   useEffect(() => {
     if (!watchProviders || !contentRef.current) {
-      setIsOverflowing(false);
-      setContentHeight(0);
+      queueMicrotask(() => {
+        setIsOverflowing(false);
+        setContentHeight(0);
+      });
       return;
     }
 

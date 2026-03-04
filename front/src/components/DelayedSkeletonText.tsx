@@ -1,35 +1,15 @@
 import { SkeletonText, type SkeletonTextProps } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
-import { SKELETON_DELAY } from '~/utils/constants';
+import { useSkeletonDelay } from '~/hooks/useSkeletonDelay';
 
 interface Props extends SkeletonTextProps {
   isLoading: boolean;
 }
 
 export const DelayedSkeletonText = ({ isLoading, ...props }: Props) => {
-  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(false);
-
-  useEffect(() => {
-    let timeoutId: number;
-
-    if (isLoading) {
-      timeoutId = window.setTimeout(() => {
-        setShouldShowSkeleton(true);
-      }, SKELETON_DELAY);
-    } else {
-      queueMicrotask(() => setShouldShowSkeleton(false));
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [isLoading]);
+  const shouldShowSkeleton = useSkeletonDelay(isLoading);
 
   if (!shouldShowSkeleton) {
-    // Reserve the final space during the delay window.
     return <SkeletonText {...props} visibility="hidden" animation="none" />;
   }
 

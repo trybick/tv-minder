@@ -1,32 +1,13 @@
 import { Skeleton, type SkeletonProps } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
-import { SKELETON_DELAY } from '~/utils/constants';
+import { useSkeletonDelay } from '~/hooks/useSkeletonDelay';
 
 interface Props extends SkeletonProps {
   isLoading: boolean;
 }
 
 export const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
-  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(false);
-
-  useEffect(() => {
-    let timeoutId: number;
-
-    if (isLoading) {
-      timeoutId = window.setTimeout(() => {
-        setShouldShowSkeleton(true);
-      }, SKELETON_DELAY);
-    } else {
-      queueMicrotask(() => setShouldShowSkeleton(false));
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [isLoading]);
+  const shouldShowSkeleton = useSkeletonDelay(isLoading);
 
   if (!isLoading) {
     return <>{children}</>;
@@ -36,14 +17,9 @@ export const DelayedSkeleton = ({ isLoading, children, ...props }: Props) => {
     return <Skeleton {...props}>{children}</Skeleton>;
   }
 
-  if (!shouldShowSkeleton) {
-    // Preserve layout during the delay window without showing skeleton shimmer.
-    return (
-      <Skeleton {...props} visibility="hidden" animation="none">
-        {children}
-      </Skeleton>
-    );
-  }
-
-  return <Skeleton {...props}>{children}</Skeleton>;
+  return (
+    <Skeleton {...props} visibility="hidden" animation="none">
+      {children}
+    </Skeleton>
+  );
 };
