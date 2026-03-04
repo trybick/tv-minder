@@ -331,10 +331,8 @@ const GENRE_IDS = {
 
 export const DISCOVER_CAROUSEL_KEYS = [
   'trending',
-  'airingThisWeek',
   'newShows',
   'comingSoon',
-  'returningThisMonth',
   'mostRated',
   'highestRated',
   'action',
@@ -356,10 +354,8 @@ const CAROUSEL_FETCHERS: Record<
   () => Promise<TmdbShowList>
 > = {
   trending: tmdbApi.getTrending,
-  airingThisWeek: tmdbApi.discoverAiringThisWeek,
   newShows: tmdbApi.discoverNewShows,
   comingSoon: tmdbApi.discoverComingSoon,
-  returningThisMonth: tmdbApi.discoverReturningThisMonth,
   mostRated: tmdbApi.discoverMostRated,
   highestRated: tmdbApi.discoverHighestRated,
   action: () => tmdbApi.discoverByGenre(GENRE_IDS.ACTION),

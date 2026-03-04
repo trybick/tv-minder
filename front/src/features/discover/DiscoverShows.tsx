@@ -2,13 +2,12 @@ import { Box, Separator } from '@chakra-ui/react';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 import { type ReactNode, useEffect } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
-import { GiReturnArrow, GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
+import { GiSpaceship, GiTheaterCurtains } from 'react-icons/gi';
 import {
   HiOutlineCalendar,
   HiOutlineChartBar,
   HiOutlineFire,
   HiOutlineHeart,
-  HiOutlineSignal,
   HiOutlineSparkles,
   HiOutlineStar,
 } from 'react-icons/hi2';
@@ -61,12 +60,6 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
     subtitle: "What everyone's watching this week",
   },
   {
-    key: 'airingThisWeek',
-    icon: <HiOutlineSignal />,
-    title: 'Airing This Week',
-    subtitle: 'New episodes from the past 7 days',
-  },
-  {
     key: 'newShows',
     icon: <HiOutlineSparkles />,
     title: 'Fresh & New',
@@ -77,12 +70,6 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
     icon: <HiOutlineCalendar />,
     title: 'Coming Soon',
     subtitle: 'Premiering in the next 30 days',
-  },
-  {
-    key: 'returningThisMonth',
-    icon: <GiReturnArrow />,
-    title: 'Returning This Month',
-    subtitle: 'Shows coming back with new seasons',
   },
   {
     key: 'mostRated',

@@ -31,10 +31,8 @@ type State = {
 
 const emptyDiscoverShows: DiscoverShowsState = {
   trending: [],
-  airingThisWeek: [],
   newShows: [],
   comingSoon: [],
-  returningThisMonth: [],
   mostRated: [],
   highestRated: [],
   netflix: [],

@@ -111,24 +111,6 @@ export const tmdbApi = {
   // ─────────────────────────────────────────────────────────────
 
   /**
-   * Discover English shows currently airing (within the last 7 days).
-   * Endpoint: /discover/tv with air_date filters
-   */
-  discoverAiringThisWeek: (): Promise<TmdbShowList> => {
-    const today = dayjs();
-    const weekAgo = today.subtract(7, 'day');
-    const isoDate = (d: Dayjs) => d.format('YYYY-MM-DD');
-    return fetchTmdb('discover/tv', tmdbSchema.showList, {
-      searchParams: {
-        with_original_language: 'en',
-        sort_by: 'popularity.desc',
-        'air_date.gte': isoDate(weekAgo),
-        'air_date.lte': isoDate(today),
-      },
-    });
-  },
-
-  /**
    * Discover new English shows that premiered in the last year.
    * Endpoint: /discover/tv with first_air_date filter
    */
@@ -157,26 +139,6 @@ export const tmdbApi = {
         sort_by: 'popularity.desc',
         'first_air_date.gte': isoDate(today),
         'first_air_date.lte': isoDate(thirtyDaysFromNow),
-      },
-    });
-  },
-
-  /**
-   * Discover shows returning with new seasons this month.
-   * Endpoint: /discover/tv with air_date filter
-   */
-  discoverReturningThisMonth: (): Promise<TmdbShowList> => {
-    const today = dayjs();
-    const startOfMonth = today.startOf('month');
-    const endOfMonth = today.endOf('month');
-    const isoDate = (d: Dayjs) => d.format('YYYY-MM-DD');
-    return fetchTmdb('discover/tv', tmdbSchema.showList, {
-      searchParams: {
-        with_original_language: 'en',
-        sort_by: 'popularity.desc',
-        'air_date.gte': isoDate(startOfMonth),
-        'air_date.lte': isoDate(endOfMonth),
-        'first_air_date.lte': isoDate(startOfMonth.subtract(1, 'year')),
       },
     });
   },
