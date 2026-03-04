@@ -29,11 +29,6 @@ import { ROUTES } from '~/app/routes';
 - RTK Query is used across the app except `store/tv/` which is legacy Redux interacting with the TMDB API
 - Use typed hooks: `useAppSelector`, `useAppDispatch`
 
-### TypeScript Validation and Linting
-
-- After changing more than 10 lines of code, run `npm run validate`. If it fails, fix the TypeScript/Eslint error(s) before continuing
-- IMPORTANT: Only do the following lint step if explcitily asked to: you can run `npm run lint:fix` to automatically fix prettier formatting issues. Do not do this unless the prompt included a term like "run lint".
-
 ### Components
 
 - When defining a React component props type, name it `Props` (not `ComponentNameProps`)

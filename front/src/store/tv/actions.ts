@@ -239,6 +239,7 @@ export const getRecommendationsForSingleShow =
   };
 
 const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
+const FOR_YOU_MIN_SOURCE_RATING = 8.2;
 
 function pickStableIndices(arrayLength: number, count: number): number[] {
   const epoch = Math.floor(Date.now() / FIVE_HOURS_MS);
@@ -253,6 +254,11 @@ function pickStableIndices(arrayLength: number, count: number): number[] {
   return indices;
 }
 
+const pickStableIds = (ids: number[], count: number): number[] => {
+  const indices = pickStableIndices(ids.length, count);
+  return indices.map(index => ids[index]);
+};
+
 export const fetchForYouShowsAction =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
@@ -265,9 +271,24 @@ export const fetchForYouShowsAction =
       return;
     }
 
+    dispatch(getShowDetailsForFollowedShows());
+    const { showDetails } = getState().tv;
+
     const sorted = [...followedShows].sort((a, b) => a - b);
-    const indices = pickStableIndices(sorted.length, 2);
-    const selectedIds = indices.map(i => sorted[i]);
+    const highRatedFollowedShows = sorted.filter(showId => {
+      const showRating = showDetails[showId]?.vote_average;
+      return !!showRating && showRating >= FOR_YOU_MIN_SOURCE_RATING;
+    });
+
+    const selectedHighRatedIds = pickStableIds(highRatedFollowedShows, 2);
+    const remainingIds = sorted.filter(
+      id => !selectedHighRatedIds.includes(id)
+    );
+    const fallbackIds = pickStableIds(
+      remainingIds,
+      2 - selectedHighRatedIds.length
+    );
+    const selectedIds = [...selectedHighRatedIds, ...fallbackIds];
 
     const results = await Promise.allSettled(
       selectedIds.map(id => tmdbApi.getRecommendations(id))
