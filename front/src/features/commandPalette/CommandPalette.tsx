@@ -73,6 +73,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
   const [tmdbResults, setTmdbResults] = useState<TmdbShowSummary[]>([]);
   const [isSearchingTmdb, setIsSearchingTmdb] = useState(false);
   const searchTimeoutRef = useRef<number | null>(null);
@@ -85,6 +86,18 @@ export const CommandPaletteProvider = ({ children }: Props) => {
     show.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const availablePages = PAGES.filter(page => !page.requiresAuth || isLoggedIn);
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+  const firstSelectableValue = !normalizedSearchTerm
+    ? recentShows[0]
+      ? `${recentShows[0].name} ${recentShows[0].id}`
+      : (availablePages[0]?.name ?? '')
+    : filteredFollowedShows[0]
+      ? `${filteredFollowedShows[0].name} ${filteredFollowedShows[0].id}`
+      : tmdbResults[0]
+        ? `${tmdbResults[0].name} ${tmdbResults[0].id}`
+        : (availablePages.find(page =>
+            page.name.toLowerCase().includes(normalizedSearchTerm)
+          )?.name ?? '');
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -146,9 +159,20 @@ export const CommandPaletteProvider = ({ children }: Props) => {
   useEffect(() => {
     if (!isOpen) {
       setSearchTerm('');
+      setSelectedValue('');
       setTmdbResults([]);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || !firstSelectableValue) {
+      return;
+    }
+
+    setSelectedValue(prev =>
+      prev === firstSelectableValue ? prev : firstSelectableValue
+    );
+  }, [firstSelectableValue, isOpen]);
 
   const handleNavigateToShow = (showId: number) => {
     setIsOpen(false);
@@ -171,6 +195,26 @@ export const CommandPaletteProvider = ({ children }: Props) => {
       <Command.Dialog
         open={isOpen}
         onOpenChange={setIsOpen}
+        value={selectedValue}
+        onValueChange={setSelectedValue}
+        filter={(value, search, keywords) => {
+          const normalizedSearch = search.trim().toLowerCase();
+          if (!normalizedSearch) {
+            return 1;
+          }
+
+          const normalizedValue = value.toLowerCase();
+          const matchesValue = normalizedValue.includes(normalizedSearch);
+          if (matchesValue) {
+            return 1;
+          }
+
+          const hasKeywordMatch = (keywords ?? []).some(keyword =>
+            keyword.toLowerCase().includes(normalizedSearch)
+          );
+
+          return hasKeywordMatch ? 1 : 0;
+        }}
         label="Command Palette"
         className="cmdk-dialog"
         loop
@@ -229,7 +273,8 @@ export const CommandPaletteProvider = ({ children }: Props) => {
                 {filteredFollowedShows.slice(0, 8).map(show => (
                   <Command.Item
                     key={`followed-${show.id}`}
-                    value={show.name}
+                    value={`${show.name} ${show.id}`}
+                    keywords={[show.name.toLowerCase()]}
                     onSelect={() => handleNavigateToShow(show.id)}
                     className="cmdk-item"
                   >
