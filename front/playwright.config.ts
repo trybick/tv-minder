@@ -7,7 +7,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  // Using 1 worker in CI is standard. Also use only one worker locally to avoid flakiness locally on older laptop
+  workers: 1,
   reporter: 'html',
   outputDir: './e2e/test-results',
 

@@ -1,4 +1,4 @@
-import { Box, Separator } from '@chakra-ui/react';
+import { Box, Separator, Skeleton } from '@chakra-ui/react';
 
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
@@ -28,11 +28,15 @@ export const LazyCarouselSection = ({ config, items, index }: Props) => {
         title={config.title}
         subtitle={config.subtitle}
       />
-      <Carousel
-        items={isNear ? items : []}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-      />
+      {isNear ? (
+        <Carousel
+          items={items}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
+      ) : (
+        <Skeleton borderRadius="xl" h={{ base: '260px', md: '320px' }} />
+      )}
     </Box>
   );
 };
