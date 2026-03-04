@@ -56,9 +56,15 @@ export const TitleRow = ({ show }: Props) => {
           px={3}
           py={1}
           mt={1}
+          flexShrink={0}
         >
           <Status.Indicator />
-          <Text fontSize="sm" fontWeight="bold" letterSpacing="wider">
+          <Text
+            fontSize="sm"
+            fontWeight="bold"
+            letterSpacing="wider"
+            whiteSpace="nowrap"
+          >
             {statusForDisplay.label}
           </Text>
         </Status.Root>
