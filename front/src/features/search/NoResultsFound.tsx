@@ -3,7 +3,13 @@ import { FiSearch } from 'react-icons/fi';
 
 export const NoResultsFound = () => {
   return (
-    <Flex direction="column" align="center" justify="center" minH="40vh" gap={4}>
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      minH="40vh"
+      gap={4}
+    >
       <Flex
         align="center"
         bg="whiteAlpha.50"
@@ -22,7 +28,13 @@ export const NoResultsFound = () => {
           No results found
         </Heading>
 
-        <Text color="fg.muted" fontSize="sm" textAlign="center" maxW="280px" lineHeight="1.5">
+        <Text
+          color="fg.muted"
+          fontSize="sm"
+          textAlign="center"
+          maxW="280px"
+          lineHeight="1.5"
+        >
           Try adjusting your search or filters to find what you&apos;re looking
           for.
         </Text>

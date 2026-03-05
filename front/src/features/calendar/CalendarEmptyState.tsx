@@ -75,12 +75,7 @@ export const CalendarEmptyState = () => {
         </Text>
       </Box>
 
-      <Flex
-        gap={3}
-        flexWrap="wrap"
-        justify="center"
-        maxW="560px"
-      >
+      <Flex gap={3} flexWrap="wrap" justify="center" maxW="560px">
         {FEATURES.map(feature => (
           <Flex
             key={feature.title}
