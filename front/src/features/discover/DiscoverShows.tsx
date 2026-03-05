@@ -1,4 +1,4 @@
-import { Box, Separator } from '@chakra-ui/react';
+import { Box, Flex, Heading, Separator, Text } from '@chakra-ui/react';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 import { type ReactNode, useEffect } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
@@ -14,6 +14,8 @@ import {
 import { MdOutlineMovie } from 'react-icons/md';
 import { SiAppletv, SiHbo, SiNetflix } from 'react-icons/si';
 import { TbBrandDisney } from 'react-icons/tb';
+
+import { FiCalendar, FiHeart, FiSearch } from 'react-icons/fi';
 
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
@@ -133,6 +135,65 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
   },
 ];
 
+const HOW_IT_WORKS_STEPS: { icon: ReactNode; label: string }[] = [
+  { icon: <FiSearch />, label: 'Search shows' },
+  { icon: <FiHeart />, label: 'Click Follow' },
+  { icon: <FiCalendar />, label: 'Track episodes' },
+];
+
+const WelcomeHeroStrip = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  if (isLoggedIn) {
+    return null;
+  }
+
+  return (
+    <Box textAlign="center" mb={8} mt={1} px={2}>
+      <Heading
+        as="h1"
+        fontSize={{ base: 'xl', md: '2xl' }}
+        fontWeight="800"
+        letterSpacing="-0.02em"
+        mb={1.5}
+      >
+        Your personal TV episode calendar
+      </Heading>
+      <Text color="fg.muted" fontSize="sm" mb={5}>
+        Follow shows to get a personalized schedule of upcoming episodes
+      </Text>
+      <Flex justify="center" gap={2} flexWrap="wrap">
+        {HOW_IT_WORKS_STEPS.map((step, index) => (
+          <Flex key={step.label} align="center" gap={1.5}>
+            <Flex
+              align="center"
+              gap={2}
+              px={3}
+              py={1.5}
+              borderRadius="full"
+              bg="whiteAlpha.100"
+              borderWidth="1px"
+              borderColor="whiteAlpha.200"
+              fontSize="xs"
+              fontWeight="500"
+              color="fg.subtle"
+            >
+              <Box color="cyan.400" display="flex" alignItems="center">
+                {step.icon}
+              </Box>
+              {step.label}
+            </Flex>
+            {index < HOW_IT_WORKS_STEPS.length - 1 && (
+              <Text fontSize="xs" color="fg.subtle" mx={0.5}>
+                →
+              </Text>
+            )}
+          </Flex>
+        ))}
+      </Flex>
+    </Box>
+  );
+};
+
 const keyExtractor = (show: ShowItem) => show.id;
 const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
@@ -188,6 +249,7 @@ export const DiscoverShows = () => {
 
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
+      <WelcomeHeroStrip />
       <DiscoverNav items={carouselConfigs} />
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (

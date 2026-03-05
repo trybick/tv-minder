@@ -1,5 +1,6 @@
-import { Box, Flex, Separator } from '@chakra-ui/react';
+import { Box, Flex, Icon, Separator } from '@chakra-ui/react';
 import { useRef } from 'react';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { useLocation } from 'wouter';
 
 import {
@@ -10,7 +11,6 @@ import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import { HelpPopover } from './HelpPopover';
 import { LoginButton } from './LoginButton';
 import { Logo } from './Logo';
 import { NavigationLinks } from './NavLinksContainer';
@@ -29,23 +29,24 @@ export const HeaderMobile = () => {
   return (
     <>
       <Box position="relative" ref={headerWrapperRef}>
-        <Flex align="center" as="nav" px="4" py="2" wrap="wrap">
+        <Flex align="center" as="nav" px="4" py="2.5" wrap="wrap">
           <Logo onClose={closeHeader} />
 
-          <Flex align="center" gap="1">
-            <HelpPopover />
+          <Flex align="center" gap="0.5">
             <CommandPaletteButton onClick={openPalette} />
 
-            <Box cursor="pointer" onClick={toggleHeader} p="2">
-              <svg
-                fill="teal"
-                viewBox="0 0 20 20"
-                width="20px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title>Menu</title>
-                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-              </svg>
+            <Box
+              as="button"
+              aria-label={isHeaderOpen ? 'Close menu' : 'Open menu'}
+              cursor="pointer"
+              onClick={toggleHeader}
+              p="2"
+              borderRadius="md"
+              color="cyan.400"
+              _hover={{ bg: 'whiteAlpha.100' }}
+              transition="all 150ms"
+            >
+              <Icon as={isHeaderOpen ? FiX : FiMenu} boxSize={5} />
             </Box>
           </Flex>
         </Flex>
@@ -57,9 +58,9 @@ export const HeaderMobile = () => {
             right="0"
             bg="bg"
             borderWidth="1px"
-            borderColor="bg"
+            borderColor="whiteAlpha.100"
             borderTopWidth="0"
-            shadow="lg"
+            shadow="xl"
             zIndex="dropdown"
             px="5"
             py="4"

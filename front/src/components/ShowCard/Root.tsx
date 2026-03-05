@@ -47,6 +47,11 @@ export const Root = ({
         transition="all 0.2s ease-out"
         position="relative"
         bg="whiteAlpha.50"
+        _hover={{
+          borderColor: 'whiteAlpha.300',
+          transform: 'translateY(-3px)',
+          boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
+        }}
         onMouseEnter={() => onHoverChange?.(true)}
         onMouseLeave={() => onHoverChange?.(false)}
         data-group

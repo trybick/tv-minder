@@ -26,6 +26,7 @@ import {
 import { trackEvent } from '~/utils/analytics';
 import { dayjs } from '~/utils/dayjs';
 
+import { CalendarEmptyState } from './CalendarEmptyState';
 import { CalendarHeader } from './CalendarHeader';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
 import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
@@ -154,6 +155,9 @@ export const CalendarPage = () => {
     datesSet: handleDatesSet,
   };
 
+  const isReady = !isLoadingCalendarEpisodes && !isLoadingFollowedShows;
+  const hasNoFollowedShows = isReady && !followedShows.length;
+
   return (
     <>
       <title>Calendar | TV Minder</title>
@@ -164,16 +168,18 @@ export const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        <CalendarHeader
-          calendarRef={calendarRef}
-          title={calendarTitle}
-          viewRange={viewRange}
-        />
-        <FullCalendar
-          {...calendarProps}
-          // Refreshes the calendar to update the correct day
-          key={dayjs().format('MM-DD-YYYY')}
-        />
+        {!hasNoFollowedShows && (
+          <CalendarHeader
+            calendarRef={calendarRef}
+            title={calendarTitle}
+            viewRange={viewRange}
+          />
+        )}
+        {hasNoFollowedShows ? (
+          <CalendarEmptyState />
+        ) : (
+          <FullCalendar {...calendarProps} key={dayjs().format('MM-DD-YYYY')} />
+        )}
       </Box>
     </>
   );
