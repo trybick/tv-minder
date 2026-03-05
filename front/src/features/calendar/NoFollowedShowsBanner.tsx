@@ -1,21 +1,9 @@
-import { Alert, Link } from '@chakra-ui/react';
-import { type MouseEvent } from 'react';
-import { useLocation } from 'wouter';
+import { Alert } from '@chakra-ui/react';
 
-import { ROUTES } from '~/app/routes';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
-import { useAppSelector } from '~/store';
-import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 
 export const NoFollowedShowsBanner = () => {
   const { isMobile } = useResponsiveLayout();
-  const [, navigate] = useLocation();
-  const followedShows = useAppSelector(selectFollowedShows);
-
-  const handleClickHome = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    navigate(ROUTES.HOME);
-  };
 
   return (
     <Alert.Root
@@ -27,21 +15,7 @@ export const NoFollowedShowsBanner = () => {
       alignItems="center"
     >
       <Alert.Indicator />
-      {followedShows.length ? (
-        <Alert.Title fontSize="14px">No new episodes this month</Alert.Title>
-      ) : (
-        <Alert.Title fontSize="14px">
-          <Link
-            onClick={handleClickHome}
-            textDecorationThickness="2px"
-            variant="underline"
-            href={ROUTES.HOME}
-          >
-            Follow some shows
-          </Link>{' '}
-          to see new episodes in your calendar
-        </Alert.Title>
-      )}
+      <Alert.Title fontSize="14px">No new episodes this month</Alert.Title>
     </Alert.Root>
   );
 };

@@ -52,7 +52,7 @@ export const App = () => {
         <Toaster />
         <Modals />
 
-        <Flex direction="column" minH="97vh">
+        <Flex direction="column" minH="100vh" flex="1">
           {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
 
           <Switch>

@@ -1,25 +1,44 @@
-import { Flex, Heading, Image, Text } from '@chakra-ui/react';
-
-import noResultsImage from '~/assets/images/no-results.png';
+import { Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { FiSearch } from 'react-icons/fi';
 
 export const NoResultsFound = () => {
   return (
-    <Flex direction="column" align="center" justify="center" minH="40vh">
-      <Image
-        src={noResultsImage}
-        alt="No results found"
-        boxSize="120px"
-        opacity={0.7}
-        mb="6"
-      />
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      minH="40vh"
+      gap={4}
+    >
+      <Flex
+        align="center"
+        bg="whiteAlpha.50"
+        border="1px solid"
+        borderColor="whiteAlpha.100"
+        borderRadius="full"
+        h="72px"
+        justify="center"
+        w="72px"
+      >
+        <Icon as={FiSearch} boxSize={7} color="fg.muted" opacity={0.5} />
+      </Flex>
 
-      <Heading as="h2" size="md" color="gray.700" mb="2">
-        No results found
-      </Heading>
+      <Flex align="center" direction="column" gap={1.5}>
+        <Heading as="h2" fontSize="lg" color="fg">
+          No results found
+        </Heading>
 
-      <Text color="gray.500" fontSize="lg" textAlign="center" maxW="300px">
-        {`Try adjusting your search to find what you're looking for.`}
-      </Text>
+        <Text
+          color="fg.muted"
+          fontSize="sm"
+          textAlign="center"
+          maxW="280px"
+          lineHeight="1.5"
+        >
+          Try adjusting your search or filters to find what you&apos;re looking
+          for.
+        </Text>
+      </Flex>
     </Flex>
   );
 };
