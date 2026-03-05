@@ -86,9 +86,9 @@ export const CalendarEmptyState = () => {
             key={feature.title}
             direction="column"
             align="center"
-            gap={2}
+            gap={3}
             px={4}
-            py={3.5}
+            py={5}
             borderRadius="xl"
             bg="whiteAlpha.50"
             borderWidth="1px"

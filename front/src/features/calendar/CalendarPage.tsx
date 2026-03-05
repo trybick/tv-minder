@@ -156,7 +156,7 @@ export const CalendarPage = () => {
   };
 
   const isReady = !isLoadingCalendarEpisodes && !isLoadingFollowedShows;
-  const hasNoFollowedShows = isReady && !followedShows.length;
+  const hasFollowedShows = isReady && !!followedShows.length;
 
   return (
     <>
@@ -168,14 +168,14 @@ export const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        {!hasNoFollowedShows && (
+        {hasFollowedShows && (
           <CalendarHeader
             calendarRef={calendarRef}
             title={calendarTitle}
             viewRange={viewRange}
           />
         )}
-        {hasNoFollowedShows ? (
+        {!hasFollowedShows ? (
           <CalendarEmptyState />
         ) : (
           <FullCalendar {...calendarProps} key={dayjs().format('MM-DD-YYYY')} />

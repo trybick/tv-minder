@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   Icon,
   Image,
@@ -8,6 +7,7 @@ import {
   Separator,
   Text,
 } from '@chakra-ui/react';
+import { type MouseEvent } from 'react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
 import { FiCalendar, FiCompass, FiList } from 'react-icons/fi';
 import { useLocation } from 'wouter';
@@ -32,7 +32,7 @@ export const Footer = () => {
   const [, navigate] = useLocation();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  const handleNavigate = (href: string) => (e: React.MouseEvent) => {
+  const handleNavigate = (href: string) => (e: MouseEvent) => {
     e.preventDefault();
     navigate(href);
   };
@@ -58,7 +58,12 @@ export const Footer = () => {
             gap={3}
           >
             <Image alt="TV Minder logo" h="18px" src={logo} />
-            <Text color="fg.muted" fontSize="xs" maxW="260px" textAlign={{ base: 'center', md: 'left' }}>
+            <Text
+              color="fg.muted"
+              fontSize="xs"
+              maxW="260px"
+              textAlign={{ base: 'center', md: 'left' }}
+            >
               Track your favorite TV shows and never miss an episode.
             </Text>
           </Flex>
@@ -109,32 +114,36 @@ export const Footer = () => {
               </Text>
             )}
 
-            <Flex align="center" gap={3}>
+            <Flex direction="column" gap={2}>
               <Link
-                aria-label="GitHub"
+                alignItems="center"
+                color="fg.muted"
                 display="flex"
+                fontSize="sm"
+                gap={2}
                 href="https://github.com/trybick/tv-minder"
                 rel="noopener noreferrer"
                 target="_blank"
+                _hover={{ color: 'cyan.400' }}
+                transition="color 0.15s"
               >
-                <Icon
-                  as={FaGithub}
-                  boxSize={5}
-                  color="fg.muted"
-                  _hover={{ color: 'fg' }}
-                  transition="color 0.15s"
-                />
+                <Icon as={FaGithub} boxSize={4} />
+                GitHub
               </Link>
 
-              <Button
-                colorPalette="cyan"
+              <Link
+                alignItems="center"
+                color="fg.muted"
+                display="flex"
+                fontSize="sm"
+                gap={2}
                 onClick={() => dispatch(setIsFeedbackModalOpen(true))}
-                size="sm"
-                variant="subtle"
+                _hover={{ color: 'cyan.400', cursor: 'pointer' }}
+                transition="color 0.15s"
               >
-                <FaRegComment />
+                <Icon as={FaRegComment} boxSize={4} />
                 Send Feedback
-              </Button>
+              </Link>
             </Flex>
           </Flex>
         </Flex>
