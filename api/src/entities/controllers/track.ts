@@ -51,8 +51,8 @@ export const getTracks = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ _id: userId });
     if (user) {
-      const shows =
-        user.trackedShows ?? (user as { followedShows?: number[] }).followedShows ?? [];
+      // Backward compatibility: use trackedShows, fall back to legacy followedShows for pre-migration documents
+      const shows = user.trackedShows ?? (user as { followedShows?: number[] }).followedShows ?? [];
       res.status(200).json(shows);
     } else {
       return res.status(404).json({
