@@ -21,8 +21,7 @@ export const SeasonsAccordion = () => {
 
   const nonSpecialsSeasonIds =
     seasonsWithEpisodes?.filter(s => !s.isSpecialsSeason).map(s => s.id) ?? [];
-  const latestSeasonId =
-    nonSpecialsSeasonIds.length >= 2 ? nonSpecialsSeasonIds[0] : null;
+  const latestSeasonId = nonSpecialsSeasonIds[0] || null;
 
   const createAccordionItems = () =>
     seasonsWithEpisodes?.map(
@@ -59,7 +58,7 @@ export const SeasonsAccordion = () => {
                 )}
                 {id === latestSeasonId && (
                   <Badge colorPalette="cyan" size="sm" variant="subtle">
-                    Latest
+                    Latest Season
                   </Badge>
                 )}
               </Flex>
