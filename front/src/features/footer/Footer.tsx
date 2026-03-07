@@ -142,7 +142,7 @@ export const Footer = () => {
                 transition="color 0.15s"
               >
                 <Icon as={FaRegComment} boxSize={4} />
-                Send Feedback
+                Share Feedback
               </Link>
             </Flex>
           </Flex>

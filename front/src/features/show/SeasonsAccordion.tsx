@@ -1,4 +1,4 @@
-import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Badge, Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -19,6 +19,11 @@ export const SeasonsAccordion = () => {
   const hasEpisodes =
     currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;
 
+  const nonSpecialsSeasonIds =
+    seasonsWithEpisodes?.filter(s => !s.isSpecialsSeason).map(s => s.id) ?? [];
+  const latestSeasonId =
+    nonSpecialsSeasonIds.length >= 2 ? nonSpecialsSeasonIds[0] : null;
+
   const createAccordionItems = () =>
     seasonsWithEpisodes?.map(
       ({ airDate, episodes, id, isSpecialsSeason, nameForDisplay }) => (
@@ -38,7 +43,7 @@ export const SeasonsAccordion = () => {
             transition="background 0.2s"
           >
             <Flex flex="1" direction="column" textAlign="left" gap={1}>
-              <Box>
+              <Flex alignItems="center" gap={2} flexWrap="wrap">
                 <Text
                   display="inline"
                   fontSize="lg"
@@ -46,18 +51,18 @@ export const SeasonsAccordion = () => {
                   color="fg"
                 >
                   {nameForDisplay}
-                </Text>{' '}
+                </Text>
                 {!isSpecialsSeason && airDate && (
-                  <Text
-                    display="inline"
-                    fontSize="md"
-                    color="fg.muted"
-                    ml={0.5}
-                  >
+                  <Text display="inline" fontSize="md" color="fg.muted">
                     ({dayjs(airDate).year()})
                   </Text>
                 )}
-              </Box>
+                {id === latestSeasonId && (
+                  <Badge colorPalette="cyan" size="sm" variant="subtle">
+                    Latest
+                  </Badge>
+                )}
+              </Flex>
               <Text fontSize="sm" color="fg.muted">
                 {episodes.length} Episodes
               </Text>

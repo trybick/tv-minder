@@ -4,13 +4,24 @@ import { FiCalendar, FiHeart, FiSearch } from 'react-icons/fi';
 
 const HOW_IT_WORKS_STEPS: { icon: ReactNode; label: string }[] = [
   { icon: <FiSearch />, label: 'Search shows' },
-  { icon: <FiHeart />, label: 'Click Follow' },
+  { icon: <FiHeart />, label: 'Click Track' },
   { icon: <FiCalendar />, label: 'Track episodes' },
 ];
 
 export const WelcomeHeroStrip = () => {
   return (
-    <Box textAlign="center" mb={10} mt={2} px={2}>
+    <Box
+      textAlign="center"
+      mb={10}
+      mt={2}
+      px={6}
+      py={6}
+      borderWidth="1px"
+      borderColor="whiteAlpha.200"
+      borderRadius="xl"
+      maxW="2xl"
+      mx="auto"
+    >
       <Heading
         as="h1"
         fontSize={{ base: 'xl', md: '2xl' }}
@@ -25,7 +36,7 @@ export const WelcomeHeroStrip = () => {
         </Box>
       </Heading>
       <Text color="fg.muted" fontSize="sm" mb={6} maxW="400px" mx="auto">
-        Follow shows to get a personalized schedule of upcoming episodes
+        Track shows to get a personalized schedule of upcoming episodes
       </Text>
       <Flex justify="center" gap={2} flexWrap="wrap">
         {HOW_IT_WORKS_STEPS.map((step, index) => (

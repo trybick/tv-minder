@@ -87,7 +87,7 @@ export const FollowButton = ({
           _groupHover={{ display: 'none' }}
         >
           <Icon as={CiCircleMinus} boxSize="18px" opacity={0.9} />
-          Following
+          Tracking
         </Flex>
         <Flex
           align="center"
@@ -96,7 +96,7 @@ export const FollowButton = ({
           _groupHover={{ display: 'flex' }}
         >
           <Icon as={CiCircleMinus} boxSize="18px" opacity={0.95} />
-          Unfollow
+          Untrack
         </Flex>
       </Flex>
     </Button>
@@ -115,7 +115,7 @@ export const FollowButton = ({
         opacity={0.85}
         style={{ marginInlineEnd: '-0.2rem' }}
       />
-      Follow
+      Track
     </Button>
   );
 };

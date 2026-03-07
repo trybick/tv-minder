@@ -244,9 +244,19 @@ const formatSeasons = (
   const specialsIndex = camelCaseSeasons.findIndex(
     season => season.seasonNumber === 0
   );
-  // Move 'Specials' season to end of seasons list
   if (specialsIndex === 0 || specialsIndex) {
     camelCaseSeasons.push(camelCaseSeasons.splice(specialsIndex, 1)[0]);
+  }
+
+  const specials = camelCaseSeasons[camelCaseSeasons.length - 1]
+    ?.isSpecialsSeason
+    ? camelCaseSeasons.pop()
+    : undefined;
+
+  camelCaseSeasons.sort((a, b) => b.seasonNumber - a.seasonNumber);
+
+  if (specials) {
+    camelCaseSeasons.push(specials);
   }
 
   return camelCaseSeasons.filter(season => season.episodes.length);

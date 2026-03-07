@@ -12,8 +12,8 @@ type Feature = { icon: ReactNode; title: string; description: string };
 const FEATURES: Feature[] = [
   {
     icon: <FiSearch />,
-    title: 'Search & Follow',
-    description: 'Find your favorite shows and follow them',
+    title: 'Search & Track',
+    description: 'Find your favorite shows and track them',
   },
   {
     icon: <FiHeart />,
@@ -70,7 +70,7 @@ export const CalendarEmptyState = () => {
           Your personalized TV schedule
         </Heading>
         <Text color="fg.muted" fontSize="sm" maxW="380px">
-          Follow your favorite shows and see every upcoming episode here, all in
+          Track your favorite shows and see every upcoming episode here, all in
           one place.
         </Text>
       </Box>
