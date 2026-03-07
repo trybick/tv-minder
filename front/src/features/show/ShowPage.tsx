@@ -1,7 +1,8 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { useParams } from 'wouter';
+import { useLocation, useParams } from 'wouter';
 
+import { ROUTES } from '~/app/routes';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { addRecentShow } from '~/store/rtk/slices/recentShows.slice';
@@ -13,22 +14,24 @@ import { SimilarShows } from './SimilarShows';
 
 export const ShowPage = () => {
   const dispatch = useAppDispatch();
+  const [, navigate] = useLocation();
   const { isMobile } = useResponsiveLayout();
   const { showId } = useParams<{ showId: string }>();
   const showInfo = useAppSelector(selectCurrentShowInfo);
   const name = window.history.state?.name || showInfo?.name;
 
-  // Scroll to top of page when the page is loaded. This solves this issue of
-  // the page loading scrolled down when the previous page was scrolled.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [showId]);
 
   useEffect(() => {
-    if (showId) {
-      dispatch(getShowDetailsWithSeasons(+showId));
+    const parsedId = Number(showId);
+    if (!showId || !Number.isInteger(parsedId) || parsedId <= 0) {
+      navigate(ROUTES.HOME);
+      return;
     }
-  }, [dispatch, showId]);
+    dispatch(getShowDetailsWithSeasons(parsedId));
+  }, [dispatch, showId, navigate]);
 
   useEffect(() => {
     if (showInfo?.id && showInfo?.name) {

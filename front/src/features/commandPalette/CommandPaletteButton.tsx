@@ -88,7 +88,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         bg: 'whiteAlpha.100',
         borderColor: 'whiteAlpha.300',
       }}
-      minW="200px"
+      minW={{ base: '190px', xl: '220px', '2xl': '260px' }}
     >
       <MdSearch size={16} />
       <Box flex="1" textAlign="left">

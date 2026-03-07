@@ -45,7 +45,7 @@ export const NoFollowedShowsMessage = () => {
 
       <Flex align="center" direction="column" gap={1.5}>
         <Text color="fg" fontSize="lg" fontWeight="600">
-          No followed shows yet
+          No tracked shows yet
         </Text>
         <Text
           color="fg.muted"
@@ -54,8 +54,8 @@ export const NoFollowedShowsMessage = () => {
           maxW="320px"
           textAlign="center"
         >
-          Shows you follow will appear here. Follow shows to track them and see
-          upcoming episodes on your calendar.
+          Shows you track will appear here. Track shows to see upcoming episodes
+          on your calendar.
         </Text>
       </Flex>
 

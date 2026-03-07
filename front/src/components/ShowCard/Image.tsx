@@ -41,6 +41,8 @@ export const Image = ({ children }: PropsWithChildren) => {
       position="relative"
       display="block"
       overflow="hidden"
+      _focus={{ outline: 'none', boxShadow: 'none' }}
+      _focusVisible={{ outline: 'none', boxShadow: 'none' }}
     >
       <ChakraImage
         alt={`show-${show.name}`}

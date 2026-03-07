@@ -269,7 +269,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
             {/* Followed Shows - before search results and pages */}
             {filteredFollowedShows.length > 0 && (
-              <Command.Group heading="Following" className="cmdk-group">
+              <Command.Group heading="Tracking" className="cmdk-group">
                 {filteredFollowedShows.slice(0, 8).map(show => (
                   <Command.Item
                     key={`followed-${show.id}`}
@@ -285,7 +285,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
                       loading="lazy"
                     />
                     <span className="cmdk-item-name">{show.name}</span>
-                    <span className="cmdk-item-badge">Following</span>
+                    <span className="cmdk-item-badge">Tracking</span>
                   </Command.Item>
                 ))}
               </Command.Group>

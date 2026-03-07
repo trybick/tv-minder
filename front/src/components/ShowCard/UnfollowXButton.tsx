@@ -62,14 +62,14 @@ export const UnfollowXButton = () => {
           <Dialog.Positioner>
             <Dialog.Content bg="bg.muted">
               <Dialog.Header>
-                <Dialog.Title>Confirm Unfollow</Dialog.Title>
+                <Dialog.Title>Confirm Untrack</Dialog.Title>
                 <Dialog.CloseTrigger asChild>
                   <CloseButton color="fg.muted" />
                 </Dialog.CloseTrigger>
               </Dialog.Header>
               <Dialog.Body>
                 <Text color="fg.muted" fontSize="md">
-                  {`Are you sure you want to unfollow ${showName}?`}
+                  {`Are you sure you want to untrack ${showName}?`}
                 </Text>
               </Dialog.Body>
               <Dialog.Footer gap="4">
@@ -85,7 +85,7 @@ export const UnfollowXButton = () => {
                   onClick={onConfirmUnfollow}
                   variant="surface"
                 >
-                  Unfollow
+                  Untrack
                 </Button>
               </Dialog.Footer>
             </Dialog.Content>

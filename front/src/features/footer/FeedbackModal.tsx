@@ -108,7 +108,7 @@ export const FeedbackModal = () => {
       <Dialog.Positioner>
         <Dialog.Content bg="bg.muted">
           <Dialog.Header>
-            <Dialog.Title>Send Feedback</Dialog.Title>
+            <Dialog.Title>Share Feedback</Dialog.Title>
             <Dialog.CloseTrigger asChild>
               <CloseButton
                 color="fg.muted"

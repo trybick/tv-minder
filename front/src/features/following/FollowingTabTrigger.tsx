@@ -23,6 +23,7 @@ export const FollowingTabTrigger = ({
       minW={isMobile ? 'max-content' : undefined}
       flexShrink={isMobile ? 0 : 1}
       px={isMobile ? 2 : 5}
+      _hover={{ color: 'white', bg: 'whiteAlpha.100' }}
     >
       {label}
     </Tabs.Trigger>
