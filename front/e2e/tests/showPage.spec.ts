@@ -76,8 +76,9 @@ test.describe('Show Page', () => {
     await page.goto('/');
     await login(page);
 
+    await page.locator('#discover-trending').scrollIntoViewIfNeeded();
     await page
-      .getByRole('link', { name: /mobland/i })
+      .locator(`a[href="/show/${showTitleToId.mobland}"]`)
       .first()
       .click();
 
