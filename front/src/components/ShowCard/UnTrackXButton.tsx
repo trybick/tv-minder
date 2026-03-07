@@ -10,7 +10,7 @@ import {
 
 import { useShowCardContext } from './context';
 
-export const UnTrackXButton = () => {
+export const UntrackXButton = () => {
   const { show } = useShowCardContext();
   const { id: showId, name: showName } = show;
   const dispatch = useAppDispatch();
