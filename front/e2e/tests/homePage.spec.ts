@@ -18,7 +18,7 @@ test.describe('Home Page', () => {
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
-        page.getByRole('button', { name: /follow/i }).first()
+        page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();
 
       await expect(
@@ -49,7 +49,7 @@ test.describe('Home Page', () => {
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
-        page.getByRole('button', { name: /follow/i }).first()
+        page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();
 
       await expect(
@@ -70,19 +70,56 @@ test.describe('Home Page', () => {
         page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
     });
+
+    test('should show search results with track buttons', async ({ page }) => {
+      await page.goto('/');
+
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
+
+      await expect(page.getByLabel(/search-result/).first()).toBeVisible();
+      await expect(
+        page.getByRole('button', { name: /track/i }).first()
+      ).toBeVisible();
+    });
   });
 
-  test.describe('Popular Shows', () => {
-    test('should navigate to show page when clicking a show', async ({
+  test.describe('Discover Sections', () => {
+    test('should navigate to a show page from trending now section', async ({
       page,
     }) => {
       await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+      await expect(page.getByText('MobLand').first()).toBeVisible({
+        timeout: 10000,
+      });
+
       await page
-        .getByRole('link', { name: /mobland/i })
+        .locator(`a[href="/show/${showTitleToId.mobland}"]`)
         .first()
         .click();
 
       await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
+    });
+
+    test('should hide discover sections when searching', async ({ page }) => {
+      await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
+
+      await expect(
+        page.getByRole('button', { name: /track/i }).first()
+      ).toBeVisible();
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).not.toBeVisible();
     });
   });
 });

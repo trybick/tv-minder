@@ -6,12 +6,13 @@ import { mockRequest } from '../mockRequest';
 test.describe('Calendar Page', () => {
   test('should have correct page title', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('link', { name: /calendar/i }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('link', { name: /calendar/i })
+      .click();
     await expect(page).toHaveTitle('Calendar | TV Minder');
 
-    await expect(
-      page.getByRole('link', { name: /follow some shows/i })
-    ).toBeVisible();
+    await expect(page.getByText(/track your favorite shows/i)).toBeVisible();
   });
 
   test('shows episodes on calendar for logged out user', async ({ page }) => {
@@ -22,21 +23,24 @@ test.describe('Calendar Page', () => {
       timeout: 10000,
     });
 
-    await page.getByLabel(`follow-button-${showTitleToId.mobland}`).click();
+    await page.getByLabel(`track-button-${showTitleToId.mobland}`).click();
 
     await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
 
-    await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
+    await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
     await page
       .getByRole('link', { name: /poker face/i })
       .first()
       .click();
     await expect(
-      page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/following/i);
+      page.getByLabel(`track-button-${showTitleToId.pokerface}`)
+    ).toHaveText(/tracking/i);
 
-    await page.getByRole('link', { name: /calendar/i }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('link', { name: /calendar/i })
+      .click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
     // Numbers are doubled because of the popover
@@ -54,17 +58,20 @@ test.describe('Calendar Page', () => {
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
 
-    await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
+    await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
     await expect(
-      page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/follow/i);
+      page.getByLabel(`track-button-${showTitleToId.pokerface}`)
+    ).toHaveText(/track/i);
   });
 
   test('shows episodes on calendar for logged in user', async ({ page }) => {
     await page.goto('/');
     await login(page);
 
-    await page.getByRole('link', { name: /calendar/i }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('link', { name: /calendar/i })
+      .click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
     // Wait for episode data to load
@@ -92,9 +99,9 @@ test.describe('Calendar Page', () => {
       method: 'DELETE',
     });
 
-    await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
+    await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
     await expect(
-      page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/follow/i);
+      page.getByLabel(`track-button-${showTitleToId.pokerface}`)
+    ).toHaveText(/track/i);
   });
 });
