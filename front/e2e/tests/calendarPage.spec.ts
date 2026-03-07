@@ -6,7 +6,7 @@ import { mockRequest } from '../mockRequest';
 test.describe('Calendar Page', () => {
   test('should have correct page title', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('link', { name: /calendar/i }).click();
+    await page.getByRole('navigation').getByRole('link', { name: /calendar/i }).click();
     await expect(page).toHaveTitle('Calendar | TV Minder');
 
     await expect(
@@ -34,9 +34,9 @@ test.describe('Calendar Page', () => {
       .click();
     await expect(
       page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/following/i);
+    ).toHaveText(/tracking/i);
 
-    await page.getByRole('link', { name: /calendar/i }).click();
+    await page.getByRole('navigation').getByRole('link', { name: /calendar/i }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
     // Numbers are doubled because of the popover
@@ -57,14 +57,14 @@ test.describe('Calendar Page', () => {
     await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
     await expect(
       page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/follow/i);
+    ).toHaveText(/track/i);
   });
 
   test('shows episodes on calendar for logged in user', async ({ page }) => {
     await page.goto('/');
     await login(page);
 
-    await page.getByRole('link', { name: /calendar/i }).click();
+    await page.getByRole('navigation').getByRole('link', { name: /calendar/i }).click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
     // Wait for episode data to load
@@ -95,6 +95,6 @@ test.describe('Calendar Page', () => {
     await page.getByLabel(`follow-button-${showTitleToId.pokerface}`).click();
     await expect(
       page.getByLabel(`follow-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/follow/i);
+    ).toHaveText(/track/i);
   });
 });

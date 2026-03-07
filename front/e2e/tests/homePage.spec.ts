@@ -70,6 +70,21 @@ test.describe('Home Page', () => {
         page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
     });
+
+    test('should show search results with follow buttons', async ({
+      page,
+    }) => {
+      await page.goto('/');
+
+      await page
+        .getByPlaceholder(/search for tv shows/i)
+        .fill('poker face');
+
+      await expect(page.getByLabel(/search-result/).first()).toBeVisible();
+      await expect(
+        page.getByRole('button', { name: /follow/i }).first()
+      ).toBeVisible();
+    });
   });
 
   test.describe('Popular Shows', () => {
@@ -83,6 +98,41 @@ test.describe('Home Page', () => {
         .click();
 
       await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
+    });
+  });
+
+  test.describe('Discover Sections', () => {
+    test('should display Trending Now section with shows', async ({
+      page,
+    }) => {
+      await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+      await expect(page.getByText('MobLand').first()).toBeVisible({
+        timeout: 10000,
+      });
+    });
+
+    test('should hide discover sections when searching', async ({ page }) => {
+      await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+
+      await page
+        .getByPlaceholder(/search for tv shows/i)
+        .fill('poker face');
+
+      await expect(
+        page.getByRole('button', { name: /follow/i }).first()
+      ).toBeVisible();
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).not.toBeVisible();
     });
   });
 });
