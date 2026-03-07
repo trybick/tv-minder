@@ -71,9 +71,9 @@ test.describe('Manage Page', () => {
       .click();
     await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
 
-    mockRequest({
+    await mockRequest({
       page,
-      path: '/api.tv-minder.com/follow*',
+      path: '**/follow',
       method: 'DELETE',
     });
 

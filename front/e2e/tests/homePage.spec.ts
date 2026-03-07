@@ -97,7 +97,7 @@ test.describe('Home Page', () => {
       });
 
       await page
-        .getByRole('link', { name: /mobland/i })
+        .locator(`a[href="/show/${showTitleToId.mobland}"]`)
         .first()
         .click();
 
