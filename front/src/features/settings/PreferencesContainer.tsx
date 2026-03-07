@@ -31,7 +31,9 @@ export const PreferencesContainer = () => {
       as="section"
       borderRadius="4px"
       borderWidth="1px"
-      margin="20px auto"
+      mt={5}
+      mx="auto"
+      mb={6}
       p={5}
       w={['80%', '75%', '50%', '30%']}
     >
