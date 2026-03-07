@@ -12,9 +12,7 @@ test.describe('Calendar Page', () => {
       .click();
     await expect(page).toHaveTitle('Calendar | TV Minder');
 
-    await expect(
-      page.getByRole('link', { name: /follow some shows/i })
-    ).toBeVisible();
+    await expect(page.getByText(/track your favorite shows/i)).toBeVisible();
   });
 
   test('shows episodes on calendar for logged out user', async ({ page }) => {
