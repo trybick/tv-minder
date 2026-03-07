@@ -1,10 +1,15 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+export interface IUserSettings {
+  showWelcomeStrip: boolean;
+}
+
 interface IUser {
   email: string;
   password: string;
   followedShows: number[];
   oneTimeCode?: number;
+  settings: IUserSettings;
 }
 
 interface UserDoc extends IUser, Document {
@@ -18,6 +23,9 @@ const UserSchema = new Schema<UserDoc>(
     password: { type: String, required: true },
     followedShows: [{ type: Number }],
     oneTimeCode: { type: Number },
+    settings: {
+      showWelcomeStrip: { type: Boolean, default: true },
+    },
   },
   { timestamps: true }
 );

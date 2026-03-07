@@ -19,6 +19,7 @@ import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { followApi } from '~/store/rtk/api/follow.api';
+import { useGetSettingsQuery } from '~/store/rtk/api/settings.api';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import {
@@ -148,6 +149,11 @@ export const DiscoverShows = () => {
     followApi.endpoints.getFollowedShows.select(undefined)
   );
 
+  const { data: settings } = useGetSettingsQuery(undefined, {
+    skip: !isLoggedIn,
+  });
+  const showWelcomeStrip = !isLoggedIn || settings?.showWelcomeStrip !== false;
+
   useEffect(() => {
     const shouldWaitForFollowedShows =
       isLoggedIn &&
@@ -188,7 +194,7 @@ export const DiscoverShows = () => {
 
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
-      <WelcomeHeroStrip />
+      {showWelcomeStrip && <WelcomeHeroStrip />}
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>
