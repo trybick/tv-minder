@@ -18,7 +18,7 @@ test.describe('Home Page', () => {
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
-        page.getByRole('button', { name: /follow/i }).first()
+        page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();
 
       await expect(
@@ -49,7 +49,7 @@ test.describe('Home Page', () => {
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
-        page.getByRole('button', { name: /follow/i }).first()
+        page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();
 
       await expect(
@@ -71,18 +71,14 @@ test.describe('Home Page', () => {
       ).toBeVisible();
     });
 
-    test('should show search results with follow buttons', async ({
-      page,
-    }) => {
+    test('should show search results with track buttons', async ({ page }) => {
       await page.goto('/');
 
-      await page
-        .getByPlaceholder(/search for tv shows/i)
-        .fill('poker face');
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(page.getByLabel(/search-result/).first()).toBeVisible();
       await expect(
-        page.getByRole('button', { name: /follow/i }).first()
+        page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();
     });
   });
@@ -102,9 +98,7 @@ test.describe('Home Page', () => {
   });
 
   test.describe('Discover Sections', () => {
-    test('should display Trending Now section with shows', async ({
-      page,
-    }) => {
+    test('should display Trending Now section with shows', async ({ page }) => {
       await page.goto('/');
 
       await expect(
@@ -122,12 +116,10 @@ test.describe('Home Page', () => {
         page.getByRole('heading', { name: 'Trending Now' })
       ).toBeVisible();
 
-      await page
-        .getByPlaceholder(/search for tv shows/i)
-        .fill('poker face');
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
       await expect(
-        page.getByRole('button', { name: /follow/i }).first()
+        page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();
 
       await expect(
