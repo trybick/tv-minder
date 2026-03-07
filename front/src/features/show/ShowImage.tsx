@@ -10,8 +10,6 @@ import {
   selectIsLoadingShowDetails,
   selectShowDataFromHistory,
 } from '~/store/tv/selectors';
-import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
-
 export const ShowImage = () => {
   const { isMobile } = useResponsiveLayout();
 
@@ -20,7 +18,6 @@ export const ShowImage = () => {
   const showDataFromHistory = useSelector(selectShowDataFromHistory);
 
   const { getImageUrl, placeholder } = useImageUrl();
-  const showId = getShowIdFromUrl();
 
   const shouldShowSkeleton =
     isLoading &&
@@ -44,7 +41,7 @@ export const ShowImage = () => {
           onError={e => (e.currentTarget.src = placeholder)}
           src={posterSrc}
           objectFit="cover"
-          viewTransitionName={`show-image-${showId}`}
+          viewTransitionName={`show-image-${currentShowInfo?.id}`}
         />
       </AspectRatio>
     </DelayedSkeleton>

@@ -11,6 +11,7 @@ import {
   SET_CURRENT_SHOW_ID,
 } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
+import { parseShowId } from '~/utils/parseShowId';
 
 import { ShowContainer } from './ShowContainer';
 import { SimilarShows } from './SimilarShows';
@@ -19,25 +20,30 @@ export const ShowPage = () => {
   const dispatch = useAppDispatch();
   const [, navigate] = useLocation();
   const { isMobile } = useResponsiveLayout();
+
   const { showId } = useParams<{ showId: string }>();
   const showInfo = useAppSelector(selectCurrentShowInfo);
   const name = window.history.state?.name || showInfo?.name;
 
+  // Scroll to top of page when the page is loaded. This solves this issue of
+  // the page loading scrolled down when the previous page was scrolled.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [showId]);
+
+  // Fires before paint to update currentShowId
   useLayoutEffect(() => {
-    const parsedId = Number(showId);
-    if (!showId || !Number.isInteger(parsedId) || parsedId <= 0) {
+    const parsedId = parseShowId(showId);
+    if (!parsedId) {
       return;
     }
     dispatch({ type: SET_CURRENT_SHOW_ID, payload: parsedId });
   }, [dispatch, showId]);
 
+  // Fetch show details
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [showId]);
-
-  useEffect(() => {
-    const parsedId = Number(showId);
-    if (!showId || !Number.isInteger(parsedId) || parsedId <= 0) {
+    const parsedId = parseShowId(showId);
+    if (!parsedId) {
       navigate(ROUTES.HOME);
       return;
     }
