@@ -77,7 +77,7 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       gap={3}
     >
       <Heading
-        fontSize="3xl"
+        fontSize="2xl"
         fontWeight="semibold"
         justifySelf="start"
         ml="2px"
