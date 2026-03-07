@@ -8,6 +8,7 @@ import {
   pokerFaceSeason1,
   pokerFaceSeason2,
   searchPokerFaceResponse,
+  settingsResponse,
 } from '../mockData';
 import { discoverShowsResponse } from '../mockData/discoverShows';
 import { topRatedShowsResponse } from '../mockData/topRatedShows';
@@ -73,6 +74,13 @@ export const globalMockRequests = async (page: Page) => {
       page,
       path: '**/follow',
       body: followResponse,
+    }),
+
+    // TV Minder: settings
+    mockRequest({
+      page,
+      path: '**/settings',
+      body: settingsResponse,
     }),
   ]);
 

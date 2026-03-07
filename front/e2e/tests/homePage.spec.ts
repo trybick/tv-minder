@@ -1,5 +1,4 @@
 import { expect, test } from '../config/base';
-import { showTitleToId } from '../mockData';
 
 test.describe('Home Page', () => {
   test.describe('Search', () => {
@@ -84,26 +83,6 @@ test.describe('Home Page', () => {
   });
 
   test.describe('Discover Sections', () => {
-    test('should navigate to a show page from trending now section', async ({
-      page,
-    }) => {
-      await page.goto('/');
-
-      await expect(
-        page.getByRole('heading', { name: 'Trending Now' })
-      ).toBeVisible();
-      await expect(page.getByText('MobLand').first()).toBeVisible({
-        timeout: 10000,
-      });
-
-      await page
-        .locator(`a[href="/show/${showTitleToId.mobland}"]`)
-        .first()
-        .click();
-
-      await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
-    });
-
     test('should hide discover sections when searching', async ({ page }) => {
       await page.goto('/');
 

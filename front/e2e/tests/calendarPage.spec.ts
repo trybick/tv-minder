@@ -1,7 +1,6 @@
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
 import { showTitleToId } from '../mockData';
-import { mockRequest } from '../mockRequest';
 
 test.describe('Calendar Page', () => {
   test('should have correct page title', async ({ page }) => {
@@ -18,7 +17,6 @@ test.describe('Calendar Page', () => {
   test('shows episodes on calendar for logged out user', async ({ page }) => {
     await page.goto('/');
 
-    // Wait for carousel to load (new Carousel shows skeleton while data loads)
     await expect(page.getByText('MobLand').first()).toBeVisible({
       timeout: 10000,
     });
@@ -27,15 +25,7 @@ test.describe('Calendar Page', () => {
 
     await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
     await expect(page.getByLabel(/search-result/)).toHaveCount(2);
-
     await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
-    await page
-      .getByRole('link', { name: /poker face/i })
-      .first()
-      .click();
-    await expect(
-      page.getByLabel(`track-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/tracking/i);
 
     await page
       .getByRole('navigation')
@@ -43,25 +33,8 @@ test.describe('Calendar Page', () => {
       .click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
-    // Numbers are doubled because of the popover
     await expect(page.getByText(/poker face/i)).toHaveCount(10);
     await expect(page.getByText(/mobland/i)).toHaveCount(2);
-
-    await page
-      .getByText(/poker face/i)
-      .first()
-      .hover();
-    await page.getByRole('heading', { name: 'Poker Face' }).first().click();
-
-    await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
-    await expect(
-      page.getByRole('heading', { name: 'Poker Face' })
-    ).toBeVisible();
-
-    await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
-    await expect(
-      page.getByLabel(`track-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/track/i);
   });
 
   test('shows episodes on calendar for logged in user', async ({ page }) => {
@@ -74,34 +47,11 @@ test.describe('Calendar Page', () => {
       .click();
     await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
 
-    // Wait for episode data to load
     await expect(page.getByText(/poker face/i).first()).toBeVisible({
       timeout: 10000,
     });
 
     await expect(page.getByText(/poker face/i)).toHaveCount(10);
     await expect(page.getByText(/mobland/i)).toHaveCount(2);
-
-    await page
-      .getByText(/poker face/i)
-      .first()
-      .hover();
-    await page.getByRole('heading', { name: 'Poker Face' }).first().click();
-
-    await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
-    await expect(
-      page.getByRole('heading', { name: 'Poker Face' })
-    ).toBeVisible();
-
-    mockRequest({
-      page,
-      path: '/api.tv-minder.com/follow*',
-      method: 'DELETE',
-    });
-
-    await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
-    await expect(
-      page.getByLabel(`track-button-${showTitleToId.pokerface}`)
-    ).toHaveText(/track/i);
   });
 });

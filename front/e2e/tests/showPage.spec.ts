@@ -36,21 +36,105 @@ test.describe('Show Page', () => {
     await expect(page).toHaveURL('/');
   });
 
-  test('should navigate to show page from search results', async ({ page }) => {
-    await page.goto('/');
+  test.describe('Navigation to show page', () => {
+    test('should navigate to show page from search results', async ({
+      page,
+    }) => {
+      await page.goto('/');
 
-    await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
-    await expect(page.getByLabel(/search-result/).first()).toBeVisible();
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
+      await expect(page.getByLabel(/search-result/).first()).toBeVisible();
 
-    await page
-      .getByRole('link', { name: /poker face/i })
-      .first()
-      .click();
+      await page
+        .getByRole('link', { name: /poker face/i })
+        .first()
+        .click();
 
-    await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
-    await expect(
-      page.getByRole('heading', { name: 'Poker Face' })
-    ).toBeVisible();
+      await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
+      await expect(
+        page.getByRole('heading', { name: 'Poker Face' })
+      ).toBeVisible();
+    });
+
+    test('should navigate to show page from trending now section', async ({
+      page,
+    }) => {
+      await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Trending Now' })
+      ).toBeVisible();
+      await expect(page.getByText('MobLand').first()).toBeVisible({
+        timeout: 10000,
+      });
+
+      await page
+        .locator(`a[href="/show/${showTitleToId.mobland}"]`)
+        .first()
+        .click();
+
+      await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
+    });
+
+    test('should navigate to show page from calendar (logged out user)', async ({
+      page,
+    }) => {
+      await page.goto('/');
+
+      await expect(page.getByText('MobLand').first()).toBeVisible({
+        timeout: 10000,
+      });
+      await page.getByLabel(`track-button-${showTitleToId.mobland}`).click();
+
+      await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
+      await expect(page.getByLabel(/search-result/)).toHaveCount(2);
+      await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
+
+      await page
+        .getByRole('navigation')
+        .getByRole('link', { name: /calendar/i })
+        .click();
+      await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
+      await expect(page.getByText(/poker face/i)).toHaveCount(10);
+
+      await page
+        .getByText(/poker face/i)
+        .first()
+        .hover();
+      await page.getByRole('heading', { name: 'Poker Face' }).first().click();
+
+      await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
+      await expect(
+        page.getByRole('heading', { name: 'Poker Face' })
+      ).toBeVisible();
+    });
+
+    test('should navigate to show page from calendar (logged in user)', async ({
+      page,
+    }) => {
+      await page.goto('/');
+      await login(page);
+
+      await page
+        .getByRole('navigation')
+        .getByRole('link', { name: /calendar/i })
+        .click();
+      await expect(page.getByRole('heading', { name: 'June' })).toBeVisible();
+      await expect(page.getByText(/poker face/i).first()).toBeVisible({
+        timeout: 10000,
+      });
+
+      await page
+        .getByText(/poker face/i)
+        .first()
+        .hover();
+      await page.getByRole('heading', { name: 'Poker Face' }).first().click();
+
+      await expect(page).toHaveURL(`/show/${showTitleToId.pokerface}`);
+      await expect(
+        page.getByRole('heading', { name: 'Poker Face' })
+      ).toBeVisible();
+    });
   });
 
   test('should track and untrack a show', async ({ page }) => {

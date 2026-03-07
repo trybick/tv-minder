@@ -7,3 +7,7 @@ export const showTitleToId = {
 };
 
 export const followResponse = Object.values(showTitleToId);
+
+export const settingsResponse = {
+  showWelcomeStrip: true,
+};
