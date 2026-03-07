@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="1200" viewBox="0 0 800 1200">
+  <defs>
+    <style>
+      .bg { fill: #0d0d1a; }
+      .tv-body { fill: #1a1a2e; stroke: #2d2d4e; stroke-width: 1.5; }
+      .tv-screen { fill: #0a1628; }
+      .tv-screen-glow { fill: none; stroke: #00d4ff; stroke-width: 0.8; opacity: 0.6; }
+      .scanline { fill: #00d4ff; opacity: 0.07; }
+      .antenna { stroke: #3d3d6e; stroke-width: 1.5; stroke-linecap: round; fill: none; }
+      .knob { fill: #252545; stroke: #3a3a5c; stroke-width: 1; }
+      .knob-dot { fill: #00d4ff; opacity: 0.8; }
+      .vignette-screen { fill: url(#screenGradient); }
+      .label-text { font-family: 'Courier New', monospace; fill: #00d4ff; opacity: 0.15; font-size: 7px; letter-spacing: 1px; }
+    </style>
+    <radialGradient id="screenGradient" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#0033ff" stop-opacity="0.12"/>
+      <stop offset="60%" stop-color="#001133" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </radialGradient>
+    <symbol id="tv" viewBox="0 0 100 90" overflow="visible">
+      <rect x="8" y="18" width="84" height="62" rx="7" ry="7" class="tv-body"/>
+      <rect x="14" y="23" width="72" height="47" rx="4" ry="4" fill="#111128" stroke="#22224a" stroke-width="1"/>
+      <rect x="17" y="26" width="66" height="41" rx="3" ry="3" class="tv-screen"/>
+      <rect x="17" y="26" width="66" height="41" rx="3" ry="3" class="tv-screen-glow"/>
+      <rect x="17" y="27" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="31" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="35" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="39" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="43" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="47" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="51" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="55" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="59" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="63" width="66" height="1.2" class="scanline"/>
+      <rect x="17" y="26" width="66" height="41" rx="3" ry="3" class="vignette-screen"/>
+      <line x1="20" y1="28" x2="40" y2="28" stroke="#ffffff" stroke-width="0.6" stroke-opacity="0.08"/>
+      <line x1="20" y1="30" x2="30" y2="30" stroke="#ffffff" stroke-width="0.4" stroke-opacity="0.06"/>
+      <circle cx="50" cy="46.5" r="8" fill="none" stroke="#00d4ff" stroke-width="0.8" stroke-opacity="0.3"/>
+      <polygon points="47,43 47,50 54,46.5" fill="#00d4ff" fill-opacity="0.2"/>
+      <rect x="14" y="73" width="72" height="4" rx="1" fill="#151530"/>
+      <circle cx="26" cy="75" r="3" class="knob"/>
+      <circle cx="26.5" cy="74.5" r="0.8" class="knob-dot"/>
+      <circle cx="35" cy="75" r="3" class="knob"/>
+      <circle cx="35.5" cy="74.5" r="0.8" class="knob-dot"/>
+      <line x1="55" y1="73.5" x2="82" y2="73.5" stroke="#2a2a4a" stroke-width="0.8"/>
+      <line x1="55" y1="75" x2="82" y2="75" stroke="#2a2a4a" stroke-width="0.8"/>
+      <line x1="55" y1="76.5" x2="82" y2="76.5" stroke="#2a2a4a" stroke-width="0.8"/>
+      <rect x="18" y="79" width="10" height="4" rx="2" fill="#151530"/>
+      <rect x="72" y="79" width="10" height="4" rx="2" fill="#151530"/>
+      <line x1="35" y1="18" x2="22" y2="5" class="antenna"/>
+      <circle cx="22" cy="5" r="1.2" fill="#3d3d6e"/>
+      <line x1="65" y1="18" x2="78" y2="5" class="antenna"/>
+      <circle cx="78" cy="5" r="1.2" fill="#3d3d6e"/>
+      <text x="50" y="22" text-anchor="middle" class="label-text">CH 00</text>
+    </symbol>
+    <pattern id="tvPatternStagger" x="0" y="0" width="200" height="180" patternUnits="userSpaceOnUse">
+      <use xlink:href="#tv" x="0"   y="0"  width="100" height="90"/>
+      <use xlink:href="#tv" x="100" y="0"  width="100" height="90"/>
+      <use xlink:href="#tv" x="-50" y="90" width="100" height="90"/>
+      <use xlink:href="#tv" x="50"  y="90" width="100" height="90"/>
+      <use xlink:href="#tv" x="150" y="90" width="100" height="90"/>
+    </pattern>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0d0d1a" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0d0d1a" stop-opacity="0.65"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1200" class="bg"/>
+  <rect width="800" height="1200" fill="url(#tvPatternStagger)"/>
+  <rect width="800" height="1200" fill="url(#vignette)"/>
+
+  <rect x="20" y="18" width="62" height="18" rx="3" fill="#0d0d1a" fill-opacity="0.75" stroke="#00d4ff" stroke-width="0.6" stroke-opacity="0.3"/>
+  <text x="51" y="31" text-anchor="middle" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#00d4ff" fill-opacity="0.7">CH • 01</text>
+
+  <rect x="718" y="1164" width="62" height="18" rx="3" fill="#0d0d1a" fill-opacity="0.75" stroke="#00d4ff" stroke-width="0.6" stroke-opacity="0.3"/>
+  <text x="749" y="1177" text-anchor="middle" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#00d4ff" fill-opacity="0.7">ON AIR</text>
+</svg>

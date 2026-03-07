@@ -13,6 +13,8 @@ import { discoverShowsResponse } from '../mockData/discoverShows';
 import { topRatedShowsResponse } from '../mockData/topRatedShows';
 import { mockRequest } from '../mockRequest';
 
+import { mockImages } from './mockImages';
+
 const emptyShowsResponse = {
   page: 1,
   results: [],
@@ -28,6 +30,8 @@ const emptyTmdbResponse = JSON.stringify({
 });
 
 export const globalMockRequests = async (page: Page) => {
+  await mockImages(page);
+
   // Catch-all for any TMDB API request not handled by specific mocks.
   // Registered BEFORE specific mocks so it has lowest priority (Playwright
   // matches most-recently-registered route first).
