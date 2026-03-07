@@ -32,7 +32,6 @@ import {
 } from '~/store/tv/selectors';
 
 import { DiscoverHeader } from './DiscoverHeader';
-import { DiscoverNav } from './DiscoverNav';
 import { DiscoverShowCard } from './DiscoverShowCard';
 import { LazyCarouselSection } from './LazyCarouselSection';
 import { WelcomeHeroStrip } from './WelcomeHeroStrip';
@@ -190,7 +189,6 @@ export const DiscoverShows = () => {
   return (
     <Box maxW="1500px" w="95%" pt={2} pb={8}>
       <WelcomeHeroStrip />
-      <DiscoverNav items={carouselConfigs} />
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>
