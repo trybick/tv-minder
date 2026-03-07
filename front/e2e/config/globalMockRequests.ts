@@ -1,7 +1,6 @@
 import { type Page } from '@playwright/test';
 
 import {
-  trackResponse,
   moblandBasicInfo,
   moblandSeason1,
   pokerFaceBasicInfo,
@@ -9,6 +8,7 @@ import {
   pokerFaceSeason2,
   searchPokerFaceResponse,
   settingsResponse,
+  trackResponse,
 } from '../mockData';
 import { discoverShowsResponse } from '../mockData/discoverShows';
 import { topRatedShowsResponse } from '../mockData/topRatedShows';

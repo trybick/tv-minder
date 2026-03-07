@@ -2,10 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { trackApi } from '~/store/rtk/api/track.api';
 
-import {
-  selectIsLoggedIn,
-  selectUnregisteredTrackedShows,
-} from './user.slice';
+import { selectIsLoggedIn, selectUnregisteredTrackedShows } from './user.slice';
 
 export const selectTrackedShows = createSelector(
   [

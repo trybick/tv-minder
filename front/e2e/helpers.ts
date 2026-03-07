@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 
-import { email, trackResponse, password } from './mockData';
+import { email, password, trackResponse } from './mockData';
 
 export const login = async (page: Page) => {
   // Mock login endpoint (matches both localhost:4500 and api.tv-minder.com)

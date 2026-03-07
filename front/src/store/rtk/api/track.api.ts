@@ -14,15 +14,11 @@ export const trackApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          trackApi.util.updateQueryData(
-            'getTrackedShows',
-            undefined,
-            draft => {
-              if (!draft.includes(showId)) {
-                draft.push(showId);
-              }
+          trackApi.util.updateQueryData('getTrackedShows', undefined, draft => {
+            if (!draft.includes(showId)) {
+              draft.push(showId);
             }
-          )
+          })
         );
         try {
           await queryFulfilled;
@@ -40,16 +36,12 @@ export const trackApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          trackApi.util.updateQueryData(
-            'getTrackedShows',
-            undefined,
-            draft => {
-              const index = draft.findIndex(id => id === showId);
-              if (index !== -1) {
-                draft.splice(index, 1);
-              }
+          trackApi.util.updateQueryData('getTrackedShows', undefined, draft => {
+            const index = draft.findIndex(id => id === showId);
+            if (index !== -1) {
+              draft.splice(index, 1);
             }
-          )
+          })
         );
         try {
           await queryFulfilled;

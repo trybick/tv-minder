@@ -59,9 +59,7 @@ export const selectTrackedShowsDetails: AppSelector<ShowForDisplay[]> =
         }
       }
 
-      return formattedTrackedShows.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
+      return formattedTrackedShows.sort((a, b) => a.name.localeCompare(b.name));
     }
   );
 

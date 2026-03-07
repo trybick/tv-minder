@@ -18,8 +18,8 @@ import { TbBrandDisney } from 'react-icons/tb';
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { trackApi } from '~/store/rtk/api/track.api';
 import { useGetSettingsQuery } from '~/store/rtk/api/settings.api';
+import { trackApi } from '~/store/rtk/api/track.api';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import {
@@ -178,10 +178,7 @@ export const DiscoverShows = () => {
     const isGetTrackedShowsPending =
       getTrackedShowsStatus === QueryStatus.uninitialized ||
       getTrackedShowsStatus === QueryStatus.pending;
-    if (
-      isLoggedIn &&
-      (isGetTrackedShowsPending || trackedShows.length >= 2)
-    ) {
+    if (isLoggedIn && (isGetTrackedShowsPending || trackedShows.length >= 2)) {
       return true;
     }
 
