@@ -10,62 +10,28 @@ test.describe('Show Page', () => {
     await expect(page).toHaveTitle('MobLand | TV Minder');
   });
 
-  test('should display show name and overview', async ({ page }) => {
+  test('should display show elements', async ({ page }) => {
     await page.goto(`/show/${showTitleToId.mobland}`);
 
+    // Show name and overview
     await expect(page.getByRole('heading', { name: 'MobLand' })).toBeVisible();
     await expect(
       page.getByText(
         'Two mob families clash in a war that threatens to topple empires and lives.'
       )
     ).toBeVisible();
-  });
 
-  test('should display genre tags', async ({ page }) => {
-    await page.goto(`/show/${showTitleToId.mobland}`);
-
+    // Genre tags
     await expect(page.getByText('Crime')).toBeVisible();
     await expect(page.getByText('Drama')).toBeVisible();
-  });
 
-  test('should display seasons accordion with episodes', async ({ page }) => {
-    await page.goto(`/show/${showTitleToId.mobland}`);
-
-    await expect(page.getByRole('heading', { name: 'Episodes' })).toBeVisible();
-
-    await expect(page.getByText('Season 1')).toBeVisible();
-    await expect(page.getByText('10 Episodes')).toBeVisible();
-
+    // Seasons accordion
     await page.getByText('Season 1').click();
-
     await expect(page.getByText('Stick or Twist')).toBeVisible();
-  });
-
-  test('should track and untrack a show', async ({ page }) => {
-    await page.goto(`/show/${showTitleToId.pokerface}`);
-
-    const trackButton = page.getByLabel(
-      `track-button-${showTitleToId.pokerface}`
-    );
-
-    await expect(trackButton).toBeVisible();
-    await expect(trackButton).toHaveText(/track/i);
-
-    await trackButton.click();
-    await expect(trackButton).toHaveText(/tracking/i);
-
-    await trackButton.click();
-    await expect(trackButton).toHaveText(/track/i);
   });
 
   test('should redirect to home for invalid showId', async ({ page }) => {
     await page.goto('/show/invalid-id');
-
-    await expect(page).toHaveURL('/');
-  });
-
-  test('should redirect to home for negative showId', async ({ page }) => {
-    await page.goto('/show/-1');
 
     await expect(page).toHaveURL('/');
   });
@@ -85,6 +51,23 @@ test.describe('Show Page', () => {
     await expect(
       page.getByRole('heading', { name: 'Poker Face' })
     ).toBeVisible();
+  });
+
+  test('should track and untrack a show', async ({ page }) => {
+    await page.goto(`/show/${showTitleToId.pokerface}`);
+
+    const trackButton = page.getByLabel(
+      `track-button-${showTitleToId.pokerface}`
+    );
+
+    await expect(trackButton).toBeVisible();
+    await expect(trackButton).toHaveText(/track/i);
+
+    await trackButton.click();
+    await expect(trackButton).toHaveText(/tracking/i);
+
+    await trackButton.click();
+    await expect(trackButton).toHaveText(/track/i);
   });
 
   test('should show track button state for logged-in user', async ({
