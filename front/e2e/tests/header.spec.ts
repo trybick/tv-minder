@@ -12,7 +12,7 @@ test.describe('Header', () => {
     await expect(page).toHaveURL('/');
   });
 
-  test('should show Discover and Calendar links for logged out user', async ({
+  test('should show appropriate links for logged out user', async ({
     page,
   }) => {
     await page.goto('/');
@@ -23,6 +23,9 @@ test.describe('Header', () => {
     await expect(
       page.getByRole('navigation').getByRole('link', { name: /calendar/i })
     ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'manage' })
+    ).not.toBeVisible();
   });
 
   test('should show Login and Sign Up buttons for logged out user', async ({
@@ -44,9 +47,7 @@ test.describe('Header', () => {
     await page.goto('/');
     await login(page);
 
-    await expect(
-      page.getByRole('button', { name: 'User menu' })
-    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'User menu' })).toBeVisible();
     await expect(
       page.getByRole('navigation').getByRole('button', { name: 'Login' })
     ).not.toBeVisible();
