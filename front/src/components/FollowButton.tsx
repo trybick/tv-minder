@@ -63,7 +63,7 @@ export const FollowButton = ({
 
   return isFollowed ? (
     <Button
-      aria-label={`follow-button-${showId}`}
+      aria-label={`track-button-${showId}`}
       colorPalette="gray"
       onClick={onUnfollowShow}
       variant="surface"
@@ -102,7 +102,7 @@ export const FollowButton = ({
     </Button>
   ) : (
     <Button
-      aria-label={`follow-button-${showId}`}
+      aria-label={`track-button-${showId}`}
       colorPalette="cyan"
       onClick={onFollowShow}
       variant="surface"

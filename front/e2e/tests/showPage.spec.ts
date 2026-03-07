@@ -13,9 +13,7 @@ test.describe('Show Page', () => {
   test('should display show name and overview', async ({ page }) => {
     await page.goto(`/show/${showTitleToId.mobland}`);
 
-    await expect(
-      page.getByRole('heading', { name: 'MobLand' })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'MobLand' })).toBeVisible();
     await expect(
       page.getByText(
         'Two mob families clash in a war that threatens to topple empires and lives.'
@@ -33,9 +31,7 @@ test.describe('Show Page', () => {
   test('should display seasons accordion with episodes', async ({ page }) => {
     await page.goto(`/show/${showTitleToId.mobland}`);
 
-    await expect(
-      page.getByRole('heading', { name: 'Episodes' })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Episodes' })).toBeVisible();
 
     await expect(page.getByText('Season 1')).toBeVisible();
     await expect(page.getByText('10 Episodes')).toBeVisible();
@@ -45,21 +41,21 @@ test.describe('Show Page', () => {
     await expect(page.getByText('Stick or Twist')).toBeVisible();
   });
 
-  test('should follow and unfollow a show', async ({ page }) => {
+  test('should track and untrack a show', async ({ page }) => {
     await page.goto(`/show/${showTitleToId.pokerface}`);
 
-    const followButton = page.getByLabel(
-      `follow-button-${showTitleToId.pokerface}`
+    const trackButton = page.getByLabel(
+      `track-button-${showTitleToId.pokerface}`
     );
 
-    await expect(followButton).toBeVisible();
-    await expect(followButton).toHaveText(/track/i);
+    await expect(trackButton).toBeVisible();
+    await expect(trackButton).toHaveText(/track/i);
 
-    await followButton.click();
-    await expect(followButton).toHaveText(/tracking/i);
+    await trackButton.click();
+    await expect(trackButton).toHaveText(/tracking/i);
 
-    await followButton.click();
-    await expect(followButton).toHaveText(/track/i);
+    await trackButton.click();
+    await expect(trackButton).toHaveText(/track/i);
   });
 
   test('should redirect to home for invalid showId', async ({ page }) => {
@@ -74,9 +70,7 @@ test.describe('Show Page', () => {
     await expect(page).toHaveURL('/');
   });
 
-  test('should navigate to show page from search results', async ({
-    page,
-  }) => {
+  test('should navigate to show page from search results', async ({ page }) => {
     await page.goto('/');
 
     await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
@@ -93,7 +87,7 @@ test.describe('Show Page', () => {
     ).toBeVisible();
   });
 
-  test('should show follow button state for logged-in user', async ({
+  test('should show track button state for logged-in user', async ({
     page,
   }) => {
     await page.goto('/');
@@ -107,7 +101,7 @@ test.describe('Show Page', () => {
     await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
 
     const followButton = page.getByLabel(
-      `follow-button-${showTitleToId.mobland}`
+      `track-button-${showTitleToId.mobland}`
     );
     await expect(followButton).toHaveText(/tracking/i);
 
