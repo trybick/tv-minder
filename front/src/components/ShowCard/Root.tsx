@@ -10,19 +10,19 @@ type Props = PropsWithChildren<
   FlexProps & {
     show: ShowItem;
     onHoverChange?: (isHovered: boolean) => void;
-    followButtonSize?: ButtonProps['size'];
+    trackButtonSize?: ButtonProps['size'];
   }
 >;
 
 /**
  * ShowCard is used for inside the Carousel component but also in search
- * results and Following list.
+ * results and Tracking list.
  */
 export const Root = ({
   show,
   children,
   onHoverChange,
-  followButtonSize = 'md',
+  trackButtonSize = 'md',
   ...props
 }: Props) => {
   const { size } = useCarouselContext();
@@ -30,8 +30,8 @@ export const Root = ({
   const borderRadius = isSmall ? 'md' : 'xl';
 
   const contextValue = useMemo(
-    () => ({ show, followButtonSize }),
-    [show, followButtonSize]
+    () => ({ show, trackButtonSize }),
+    [show, trackButtonSize]
   );
 
   return (

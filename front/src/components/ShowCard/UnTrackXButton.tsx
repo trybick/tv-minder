@@ -2,36 +2,36 @@ import { Button, CloseButton, Dialog, Portal, Text } from '@chakra-ui/react';
 import { type MouseEvent, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { useUnfollowShowMutation } from '~/store/rtk/api/follow.api';
+import { useUntrackShowMutation } from '~/store/rtk/api/track.api';
 import {
   selectIsLoggedIn,
-  unregisteredUnfollowShow,
+  unregisteredUntrackShow,
 } from '~/store/rtk/slices/user.slice';
 
 import { useShowCardContext } from './context';
 
-export const UnfollowXButton = () => {
+export const UnTrackXButton = () => {
   const { show } = useShowCardContext();
   const { id: showId, name: showName } = show;
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [unfollowShow] = useUnfollowShowMutation();
+  const [untrackShow] = useUntrackShowMutation();
 
-  const onRequestUnfollow = (e: MouseEvent<HTMLButtonElement>) => {
+  const onRequestUntrack = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsConfirmOpen(true);
   };
 
-  const onConfirmUnfollow = async (e: MouseEvent<HTMLButtonElement>) => {
+  const onConfirmUntrack = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (isLoggedIn) {
-      await unfollowShow(showId);
+      await untrackShow(showId);
     } else {
-      dispatch(unregisteredUnfollowShow(showId));
+      dispatch(unregisteredUntrackShow(showId));
     }
     setIsConfirmOpen(false);
   };
@@ -39,7 +39,7 @@ export const UnfollowXButton = () => {
   return (
     <>
       <CloseButton
-        onClick={onRequestUnfollow}
+        onClick={onRequestUntrack}
         position="absolute"
         right="2"
         size="xs"
@@ -82,7 +82,7 @@ export const UnfollowXButton = () => {
                 </Button>
                 <Button
                   colorPalette="red"
-                  onClick={onConfirmUnfollow}
+                  onClick={onConfirmUntrack}
                   variant="surface"
                 >
                   Untrack

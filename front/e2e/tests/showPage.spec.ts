@@ -168,18 +168,18 @@ test.describe('Show Page', () => {
 
     await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
 
-    const followButton = page.getByLabel(
+    const trackButton = page.getByLabel(
       `track-button-${showTitleToId.mobland}`
     );
-    await expect(followButton).toHaveText(/tracking/i);
+    await expect(trackButton).toHaveText(/tracking/i);
 
     await mockRequest({
       page,
-      path: '/api.tv-minder.com/follow*',
+      path: '/api.tv-minder.com/track*',
       method: 'DELETE',
     });
 
-    await followButton.click();
-    await expect(followButton).toHaveText(/track/i);
+    await trackButton.click();
+    await expect(trackButton).toHaveText(/track/i);
   });
 });

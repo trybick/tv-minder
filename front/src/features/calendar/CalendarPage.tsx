@@ -16,8 +16,8 @@ import { useLocation } from 'wouter';
 import { ROUTES } from '~/app/routes';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { followApi } from '~/store/rtk/api/follow.api';
-import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { trackApi } from '~/store/rtk/api/track.api';
+import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import {
@@ -31,7 +31,7 @@ import { CalendarEmptyState } from './CalendarEmptyState';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarSkeleton } from './CalendarSkeleton';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
-import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
+import { NoTrackedShowsBanner } from './NoTrackedShowsBanner';
 
 export const CalendarPage = () => {
   const dispatch = useAppDispatch();
@@ -46,15 +46,15 @@ export const CalendarPage = () => {
   } | null>(null);
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const followedShows = useAppSelector(selectFollowedShows);
+  const trackedShows = useAppSelector(selectTrackedShows);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
   const isLoadingCalendarEpisodes = useAppSelector(
     selectIsLoadingCalendarEpisodes
   );
   const {
-    isLoading: isLoadingFollowedShows,
-    isUninitialized: isFollowedShowsUninitialized,
-  } = useAppSelector(followApi.endpoints.getFollowedShows.select(undefined));
+    isLoading: isLoadingTrackedShows,
+    isUninitialized: isTrackedShowsUninitialized,
+  } = useAppSelector(trackApi.endpoints.getTrackedShows.select(undefined));
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -66,7 +66,7 @@ export const CalendarPage = () => {
 
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
-  }, [dispatch, followedShows]);
+  }, [dispatch, trackedShows]);
 
   useEffect(() => {
     const changeView = (view: string) =>
@@ -142,7 +142,7 @@ export const CalendarPage = () => {
         </Flex>
       ) : null
     ) : (
-      <NoFollowedShowsBanner />
+      <NoTrackedShowsBanner />
     ),
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     ref: calendarRef as RefObject<FullCalendar>,
@@ -152,10 +152,10 @@ export const CalendarPage = () => {
     datesSet: handleDatesSet,
   };
 
-  const isFollowedShowsPending =
-    isLoadingFollowedShows || (isLoggedIn && isFollowedShowsUninitialized);
-  const isInitialLoading = isFollowedShowsPending || isLoadingCalendarEpisodes;
-  const hasFollowedShows = !isInitialLoading && !!followedShows.length;
+  const isTrackedShowsPending =
+    isLoadingTrackedShows || (isLoggedIn && isTrackedShowsUninitialized);
+  const isInitialLoading = isTrackedShowsPending || isLoadingCalendarEpisodes;
+  const hasTrackedShows = !isInitialLoading && !!trackedShows.length;
 
   return (
     <>
@@ -169,7 +169,7 @@ export const CalendarPage = () => {
       >
         {isInitialLoading ? (
           <CalendarSkeleton />
-        ) : hasFollowedShows ? (
+        ) : hasTrackedShows ? (
           <>
             <CalendarHeader
               calendarRef={calendarRef}

@@ -13,14 +13,14 @@ export const DiscoverShowCard = ({ show }: Props) => {
     <ShowCard.Root
       show={show}
       onHoverChange={setIsHovered}
-      followButtonSize="sm"
+      trackButtonSize="sm"
     >
       <ShowCard.Image>
         <ShowCard.Overview isHovered={isHovered} />
       </ShowCard.Image>
       <ShowCard.BottomSection>
         <ShowCard.Title />
-        <ShowCard.FollowButton />
+        <ShowCard.TrackButton />
       </ShowCard.BottomSection>
     </ShowCard.Root>
   );

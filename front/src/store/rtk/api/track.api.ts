@@ -1,21 +1,21 @@
 import { baseApi } from './baseApi';
 
-export const followApi = baseApi.injectEndpoints({
+export const trackApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getFollowedShows: builder.query<number[], void>({
-      query: () => '/follow',
+    getTrackedShows: builder.query<number[], void>({
+      query: () => '/track',
     }),
 
-    followShow: builder.mutation<void, number>({
+    trackShow: builder.mutation<void, number>({
       query: showId => ({
-        url: '/follow',
+        url: '/track',
         method: 'POST',
         body: { showId },
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          followApi.util.updateQueryData(
-            'getFollowedShows',
+          trackApi.util.updateQueryData(
+            'getTrackedShows',
             undefined,
             draft => {
               if (!draft.includes(showId)) {
@@ -32,16 +32,16 @@ export const followApi = baseApi.injectEndpoints({
       },
     }),
 
-    unfollowShow: builder.mutation<void, number>({
+    untrackShow: builder.mutation<void, number>({
       query: showId => ({
-        url: '/follow',
+        url: '/track',
         method: 'DELETE',
         body: { showId },
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          followApi.util.updateQueryData(
-            'getFollowedShows',
+          trackApi.util.updateQueryData(
+            'getTrackedShows',
             undefined,
             draft => {
               const index = draft.findIndex(id => id === showId);
@@ -62,8 +62,8 @@ export const followApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetFollowedShowsQuery,
-  useLazyGetFollowedShowsQuery,
-  useFollowShowMutation,
-  useUnfollowShowMutation,
-} = followApi;
+  useGetTrackedShowsQuery,
+  useLazyGetTrackedShowsQuery,
+  useTrackShowMutation,
+  useUntrackShowMutation,
+} = trackApi;

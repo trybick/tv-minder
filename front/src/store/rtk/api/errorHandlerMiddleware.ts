@@ -3,15 +3,15 @@ import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { showToast } from '~/components/ui/toaster';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
-import { followApi } from './follow.api';
+import { trackApi } from './track.api';
 
 export const errorHandlerMiddleware = createListenerMiddleware();
 
 /** Opt-in list of RTK Query endpoints that should show error toasts */
 const endpointsWithErrorToasts = [
-  followApi.endpoints.followShow.matchRejected,
-  followApi.endpoints.unfollowShow.matchRejected,
-  followApi.endpoints.getFollowedShows.matchRejected,
+  trackApi.endpoints.trackShow.matchRejected,
+  trackApi.endpoints.untrackShow.matchRejected,
+  trackApi.endpoints.getTrackedShows.matchRejected,
 ];
 
 errorHandlerMiddleware.startListening({

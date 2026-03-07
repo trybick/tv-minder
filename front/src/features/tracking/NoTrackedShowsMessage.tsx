@@ -6,7 +6,7 @@ import { useLocation } from 'wouter';
 import { ROUTES } from '~/app/routes';
 import noShowsImage from '~/assets/images/tv-remote.jpg';
 
-export const NoFollowedShowsMessage = () => {
+export const NoTrackedShowsMessage = () => {
   const [, navigate] = useLocation();
 
   const handleClickHome = (e: MouseEvent<HTMLAnchorElement>) => {

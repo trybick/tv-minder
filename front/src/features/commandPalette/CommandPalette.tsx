@@ -22,12 +22,12 @@ import { useImageUrl } from '~/hooks/useImageUrl';
 import { useAppSelector } from '~/store';
 import { selectRecentShows } from '~/store/rtk/slices/recentShows.slice';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
-import { selectFollowedShowsDetails } from '~/store/tv/selectors';
+import { selectTrackedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { trackEvent } from '~/utils/analytics';
 
 import './commandPalette.css';
-import { fetchResults, filterOutFollowedShows } from './searchHelpers';
+import { fetchResults, filterOutTrackedShows } from './searchHelpers';
 
 const PAGES = [
   { name: 'Discover', route: ROUTES.HOME, icon: MdHome, requiresAuth: false },
@@ -78,11 +78,11 @@ export const CommandPaletteProvider = ({ children }: Props) => {
   const [isSearchingTmdb, setIsSearchingTmdb] = useState(false);
   const searchTimeoutRef = useRef<number | null>(null);
 
-  const followedShows = useAppSelector(selectFollowedShowsDetails);
+  const trackedShows = useAppSelector(selectTrackedShowsDetails);
   const recentShows = useAppSelector(selectRecentShows);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  const filteredFollowedShows = followedShows.filter(show =>
+  const filteredTrackedShows = trackedShows.filter(show =>
     show.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const availablePages = PAGES.filter(page => !page.requiresAuth || isLoggedIn);
@@ -91,8 +91,8 @@ export const CommandPaletteProvider = ({ children }: Props) => {
     ? recentShows[0]
       ? `${recentShows[0].name} ${recentShows[0].id}`
       : (availablePages[0]?.name ?? '')
-    : filteredFollowedShows[0]
-      ? `${filteredFollowedShows[0].name} ${filteredFollowedShows[0].id}`
+    : filteredTrackedShows[0]
+      ? `${filteredTrackedShows[0].name} ${filteredTrackedShows[0].id}`
       : tmdbResults[0]
         ? `${tmdbResults[0].name} ${tmdbResults[0].id}`
         : (availablePages.find(page =>
@@ -120,10 +120,10 @@ export const CommandPaletteProvider = ({ children }: Props) => {
       window.clearTimeout(searchTimeoutRef.current);
     }
 
-    const followedIds = new Set(followedShows.map(s => s.id));
+    const trackedIds = new Set(trackedShows.map(s => s.id));
     const query = searchTerm.trim();
     const shouldSkipSearch =
-      query.length < 2 || filteredFollowedShows.length > 0;
+      query.length < 2 || filteredTrackedShows.length > 0;
 
     if (shouldSkipSearch) {
       setTmdbResults([]);
@@ -141,7 +141,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
           label: query,
         });
         const results = await fetchResults(query);
-        setTmdbResults(filterOutFollowedShows(results, followedIds));
+        setTmdbResults(filterOutTrackedShows(results, trackedIds));
       } catch {
         setTmdbResults([]);
       } finally {
@@ -154,7 +154,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
         window.clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [searchTerm, filteredFollowedShows.length, followedShows]);
+  }, [searchTerm, filteredTrackedShows.length, trackedShows]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -267,12 +267,12 @@ export const CommandPaletteProvider = ({ children }: Props) => {
               </Command.Group>
             )}
 
-            {/* Followed Shows - before search results and pages */}
-            {filteredFollowedShows.length > 0 && (
+            {/* Tracked Shows - before search results and pages */}
+            {filteredTrackedShows.length > 0 && (
               <Command.Group heading="Tracking" className="cmdk-group">
-                {filteredFollowedShows.slice(0, 8).map(show => (
+                {filteredTrackedShows.slice(0, 8).map(show => (
                   <Command.Item
-                    key={`followed-${show.id}`}
+                    key={`tracked-${show.id}`}
                     value={`${show.name} ${show.id}`}
                     keywords={[show.name.toLowerCase()]}
                     onSelect={() => handleNavigateToShow(show.id)}

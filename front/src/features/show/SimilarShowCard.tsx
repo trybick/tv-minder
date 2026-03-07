@@ -5,11 +5,11 @@ type Props = {
 };
 
 export const SimilarShowCard = ({ show }: Props) => (
-  <ShowCard.Root show={show} followButtonSize="sm">
+  <ShowCard.Root show={show} trackButtonSize="sm">
     <ShowCard.Image />
     <ShowCard.BottomSection>
       <ShowCard.Title />
-      <ShowCard.FollowButton />
+      <ShowCard.TrackButton />
     </ShowCard.BottomSection>
   </ShowCard.Root>
 );

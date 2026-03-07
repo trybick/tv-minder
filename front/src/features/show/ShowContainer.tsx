@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import { useParams } from 'wouter';
 
-import { FollowButton } from '~/components/FollowButton';
+import { TrackButton } from '~/components/TrackButton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
@@ -29,7 +29,7 @@ export const ShowContainer = () => {
         <Flex direction="column" align="center" gap={4}>
           <ShowImage />
           <Flex direction="column" gap={2} w="100%">
-            <FollowButton
+            <TrackButton
               showId={+showId}
               size="lg"
               w="100%"
@@ -75,7 +75,7 @@ export const ShowContainer = () => {
         alignSelf="start"
       >
         <ShowImage />
-        <FollowButton showId={+showId} size="lg" showName={name ?? ''} />
+        <TrackButton showId={+showId} size="lg" showName={name ?? ''} />
         <VideoTrailerButton videoId={videoTrailerKey} />
       </Flex>
 

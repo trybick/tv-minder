@@ -8,7 +8,7 @@ type TabTriggerProps = {
   isDisabled?: boolean;
 };
 
-export const FollowingTabTrigger = ({
+export const TrackingTabTrigger = ({
   value,
   label,
   isDisabled,

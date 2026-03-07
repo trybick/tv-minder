@@ -6,7 +6,7 @@ export const showTitleToId = {
   pokerface: 120998,
 };
 
-export const followResponse = Object.values(showTitleToId);
+export const trackResponse = Object.values(showTitleToId);
 
 export const settingsResponse = {
   showWelcomeStrip: true,

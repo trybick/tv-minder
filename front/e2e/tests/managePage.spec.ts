@@ -14,7 +14,7 @@ test.describe('Manage Page', () => {
     await expect(page).toHaveTitle('Manage | TV Minder');
   });
 
-  test('should display followed shows in correct tabs', async ({ page }) => {
+  test('should display tracked shows in correct tabs', async ({ page }) => {
     await page.goto('/');
     await login(page);
 
@@ -23,7 +23,7 @@ test.describe('Manage Page', () => {
       .getByRole('link', { name: /manage/i })
       .click();
 
-    // Wait for followed shows data to load
+    // Wait for tracked shows data to load
     await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible({
       timeout: 10000,
     });
@@ -44,7 +44,7 @@ test.describe('Manage Page', () => {
     ).toBeVisible();
   });
 
-  test('should not display a show after unfollowing', async ({ page }) => {
+  test('should not display a show after untracking', async ({ page }) => {
     await page.goto('/');
     await login(page);
 
@@ -53,7 +53,7 @@ test.describe('Manage Page', () => {
       .getByRole('link', { name: /manage/i })
       .click();
 
-    // Wait for followed shows data to load
+    // Wait for tracked shows data to load
     await expect(page.getByRole('tab', { name: 'Airing Now' })).toBeVisible({
       timeout: 10000,
     });
@@ -73,7 +73,7 @@ test.describe('Manage Page', () => {
 
     await mockRequest({
       page,
-      path: '**/follow',
+      path: '**/track',
       method: 'DELETE',
     });
 

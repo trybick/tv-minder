@@ -21,7 +21,7 @@ import {
   selectIsSignUpModalOpen,
   setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
-import { selectUnregisteredFollowedShows } from '~/store/rtk/slices/user.slice';
+import { selectUnregisteredTrackedShows } from '~/store/rtk/slices/user.slice';
 import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
@@ -58,8 +58,8 @@ export const SignUpModal = () => {
   const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
 
-  const unregisteredFollowedShows = useAppSelector(
-    selectUnregisteredFollowedShows
+  const unregisteredTrackedShows = useAppSelector(
+    selectUnregisteredTrackedShows
   );
   const isOpen = useAppSelector(selectIsSignUpModalOpen);
 
@@ -90,7 +90,7 @@ export const SignUpModal = () => {
       await registerUser({
         email,
         password,
-        unregisteredFollowedShows,
+        unregisteredTrackedShows,
       }).unwrap();
       await login({ email, password }).unwrap();
     } catch (err) {

@@ -32,7 +32,7 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
   /**
    * Search results don't have status info in the initial data (TmdbShowSummary).
    * We need to look up cached show details to derive the status badge.
-   * This is different from the Following page where ShowForDisplay already
+   * This is different from the Tracking page where ShowForDisplay already
    * includes the computed status.
    */
   const getSearchStatusBadge = (showId: number) => {

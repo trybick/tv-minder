@@ -8,9 +8,9 @@ export const fetchResults = async (
   return results;
 };
 
-export const filterOutFollowedShows = (
+export const filterOutTrackedShows = (
   results: TmdbShowSummary[],
-  followedIds: Set<number>
+  trackedIds: Set<number>
 ): TmdbShowSummary[] => {
-  return results.filter(r => !followedIds.has(r.id)).slice(0, 8);
+  return results.filter(r => !trackedIds.has(r.id)).slice(0, 8);
 };

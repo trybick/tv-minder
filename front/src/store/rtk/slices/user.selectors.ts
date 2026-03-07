@@ -1,27 +1,27 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { followApi } from '~/store/rtk/api/follow.api';
+import { trackApi } from '~/store/rtk/api/track.api';
 
 import {
   selectIsLoggedIn,
-  selectUnregisteredFollowedShows,
+  selectUnregisteredTrackedShows,
 } from './user.slice';
 
-export const selectFollowedShows = createSelector(
+export const selectTrackedShows = createSelector(
   [
     selectIsLoggedIn,
-    selectUnregisteredFollowedShows,
-    followApi.endpoints.getFollowedShows.select(undefined),
+    selectUnregisteredTrackedShows,
+    trackApi.endpoints.getTrackedShows.select(undefined),
   ],
-  (isLoggedIn, unregisteredFollows, userFollowsQuery) => {
+  (isLoggedIn, unregisteredTracks, userTracksQuery) => {
     if (isLoggedIn) {
-      return userFollowsQuery.data ?? [];
+      return userTracksQuery.data ?? [];
     }
-    return unregisteredFollows ?? [];
+    return unregisteredTracks ?? [];
   }
 );
 
-export const selectFollowedShowsSet = createSelector(
-  [selectFollowedShows],
-  followedShows => new Set(followedShows)
+export const selectTrackedShowsSet = createSelector(
+  [selectTrackedShows],
+  trackedShows => new Set(trackedShows)
 );

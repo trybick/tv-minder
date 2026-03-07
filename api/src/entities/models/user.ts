@@ -7,7 +7,7 @@ export interface IUserSettings {
 interface IUser {
   email: string;
   password: string;
-  followedShows: number[];
+  trackedShows: number[];
   oneTimeCode?: number;
   settings: IUserSettings;
 }
@@ -21,7 +21,7 @@ const UserSchema = new Schema<UserDoc>(
   {
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
-    followedShows: [{ type: Number }],
+    trackedShows: [{ type: Number }],
     oneTimeCode: { type: Number },
     settings: {
       showWelcomeStrip: { type: Boolean, default: true },

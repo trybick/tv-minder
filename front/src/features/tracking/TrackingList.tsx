@@ -6,15 +6,15 @@ import { useAppSelector } from '~/store';
 import {
   selectActiveSeasonShows,
   selectEndedShows,
-  selectFollowedShowsDetails,
   selectInProductionShows,
   selectPremieringSoonShows,
+  selectTrackedShowsDetails,
 } from '~/store/tv/selectors';
 import { trackEvent } from '~/utils/analytics';
 import { applyViewTransition } from '~/utils/viewTransition';
 
-import { FollowingTabTrigger } from './FollowingTabTrigger';
 import { SubSectionOfShows } from './SubSectionOfShows';
+import { TrackingTabTrigger } from './TrackingTabTrigger';
 
 const tabs = {
   all: 'all',
@@ -24,11 +24,11 @@ const tabs = {
   ended: 'ended',
 };
 
-export const FollowingList = () => {
+export const TrackingList = () => {
   const { isMobile } = useResponsiveLayout();
   const [currentTab, setCurrentTab] = useState<keyof typeof tabs>('all');
 
-  const followedShowsDetails = useAppSelector(selectFollowedShowsDetails);
+  const trackedShowsDetails = useAppSelector(selectTrackedShowsDetails);
   const activeSeasonShows = useAppSelector(selectActiveSeasonShows);
   const inProductionShows = useAppSelector(selectInProductionShows);
   const premieringSoonShows = useAppSelector(selectPremieringSoonShows);
@@ -78,23 +78,23 @@ export const FollowingList = () => {
           px={isMobile ? '2' : '0'}
           whiteSpace="nowrap"
         >
-          <FollowingTabTrigger value={tabs.all} label={tabLabels.all} />
-          <FollowingTabTrigger
+          <TrackingTabTrigger value={tabs.all} label={tabLabels.all} />
+          <TrackingTabTrigger
             value={tabs.active}
             label={tabLabels.active}
             isDisabled={!activeSeasonShows.length}
           />
-          <FollowingTabTrigger
+          <TrackingTabTrigger
             value={tabs.premieringSoon}
             label={tabLabels.premieringSoon}
             isDisabled={!premieringSoonShows.length}
           />
-          <FollowingTabTrigger
+          <TrackingTabTrigger
             value={tabs.inProduction}
             label={tabLabels.inProduction}
             isDisabled={!inProductionShows.length}
           />
-          <FollowingTabTrigger
+          <TrackingTabTrigger
             value={tabs.ended}
             label={tabLabels.ended}
             isDisabled={!endedShows.length}
@@ -102,7 +102,7 @@ export const FollowingList = () => {
         </Tabs.List>
 
         <Tabs.Content value={tabs.all}>
-          <SubSectionOfShows shows={followedShowsDetails} />
+          <SubSectionOfShows shows={trackedShowsDetails} />
         </Tabs.Content>
 
         <Tabs.Content value={tabs.active}>

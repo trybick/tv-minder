@@ -2,7 +2,7 @@ import { Alert } from '@chakra-ui/react';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 
-export const NoFollowedShowsBanner = () => {
+export const NoTrackedShowsBanner = () => {
   const { isMobile } = useResponsiveLayout();
 
   return (
