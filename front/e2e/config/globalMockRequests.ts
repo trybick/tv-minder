@@ -20,7 +20,21 @@ const emptyShowsResponse = {
   total_results: 0,
 };
 
+const emptyTmdbResponse = JSON.stringify({
+  page: 1,
+  results: [],
+  total_pages: 0,
+  total_results: 0,
+});
+
 export const globalMockRequests = async (page: Page) => {
+  // Catch-all for any TMDB API request not handled by specific mocks.
+  // Registered BEFORE specific mocks so it has lowest priority (Playwright
+  // matches most-recently-registered route first).
+  await page.route('**/api.themoviedb.org/**', async route => {
+    await route.fulfill({ status: 200, body: emptyTmdbResponse });
+  });
+
   await Promise.all([
     // Trending
     mockRequest({

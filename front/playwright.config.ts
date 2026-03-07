@@ -30,6 +30,7 @@ export default defineConfig({
 
   use: {
     baseURL: baseUrl,
+    serviceWorkers: 'block',
     trace: 'on-first-retry',
     video: 'on-first-retry',
     screenshot: 'only-on-failure',

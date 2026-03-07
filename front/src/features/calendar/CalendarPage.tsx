@@ -1,6 +1,7 @@
 import { Box, Flex, Icon, Spinner, Text } from '@chakra-ui/react';
 import {
   type CalendarOptions,
+  type DatesSetArg,
   type EventClickArg,
   type EventContentArg,
 } from '@fullcalendar/core';
@@ -107,14 +108,9 @@ export const CalendarPage = () => {
     );
   };
 
-  const handleDatesSet = () => {
-    const view = calendarRef.current?.getApi().view;
-    if (!view) {
-      return;
-    }
-
-    setCalendarTitle(view.title);
-    setViewRange({ start: view.activeStart, end: view.activeEnd });
+  const handleDatesSet = (dateInfo: DatesSetArg) => {
+    setCalendarTitle(dateInfo.view.title);
+    setViewRange({ start: dateInfo.start, end: dateInfo.end });
   };
 
   const calendarProps: CalendarOptions & {
