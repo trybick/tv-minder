@@ -29,6 +29,7 @@ import { dayjs } from '~/utils/dayjs';
 
 import { CalendarEmptyState } from './CalendarEmptyState';
 import { CalendarHeader } from './CalendarHeader';
+import { CalendarSkeleton } from './CalendarSkeleton';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
 import { NoFollowedShowsBanner } from './NoFollowedShowsBanner';
 
@@ -167,9 +168,7 @@ export const CalendarPage = () => {
         w={{ base: '90%', md: '100%' }}
       >
         {isInitialLoading ? (
-          <Flex justify="center" align="center" py={20}>
-            <Spinner size="xl" />
-          </Flex>
+          <CalendarSkeleton />
         ) : hasFollowedShows ? (
           <>
             <CalendarHeader
