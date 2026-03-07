@@ -9,6 +9,7 @@ import {
   SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
   SAVE_SHOW_DETAILS_FOR_SHOW,
   SET_CURRENT_CALENDAR_EPISODES,
+  SET_CURRENT_SHOW_ID,
   SET_IS_LOADING_CALENDAR_EPISODES,
   SET_IS_LOADING_SHOW_DETAILS,
 } from './actions';
@@ -21,6 +22,7 @@ import {
 type State = {
   showDetails: Record<number, TmdbShowWithSeasons>;
   searchShowDetails: Record<number, TmdbShowWithSeasons>;
+  currentShowId: number | null;
   isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
   isLoadingCalendarEpisodes: boolean;
@@ -48,6 +50,7 @@ const emptyDiscoverShows: DiscoverShowsState = {
 const initialState: State = {
   showDetails: {},
   searchShowDetails: {},
+  currentShowId: null,
   isLoadingShowDetails: false,
   calendarEpisodesForDisplay: [],
   isLoadingCalendarEpisodes: true,
@@ -81,6 +84,12 @@ export const tvReducer: Reducer<State, Action> = (
       return {
         ...state,
         searchShowDetails: { ...state.searchShowDetails, ...action.payload },
+      };
+    }
+    case SET_CURRENT_SHOW_ID: {
+      return {
+        ...state,
+        currentShowId: action.payload,
       };
     }
     case SET_IS_LOADING_SHOW_DETAILS: {

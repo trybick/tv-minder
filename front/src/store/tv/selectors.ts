@@ -2,7 +2,6 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
-import { getShowIdFromUrl } from '~/utils/getShowIdFromUrl';
 
 import { type AppSelector, type AppState } from './..';
 import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
@@ -121,11 +120,16 @@ export const selectForYouShowsForDisplay: AppSelector<DiscoverShow[]> =
     toDisplayFormat(forYouShows.slice(0, 29).filter(show => !!show.poster_path))
   );
 
+const selectCurrentShowId = (state: AppState) => state.tv.currentShowId;
+
 export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
   createSelector(
     selectShowDetails,
-    getShowIdFromUrl,
+    selectCurrentShowId,
     (showDetails, currentShowId) => {
+      if (!currentShowId) {
+        return null;
+      }
       const currentShow = showDetails[currentShowId];
       return currentShow?.id ? mapShowInfoForDisplayCached(currentShow) : null;
     }

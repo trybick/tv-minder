@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { Route, Switch, useLocation, useParams } from 'wouter';
+import { Route, Switch, useLocation } from 'wouter';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { Modals } from '~/components/Modals';
@@ -26,11 +26,6 @@ import { initSentry } from '~/utils/sentry';
 import { ROUTES } from './routes';
 
 // This wrapper fixes going back a page but the page not changing.
-const ShowPageRoute = () => {
-  const { showId } = useParams<{ showId: string }>();
-  return <ShowPage key={showId} />;
-};
-
 export const App = () => {
   const { isMobile } = useResponsiveLayout();
 
@@ -81,7 +76,7 @@ export const App = () => {
             </Route>
 
             <Route path={`${ROUTES.SHOW}/:showId`}>
-              <ShowPageRoute />
+              <ShowPage />
             </Route>
           </Switch>
         </Flex>

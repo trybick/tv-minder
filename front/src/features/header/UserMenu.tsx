@@ -4,16 +4,11 @@ import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import { useAppDispatch, useAppSelector } from '~/store';
-import {
-  selectEmail,
-  selectIsGoogleUser,
-  setIsLoggedOut,
-} from '~/store/rtk/slices/user.slice';
+import { selectEmail, setIsLoggedOut } from '~/store/rtk/slices/user.slice';
 
 export const UserMenu = () => {
   const dispatch = useAppDispatch();
   const email = useAppSelector(selectEmail);
-  const isGoogleUser = useAppSelector(selectIsGoogleUser);
   const [, navigate] = useLocation();
 
   const handleLogout = () => {
@@ -44,16 +39,14 @@ export const UserMenu = () => {
               <Menu.Separator />
 
               <Menu.ItemGroup>
-                {!isGoogleUser && (
-                  <Menu.Item
-                    cursor="pointer"
-                    onClick={() => navigate(ROUTES.SETTINGS)}
-                    value="settings"
-                  >
-                    <LuSettings />
-                    Settings
-                  </Menu.Item>
-                )}
+                <Menu.Item
+                  cursor="pointer"
+                  onClick={() => navigate(ROUTES.SETTINGS)}
+                  value="settings"
+                >
+                  <LuSettings />
+                  Settings
+                </Menu.Item>
                 <Menu.Item
                   cursor="pointer"
                   onClick={handleLogout}
