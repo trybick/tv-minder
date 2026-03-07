@@ -50,9 +50,10 @@ export const CalendarPage = () => {
   const isLoadingCalendarEpisodes = useAppSelector(
     selectIsLoadingCalendarEpisodes
   );
-  const { isLoading: isLoadingFollowedShows } = useAppSelector(
-    followApi.endpoints.getFollowedShows.select(undefined)
-  );
+  const {
+    isLoading: isLoadingFollowedShows,
+    isUninitialized: isFollowedShowsUninitialized,
+  } = useAppSelector(followApi.endpoints.getFollowedShows.select(undefined));
 
   useEffect(() => {
     const loadEpisodes = () => {
@@ -132,17 +133,16 @@ export const CalendarPage = () => {
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
     listDaySideFormat: false,
-    noEventsContent:
-      isLoadingCalendarEpisodes || isLoadingFollowedShows ? (
-        isMobile ? (
-          <Flex align="center" gap={2} justify="center" py={6}>
-            <Spinner size="sm" />
-            <Text fontSize="14px">Loading episodes</Text>
-          </Flex>
-        ) : null
-      ) : (
-        <NoFollowedShowsBanner />
-      ),
+    noEventsContent: isLoadingCalendarEpisodes ? (
+      isMobile ? (
+        <Flex align="center" gap={2} justify="center" py={6}>
+          <Spinner size="sm" />
+          <Text fontSize="14px">Loading episodes</Text>
+        </Flex>
+      ) : null
+    ) : (
+      <NoFollowedShowsBanner />
+    ),
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     ref: calendarRef as RefObject<FullCalendar>,
     titleFormat: { month: 'long' },
@@ -151,8 +151,10 @@ export const CalendarPage = () => {
     datesSet: handleDatesSet,
   };
 
-  const isReady = !isLoadingCalendarEpisodes && !isLoadingFollowedShows;
-  const hasFollowedShows = isReady && !!followedShows.length;
+  const isFollowedShowsPending =
+    isLoadingFollowedShows || (isLoggedIn && isFollowedShowsUninitialized);
+  const isInitialLoading = isFollowedShowsPending || isLoadingCalendarEpisodes;
+  const hasFollowedShows = !isInitialLoading && !!followedShows.length;
 
   return (
     <>
@@ -164,17 +166,24 @@ export const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        {hasFollowedShows && (
-          <CalendarHeader
-            calendarRef={calendarRef}
-            title={calendarTitle}
-            viewRange={viewRange}
-          />
-        )}
-        {!hasFollowedShows ? (
-          <CalendarEmptyState />
+        {isInitialLoading ? (
+          <Flex justify="center" align="center" py={20}>
+            <Spinner size="xl" />
+          </Flex>
+        ) : hasFollowedShows ? (
+          <>
+            <CalendarHeader
+              calendarRef={calendarRef}
+              title={calendarTitle}
+              viewRange={viewRange}
+            />
+            <FullCalendar
+              {...calendarProps}
+              key={dayjs().format('MM-DD-YYYY')}
+            />
+          </>
         ) : (
-          <FullCalendar {...calendarProps} key={dayjs().format('MM-DD-YYYY')} />
+          <CalendarEmptyState />
         )}
       </Box>
     </>
