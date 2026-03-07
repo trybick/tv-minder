@@ -3,7 +3,7 @@ import { expect, type Page } from '@playwright/test';
 import { email, followResponse, password } from './mockData';
 
 export const login = async (page: Page) => {
-  // Mock login endpoint (matches both localhost:5000 and api.tv-minder.com)
+  // Mock login endpoint (matches both localhost:4500 and api.tv-minder.com)
   await page.route('**/login', async route => {
     if (route.request().method() === 'POST') {
       await route.fulfill({

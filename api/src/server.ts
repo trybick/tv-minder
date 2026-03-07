@@ -8,7 +8,7 @@ import contactRoutes from 'entities/routes/contact';
 import { limiter } from 'utils/limiter';
 import logger from 'utils/logger';
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4500;
 const app = express();
 
 app.use(configureCors);
