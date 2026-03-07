@@ -83,22 +83,10 @@ test.describe('Home Page', () => {
     });
   });
 
-  test.describe('Popular Shows', () => {
-    test('should navigate to show page when clicking a show', async ({
+  test.describe('Discover Sections', () => {
+    test('should navigate to a show page from trending now section', async ({
       page,
     }) => {
-      await page.goto('/');
-      await page
-        .getByRole('link', { name: /mobland/i })
-        .first()
-        .click();
-
-      await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
-    });
-  });
-
-  test.describe('Discover Sections', () => {
-    test('should display Trending Now section with shows', async ({ page }) => {
       await page.goto('/');
 
       await expect(
@@ -107,6 +95,13 @@ test.describe('Home Page', () => {
       await expect(page.getByText('MobLand').first()).toBeVisible({
         timeout: 10000,
       });
+
+      await page
+        .getByRole('link', { name: /mobland/i })
+        .first()
+        .click();
+
+      await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
     });
 
     test('should hide discover sections when searching', async ({ page }) => {
