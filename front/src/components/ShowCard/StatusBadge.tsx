@@ -17,8 +17,11 @@ export const StatusBadge = ({ label, color }: Props) => (
     px="2"
     py="1"
     borderRadius="md"
-    letterSpacing="0.2px"
+    letterSpacing="0.5px"
     textTransform="uppercase"
+    boxShadow="0 2px 8px rgba(0,0,0,0.6)"
+    ring="1.5px"
+    ringColor="whiteAlpha.400"
   >
     {label}
   </Box>
