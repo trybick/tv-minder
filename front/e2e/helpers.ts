@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 
-import { email, followResponse, password } from './mockData';
+import { email, password, trackResponse } from './mockData';
 
 export const login = async (page: Page) => {
   // Mock login endpoint (matches both localhost:4500 and api.tv-minder.com)
@@ -15,12 +15,11 @@ export const login = async (page: Page) => {
     }
   });
 
-  // Mock follow endpoint - RTK Query will fetch this after login
-  await page.route('**/follow', async route => {
+  await page.route('**/track', async route => {
     if (route.request().method() === 'GET') {
       await route.fulfill({
         status: 200,
-        body: JSON.stringify(followResponse),
+        body: JSON.stringify(trackResponse),
       });
     } else {
       await route.fallback();

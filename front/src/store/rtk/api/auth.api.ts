@@ -22,7 +22,7 @@ type RegisterRequest = {
   email: string;
   password: string;
   isGoogleUser?: boolean;
-  unregisteredFollowedShows?: number[];
+  unregisteredTrackedShows?: number[];
 };
 
 type RequestOneTimeCodeRequest = {

@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
-import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 
 import { type AppSelector, type AppState } from './..';
 import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
@@ -42,46 +42,44 @@ const mapShowInfoForDisplayCached = (
   return mapped;
 };
 
-export const selectFollowedShowsDetails: AppSelector<ShowForDisplay[]> =
+export const selectTrackedShowsDetails: AppSelector<ShowForDisplay[]> =
   createSelector(
     selectShowDetails,
-    selectFollowedShows,
-    (showDetails, followedShows) => {
-      if (!showDetails || !followedShows?.length) {
+    selectTrackedShows,
+    (showDetails, trackedShows) => {
+      if (!showDetails || !trackedShows?.length) {
         return [];
       }
 
-      const formattedFollowedShows: ShowForDisplay[] = [];
-      for (const showId of followedShows) {
+      const formattedTrackedShows: ShowForDisplay[] = [];
+      for (const showId of trackedShows) {
         const show = showDetails[showId];
         if (show) {
-          formattedFollowedShows.push(mapShowInfoForDisplayCached(show));
+          formattedTrackedShows.push(mapShowInfoForDisplayCached(show));
         }
       }
 
-      return formattedFollowedShows.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
+      return formattedTrackedShows.sort((a, b) => a.name.localeCompare(b.name));
     }
   );
 
 export const selectActiveSeasonShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectFollowedShowsDetails, shows =>
+  createSelector(selectTrackedShowsDetails, shows =>
     shows.filter(show => show.status.isActiveSeason)
   );
 
 export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectFollowedShowsDetails, shows =>
+  createSelector(selectTrackedShowsDetails, shows =>
     shows.filter(show => show.status.isInProduction)
   );
 
 export const selectPremieringSoonShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectFollowedShowsDetails, shows =>
+  createSelector(selectTrackedShowsDetails, shows =>
     shows.filter(show => show.status.isPremieringSoon)
   );
 
 export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
-  selectFollowedShowsDetails,
+  selectTrackedShowsDetails,
   shows => shows.filter(show => show.status.isEnded)
 );
 

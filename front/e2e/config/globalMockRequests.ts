@@ -1,7 +1,6 @@
 import { type Page } from '@playwright/test';
 
 import {
-  followResponse,
   moblandBasicInfo,
   moblandSeason1,
   pokerFaceBasicInfo,
@@ -9,6 +8,7 @@ import {
   pokerFaceSeason2,
   searchPokerFaceResponse,
   settingsResponse,
+  trackResponse,
 } from '../mockData';
 import { discoverShowsResponse } from '../mockData/discoverShows';
 import { topRatedShowsResponse } from '../mockData/topRatedShows';
@@ -69,11 +69,11 @@ export const globalMockRequests = async (page: Page) => {
       body: searchPokerFaceResponse,
     }),
 
-    // TV Minder: follow
+    // TV Minder: track
     mockRequest({
       page,
-      path: '**/follow',
-      body: followResponse,
+      path: '**/track',
+      body: trackResponse,
     }),
 
     // TV Minder: settings

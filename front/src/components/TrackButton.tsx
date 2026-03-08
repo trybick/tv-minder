@@ -3,69 +3,69 @@ import { CiCircleMinus } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { followApi } from '~/store/rtk/api/follow.api';
-import { selectFollowedShowsSet } from '~/store/rtk/slices/user.selectors';
+import { trackApi } from '~/store/rtk/api/track.api';
+import { selectTrackedShowsSet } from '~/store/rtk/slices/user.selectors';
 import {
   selectIsLoggedIn,
-  unregisteredFollowShow,
-  unregisteredUnfollowShow,
+  unregisteredTrackShow,
+  unregisteredUntrackShow,
 } from '~/store/rtk/slices/user.slice';
 import { trackEvent } from '~/utils/analytics';
 
 type Props = {
   showId: number;
-  unfollowedWidth?: string;
-  followedWidth?: string;
+  untrackedWidth?: string;
+  trackedWidth?: string;
   showName: string;
 };
 
-export const FollowButton = ({
+export const TrackButton = ({
   showId,
-  followedWidth,
-  unfollowedWidth,
+  trackedWidth,
+  untrackedWidth,
   showName,
   ...rest
 }: Props & ButtonProps) => {
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isFollowed = useAppSelector(state =>
-    selectFollowedShowsSet(state).has(showId)
+  const isTracked = useAppSelector(state =>
+    selectTrackedShowsSet(state).has(showId)
   );
 
-  const onFollowShow = () => {
+  const onTrackShow = () => {
     trackEvent({
       category: 'Show',
-      action: 'Follow Show',
+      action: 'Track Show',
       label: `${showName} (${showId.toString()})`,
     });
     if (isLoggedIn) {
-      dispatch(followApi.endpoints.followShow.initiate(showId));
+      dispatch(trackApi.endpoints.trackShow.initiate(showId));
     } else {
       // Use manual dispatch instead of RTK mutation to avoid the cost of
       // subscription across many FollowButtons
-      dispatch(unregisteredFollowShow(showId));
+      dispatch(unregisteredTrackShow(showId));
     }
   };
 
-  const onUnfollowShow = () => {
+  const onUntrackShow = () => {
     trackEvent({
       category: 'Show',
-      action: 'Unfollow Show',
+      action: 'Untrack Show',
       label: `${showName} (${showId.toString()})`,
     });
     if (isLoggedIn) {
-      dispatch(followApi.endpoints.unfollowShow.initiate(showId));
+      dispatch(trackApi.endpoints.untrackShow.initiate(showId));
     } else {
-      dispatch(unregisteredUnfollowShow(showId));
+      dispatch(unregisteredUntrackShow(showId));
     }
   };
 
-  return isFollowed ? (
+  return isTracked ? (
     <Button
       aria-label={`track-button-${showId}`}
       colorPalette="gray"
-      onClick={onUnfollowShow}
+      onClick={onUntrackShow}
       variant="surface"
       role="group"
       borderWidth="1px"
@@ -76,7 +76,7 @@ export const FollowButton = ({
         color: 'white',
       }}
       _active={{ bg: 'red.700', borderColor: 'red.700' }}
-      {...(followedWidth && { minW: followedWidth })}
+      {...(trackedWidth && { minW: trackedWidth })}
       {...rest}
     >
       <Flex align="center" gap={2}>
@@ -104,9 +104,9 @@ export const FollowButton = ({
     <Button
       aria-label={`track-button-${showId}`}
       colorPalette="cyan"
-      onClick={onFollowShow}
+      onClick={onTrackShow}
       variant="surface"
-      {...(unfollowedWidth && { minW: unfollowedWidth })}
+      {...(untrackedWidth && { minW: untrackedWidth })}
       {...rest}
     >
       <Icon

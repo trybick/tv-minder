@@ -5,7 +5,7 @@ import { type ShowItem } from './helpers';
 
 type ShowCardContextValue = {
   show: ShowItem;
-  followButtonSize?: ButtonProps['size'];
+  trackButtonSize?: ButtonProps['size'];
 };
 
 const ShowCardContext = createContext<ShowCardContextValue | null>(null);

@@ -1,4 +1,4 @@
-import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { handleKyError } from '~/utils/handleKyError';
 
 import { type AppThunk } from './..';
@@ -18,8 +18,8 @@ import { tmdbApi } from './utils/tmdbApi';
 export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
 export const SET_IS_LOADING_CALENDAR_EPISODES =
   'SET_IS_LOADING_CALENDAR_EPISODES';
-export const SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS =
-  'SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS';
+export const SAVE_SHOW_DETAILS_FOR_TRACKED_SHOWS =
+  'SAVE_SHOW_DETAILS_FOR_TRACKED_SHOWS';
 export const SAVE_SHOW_DETAILS_FOR_SHOW = 'SAVE_SHOW_DETAILS_FOR_SHOW';
 export const SET_IS_LOADING_SHOW_DETAILS = 'SET_IS_LOADING_SHOW_DETAILS';
 export const SAVE_SEARCH_SHOW_DETAILS = 'SAVE_SEARCH_SHOW_DETAILS';
@@ -37,9 +37,9 @@ export const getEpisodesForCalendarAction =
 
     dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
 
-    const userFollowedShowsIds = selectFollowedShows(state);
+    const userTrackedShowsIds = selectTrackedShows(state);
     const { fetchedEpisodeData } =
-      await getEpisodesForCalendar(userFollowedShowsIds);
+      await getEpisodesForCalendar(userTrackedShowsIds);
 
     dispatch({
       type: SET_CURRENT_CALENDAR_EPISODES,
@@ -47,16 +47,16 @@ export const getEpisodesForCalendarAction =
     });
   };
 
-export const getShowDetailsForFollowedShows =
+export const getShowDetailsForTrackedShows =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
-    const followedShowsSource = selectFollowedShows(state);
-    if (!followedShowsSource?.length) {
+    const trackedShowsSource = selectTrackedShows(state);
+    if (!trackedShowsSource?.length) {
       return;
     }
 
     const { showDetails } = state.tv;
-    const idsToFetch = followedShowsSource.filter(id => !showDetails[id]);
+    const idsToFetch = trackedShowsSource.filter(id => !showDetails[id]);
     if (!idsToFetch.length) {
       return;
     }
@@ -77,7 +77,7 @@ export const getShowDetailsForFollowedShows =
     }
 
     dispatch({
-      type: SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
+      type: SAVE_SHOW_DETAILS_FOR_TRACKED_SHOWS,
       payload: data,
     });
   };
@@ -267,21 +267,21 @@ export const fetchForYouShowsAction =
       return;
     }
 
-    const followedShows = selectFollowedShows(state);
-    if (followedShows.length < 2) {
+    const trackedShows = selectTrackedShows(state);
+    if (trackedShows.length < 2) {
       return;
     }
 
-    dispatch(getShowDetailsForFollowedShows());
+    dispatch(getShowDetailsForTrackedShows());
     const { showDetails } = getState().tv;
 
-    const sorted = [...followedShows].sort((a, b) => a - b);
-    const highRatedFollowedShows = sorted.filter(showId => {
+    const sorted = [...trackedShows].sort((a, b) => a - b);
+    const highRatedTrackedShows = sorted.filter(showId => {
       const showRating = showDetails[showId]?.vote_average;
       return !!showRating && showRating >= FOR_YOU_MIN_SOURCE_RATING;
     });
 
-    const selectedHighRatedIds = pickStableIds(highRatedFollowedShows, 2);
+    const selectedHighRatedIds = pickStableIds(highRatedTrackedShows, 2);
     const remainingIds = sorted.filter(
       id => !selectedHighRatedIds.includes(id)
     );
@@ -295,13 +295,13 @@ export const fetchForYouShowsAction =
       selectedIds.map(id => tmdbApi.getRecommendations(id))
     );
 
-    const followedSet = new Set(followedShows);
+    const trackedSet = new Set(trackedShows);
     const lists: TmdbShowSummary[][] = [];
 
     for (const result of results) {
       if (result.status === 'fulfilled') {
         const filtered = result.value.results.filter(
-          show => !followedSet.has(show.id)
+          show => !trackedSet.has(show.id)
         );
         lists.push(filtered);
       } else {

@@ -14,7 +14,7 @@ export type UserState = {
   email: string;
   isGoogleUser: boolean;
   isLoggedIn: boolean;
-  unregisteredFollowedShows: number[];
+  unregisteredTrackedShows: number[];
   token: string | null;
 };
 
@@ -22,7 +22,7 @@ const initialState: UserState = {
   email: '',
   isGoogleUser: false,
   isLoggedIn: false,
-  unregisteredFollowedShows: [],
+  unregisteredTrackedShows: [],
   token: authStorage.getToken(),
 };
 
@@ -48,19 +48,19 @@ const userSlice = createSlice({
       state.email = email;
       state.token = token;
       state.isGoogleUser = isGoogleUser;
-      state.unregisteredFollowedShows = [];
+      state.unregisteredTrackedShows = [];
     },
 
-    unregisteredFollowShow: (state, action: PayloadAction<number>) => {
+    unregisteredTrackShow: (state, action: PayloadAction<number>) => {
       const showId = action.payload;
-      if (!state.unregisteredFollowedShows.includes(showId)) {
-        state.unregisteredFollowedShows.push(showId);
+      if (!state.unregisteredTrackedShows.includes(showId)) {
+        state.unregisteredTrackedShows.push(showId);
       }
     },
 
-    unregisteredUnfollowShow: (state, action: PayloadAction<number>) => {
+    unregisteredUntrackShow: (state, action: PayloadAction<number>) => {
       const showId = action.payload;
-      state.unregisteredFollowedShows = state.unregisteredFollowedShows.filter(
+      state.unregisteredTrackedShows = state.unregisteredTrackedShows.filter(
         id => id !== showId
       );
     },
@@ -70,15 +70,15 @@ const userSlice = createSlice({
     selectIsGoogleUser: state => state.isGoogleUser,
     selectIsLoggedIn: state => state.isLoggedIn,
     selectToken: state => state.token,
-    selectUnregisteredFollowedShows: state => state.unregisteredFollowedShows,
+    selectUnregisteredTrackedShows: state => state.unregisteredTrackedShows,
   },
 });
 
 export const {
   setIsLoggedOut,
   setIsLoggedIn,
-  unregisteredFollowShow,
-  unregisteredUnfollowShow,
+  unregisteredTrackShow,
+  unregisteredUntrackShow,
 } = userSlice.actions;
 
 export const {
@@ -86,7 +86,7 @@ export const {
   selectIsGoogleUser,
   selectIsLoggedIn,
   selectToken,
-  selectUnregisteredFollowedShows,
+  selectUnregisteredTrackedShows,
 } = userSlice.selectors;
 
 export const userReducer = userSlice.reducer;

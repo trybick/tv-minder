@@ -8,16 +8,16 @@ import { ProtectedRoute } from '~/components/ProtectedRoute';
 import { Toaster } from '~/components/ui/toaster';
 import { CalendarPage } from '~/features/calendar/CalendarPage';
 import { CommandPaletteProvider } from '~/features/commandPalette';
-import { FollowingPage } from '~/features/following/FollowingPage';
 import { Footer } from '~/features/footer/Footer';
 import { HeaderDesktop } from '~/features/header/HeaderDesktop';
 import { HeaderMobile } from '~/features/header/HeaderMobile';
 import { SearchPage } from '~/features/search/SearchPage';
 import { SettingsPage } from '~/features/settings/SettingsPage';
 import { ShowPage } from '~/features/show/ShowPage';
+import { TrackingPage } from '~/features/tracking/TrackingPage';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
-import { useGetFollowedShowsQuery } from '~/store/rtk/api/follow.api';
+import { useGetTrackedShowsQuery } from '~/store/rtk/api/track.api';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { initAnalytics, trackPageview } from '~/utils/analytics';
 import { gAnalyticsID } from '~/utils/constants';
@@ -32,7 +32,7 @@ export const App = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [location] = useLocation();
 
-  useGetFollowedShowsQuery(undefined, {
+  useGetTrackedShowsQuery(undefined, {
     skip: !isLoggedIn,
     refetchOnMountOrArgChange: true,
     selectFromResult: () => ({}),
@@ -66,7 +66,7 @@ export const App = () => {
 
             <Route path={ROUTES.MANAGE}>
               <ProtectedRoute>
-                <FollowingPage />
+                <TrackingPage />
               </ProtectedRoute>
             </Route>
             <Route path={ROUTES.SETTINGS}>

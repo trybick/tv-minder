@@ -3,7 +3,7 @@ import express from 'express';
 import connectToDatabase from 'config/database';
 import configureCors from 'config/configureCors';
 import userRoutes from 'entities/routes/user';
-import followShowRoutes from 'entities/routes/follow';
+import trackShowRoutes from 'entities/routes/track';
 import contactRoutes from 'entities/routes/contact';
 import settingsRoutes from 'entities/routes/settings';
 import { limiter } from 'utils/limiter';
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 connectToDatabase();
 
 app.use(userRoutes);
-app.use(followShowRoutes);
+app.use(trackShowRoutes);
 app.use(contactRoutes);
 app.use(settingsRoutes);
 

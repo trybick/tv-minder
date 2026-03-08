@@ -20,7 +20,7 @@ export const registerUser = async (req: Request, res: Response) => {
         const newUser = new User({
           email: req.body.email,
           password: hash,
-          followedShows: req.body.unregisteredFollowedShows || [],
+          trackedShows: req.body.unregisteredTrackedShows || [],
         });
         await newUser.save();
         res.status(204).send();
@@ -45,7 +45,7 @@ export const registerUser = async (req: Request, res: Response) => {
       const newUser = new User({
         email: req.body.email,
         password: hash,
-        followedShows: req.body.unregisteredFollowedShows || [],
+        trackedShows: req.body.unregisteredTrackedShows || [],
       });
       await newUser.save();
 

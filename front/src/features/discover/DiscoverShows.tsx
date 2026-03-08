@@ -18,9 +18,9 @@ import { TbBrandDisney } from 'react-icons/tb';
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { followApi } from '~/store/rtk/api/follow.api';
 import { useGetSettingsQuery } from '~/store/rtk/api/settings.api';
-import { selectFollowedShows } from '~/store/rtk/slices/user.selectors';
+import { trackApi } from '~/store/rtk/api/track.api';
+import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import {
   type DiscoverCarouselKey,
@@ -50,7 +50,7 @@ const FOR_YOU_CONFIG: CarouselConfig = {
   key: 'forYou',
   icon: <HiOutlineHeart />,
   title: 'For You',
-  subtitle: 'Recommended based on shows you follow',
+  subtitle: 'Recommended based on shows you track',
 };
 
 const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
@@ -143,10 +143,10 @@ export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const followedShows = useAppSelector(selectFollowedShows);
+  const trackedShows = useAppSelector(selectTrackedShows);
   const forYouShows = useAppSelector(selectForYouShowsForDisplay);
-  const { status: getFollowedShowsStatus } = useAppSelector(
-    followApi.endpoints.getFollowedShows.select(undefined)
+  const { status: getTrackedShowsStatus } = useAppSelector(
+    trackApi.endpoints.getTrackedShows.select(undefined)
   );
 
   const { data: settings } = useGetSettingsQuery(undefined, {
@@ -155,11 +155,11 @@ export const DiscoverShows = () => {
   const showWelcomeStrip = !isLoggedIn || settings?.showWelcomeStrip !== false;
 
   useEffect(() => {
-    const shouldWaitForFollowedShows =
+    const shouldWaitForTrackedShows =
       isLoggedIn &&
-      (getFollowedShowsStatus === QueryStatus.uninitialized ||
-        getFollowedShowsStatus === QueryStatus.pending);
-    if (shouldWaitForFollowedShows) {
+      (getTrackedShowsStatus === QueryStatus.uninitialized ||
+        getTrackedShowsStatus === QueryStatus.pending);
+    if (shouldWaitForTrackedShows) {
       return;
     }
 
@@ -171,17 +171,14 @@ export const DiscoverShows = () => {
     };
 
     void fetchSections();
-  }, [dispatch, followedShows.length, isLoggedIn, getFollowedShowsStatus]);
+  }, [dispatch, trackedShows.length, isLoggedIn, getTrackedShowsStatus]);
 
   const getShouldIncludeForYouSection = () => {
     // Avoids For You section appearing on top after other carousels have loaded
-    const isGetFollowedShowsPending =
-      getFollowedShowsStatus === QueryStatus.uninitialized ||
-      getFollowedShowsStatus === QueryStatus.pending;
-    if (
-      isLoggedIn &&
-      (isGetFollowedShowsPending || followedShows.length >= 2)
-    ) {
+    const isGetTrackedShowsPending =
+      getTrackedShowsStatus === QueryStatus.uninitialized ||
+      getTrackedShowsStatus === QueryStatus.pending;
+    if (isLoggedIn && (isGetTrackedShowsPending || trackedShows.length >= 2)) {
       return true;
     }
 

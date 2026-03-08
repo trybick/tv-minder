@@ -26,7 +26,7 @@ export const SearchResultCard = ({ show, badge }: Props) => {
       </ShowCard.Image>
       <ShowCard.BottomSection>
         <ShowCard.Title />
-        <ShowCard.FollowButton />
+        <ShowCard.TrackButton />
       </ShowCard.BottomSection>
     </ShowCard.Root>
   );

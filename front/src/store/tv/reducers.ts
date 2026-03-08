@@ -6,8 +6,8 @@ import {
   SAVE_FOR_YOU_SHOWS,
   SAVE_RECOMMENDATIONS,
   SAVE_SEARCH_SHOW_DETAILS,
-  SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS,
   SAVE_SHOW_DETAILS_FOR_SHOW,
+  SAVE_SHOW_DETAILS_FOR_TRACKED_SHOWS,
   SET_CURRENT_CALENDAR_EPISODES,
   SET_CURRENT_SHOW_ID,
   SET_IS_LOADING_CALENDAR_EPISODES,
@@ -64,7 +64,7 @@ export const tvReducer: Reducer<State, Action> = (
   action: AnyAction
 ) => {
   switch (action.type) {
-    case SAVE_SHOW_DETAILS_FOR_FOLLOWED_SHOWS: {
+    case SAVE_SHOW_DETAILS_FOR_TRACKED_SHOWS: {
       if (!Object.keys(action.payload ?? {}).length) {
         return state;
       }

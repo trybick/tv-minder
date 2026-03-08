@@ -6,7 +6,7 @@ import { MdOutlineResetTv } from 'react-icons/md';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
-import { followApi } from '~/store/rtk/api/follow.api';
+import { trackApi } from '~/store/rtk/api/track.api';
 import {
   selectCalendarEpisodesForDisplay,
   selectIsLoadingCalendarEpisodes,
@@ -29,12 +29,12 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
   const isLoadingCalendarEpisodes = useAppSelector(
     selectIsLoadingCalendarEpisodes
   );
-  const { isLoading: isLoadingFollowedShows } = useAppSelector(
-    followApi.endpoints.getFollowedShows.select(undefined)
+  const { isLoading: isLoadingTrackedShows } = useAppSelector(
+    trackApi.endpoints.getTrackedShows.select(undefined)
   );
 
   const hasEpisodesInCurrentMonth = useMemo(() => {
-    if (!viewRange || isLoadingCalendarEpisodes || isLoadingFollowedShows) {
+    if (!viewRange || isLoadingCalendarEpisodes || isLoadingTrackedShows) {
       return true;
     }
 
@@ -49,7 +49,7 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
   }, [
     calendarEpisodes,
     isLoadingCalendarEpisodes,
-    isLoadingFollowedShows,
+    isLoadingTrackedShows,
     viewRange,
   ]);
 
@@ -88,7 +88,7 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
       <Box>
         {!isMobile && (
           <LoadingEpisodesBanner
-            isLoading={isLoadingCalendarEpisodes || isLoadingFollowedShows}
+            isLoading={isLoadingCalendarEpisodes || isLoadingTrackedShows}
             hasNoEpisodesThisMonth={!hasEpisodesInCurrentMonth}
           />
         )}
