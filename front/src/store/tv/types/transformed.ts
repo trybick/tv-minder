@@ -107,6 +107,7 @@ export type CalendarEpisode = {
   multipleEventSpanAmount?: number;
   network: string;
   overview: string;
+  posterPath: string | null;
   runtime: number;
   seasonAndEpisodeNumbersFull?: string;
   seasonNumber: number;
