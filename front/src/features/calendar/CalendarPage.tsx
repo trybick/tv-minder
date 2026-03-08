@@ -101,10 +101,10 @@ export const CalendarPage = () => {
 
   const formatMobileEvent = (eventInfo: EventContentArg) => {
     const { title } = eventInfo.event;
-    const { isMulipleEvent } = eventInfo.event.extendedProps;
+    const { isMultipleEvent } = eventInfo.event.extendedProps;
     return (
       <Flex>
-        {isMulipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
+        {isMultipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
         <Text cursor="pointer">{title}</Text>
       </Flex>
     );

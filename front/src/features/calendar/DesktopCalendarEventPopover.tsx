@@ -26,7 +26,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
   const { title } = eventInfo.event;
   const {
     episodeName,
-    isMulipleEvent,
+    isMultipleEvent,
     multipleEventSpanAmount,
     network,
     overview,
@@ -50,7 +50,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
     >
       <HoverCard.Trigger asChild>
         <Flex alignItems="center" p="1px 6px">
-          {isMulipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
+          {isMultipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
           <Text fontSize="md" lineClamp={1} as="h3">
             {title}
           </Text>
@@ -82,12 +82,12 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                 {seasonAndEpisodeNumbersFull}
               </Text>
               <Text color="fg" fontSize="sm" fontStyle="italic" mb="8px">
-                {!isMulipleEvent && episodeName}
+                {!isMultipleEvent && episodeName}
               </Text>
 
-              {network || runtime || isMulipleEvent ? (
+              {network || runtime || isMultipleEvent ? (
                 <Flex flexWrap="wrap" gap="2px 8px">
-                  {isMulipleEvent && (
+                  {isMultipleEvent && (
                     <Flex align="center" gap="2px">
                       <Icon
                         alignSelf="center"
@@ -113,7 +113,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                       </Text>
                     </Flex>
                   )}
-                  {!!runtime && !isMulipleEvent && (
+                  {!!runtime && !isMultipleEvent && (
                     <Flex align="center" gap="2px">
                       <Icon
                         alignSelf="center"
@@ -129,7 +129,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                 </Flex>
               ) : null}
 
-              {overview && !isMulipleEvent && (
+              {overview && !isMultipleEvent && (
                 <Text color="fg" fontSize="sm" mt="9px">
                   {overview}
                 </Text>
