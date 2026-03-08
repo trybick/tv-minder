@@ -5,6 +5,20 @@ const customColors = {
 
 const whiteWithOpacity = (opacity: number) => `rgba(255, 255, 255, ${opacity})`;
 
+const todayHighlightStyles = {
+  '.fc-day-today .fc-daygrid-day-number': {
+    color: '#00BCD4 !important',
+    fontWeight: '700 !important',
+    backgroundColor: 'rgba(0, 188, 212, 0.2)',
+    borderRadius: '50%',
+    width: '28px',
+    height: '28px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+};
+
 const desktopCalendarStyles = {
   // Height of each table row. Works with `height: auto` on <FullCalendar>.
   '.fc-scrollgrid tbody:first-of-type tr': {
@@ -52,6 +66,7 @@ const mobileCalendarStyles = {
 };
 
 const calendarStyles = {
+  ...todayHighlightStyles,
   ...desktopCalendarStyles,
   ...mobileCalendarStyles,
 };
@@ -98,7 +113,19 @@ const viewTransitionStyles = {
   },
 };
 
+const calendarTransitionStyles = {
+  '@keyframes calendarSlideFromRight': {
+    from: { opacity: 0, transform: 'translateX(20px)' },
+    to: { opacity: 1, transform: 'translateX(0)' },
+  },
+  '@keyframes calendarSlideFromLeft': {
+    from: { opacity: 0, transform: 'translateX(-20px)' },
+    to: { opacity: 1, transform: 'translateX(0)' },
+  },
+};
+
 export const globalCss = {
   ...calendarStyles,
+  ...calendarTransitionStyles,
   ...viewTransitionStyles,
 };

@@ -387,7 +387,7 @@ export const formatSameDayEpisodes = (
       ...baseEpisode,
       seasonAndEpisodeNumbersFull: `Season ${seasonNumber} Episodes ${lowestEpisode}-${highestEpisode}`,
       title: `${baseEpisode.showName}: S${seasonNumber} E${lowestEpisode}-${highestEpisode}`,
-      isMulipleEvent: true,
+      isMultipleEvent: true,
       multipleEventSpanAmount: episodeNumbers.length,
     });
   });

@@ -103,10 +103,11 @@ export type CalendarEpisode = {
   episodeId: number;
   episodeName: string;
   episodeNumber: number;
-  isMulipleEvent?: boolean;
+  isMultipleEvent?: boolean;
   multipleEventSpanAmount?: number;
   network: string;
   overview: string;
+  posterPath: string | null;
   runtime: number;
   seasonAndEpisodeNumbersFull?: string;
   seasonNumber: number;

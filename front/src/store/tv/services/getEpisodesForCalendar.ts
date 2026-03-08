@@ -10,6 +10,7 @@ type ShowWithLatestSeasons = {
   id: number;
   name: string;
   network: string | undefined;
+  posterPath: string | null;
   latestSeasons: number[];
 };
 
@@ -17,6 +18,7 @@ type SeasonWithShowInfo = TmdbSeason & {
   name: string;
   showId: number;
   network: string | undefined;
+  posterPath: string | null;
 };
 
 type LatestAiredSeasonData = {
@@ -66,6 +68,7 @@ const getLatestAiredSeasons = async (
         name,
         networks,
         next_episode_to_air: nextEpisodeToAir,
+        poster_path: posterPath,
         status,
       } = showInfo;
 
@@ -113,6 +116,7 @@ const getLatestAiredSeasons = async (
         id,
         name,
         network: networks?.[0]?.name,
+        posterPath,
       };
     })
     .filter((item): item is ShowWithLatestSeasons => item !== null);
@@ -125,7 +129,8 @@ const getFullSeasonData = async (
 ): Promise<SeasonWithShowInfo[][]> => {
   const fullSeasonDataForLatestSeasons = latestAiredSeasons.map(
     async (latestSeasonsForShow): Promise<SeasonWithShowInfo[]> => {
-      const { id, name, latestSeasons, network } = latestSeasonsForShow;
+      const { id, name, latestSeasons, network, posterPath } =
+        latestSeasonsForShow;
 
       // Get season data for each season for each show
       const results = await Promise.allSettled(
@@ -143,6 +148,7 @@ const getFullSeasonData = async (
           name,
           showId: id,
           network,
+          posterPath,
         }));
     }
   );
@@ -158,6 +164,7 @@ const calculateEpisodesForDisplay = (
     episodes: season.episodes,
     name: season.name,
     network: season.network,
+    posterPath: season.posterPath,
     showId: season.showId,
   }));
 
@@ -186,11 +193,12 @@ const calculateEpisodesForDisplay = (
 
   // Add extra properties on to each episode
   const flattenedEpisodeList = showSeasonWithColors.flatMap(season => {
-    const { color, episodes, name, network, showId } = season;
+    const { color, episodes, name, network, posterPath, showId } = season;
     return episodes.map(episode => ({
       ...episode,
       color,
       network,
+      posterPath,
       showId,
       showName: name,
     }));
@@ -215,6 +223,7 @@ const calculateEpisodesForDisplay = (
       name: episodeName,
       network,
       overview,
+      posterPath,
       runtime,
       season_number: seasonNumber,
       showId,
@@ -227,6 +236,7 @@ const calculateEpisodesForDisplay = (
       episodeNumber,
       network: network ?? '',
       overview: overview ?? '',
+      posterPath,
       runtime: runtime ?? 0,
       seasonNumber,
       showId,
