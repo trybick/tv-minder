@@ -1,4 +1,4 @@
-import { ApiDataResponse, baseApi } from './baseApi';
+import { type ApiDataResponse, baseApi } from './baseApi';
 
 export const trackApi = baseApi.injectEndpoints({
   endpoints: builder => ({

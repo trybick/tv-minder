@@ -5,7 +5,7 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import { ApiDataResponse, baseApi } from './baseApi';
+import { type ApiDataResponse, baseApi } from './baseApi';
 
 type LoginRequest = {
   email: string;

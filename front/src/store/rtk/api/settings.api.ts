@@ -1,4 +1,4 @@
-import { ApiDataResponse, baseApi } from './baseApi';
+import { type ApiDataResponse, baseApi } from './baseApi';
 
 export type UserSettings = {
   showWelcomeStrip: boolean;
@@ -8,7 +8,8 @@ export const settingsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getSettings: builder.query<UserSettings, void>({
       query: () => '/settings',
-      transformResponse: (response: ApiDataResponse<UserSettings>) => response.data,
+      transformResponse: (response: ApiDataResponse<UserSettings>) =>
+        response.data,
     }),
 
     updateSettings: builder.mutation<void, Partial<UserSettings>>({
