@@ -6,7 +6,7 @@ import { Root } from './Root';
 import { StatusBadge } from './StatusBadge';
 import { Title } from './Title';
 import { TrackButton } from './TrackButton';
-import { UntrackXButton } from './UntrackXButton';
+import { UntrackButton } from './UntrackButton';
 
 export const ShowCard = {
   Root,
@@ -17,7 +17,7 @@ export const ShowCard = {
   BottomSection,
   Title,
   TrackButton,
-  UntrackXButton,
+  UntrackButton,
 };
 
 export {

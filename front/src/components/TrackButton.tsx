@@ -42,6 +42,8 @@ export const TrackButton = ({
     if (isLoggedIn) {
       dispatch(trackApi.endpoints.trackShow.initiate(showId));
     } else {
+      // Use manual dispatch instead of RTK mutation to avoid the cost of
+      // subscription across many FollowButtons
       dispatch(unregisteredTrackShow(showId));
     }
   };
