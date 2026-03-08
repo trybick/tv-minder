@@ -38,6 +38,8 @@ export const CalendarPage = () => {
   const [, navigate] = useLocation();
   const { isMobile } = useResponsiveLayout();
   const calendarRef = useRef<FullCalendar>(null);
+  const calendarWrapperRef = useRef<HTMLDivElement>(null);
+  const prevViewStartRef = useRef<Date | null>(null);
 
   const [calendarTitle, setCalendarTitle] = useState('');
   const [viewRange, setViewRange] = useState<{
@@ -113,6 +115,22 @@ export const CalendarPage = () => {
   const handleDatesSet = (dateInfo: DatesSetArg) => {
     setCalendarTitle(dateInfo.view.title);
     setViewRange({ start: dateInfo.start, end: dateInfo.end });
+
+    const el = calendarWrapperRef.current;
+    if (el && prevViewStartRef.current) {
+      const isSameMonth =
+        dateInfo.start.getTime() === prevViewStartRef.current.getTime();
+      if (!isSameMonth) {
+        const animationName =
+          dateInfo.start > prevViewStartRef.current
+            ? 'calendarSlideFromRight'
+            : 'calendarSlideFromLeft';
+        el.style.animation = 'none';
+        void el.offsetHeight;
+        el.style.animation = `${animationName} 0.25s ease-out`;
+      }
+    }
+    prevViewStartRef.current = dateInfo.start;
   };
 
   const calendarProps: CalendarOptions & {
@@ -176,10 +194,12 @@ export const CalendarPage = () => {
               title={calendarTitle}
               viewRange={viewRange}
             />
-            <FullCalendar
-              {...calendarProps}
-              key={dayjs().format('MM-DD-YYYY')}
-            />
+            <Box ref={calendarWrapperRef}>
+              <FullCalendar
+                {...calendarProps}
+                key={dayjs().format('MM-DD-YYYY')}
+              />
+            </Box>
           </>
         ) : (
           <CalendarEmptyState />

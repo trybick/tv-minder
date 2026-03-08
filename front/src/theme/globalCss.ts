@@ -113,7 +113,19 @@ const viewTransitionStyles = {
   },
 };
 
+const calendarTransitionStyles = {
+  '@keyframes calendarSlideFromRight': {
+    from: { opacity: 0, transform: 'translateX(20px)' },
+    to: { opacity: 1, transform: 'translateX(0)' },
+  },
+  '@keyframes calendarSlideFromLeft': {
+    from: { opacity: 0, transform: 'translateX(-20px)' },
+    to: { opacity: 1, transform: 'translateX(0)' },
+  },
+};
+
 export const globalCss = {
   ...calendarStyles,
+  ...calendarTransitionStyles,
   ...viewTransitionStyles,
 };
