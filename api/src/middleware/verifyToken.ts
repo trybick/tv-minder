@@ -30,13 +30,13 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     req.query.token;
 
   if (!providedToken) {
-    res.status(401).json({ message: 'Token required' });
+    res.status(401).json({ error: { message: 'Token required' } });
     return;
   }
 
   jwt.verify(providedToken, env.JWT_KEY, (err: VerifyErrors | null, decoded?: string | object) => {
     if (err || !decoded || !isJWTData(decoded)) {
-      res.status(401).json({ message: 'Check auth failed' });
+      res.status(401).json({ error: { message: 'Check auth failed' } });
       return next('Invalid user');
     }
 

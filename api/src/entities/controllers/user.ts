@@ -30,14 +30,14 @@ export const registerUser = async (req: Request, res: Response) => {
     } else {
       if (!emailRegex.test(req.body.email)) {
         return res.status(422).json({
-          message: 'Invalid email format',
+          error: { message: 'Invalid email format' },
         });
       }
 
       const existingUsers = await User.find({ email: req.body.email });
       if (existingUsers.length) {
         return res.status(409).json({
-          message: 'Email already registered',
+          error: { message: 'Email already registered' },
         });
       }
 
@@ -54,7 +54,7 @@ export const registerUser = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error('Registration error:', error);
     return res.status(500).json({
-      message: 'Registration failed. Please try again.',
+      error: { message: 'Registration failed. Please try again.' },
     });
   }
 };
@@ -65,14 +65,14 @@ export const loginUser = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(401).json({
-        message: 'Invalid credentials',
+        error: { message: 'Invalid credentials' },
       });
     }
 
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: 'Invalid credentials',
+        error: { message: 'Invalid credentials' },
       });
     }
 
@@ -86,19 +86,21 @@ export const loginUser = async (req: Request, res: Response) => {
 
     if (!token) {
       return res.status(500).json({
-        message: 'Authentication failed. Please try again.',
+        error: { message: 'Authentication failed. Please try again.' },
       });
     }
 
     return res.status(200).json({
-      token,
-      email: user.email,
-      isGoogleUser: req.body?.isGoogleUser,
+      data: {
+        token,
+        email: user.email,
+        isGoogleUser: req.body?.isGoogleUser,
+      },
     });
   } catch (error) {
     logger.error('Login error:', error);
     return res.status(500).json({
-      message: 'Authentication failed. Please try again.',
+      error: { message: 'Authentication failed. Please try again.' },
     });
   }
 };
@@ -128,7 +130,7 @@ export const requestOneTimeCode = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error('Error in requestOneTimeCode:', error);
     return res.status(500).json({
-      message: 'Failed to process request. Please try again.',
+      error: { message: 'Failed to process request. Please try again.' },
     });
   }
 };
@@ -146,7 +148,7 @@ export const verifyOneTimeCode = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(400).json({
-        message: 'Invalid or expired code',
+        error: { message: 'Invalid or expired code' },
       });
     }
 
@@ -154,7 +156,7 @@ export const verifyOneTimeCode = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error('Verification error:', error);
     return res.status(500).json({
-      message: 'Verification failed. Please try again.',
+      error: { message: 'Verification failed. Please try again.' },
     });
   }
 };
@@ -170,7 +172,7 @@ export const changePasswordForReset = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(400).json({
-        message: 'Invalid Email',
+        error: { message: 'Invalid Email' },
       });
     }
 
@@ -178,7 +180,7 @@ export const changePasswordForReset = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error('Password reset error:', error);
     return res.status(500).json({
-      message: 'Password reset failed. Please try again.',
+      error: { message: 'Password reset failed. Please try again.' },
     });
   }
 };
@@ -189,7 +191,7 @@ export const changePasswordForSettings = async (req: Request, res: Response) => 
 
     if (!user) {
       return res.status(401).json({
-        message: 'Email does not exist',
+        error: { message: 'Email does not exist' },
       });
     }
 
@@ -197,7 +199,7 @@ export const changePasswordForSettings = async (req: Request, res: Response) => 
 
     if (!isOldPasswordValid) {
       return res.status(401).json({
-        message: 'Failed on password validation',
+        error: { message: 'Failed on password validation' },
       });
     }
 
@@ -209,7 +211,7 @@ export const changePasswordForSettings = async (req: Request, res: Response) => 
   } catch (error) {
     logger.error('Password change error:', error);
     return res.status(500).json({
-      message: 'Password change failed. Please try again.',
+      error: { message: 'Password change failed. Please try again.' },
     });
   }
 };

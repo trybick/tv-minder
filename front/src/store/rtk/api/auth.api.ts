@@ -5,7 +5,7 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import { baseApi } from './baseApi';
+import { ApiDataResponse, baseApi } from './baseApi';
 
 type LoginRequest = {
   email: string;
@@ -58,6 +58,8 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      transformResponse: (response: ApiDataResponse<LoginResponse>) =>
+        response.data,
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -86,7 +88,7 @@ export const authApi = baseApi.injectEndpoints({
 
     requestOneTimeCode: builder.mutation<void, RequestOneTimeCodeRequest>({
       query: body => ({
-        url: '/requestonetimecode',
+        url: '/request-one-time-code',
         method: 'POST',
         body,
       }),
@@ -94,7 +96,7 @@ export const authApi = baseApi.injectEndpoints({
 
     verifyOneTimeCode: builder.mutation<void, VerifyOneTimeCodeRequest>({
       query: body => ({
-        url: '/verifyonetimecode',
+        url: '/verify-one-time-code',
         method: 'POST',
         body,
       }),
@@ -105,7 +107,7 @@ export const authApi = baseApi.injectEndpoints({
       ChangePasswordForResetRequest
     >({
       query: body => ({
-        url: '/changepasswordforreset',
+        url: '/change-password-for-reset',
         method: 'POST',
         body,
       }),
@@ -113,7 +115,7 @@ export const authApi = baseApi.injectEndpoints({
 
     changePassword: builder.mutation<void, ChangePasswordRequest>({
       query: body => ({
-        url: '/changepassword',
+        url: '/change-password',
         method: 'POST',
         body,
       }),

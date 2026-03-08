@@ -73,14 +73,14 @@ export const globalMockRequests = async (page: Page) => {
     mockRequest({
       page,
       path: '**/track',
-      body: trackResponse,
+      body: { data: trackResponse },
     }),
 
     // TV Minder: settings
     mockRequest({
       page,
       path: '**/settings',
-      body: settingsResponse,
+      body: { data: settingsResponse },
     }),
   ]);
 

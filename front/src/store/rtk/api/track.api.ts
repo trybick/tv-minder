@@ -1,9 +1,10 @@
-import { baseApi } from './baseApi';
+import { ApiDataResponse, baseApi } from './baseApi';
 
 export const trackApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getTrackedShows: builder.query<number[], void>({
       query: () => '/track',
+      transformResponse: (response: ApiDataResponse<number[]>) => response.data,
     }),
 
     trackShow: builder.mutation<void, number>({
@@ -30,9 +31,8 @@ export const trackApi = baseApi.injectEndpoints({
 
     untrackShow: builder.mutation<void, number>({
       query: showId => ({
-        url: '/track',
+        url: `/track/${showId}`,
         method: 'DELETE',
-        body: { showId },
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
