@@ -45,9 +45,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
     navigate(`${ROUTES.SHOW}/${showId}`);
   };
 
-  const posterUrl = posterPath
-    ? `${POSTER_THUMBNAIL_BASE}${posterPath}`
-    : null;
+  const posterUrl = posterPath ? `${POSTER_THUMBNAIL_BASE}${posterPath}` : null;
 
   return (
     <HoverCard.Root
@@ -90,12 +88,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
               )}
 
               <Box flex={1} minW={0}>
-                <Text
-                  color="fg"
-                  fontSize="md"
-                  fontWeight="700"
-                  lineClamp={1}
-                >
+                <Text color="fg" fontSize="md" fontWeight="700" lineClamp={1}>
                   {showName}
                 </Text>
 
@@ -152,7 +145,13 @@ export const DesktopCalendarEventPopover = (props: Props) => {
             </Flex>
 
             {overview && !isMultipleEvent && (
-              <Text color="fg" fontSize="xs" lineClamp={3} mt={3} opacity={0.85}>
+              <Text
+                color="fg"
+                fontSize="xs"
+                lineClamp={3}
+                mt={3}
+                opacity={0.85}
+              >
                 {overview}
               </Text>
             )}
