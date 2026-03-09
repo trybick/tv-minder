@@ -19,9 +19,13 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 connectToDatabase();
 
-app.use(userRoutes);
-app.use(trackShowRoutes);
-app.use(contactRoutes);
-app.use(settingsRoutes);
+app.get('/api/health', (_req, res) => {
+  res.status(200).json({ data: { status: 'ok' } });
+});
+
+app.use('/api', userRoutes);
+app.use('/api', trackShowRoutes);
+app.use('/api', contactRoutes);
+app.use('/api', settingsRoutes);
 
 app.listen(port, () => logger.success(`Server started on port ${port}`));

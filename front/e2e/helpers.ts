@@ -8,7 +8,9 @@ export const login = async (page: Page) => {
     if (route.request().method() === 'POST') {
       await route.fulfill({
         status: 200,
-        body: JSON.stringify({ email, token: 'mock-jwt-token' }),
+        body: JSON.stringify({
+          data: { email, token: 'mock-jwt-token' },
+        }),
       });
     } else {
       await route.fallback();
@@ -19,7 +21,7 @@ export const login = async (page: Page) => {
     if (route.request().method() === 'GET') {
       await route.fulfill({
         status: 200,
-        body: JSON.stringify(trackResponse),
+        body: JSON.stringify({ data: trackResponse }),
       });
     } else {
       await route.fallback();

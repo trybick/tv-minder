@@ -22,7 +22,7 @@ test.describe('Login and Signup flows', () => {
   }) => {
     mockRequest({
       page,
-      path: '/api.tv-minder.com/login',
+      path: '/api/login',
       method: 'POST',
       status: 401,
     });
@@ -52,15 +52,17 @@ test.describe('Login and Signup flows', () => {
       page,
       path: '/register',
       method: 'POST',
-      status: 201,
+      status: 204,
     });
     mockRequest({
       page,
-      path: '/api.tv-minder.com/login',
+      path: '/api/login',
       method: 'POST',
       body: {
-        email,
-        password,
+        data: {
+          email,
+          token: 'mock-jwt-token',
+        },
       },
     });
 
@@ -121,17 +123,17 @@ test.describe('Login and Signup flows', () => {
     await mockRequest({
       page,
       method: 'POST',
-      path: '/requestonetimecode',
+      path: '/request-one-time-code',
     });
     await mockRequest({
       page,
       method: 'POST',
-      path: '/verifyonetimecode',
+      path: '/verify-one-time-code',
     });
     await mockRequest({
       page,
       method: 'POST',
-      path: '/changepasswordforreset',
+      path: '/change-password-for-reset',
     });
 
     await page.goto('/');

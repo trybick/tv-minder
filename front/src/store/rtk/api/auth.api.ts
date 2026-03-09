@@ -67,7 +67,7 @@ export const authApi = baseApi.injectEndpoints({
             setIsLoggedIn({
               email: data.email,
               token: data.token,
-              isGoogleUser: arg.isGoogleUser,
+              isGoogleUser: arg.isGoogleUser ?? false,
             })
           );
         } catch {
@@ -86,7 +86,7 @@ export const authApi = baseApi.injectEndpoints({
 
     requestOneTimeCode: builder.mutation<void, RequestOneTimeCodeRequest>({
       query: body => ({
-        url: '/requestonetimecode',
+        url: '/request-one-time-code',
         method: 'POST',
         body,
       }),
@@ -94,7 +94,7 @@ export const authApi = baseApi.injectEndpoints({
 
     verifyOneTimeCode: builder.mutation<void, VerifyOneTimeCodeRequest>({
       query: body => ({
-        url: '/verifyonetimecode',
+        url: '/verify-one-time-code',
         method: 'POST',
         body,
       }),
@@ -105,7 +105,7 @@ export const authApi = baseApi.injectEndpoints({
       ChangePasswordForResetRequest
     >({
       query: body => ({
-        url: '/changepasswordforreset',
+        url: '/change-password-for-reset',
         method: 'POST',
         body,
       }),
@@ -113,7 +113,7 @@ export const authApi = baseApi.injectEndpoints({
 
     changePassword: builder.mutation<void, ChangePasswordRequest>({
       query: body => ({
-        url: '/changepassword',
+        url: '/change-password',
         method: 'POST',
         body,
       }),
