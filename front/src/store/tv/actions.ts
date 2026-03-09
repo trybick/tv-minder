@@ -272,7 +272,7 @@ export const fetchForYouShowsAction =
       return;
     }
 
-    dispatch(getShowDetailsForTrackedShows());
+    await dispatch(getShowDetailsForTrackedShows());
     const { showDetails } = getState().tv;
 
     const sorted = [...trackedShows].sort((a, b) => a - b);

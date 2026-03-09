@@ -155,22 +155,15 @@ export const DiscoverShows = () => {
   const showWelcomeStrip = !isLoggedIn || settings?.showWelcomeStrip !== false;
 
   useEffect(() => {
+    dispatch(fetchDiscoverShowsAction());
+
     const shouldWaitForTrackedShows =
       isLoggedIn &&
       (getTrackedShowsStatus === QueryStatus.uninitialized ||
         getTrackedShowsStatus === QueryStatus.pending);
-    if (shouldWaitForTrackedShows) {
-      return;
+    if (!shouldWaitForTrackedShows && isLoggedIn) {
+      dispatch(fetchForYouShowsAction());
     }
-
-    const fetchSections = async () => {
-      if (isLoggedIn) {
-        dispatch(fetchForYouShowsAction());
-      }
-      dispatch(fetchDiscoverShowsAction());
-    };
-
-    void fetchSections();
   }, [dispatch, trackedShows.length, isLoggedIn, getTrackedShowsStatus]);
 
   const getShouldIncludeForYouSection = () => {
