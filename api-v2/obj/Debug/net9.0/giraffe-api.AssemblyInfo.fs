@@ -7,11 +7,11 @@ open System
 open System.Reflection
 
 
-[<assembly: System.Reflection.AssemblyCompanyAttribute("todo-app-api")>]
+[<assembly: System.Reflection.AssemblyCompanyAttribute("tv-minder-api")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71b80ef5f069c0c4f691e7932fe0fd8797a7c8c9")>]
-[<assembly: System.Reflection.AssemblyProductAttribute("todo-app-api")>]
-[<assembly: System.Reflection.AssemblyTitleAttribute("todo-app-api")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1a51366c9cc5910e65263b3a8356d495bf1a7b5")>]
+[<assembly: System.Reflection.AssemblyProductAttribute("tv-minder-api")>]
+[<assembly: System.Reflection.AssemblyTitleAttribute("tv-minder-api")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
 do()

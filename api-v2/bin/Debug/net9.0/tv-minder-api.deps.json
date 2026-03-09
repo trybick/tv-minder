@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "todo-app-api/1.0.0": {
+      "tv-minder-api/1.0.0": {
         "dependencies": {
           "Dapper": "2.1.66",
           "dbup-postgresql": "7.0.1",
@@ -16,7 +16,7 @@
           "Npgsql": "10.0.1"
         },
         "runtime": {
-          "todo-app-api.dll": {}
+          "tv-minder-api.dll": {}
         }
       },
       "Dapper/2.1.66": {
@@ -148,7 +148,7 @@
     }
   },
   "libraries": {
-    "todo-app-api/1.0.0": {
+    "tv-minder-api/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
