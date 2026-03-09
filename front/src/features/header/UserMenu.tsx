@@ -26,8 +26,15 @@ export const UserMenu = () => {
 
         <Portal>
           <Menu.Positioner>
-            <Menu.Content minW="200px" zIndex={4}>
-              <Box px="3" py="2">
+            <Menu.Content
+              minW="220px"
+              zIndex={4}
+              bg="gray.900"
+              borderWidth="1px"
+              borderColor="whiteAlpha.200"
+              boxShadow="xl"
+            >
+              <Box px="4" py="3">
                 <Text fontSize="xs" color="fg.muted" fontWeight="medium">
                   Signed in as
                 </Text>
@@ -38,7 +45,7 @@ export const UserMenu = () => {
 
               <Menu.Separator />
 
-              <Menu.ItemGroup>
+              <Menu.ItemGroup py="1">
                 <Menu.Item
                   cursor="pointer"
                   onClick={() => navigate(ROUTES.SETTINGS)}
