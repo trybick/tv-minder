@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>tv-minder-api</AssemblyName>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -17,7 +17,7 @@
     <EmbeddedResource Include="Migrations/*.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="routes.fs" />
+    <Compile Include="Routes\routes.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
