@@ -8,9 +8,8 @@ export const trackApi = baseApi.injectEndpoints({
 
     trackShow: builder.mutation<void, number>({
       query: showId => ({
-        url: '/track',
+        url: `/track/${showId}`,
         method: 'POST',
-        body: { showId },
       }),
       async onQueryStarted(showId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(

@@ -5,9 +5,9 @@ import logger from 'utils/logger';
 
 export const createTrack = async (req: Request, res: Response) => {
   const userId: mongoose.Types.ObjectId = res.locals.userId;
-  const showId: number = req.body.showId;
+  const showId = Number(req.params.showId);
 
-  if (!userId || !showId) {
+  if (!userId || !Number.isFinite(showId)) {
     return res.status(422).json({
       error: { message: 'Incorrect parameters' },
     });
