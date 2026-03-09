@@ -31,7 +31,7 @@ export const WelcomeHeroStrip = () => {
       pt={isLoggedIn ? { base: 12, md: 6 } : 6}
       pb={6}
       borderWidth="1px"
-      borderColor="whiteAlpha.200"
+      borderColor="whiteAlpha.300"
       borderRadius="xl"
       maxW="xl"
       position="relative"
