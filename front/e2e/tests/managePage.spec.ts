@@ -73,8 +73,16 @@ test.describe('Manage Page', () => {
 
     await mockRequest({
       page,
-      path: '**/track',
+      path: '**/api/track/**',
       method: 'DELETE',
+      status: 204,
+    });
+
+    await mockRequest({
+      page,
+      path: '/api/track',
+      method: 'GET',
+      body: { data: [showTitleToId.pokerface] },
     });
 
     await page.getByLabel(`track-button-${showTitleToId.mobland}`).click();
