@@ -1,10 +1,9 @@
-import { type ApiDataResponse, baseApi } from './baseApi';
+import { baseApi } from './baseApi';
 
 export const trackApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getTrackedShows: builder.query<number[], void>({
       query: () => '/track',
-      transformResponse: (response: ApiDataResponse<number[]>) => response.data,
     }),
 
     trackShow: builder.mutation<void, number>({

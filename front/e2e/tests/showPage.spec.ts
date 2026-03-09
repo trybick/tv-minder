@@ -175,7 +175,7 @@ test.describe('Show Page', () => {
 
     await mockRequest({
       page,
-      path: '/api.tv-minder.com/track*',
+      path: '**/track*',
       method: 'DELETE',
     });
 

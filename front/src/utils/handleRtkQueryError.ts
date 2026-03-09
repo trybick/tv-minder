@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/react';
 
+import type { ApiErrorResponse } from '~/store/rtk/api/baseApi';
 import { getIsProduction } from './env';
 
 const sendToSentry = (error: object & Record<'status', unknown>) => {
@@ -45,11 +46,8 @@ export const handleRtkQueryError = (error: unknown) => {
     if (typeof error.data === 'string') {
       message = error.data;
     } else if (typeof error.data === 'object') {
-      const responseData = error.data as {
-        message?: string;
-        error?: { message?: string };
-      };
-      message = responseData.error?.message || responseData.message || message;
+      const responseData = error.data as ApiErrorResponse;
+      message = responseData.error?.message ?? message;
     }
   } else if (error.status === 'FETCH_ERROR') {
     title = 'Network Error';

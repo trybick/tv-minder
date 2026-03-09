@@ -5,7 +5,7 @@ import {
 } from '~/store/rtk/slices/modals.slice';
 import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import { type ApiDataResponse, baseApi } from './baseApi';
+import { baseApi } from './baseApi';
 
 type LoginRequest = {
   email: string;
@@ -58,8 +58,6 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      transformResponse: (response: ApiDataResponse<LoginResponse>) =>
-        response.data,
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -69,7 +67,7 @@ export const authApi = baseApi.injectEndpoints({
             setIsLoggedIn({
               email: data.email,
               token: data.token,
-              isGoogleUser: arg.isGoogleUser,
+              isGoogleUser: arg.isGoogleUser ?? false,
             })
           );
         } catch {

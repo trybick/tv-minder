@@ -52,7 +52,7 @@ test.describe('Login and Signup flows', () => {
       page,
       path: '/register',
       method: 'POST',
-      status: 201,
+      status: 204,
     });
     mockRequest({
       page,

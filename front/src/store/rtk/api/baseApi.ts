@@ -11,20 +11,34 @@ export type ApiErrorResponse = {
   error?: {
     message?: string;
   };
-  message?: string;
+};
+
+const rawBaseQuery = fetchBaseQuery({
+  baseUrl: `${ENDPOINTS.TV_MINDER_SERVER}/api`,
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).user.token;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
+const baseQueryWithUnwrap: typeof rawBaseQuery = async (
+  args,
+  api,
+  extraOptions
+) => {
+  const result = await rawBaseQuery(args, api, extraOptions);
+  if (result.data !== undefined) {
+    const envelope = result.data as ApiDataResponse<unknown>;
+    result.data = envelope?.data ?? result.data;
+  }
+  return result;
 };
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${ENDPOINTS.TV_MINDER_SERVER}/api`,
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user.token;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithUnwrap,
   endpoints: () => ({}),
 });
