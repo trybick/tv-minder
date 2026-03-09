@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "dgSpecHash": "3ODKVLwXE8g=",
+  "success": true,
+  "projectFilePath": "/Users/timr/code/tv-minder/api-v2/giraffe-api.fsproj",
+  "expectedPackageFiles": [
+    "/Users/timr/.nuget/packages/dapper/2.1.66/dapper.2.1.66.nupkg.sha512",
+    "/Users/timr/.nuget/packages/dbup-core/6.1.1/dbup-core.6.1.1.nupkg.sha512",
+    "/Users/timr/.nuget/packages/dbup-postgresql/7.0.1/dbup-postgresql.7.0.1.nupkg.sha512",
+    "/Users/timr/.nuget/packages/fsharp.core/10.0.103/fsharp.core.10.0.103.nupkg.sha512",
+    "/Users/timr/.nuget/packages/giraffe/6.4.0/giraffe.6.4.0.nupkg.sha512",
+    "/Users/timr/.nuget/packages/giraffe.viewengine/1.4.0/giraffe.viewengine.1.4.0.nupkg.sha512",
+    "/Users/timr/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.0/microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
+    "/Users/timr/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.0/microsoft.extensions.logging.abstractions.9.0.0.nupkg.sha512",
+    "/Users/timr/.nuget/packages/microsoft.io.recyclablememorystream/3.0.0/microsoft.io.recyclablememorystream.3.0.0.nupkg.sha512",
+    "/Users/timr/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/Users/timr/.nuget/packages/npgsql/10.0.1/npgsql.10.0.1.nupkg.sha512",
+    "/Users/timr/.nuget/packages/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg.sha512",
+    "/Users/timr/.nuget/packages/system.text.json/8.0.3/system.text.json.8.0.3.nupkg.sha512",
+    "/Users/timr/.nuget/packages/microsoft.netcore.app.ref/9.0.13/microsoft.netcore.app.ref.9.0.13.nupkg.sha512",
+    "/Users/timr/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.13/microsoft.aspnetcore.app.ref.9.0.13.nupkg.sha512",
+    "/Users/timr/.nuget/packages/microsoft.netcore.app.host.osx-x64/9.0.13/microsoft.netcore.app.host.osx-x64.9.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}

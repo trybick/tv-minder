@@ -1,0 +1,113 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/timr/code/tv-minder/api-v2/giraffe-api.fsproj": {}
+  },
+  "projects": {
+    "/Users/timr/code/tv-minder/api-v2/giraffe-api.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/timr/code/tv-minder/api-v2/giraffe-api.fsproj",
+        "projectName": "todo-app-api",
+        "projectPath": "/Users/timr/code/tv-minder/api-v2/giraffe-api.fsproj",
+        "packagesPath": "/Users/timr/.nuget/packages/",
+        "outputPath": "/Users/timr/code/tv-minder/api-v2/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/timr/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/sdk/10.0.103/FSharp/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )",
+              "generatePathProperty": true
+            },
+            "DbUp-PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.1, )",
+              "generatePathProperty": true
+            },
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[10.0.103, )",
+              "generatePathProperty": true
+            },
+            "Giraffe": {
+              "target": "Package",
+              "version": "[6.4.0, )",
+              "generatePathProperty": true
+            },
+            "Giraffe.ViewEngine": {
+              "target": "Package",
+              "version": "[1.4.*, )",
+              "generatePathProperty": true
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[10.0.1, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.13, 9.0.13]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-x64",
+              "version": "[9.0.13, 9.0.13]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.13, 9.0.13]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

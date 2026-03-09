@@ -1,0 +1,5 @@
+{
+  "FSharp.workspacePath": "./api-v2/todo-app.sln",
+  "FSharp.enableMSBuildProjectGraph": true,
+  "FSharp.workspaceModePeekDeepLevel": 4
+}
