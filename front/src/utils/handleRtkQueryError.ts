@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/react';
 
 import type { ApiErrorResponse } from '~/store/rtk/api/baseApi';
+
 import { getIsProduction } from './env';
 
 const sendToSentry = (error: object & Record<'status', unknown>) => {
