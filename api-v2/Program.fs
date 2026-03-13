@@ -4,9 +4,16 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
 
-open Routes
+open HealthCheckRoutes
+open AuthRoutes
 
-let configureApp (app: IApplicationBuilder) = app.UseGiraffe routes
+let webApp: HttpHandler =
+    choose [
+        healthCheckRoutes
+        subRoute "/auth" authRoutes
+    ]
+
+let configureApp (app: IApplicationBuilder) = app.UseGiraffe webApp
 let configureServices (services: IServiceCollection) = services.AddGiraffe() |> ignore
 
 [<EntryPoint>]

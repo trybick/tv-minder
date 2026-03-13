@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("tv-minder-api")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a45bfd84da3baf9ff74febd39573a72629465e7")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ecae29100807037c9ed29f21cfc199c26110c194")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("tv-minder-api")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("tv-minder-api")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
