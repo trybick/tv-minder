@@ -17,8 +17,13 @@
     <EmbeddedResource Include="Migrations/*.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\HealthCheckHandler.fs" />
     <Compile Include="Routes\HealthCheckRoutes.fs" />
+    <Compile Include="Handlers\PersonHandler.fs" />
+    <Compile Include="Routes\PersonRoutes.fs" />
+    <Compile Include="Handlers\AuthHandler.fs" />
     <Compile Include="Routes\AuthRoutes.fs" />
+    <Compile Include="Routes\Router.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

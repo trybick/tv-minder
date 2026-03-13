@@ -1,6 +1,8 @@
-module AuthRoutes
+module MyApp.AuthRoutes
 
-open Giraffe
+open Giraffe.EndpointRouting
 
-
-let authRoutes: HttpHandler = choose [ route "/signup" >=> text "ok"; route "/login" >=> text "ok" ]
+let routes: Endpoint list =
+    [ GET
+          [ route "/auth/signup" AuthHandler.signup
+            route "/auth/login" AuthHandler.login ] ]

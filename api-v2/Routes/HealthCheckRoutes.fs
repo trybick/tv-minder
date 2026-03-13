@@ -1,6 +1,6 @@
-module HealthCheckRoutes
+module MyApp.HealthCheckRoutes
 
-open Giraffe
+open Giraffe.EndpointRouting
 
-
-let healthCheckRoutes: HttpHandler = choose [ route "/health" >=> text "ok" ]
+let routes: Endpoint list =
+    [ GET [ route "/health" HealthCheckHandler.healthCheckHandler ] ]
