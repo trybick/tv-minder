@@ -15,14 +15,14 @@
     <PackageReference Include="Npgsql" Version="10.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations/*.sql" />
+    <EmbeddedResource Include="database/Migrations/*.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\HealthCheckHandler.fs" />
-    <Compile Include="Routes\HealthCheckRoutes.fs" />
-    <Compile Include="Handlers\AuthHandler.fs" />
-    <Compile Include="Routes\AuthRoutes.fs" />
-    <Compile Include="Routes\Router.fs" />
+    <Compile Include="handlers\HealthCheckHandler.fs" />
+    <Compile Include="routes\HealthCheckRoutes.fs" />
+    <Compile Include="handlers\AuthHandler.fs" />
+    <Compile Include="routes\AuthRoutes.fs" />
+    <Compile Include="routes\Router.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
