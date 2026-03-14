@@ -1,4 +1,4 @@
-module MyApp.Router
+module Router
 
 open Giraffe.EndpointRouting
 

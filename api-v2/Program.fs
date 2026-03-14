@@ -1,7 +1,6 @@
 open Microsoft.AspNetCore.Builder
 open Giraffe
 open Giraffe.EndpointRouting
-open MyApp
 
 [<EntryPoint>]
 let main args =

@@ -1,4 +1,4 @@
-module MyApp.HealthCheckRoutes
+module HealthCheckRoutes
 
 open Giraffe.EndpointRouting
 

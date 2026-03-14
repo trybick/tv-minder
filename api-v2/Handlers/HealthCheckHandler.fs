@@ -1,4 +1,4 @@
-module MyApp.HealthCheckHandler
+module HealthCheckHandler
 
 open Microsoft.AspNetCore.Http
 open Giraffe

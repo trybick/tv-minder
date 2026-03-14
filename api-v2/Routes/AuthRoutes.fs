@@ -1,4 +1,4 @@
-module MyApp.AuthRoutes
+module AuthRoutes
 
 open Giraffe.EndpointRouting
 
