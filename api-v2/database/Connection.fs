@@ -2,7 +2,6 @@ module Database
 
 open DbUp
 open Npgsql
-open System
 open System.IO
 open System.Reflection
 
@@ -19,7 +18,7 @@ let private parseConnectionString (url: string) =
     builder.ToString()
 
 let connectionString =
-    System.Environment.GetEnvironmentVariable("DATABASE_URL")
+    System.Environment.GetEnvironmentVariable "DATABASE_URL"
     |> parseConnectionString
 
 let createConnection () = new NpgsqlConnection(connectionString)
@@ -30,7 +29,7 @@ let runMigrations () =
             .PostgresqlDatabase(connectionString)
             .WithScriptsEmbeddedInAssembly(
                 Assembly.GetExecutingAssembly(),
-                fun name -> name.Contains("database.migrations")
+                fun name -> name.Contains "database.migrations"
             )
             .LogToConsole()
             .Build()
