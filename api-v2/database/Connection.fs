@@ -35,10 +35,10 @@ let runMigrations () =
             .Build()
             .PerformUpgrade()
 
-    if result.Successful then
-        printf "[DbUp] Migrations applied successfully"
-    else
-        failwithf "[DbUp] Migration failed: %s" result.Error.Message
+    match result.Successful with
+    | true -> printf "[DbUp] Migrations applied successfully"
+    | false -> failwithf "[DbUp] Migration failed: %s" result.Error.Message
+
 
 let runSeed () =
     let baseDir =

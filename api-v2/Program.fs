@@ -3,31 +3,35 @@ open Microsoft.AspNetCore.Builder
 open Giraffe
 open Giraffe.EndpointRouting
 
-let PORT = "4600"
+let DEFAULT_PORT = "4600"
 
-[<EntryPoint>]
-let main args =
-    Env.Load() |> ignore
-
+let startApi (args: string array) =
     Database.runMigrations ()
 
     let port =
         System.Environment.GetEnvironmentVariable "PORT"
         |> Option.ofObj
-        |> Option.defaultValue PORT
+        |> Option.defaultValue DEFAULT_PORT
 
 
-    if args.Length > 0 && args.[0] = "seed" then
+    let builder = WebApplication.CreateBuilder args
+    builder.Services.AddGiraffe() |> ignore
+
+    let app = builder.Build()
+    app.Urls.Add $"http://0.0.0.0:{port}"
+
+    app.UseRouting() |> ignore
+    app.UseEndpoints(fun e -> e.MapGiraffeEndpoints Router.webApp) |> ignore
+
+    app.Run()
+    0
+
+[<EntryPoint>]
+let main args =
+    Env.Load() |> ignore
+
+    match Array.tryItem 0 args with
+    | Some "seed" ->
         Database.runSeed ()
         0
-    else
-        let builder = WebApplication.CreateBuilder args
-        builder.Services.AddGiraffe() |> ignore
-        let app = builder.Build()
-        app.Urls.Add $"http://0.0.0.0:{port}"
-
-        app.UseRouting() |> ignore
-        app.UseEndpoints(fun e -> e.MapGiraffeEndpoints Router.webApp) |> ignore
-
-        app.Run()
-        0
+    | _ -> startApi args
