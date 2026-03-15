@@ -9,12 +9,16 @@ let main args =
 
     Database.runMigrations ()
 
-    let builder = WebApplication.CreateBuilder(args)
-    builder.Services.AddGiraffe() |> ignore
-    let app = builder.Build()
+    if args.Length > 0 && args.[0] = "seed" then
+        Database.runSeed ()
+        0
+    else
+        let builder = WebApplication.CreateBuilder(args)
+        builder.Services.AddGiraffe() |> ignore
+        let app = builder.Build()
 
-    app.UseRouting() |> ignore
-    app.UseEndpoints(fun e -> e.MapGiraffeEndpoints Router.webApp) |> ignore
+        app.UseRouting() |> ignore
+        app.UseEndpoints(fun e -> e.MapGiraffeEndpoints Router.webApp) |> ignore
 
-    app.Run()
-    0
+        app.Run()
+        0
