@@ -7,6 +7,8 @@ open Giraffe.EndpointRouting
 let main args =
     Env.Load() |> ignore
 
+    Database.runMigrations ()
+
     let builder = WebApplication.CreateBuilder(args)
     builder.Services.AddGiraffe() |> ignore
     let app = builder.Build()

@@ -1,9 +1,10 @@
-CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email TEXT NOT NULL UNIQUE
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+CREATE TABLE IF NOT EXISTS users (
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email         TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO users (id, email)
-VALUES ('00000000-0000-0000-0000-000000000001', 'dev@test.com');
-
+INSERT INTO users (email, password_hash) VALUES
+    ('alice@example.com', '$2a$12$mockhashalicexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
+    ('bob@example.com',   '$2a$12$mockhashbobxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
