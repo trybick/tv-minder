@@ -173,7 +173,11 @@ export const CalendarPage = () => {
   const isTrackedShowsPending =
     isLoadingTrackedShows || (isLoggedIn && isTrackedShowsUninitialized);
   const isInitialLoading = isTrackedShowsPending || isLoadingCalendarEpisodes;
+  const hasCachedCalendarData = calendarEpisodes.length > 0;
   const hasTrackedShows = !isInitialLoading && !!trackedShows.length;
+  const shouldShowSkeleton = isInitialLoading && !hasCachedCalendarData;
+  const shouldShowCalendar =
+    hasTrackedShows || (hasCachedCalendarData && !!trackedShows.length);
 
   return (
     <>
@@ -185,9 +189,9 @@ export const CalendarPage = () => {
         p={{ base: '0', md: '10px 30px' }}
         w={{ base: '90%', md: '100%' }}
       >
-        {isInitialLoading ? (
+        {shouldShowSkeleton ? (
           <CalendarSkeleton />
-        ) : hasTrackedShows ? (
+        ) : shouldShowCalendar ? (
           <>
             <CalendarHeader
               calendarRef={calendarRef}
