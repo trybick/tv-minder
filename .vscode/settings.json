@@ -1,5 +1,5 @@
 {
-  "FSharp.workspacePath": "./api-v2/todo-app.sln",
+  "FSharp.workspacePath": "./api-v2/tv-minder-api.sln",
   "FSharp.enableMSBuildProjectGraph": true,
   "FSharp.workspaceModePeekDeepLevel": 4
 }

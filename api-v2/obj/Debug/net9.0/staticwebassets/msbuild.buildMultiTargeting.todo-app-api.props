@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/todo-app-api.props" />
-</Project>
