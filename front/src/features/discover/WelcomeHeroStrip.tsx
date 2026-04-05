@@ -27,11 +27,13 @@ export const WelcomeHeroStrip = () => {
       mb={10}
       mt={2}
       mx="auto"
-      py={6}
+      px={6}
+      pt={isLoggedIn ? { base: 12, md: 6 } : 6}
+      pb={6}
       borderWidth="1px"
-      borderColor="whiteAlpha.200"
+      borderColor="whiteAlpha.300"
       borderRadius="xl"
-      maxW="2xl"
+      maxW="xl"
       position="relative"
     >
       {isLoggedIn && (

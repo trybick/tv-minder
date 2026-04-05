@@ -45,8 +45,9 @@ export const SearchInput = ({
       mt={4}
       mb={isMobile ? 4 : 5}
       mx="auto"
-      p="0 25px"
-      w={['100%', 'sm', 'md', 'lg']}
+      maxW="1500px"
+      px={{ base: 0, md: 6 }}
+      w={{ base: '95%', sm: 'sm', md: 'md', lg: 'lg' }}
     >
       <InputGroup
         display="flex"
