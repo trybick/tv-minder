@@ -1,0 +1,629 @@
+openapi: 3.0.3
+info:
+  title: TV Minder API
+  description: |
+    TV show tracking API. All successful data responses use the envelope
+    `{ "data": <payload> }`. All errors use `{ "error": { "message": "<string>" } }`.
+
+    **Authentication:** Protected routes accept JWT via `Authorization: Bearer <token>`,
+    or (legacy) `token` in body or query string.
+
+    **Rate limiting:** 50 requests per 15 minutes (production only).
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4500
+    description: Local development
+
+paths:
+  /api/health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/register:
+    post:
+      summary: Register user
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '204':
+          description: Success (or existing Google user; no-op)
+        '409':
+          description: Email already registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Email already registered
+        '422':
+          description: Invalid email format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Invalid email format
+        '500':
+          description: Registration failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Registration failed. Please try again.
+
+  /api/login:
+    post:
+      summary: Login
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Invalid credentials
+        '500':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Authentication failed. Please try again.
+
+  /api/request-one-time-code:
+    post:
+      summary: Request one-time code for password reset
+      description: |
+        Always returns 204, even when the email is not found (no user enumeration).
+        Sends a 6-digit code to the user's email if found.
+      operationId: requestOneTimeCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestOneTimeCodeRequest'
+      responses:
+        '204':
+          description: Success
+        '500':
+          description: Failed to process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to process request. Please try again.
+
+  /api/verify-one-time-code:
+    post:
+      summary: Verify one-time code (required before password reset)
+      description: Codes expire after 15 minutes. Accepts string or number.
+      operationId: verifyOneTimeCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOneTimeCodeRequest'
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Invalid or expired code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Invalid or expired code
+        '500':
+          description: Verification failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Verification failed. Please try again.
+
+  /api/change-password-for-reset:
+    post:
+      summary: Change password (after one-time code verified)
+      operationId: changePasswordForReset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordForResetRequest'
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Invalid email (user not found)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Invalid Email
+        '500':
+          description: Password reset failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Password reset failed. Please try again.
+
+  /api/change-password:
+    post:
+      summary: Change password (from settings; requires old password)
+      operationId: changePassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '204':
+          description: Success
+        '401':
+          description: Email does not exist or wrong old password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                emailDoesNotExist:
+                  summary: Email does not exist
+                  value:
+                    error:
+                      message: Email does not exist
+                failedValidation:
+                  summary: Wrong old password
+                  value:
+                    error:
+                      message: Failed on password validation
+        '500':
+          description: Password change failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Password change failed. Please try again.
+
+  /api/track:
+    get:
+      summary: Get tracked shows
+      operationId: getTracks
+      security:
+        - bearerAuth: []
+        - tokenQuery: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TracksResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedAuth'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: User not found
+        '500':
+          description: Failed to get tracks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to get tracks. Please try again.
+
+  /api/track/{showId}:
+    parameters:
+      - $ref: '#/components/parameters/ShowId'
+    post:
+      summary: Track a show
+      operationId: createTrack
+      security:
+        - bearerAuth: []
+        - tokenQuery: []
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/UnauthorizedAuth'
+        '422':
+          description: Incorrect parameters (invalid showId)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Incorrect parameters
+        '500':
+          description: Failed to add track
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to add track. Please try again.
+    delete:
+      summary: Untrack a show
+      operationId: deleteTrack
+      security:
+        - bearerAuth: []
+        - tokenQuery: []
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/UnauthorizedAuth'
+        '422':
+          description: Incorrect parameters (invalid showId)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Incorrect parameters
+        '500':
+          description: Failed to remove track
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to remove track. Please try again.
+
+  /api/settings:
+    get:
+      summary: Get user settings
+      operationId: getSettings
+      security:
+        - bearerAuth: []
+        - tokenQuery: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedAuth'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: User not found
+        '500':
+          description: Failed to get settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to get settings.
+    put:
+      summary: Update settings
+      operationId: updateSettings
+      description: Only `showWelcomeStrip` is updated. Other body fields are ignored.
+      security:
+        - bearerAuth: []
+        - tokenQuery: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingsUpdateRequest'
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/UnauthorizedAuth'
+        '500':
+          description: Failed to update settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to update settings.
+
+  /api/contact:
+    post:
+      summary: Send contact/feedback message
+      operationId: sendContactMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+      responses:
+        '204':
+          description: Success
+        '500':
+          description: Failed to send message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  message: Failed to send message
+
+components:
+  responses:
+    UnauthorizedAuth:
+      description: Token required or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            tokenRequired:
+              value:
+                error:
+                  message: Token required
+            checkAuthFailed:
+              value:
+                error:
+                  message: Check auth failed
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token in Authorization header
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Legacy; JWT in query string. Body token (req.body.token) also supported but not expressible in OpenAPI.
+
+  parameters:
+    ShowId:
+      name: showId
+      in: path
+      required: true
+      description: TMDB show ID; must parse to a finite number
+      schema:
+        type: number
+        example: 12345
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+
+    HealthResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum:
+                - ok
+
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Validated by regex when isGoogleUser is false
+        password:
+          type: string
+        isGoogleUser:
+          type: boolean
+          description: When true, skip email format/existence validation
+        unregisteredTrackedShows:
+          type: array
+          items:
+            type: number
+          description: TMDB show IDs to seed on first registration
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        isGoogleUser:
+          type: boolean
+          description: Echoed in response; not validated
+
+    LoginResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - token
+            - email
+          properties:
+            token:
+              type: string
+              description: JWT, expires in 365 days
+            email:
+              type: string
+            isGoogleUser:
+              type: boolean
+              nullable: true
+
+    RequestOneTimeCodeRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+
+    VerifyOneTimeCodeRequest:
+      type: object
+      required:
+        - email
+        - oneTimeCode
+      properties:
+        email:
+          type: string
+        oneTimeCode:
+          oneOf:
+            - type: string
+            - type: number
+          description: 6-digit code; stored as number, string coerced
+
+    ChangePasswordForResetRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    ChangePasswordRequest:
+      type: object
+      required:
+        - email
+        - oldPassword
+        - newPassword
+      properties:
+        email:
+          type: string
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+
+    TracksResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            type: number
+          description: TMDB show IDs
+
+    SettingsResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - showWelcomeStrip
+          properties:
+            showWelcomeStrip:
+              type: boolean
+              default: true
+
+    SettingsUpdateRequest:
+      type: object
+      properties:
+        showWelcomeStrip:
+          type: boolean
+          description: Only updated when type is boolean; other fields ignored
+
+    ContactRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Main content; no validation
+        email:
+          type: string
+          description: Optional; prepended as "User email: {email}\n\n" when present
