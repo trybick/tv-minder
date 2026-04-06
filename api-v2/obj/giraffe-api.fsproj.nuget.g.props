@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
+    <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/timr/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/timr/.nuget/packages/</NuGetPackageFolders>
+    <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">7.0.0</NuGetToolVersion>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <SourceRoot Include="/Users/timr/.nuget/packages/" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgNpgsql Condition=" '$(PkgNpgsql)' == '' ">/Users/timr/.nuget/packages/npgsql/10.0.1</PkgNpgsql>
+    <PkgKonscious_Security_Cryptography_Argon2 Condition=" '$(PkgKonscious_Security_Cryptography_Argon2)' == '' ">/Users/timr/.nuget/packages/konscious.security.cryptography.argon2/1.3.1</PkgKonscious_Security_Cryptography_Argon2>
+    <PkgFSharp_Core Condition=" '$(PkgFSharp_Core)' == '' ">/Users/timr/.nuget/packages/fsharp.core/10.0.103</PkgFSharp_Core>
+    <PkgGiraffe_ViewEngine Condition=" '$(PkgGiraffe_ViewEngine)' == '' ">/Users/timr/.nuget/packages/giraffe.viewengine/1.4.0</PkgGiraffe_ViewEngine>
+    <PkgGiraffe Condition=" '$(PkgGiraffe)' == '' ">/Users/timr/.nuget/packages/giraffe/6.4.0</PkgGiraffe>
+    <PkgDotNetEnv Condition=" '$(PkgDotNetEnv)' == '' ">/Users/timr/.nuget/packages/dotnetenv/3.1.1</PkgDotNetEnv>
+    <Pkgdbup-postgresql Condition=" '$(Pkgdbup-postgresql)' == '' ">/Users/timr/.nuget/packages/dbup-postgresql/7.0.1</Pkgdbup-postgresql>
+    <PkgDapper Condition=" '$(PkgDapper)' == '' ">/Users/timr/.nuget/packages/dapper/2.1.66</PkgDapper>
+  </PropertyGroup>
+</Project>
