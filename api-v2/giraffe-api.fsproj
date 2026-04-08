@@ -27,6 +27,7 @@
     <Compile Include="routes\AuthRoutes.fs" />
     <Compile Include="routes\Router.fs" />
     <Compile Include="domain/User.fs" />
+    <Compile Include="utils/Env.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
