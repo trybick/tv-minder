@@ -22,12 +22,13 @@
   <ItemGroup>
     <Compile Include="utils/Env.fs" />
     <Compile Include="database/Connection.fs" />
+    <Compile Include="domain/User.fs" />
+    <Compile Include="database/UserRepository.fs" />
     <Compile Include="handlers\HealthCheckHandler.fs" />
     <Compile Include="routes\HealthCheckRoutes.fs" />
     <Compile Include="handlers\AuthHandler.fs" />
     <Compile Include="routes\AuthRoutes.fs" />
     <Compile Include="routes\Router.fs" />
-    <Compile Include="domain/User.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
