@@ -17,9 +17,7 @@ let private parseConnectionString (url: string) =
     builder.SslMode <- SslMode.Prefer
     builder.ToString()
 
-let connectionString =
-    System.Environment.GetEnvironmentVariable "DATABASE_URL"
-    |> parseConnectionString
+let connectionString = Env.require "DATABASE_URL" |> parseConnectionString
 
 /// Unused right now but can be used for code that accesses database later.
 let createConnection () = new NpgsqlConnection(connectionString)

@@ -6,13 +6,9 @@ open Giraffe.EndpointRouting
 let DEFAULT_PORT = "4600"
 
 let startApi (args: string array) =
-    Env.verifyEnvVariablesExist ()
     Database.runMigrations ()
 
-    let port =
-        System.Environment.GetEnvironmentVariable "PORT"
-        |> Option.ofObj
-        |> Option.defaultValue DEFAULT_PORT
+    let port = Env.require "PORT" |> Option.ofObj |> Option.defaultValue DEFAULT_PORT
 
 
     let builder = WebApplication.CreateBuilder args
