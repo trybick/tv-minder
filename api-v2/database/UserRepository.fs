@@ -25,3 +25,15 @@ let getByEmail (email: string) =
     )
     |> Option.ofObj
     |> Option.map toUser
+
+let create (id: Guid) (email: string) (passwordHash: byte[]) =
+    use conn = Database.createConnection ()
+
+    conn.Execute(
+        "INSERT INTO users (id, email, password_hash)
+         VALUES (@Id, @Email, @PasswordHash)",
+        {| Id = id
+           Email = email
+           PasswordHash = passwordHash |}
+    )
+    |> ignore
