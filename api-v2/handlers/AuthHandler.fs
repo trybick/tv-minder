@@ -46,8 +46,8 @@ let signup (next: HttpFunc) (ctx: HttpContext) =
         | Error msg ->
             ctx.Response.StatusCode <- 409
             return! json { Error = msg } next ctx
-        | Ok(User.UserSignedUp(id, email, hash)) ->
-            UserRepository.create id email hash
+        | Ok(User.UserSignedUp(id, email, hash, trackedShowIds)) ->
+            UserRepository.create id email hash trackedShowIds
             let token = generateToken id email
             return! json { Token = token } next ctx
         | Ok _ -> return! ServerErrors.internalError (text "Unexpected event") next ctx

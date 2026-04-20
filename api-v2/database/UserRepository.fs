@@ -2,7 +2,6 @@ module UserRepository
 
 open System
 open Dapper
-open Npgsql
 
 type UserRow =
     { Id: Guid
@@ -20,7 +19,7 @@ let getByEmail (email: string) =
     use conn = Database.createConnection ()
 
     conn.QuerySingleOrDefault<UserRow>(
-        "SELECT id, email, password_hash as PasswordHash
+        "SELECT id, email, password_hash as PasswordHash, tracked_show_ids as TrackedShowIds
         FROM users
         WHERE email = @Email",
         {| Email = email |}
@@ -28,14 +27,15 @@ let getByEmail (email: string) =
     |> Option.ofObj
     |> Option.map toUser
 
-let create (id: Guid) (email: string) (passwordHash: byte[]) =
+let create (id: Guid) (email: string) (passwordHash: byte[]) (trackedShowIds: int list) =
     use conn = Database.createConnection ()
 
     conn.Execute(
-        "INSERT INTO users (id, email, password_hash)
-         VALUES (@Id, @Email, @PasswordHash)",
+        "INSERT INTO users (id, email, password_hash, tracked_show_ids)
+         VALUES (@Id, @Email, @PasswordHash, @TrackedShowIds)",
         {| Id = id
            Email = email
-           PasswordHash = passwordHash |}
+           PasswordHash = passwordHash
+           TrackedShowIds = trackedShowIds |> List.toArray |}
     )
     |> ignore
