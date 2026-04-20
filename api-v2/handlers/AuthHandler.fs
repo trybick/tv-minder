@@ -18,7 +18,7 @@ type ErrorResponse = { Error: string }
 // --- JWT ---
 
 let private generateToken (userId: Guid) (email: string) =
-    let secret = Environment.GetEnvironmentVariable "JWT_SECRET"
+    let secret = Env.require "JWT_SECRET"
     let key = SymmetricSecurityKey(Encoding.UTF8.GetBytes secret)
     let creds = SigningCredentials(key, SecurityAlgorithms.HmacSha256)
 

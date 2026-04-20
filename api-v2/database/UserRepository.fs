@@ -2,16 +2,19 @@ module UserRepository
 
 open System
 open Dapper
+open Npgsql
 
 type UserRow =
     { Id: Guid
       Email: string
-      PasswordHash: byte[] }
+      PasswordHash: byte[]
+      TrackedShowIds: int[] }
 
 let private toUser (row: UserRow) : User.User =
     { Id = row.Id
       Email = row.Email
-      PasswordHash = row.PasswordHash }
+      PasswordHash = row.PasswordHash
+      TrackedShowIds = row.TrackedShowIds |> Array.toList }
 
 let getByEmail (email: string) =
     use conn = Database.createConnection ()
