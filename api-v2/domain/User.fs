@@ -8,10 +8,12 @@ open System.Security.Cryptography
 // --- Types ---
 
 type User =
-    { Id: Guid
-      Email: string
-      PasswordHash: byte[]
-      TrackedShowIds: int list }
+    {
+        Id: Guid
+        Email: string
+        PasswordHash: byte[]
+        TrackedShowIds: int list
+    }
 
 type Command =
     | Signup of email: string * password: string
