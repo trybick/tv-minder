@@ -6,5 +6,6 @@ export const ENDPOINTS = {
     VITE_API === 'local'
       ? 'http://localhost:4500'
       : 'https://api.tv-minder.com',
+  TV_MINDER_SERVER_V2: 'http://localhost:4600',
   GOOGLE_USER_INFO: 'https://www.googleapis.com/oauth2/v3/userinfo',
 };

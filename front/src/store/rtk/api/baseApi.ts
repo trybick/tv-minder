@@ -3,6 +3,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ENDPOINTS } from '~/app/endpoints';
 import type { RootState } from '~/store';
 
+const USE_API_V2 = false;
+
+const baseUrl = USE_API_V2
+  ? ENDPOINTS.TV_MINDER_SERVER_V2
+  : `${ENDPOINTS.TV_MINDER_SERVER}/api`;
+
 export type ApiDataResponse<T> = {
   data: T;
 };
@@ -14,7 +20,7 @@ export type ApiErrorResponse = {
 };
 
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: `${ENDPOINTS.TV_MINDER_SERVER}/api`,
+  baseUrl,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).user.token;
     if (token) {
