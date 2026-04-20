@@ -8,8 +8,7 @@ let DEFAULT_PORT = "4600"
 let startApi (args: string array) =
     Database.runMigrations ()
 
-    let port = Env.require "PORT" |> Option.ofObj |> Option.defaultValue DEFAULT_PORT
-
+    let port = Env.tryAndDefault "PORT" DEFAULT_PORT
 
     let builder = WebApplication.CreateBuilder args
     builder.Services.AddGiraffe() |> ignore
