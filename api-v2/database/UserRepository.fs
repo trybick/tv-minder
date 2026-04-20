@@ -1,7 +1,6 @@
 module UserRepository
 
 open System
-open Npgsql
 open Dapper
 
 type UserRow =

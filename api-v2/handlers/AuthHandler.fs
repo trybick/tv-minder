@@ -18,8 +18,8 @@ type ErrorResponse = { Error: string }
 // --- JWT ---
 
 let private generateToken (userId: Guid) (email: string) =
-    let secret = Environment.GetEnvironmentVariable("JWT_SECRET")
-    let key = SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+    let secret = Environment.GetEnvironmentVariable "JWT_SECRET"
+    let key = SymmetricSecurityKey(Encoding.UTF8.GetBytes secret)
     let creds = SigningCredentials(key, SecurityAlgorithms.HmacSha256)
 
     let claims =
@@ -29,11 +29,11 @@ let private generateToken (userId: Guid) (email: string) =
     let token =
         JwtSecurityToken(
             claims = claims,
-            expires = DateTime.UtcNow.AddDays(7),
+            expires = DateTime.UtcNow.AddDays 365,
             signingCredentials = creds
         )
 
-    JwtSecurityTokenHandler().WriteToken(token)
+    JwtSecurityTokenHandler().WriteToken token
 
 // --- Handlers ---
 
