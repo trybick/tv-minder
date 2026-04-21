@@ -1,41 +1,72 @@
 module UserRepository
 
 open System
+open System.Threading.Tasks
 open Dapper
+open Npgsql
+open Primitives
+open AppError
 
 type UserRow =
-    { Id: Guid
-      Email: string
-      PasswordHash: byte[]
-      TrackedShowIds: int[] }
+    {
+        Id: Guid
+        Email: string
+        PasswordHash: byte[]
+        TrackedShowIds: int[]
+    }
 
 let private toUser (row: UserRow) : User.User =
-    { Id = row.Id
-      Email = row.Email
-      PasswordHash = row.PasswordHash
-      TrackedShowIds = row.TrackedShowIds |> Array.toList }
+    {
+        Id = UserId.fromTrusted row.Id
+        Email = Email.fromTrusted row.Email
+        PasswordHash = PasswordHash.create row.PasswordHash
+        TrackedShowIds = row.TrackedShowIds |> Array.toList |> List.map ShowId.fromTrusted
+    }
 
-let getByEmail (email: string) =
-    use conn = Database.createConnection ()
+let getByEmail (email: Email) : Task<Result<User.User option, InfrastructureError>> =
+    task {
+        try
+            use conn = Database.createConnection ()
 
-    conn.QuerySingleOrDefault<UserRow>(
-        "SELECT id, email, password_hash as PasswordHash, tracked_show_ids as TrackedShowIds
-        FROM users
-        WHERE email = @Email",
-        {| Email = email |}
-    )
-    |> Option.ofObj
-    |> Option.map toUser
+            let! row =
+                conn.QuerySingleOrDefaultAsync<UserRow>(
+                    "SELECT id, email, password_hash as PasswordHash, tracked_show_ids as TrackedShowIds
+                     FROM users
+                     WHERE email = @Email",
+                    {| Email = Email.value email |}
+                )
 
-let create (id: Guid) (email: string) (passwordHash: byte[]) (trackedShowIds: int list) =
-    use conn = Database.createConnection ()
+            return row |> Option.ofObj |> Option.map toUser |> Ok
+        with ex ->
+            return Error(DatabaseError ex)
+    }
 
-    conn.Execute(
-        "INSERT INTO users (id, email, password_hash, tracked_show_ids)
-         VALUES (@Id, @Email, @PasswordHash, @TrackedShowIds)",
-        {| Id = id
-           Email = email
-           PasswordHash = passwordHash
-           TrackedShowIds = trackedShowIds |> List.toArray |}
-    )
-    |> ignore
+let create
+    (id: UserId)
+    (email: Email)
+    (passwordHash: PasswordHash)
+    (trackedShowIds: ShowId list)
+    : Task<Result<unit, InfrastructureError>> =
+    task {
+        try
+            use conn = Database.createConnection ()
+
+            let! _ =
+                conn.ExecuteAsync(
+                    "INSERT INTO users (id, email, password_hash, tracked_show_ids)
+                     VALUES (@Id, @Email, @PasswordHash, @TrackedShowIds)",
+                    {|
+                        Id = UserId.value id
+                        Email = Email.value email
+                        PasswordHash = PasswordHash.value passwordHash
+                        TrackedShowIds = trackedShowIds |> List.map ShowId.value |> List.toArray
+                    |}
+                )
+
+            return Ok()
+        with
+        | :? PostgresException as pgEx when pgEx.SqlState = PostgresErrorCodes.UniqueViolation ->
+            return Error DuplicateKey
+        | ex ->
+            return Error(DatabaseError ex)
+    }
