@@ -1,0 +1,123 @@
+---
+description: api-v2 (F# Giraffe) follows Domain-Driven Design
+globs: api-v2/**
+alwaysApply: false
+---
+
+# api-v2 and Domain-Driven Design
+
+The `api-v2/` service is organized using **Domain-Driven Design (DDD)**.
+
+## Expectations
+
+- **Domain model and rules** live under `domain/`. Prefer rich domain types and explicit invariants over anemic data bags scattered through handlers.
+- **Application orchestration** (HTTP adapters, use-case wiring) stays in `handlers/`, `routes/`, and `Program.fs`. Handlers should delegate to domain logic and infrastructure boundaries rather than embedding business rules.
+- **Persistence and external systems** sit behind clear boundaries (e.g. `database/` repositories, `infrastructure/`). The domain should not depend on Giraffe, SQL details, or framework types.
+- **Cross-cutting concerns** such as shared error shapes belong in places like `errors/` and are composed at the edges, not duplicated inside domain entities.
+
+When adding or changing behavior, extend the domain and repositories first, then connect them through thin handler and route layers.
+
+## F# DDD Patterns
+
+### Model the domain with types, not comments
+
+Use **discriminated unions** to make illegal states unrepresentable:
+
+```fsharp
+// Prefer this:
+type OrderStatus =
+    | Pending
+    | Confirmed of confirmedAt: DateTimeOffset
+    | Shipped of trackingNumber: TrackingNumber
+    | Cancelled of reason: string
+
+// Avoid stringly-typed status:
+// type Order = { Status: string }
+```
+
+### Value Objects
+
+Wrap primitives to enforce invariants. Use **single-case DUs** or record types with private constructors:
+
+```fsharp
+type EmailAddress = private EmailAddress of string
+
+module EmailAddress =
+    let create (raw: string) : Result<EmailAddress, string> =
+        if raw.Contains("@") then Ok (EmailAddress raw)
+        else Error "Invalid email address"
+
+    let value (EmailAddress v) = v
+```
+
+### Entities
+
+Entities have **identity** and mutable lifecycle state. Model them as records with an explicit `Id` field:
+
+```fsharp
+type OrderId = OrderId of System.Guid
+
+type Order = {
+    Id: OrderId
+    CustomerId: CustomerId
+    Status: OrderStatus
+    Lines: OrderLine list
+}
+```
+
+### Aggregates
+
+An aggregate is a **consistency boundary** — only mutate state through its root. Never reach inside a nested entity directly:
+
+```fsharp
+// Good: operate through the aggregate root
+module Order =
+    let addLine (line: OrderLine) (order: Order) : Result<Order, string> = ...
+    let confirm (order: Order) : Result<Order, string> = ...
+
+// Bad: directly mutate a nested collection from outside the module
+```
+
+### Domain Events
+
+Model things that **happened** as immutable DU cases. Raise them from aggregate operations:
+
+```fsharp
+type OrderEvent =
+    | OrderPlaced of orderId: OrderId * customerId: CustomerId
+    | OrderConfirmed of orderId: OrderId * confirmedAt: DateTimeOffset
+    | OrderShipped of orderId: OrderId * trackingNumber: TrackingNumber
+```
+
+### Repositories (interface in Domain, impl in Infrastructure)
+
+Define the contract in the domain layer as a record of functions — no leaky ORM types:
+
+```fsharp
+// Domain/
+type OrderRepository = {
+    FindById: OrderId -> Async<Order option>
+    Save: Order -> Async<unit>
+}
+
+// Infrastructure/
+let pgOrderRepository (conn: IDbConnection) : OrderRepository = {
+    FindById = fun id -> async { ... }  // Dapper query here
+    Save = fun order -> async { ... }
+}
+```
+
+### Railway-Oriented Programming for Use Cases
+
+Use `AsyncResult` / `Result` to model failure explicitly. Do **not** throw exceptions for domain errors:
+
+```fsharp
+let placeOrder (cmd: PlaceOrderCommand) : AsyncResult<OrderId, OrderError> =
+    asyncResult {
+        let! customer = customerRepo.FindById cmd.CustomerId
+                        |> AsyncResult.ofOptionWith (OrderError.CustomerNotFound cmd.CustomerId)
+        let! order = Order.create customer cmd.Lines |> AsyncResult.ofResult
+        do! orderRepo.Save order
+        return order.Id
+    }
+```
