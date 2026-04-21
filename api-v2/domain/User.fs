@@ -8,16 +8,19 @@ open System.Security.Cryptography
 // --- Types ---
 
 type User =
-    { Id: Guid
-      Email: string
-      PasswordHash: byte[] }
+    {
+        Id: Guid
+        Email: string
+        PasswordHash: byte[]
+        TrackedShowIds: int list
+    }
 
 type Command =
     | Signup of email: string * password: string
     | Login of email: string * password: string
 
 type Event =
-    | UserSignedUp of id: Guid * email: string * passwordHash: byte[]
+    | UserSignedUp of id: Guid * email: string * passwordHash: byte[] * trackedShowIds: int list
     | LoginSucceeded of id: Guid * email: string
 
 // --- Password hashing ---
@@ -43,7 +46,7 @@ let handle (command: Command) (existingUser: User option) : Result<Event, string
         | Some _ -> Error "Email already in use"
         | None ->
             let hash = hashPassword password
-            Ok(UserSignedUp(Guid.NewGuid(), email, hash))
+            Ok(UserSignedUp(Guid.NewGuid(), email, hash, []))
     | Login(_, password) ->
         match existingUser with
         | None -> Error "Invalid email or password"
