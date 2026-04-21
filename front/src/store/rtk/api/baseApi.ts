@@ -5,9 +5,9 @@ import type { RootState } from '~/store';
 
 const USE_API_V2 = false;
 
-const baseUrl = USE_API_V2
-  ? ENDPOINTS.TV_MINDER_SERVER_V2
-  : `${ENDPOINTS.TV_MINDER_SERVER}/api`;
+const baseUrl = `${
+  USE_API_V2 ? ENDPOINTS.TV_MINDER_SERVER_V2 : ENDPOINTS.TV_MINDER_SERVER
+}/api`;
 
 export type ApiDataResponse<T> = {
   data: T;

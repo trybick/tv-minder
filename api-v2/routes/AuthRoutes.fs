@@ -4,5 +4,5 @@ open Giraffe.EndpointRouting
 
 let routes: Endpoint list =
     [ POST
-          [ route "/auth/signup" AuthHandler.signup
-            route "/auth/login" AuthHandler.login ] ]
+          [ route "/signup" AuthHandler.signup
+            route "/login" AuthHandler.login ] ]
