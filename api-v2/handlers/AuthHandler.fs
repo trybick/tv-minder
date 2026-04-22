@@ -100,7 +100,10 @@ let login (next: HttpFunc) (ctx: HttpContext) =
                     UserRepository.getByEmail email |> TaskResult.mapError Infrastructure
 
                 let! event =
-                    User.handle PasswordHashing.argon2Hasher (User.Login(email, RawPassword.fromInput body.Password)) existing
+                    User.handle
+                        PasswordHashing.argon2Hasher
+                        (User.Login(email, RawPassword.fromInput body.Password))
+                        existing
                     |> Result.mapError Domain
 
                 match event with

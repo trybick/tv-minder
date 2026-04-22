@@ -24,8 +24,7 @@ type ValidationError =
 type Email = private Email of string
 
 module Email =
-    let private regex =
-        Regex(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", RegexOptions.Compiled)
+    let private regex = Regex(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", RegexOptions.Compiled)
 
     let create (value: string) : Result<Email, ValidationError> =
         if String.IsNullOrWhiteSpace value then
