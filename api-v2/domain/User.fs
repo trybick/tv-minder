@@ -19,19 +19,29 @@ type Command =
     | Login of email: Email * password: RawPassword
 
 type Event =
-    | UserSignedUp of id: UserId * email: Email * passwordHash: PasswordHash * trackedShowIds: ShowId list
+    | UserSignedUp of
+        id: UserId *
+        email: Email *
+        passwordHash: PasswordHash *
+        trackedShowIds: ShowId list
     | LoginSucceeded of id: UserId * email: Email
 
 type PasswordHasher =
-    { Hash: RawPassword -> PasswordHash
-      Verify: RawPassword -> PasswordHash -> bool }
+    {
+        Hash: RawPassword -> PasswordHash
+        Verify: RawPassword -> PasswordHash -> bool
+    }
 
-let handle (hasher: PasswordHasher) (command: Command) (existingUser: User option) : Result<Event, UserError> =
+let handle
+    (hasher: PasswordHasher)
+    (command: Command)
+    (existingUser: User option)
+    : Result<Event, UserError> =
     match command with
     | Signup(email, password) ->
         match existingUser with
         | Some _ -> Error EmailAlreadyInUse
-        | None -> Ok(UserSignedUp(UserId.newId(), email, hasher.Hash password, []))
+        | None -> Ok(UserSignedUp(UserId.newId (), email, hasher.Hash password, []))
     | Login(_, password) ->
         match existingUser with
         | None -> Error InvalidCredentials

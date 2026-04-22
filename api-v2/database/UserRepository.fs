@@ -67,6 +67,5 @@ let create
         with
         | :? PostgresException as pgEx when pgEx.SqlState = PostgresErrorCodes.UniqueViolation ->
             return Error DuplicateKey
-        | ex ->
-            return Error(DatabaseError ex)
+        | ex -> return Error(DatabaseError ex)
     }
