@@ -78,7 +78,8 @@ let toHttp (err: AppError) : HttpHandler =
             ctx.Response.StatusCode <- details.Status
             ctx.Response.ContentType <- "application/problem+json"
 
-            let payload = JsonSerializer.Serialize details
+            let options = JsonSerializerOptions(PropertyNamingPolicy = JsonNamingPolicy.CamelCase)
+            let payload = JsonSerializer.Serialize(details, options)
             let bytes = Encoding.UTF8.GetBytes payload
             do! ctx.Response.Body.WriteAsync(bytes, 0, bytes.Length)
             return Some ctx
