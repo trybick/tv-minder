@@ -2,6 +2,7 @@ module AppError
 
 open System.Text
 open System.Text.Json
+open System.Text.Json.Serialization
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Giraffe
@@ -21,11 +22,11 @@ type AppError =
 
 type ProblemDetails =
     {
-        Type: string
-        Title: string
-        Status: int
-        Detail: string
-        Code: string
+        [<JsonPropertyName("type")>]   Type:   string
+        [<JsonPropertyName("title")>]  Title:  string
+        [<JsonPropertyName("status")>] Status: int
+        [<JsonPropertyName("detail")>] Detail: string
+        [<JsonPropertyName("code")>]   Code:   string
     }
 
 let private problem title status detail code =

@@ -1,4 +1,4 @@
 INSERT INTO users (email, password_hash) VALUES
-    ('alice@example.com', '$2a$12$mockhashalicexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
-    ('bob@example.com',   '$2a$12$mockhashbobxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    ('alice@example.com', '\x0000000000000000000000000000000000000000000000000000000000000001'),
+    ('bob@example.com',   '\x0000000000000000000000000000000000000000000000000000000000000002')
 ON CONFLICT (email) DO NOTHING;

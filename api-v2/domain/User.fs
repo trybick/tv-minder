@@ -14,39 +14,38 @@ type UserError =
     | EmailAlreadyInUse
     | InvalidCredentials
 
-type Command =
-    | Signup of email: Email * password: RawPassword
-    | Login of email: Email * password: RawPassword
-
-type Event =
-    | UserSignedUp of
-        id: UserId *
-        email: Email *
-        passwordHash: PasswordHash *
-        trackedShowIds: ShowId list
-    | LoginSucceeded of id: UserId * email: Email
-
 type PasswordHasher =
     {
         Hash: RawPassword -> PasswordHash
         Verify: RawPassword -> PasswordHash -> bool
     }
 
-let handle
+let signup
     (hasher: PasswordHasher)
-    (command: Command)
+    (email: Email)
+    (password: RawPassword)
     (existingUser: User option)
-    : Result<Event, UserError> =
-    match command with
-    | Signup(email, password) ->
-        match existingUser with
-        | Some _ -> Error EmailAlreadyInUse
-        | None -> Ok(UserSignedUp(UserId.newId (), email, hasher.Hash password, []))
-    | Login(_, password) ->
-        match existingUser with
-        | None -> Error InvalidCredentials
-        | Some user ->
-            if hasher.Verify password user.PasswordHash then
-                Ok(LoginSucceeded(user.Id, user.Email))
-            else
-                Error InvalidCredentials
+    : Result<User, UserError> =
+    match existingUser with
+    | Some _ -> Error EmailAlreadyInUse
+    | None ->
+        Ok
+            {
+                Id = UserId.newId ()
+                Email = email
+                PasswordHash = hasher.Hash password
+                TrackedShowIds = []
+            }
+
+let login
+    (hasher: PasswordHasher)
+    (password: RawPassword)
+    (existingUser: User option)
+    : Result<User, UserError> =
+    match existingUser with
+    | None -> Error InvalidCredentials
+    | Some user ->
+        if hasher.Verify password user.PasswordHash then
+            Ok user
+        else
+            Error InvalidCredentials

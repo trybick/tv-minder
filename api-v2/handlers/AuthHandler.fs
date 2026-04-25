@@ -66,23 +66,20 @@ let signup (next: HttpFunc) (ctx: HttpContext) =
                 let! existing =
                     UserRepository.getByEmail email |> TaskResult.mapError Infrastructure
 
-                let! event =
-                    User.handle PasswordHashing.argon2Hasher (User.Signup(email, password)) existing
+                let! newUser =
+                    User.signup PasswordHashing.argon2Hasher email password existing
                     |> Result.mapError Domain
 
-                match event with
-                | User.UserSignedUp(id, userEmail, hash, trackedShowIds) ->
-                    do!
-                        UserRepository.create id userEmail hash trackedShowIds
-                        |> TaskResult.mapError (function
-                            | DuplicateKey -> Domain User.EmailAlreadyInUse
-                            | infra -> Infrastructure infra)
+                do!
+                    UserRepository.create newUser.Id newUser.Email newUser.PasswordHash newUser.TrackedShowIds
+                    |> TaskResult.mapError (function
+                        | DuplicateKey -> Domain User.EmailAlreadyInUse
+                        | infra -> Infrastructure infra)
 
-                    let! token =
-                        generateToken id (Email.value userEmail) |> Result.mapError Infrastructure
+                let! token =
+                    generateToken newUser.Id (Email.value newUser.Email) |> Result.mapError Infrastructure
 
-                    return { Token = token }
-                | _ -> return! Error(Infrastructure(Unexpected "Expected UserSignedUp event"))
+                return { Token = token }
             }
 
         return! respond next ctx result
@@ -99,20 +96,14 @@ let login (next: HttpFunc) (ctx: HttpContext) =
                 let! existing =
                     UserRepository.getByEmail email |> TaskResult.mapError Infrastructure
 
-                let! event =
-                    User.handle
-                        PasswordHashing.argon2Hasher
-                        (User.Login(email, RawPassword.fromInput body.Password))
-                        existing
+                let! user =
+                    User.login PasswordHashing.argon2Hasher (RawPassword.fromInput body.Password) existing
                     |> Result.mapError Domain
 
-                match event with
-                | User.LoginSucceeded(id, userEmail) ->
-                    let! token =
-                        generateToken id (Email.value userEmail) |> Result.mapError Infrastructure
+                let! token =
+                    generateToken user.Id (Email.value user.Email) |> Result.mapError Infrastructure
 
-                    return { Token = token }
-                | _ -> return! Error(Infrastructure(Unexpected "Expected LoginSucceeded event"))
+                return { Token = token }
             }
 
         return! respond next ctx result
