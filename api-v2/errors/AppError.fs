@@ -2,7 +2,6 @@ module AppError
 
 open System.Text
 open System.Text.Json
-open System.Text.Json.Serialization
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Giraffe
@@ -22,11 +21,11 @@ type AppError =
 
 type ProblemDetails =
     {
-        [<JsonPropertyName("type")>]   Type:   string
-        [<JsonPropertyName("title")>]  Title:  string
-        [<JsonPropertyName("status")>] Status: int
-        [<JsonPropertyName("detail")>] Detail: string
-        [<JsonPropertyName("code")>]   Code:   string
+        Type: string
+        Title: string
+        Status: int
+        Detail: string
+        Code: string
     }
 
 let private problem title status detail code =
@@ -79,7 +78,8 @@ let toHttp (err: AppError) : HttpHandler =
             ctx.Response.StatusCode <- details.Status
             ctx.Response.ContentType <- "application/problem+json"
 
-            let payload = JsonSerializer.Serialize details
+            let options = JsonSerializerOptions(PropertyNamingPolicy = JsonNamingPolicy.CamelCase)
+            let payload = JsonSerializer.Serialize(details, options)
             let bytes = Encoding.UTF8.GetBytes payload
             do! ctx.Response.Body.WriteAsync(bytes, 0, bytes.Length)
             return Some ctx
