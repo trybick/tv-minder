@@ -1,2 +1,0 @@
-ALTER TABLE users
-ADD COLUMN IF NOT EXISTS tracked_show_ids INTEGER[] NOT NULL DEFAULT '{}';

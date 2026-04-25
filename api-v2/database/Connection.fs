@@ -14,7 +14,7 @@ let private parseConnectionString (url: string) =
     builder.Database <- uri.AbsolutePath.TrimStart('/')
     builder.Username <- userInfo.[0]
     builder.Password <- userInfo.[1]
-    builder.SslMode <- SslMode.Prefer
+    builder.SslMode <- SslMode.Disable
     builder.ToString()
 
 let connectionString = Env.require "DATABASE_URL" |> parseConnectionString
