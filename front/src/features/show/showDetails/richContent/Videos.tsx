@@ -7,6 +7,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Portal,
   Text,
   useDisclosure,
   VStack,
@@ -188,26 +189,28 @@ export const Videos = ({ videos }: Props) => {
             size="xl"
             lazyMount
           >
-            <Dialog.Backdrop />
-            <Dialog.Positioner>
-              <Dialog.Content overflow="hidden">
-                <Dialog.Header>
-                  <Dialog.Title fontSize="md">
-                    {selectedVideo?.name ?? 'Video'}
-                  </Dialog.Title>
-                </Dialog.Header>
-                <Dialog.Body pb={4}>
-                  {selectedVideo?.key && (
-                    <AspectRatio ratio={16 / 9}>
-                      <YouTube
-                        opts={YOUTUBE_PLAYER_OPTIONS}
-                        videoId={selectedVideo.key}
-                      />
-                    </AspectRatio>
-                  )}
-                </Dialog.Body>
-              </Dialog.Content>
-            </Dialog.Positioner>
+            <Portal>
+              <Dialog.Backdrop />
+              <Dialog.Positioner>
+                <Dialog.Content overflow="hidden">
+                  <Dialog.Header>
+                    <Dialog.Title fontSize="md">
+                      {selectedVideo?.name ?? 'Video'}
+                    </Dialog.Title>
+                  </Dialog.Header>
+                  <Dialog.Body pb={4}>
+                    {selectedVideo?.key && (
+                      <AspectRatio ratio={16 / 9}>
+                        <YouTube
+                          opts={YOUTUBE_PLAYER_OPTIONS}
+                          videoId={selectedVideo.key}
+                        />
+                      </AspectRatio>
+                    )}
+                  </Dialog.Body>
+                </Dialog.Content>
+              </Dialog.Positioner>
+            </Portal>
           </Dialog.Root>
         </Flex>
       )}
