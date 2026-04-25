@@ -4,7 +4,7 @@ open System
 open System.Text
 open System.Security.Cryptography
 open Konscious.Security.Cryptography
-open Primitives
+open ValueObjects
 
 [<Literal>]
 let private SaltSize = 16

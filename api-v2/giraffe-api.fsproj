@@ -25,7 +25,7 @@
   <ItemGroup>
     <Compile Include="utils/Env.fs" />
     <Compile Include="database/Connection.fs" />
-    <Compile Include="domain/Primitives.fs" />
+    <Compile Include="domain/ValueObjects.fs" />
     <Compile Include="domain/User.fs" />
     <Compile Include="infrastructure/PasswordHashing.fs" />
     <Compile Include="errors/AppError.fs" />

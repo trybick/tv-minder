@@ -1,4 +1,4 @@
-module Primitives
+module ValueObjects
 
 open System
 open System.Text.RegularExpressions
