@@ -71,7 +71,7 @@ let signup (next: HttpFunc) (ctx: HttpContext) =
                     |> Result.mapError Domain
 
                 do!
-                    UserRepository.create newUser.Id newUser.Email newUser.PasswordHash newUser.TrackedShowIds
+                    UserRepository.create newUser.Id newUser.Email newUser.PasswordHash newUser.TrackedShows
                     |> TaskResult.mapError (function
                         | DuplicateKey -> Domain User.EmailAlreadyInUse
                         | infra -> Infrastructure infra)

@@ -7,7 +7,7 @@ type User =
         Id: UserId
         Email: Email
         PasswordHash: PasswordHash
-        TrackedShowIds: ShowId list
+        TrackedShows: ShowId list
     }
 
 type UserError =
@@ -34,7 +34,7 @@ let signup
                 Id = UserId.newId ()
                 Email = email
                 PasswordHash = hasher.Hash password
-                TrackedShowIds = []
+                TrackedShows = []
             }
 
 let login
