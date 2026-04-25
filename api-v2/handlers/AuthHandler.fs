@@ -8,7 +8,7 @@ open Microsoft.IdentityModel.Tokens
 open System.IdentityModel.Tokens.Jwt
 open System.Security.Claims
 open FsToolkit.ErrorHandling
-open Primitives
+open ValueObjects
 open AppError
 
 type SignupRequest = { Email: string; Password: string }

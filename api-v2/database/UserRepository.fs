@@ -4,7 +4,7 @@ open System
 open System.Threading.Tasks
 open Dapper
 open Npgsql
-open Primitives
+open ValueObjects
 open AppError
 
 type UserRow =

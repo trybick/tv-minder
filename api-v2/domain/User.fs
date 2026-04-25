@@ -1,6 +1,6 @@
 module User
 
-open Primitives
+open ValueObjects
 
 type User =
     {

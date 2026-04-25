@@ -5,7 +5,7 @@ open System.Text.Json
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Giraffe
-open Primitives
+open ValueObjects
 open User
 
 type InfrastructureError =
