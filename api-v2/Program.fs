@@ -1,6 +1,10 @@
+open System.Text
 open DotNetEnv
+open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
+open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
+open Microsoft.IdentityModel.Tokens
 open Giraffe
 open Giraffe.EndpointRouting
 
@@ -14,14 +18,31 @@ let startApi (args: string array) =
     Database.runMigrations ()
 
     let port = Env.tryAndDefault "PORT" DEFAULT_PORT
+    let jwtSecret = Env.require "JWT_SECRET"
 
     let builder = WebApplication.CreateBuilder args
     builder.Services.AddGiraffe() |> ignore
+
+    builder.Services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(fun options ->
+            options.TokenValidationParameters <-
+                TokenValidationParameters(
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes jwtSecret),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                ))
+    |> ignore
+
+    builder.Services.AddAuthorization() |> ignore
 
     let app = builder.Build()
     app.Urls.Add $"http://0.0.0.0:{port}"
 
     app.UseGiraffeErrorHandler(errorHandler) |> ignore
+    app.UseAuthentication() |> ignore
+    app.UseAuthorization() |> ignore
     app.UseRouting() |> ignore
     app.UseEndpoints(fun e -> e.MapGiraffeEndpoints Router.webApp) |> ignore
 

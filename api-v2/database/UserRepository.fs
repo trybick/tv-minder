@@ -12,7 +12,7 @@ type UserRow =
         Id: Guid
         Email: string
         PasswordHash: byte[]
-        TrackedShowIds: int[]
+        TrackedShows: int[]
     }
 
 let private toUser (row: UserRow) : User.User =
@@ -20,7 +20,7 @@ let private toUser (row: UserRow) : User.User =
         Id = UserId.fromTrusted row.Id
         Email = Email.fromTrusted row.Email
         PasswordHash = PasswordHash.create row.PasswordHash
-        TrackedShowIds = row.TrackedShowIds |> Array.toList |> List.map ShowId.fromTrusted
+        TrackedShows = row.TrackedShows |> Array.toList |> List.map ShowId.fromTrusted
     }
 
 let getByEmail (email: Email) : Task<Result<User.User option, InfrastructureError>> =
@@ -45,7 +45,7 @@ let create
     (id: UserId)
     (email: Email)
     (passwordHash: PasswordHash)
-    (trackedShowIds: ShowId list)
+    (trackedShows: ShowId list)
     : Task<Result<unit, InfrastructureError>> =
     task {
         try
@@ -54,12 +54,12 @@ let create
             let! _ =
                 conn.ExecuteAsync(
                     "INSERT INTO users (id, email, password_hash, tracked_show_ids)
-                     VALUES (@Id, @Email, @PasswordHash, @TrackedShowIds)",
+                     VALUES (@Id, @Email, @PasswordHash, @TrackedShows)",
                     {|
                         Id = UserId.value id
                         Email = Email.value email
                         PasswordHash = PasswordHash.value passwordHash
-                        TrackedShowIds = trackedShowIds |> List.map ShowId.value |> List.toArray
+                        TrackedShows = trackedShows |> List.map ShowId.value |> List.toArray
                     |}
                 )
 
@@ -68,4 +68,47 @@ let create
         | :? PostgresException as pgEx when pgEx.SqlState = PostgresErrorCodes.UniqueViolation ->
             return Error DuplicateKey
         | ex -> return Error(DatabaseError ex)
+    }
+
+let getTrackedShows (userId: UserId) : Task<Result<ShowId list, InfrastructureError>> =
+    task {
+        try
+            use conn = Database.createConnection ()
+
+            let! result =
+                conn.QuerySingleOrDefaultAsync<UserRow>(
+                    "SELECT id, email, password_hash as PasswordHash, tracked_show_ids as TrackedShows
+                     FROM users
+                     WHERE id = @Id",
+                    {| Id = UserId.value userId |}
+                )
+
+            let shows =
+                result
+                |> Option.ofObj
+                |> Option.map (fun row -> row.TrackedShows |> Array.toList |> List.map ShowId.fromTrusted)
+                |> Option.defaultValue []
+
+            return Ok shows
+        with ex ->
+            return Error(DatabaseError ex)
+    }
+
+let updateTrackedShows (userId: UserId) (trackedShows: ShowId list) : Task<Result<unit, InfrastructureError>> =
+    task {
+        try
+            use conn = Database.createConnection ()
+
+            let! _ =
+                conn.ExecuteAsync(
+                    "UPDATE users SET tracked_show_ids = @TrackedShows WHERE id = @Id",
+                    {|
+                        Id = UserId.value userId
+                        TrackedShows = trackedShows |> List.map ShowId.value |> List.toArray
+                    |}
+                )
+
+            return Ok()
+        with ex ->
+            return Error(DatabaseError ex)
     }
