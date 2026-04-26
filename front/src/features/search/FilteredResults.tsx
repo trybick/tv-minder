@@ -5,6 +5,7 @@ import {
   getStatusBadge,
   mapTmdbShowSummary,
   ShowCard,
+  type StatusBadge,
 } from '~/components/ShowCard';
 import { useAppSelector } from '~/store';
 import {
@@ -31,14 +32,19 @@ export const FilteredResults = ({ shows, totalResults }: Props) => {
     [shows]
   );
 
-  const getSearchStatusBadge = (showId: number) => {
-    const cachedShow = showDetails?.[showId] ?? searchShowDetails?.[showId];
-    if (!cachedShow) {
-      return null;
+  const badgeByShowId = useMemo(() => {
+    const map = new Map<number, StatusBadge | null>();
+    for (const show of showItems) {
+      const cachedShow = showDetails?.[show.id] ?? searchShowDetails?.[show.id];
+      if (!cachedShow) {
+        map.set(show.id, null);
+      } else {
+        const { status } = mapShowInfoForDisplay(cachedShow);
+        map.set(show.id, getStatusBadge(status));
+      }
     }
-    const { status } = mapShowInfoForDisplay(cachedShow);
-    return getStatusBadge(status);
-  };
+    return map;
+  }, [showItems, showDetails, searchShowDetails]);
 
   if (!showItems.length) {
     return (
@@ -66,7 +72,7 @@ export const FilteredResults = ({ shows, totalResults }: Props) => {
           <SearchResultCard
             key={show.id}
             show={show}
-            badge={getSearchStatusBadge(show.id)}
+            badge={badgeByShowId.get(show.id) ?? null}
           />
         ))}
       </ShowCard.Grid>
