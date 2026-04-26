@@ -31,7 +31,9 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    if (!watchProviders || !contentRef.current) {
+    const contentElement = contentRef.current;
+
+    if (!watchProviders || !contentElement) {
       queueMicrotask(() => {
         setIsOverflowing(false);
         setContentHeight(0);
@@ -40,16 +42,14 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
     }
 
     const check = () => {
-      if (contentRef.current) {
-        const nextHeight = contentRef.current.scrollHeight;
-        setContentHeight(nextHeight);
-        setIsOverflowing(nextHeight > COLLAPSED_HEIGHT + 1);
-      }
+      const nextHeight = contentElement.scrollHeight;
+      setContentHeight(nextHeight);
+      setIsOverflowing(nextHeight > COLLAPSED_HEIGHT + 1);
     };
 
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    const observer = new ResizeObserver(check);
+    observer.observe(contentElement);
+    return () => observer.disconnect();
   }, [watchProviders]);
 
   return (

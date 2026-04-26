@@ -47,33 +47,34 @@ export const Videos = ({ videos }: Props) => {
   const hasMore = videos.length > MAX_VISIBLE_VIDEOS;
 
   useEffect(() => {
-    const measureHeights = () => {
-      const contentElement = contentRef.current;
-      if (!contentElement) {
-        return;
-      }
+    const contentElement = contentRef.current;
+    if (!contentElement) return;
 
+    const measureHeights = () => {
       const nextContentHeight = contentElement.scrollHeight;
-      setContentHeight(nextContentHeight);
 
       if (!hasMore) {
+        setContentHeight(nextContentHeight);
         setCollapsedHeight(nextContentHeight);
         return;
       }
 
-      const children = Array.from(
-        contentElement.children
+      const collapsedChildren = Array.from(contentElement.children).slice(
+        0,
+        MAX_VISIBLE_VIDEOS
       ) as HTMLButtonElement[];
-      const collapsedChildren = children.slice(0, MAX_VISIBLE_VIDEOS);
+      const childHeights = collapsedChildren.map(child => child.offsetHeight);
       const nextCollapsedHeight =
-        collapsedChildren.reduce((sum, child) => sum + child.offsetHeight, 0) +
+        childHeights.reduce((sum, h) => sum + h, 0) +
         (Math.max(collapsedChildren.length, 1) - 1) * COLLAPSED_CONTENT_GAP;
+
+      setContentHeight(nextContentHeight);
       setCollapsedHeight(nextCollapsedHeight);
     };
 
-    measureHeights();
-    window.addEventListener('resize', measureHeights);
-    return () => window.removeEventListener('resize', measureHeights);
+    const observer = new ResizeObserver(measureHeights);
+    observer.observe(contentElement);
+    return () => observer.disconnect();
   }, [hasMore, videos]);
 
   return (
