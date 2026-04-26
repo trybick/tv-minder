@@ -33,6 +33,21 @@ import { CalendarSkeleton } from './CalendarSkeleton';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
 import { NoTrackedShowsBanner } from './NoTrackedShowsBanner';
 
+const formatDesktopEvent = (
+  eventInfo: EventContentArg & { backgroundColor: string }
+) => <DesktopCalendarEventPopover eventInfo={eventInfo} />;
+
+const formatMobileEvent = (eventInfo: EventContentArg) => {
+  const { title } = eventInfo.event;
+  const { isMultipleEvent } = eventInfo.event.extendedProps;
+  return (
+    <Flex>
+      {isMultipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
+      <Text cursor="pointer">{title}</Text>
+    </Flex>
+  );
+};
+
 export const CalendarPage = () => {
   const dispatch = useAppDispatch();
   const [, navigate] = useLocation();
@@ -95,21 +110,6 @@ export const CalendarPage = () => {
       label: `${showName} (${showId.toString()})`,
     });
     navigate(`${ROUTES.SHOW}/${showId}`);
-  };
-
-  const formatDesktopEvent = (
-    eventInfo: EventContentArg & { backgroundColor: string }
-  ) => <DesktopCalendarEventPopover eventInfo={eventInfo} />;
-
-  const formatMobileEvent = (eventInfo: EventContentArg) => {
-    const { title } = eventInfo.event;
-    const { isMultipleEvent } = eventInfo.event.extendedProps;
-    return (
-      <Flex>
-        {isMultipleEvent && <Icon as={TbBoxMultiple} m="4px 4px 0 0" />}
-        <Text cursor="pointer">{title}</Text>
-      </Flex>
-    );
   };
 
   const handleDatesSet = (dateInfo: DatesSetArg) => {

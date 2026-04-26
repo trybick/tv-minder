@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useMemo } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -21,78 +22,81 @@ type Props = {
 export const EpisodesTable = ({ episodes }: Props) => {
   const { isMobile } = useResponsiveLayout();
 
-  const columns: ColumnDef<EpisodeForSeason>[] = [
-    {
-      id: 'episodeNumber',
-      accessorKey: 'episodeNumber',
-      size: 40,
-      header: () => <TableHeader>Number</TableHeader>,
-      cell: ({ row }) => (
-        <Text color="fg.muted" fontSize="sm">
-          {row.original.episodeNumber}
-        </Text>
-      ),
-    },
-    {
-      id: 'name',
-      accessorKey: 'name',
-      size: 100,
-      header: () => <TableHeader>Title</TableHeader>,
-      cell: ({ row }) => (
-        <Text fontWeight="semibold" fontSize="sm" color="fg">
-          {row.original.name}
-        </Text>
-      ),
-    },
-    {
-      id: 'airDate',
-      size: 80,
-      accessorFn: row =>
-        row.airDate && dayjs(row.airDate).format('MMM D, YYYY'),
-      header: () => <TableHeader>Air Date</TableHeader>,
-      cell: ({ getValue }) => (
-        <Text fontSize="sm" whiteSpace="nowrap" color="fg.muted">
-          {getValue() as string}
-        </Text>
-      ),
-    },
-    {
-      id: 'voteAverage',
-      size: 50,
-      header: () => <TableHeader textAlign="center">Rating</TableHeader>,
-      cell: ({ row }) => {
-        const ratingStr = row.original.voteAverage;
-        if (!ratingStr || ratingStr === '-') {
-          return (
-            <Text color="fg.muted" textAlign="center">
-              -
-            </Text>
-          );
-        }
-        const rating = parseFloat(ratingStr);
-
-        return (
-          <Flex justify="center">
-            <Badge
-              variant="subtle"
-              colorPalette={
-                rating >= 8 ? 'green' : rating >= 6.5 ? 'yellow' : 'orange'
-              }
-              size="sm"
-              borderRadius="full"
-              px="2"
-              display="flex"
-              alignItems="center"
-              gap="1"
-            >
-              {rating.toFixed(1)}
-              <Icon as={FaStar} boxSize="2" />
-            </Badge>
-          </Flex>
-        );
+  const columns = useMemo<ColumnDef<EpisodeForSeason>[]>(
+    () => [
+      {
+        id: 'episodeNumber',
+        accessorKey: 'episodeNumber',
+        size: 40,
+        header: () => <TableHeader>Number</TableHeader>,
+        cell: ({ row }) => (
+          <Text color="fg.muted" fontSize="sm">
+            {row.original.episodeNumber}
+          </Text>
+        ),
       },
-    },
-  ];
+      {
+        id: 'name',
+        accessorKey: 'name',
+        size: 100,
+        header: () => <TableHeader>Title</TableHeader>,
+        cell: ({ row }) => (
+          <Text fontWeight="semibold" fontSize="sm" color="fg">
+            {row.original.name}
+          </Text>
+        ),
+      },
+      {
+        id: 'airDate',
+        size: 80,
+        accessorFn: row =>
+          row.airDate && dayjs(row.airDate).format('MMM D, YYYY'),
+        header: () => <TableHeader>Air Date</TableHeader>,
+        cell: ({ getValue }) => (
+          <Text fontSize="sm" whiteSpace="nowrap" color="fg.muted">
+            {getValue() as string}
+          </Text>
+        ),
+      },
+      {
+        id: 'voteAverage',
+        size: 50,
+        header: () => <TableHeader textAlign="center">Rating</TableHeader>,
+        cell: ({ row }) => {
+          const ratingStr = row.original.voteAverage;
+          if (!ratingStr || ratingStr === '-') {
+            return (
+              <Text color="fg.muted" textAlign="center">
+                -
+              </Text>
+            );
+          }
+          const rating = parseFloat(ratingStr);
+
+          return (
+            <Flex justify="center">
+              <Badge
+                variant="subtle"
+                colorPalette={
+                  rating >= 8 ? 'green' : rating >= 6.5 ? 'yellow' : 'orange'
+                }
+                size="sm"
+                borderRadius="full"
+                px="2"
+                display="flex"
+                alignItems="center"
+                gap="1"
+              >
+                {rating.toFixed(1)}
+                <Icon as={FaStar} boxSize="2" />
+              </Badge>
+            </Flex>
+          );
+        },
+      },
+    ],
+    []
+  );
 
   const { getHeaderGroups, getRowModel } = useReactTable<EpisodeForSeason>({
     columns,
