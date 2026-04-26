@@ -1,8 +1,10 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useLayoutEffect } from 'react';
 import { useLocation, useParams } from 'wouter';
+import { useHistoryState } from 'wouter/use-browser-location';
 
 import { ROUTES } from '~/app/routes';
+import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { addRecentShow } from '~/store/rtk/slices/recentShows.slice';
@@ -19,11 +21,12 @@ import { SimilarShows } from './SimilarShows';
 export const ShowPage = () => {
   const dispatch = useAppDispatch();
   const [, navigate] = useLocation();
+  const historyState = useHistoryState<ShowNavigationState>();
   const { isMobile } = useResponsiveLayout();
 
   const { showId } = useParams<{ showId: string }>();
   const showInfo = useAppSelector(selectCurrentShowInfo);
-  const name = window.history.state?.name || showInfo?.name;
+  const name = historyState?.name || showInfo?.name;
 
   // Scroll to top of page when the page is loaded. This solves this issue of
   // the page loading scrolled down when the previous page was scrolled.

@@ -4,7 +4,6 @@ import {
   mapTmdbShowSummary,
   type ShowItem,
 } from '~/components/ShowCard/helpers';
-import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 
 import { type AppSelector, type AppState } from './..';
@@ -179,19 +178,5 @@ export const selectCurrentSimilarShowItems: AppSelector<
     return similarShows
       .map(mapTmdbShowSummary)
       .filter(show => show.id !== showId);
-  }
-);
-
-export const selectShowDataFromHistory = createSelector(
-  () => window.history.state as ShowNavigationState,
-  (historyState): ShowNavigationState | null => {
-    if (historyState?.posterSource) {
-      return {
-        showId: historyState.showId,
-        posterSource: historyState.posterSource,
-        name: historyState.name,
-      };
-    }
-    return null;
   }
 );

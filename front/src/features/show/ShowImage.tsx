@@ -1,21 +1,23 @@
 import { AspectRatio, Image } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useHistoryState } from 'wouter/use-browser-location';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useImageUrl } from '~/hooks/useImageUrl';
+import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
-  selectShowDataFromHistory,
 } from '~/store/tv/selectors';
+
 export const ShowImage = () => {
   const { isMobile } = useResponsiveLayout();
+  const historyState = useHistoryState<ShowNavigationState>();
 
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
-  const showDataFromHistory = useSelector(selectShowDataFromHistory);
+  const showDataFromHistory = historyState?.posterSource ? historyState : null;
 
   const { getImageUrl, placeholder } = useImageUrl();
 
