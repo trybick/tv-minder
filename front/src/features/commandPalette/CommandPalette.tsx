@@ -187,7 +187,10 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
   const handleClose = () => setIsOpen(false);
 
-  const contextValue = useMemo(() => ({ openPalette: () => setIsOpen(true) }), []);
+  const contextValue = useMemo(
+    () => ({ openPalette: () => setIsOpen(true) }),
+    []
+  );
 
   return (
     <CommandPaletteContext.Provider value={contextValue}>

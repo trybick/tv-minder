@@ -48,7 +48,9 @@ export const Videos = ({ videos }: Props) => {
 
   useEffect(() => {
     const contentElement = contentRef.current;
-    if (!contentElement) return;
+    if (!contentElement) {
+      return;
+    }
 
     const measureHeights = () => {
       const nextContentHeight = contentElement.scrollHeight;

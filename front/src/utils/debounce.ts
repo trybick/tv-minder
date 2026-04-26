@@ -1,4 +1,4 @@
-import { useCallback, type RefObject, useRef } from 'react';
+import { type RefObject, useCallback, useRef } from 'react';
 
 export const useDebouncedFunction = (
   func: (...args: any[]) => void,
@@ -11,7 +11,10 @@ export const useDebouncedFunction = (
   return useCallback(
     (...args: any[]) => {
       window.clearTimeout(timerRef.current);
-      timerRef.current = window.setTimeout(() => funcRef.current(...args), delay);
+      timerRef.current = window.setTimeout(
+        () => funcRef.current(...args),
+        delay
+      );
     },
     [delay]
   );
