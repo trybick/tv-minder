@@ -1,7 +1,5 @@
 module AppError
 
-open System.Text
-open System.Text.Json
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Giraffe
@@ -19,23 +17,8 @@ type AppError =
     | Domain of UserError
     | Infrastructure of InfrastructureError
 
-type ProblemDetails =
-    {
-        Type: string
-        Title: string
-        Status: int
-        Detail: string
-        Code: string
-    }
-
-let private problem title status detail code =
-    {
-        Type = "about:blank"
-        Title = title
-        Status = status
-        Detail = detail
-        Code = code
-    }
+type private ErrorEnvelope = { Error: ErrorBody }
+and private ErrorBody = { Message: string }
 
 let private describeValidation (err: ValidationError) =
     match err with
@@ -43,20 +26,15 @@ let private describeValidation (err: ValidationError) =
     | EmailMalformed v -> sprintf "Email '%s' is malformed" v
     | PasswordTooShort n -> sprintf "Password must be at least %d characters" n
 
-let private toProblem (err: AppError) : ProblemDetails =
+let private toStatusAndMessage (err: AppError) : int * string =
     match err with
     | Validation errs ->
         let detail = errs |> List.map describeValidation |> String.concat "; "
-
-        problem "Validation failed" 400 detail "validation.failed"
-    | Domain EmailAlreadyInUse ->
-        problem "Conflict" 409 "Email already in use" "user.email_already_in_use"
-    | Domain InvalidCredentials ->
-        problem "Unauthorized" 401 "Invalid email or password" "user.invalid_credentials"
-    | Infrastructure DuplicateKey ->
-        problem "Conflict" 409 "Email already in use" "user.email_already_in_use"
-    | Infrastructure _ ->
-        problem "Internal server error" 500 "An unexpected error occurred" "internal.error"
+        422, detail
+    | Domain EmailAlreadyInUse -> 409, "Email already registered"
+    | Domain InvalidCredentials -> 401, "Invalid credentials"
+    | Infrastructure DuplicateKey -> 409, "Email already registered"
+    | Infrastructure _ -> 500, "An unexpected error occurred"
 
 let private logInfrastructure (ctx: HttpContext) (err: InfrastructureError) =
     let logger = ctx.GetLogger "AppError"
@@ -68,19 +46,13 @@ let private logInfrastructure (ctx: HttpContext) (err: InfrastructureError) =
     | Unexpected message -> logger.LogError("Unexpected error: {Message}", message)
 
 let toHttp (err: AppError) : HttpHandler =
-    fun (_next: HttpFunc) (ctx: HttpContext) ->
+    fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
             match err with
             | Infrastructure infra -> logInfrastructure ctx infra
             | _ -> ()
 
-            let details = toProblem err
-            ctx.Response.StatusCode <- details.Status
-            ctx.Response.ContentType <- "application/problem+json"
-
-            let options = JsonSerializerOptions(PropertyNamingPolicy = JsonNamingPolicy.CamelCase)
-            let payload = JsonSerializer.Serialize(details, options)
-            let bytes = Encoding.UTF8.GetBytes payload
-            do! ctx.Response.Body.WriteAsync(bytes, 0, bytes.Length)
-            return Some ctx
+            let status, message = toStatusAndMessage err
+            ctx.SetStatusCode status
+            return! json { Error = { Message = message } } next ctx
         }

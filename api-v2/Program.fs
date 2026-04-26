@@ -1,4 +1,6 @@
 open System.Text
+open System.Text.Json
+open System.Text.Json.Serialization
 open DotNetEnv
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
@@ -22,6 +24,16 @@ let startApi (args: string array) =
 
     let builder = WebApplication.CreateBuilder args
     builder.Services.AddGiraffe() |> ignore
+
+    let jsonOptions =
+        JsonSerializerOptions(
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        )
+
+    builder.Services.AddSingleton<Json.ISerializer>(SystemTextJson.Serializer jsonOptions)
+    |> ignore
 
     builder.Services
         .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
