@@ -49,6 +49,7 @@ export const Image = ({ children }: PropsWithChildren) => {
         aspectRatio={2 / 3}
         objectFit="cover"
         w="100%"
+        loading="lazy"
         onError={e => (e.currentTarget.src = placeholder)}
         src={posterSource}
       />

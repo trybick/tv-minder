@@ -6,8 +6,10 @@ import {
   Portal,
   useDisclosure,
 } from '@chakra-ui/react';
+import { lazy } from 'react';
 import { AiFillYoutube } from 'react-icons/ai';
-import YouTube from 'react-youtube';
+
+const YouTube = lazy(() => import('react-youtube'));
 
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
