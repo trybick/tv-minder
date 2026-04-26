@@ -20,6 +20,7 @@ import { selectTrackedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { trackEvent } from '~/utils/analytics';
 
+import './commandPalette.css';
 import { fetchResults, filterOutTrackedShows } from './searchHelpers';
 
 const PAGES = [
