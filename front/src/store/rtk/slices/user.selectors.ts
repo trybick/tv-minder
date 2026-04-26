@@ -22,3 +22,8 @@ export const selectTrackedShowsSet = createSelector(
   [selectTrackedShows],
   trackedShows => new Set(trackedShows)
 );
+
+export const selectTrackedShowIds = createSelector(
+  [selectTrackedShows],
+  trackedShows => trackedShows.join(',')
+);

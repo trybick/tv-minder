@@ -2,12 +2,12 @@ import { Box, Heading, Skeleton, Text, VStack } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
 import { Carousel } from '~/components/Carousel';
-import { mapTmdbShowSummary, type ShowItem } from '~/components/ShowCard';
+import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getRecommendationsForSingleShow } from '~/store/tv/actions';
 import {
   selectCurrentShowInfo,
-  selectRecommendations,
+  selectCurrentSimilarShowItems,
 } from '~/store/tv/selectors';
 
 import { SimilarShowCard } from './SimilarShowCard';
@@ -18,10 +18,9 @@ const renderItem = (show: ShowItem) => <SimilarShowCard show={show} />;
 export const SimilarShows = () => {
   const dispatch = useAppDispatch();
   const showInfo = useAppSelector(selectCurrentShowInfo);
-  const recommendations = useAppSelector(selectRecommendations);
+  const showItems = useAppSelector(selectCurrentSimilarShowItems);
 
   const showId = showInfo?.id;
-  const similarShows = showId ? recommendations[showId] : undefined;
 
   useEffect(() => {
     if (showId) {
@@ -29,11 +28,7 @@ export const SimilarShows = () => {
     }
   }, [dispatch, showId]);
 
-  const showItems =
-    similarShows?.map(mapTmdbShowSummary).filter(show => show.id !== showId) ??
-    [];
-
-  if (!similarShows) {
+  if (!showItems) {
     return (
       <Box mt={12} pt={8} borderTop="1px solid" borderColor="whiteAlpha.100">
         <Skeleton height="24px" width="200px" mb={4} />

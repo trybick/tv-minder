@@ -17,7 +17,10 @@ import { ROUTES } from '~/app/routes';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { trackApi } from '~/store/rtk/api/track.api';
-import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
+import {
+  selectTrackedShowIds,
+  selectTrackedShows,
+} from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import {
@@ -64,6 +67,7 @@ export const CalendarPage = () => {
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const trackedShows = useAppSelector(selectTrackedShows);
+  const trackedShowIds = useAppSelector(selectTrackedShowIds);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
   const isLoadingCalendarEpisodes = useAppSelector(
     selectIsLoadingCalendarEpisodes
@@ -83,7 +87,7 @@ export const CalendarPage = () => {
 
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
-  }, [dispatch, trackedShows]);
+  }, [dispatch, trackedShowIds]);
 
   useEffect(() => {
     const changeView = (view: string) =>

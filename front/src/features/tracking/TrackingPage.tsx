@@ -4,7 +4,10 @@ import { useEffect } from 'react';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { useGetTrackedShowsQuery } from '~/store/rtk/api/track.api';
-import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
+import {
+  selectTrackedShowIds,
+  selectTrackedShows,
+} from '~/store/rtk/slices/user.selectors';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getShowDetailsForTrackedShows } from '~/store/tv/actions';
 import { selectTrackedShowsDetails } from '~/store/tv/selectors';
@@ -17,6 +20,7 @@ export const TrackingPage = () => {
   const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
   const trackedShows = useAppSelector(selectTrackedShows);
+  const trackedShowIds = useAppSelector(selectTrackedShowIds);
   const trackedShowsDetails = useAppSelector(selectTrackedShowsDetails);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
@@ -26,7 +30,7 @@ export const TrackingPage = () => {
 
   useEffect(() => {
     dispatch(getShowDetailsForTrackedShows());
-  }, [dispatch, trackedShows]);
+  }, [dispatch, trackedShowIds]);
 
   const isNoTrackedShows = !isLoading && trackedShows.length === 0;
   const isLoadingShowDetails =
