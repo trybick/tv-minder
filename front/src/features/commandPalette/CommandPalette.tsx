@@ -5,6 +5,7 @@ import {
   type ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -186,7 +187,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
   const handleClose = () => setIsOpen(false);
 
-  const contextValue = { openPalette: () => setIsOpen(true) };
+  const contextValue = useMemo(() => ({ openPalette: () => setIsOpen(true) }), []);
 
   return (
     <CommandPaletteContext.Provider value={contextValue}>

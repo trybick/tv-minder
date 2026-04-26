@@ -5,6 +5,7 @@ import {
   getStatusBadge,
   mapTmdbShowSummary,
   ShowCard,
+  type StatusBadge,
 } from '~/components/ShowCard';
 import { useAppSelector } from '~/store';
 import {
@@ -29,20 +30,19 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
 
   const showItems = useMemo(() => shows.map(mapTmdbShowSummary), [shows]);
 
-  /**
-   * Search results don't have status info in the initial data (TmdbShowSummary).
-   * We need to look up cached show details to derive the status badge.
-   * This is different from the Tracking page where ShowForDisplay already
-   * includes the computed status.
-   */
-  const getSearchStatusBadge = (showId: number) => {
-    const cachedShow = showDetails?.[showId] ?? searchShowDetails?.[showId];
-    if (!cachedShow) {
-      return null;
+  const badgeByShowId = useMemo(() => {
+    const map = new Map<number, StatusBadge | null>();
+    for (const show of showItems) {
+      const cachedShow = showDetails?.[show.id] ?? searchShowDetails?.[show.id];
+      if (!cachedShow) {
+        map.set(show.id, null);
+      } else {
+        const { status } = mapShowInfoForDisplay(cachedShow);
+        map.set(show.id, getStatusBadge(status));
+      }
     }
-    const { status } = mapShowInfoForDisplay(cachedShow);
-    return getStatusBadge(status);
-  };
+    return map;
+  }, [showItems, showDetails, searchShowDetails]);
 
   return (
     <Box w="100%" maxW="1200px" px={{ base: '3', md: '6' }}>
@@ -55,7 +55,7 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
           <SearchResultCard
             key={show.id}
             show={show}
-            badge={getSearchStatusBadge(show.id)}
+            badge={badgeByShowId.get(show.id) ?? null}
           />
         ))}
       </ShowCard.Grid>
