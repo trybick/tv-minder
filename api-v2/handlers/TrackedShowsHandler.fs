@@ -8,9 +8,6 @@ open FsToolkit.ErrorHandling
 open ValueObjects
 open AppError
 
-type TrackedShowsResponse = { TrackedShows: int list }
-type UpdateTrackedShowsRequest = { TrackedShows: int list }
-
 let private getUserId (ctx: HttpContext) : Result<UserId, AppError> =
     let claim = ctx.User.FindFirst(ClaimTypes.NameIdentifier)
 
@@ -21,6 +18,15 @@ let private getUserId (ctx: HttpContext) : Result<UserId, AppError> =
         | true, guid -> Ok(UserId.fromTrusted guid)
         | _ -> Error(Infrastructure(Unexpected "Invalid or missing user identity"))
 
+let private noContent (next: HttpFunc) (ctx: HttpContext) =
+    ctx.SetStatusCode 204
+    next ctx
+
+let private respondNoContent (next: HttpFunc) (ctx: HttpContext) (result: Result<unit, AppError>) =
+    match result with
+    | Ok () -> noContent next ctx
+    | Error err -> toHttp err next ctx
+
 let getTrackedShows (next: HttpFunc) (ctx: HttpContext) =
     task {
         let! result =
@@ -30,33 +36,45 @@ let getTrackedShows (next: HttpFunc) (ctx: HttpContext) =
                 let! shows =
                     UserRepository.getTrackedShows userId |> TaskResult.mapError Infrastructure
 
-                return { TrackedShows = shows |> List.map ShowId.value }
+                return shows |> List.map ShowId.value
             }
 
         return!
             match result with
-            | Ok body -> json body next ctx
+            | Ok body -> json {| data = body |} next ctx
             | Error err -> toHttp err next ctx
     }
 
-let updateTrackedShows (next: HttpFunc) (ctx: HttpContext) =
-    task {
-        let! result =
-            taskResult {
-                let! userId = getUserId ctx
-                let! body = ctx.BindJsonAsync<UpdateTrackedShowsRequest>() |> Task.map Ok
+let trackShow (showId: int) : HttpHandler =
+    fun (next: HttpFunc) (ctx: HttpContext) ->
+        task {
+            let! result =
+                taskResult {
+                    let! userId = getUserId ctx
 
-                let showIds = body.TrackedShows |> List.map ShowId.fromTrusted
+                    do!
+                        UserRepository.addTrackedShow userId (ShowId.fromTrusted showId)
+                        |> TaskResult.mapError Infrastructure
 
-                do!
-                    UserRepository.updateTrackedShows userId showIds
-                    |> TaskResult.mapError Infrastructure
+                    return ()
+                }
 
-                return { TrackedShows = body.TrackedShows }
-            }
+            return! respondNoContent next ctx result
+        }
 
-        return!
-            match result with
-            | Ok body -> json body next ctx
-            | Error err -> toHttp err next ctx
-    }
+let untrackShow (showId: int) : HttpHandler =
+    fun (next: HttpFunc) (ctx: HttpContext) ->
+        task {
+            let! result =
+                taskResult {
+                    let! userId = getUserId ctx
+
+                    do!
+                        UserRepository.removeTrackedShow userId (ShowId.fromTrusted showId)
+                        |> TaskResult.mapError Infrastructure
+
+                    return ()
+                }
+
+            return! respondNoContent next ctx result
+        }

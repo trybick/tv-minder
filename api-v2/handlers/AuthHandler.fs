@@ -11,9 +11,27 @@ open FsToolkit.ErrorHandling
 open ValueObjects
 open AppError
 
-type SignupRequest = { Email: string; Password: string }
-type LoginRequest = { Email: string; Password: string }
-type AuthResponse = { Token: string }
+type RegisterRequest =
+    {
+        Email: string
+        Password: string
+        IsGoogleUser: Nullable<bool>
+        UnregisteredTrackedShows: int list option
+    }
+
+type LoginRequest =
+    {
+        Email: string
+        Password: string
+        IsGoogleUser: Nullable<bool>
+    }
+
+type LoginResponseData =
+    {
+        Token: string
+        Email: string
+        IsGoogleUser: bool
+    }
 
 let private generateToken (userId: UserId) (email: string) : Result<string, InfrastructureError> =
     try
@@ -38,7 +56,7 @@ let private generateToken (userId: UserId) (email: string) : Result<string, Infr
     with ex ->
         Error(TokenGenerationFailed ex)
 
-let private parseSignupCredentials (rawEmail: string) (rawPassword: string) =
+let private parseRegisterCredentials (rawEmail: string) (rawPassword: string) =
     validation {
         let! email = Email.create rawEmail
         and! password = Password.validate rawPassword
@@ -50,18 +68,31 @@ let private parseLoginEmail (rawEmail: string) : Result<Email, AppError> =
     Email.create rawEmail
     |> Result.mapError (fun _ -> Domain User.InvalidCredentials)
 
-let private respond (next: HttpFunc) (ctx: HttpContext) (result: Result<AuthResponse, AppError>) =
+let private noContent (next: HttpFunc) (ctx: HttpContext) =
+    ctx.SetStatusCode 204
+    next ctx
+
+let private respondNoContent (next: HttpFunc) (ctx: HttpContext) (result: Result<unit, AppError>) =
     match result with
-    | Ok body -> json body next ctx
+    | Ok () -> noContent next ctx
     | Error err -> toHttp err next ctx
 
-let signup (next: HttpFunc) (ctx: HttpContext) =
+let private respondWithData
+    (next: HttpFunc)
+    (ctx: HttpContext)
+    (result: Result<LoginResponseData, AppError>)
+    =
+    match result with
+    | Ok body -> json {| data = body |} next ctx
+    | Error err -> toHttp err next ctx
+
+let register (next: HttpFunc) (ctx: HttpContext) =
     task {
-        let! body = ctx.BindJsonAsync<SignupRequest>()
+        let! body = ctx.BindJsonAsync<RegisterRequest>()
 
         let! result =
             taskResult {
-                let! email, password = parseSignupCredentials body.Email body.Password
+                let! email, password = parseRegisterCredentials body.Email body.Password
 
                 let! existing =
                     UserRepository.getByEmail email |> TaskResult.mapError Infrastructure
@@ -70,19 +101,21 @@ let signup (next: HttpFunc) (ctx: HttpContext) =
                     User.signup PasswordHashing.argon2Hasher email password existing
                     |> Result.mapError Domain
 
+                let initialShows =
+                    body.UnregisteredTrackedShows
+                    |> Option.defaultValue []
+                    |> List.map ShowId.fromTrusted
+
                 do!
-                    UserRepository.create newUser.Id newUser.Email newUser.PasswordHash newUser.TrackedShows
+                    UserRepository.create newUser.Id newUser.Email newUser.PasswordHash initialShows
                     |> TaskResult.mapError (function
                         | DuplicateKey -> Domain User.EmailAlreadyInUse
                         | infra -> Infrastructure infra)
 
-                let! token =
-                    generateToken newUser.Id (Email.value newUser.Email) |> Result.mapError Infrastructure
-
-                return { Token = token }
+                return ()
             }
 
-        return! respond next ctx result
+        return! respondNoContent next ctx result
     }
 
 let login (next: HttpFunc) (ctx: HttpContext) =
@@ -103,8 +136,16 @@ let login (next: HttpFunc) (ctx: HttpContext) =
                 let! token =
                     generateToken user.Id (Email.value user.Email) |> Result.mapError Infrastructure
 
-                return { Token = token }
+                let isGoogleUser =
+                    if body.IsGoogleUser.HasValue then body.IsGoogleUser.Value else false
+
+                return
+                    {
+                        Token = token
+                        Email = Email.value user.Email
+                        IsGoogleUser = isGoogleUser
+                    }
             }
 
-        return! respond next ctx result
+        return! respondWithData next ctx result
     }

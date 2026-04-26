@@ -30,7 +30,7 @@ let getByEmail (email: Email) : Task<Result<User.User option, InfrastructureErro
 
             let! row =
                 conn.QuerySingleOrDefaultAsync<UserRow>(
-                    "SELECT id, email, password_hash as PasswordHash, tracked_show_ids as TrackedShowIds
+                    "SELECT id, email, password_hash as PasswordHash, tracked_show_ids as TrackedShows
                      FROM users
                      WHERE email = @Email",
                     {| Email = Email.value email |}
@@ -105,6 +105,52 @@ let updateTrackedShows (userId: UserId) (trackedShows: ShowId list) : Task<Resul
                     {|
                         Id = UserId.value userId
                         TrackedShows = trackedShows |> List.map ShowId.value |> List.toArray
+                    |}
+                )
+
+            return Ok()
+        with ex ->
+            return Error(DatabaseError ex)
+    }
+
+let addTrackedShow (userId: UserId) (showId: ShowId) : Task<Result<unit, InfrastructureError>> =
+    task {
+        try
+            use conn = Database.createConnection ()
+
+            let! _ =
+                conn.ExecuteAsync(
+                    "UPDATE users
+                     SET tracked_show_ids =
+                         CASE
+                             WHEN @ShowId = ANY(tracked_show_ids) THEN tracked_show_ids
+                             ELSE array_append(tracked_show_ids, @ShowId)
+                         END
+                     WHERE id = @Id",
+                    {|
+                        Id = UserId.value userId
+                        ShowId = ShowId.value showId
+                    |}
+                )
+
+            return Ok()
+        with ex ->
+            return Error(DatabaseError ex)
+    }
+
+let removeTrackedShow (userId: UserId) (showId: ShowId) : Task<Result<unit, InfrastructureError>> =
+    task {
+        try
+            use conn = Database.createConnection ()
+
+            let! _ =
+                conn.ExecuteAsync(
+                    "UPDATE users
+                     SET tracked_show_ids = array_remove(tracked_show_ids, @ShowId)
+                     WHERE id = @Id",
+                    {|
+                        Id = UserId.value userId
+                        ShowId = ShowId.value showId
                     |}
                 )
 
