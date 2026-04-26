@@ -1,5 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import {
+  mapTmdbShowSummary,
+  type ShowItem,
+} from '~/components/ShowCard/helpers';
 import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 
@@ -63,24 +67,50 @@ export const selectTrackedShowsDetails: AppSelector<ShowForDisplay[]> =
     }
   );
 
+type PartitionedTrackedShows = {
+  activeSeason: ShowForDisplay[];
+  inProduction: ShowForDisplay[];
+  premieringSoon: ShowForDisplay[];
+  ended: ShowForDisplay[];
+};
+
+const selectPartitionedTrackedShows: AppSelector<PartitionedTrackedShows> =
+  createSelector(selectTrackedShowsDetails, shows => {
+    const activeSeason: ShowForDisplay[] = [];
+    const inProduction: ShowForDisplay[] = [];
+    const premieringSoon: ShowForDisplay[] = [];
+    const ended: ShowForDisplay[] = [];
+
+    for (const show of shows) {
+      if (show.status.isActiveSeason) {
+        activeSeason.push(show);
+      }
+      if (show.status.isInProduction) {
+        inProduction.push(show);
+      }
+      if (show.status.isPremieringSoon) {
+        premieringSoon.push(show);
+      }
+      if (show.status.isEnded) {
+        ended.push(show);
+      }
+    }
+
+    return { activeSeason, inProduction, premieringSoon, ended };
+  });
+
 export const selectActiveSeasonShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectTrackedShowsDetails, shows =>
-    shows.filter(show => show.status.isActiveSeason)
-  );
+  createSelector(selectPartitionedTrackedShows, p => p.activeSeason);
 
 export const selectInProductionShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectTrackedShowsDetails, shows =>
-    shows.filter(show => show.status.isInProduction)
-  );
+  createSelector(selectPartitionedTrackedShows, p => p.inProduction);
 
 export const selectPremieringSoonShows: AppSelector<ShowForDisplay[]> =
-  createSelector(selectTrackedShowsDetails, shows =>
-    shows.filter(show => show.status.isPremieringSoon)
-  );
+  createSelector(selectPartitionedTrackedShows, p => p.premieringSoon);
 
 export const selectEndedShows: AppSelector<ShowForDisplay[]> = createSelector(
-  selectTrackedShowsDetails,
-  shows => shows.filter(show => show.status.isEnded)
+  selectPartitionedTrackedShows,
+  p => p.ended
 );
 
 const toDisplayFormat = (shows: TmdbShowSummary[]): DiscoverShow[] =>
@@ -132,6 +162,25 @@ export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
       return currentShow?.id ? mapShowInfoForDisplayCached(currentShow) : null;
     }
   );
+
+export const selectCurrentSimilarShowItems: AppSelector<
+  ShowItem[] | undefined
+> = createSelector(
+  [selectCurrentShowInfo, selectRecommendations],
+  (showInfo, recommendations) => {
+    const showId = showInfo?.id;
+    if (!showId) {
+      return undefined;
+    }
+    const similarShows = recommendations[showId];
+    if (!similarShows) {
+      return undefined;
+    }
+    return similarShows
+      .map(mapTmdbShowSummary)
+      .filter(show => show.id !== showId);
+  }
+);
 
 export const selectShowDataFromHistory = createSelector(
   () => window.history.state as ShowNavigationState,
