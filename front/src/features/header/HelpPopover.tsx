@@ -1,5 +1,4 @@
 import {
-  Box,
   Flex,
   Heading,
   IconButton,
@@ -48,11 +47,11 @@ export const HelpPopover = () => {
           >
             <Popover.Body p={5}>
               <Heading
-                as="h3"
+                as="h4"
                 fontSize="md"
-                fontWeight="700"
                 letterSpacing="-0.02em"
                 lineHeight="1.3"
+                color="cyan.500"
               >
                 Your personal TV calendar
               </Heading>
@@ -81,10 +80,10 @@ export const HelpPopover = () => {
                       justify="center"
                       boxSize="32px"
                       borderRadius="full"
-                      bg="cyan.400/10"
+                      bg="cyan.500/10"
                       borderWidth="1px"
                       borderColor="cyan.400/30"
-                      color="cyan.400"
+                      color="cyan.500"
                       fontSize="sm"
                       flexShrink={0}
                     >
