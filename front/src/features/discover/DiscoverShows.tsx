@@ -149,15 +149,22 @@ export const DiscoverShows = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchDiscoverShowsAction());
-
-    const shouldWaitForTrackedShows =
+    const shouldSkipFetchingCarousels =
       isLoggedIn &&
       (getTrackedShowsStatus === QueryStatus.uninitialized ||
         getTrackedShowsStatus === QueryStatus.pending);
-    if (!shouldWaitForTrackedShows && isLoggedIn) {
-      dispatch(fetchForYouShowsAction());
+    if (shouldSkipFetchingCarousels) {
+      return;
     }
+
+    const loadCarousels = async () => {
+      if (isLoggedIn) {
+        await dispatch(fetchForYouShowsAction());
+      }
+      dispatch(fetchDiscoverShowsAction());
+    };
+
+    loadCarousels();
   }, [dispatch, trackedShows.length, isLoggedIn, getTrackedShowsStatus]);
 
   const getShouldIncludeForYouSection = () => {

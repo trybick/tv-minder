@@ -261,7 +261,7 @@ const pickStableIds = (ids: number[], count: number): number[] => {
 };
 
 export const fetchForYouShowsAction =
-  (): AppThunk => async (dispatch, getState) => {
+  (): AppThunk<Promise<void>> => async (dispatch, getState) => {
     const state = getState();
     if (state.tv.forYouShows.length) {
       return;
