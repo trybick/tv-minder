@@ -7,7 +7,6 @@ import {
   pokerFaceSeason1,
   pokerFaceSeason2,
   searchPokerFaceResponse,
-  settingsResponse,
   trackResponse,
 } from '../mockData';
 import { discoverShowsResponse } from '../mockData/discoverShows';
@@ -74,13 +73,6 @@ export const globalMockRequests = async (page: Page) => {
       page,
       path: '**/track',
       body: { data: trackResponse },
-    }),
-
-    // TV Minder: settings
-    mockRequest({
-      page,
-      path: '**/settings',
-      body: { data: settingsResponse },
     }),
   ]);
 

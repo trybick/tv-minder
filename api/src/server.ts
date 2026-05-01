@@ -5,7 +5,6 @@ import configureCors from 'config/configureCors';
 import userRoutes from 'entities/routes/user';
 import trackShowRoutes from 'entities/routes/track';
 import contactRoutes from 'entities/routes/contact';
-import settingsRoutes from 'entities/routes/settings';
 import { limiter } from 'utils/limiter';
 import logger from 'utils/logger';
 
@@ -26,6 +25,5 @@ app.get('/api/health', (_req, res) => {
 app.use('/api', userRoutes);
 app.use('/api', trackShowRoutes);
 app.use('/api', contactRoutes);
-app.use('/api', settingsRoutes);
 
 app.listen(port, () => logger.success(`Server started on port ${port}`));

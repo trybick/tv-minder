@@ -1,11 +1,6 @@
-import { Box, Flex, Heading, IconButton, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { type ReactNode } from 'react';
 import { FiCalendar, FiHeart, FiSearch } from 'react-icons/fi';
-import { HiOutlineXMark } from 'react-icons/hi2';
-
-import { useAppSelector } from '~/store';
-import { useUpdateSettingsMutation } from '~/store/rtk/api/settings.api';
-import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
 const HOW_IT_WORKS_STEPS: { icon: ReactNode; label: string }[] = [
   { icon: <FiSearch />, label: 'Search shows' },
@@ -14,13 +9,6 @@ const HOW_IT_WORKS_STEPS: { icon: ReactNode; label: string }[] = [
 ];
 
 export const WelcomeHeroStrip = () => {
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const [updateSettings] = useUpdateSettingsMutation();
-
-  const handleDismissWelcomeStrip = () => {
-    updateSettings({ showWelcomeStrip: false });
-  };
-
   return (
     <Box
       textAlign="center"
@@ -28,29 +16,13 @@ export const WelcomeHeroStrip = () => {
       mt={2}
       mx="auto"
       px={6}
-      pt={isLoggedIn ? { base: 12, md: 6 } : 6}
-      pb={6}
+      py={6}
       borderWidth="1px"
       borderColor="whiteAlpha.300"
       borderRadius="xl"
       maxW="xl"
       position="relative"
     >
-      {isLoggedIn && (
-        <IconButton
-          aria-label="Dismiss welcome message"
-          variant="ghost"
-          size="sm"
-          position="absolute"
-          top={2}
-          right={2}
-          color="fg.muted"
-          _hover={{ color: 'fg.default' }}
-          onClick={handleDismissWelcomeStrip}
-        >
-          <HiOutlineXMark />
-        </IconButton>
-      )}
       <Heading
         as="h1"
         fontSize={{ base: 'xl', md: '2xl' }}

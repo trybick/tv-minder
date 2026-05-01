@@ -32,13 +32,6 @@ When `isGoogleUser: true`:
 - No "already registered" check (both new and existing users get 204)
 - Existing Google users: 204, no-op
 
-## Settings update
-
-- Only `showWelcomeStrip` is writable
-- Only applied when `typeof req.body.showWelcomeStrip === 'boolean'`
-- Non-boolean values (null, string, number) are ignored; no error
-- Empty body: 204, no change
-
 ## Contact endpoint
 
 - Missing `text`: email content is `undefined` or empty

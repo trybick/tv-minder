@@ -333,67 +333,6 @@ paths:
                 error:
                   message: Failed to remove track. Please try again.
 
-  /api/settings:
-    get:
-      summary: Get user settings
-      operationId: getSettings
-      security:
-        - bearerAuth: []
-        - tokenQuery: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SettingsResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedAuth'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                error:
-                  message: User not found
-        '500':
-          description: Failed to get settings
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                error:
-                  message: Failed to get settings.
-    put:
-      summary: Update settings
-      operationId: updateSettings
-      description: Only `showWelcomeStrip` is updated. Other body fields are ignored.
-      security:
-        - bearerAuth: []
-        - tokenQuery: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SettingsUpdateRequest'
-      responses:
-        '204':
-          description: Success
-        '401':
-          $ref: '#/components/responses/UnauthorizedAuth'
-        '500':
-          description: Failed to update settings
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                error:
-                  message: Failed to update settings.
-
   /api/contact:
     post:
       summary: Send contact/feedback message
@@ -596,27 +535,6 @@ components:
           items:
             type: number
           description: TMDB show IDs
-
-    SettingsResponse:
-      type: object
-      required:
-        - data
-      properties:
-        data:
-          type: object
-          required:
-            - showWelcomeStrip
-          properties:
-            showWelcomeStrip:
-              type: boolean
-              default: true
-
-    SettingsUpdateRequest:
-      type: object
-      properties:
-        showWelcomeStrip:
-          type: boolean
-          description: Only updated when type is boolean; other fields ignored
 
     ContactRequest:
       type: object
