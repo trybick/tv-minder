@@ -7,7 +7,3 @@ export const showTitleToId = {
 };
 
 export const trackResponse = Object.values(showTitleToId);
-
-export const settingsResponse = {
-  showWelcomeStrip: true,
-};
