@@ -92,7 +92,6 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
       ) : (
         <Flex direction="column" flex="1">
           <Box
-            ref={contentRef}
             maxH={
               isOverflowing
                 ? `${expanded ? contentHeight : COLLAPSED_HEIGHT}px`
@@ -100,7 +99,6 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
             }
             overflow="hidden"
             position="relative"
-            flex="1"
             transition={isOverflowing ? 'max-height 0.24s ease' : undefined}
             {...(!expanded && isOverflowing
               ? {
@@ -111,74 +109,76 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
                 }
               : {})}
           >
-            <Text color="fg.muted" fontSize="xs" mb={3}>
-              Availability in {watchProviders.region}
-            </Text>
-            <Flex direction="column" gap={3}>
-              {watchProviders.flatrate.length > 0 && (
-                <Box>
-                  <Text
-                    fontSize="2xs"
-                    color="fg.muted"
-                    mb={1.5}
-                    letterSpacing="widest"
-                  >
-                    Subscription
-                  </Text>
-                  <ProviderChips
-                    providers={watchProviders.flatrate}
-                    showName={showName}
-                    tmdbWatchUrl={tmdbWatchUrl}
-                  />
-                </Box>
-              )}
-              {watchProviders.rent.length > 0 && (
-                <Box>
-                  <Text
-                    fontSize="2xs"
-                    color="fg.muted"
-                    mb={1.5}
-                    letterSpacing="widest"
-                  >
-                    Rent
-                  </Text>
-                  <ProviderChips
-                    providers={watchProviders.rent}
-                    showName={showName}
-                    tmdbWatchUrl={tmdbWatchUrl}
-                  />
-                </Box>
-              )}
-              {watchProviders.buy.length > 0 && (
-                <Box>
-                  <Text
-                    fontSize="2xs"
-                    color="fg.muted"
-                    mb={1.5}
-                    letterSpacing="widest"
-                  >
-                    Buy
-                  </Text>
-                  <ProviderChips
-                    providers={watchProviders.buy}
-                    showName={showName}
-                    tmdbWatchUrl={tmdbWatchUrl}
-                  />
-                </Box>
-              )}
-            </Flex>
-            <Link
-              display="inline-block"
-              mt={3}
-              color="cyan.300"
-              fontSize="sm"
-              href={tmdbWatchUrl}
-              rel="noopener noreferrer"
-              target="_blank"
-              _hover={{ color: 'cyan.200' }}
-            >
-              See more options on JustWatch
-            </Link>
+            <Box ref={contentRef}>
+              <Text color="fg.muted" fontSize="xs" mb={3}>
+                Availability in {watchProviders.region}
+              </Text>
+              <Flex direction="column" gap={3}>
+                {watchProviders.flatrate.length > 0 && (
+                  <Box>
+                    <Text
+                      fontSize="2xs"
+                      color="fg.muted"
+                      mb={1.5}
+                      letterSpacing="widest"
+                    >
+                      Subscription
+                    </Text>
+                    <ProviderChips
+                      providers={watchProviders.flatrate}
+                      showName={showName}
+                      tmdbWatchUrl={tmdbWatchUrl}
+                    />
+                  </Box>
+                )}
+                {watchProviders.rent.length > 0 && (
+                  <Box>
+                    <Text
+                      fontSize="2xs"
+                      color="fg.muted"
+                      mb={1.5}
+                      letterSpacing="widest"
+                    >
+                      Rent
+                    </Text>
+                    <ProviderChips
+                      providers={watchProviders.rent}
+                      showName={showName}
+                      tmdbWatchUrl={tmdbWatchUrl}
+                    />
+                  </Box>
+                )}
+                {watchProviders.buy.length > 0 && (
+                  <Box>
+                    <Text
+                      fontSize="2xs"
+                      color="fg.muted"
+                      mb={1.5}
+                      letterSpacing="widest"
+                    >
+                      Buy
+                    </Text>
+                    <ProviderChips
+                      providers={watchProviders.buy}
+                      showName={showName}
+                      tmdbWatchUrl={tmdbWatchUrl}
+                    />
+                  </Box>
+                )}
+              </Flex>
+              <Link
+                display="inline-block"
+                mt={3}
+                color="cyan.300"
+                fontSize="sm"
+                href={tmdbWatchUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+                _hover={{ color: 'cyan.200' }}
+              >
+                See more options on JustWatch
+              </Link>
+            </Box>
           </Box>
 
           {isOverflowing && (
