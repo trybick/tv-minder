@@ -14,14 +14,17 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   cursor: pointer;
+  transform: translateZ(0);
+  will-change: backdrop-filter;
 }
 
 .cmdk-wrapper {
   position: fixed;
   top: 15%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0);
   width: 90%;
   max-width: 560px;
   background: #1a1a2e;
@@ -31,6 +34,8 @@
     0 24px 48px -12px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.05);
   overflow: hidden;
+  contain: layout paint style;
+  isolation: isolate;
 }
 
 .cmdk-input-wrapper {
@@ -110,8 +115,8 @@
   cursor: pointer;
   color: rgba(255, 255, 255, 0.9);
   font-size: 14px;
-  transition: background 100ms ease;
   user-select: none;
+  contain: layout paint style;
 }
 
 .cmdk-item[data-selected='true'] {

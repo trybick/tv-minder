@@ -1,6 +1,6 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { Command } from 'cmdk';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   MdCalendarToday,
   MdClose,
@@ -136,17 +136,44 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
     );
   }, [firstSelectableValue, isOpen]);
 
-  const handleNavigateToShow = (showId: number) => {
-    setIsOpen(false);
-    navigate(`${ROUTES.SHOW}/${showId}`);
-  };
+  const handleNavigateToShow = useCallback(
+    (showId: number) => {
+      setIsOpen(false);
+      navigate(`${ROUTES.SHOW}/${showId}`);
+    },
+    [setIsOpen, navigate]
+  );
 
-  const handleNavigateToPage = (route: string) => {
-    setIsOpen(false);
-    navigate(route);
-  };
+  const handleNavigateToPage = useCallback(
+    (route: string) => {
+      setIsOpen(false);
+      navigate(route);
+    },
+    [setIsOpen, navigate]
+  );
 
-  const handleClose = () => setIsOpen(false);
+  const handleClose = useCallback(() => setIsOpen(false), [setIsOpen]);
+
+  const filterCommand = useCallback(
+    (value: string, search: string, keywords?: string[]) => {
+      const normalizedSearch = search.trim().toLowerCase();
+      if (!normalizedSearch) {
+        return 1;
+      }
+
+      const normalizedValue = value.toLowerCase();
+      if (normalizedValue.includes(normalizedSearch)) {
+        return 1;
+      }
+
+      const hasKeywordMatch = (keywords ?? []).some(keyword =>
+        keyword.toLowerCase().includes(normalizedSearch)
+      );
+
+      return hasKeywordMatch ? 1 : 0;
+    },
+    []
+  );
 
   return (
     <Command.Dialog
@@ -154,24 +181,7 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
       onOpenChange={setIsOpen}
       value={selectedValue}
       onValueChange={setSelectedValue}
-      filter={(value, search, keywords) => {
-        const normalizedSearch = search.trim().toLowerCase();
-        if (!normalizedSearch) {
-          return 1;
-        }
-
-        const normalizedValue = value.toLowerCase();
-        const matchesValue = normalizedValue.includes(normalizedSearch);
-        if (matchesValue) {
-          return 1;
-        }
-
-        const hasKeywordMatch = (keywords ?? []).some(keyword =>
-          keyword.toLowerCase().includes(normalizedSearch)
-        );
-
-        return hasKeywordMatch ? 1 : 0;
-      }}
+      filter={filterCommand}
       label="Command Palette"
       className="cmdk-dialog"
       loop
@@ -218,29 +228,6 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
                   />
                   <span className="cmdk-item-name">{show.name}</span>
                   <MdHistory className="cmdk-item-icon-right" />
-                </Command.Item>
-              ))}
-            </Command.Group>
-          )}
-
-          {filteredTrackedShows.length > 0 && (
-            <Command.Group heading="Tracking" className="cmdk-group">
-              {filteredTrackedShows.slice(0, 8).map(show => (
-                <Command.Item
-                  key={`tracked-${show.id}`}
-                  value={`${show.name} ${show.id}`}
-                  keywords={[show.name.toLowerCase()]}
-                  onSelect={() => handleNavigateToShow(show.id)}
-                  className="cmdk-item"
-                >
-                  <Image
-                    src={getImageUrl({ path: show.posterPath })}
-                    alt={show.name}
-                    className="cmdk-item-poster"
-                    loading="lazy"
-                  />
-                  <span className="cmdk-item-name">{show.name}</span>
-                  <span className="cmdk-item-badge">Tracking</span>
                 </Command.Item>
               ))}
             </Command.Group>
