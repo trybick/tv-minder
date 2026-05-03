@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const SearchResults = ({ shows, totalResults }: Props) => {
-  const totalMatchesText = `${totalResults} ${maybePluralize(totalResults, 'result')}`;
+  const totalMatchesText = `Showing ${totalResults} ${maybePluralize(totalResults, 'result')}`;
   const showDetails = useAppSelector(selectShowDetails);
   const searchShowDetails = useAppSelector(selectSearchShowDetails);
 
@@ -46,7 +46,7 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
 
   return (
     <Box w="100%" maxW="1200px" px={{ base: '3', md: '6' }}>
-      <Text fontSize="md" color="fg.muted" textAlign="right" mb="4">
+      <Text fontSize="md" color="fg.muted" textAlign="left" mb="4">
         {totalMatchesText}
       </Text>
 
