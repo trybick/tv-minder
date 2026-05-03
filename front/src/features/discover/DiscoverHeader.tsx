@@ -12,12 +12,12 @@ export const DiscoverHeader = ({ icon, title, subtitle }: Props) => (
     <Flex
       align="center"
       justify="center"
-      w="34px"
-      h="34px"
+      w="38px"
+      h="38px"
       borderRadius="lg"
       bg="cyan.500/15"
       color="cyan.400"
-      fontSize="lg"
+      fontSize="xl"
     >
       {icon}
     </Flex>
