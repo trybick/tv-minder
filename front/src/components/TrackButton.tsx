@@ -1,6 +1,8 @@
 import { Button, type ButtonProps, Flex, Icon } from '@chakra-ui/react';
+import { useState } from 'react';
 import { CiCircleMinus } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
+import { MdCheckCircleOutline } from 'react-icons/md';
 
 import { useAppDispatch, useAppSelector } from '~/store';
 import { trackApi } from '~/store/rtk/api/track.api';
@@ -26,6 +28,7 @@ export const TrackButton = ({
   showName,
   ...rest
 }: Props & ButtonProps) => {
+  const [isHovered, setIsHovered] = useState(false);
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -66,8 +69,9 @@ export const TrackButton = ({
       aria-label={`track-button-${showId}`}
       colorPalette="gray"
       onClick={onUntrackShow}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       variant="surface"
-      role="group"
       borderWidth="1px"
       borderColor="whiteAlpha.200"
       _hover={{
@@ -80,24 +84,17 @@ export const TrackButton = ({
       {...rest}
     >
       <Flex align="center" gap={2}>
-        <Flex
-          align="center"
-          gap={2}
-          display="flex"
-          _groupHover={{ display: 'none' }}
-        >
-          <Icon as={CiCircleMinus} boxSize="18px" opacity={0.9} />
-          Tracking
-        </Flex>
-        <Flex
-          align="center"
-          gap={2}
-          display="none"
-          _groupHover={{ display: 'flex' }}
-        >
-          <Icon as={CiCircleMinus} boxSize="18px" opacity={0.95} />
-          Untrack
-        </Flex>
+        {isHovered ? (
+          <>
+            <Icon as={CiCircleMinus} boxSize="18px" opacity={0.95} />
+            Untrack
+          </>
+        ) : (
+          <>
+            <Icon as={MdCheckCircleOutline} boxSize="18px" opacity={0.9} />
+            Tracking
+          </>
+        )}
       </Flex>
     </Button>
   ) : (
