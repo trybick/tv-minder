@@ -68,12 +68,12 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
   const normalizedSearchTerm = searchTerm.trim().toLowerCase();
   const firstSelectableValue = !normalizedSearchTerm
     ? recentShows[0]
-      ? `${recentShows[0].name} ${recentShows[0].id}`
+      ? `recent-${recentShows[0].id}-${recentShows[0].name}`
       : (availablePages[0]?.name ?? '')
     : filteredTrackedShows[0]
-      ? `${filteredTrackedShows[0].name} ${filteredTrackedShows[0].id}`
+      ? `tracked-${filteredTrackedShows[0].id}-${filteredTrackedShows[0].name}`
       : tmdbResults[0]
-        ? `${tmdbResults[0].name} ${tmdbResults[0].id}`
+        ? `tmdb-${tmdbResults[0].id}-${tmdbResults[0].name}`
         : (availablePages.find(page =>
             page.name.toLowerCase().includes(normalizedSearchTerm)
           )?.name ?? '');
@@ -216,7 +216,7 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
               {recentShows.slice(0, 5).map(show => (
                 <Command.Item
                   key={`recent-${show.id}`}
-                  value={`${show.name} ${show.id}`}
+                  value={`recent-${show.id}-${show.name}`}
                   onSelect={() => handleNavigateToShow(show.id)}
                   className="cmdk-item"
                 >
@@ -238,7 +238,7 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
               {filteredTrackedShows.slice(0, 8).map(show => (
                 <Command.Item
                   key={`tracked-${show.id}`}
-                  value={`${show.name} ${show.id}`}
+                  value={`tracked-${show.id}-${show.name}`}
                   keywords={[show.name.toLowerCase()]}
                   onSelect={() => handleNavigateToShow(show.id)}
                   className="cmdk-item"
@@ -261,7 +261,7 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
               {tmdbResults.map(show => (
                 <Command.Item
                   key={`tmdb-${show.id}`}
-                  value={`${show.name} ${show.id}`}
+                  value={`tmdb-${show.id}-${show.name}`}
                   onSelect={() => handleNavigateToShow(show.id)}
                   className="cmdk-item"
                 >
