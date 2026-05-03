@@ -233,6 +233,29 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
             </Command.Group>
           )}
 
+          {filteredTrackedShows.length > 0 && (
+            <Command.Group heading="Tracking" className="cmdk-group">
+              {filteredTrackedShows.slice(0, 8).map(show => (
+                <Command.Item
+                  key={`tracked-${show.id}`}
+                  value={`${show.name} ${show.id}`}
+                  keywords={[show.name.toLowerCase()]}
+                  onSelect={() => handleNavigateToShow(show.id)}
+                  className="cmdk-item"
+                >
+                  <Image
+                    src={getImageUrl({ path: show.posterPath })}
+                    alt={show.name}
+                    className="cmdk-item-poster"
+                    loading="lazy"
+                  />
+                  <span className="cmdk-item-name">{show.name}</span>
+                  <span className="cmdk-item-badge">Tracking</span>
+                </Command.Item>
+              ))}
+            </Command.Group>
+          )}
+
           {tmdbResults.length > 0 && (
             <Command.Group heading="Search Results" className="cmdk-group">
               {tmdbResults.map(show => (
