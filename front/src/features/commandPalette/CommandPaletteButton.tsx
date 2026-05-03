@@ -62,7 +62,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         <Flex gap="2px">
           <Kbd size="sm">{modifierKey}</Kbd>
           <Kbd size="sm">Shift</Kbd>
-          <Kbd size="sm">P</Kbd>
+          <Kbd size="sm">K</Kbd>
         </Flex>
       </Flex>
     );
@@ -98,7 +98,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       <Flex gap="4px">
         <Kbd size="sm">{modifierKey}</Kbd>
         <Kbd size="sm">Shift</Kbd>
-        <Kbd size="sm">P</Kbd>
+        <Kbd size="sm">K</Kbd>
       </Flex>
     </Flex>
   );

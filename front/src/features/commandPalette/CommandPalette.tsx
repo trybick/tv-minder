@@ -43,7 +43,7 @@ export const CommandPaletteProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'p' && e.shiftKey && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && e.shiftKey && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         trackEvent({
           category: 'Command Palette',
