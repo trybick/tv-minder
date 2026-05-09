@@ -1,8 +1,7 @@
 import { Button, type ButtonProps, Flex, Icon } from '@chakra-ui/react';
 import { useState } from 'react';
 import { CiCircleMinus } from 'react-icons/ci';
-import { IoMdAdd } from 'react-icons/io';
-import { MdCheckCircleOutline } from 'react-icons/md';
+import { MdAddCircleOutline, MdCheckCircleOutline } from 'react-icons/md';
 
 import { useAppDispatch, useAppSelector } from '~/store';
 import { trackApi } from '~/store/rtk/api/track.api';
@@ -106,13 +105,10 @@ export const TrackButton = ({
       {...(untrackedWidth && { minW: untrackedWidth })}
       {...rest}
     >
-      <Icon
-        as={IoMdAdd}
-        boxSize="22px"
-        opacity={0.85}
-        style={{ marginInlineEnd: '-0.2rem' }}
-      />
-      Track
+      <Flex align="center" gap={2}>
+        <Icon as={MdAddCircleOutline} boxSize="18px" opacity={0.9} />
+        Track
+      </Flex>
     </Button>
   );
 };

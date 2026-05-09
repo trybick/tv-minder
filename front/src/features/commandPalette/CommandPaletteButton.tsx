@@ -61,7 +61,6 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         <MdSearch size={16} />
         <Flex gap="2px">
           <Kbd size="sm">{modifierKey}</Kbd>
-          <Kbd size="sm">Shift</Kbd>
           <Kbd size="sm">K</Kbd>
         </Flex>
       </Flex>
@@ -97,7 +96,6 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       </Box>
       <Flex gap="4px">
         <Kbd size="sm">{modifierKey}</Kbd>
-        <Kbd size="sm">Shift</Kbd>
         <Kbd size="sm">K</Kbd>
       </Flex>
     </Flex>
