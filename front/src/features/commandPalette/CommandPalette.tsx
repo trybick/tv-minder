@@ -42,8 +42,8 @@ export const CommandPaletteProvider = ({ children }: Props) => {
   );
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && e.shiftKey && (e.metaKey || e.ctrlKey)) {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         trackEvent({
           category: 'Command Palette',
@@ -52,8 +52,11 @@ export const CommandPaletteProvider = ({ children }: Props) => {
         setIsOpen(prev => !prev);
       }
     };
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
+
+    window.addEventListener('keydown', handleKeyDown, { capture: true });
+
+    return () =>
+      window.removeEventListener('keydown', handleKeyDown, { capture: true });
   }, []);
 
   return (
