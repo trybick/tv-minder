@@ -79,7 +79,7 @@ export const HeaderMobile = () => {
             <NavigationLinks onClose={closeHeader} />
 
             {!isLoggedIn ? (
-              <Flex alignItems="center" gap="12px" mt={4} ml="auto">
+              <Flex alignItems="center" gap="3" mt={4} ml="auto">
                 <SignUpButton />
                 <LoginButton />
               </Flex>

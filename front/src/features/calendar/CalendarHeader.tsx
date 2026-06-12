@@ -80,7 +80,7 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
         fontSize="2xl"
         fontWeight="semibold"
         justifySelf="start"
-        ml="2px"
+        ml="0.5"
       >
         {title}
       </Heading>

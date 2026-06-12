@@ -58,7 +58,7 @@ export const LoadingEpisodesBanner = ({
       w="fit-content"
     >
       <Spinner size="sm" />
-      <Alert.Title fontSize="14px">Refreshing</Alert.Title>
+      <Alert.Title fontSize="sm">Refreshing</Alert.Title>
     </Alert.Root>
   );
 };

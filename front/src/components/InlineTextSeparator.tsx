@@ -8,10 +8,10 @@ export const InlineTextSeparator = chakra(Flex, {
       borderBottom: '1px solid grey',
     },
     '&:before': {
-      marginRight: '15px',
+      marginRight: '4',
     },
     '&:after': {
-      marginLeft: '15px',
+      marginLeft: '4',
     },
   },
 });

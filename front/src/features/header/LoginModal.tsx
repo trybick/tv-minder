@@ -228,8 +228,8 @@ export const LoginModal = () => {
                 {formMode === FormModes.Login && (
                   <InlineTextSeparator
                     alignItems="center"
-                    fontSize="14px"
-                    m="26px 0"
+                    fontSize="sm"
+                    my="6"
                     textAlign="center"
                   >
                     OR
@@ -292,7 +292,7 @@ export const LoginModal = () => {
                   {(formMode === FormModes.Login ||
                     formMode === FormModes.ForgotPassword) && (
                     <Button
-                      fontSize="0.88rem"
+                      fontSize="sm"
                       onClick={() => {
                         if (formMode === FormModes.Login) {
                           trackEvent({

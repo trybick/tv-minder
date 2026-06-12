@@ -1,15 +1,19 @@
-const customColors = {
-  darkBg: '#1A202C',
-  darkHover: '#333333',
+const chakraVars = {
+  headerBg: 'var(--chakra-colors-gray-900)',
+  hoverBg: 'var(--chakra-colors-gray-800)',
+  accent: 'var(--chakra-colors-cyan-400)',
+  accentSubtle:
+    'color-mix(in srgb, var(--chakra-colors-cyan-400) 20%, transparent)',
+  border: 'var(--chakra-colors-white-alpha-300)',
+  textSubtle: 'var(--chakra-colors-white-alpha-600)',
+  textMuted: 'var(--chakra-colors-white-alpha-700)',
 };
-
-const whiteWithOpacity = (opacity: number) => `rgba(255, 255, 255, ${opacity})`;
 
 const todayHighlightStyles = {
   '.fc-day-today .fc-daygrid-day-number': {
-    color: '#00BCD4 !important',
+    color: `${chakraVars.accent} !important`,
     fontWeight: '700 !important',
-    backgroundColor: 'rgba(0, 188, 212, 0.2)',
+    backgroundColor: chakraVars.accentSubtle,
     borderRadius: '50%',
     width: '28px',
     height: '28px',
@@ -31,26 +35,26 @@ const desktopCalendarStyles = {
   },
 
   '.fc-col-header-cell': {
-    backgroundColor: `${customColors.darkBg} !important`,
+    backgroundColor: `${chakraVars.headerBg} !important`,
   },
 
   // This popover appears when there's more than four events in a day
   '.fc-more-popover': {
-    backgroundColor: `${customColors.darkBg} !important`,
+    backgroundColor: `${chakraVars.headerBg} !important`,
   },
 
   // Subtle gray colors instead of pure white
   ':root': {
-    '--fc-border-color': `${whiteWithOpacity(0.2)} !important`,
-    '--fc-page-bg-color': `${whiteWithOpacity(0.2)} !important`,
+    '--fc-border-color': `${chakraVars.border} !important`,
+    '--fc-page-bg-color': `${chakraVars.border} !important`,
   },
   // Header day labels (Sun, Mon, etc.)
   '.fc-col-header-cell-cushion': {
-    color: `${whiteWithOpacity(0.6)} !important`,
+    color: `${chakraVars.textSubtle} !important`,
   },
   // Day numbers (1, 2, etc.)
   '.fc-daygrid-day-number': {
-    color: `${whiteWithOpacity(0.7)} !important`,
+    color: `${chakraVars.textMuted} !important`,
   },
 };
 
@@ -61,7 +65,7 @@ const mobileCalendarStyles = {
 
   // Event hover color
   '.fc .fc-list-event:hover td': {
-    backgroundColor: `${customColors.darkHover} !important`,
+    backgroundColor: `${chakraVars.hoverBg} !important`,
   },
 };
 

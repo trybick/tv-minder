@@ -1,7 +1,6 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 import { globalCss } from './globalCss';
-import { menuSlotRecipe } from './menuSlotRecipe';
 
 const customConfig = defineConfig({
   globalCss: {
@@ -39,8 +38,17 @@ const customConfig = defineConfig({
         body: { value: '"DM Sans", sans-serif' },
       },
     },
-    slotRecipes: {
-      menu: menuSlotRecipe,
+    semanticTokens: {
+      shadows: {
+        xs: { value: '0 1px 2px {black/50}' },
+        sm: { value: '0 1px 4px {black/55}' },
+        md: { value: '0 2px 8px {black/60}' },
+        lg: { value: '0 8px 16px {black/55}' },
+        xl: { value: '0 16px 32px {black/55}' },
+        '2xl': {
+          value: '0 24px 48px -12px {black/50}, 0 0 0 1px {white/5}',
+        },
+      },
     },
   },
 });

@@ -54,7 +54,7 @@ export const TrackingList = () => {
   };
 
   return (
-    <Box mt={isMobile ? '20px' : '32px'} px={isMobile ? '10px' : 'unset'}>
+    <Box mt={isMobile ? '5' : '8'} px={isMobile ? '2.5' : 'unset'}>
       <Tabs.Root
         colorPalette="cyan"
         defaultValue={tabs.all}
@@ -66,7 +66,7 @@ export const TrackingList = () => {
         size={isMobile ? 'sm' : 'md'}
       >
         <Tabs.List
-          mb="22px"
+          mb="5"
           gap={isMobile ? '2' : '0'}
           overflowX={isMobile ? 'auto' : 'visible'}
           overflowY="hidden"

@@ -10,7 +10,7 @@ export const LoginButton = () => {
   return (
     <Button
       colorPalette="cyan"
-      ml="3px"
+      ml="1"
       onClick={() => {
         trackEvent({ category: 'Auth', action: 'Login Header Button Pressed' });
         dispatch(setIsLoginModalOpen(true));

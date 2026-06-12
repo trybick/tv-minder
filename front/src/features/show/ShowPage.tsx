@@ -68,7 +68,7 @@ export const ShowPage = () => {
   return (
     <>
       <title>{name ? `${name} | TV Minder` : 'TV Minder'}</title>
-      <PageContainer pt={isMobile ? 4 : 6} pb="40px">
+      <PageContainer pt={isMobile ? 4 : 6} pb="10">
         <ShowContainer />
         <SimilarShows />
       </PageContainer>

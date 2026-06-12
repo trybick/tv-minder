@@ -138,8 +138,8 @@ export const SignUpModal = () => {
             <Dialog.Body pb={6}>
               <InlineTextSeparator
                 alignItems="center"
-                fontSize="14px"
-                m="26px 0"
+                fontSize="sm"
+                my="6"
                 textAlign="center"
               >
                 OR

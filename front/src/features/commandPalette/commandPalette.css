@@ -30,9 +30,7 @@
   background: var(--chakra-colors-gray-900);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 24px 48px -12px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: var(--chakra-shadows-2xl);
   overflow: hidden;
   contain: layout paint style;
   isolation: isolate;

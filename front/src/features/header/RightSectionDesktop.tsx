@@ -17,7 +17,7 @@ export const RightSectionDesktop = () => {
   const { openPalette } = useCommandPalette();
 
   return (
-    <Flex alignItems="center" gap="10px" justify="flex-end" flex="1">
+    <Flex alignItems="center" gap="2.5" justify="flex-end" flex="1">
       {isLoggedIn && <HelpPopover />}
       <CommandPaletteButton onClick={openPalette} />
 

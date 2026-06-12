@@ -155,7 +155,7 @@ export const SearchPage = () => {
   }, [inputValue, handleSearch]);
 
   return (
-    <Box pt={{ base: 0, md: 5 }} pb="30px">
+    <Box pt={{ base: 0, md: 5 }} pb="8">
       <title>Discover | TV Minder</title>
       <SearchInput
         handleChange={handleChange}

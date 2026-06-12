@@ -15,7 +15,7 @@ export const NoTrackedShowsBanner = () => {
       alignItems="center"
     >
       <Alert.Indicator />
-      <Alert.Title fontSize="14px">No new episodes this month</Alert.Title>
+      <Alert.Title fontSize="sm">No new episodes this month</Alert.Title>
     </Alert.Root>
   );
 };

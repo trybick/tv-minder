@@ -71,7 +71,7 @@ export const ShowContainer = () => {
         direction="column"
         gap={2.5}
         position="sticky"
-        top="24px"
+        top="6"
         alignSelf="start"
       >
         <ShowImage />

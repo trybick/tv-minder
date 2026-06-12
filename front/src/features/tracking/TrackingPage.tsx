@@ -45,7 +45,7 @@ export const TrackingPage = () => {
   return (
     <>
       <title>Manage | TV Minder</title>
-      <PageContainer mb="30px">{content}</PageContainer>
+      <PageContainer mb="8">{content}</PageContainer>
     </>
   );
 };

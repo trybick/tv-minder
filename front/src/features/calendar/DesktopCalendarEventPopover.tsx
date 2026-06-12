@@ -55,7 +55,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
     >
       <HoverCard.Trigger asChild>
         <Flex alignItems="center" p="1px 6px">
-          {isMultipleEvent && <Icon as={TbBoxMultiple} mr="4px" />}
+          {isMultipleEvent && <Icon as={TbBoxMultiple} mr="1" />}
           <Text fontSize="md" lineClamp={1} as="h3">
             {title}
           </Text>
@@ -92,7 +92,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                   {showName}
                 </Text>
 
-                <Text color="fg" fontSize="sm" fontWeight="600" mt="2px">
+                <Text color="fg" fontSize="sm" fontWeight="600" mt="0.5">
                   {seasonAndEpisodeNumbersFull}
                 </Text>
 
@@ -102,7 +102,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                     fontSize="xs"
                     fontStyle="italic"
                     lineClamp={1}
-                    mt="2px"
+                    mt="0.5"
                     opacity={0.85}
                   >
                     {episodeName}
@@ -110,9 +110,9 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                 )}
 
                 {(network || runtime || isMultipleEvent) && (
-                  <Flex flexWrap="wrap" gap="2px 8px" mt={2}>
+                  <Flex flexWrap="wrap" rowGap="0.5" columnGap="2" mt={2}>
                     {isMultipleEvent && (
-                      <Flex align="center" gap="2px">
+                      <Flex align="center" gap="0.5">
                         <Icon as={TbBoxMultiple} boxSize="13px" color="fg" />
                         <Text color="fg" fontSize="xs" fontWeight="500">
                           {multipleEventSpanAmount} episodes
@@ -120,7 +120,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                       </Flex>
                     )}
                     {network && (
-                      <Flex align="center" gap="3px">
+                      <Flex align="center" gap="1">
                         <Icon
                           as={HiOutlineVideoCamera}
                           boxSize="13px"
@@ -132,7 +132,7 @@ export const DesktopCalendarEventPopover = (props: Props) => {
                       </Flex>
                     )}
                     {!!runtime && !isMultipleEvent && (
-                      <Flex align="center" gap="2px">
+                      <Flex align="center" gap="0.5">
                         <Icon as={IoIosTimer} boxSize="13px" color="fg" />
                         <Text color="fg" fontSize="xs" fontWeight="500">
                           {runtime} mins

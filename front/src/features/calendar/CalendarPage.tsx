@@ -161,7 +161,7 @@ export const CalendarPage = () => {
       isMobile ? (
         <Flex align="center" gap={2} justify="center" py={6}>
           <Spinner size="sm" />
-          <Text fontSize="14px">Loading episodes</Text>
+          <Text fontSize="sm">Loading episodes</Text>
         </Flex>
       ) : null
     ) : (
@@ -188,7 +188,7 @@ export const CalendarPage = () => {
     <>
       <title>Calendar | TV Minder</title>
 
-      <PageContainer mt="14px" mb={5} py={{ md: '10px' }}>
+      <PageContainer mt="3.5" mb={5} py={{ md: '2.5' }}>
         {shouldShowSkeleton ? (
           <CalendarSkeleton />
         ) : shouldShowCalendar ? (

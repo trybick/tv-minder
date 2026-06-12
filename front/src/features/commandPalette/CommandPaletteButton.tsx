@@ -25,7 +25,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       <Box
         as="button"
         onClick={handleClick}
-        p="8px"
+        p="2"
         borderRadius="md"
         _hover={{ bg: 'whiteAlpha.100' }}
         aria-label="Search"
@@ -42,9 +42,9 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         as="button"
         onClick={handleClick}
         alignItems="center"
-        gap="6px"
-        px="10px"
-        py="6px"
+        gap="1.5"
+        px="2.5"
+        py="1.5"
         bg="whiteAlpha.50"
         border="1px solid"
         borderColor="whiteAlpha.200"
@@ -59,7 +59,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         }}
       >
         <MdSearch size={16} />
-        <Flex gap="2px">
+        <Flex gap="0.5">
           <Kbd size="sm">{modifierKey}</Kbd>
           <Kbd size="sm">K</Kbd>
         </Flex>
@@ -73,9 +73,9 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       as="button"
       onClick={handleClick}
       alignItems="center"
-      gap="12px"
-      px="12px"
-      py="6px"
+      gap="3"
+      px="3"
+      py="1.5"
       bg="whiteAlpha.50"
       border="1px solid"
       borderColor="whiteAlpha.200"
@@ -94,7 +94,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       <Box flex="1" textAlign="left">
         Search...
       </Box>
-      <Flex gap="4px">
+      <Flex gap="1">
         <Kbd size="sm">{modifierKey}</Kbd>
         <Kbd size="sm">K</Kbd>
       </Flex>

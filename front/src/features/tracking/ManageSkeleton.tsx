@@ -38,7 +38,7 @@ export const ManageSkeleton = () => {
   const { isMobile } = useResponsiveLayout();
 
   return (
-    <Box mt={isMobile ? '20px' : '32px'} px={isMobile ? '10px' : 'unset'}>
+    <Box mt={isMobile ? '5' : '8'} px={isMobile ? '2.5' : 'unset'}>
       <TabBarSkeleton />
       <CardGridSkeleton />
     </Box>

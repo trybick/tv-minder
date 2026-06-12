@@ -70,7 +70,7 @@ export const GoogleLoginButton = () => {
   });
 
   return (
-    <Flex justifyContent="center" mt="10px">
+    <Flex justifyContent="center" mt="2.5">
       <GoogleButton
         onClick={() => {
           trackEvent({

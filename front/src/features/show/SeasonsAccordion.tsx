@@ -35,7 +35,7 @@ export const SeasonsAccordion = () => {
         >
           <Accordion.ItemTrigger
             cursor="pointer"
-            px={isMobile ? '8px' : '16px'}
+            px={isMobile ? '2' : '4'}
             py={4}
             _hover={{ bg: 'whiteAlpha.50' }}
             _open={{ bg: 'whiteAlpha.50' }}
