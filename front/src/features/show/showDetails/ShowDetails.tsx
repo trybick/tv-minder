@@ -40,10 +40,8 @@ export const ShowDetails = () => {
       py={{ base: 4, md: 5 }}
       borderRadius={{ base: 'xl', md: '2xl' }}
       borderWidth="1px"
-      borderColor="whiteAlpha.200"
-      bg="linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)"
-      boxShadow="0 18px 45px rgba(0, 0, 0, 0.35)"
-      backdropFilter="blur(6px)"
+      borderColor="whiteAlpha.100"
+      bg="whiteAlpha.50"
     >
       <TitleRow show={currentShowInfo} />
       <RatingRow show={currentShowInfo} />

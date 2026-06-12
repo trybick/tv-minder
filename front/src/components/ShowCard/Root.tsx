@@ -48,9 +48,8 @@ export const Root = ({
         position="relative"
         bg="whiteAlpha.50"
         _hover={{
-          borderColor: 'whiteAlpha.300',
-          transform: 'translateY(-3px)',
-          boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
+          borderColor: 'whiteAlpha.400',
+          bg: 'whiteAlpha.100',
         }}
         onMouseEnter={() => onHoverChange?.(true)}
         onMouseLeave={() => onHoverChange?.(false)}
