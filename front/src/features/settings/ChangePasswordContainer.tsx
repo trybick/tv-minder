@@ -1,4 +1,12 @@
-import { Box, Button, Field, Heading, Input } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Field,
+  Heading,
+  Input,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 
 import { showToast } from '~/components/ui/toaster';
@@ -13,6 +21,12 @@ type FormInputs = {
   newPassword: string;
   newPasswordConfirmation: string;
 };
+
+const inputStyles = {
+  bg: 'blackAlpha.300',
+  borderColor: 'whiteAlpha.300',
+  _hover: { borderColor: 'whiteAlpha.400' },
+} as const;
 
 export const ChangePasswordContainer = () => {
   const email = useAppSelector(selectEmail);
@@ -79,33 +93,30 @@ export const ChangePasswordContainer = () => {
   return (
     <Box
       as="section"
-      borderRadius="4px"
+      w="100%"
+      px={{ base: 4, md: 6 }}
+      py={{ base: 4, md: 5 }}
+      borderRadius={{ base: 'xl', md: '2xl' }}
       borderWidth="1px"
-      margin="20px auto"
-      p={5}
-      w={['80%', '75%', '50%', '30%']}
+      borderColor="whiteAlpha.200"
+      bg="linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)"
+      boxShadow="0 18px 45px rgba(0, 0, 0, 0.35)"
+      backdropFilter="blur(6px)"
     >
-      <Heading as="h4" fontSize="1.6rem" textAlign="center">
+      <Heading as="h2" fontSize="lg" fontWeight="700" color="fg">
         Change Password
       </Heading>
       {isGoogleUser && (
-        <Heading
-          as="h6"
-          fontSize="1rem"
-          fontStyle="italic"
-          mt="14px"
-          textAlign="center"
-        >
+        <Text color="fg.muted" fontSize="sm" mt={1}>
           Not available when using a Google account
-        </Heading>
+        </Text>
       )}
 
-      <Box as="form" onSubmit={onSubmit}>
+      <Stack as="form" gap={4} mt={5} onSubmit={onSubmit}>
         <Field.Root disabled={isGoogleUser} invalid={!!errors?.oldPassword}>
-          <Field.Label mt="1.5rem" w="100%">
-            Current Password
-          </Field.Label>
+          <Field.Label>Current Password</Field.Label>
           <Input
+            {...inputStyles}
             {...register('oldPassword', { ...formSchema.oldPassword })}
             type="password"
           />
@@ -113,10 +124,9 @@ export const ChangePasswordContainer = () => {
         </Field.Root>
 
         <Field.Root disabled={isGoogleUser} invalid={!!errors?.newPassword}>
-          <Field.Label mt="1rem" w="100%">
-            New Password
-          </Field.Label>
+          <Field.Label>New Password</Field.Label>
           <Input
+            {...inputStyles}
             {...register('newPassword', { ...formSchema.newPassword })}
             type="password"
           />
@@ -127,10 +137,9 @@ export const ChangePasswordContainer = () => {
           disabled={isGoogleUser}
           invalid={!!errors?.newPasswordConfirmation}
         >
-          <Field.Label mt="1rem" w="100%">
-            Confirm New Password
-          </Field.Label>
+          <Field.Label>Confirm New Password</Field.Label>
           <Input
+            {...inputStyles}
             {...register('newPasswordConfirmation', {
               ...formSchema.newPasswordConfirmation,
             })}
@@ -143,13 +152,13 @@ export const ChangePasswordContainer = () => {
           colorPalette="cyan"
           disabled={isGoogleUser}
           loading={isLoading}
-          mt={4}
+          mt={1}
           type="submit"
           width="100%"
         >
-          Update
+          Update Password
         </Button>
-      </Box>
+      </Stack>
     </Box>
   );
 };
