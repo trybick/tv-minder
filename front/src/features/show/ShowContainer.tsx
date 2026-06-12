@@ -66,7 +66,7 @@ export const ShowContainer = () => {
   }
 
   return (
-    <Grid gap={7} gridTemplateColumns="280px 1fr" alignItems="start">
+    <Grid gap={7} gridTemplateColumns="340px 1fr" alignItems="start">
       <Flex
         direction="column"
         gap={2.5}

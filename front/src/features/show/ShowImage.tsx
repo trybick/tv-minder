@@ -33,8 +33,8 @@ export const ShowImage = () => {
   return (
     <DelayedSkeleton
       isLoading={shouldShowSkeleton}
-      w={isMobile ? '200px' : '280px'}
-      h={shouldShowSkeleton ? (isMobile ? '300px' : '405px') : undefined}
+      w={isMobile ? '200px' : '340px'}
+      h={shouldShowSkeleton ? (isMobile ? '300px' : '510px') : undefined}
       borderRadius="8px"
     >
       <AspectRatio ratio={2 / 3} w={isMobile ? '200px' : '100%'}>

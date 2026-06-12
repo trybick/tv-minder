@@ -23,9 +23,9 @@ const SMALL_SLIDES_PER_PAGE = {
   base: 2,
   sm: 3,
   md: 4,
-  lg: 4,
-  xl: 4,
-  '2xl': 4,
+  lg: 5,
+  xl: 6,
+  '2xl': 6,
 };
 
 export const DEFAULT_SLIDES_PER_PAGE = {
