@@ -37,6 +37,7 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.email = '';
       state.token = null;
+      state.isGoogleUser = false;
     },
 
     setIsLoggedIn: (state, action: PayloadAction<SetIsLoggedInPayload>) => {

@@ -76,15 +76,20 @@ export const SearchPage = () => {
       label: query,
     });
 
-    const { results } = await searchShowsByQuery(query);
-    if (!results) {
-      return;
-    }
+    try {
+      const { results } = await searchShowsByQuery(query);
+      if (!results) {
+        return;
+      }
 
-    setShows(results);
-    setTotalResults(results.length);
-    setIsLoading(false);
-    dispatch(getShowDetailsForSearchResults(results.map(s => s.id)));
+      setShows(results);
+      setTotalResults(results.length);
+      dispatch(getShowDetailsForSearchResults(results.map(s => s.id)));
+    } catch (error) {
+      handleKyError(error);
+    } finally {
+      setIsLoading(false);
+    }
   });
 
   // ── Input change handler ────────────────────────────────────

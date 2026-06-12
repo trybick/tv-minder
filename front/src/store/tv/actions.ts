@@ -37,14 +37,19 @@ export const getEpisodesForCalendarAction =
 
     dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
 
-    const userTrackedShowsIds = selectTrackedShows(state);
-    const { fetchedEpisodeData } =
-      await getEpisodesForCalendar(userTrackedShowsIds);
+    try {
+      const userTrackedShowsIds = selectTrackedShows(state);
+      const { fetchedEpisodeData } =
+        await getEpisodesForCalendar(userTrackedShowsIds);
 
-    dispatch({
-      type: SET_CURRENT_CALENDAR_EPISODES,
-      payload: fetchedEpisodeData,
-    });
+      dispatch({
+        type: SET_CURRENT_CALENDAR_EPISODES,
+        payload: fetchedEpisodeData,
+      });
+    } catch (error) {
+      handleKyError(error);
+      dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: false });
+    }
   };
 
 export const getShowDetailsForTrackedShows =
