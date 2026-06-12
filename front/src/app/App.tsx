@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 
@@ -9,6 +9,10 @@ import { Toaster } from '~/components/ui/toaster';
 import { CalendarPage } from '~/features/calendar/CalendarPage';
 import { CommandPaletteProvider } from '~/features/commandPalette';
 import { Footer } from '~/features/footer/Footer';
+import {
+  BottomTabBar,
+  bottomTabBarHeight,
+} from '~/features/header/BottomTabBar';
 import { HeaderDesktop } from '~/features/header/HeaderDesktop';
 import { HeaderMobile } from '~/features/header/HeaderMobile';
 import { SearchPage } from '~/features/search/SearchPage';
@@ -53,35 +57,45 @@ export const App = () => {
         <Toaster />
         <Modals />
 
-        <Flex direction="column" minH="100vh" flex="1">
-          {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
+        <Box
+          pb={
+            isMobile
+              ? `calc(${bottomTabBarHeight} + env(safe-area-inset-bottom))`
+              : undefined
+          }
+        >
+          <Flex direction="column" minH="100vh" flex="1">
+            {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
 
-          <Switch>
-            <Route path={ROUTES.HOME}>
-              <SearchPage />
-            </Route>
-            <Route path={ROUTES.CALENDAR}>
-              <CalendarPage />
-            </Route>
+            <Switch>
+              <Route path={ROUTES.HOME}>
+                <SearchPage />
+              </Route>
+              <Route path={ROUTES.CALENDAR}>
+                <CalendarPage />
+              </Route>
 
-            <Route path={ROUTES.MANAGE}>
-              <ProtectedRoute>
-                <TrackingPage />
-              </ProtectedRoute>
-            </Route>
-            <Route path={ROUTES.SETTINGS}>
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            </Route>
+              <Route path={ROUTES.MANAGE}>
+                <ProtectedRoute>
+                  <TrackingPage />
+                </ProtectedRoute>
+              </Route>
+              <Route path={ROUTES.SETTINGS}>
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              </Route>
 
-            <Route path={`${ROUTES.SHOW}/:showId`}>
-              <ShowPage />
-            </Route>
-          </Switch>
-        </Flex>
+              <Route path={`${ROUTES.SHOW}/:showId`}>
+                <ShowPage />
+              </Route>
+            </Switch>
+          </Flex>
 
-        <Footer />
+          <Footer />
+        </Box>
+
+        {isMobile && <BottomTabBar />}
       </CommandPaletteProvider>
     </ErrorBoundary>
   );
