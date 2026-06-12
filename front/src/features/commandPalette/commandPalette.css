@@ -27,8 +27,8 @@
   transform: translate(-50%, 0);
   width: 90%;
   max-width: 560px;
-  background: #1a1a2e;
-  border-radius: 12px;
+  background: var(--chakra-colors-gray-900);
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
     0 24px 48px -12px rgba(0, 0, 0, 0.5),
@@ -120,12 +120,20 @@
 }
 
 .cmdk-item[data-selected='true'] {
-  background: rgba(99, 179, 237, 0.15);
+  background: color-mix(
+    in srgb,
+    var(--chakra-colors-cyan-400) 12%,
+    transparent
+  );
   color: #ffffff;
 }
 
 .cmdk-item:active {
-  background: rgba(99, 179, 237, 0.25);
+  background: color-mix(
+    in srgb,
+    var(--chakra-colors-cyan-400) 22%,
+    transparent
+  );
 }
 
 .cmdk-item-icon {
@@ -136,7 +144,7 @@
 }
 
 .cmdk-item[data-selected='true'] .cmdk-item-icon {
-  color: #63b3ed;
+  color: var(--chakra-colors-cyan-400);
 }
 
 .cmdk-item-poster {

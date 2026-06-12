@@ -1,5 +1,5 @@
-import { Button, chakra, HStack, Icon, Link } from '@chakra-ui/react';
-import { type MouseEvent, useState } from 'react';
+import { Button, HStack, Icon, Link } from '@chakra-ui/react';
+import { type MouseEvent } from 'react';
 import type { IconType } from 'react-icons';
 import { useLocation } from 'wouter';
 
@@ -26,8 +26,6 @@ export const NavLink = ({
   const [location, navigate] = useLocation();
   const isActive = location === linkTo;
 
-  const [isHovered, setIsHovered] = useState(false);
-
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onClose?.();
@@ -40,19 +38,24 @@ export const NavLink = ({
       ? '1.5'
       : '2'
     : iconOnly
-      ? '8px'
-      : '12px';
+      ? '2'
+      : '3';
 
   return (
     <Link
       href={linkTo}
       onClick={handleClick}
       title={iconOnly ? text : undefined}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <Button
-        color={isActive || isHovered ? 'fg' : 'fg.muted'}
+        color={isActive ? 'cyan.300' : 'fg.muted'}
+        bg={isActive ? 'cyan.400/10' : 'transparent'}
+        _hover={{
+          color: isActive ? 'cyan.300' : 'fg',
+          bg: isActive ? 'cyan.400/10' : 'whiteAlpha.100',
+        }}
+        borderRadius="full"
+        transition="background 150ms, color 150ms"
         fontSize={isMobile ? 'sm' : 'md'}
         fontWeight="semibold"
         p={navLinkPadding}
@@ -67,14 +70,7 @@ export const NavLink = ({
         ) : (
           <HStack as="span" gap="1.5">
             <Icon as={icon} boxSize="1.1em" />
-            <chakra.span
-              textDecoration={isActive || isHovered ? 'underline' : 'none'}
-              textDecorationColor="cyan.500"
-              textDecorationThickness="2px"
-              textUnderlineOffset="4px"
-            >
-              {text}
-            </chakra.span>
+            <span>{text}</span>
           </HStack>
         )}
       </Button>
