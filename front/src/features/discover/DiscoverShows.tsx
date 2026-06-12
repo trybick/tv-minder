@@ -184,7 +184,7 @@ export const DiscoverShows = () => {
     : BASE_CAROUSEL_CONFIGS;
 
   return (
-    <Box maxW="1500px" w="95%" pt={2} pb={8}>
+    <Box w="100%" pt={2} pb={8}>
       {!isLoggedIn && <WelcomeHeroStrip />}
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (

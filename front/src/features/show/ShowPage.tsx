@@ -1,9 +1,9 @@
-import { Box } from '@chakra-ui/react';
 import { useEffect, useLayoutEffect } from 'react';
 import { useLocation, useParams } from 'wouter';
 import { useHistoryState } from 'wouter/use-browser-location';
 
 import { ROUTES } from '~/app/routes';
+import { PageContainer } from '~/components/PageContainer';
 import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -68,15 +68,10 @@ export const ShowPage = () => {
   return (
     <>
       <title>{name ? `${name} | TV Minder` : 'TV Minder'}</title>
-      <Box
-        m={isMobile ? '0 auto 40px' : '24px auto 40px'}
-        maxW="1050px"
-        width="100%"
-        px={{ base: '20px', md: '30px' }}
-      >
+      <PageContainer pt={isMobile ? 4 : 6} pb="40px">
         <ShowContainer />
         <SimilarShows />
-      </Box>
+      </PageContainer>
     </>
   );
 };

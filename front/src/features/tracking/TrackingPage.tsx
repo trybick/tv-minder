@@ -1,7 +1,6 @@
-import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
+import { PageContainer } from '~/components/PageContainer';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { useGetTrackedShowsQuery } from '~/store/rtk/api/track.api';
 import {
@@ -17,7 +16,6 @@ import { NoTrackedShowsMessage } from './NoTrackedShowsMessage';
 import { TrackingList } from './TrackingList';
 
 export const TrackingPage = () => {
-  const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
   const trackedShows = useAppSelector(selectTrackedShows);
   const trackedShowIds = useAppSelector(selectTrackedShowIds);
@@ -47,9 +45,7 @@ export const TrackingPage = () => {
   return (
     <>
       <title>Manage | TV Minder</title>
-      <Box m="0 auto 30px" maxW="1170px" w={isMobile ? '100%' : '90%'}>
-        {content}
-      </Box>
+      <PageContainer mb="30px">{content}</PageContainer>
     </>
   );
 };

@@ -45,7 +45,7 @@ export const SearchResults = ({ shows, totalResults }: Props) => {
   }, [showItems, showDetails, searchShowDetails]);
 
   return (
-    <Box w="100%" maxW="1200px" px={{ base: '3', md: '6' }}>
+    <Box w="100%">
       <Text fontSize="md" color="fg.muted" textAlign="left" mb="4">
         {totalMatchesText}
       </Text>

@@ -4,7 +4,7 @@ import { showCardTemplateColumns } from '~/components/ShowCard/Grid';
 
 export const SearchResultsSkeleton = () => {
   return (
-    <Box w="100%" maxW="1200px" px={{ base: '3', md: '6' }}>
+    <Box w="100%">
       <Skeleton height="20px" width="80px" mb="4" ml="auto" />
 
       <Grid

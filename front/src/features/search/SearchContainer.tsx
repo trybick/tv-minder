@@ -1,5 +1,4 @@
-import { Flex } from '@chakra-ui/react';
-
+import { PageContainer } from '~/components/PageContainer';
 import { DiscoverShows } from '~/features/discover/DiscoverShows';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 
@@ -36,7 +35,7 @@ export const SearchContainer = ({
     !isInputDirty && isFilterActive && filteredShows?.length;
 
   return (
-    <Flex justify="center" justifyContent="center" m="0 auto">
+    <PageContainer>
       {isLoading || isFilterLoading ? (
         <SearchResultsSkeleton />
       ) : hasSearchResults ? (
@@ -51,6 +50,6 @@ export const SearchContainer = ({
       ) : (
         <DiscoverShows />
       )}
-    </Flex>
+    </PageContainer>
   );
 };

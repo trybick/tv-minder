@@ -13,6 +13,7 @@ import { FiCalendar, FiCompass, FiList } from 'react-icons/fi';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
+import { PageContainer } from '~/components/PageContainer';
 import TMDBLogo from '~/assets/images/TMDB-logo.svg';
 import logo from '~/assets/images/logo.svg';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -45,7 +46,7 @@ export const Footer = () => {
     <Box mt="auto">
       <Separator borderColor="whiteAlpha.100" />
 
-      <Box maxW="1200px" mx="auto" px={{ base: 5, md: 8 }} py={8}>
+      <PageContainer py={8}>
         <Flex
           align={{ base: 'center', md: 'flex-start' }}
           direction={{ base: 'column', md: 'row' }}
@@ -171,7 +172,7 @@ export const Footer = () => {
             &copy; {new Date().getFullYear()} TV Minder
           </Text>
         </Flex>
-      </Box>
+      </PageContainer>
     </Box>
   );
 };

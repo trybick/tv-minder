@@ -14,6 +14,7 @@ import { TbBoxMultiple } from 'react-icons/tb';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
+import { PageContainer } from '~/components/PageContainer';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { trackApi } from '~/store/rtk/api/track.api';
@@ -187,12 +188,7 @@ export const CalendarPage = () => {
     <>
       <title>Calendar | TV Minder</title>
 
-      <Box
-        m="14px auto 20px"
-        maxW="1400px"
-        p={{ base: '0', md: '10px 30px' }}
-        w={{ base: '90%', md: '100%' }}
-      >
+      <PageContainer mt="14px" mb={5} py={{ md: '10px' }}>
         {shouldShowSkeleton ? (
           <CalendarSkeleton />
         ) : shouldShowCalendar ? (
@@ -212,7 +208,7 @@ export const CalendarPage = () => {
         ) : (
           <CalendarEmptyState />
         )}
-      </Box>
+      </PageContainer>
     </>
   );
 };
