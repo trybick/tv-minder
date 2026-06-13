@@ -9,38 +9,26 @@ import {
 } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
-import { FiCalendar, FiCompass, FiList } from 'react-icons/fi';
 import { useLocation } from 'wouter';
 
-import { ROUTES } from '~/app/routes';
 import { PageContainer } from '~/components/PageContainer';
 import TMDBLogo from '~/assets/images/TMDB-logo.svg';
 import logo from '~/assets/images/logo.svg';
+import { useNavigationConfig } from '~/hooks/useNavigationConfig';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
-import { useAppDispatch, useAppSelector } from '~/store';
+import { useAppDispatch } from '~/store';
 import { setIsFeedbackModalOpen } from '~/store/rtk/slices/modals.slice';
-import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
-
-const footerLinks = [
-  { label: 'Discover', href: ROUTES.HOME, icon: FiCompass },
-  { label: 'Calendar', href: ROUTES.CALENDAR, icon: FiCalendar },
-  { label: 'Manage', href: ROUTES.MANAGE, icon: FiList, requiresAuth: true },
-];
 
 export const Footer = () => {
   const dispatch = useAppDispatch();
   const { isMobile } = useResponsiveLayout();
   const [, navigate] = useLocation();
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const { visibleMainNavItems } = useNavigationConfig();
 
   const handleNavigate = (href: string) => (e: MouseEvent) => {
     e.preventDefault();
     navigate(href);
   };
-
-  const visibleLinks = footerLinks.filter(
-    link => !link.requiresAuth || isLoggedIn
-  );
 
   return (
     <Box mt="auto">
@@ -81,13 +69,13 @@ export const Footer = () => {
               >
                 Navigation
               </Text>
-              {visibleLinks.map(link => (
+              {visibleMainNavItems.map(link => (
                 <Link
-                  key={link.label}
+                  key={link.id}
                   color="fg.muted"
                   fontSize="sm"
-                  href={link.href}
-                  onClick={handleNavigate(link.href)}
+                  href={link.route}
+                  onClick={handleNavigate(link.route)}
                   _hover={{ color: 'cyan.400' }}
                   transition="color 0.15s"
                 >

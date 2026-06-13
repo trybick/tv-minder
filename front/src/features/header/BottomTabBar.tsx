@@ -1,43 +1,30 @@
 import { Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
-import type { IconType } from 'react-icons';
-import { FiCalendar, FiCompass, FiList } from 'react-icons/fi';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
-import { useAppDispatch, useAppSelector } from '~/store';
+import {
+  type NavigationItem,
+  useNavigationConfig,
+} from '~/hooks/useNavigationConfig';
+import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
-import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
-
-type Tab = {
-  linkTo: string;
-  text: string;
-  icon: IconType;
-  requiresAuth?: boolean;
-};
-
-const tabs: Tab[] = [
-  { linkTo: ROUTES.HOME, text: 'Discover', icon: FiCompass },
-  { linkTo: ROUTES.CALENDAR, text: 'Calendar', icon: FiCalendar },
-  { linkTo: ROUTES.MANAGE, text: 'Manage', icon: FiList, requiresAuth: true },
-];
 
 export const bottomTabBarHeight = '56px';
 
 export const BottomTabBar = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const { visibleMainNavItems } = useNavigationConfig();
   const [location, navigate] = useLocation();
 
-  const visibleTabs = tabs.filter(tab => !tab.requiresAuth || isLoggedIn);
-
-  const handleClick = (tab: Tab) => (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    if (tab.linkTo === ROUTES.HOME) {
-      dispatch(setShouldResetSearchInput(true));
-    }
-    navigate(tab.linkTo);
-  };
+  const handleClick =
+    (tab: NavigationItem) => (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      if (tab.route === ROUTES.HOME) {
+        dispatch(setShouldResetSearchInput(true));
+      }
+      navigate(tab.route);
+    };
 
   return (
     <Flex
@@ -54,13 +41,13 @@ export const BottomTabBar = () => {
       borderColor="whiteAlpha.100"
       pb="env(safe-area-inset-bottom)"
     >
-      {visibleTabs.map(tab => {
-        const isActive = location === tab.linkTo;
+      {visibleMainNavItems.map(tab => {
+        const isActive = location === tab.route;
 
         return (
           <Link
-            key={tab.linkTo}
-            href={tab.linkTo}
+            key={tab.route}
+            href={tab.route}
             onClick={handleClick(tab)}
             aria-current={isActive ? 'page' : undefined}
             flex="1"
@@ -80,7 +67,7 @@ export const BottomTabBar = () => {
           >
             <Icon as={tab.icon} boxSize={5} />
             <Text fontSize="2xs" fontWeight="semibold" lineHeight="1">
-              {tab.text}
+              {tab.label}
             </Text>
           </Link>
         );

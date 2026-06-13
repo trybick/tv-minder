@@ -1,14 +1,10 @@
 import { Flex } from '@chakra-ui/react';
-import { FiCalendar, FiCompass, FiList, FiSettings } from 'react-icons/fi';
 
 import { ROUTES } from '~/app/routes';
+import { useNavigationConfig } from '~/hooks/useNavigationConfig';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
-import { useAppDispatch, useAppSelector } from '~/store';
+import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
-import {
-  selectIsGoogleUser,
-  selectIsLoggedIn,
-} from '~/store/rtk/slices/user.slice';
 
 import { LogoutButton } from './LogoutButton';
 import { NavLink } from './NavLink';
@@ -18,8 +14,12 @@ interface Props {
 }
 
 export const NavigationLinks = ({ onClose }: Props) => {
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isGoogleUser = useAppSelector(selectIsGoogleUser);
+  const {
+    isLoggedIn,
+    settingsNavigationItem,
+    showSettingsNavigationItem,
+    visibleMainNavItems,
+  } = useNavigationConfig();
   const { isMobile, isCompactDesktop } = useResponsiveLayout();
   const dispatch = useAppDispatch();
 
@@ -33,37 +33,27 @@ export const NavigationLinks = ({ onClose }: Props) => {
         alignItems: 'flex-end',
       })}
     >
-      <NavLink
-        linkTo={ROUTES.HOME}
-        text="Discover"
-        icon={FiCompass}
-        onClose={onClose}
-        onClick={() => dispatch(setShouldResetSearchInput(true))}
-        iconOnly={isCompactDesktop}
-      />
-      <NavLink
-        linkTo={ROUTES.CALENDAR}
-        text="Calendar"
-        icon={FiCalendar}
-        onClose={onClose}
-        iconOnly={isCompactDesktop}
-      />
-
-      {isLoggedIn && (
+      {visibleMainNavItems.map(item => (
         <NavLink
-          linkTo={ROUTES.MANAGE}
-          text="Manage"
-          icon={FiList}
+          key={item.id}
+          linkTo={item.route}
+          text={item.label}
+          icon={item.icon}
           onClose={onClose}
+          onClick={
+            item.route === ROUTES.HOME
+              ? () => dispatch(setShouldResetSearchInput(true))
+              : undefined
+          }
           iconOnly={isCompactDesktop}
         />
-      )}
+      ))}
 
-      {isMobile && isLoggedIn && !isGoogleUser ? (
+      {isMobile && showSettingsNavigationItem ? (
         <NavLink
-          linkTo={ROUTES.SETTINGS}
-          text="Settings"
-          icon={FiSettings}
+          linkTo={settingsNavigationItem.route}
+          text={settingsNavigationItem.label}
+          icon={settingsNavigationItem.icon}
           onClose={onClose}
         />
       ) : null}

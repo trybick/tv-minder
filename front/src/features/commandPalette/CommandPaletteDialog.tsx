@@ -1,43 +1,21 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { Command } from 'cmdk';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  MdCalendarToday,
-  MdClose,
-  MdHistory,
-  MdHome,
-  MdViewList,
-} from 'react-icons/md';
+import { MdClose, MdHistory } from 'react-icons/md';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
 import { useImageUrl } from '~/hooks/useImageUrl';
+import { useNavigationConfig } from '~/hooks/useNavigationConfig';
 import { useAppSelector } from '~/store';
 import { selectRecentShows } from '~/store/rtk/slices/recentShows.slice';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
-import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { selectTrackedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { trackEvent } from '~/utils/analytics';
 
 import './commandPalette.css';
 import { fetchResults, filterOutTrackedShows } from './searchHelpers';
-
-const PAGES = [
-  { name: 'Discover', route: ROUTES.HOME, icon: MdHome, requiresAuth: false },
-  {
-    name: 'Calendar',
-    route: ROUTES.CALENDAR,
-    icon: MdCalendarToday,
-    requiresAuth: false,
-  },
-  {
-    name: 'Manage Shows',
-    route: ROUTES.MANAGE,
-    icon: MdViewList,
-    requiresAuth: true,
-  },
-];
 
 type Props = {
   isOpen: boolean;
@@ -57,26 +35,25 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
   const trackedShowIds = useAppSelector(selectTrackedShows);
   const trackedShows = useAppSelector(selectTrackedShowsDetails);
   const recentShows = useAppSelector(selectRecentShows);
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const { visiblePageNavItems } = useNavigationConfig();
 
   const trackedIds = useMemo(() => new Set(trackedShowIds), [trackedShowIds]);
 
   const filteredTrackedShows = trackedShows.filter(show =>
     show.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const availablePages = PAGES.filter(page => !page.requiresAuth || isLoggedIn);
   const normalizedSearchTerm = searchTerm.trim().toLowerCase();
   const firstSelectableValue = !normalizedSearchTerm
     ? recentShows[0]
       ? `recent-${recentShows[0].id}-${recentShows[0].name}`
-      : (availablePages[0]?.name ?? '')
+      : (visiblePageNavItems[0]?.label ?? '')
     : filteredTrackedShows[0]
       ? `tracked-${filteredTrackedShows[0].id}-${filteredTrackedShows[0].name}`
       : tmdbResults[0]
         ? `tmdb-${tmdbResults[0].id}-${tmdbResults[0].name}`
-        : (availablePages.find(page =>
-            page.name.toLowerCase().includes(normalizedSearchTerm)
-          )?.name ?? '');
+        : (visiblePageNavItems.find(page =>
+            page.label.toLowerCase().includes(normalizedSearchTerm)
+          )?.label ?? '');
 
   useEffect(() => {
     if (searchTimeoutRef.current) {
@@ -283,18 +260,18 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
           )}
 
           <Command.Group heading="Pages" className="cmdk-group">
-            {availablePages.map(page => {
-              const Icon = page.icon;
+            {visiblePageNavItems.map(page => {
+              const PageIcon = page.icon;
               return (
                 <Command.Item
                   key={page.route}
-                  value={page.name}
-                  keywords={[page.name.toLowerCase()]}
+                  value={page.label}
+                  keywords={[page.label.toLowerCase()]}
                   onSelect={() => handleNavigateToPage(page.route)}
                   className="cmdk-item"
                 >
-                  <Icon className="cmdk-item-icon" />
-                  <span>{page.name}</span>
+                  <PageIcon className="cmdk-item-icon" />
+                  <span>{page.label}</span>
                 </Command.Item>
               );
             })}

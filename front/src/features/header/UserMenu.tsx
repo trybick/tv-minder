@@ -3,12 +3,14 @@ import { LuLogOut, LuSettings } from 'react-icons/lu';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
+import { useNavigationConfig } from '~/hooks/useNavigationConfig';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { selectEmail, setIsLoggedOut } from '~/store/rtk/slices/user.slice';
 
 export const UserMenu = () => {
   const dispatch = useAppDispatch();
   const email = useAppSelector(selectEmail);
+  const { showSettingsNavigationItem } = useNavigationConfig();
   const [, navigate] = useLocation();
 
   const handleLogout = () => {
@@ -46,14 +48,16 @@ export const UserMenu = () => {
               <Menu.Separator />
 
               <Menu.ItemGroup py="1">
-                <Menu.Item
-                  cursor="pointer"
-                  onClick={() => navigate(ROUTES.SETTINGS)}
-                  value="settings"
-                >
-                  <LuSettings />
-                  Settings
-                </Menu.Item>
+                {showSettingsNavigationItem ? (
+                  <Menu.Item
+                    cursor="pointer"
+                    onClick={() => navigate(ROUTES.SETTINGS)}
+                    value="settings"
+                  >
+                    <LuSettings />
+                    Settings
+                  </Menu.Item>
+                ) : null}
                 <Menu.Item
                   cursor="pointer"
                   onClick={handleLogout}
