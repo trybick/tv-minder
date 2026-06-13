@@ -102,7 +102,7 @@ export const EpisodesTable = ({ episodes }: Props) => {
     columns,
     data: episodes,
     getCoreRowModel: getCoreRowModel(),
-    initialState: {
+    state: {
       columnVisibility: {
         name: !isMobile,
       },

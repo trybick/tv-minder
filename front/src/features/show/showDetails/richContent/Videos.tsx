@@ -14,9 +14,8 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { LuChevronDown, LuFilm } from 'react-icons/lu';
-import YouTube from 'react-youtube';
 
-import { YOUTUBE_PLAYER_OPTIONS } from '~/features/show/VideoTrailerButton';
+import { YouTubePlayer } from '~/components/YouTubePlayer';
 import { type ShowVideo } from '~/store/tv/types/transformed';
 
 const MAX_VISIBLE_VIDEOS = 3;
@@ -204,10 +203,7 @@ export const Videos = ({ videos }: Props) => {
                   <Dialog.Body pb={4}>
                     {selectedVideo?.key && (
                       <AspectRatio ratio={16 / 9}>
-                        <YouTube
-                          opts={YOUTUBE_PLAYER_OPTIONS}
-                          videoId={selectedVideo.key}
-                        />
+                        <YouTubePlayer videoId={selectedVideo.key} />
                       </AspectRatio>
                     )}
                   </Dialog.Body>

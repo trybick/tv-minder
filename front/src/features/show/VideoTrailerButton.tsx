@@ -6,19 +6,11 @@ import {
   Portal,
   useDisclosure,
 } from '@chakra-ui/react';
-import { lazy } from 'react';
 import { AiFillYoutube } from 'react-icons/ai';
 
-const YouTube = lazy(() => import('react-youtube'));
-
+import { YouTubePlayer } from '~/components/YouTubePlayer';
 import { useAppSelector } from '~/store';
 import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
-
-export const YOUTUBE_PLAYER_OPTIONS = {
-  height: '100%',
-  playerVars: { autoplay: 1 },
-  width: '100%',
-};
 
 type Props = {
   videoId: string | undefined;
@@ -69,7 +61,7 @@ export const VideoTrailerButton = ({ videoId }: Props) => {
               </Dialog.Header>
               <Dialog.Body pb={4}>
                 <AspectRatio ratio={16 / 9}>
-                  <YouTube opts={YOUTUBE_PLAYER_OPTIONS} videoId={videoId} />
+                  <YouTubePlayer videoId={videoId} />
                 </AspectRatio>
               </Dialog.Body>
             </Dialog.Content>
