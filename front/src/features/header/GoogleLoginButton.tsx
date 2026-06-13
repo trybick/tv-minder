@@ -1,11 +1,10 @@
 import { Flex } from '@chakra-ui/react';
 import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
-import ky from 'ky';
 import GoogleButton from 'react-google-button';
 
-import { ENDPOINTS } from '~/app/endpoints';
 import { showToast } from '~/components/ui/toaster';
 import {
+  useLazyGetGoogleUserInfoQuery,
   useLoginMutation,
   useRegisterMutation,
 } from '~/store/rtk/api/auth.api';
@@ -15,6 +14,7 @@ import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 export const GoogleLoginButton = () => {
   const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
+  const [fetchGoogleUserInfo] = useLazyGetGoogleUserInfoQuery();
 
   const onGoogleLoginError = () => {
     console.error('Google Login error');
@@ -32,11 +32,9 @@ export const GoogleLoginButton = () => {
     ) {
       throw Error('Expected field access_token from google response');
     }
-    const userInfo = await ky
-      .get(ENDPOINTS.GOOGLE_USER_INFO, {
-        headers: { Authorization: `Bearer ${response.access_token}` },
-      })
-      .json<{ email: string; sub: string }>();
+    const userInfo = await fetchGoogleUserInfo(
+      response.access_token
+    ).unwrap();
     const { email, sub: googleId } = userInfo;
     return { email, googleId };
   };
@@ -48,7 +46,7 @@ export const GoogleLoginButton = () => {
         email,
         password: googleId,
         isGoogleUser: true,
-      });
+      }).unwrap();
       await login({
         email,
         password: googleId,

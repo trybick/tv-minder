@@ -8,6 +8,7 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
 } from '~/store/tv/selectors';
+import { parseShowId } from '~/utils/parseShowId';
 
 import { SeasonsAccordion } from './SeasonsAccordion';
 import { ShowImage } from './ShowImage';
@@ -18,10 +19,15 @@ import { Reviews } from './showDetails/richContent/Reviews';
 export const ShowContainer = () => {
   const { isMobile } = useResponsiveLayout();
   const { showId } = useParams<{ showId: string }>();
+  const parsedShowId = parseShowId(showId);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
   const { reviews = [], name, videoTrailerKey } = currentShowInfo || {};
+
+  if (!parsedShowId) {
+    return null;
+  }
 
   if (isMobile) {
     return (
@@ -30,7 +36,7 @@ export const ShowContainer = () => {
           <ShowImage />
           <Flex direction="column" gap={2} w="100%">
             <TrackButton
-              showId={+showId}
+              showId={parsedShowId}
               size="lg"
               w="100%"
               showName={name ?? ''}
@@ -75,7 +81,7 @@ export const ShowContainer = () => {
         alignSelf="start"
       >
         <ShowImage />
-        <TrackButton showId={+showId} size="lg" showName={name ?? ''} />
+        <TrackButton showId={parsedShowId} size="lg" showName={name ?? ''} />
         <VideoTrailerButton videoId={videoTrailerKey} />
       </Flex>
 
