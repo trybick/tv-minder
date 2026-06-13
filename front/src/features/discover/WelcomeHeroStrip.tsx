@@ -53,7 +53,7 @@ export const WelcomeHeroStrip = () => {
               borderColor="whiteAlpha.200"
               fontSize="xs"
               fontWeight="600"
-              color="fg.default"
+              color="fg"
             >
               <Box
                 color="cyan.400"

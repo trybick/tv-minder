@@ -52,6 +52,7 @@ export const HelpPopover = () => {
                 letterSpacing="-0.02em"
                 lineHeight="1.3"
                 color="cyan.500"
+                textAlign="center"
               >
                 Your personal TV calendar
               </Heading>
@@ -92,7 +93,7 @@ export const HelpPopover = () => {
                     <Text
                       fontSize="sm"
                       fontWeight="500"
-                      color="fg.default"
+                      color="fg"
                       lineClamp={1}
                       minW={0}
                     >
