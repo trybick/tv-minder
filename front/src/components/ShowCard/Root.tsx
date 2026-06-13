@@ -51,6 +51,10 @@ export const Root = ({
           borderColor: 'whiteAlpha.400',
           bg: 'whiteAlpha.100',
         }}
+        _focusWithin={{
+          borderColor: 'whiteAlpha.400',
+          bg: 'whiteAlpha.100',
+        }}
         onMouseEnter={() => onHoverChange?.(true)}
         onMouseLeave={() => onHoverChange?.(false)}
         data-group

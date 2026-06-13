@@ -48,6 +48,7 @@ export const HeaderMobile = () => {
           <Box
             as="button"
             aria-label={isHeaderOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isHeaderOpen}
             cursor="pointer"
             onClick={toggleHeader}
             p="2"

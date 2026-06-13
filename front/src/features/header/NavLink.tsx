@@ -45,6 +45,7 @@ export const NavLink = ({
     <Link
       href={linkTo}
       onClick={handleClick}
+      aria-label={iconOnly ? text : undefined}
       title={iconOnly ? text : undefined}
     >
       <Button

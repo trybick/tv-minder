@@ -221,6 +221,7 @@ export const SearchFilters = ({
                           }
                           onClick={() => toggleGenre(genre.id)}
                           type="button"
+                          aria-pressed={isSelected}
                           fontWeight="normal"
                           borderRadius="full"
                           px="3"

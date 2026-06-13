@@ -41,6 +41,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       <Flex
         as="button"
         onClick={handleClick}
+        aria-label="Open search"
         alignItems="center"
         gap="1.5"
         px="2.5"
@@ -72,6 +73,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
     <Flex
       as="button"
       onClick={handleClick}
+      aria-label="Open search"
       alignItems="center"
       gap="3"
       px="3"

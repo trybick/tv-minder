@@ -24,6 +24,7 @@ export const NoTrackedShowsMessage = () => {
       px={4}
     >
       <Image
+        alt="TV remote on a couch"
         borderRadius="xl"
         h="240px"
         objectFit="cover"

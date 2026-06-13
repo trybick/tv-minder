@@ -65,11 +65,13 @@ export const TrackButton = ({
 
   return isTracked ? (
     <Button
-      aria-label={`track-button-${showId}`}
+      aria-label={`Untrack ${showName}`}
       colorPalette="gray"
       onClick={onUntrackShow}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
       variant="surface"
       borderWidth="1px"
       borderColor="whiteAlpha.200"
@@ -98,7 +100,7 @@ export const TrackButton = ({
     </Button>
   ) : (
     <Button
-      aria-label={`track-button-${showId}`}
+      aria-label={`Track ${showName}`}
       colorPalette="cyan"
       onClick={onTrackShow}
       variant="surface"

@@ -39,6 +39,7 @@ export const UntrackButton = () => {
   return (
     <>
       <CloseButton
+        aria-label={`Untrack ${showName}`}
         onClick={onRequestUntrack}
         position="absolute"
         right="2"

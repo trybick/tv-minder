@@ -133,6 +133,8 @@ export const Footer = () => {
               </Link>
 
               <Link
+                as="button"
+                type="button"
                 alignItems="center"
                 color="fg.muted"
                 display="flex"

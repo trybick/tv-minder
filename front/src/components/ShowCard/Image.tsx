@@ -38,14 +38,18 @@ export const Image = ({ children }: PropsWithChildren) => {
       onClick={onShowClick}
       {...dragListeners}
       href={`${ROUTES.SHOW}/${show.id}`}
+      aria-label={`View ${show.name}`}
       position="relative"
       display="block"
       overflow="hidden"
-      _focus={{ outline: 'none', boxShadow: 'none' }}
-      _focusVisible={{ outline: 'none', boxShadow: 'none' }}
+      _focusVisible={{
+        outline: '2px solid',
+        outlineColor: 'cyan.400',
+        outlineOffset: '2px',
+      }}
     >
       <ChakraImage
-        alt={`show-${show.name}`}
+        alt=""
         aspectRatio={2 / 3}
         objectFit="cover"
         w="100%"
