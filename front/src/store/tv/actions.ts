@@ -409,11 +409,12 @@ const CAROUSEL_FETCHERS: Record<
 };
 
 export const fetchDiscoverShowsAction =
-  (): AppThunk => async (dispatch, getState) => {
+  (
+    keys: readonly DiscoverCarouselKey[] = DISCOVER_CAROUSEL_KEYS
+  ): AppThunk<Promise<void>> =>
+  async (dispatch, getState) => {
     const { discoverShows } = getState().tv;
-    const keysToFetch = DISCOVER_CAROUSEL_KEYS.filter(
-      key => !discoverShows[key]?.length
-    );
+    const keysToFetch = keys.filter(key => !discoverShows[key]?.length);
     if (!keysToFetch.length) {
       return;
     }

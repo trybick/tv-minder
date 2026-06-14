@@ -137,6 +137,15 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
 
 const EAGER_COUNT = 2;
 
+// When For You is shown it occupies the first eager slot, so the remaining
+// eager slots are the leading discover carousels. These are fetched up front
+// so the page paints while tracked shows load, without flooding the network
+// and starving the higher-priority For You requests.
+const EAGER_DISCOVER_KEYS = BASE_CAROUSEL_CONFIGS.slice(
+  0,
+  EAGER_COUNT - 1
+).map(config => config.key) as DiscoverCarouselKey[];
+
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();
   const discoverShows = useAppSelector(selectDiscoverShowsForDisplay);
@@ -148,15 +157,20 @@ export const DiscoverShows = () => {
   );
 
   useEffect(() => {
-    const shouldSkipFetchingCarousels =
+    const isGetTrackedShowsPending =
       isLoggedIn &&
       (getTrackedShowsStatus === QueryStatus.uninitialized ||
         getTrackedShowsStatus === QueryStatus.pending);
-    if (shouldSkipFetchingCarousels) {
-      return;
-    }
 
     const loadCarousels = async () => {
+      // While For You is still waiting on tracked shows, fetch only the visible
+      // discover carousels so the page paints, but defer the long tail so the
+      // higher-priority For You requests aren't starved.
+      if (isGetTrackedShowsPending) {
+        await dispatch(fetchDiscoverShowsAction(EAGER_DISCOVER_KEYS));
+        return;
+      }
+
       if (isLoggedIn) {
         await dispatch(fetchForYouShowsAction());
       }
