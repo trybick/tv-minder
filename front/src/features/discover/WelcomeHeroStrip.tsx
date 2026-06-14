@@ -10,20 +10,26 @@ const HOW_IT_WORKS_STEPS: { icon: ReactNode; label: string }[] = [
 
 export const WelcomeHeroStrip = () => {
   return (
-    <Box
-      textAlign="center"
-      mb={6}
-      mt={2}
+    <Flex
+      direction="column"
       mx="auto"
-      px={5}
-      py={4}
-      borderWidth="1px"
-      borderColor="whiteAlpha.200"
-      borderRadius="lg"
-      bg="whiteAlpha.50"
-      maxW="sm"
-      position="relative"
+      maxW="1500px"
+      px={{ base: 0, md: 6 }}
+      w={{ base: '95%', sm: 'sm', md: 'md', lg: 'lg' }}
     >
+      <Box
+        textAlign="center"
+        mb={6}
+        mt={2}
+        px={5}
+        py={4}
+        borderWidth="1px"
+        borderColor="whiteAlpha.200"
+        borderRadius="lg"
+        bg="whiteAlpha.50"
+        position="relative"
+        w="full"
+      >
       <Heading
         as="h1"
         fontSize="md"
@@ -68,6 +74,7 @@ export const WelcomeHeroStrip = () => {
           </Flex>
         ))}
       </Flex>
-    </Box>
+      </Box>
+    </Flex>
   );
 };

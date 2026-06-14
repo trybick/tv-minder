@@ -107,11 +107,11 @@ export const TrackingList = () => {
         </Tabs.Content>
 
         <Tabs.Content value={tabs.active}>
-          <SubSectionOfShows shows={activeSeasonShows} />
+          <SubSectionOfShows shows={activeSeasonShows} hideStatusBadge />
         </Tabs.Content>
 
         <Tabs.Content value={tabs.premieringSoon}>
-          <SubSectionOfShows shows={premieringSoonShows} />
+          <SubSectionOfShows shows={premieringSoonShows} hideStatusBadge />
         </Tabs.Content>
 
         <Tabs.Content value={tabs.inProduction}>

@@ -21,7 +21,10 @@ export const SeasonsAccordion = () => {
 
   const nonSpecialsSeasonIds =
     seasonsWithEpisodes?.filter(s => !s.isSpecialsSeason).map(s => s.id) ?? [];
-  const latestSeasonId = nonSpecialsSeasonIds[0] || null;
+  const latestSeasonId =
+    nonSpecialsSeasonIds.length > 1
+      ? nonSpecialsSeasonIds[nonSpecialsSeasonIds.length - 1]
+      : null;
 
   const createAccordionItems = () =>
     seasonsWithEpisodes?.map(

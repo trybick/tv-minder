@@ -3,13 +3,14 @@ import { type ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
   shows: ShowForDisplay[];
+  hideStatusBadge?: boolean;
 };
 
-export const SubSectionOfShows = ({ shows }: Props) => {
+export const SubSectionOfShows = ({ shows, hideStatusBadge }: Props) => {
   return (
     <ShowCard.Grid>
       {shows.map(show => {
-        const badge = getStatusBadge(show.status);
+        const badge = hideStatusBadge ? null : getStatusBadge(show.status);
         return (
           <ShowCard.Root key={show.id} show={show}>
             <ShowCard.UntrackButton />

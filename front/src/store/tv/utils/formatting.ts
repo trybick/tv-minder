@@ -253,7 +253,7 @@ const formatSeasons = (
     ? camelCaseSeasons.pop()
     : undefined;
 
-  camelCaseSeasons.sort((a, b) => b.seasonNumber - a.seasonNumber);
+  camelCaseSeasons.sort((a, b) => a.seasonNumber - b.seasonNumber);
 
   if (specials) {
     camelCaseSeasons.push(specials);
