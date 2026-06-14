@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import type FullCalendar from '@fullcalendar/react';
-import { type RefObject, useMemo } from 'react';
+import { type RefObject } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { MdOutlineResetTv } from 'react-icons/md';
 
@@ -33,25 +33,17 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
     trackApi.endpoints.getTrackedShows.select(undefined)
   );
 
-  const hasEpisodesInCurrentMonth = useMemo(() => {
-    if (!viewRange || isLoadingCalendarEpisodes || isLoadingTrackedShows) {
-      return true;
-    }
-
-    return calendarEpisodes.some(episode => {
-      return dayjs(episode.date).isBetween(
-        dayjs(viewRange.start),
-        dayjs(viewRange.end),
-        'day',
-        '[]'
-      );
-    });
-  }, [
-    calendarEpisodes,
-    isLoadingCalendarEpisodes,
-    isLoadingTrackedShows,
-    viewRange,
-  ]);
+  const hasEpisodesInCurrentMonth =
+    !viewRange || isLoadingCalendarEpisodes || isLoadingTrackedShows
+      ? true
+      : calendarEpisodes.some(episode =>
+          dayjs(episode.date).isBetween(
+            dayjs(viewRange.start),
+            dayjs(viewRange.end),
+            'day',
+            '[]'
+          )
+        );
 
   const handlePrev = () => {
     trackEvent({ category: 'Calendar', action: 'Previous Month Clicked' });

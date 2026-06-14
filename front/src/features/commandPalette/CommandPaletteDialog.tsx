@@ -1,6 +1,6 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { Command } from 'cmdk';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { MdClose, MdHistory } from 'react-icons/md';
 import { useLocation } from 'wouter';
 
@@ -20,6 +20,28 @@ import { fetchResults, filterOutTrackedShows } from './searchHelpers';
 type Props = {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+};
+
+const filterCommand = (
+  value: string,
+  search: string,
+  keywords?: string[]
+): number => {
+  const normalizedSearch = search.trim().toLowerCase();
+  if (!normalizedSearch) {
+    return 1;
+  }
+
+  const normalizedValue = value.toLowerCase();
+  if (normalizedValue.includes(normalizedSearch)) {
+    return 1;
+  }
+
+  const hasKeywordMatch = (keywords ?? []).some(keyword =>
+    keyword.toLowerCase().includes(normalizedSearch)
+  );
+
+  return hasKeywordMatch ? 1 : 0;
 };
 
 export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
@@ -113,44 +135,17 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
     );
   }, [firstSelectableValue, isOpen]);
 
-  const handleNavigateToShow = useCallback(
-    (showId: number) => {
-      setIsOpen(false);
-      navigate(`${ROUTES.SHOW}/${showId}`);
-    },
-    [setIsOpen, navigate]
-  );
+  const handleNavigateToShow = (showId: number) => {
+    setIsOpen(false);
+    navigate(`${ROUTES.SHOW}/${showId}`);
+  };
 
-  const handleNavigateToPage = useCallback(
-    (route: string) => {
-      setIsOpen(false);
-      navigate(route);
-    },
-    [setIsOpen, navigate]
-  );
+  const handleNavigateToPage = (route: string) => {
+    setIsOpen(false);
+    navigate(route);
+  };
 
-  const handleClose = useCallback(() => setIsOpen(false), [setIsOpen]);
-
-  const filterCommand = useCallback(
-    (value: string, search: string, keywords?: string[]) => {
-      const normalizedSearch = search.trim().toLowerCase();
-      if (!normalizedSearch) {
-        return 1;
-      }
-
-      const normalizedValue = value.toLowerCase();
-      if (normalizedValue.includes(normalizedSearch)) {
-        return 1;
-      }
-
-      const hasKeywordMatch = (keywords ?? []).some(keyword =>
-        keyword.toLowerCase().includes(normalizedSearch)
-      );
-
-      return hasKeywordMatch ? 1 : 0;
-    },
-    []
-  );
+  const handleClose = () => setIsOpen(false);
 
   return (
     <Command.Dialog

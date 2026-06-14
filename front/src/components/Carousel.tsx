@@ -5,7 +5,7 @@ import {
   Skeleton,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
 import { trackEvent } from '~/utils/analytics';
@@ -50,7 +50,7 @@ export const Carousel = <T,>({
     size === 'sm' ? SMALL_SLIDES_PER_PAGE : DEFAULT_SLIDES_PER_PAGE;
   const slidesPerPage =
     useBreakpointValue(slidesConfig, { ssr: false }) ?? slidesConfig.base;
-  const contextValue = useMemo(() => ({ size }), [size]);
+  const contextValue = { size };
 
   const buttonSize =
     size === 'sm'

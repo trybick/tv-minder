@@ -11,7 +11,7 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
@@ -95,23 +95,19 @@ export const SearchFilters = ({
     setOpen(false);
   });
 
-  const handleClear = useCallback(() => {
+  const handleClear = () => {
     reset({ ...EMPTY_FILTERS });
     onClear();
     setOpen(false);
-  }, [onClear, reset]);
+  };
 
-  const currentYear = useMemo(() => dayjs().year(), []);
-
-  const yearOptions = useMemo(() => {
-    const years: { value: string; label: string }[] = [
-      { value: '', label: 'Any' },
-    ];
-    for (let y = currentYear + 1; y >= 1950; y--) {
-      years.push({ value: String(y), label: String(y) });
-    }
-    return years;
-  }, [currentYear]);
+  const currentYear = dayjs().year();
+  const yearOptions: { value: string; label: string }[] = [
+    { value: '', label: 'Any' },
+  ];
+  for (let y = currentYear + 1; y >= 1950; y--) {
+    yearOptions.push({ value: String(y), label: String(y) });
+  }
 
   return (
     <Popover.Root

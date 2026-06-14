@@ -1,5 +1,4 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useMemo } from 'react';
 
 import {
   getStatusBadge,
@@ -27,21 +26,18 @@ export const SearchResults = ({ shows }: Props) => {
   const showDetails = useAppSelector(selectShowDetails);
   const searchShowDetails = useAppSelector(selectSearchShowDetails);
 
-  const showItems = useMemo(() => shows.map(mapTmdbShowSummary), [shows]);
+  const showItems = shows.map(mapTmdbShowSummary);
 
-  const badgeByShowId = useMemo(() => {
-    const map = new Map<number, StatusBadge | null>();
-    for (const show of showItems) {
-      const cachedShow = showDetails?.[show.id] ?? searchShowDetails?.[show.id];
-      if (!cachedShow) {
-        map.set(show.id, null);
-      } else {
-        const { status } = mapShowInfoForDisplay(cachedShow);
-        map.set(show.id, getStatusBadge(status));
-      }
+  const badgeByShowId = new Map<number, StatusBadge | null>();
+  for (const show of showItems) {
+    const cachedShow = showDetails?.[show.id] ?? searchShowDetails?.[show.id];
+    if (!cachedShow) {
+      badgeByShowId.set(show.id, null);
+    } else {
+      const { status } = mapShowInfoForDisplay(cachedShow);
+      badgeByShowId.set(show.id, getStatusBadge(status));
     }
-    return map;
-  }, [showItems, showDetails, searchShowDetails]);
+  }
 
   return (
     <Box w="100%">
