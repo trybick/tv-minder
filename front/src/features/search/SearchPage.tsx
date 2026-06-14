@@ -41,6 +41,9 @@ export const SearchPage = () => {
     ? countActiveFilters(activeFilters)
     : 0;
 
+  const showWelcomeHero =
+    !isLoggedIn && !isInputDirty && activeFilterCount === 0;
+
   const executeQuery = async (
     query: string,
     filters: DiscoverFilters | null
@@ -127,7 +130,7 @@ export const SearchPage = () => {
     <Box pt={{ base: 0, md: 5 }} pb="8">
       <title>Discover | TV Minder</title>
 
-      {!isLoggedIn && <WelcomeHeroStrip />}
+      {showWelcomeHero && <WelcomeHeroStrip />}
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}

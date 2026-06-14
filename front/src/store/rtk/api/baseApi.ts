@@ -23,7 +23,7 @@ const rawBaseQuery = fetchBaseQuery({
   baseUrl,
   prepareHeaders: headers => {
     const token = authStorage.getToken();
-    if (token) {
+    if (token && !headers.has('authorization')) {
       headers.set('authorization', `Bearer ${token}`);
     }
     return headers;
