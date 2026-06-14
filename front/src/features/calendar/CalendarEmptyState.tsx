@@ -4,8 +4,6 @@ import { FiCalendar, FiHeart, FiSearch } from 'react-icons/fi';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
-import { useAppSelector } from '~/store';
-import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
 type Feature = { icon: ReactNode; title: string; description: string };
 
@@ -29,7 +27,6 @@ const FEATURES: Feature[] = [
 
 export const CalendarEmptyState = () => {
   const [, navigate] = useLocation();
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const handleDiscoverClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -46,19 +43,6 @@ export const CalendarEmptyState = () => {
       px={6}
       gap={6}
     >
-      <Flex
-        align="center"
-        justify="center"
-        w={{ base: '64px', md: '72px' }}
-        h={{ base: '64px', md: '72px' }}
-        borderRadius="2xl"
-        bg="cyan.500/15"
-        color="cyan.400"
-        fontSize={{ base: '2xl', md: '3xl' }}
-      >
-        <FiCalendar />
-      </Flex>
-
       <Box>
         <Heading
           as="h2"
@@ -115,11 +99,6 @@ export const CalendarEmptyState = () => {
         >
           Discover Shows
         </Button>
-        {!isLoggedIn && (
-          <Text fontSize="xs" color="fg.subtle">
-            Create an account to sync your shows across devices
-          </Text>
-        )}
       </Flex>
     </Flex>
   );
