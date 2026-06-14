@@ -11,9 +11,9 @@ import { type MouseEvent } from 'react';
 import { FaGithub, FaRegComment } from 'react-icons/fa';
 import { useLocation } from 'wouter';
 
-import { PageContainer } from '~/components/PageContainer';
 import TMDBLogo from '~/assets/images/TMDB-logo.svg';
 import logo from '~/assets/images/logo.svg';
+import { PageContainer } from '~/components/PageContainer';
 import { useNavigationConfig } from '~/hooks/useNavigationConfig';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch } from '~/store';

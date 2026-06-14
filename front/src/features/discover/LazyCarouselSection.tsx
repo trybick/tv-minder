@@ -4,12 +4,12 @@ import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useIsNearViewport } from '~/hooks/useIsNearViewport';
 
+import { DiscoverHeader } from './DiscoverHeader';
+import { type CarouselConfig } from './DiscoverShows';
 import {
   discoverShowKeyExtractor,
   renderDiscoverShowItem,
 } from './discoverCarousel';
-import { DiscoverHeader } from './DiscoverHeader';
-import { type CarouselConfig } from './DiscoverShows';
 
 type Props = {
   config: CarouselConfig;

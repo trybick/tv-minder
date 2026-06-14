@@ -62,8 +62,7 @@ export const useCollapsibleSection = ({
 
   const isOverflowing = contentHeight > collapsedHeight + 1;
   const isCollapsible =
-    isActive &&
-    (showToggle === 'overflow' ? isOverflowing : !!showToggle);
+    isActive && (showToggle === 'overflow' ? isOverflowing : !!showToggle);
 
   return {
     contentRef,

@@ -32,9 +32,7 @@ export const GoogleLoginButton = () => {
     ) {
       throw Error('Expected field access_token from google response');
     }
-    const userInfo = await fetchGoogleUserInfo(
-      response.access_token
-    ).unwrap();
+    const userInfo = await fetchGoogleUserInfo(response.access_token).unwrap();
     const { email, sub: googleId } = userInfo;
     return { email, googleId };
   };

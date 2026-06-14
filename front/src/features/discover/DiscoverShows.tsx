@@ -32,7 +32,6 @@ import {
 
 import { DiscoverHeader } from './DiscoverHeader';
 import { LazyCarouselSection } from './LazyCarouselSection';
-import { WelcomeHeroStrip } from './WelcomeHeroStrip';
 import {
   discoverShowKeyExtractor,
   renderDiscoverShowItem,
@@ -141,10 +140,9 @@ const EAGER_COUNT = 2;
 // eager slots are the leading discover carousels. These are fetched up front
 // so the page paints while tracked shows load, without flooding the network
 // and starving the higher-priority For You requests.
-const EAGER_DISCOVER_KEYS = BASE_CAROUSEL_CONFIGS.slice(
-  0,
-  EAGER_COUNT - 1
-).map(config => config.key) as DiscoverCarouselKey[];
+const EAGER_DISCOVER_KEYS = BASE_CAROUSEL_CONFIGS.slice(0, EAGER_COUNT - 1).map(
+  config => config.key
+) as DiscoverCarouselKey[];
 
 export const DiscoverShows = () => {
   const dispatch = useAppDispatch();

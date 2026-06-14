@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from '@chakra-ui/react';
+import { Flex, Grid } from '@chakra-ui/react';
 import { useParams } from 'wouter';
 
 import { TrackButton } from '~/components/TrackButton';

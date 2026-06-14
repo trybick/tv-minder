@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
-import { FiHome, FiTv } from 'react-icons/fi';
+import { FiHome } from 'react-icons/fi';
 import { useLocation } from 'wouter';
 
 import { ROUTES } from '~/app/routes';
