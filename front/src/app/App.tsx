@@ -4,6 +4,7 @@ import { Route, Switch, useLocation } from 'wouter';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { Modals } from '~/components/Modals';
+import { NotFoundPage } from '~/components/NotFoundPage';
 import { ProtectedRoute } from '~/components/ProtectedRoute';
 import { Toaster } from '~/components/ui/toaster';
 import { CalendarPage } from '~/features/calendar/CalendarPage';
@@ -88,6 +89,10 @@ export const App = () => {
 
               <Route path={`${ROUTES.SHOW}/:showId`}>
                 <ShowPage />
+              </Route>
+
+              <Route>
+                <NotFoundPage />
               </Route>
             </Switch>
           </Flex>
