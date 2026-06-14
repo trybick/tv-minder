@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { WelcomeHeroStrip } from '~/features/discover/WelcomeHeroStrip';
@@ -19,7 +19,6 @@ import { handleKyError } from '~/utils/handleKyError';
 import { applyViewTransition } from '~/utils/viewTransition';
 
 import { SearchContainer } from './SearchContainer';
-import { SearchFilters } from './SearchFilters';
 import { SearchInput } from './SearchInput';
 import { countActiveFilters } from './helpers';
 
@@ -116,15 +115,15 @@ export const SearchPage = () => {
     }
   };
 
-  const handleApplyFilters = (filters: DiscoverFilters) => {
-    setActiveFilters(filters);
-    executeQuery('', filters);
-  };
+  // const handleApplyFilters = (filters: DiscoverFilters) => {
+  //   setActiveFilters(filters);
+  //   executeQuery('', filters);
+  // };
 
-  const handleClearFilters = () => {
-    setActiveFilters(null);
-    executeQuery(inputValue, null);
-  };
+  // const handleClearFilters = () => {
+  //   setActiveFilters(null);
+  //   executeQuery(inputValue, null);
+  // };
 
   return (
     <Box pt={{ base: 0, md: 5 }} pb="8">
@@ -137,14 +136,17 @@ export const SearchPage = () => {
         inputRef={inputRef}
         inputValue={inputValue}
       />
-      <Flex justify="center" mb={{ base: 4, md: 6 }} px={{ base: 4, md: 6 }}>
-        <SearchFilters
-          onApply={handleApplyFilters}
-          onClear={handleClearFilters}
-          activeFilterCount={activeFilterCount}
-          disabled={!!inputValue}
-        />
-      </Flex>
+      {/* For now, don't show filters until we can get a better UX. The API is
+      limited - it supports either text or genre searching, not both at once.
+      We need a good way to communicate that to the user.*/}
+      {/* <Flex justify="center" mb={{ base: 4, md: 6 }} px={{ base: 4, md: 6 }}>
+          <SearchFilters
+            onApply={handleApplyFilters}
+            onClear={handleClearFilters}
+            activeFilterCount={activeFilterCount}
+            disabled={!!inputValue}
+          />
+        </Flex> */}
       <SearchContainer
         isInputDirty={isInputDirty}
         isLoading={isLoading}
