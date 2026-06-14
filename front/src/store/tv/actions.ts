@@ -1,7 +1,7 @@
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
-import { type AppThunk } from '~/store';
 import { handleKyError } from '~/utils/handleKyError';
 
+import { type AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import {
   type TmdbSeason,
@@ -30,6 +30,16 @@ export const SET_CURRENT_SHOW_ID = 'SET_CURRENT_SHOW_ID';
 
 const DEFAULT_WATCH_REGION = 'US';
 const SHOW_APPEND_TO_RESPONSE = 'videos,reviews,watch/providers';
+
+export const setCurrentShowId = (showId: number | null) => ({
+  type: SET_CURRENT_SHOW_ID,
+  payload: showId,
+});
+
+export const setIsLoadingShowDetails = (isLoading: boolean) => ({
+  type: SET_IS_LOADING_SHOW_DETAILS,
+  payload: isLoading,
+});
 
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
@@ -74,6 +84,8 @@ export const getShowDetailsForTrackedShows =
     results.forEach(result => {
       if (result.status === 'fulfilled') {
         data[result.value.id] = result.value;
+      } else {
+        handleKyError(result.reason);
       }
     });
 
@@ -162,11 +174,11 @@ export const getShowDetailsWithSeasons =
     );
 
     if (existing?.seasonsWithEpisodes && hasRichContentData) {
-      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
+      dispatch(setIsLoadingShowDetails(false));
       return;
     }
 
-    dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: true });
+    dispatch(setIsLoadingShowDetails(true));
 
     const watchRegion = getWatchRegion();
     let showData: TmdbShow;
@@ -177,7 +189,7 @@ export const getShowDetailsWithSeasons =
       });
     } catch (error) {
       handleKyError(error);
-      dispatch({ type: SET_IS_LOADING_SHOW_DETAILS, payload: false });
+      dispatch(setIsLoadingShowDetails(false));
       return;
     }
 

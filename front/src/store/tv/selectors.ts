@@ -5,8 +5,8 @@ import {
   type ShowItem,
 } from '~/components/ShowCard/helpers';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
-import { type AppSelector, type RootState } from '~/store';
 
+import { type AppSelector, type RootState } from './..';
 import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
 import { type TmdbShowSummary } from './types/tmdbSchema';
 import {
@@ -126,9 +126,25 @@ export type DiscoverShowsForDisplay = Record<
   DiscoverShow[]
 >;
 
+const createEmptyDiscoverShowsForDisplay = (): DiscoverShowsForDisplay => ({
+  trending: [],
+  newShows: [],
+  comingSoon: [],
+  mostRated: [],
+  highestRated: [],
+  netflix: [],
+  hbo: [],
+  disney: [],
+  appleTv: [],
+  action: [],
+  drama: [],
+  sciFi: [],
+  documentary: [],
+});
+
 export const selectDiscoverShowsForDisplay: AppSelector<DiscoverShowsForDisplay> =
   createSelector(selectDiscoverShows, discoverShows => {
-    const result = {} as DiscoverShowsForDisplay;
+    const result = createEmptyDiscoverShowsForDisplay();
     const seenIds = new Set<number>();
 
     for (const key of DISCOVER_CAROUSEL_KEYS) {

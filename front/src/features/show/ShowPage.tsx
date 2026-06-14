@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '~/store';
 import { addRecentShow } from '~/store/rtk/slices/recentShows.slice';
 import {
   getShowDetailsWithSeasons,
-  SET_CURRENT_SHOW_ID,
+  setCurrentShowId,
 } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
@@ -40,7 +40,7 @@ export const ShowPage = () => {
     if (!parsedId) {
       return;
     }
-    dispatch({ type: SET_CURRENT_SHOW_ID, payload: parsedId });
+    dispatch(setCurrentShowId(parsedId));
   }, [dispatch, showId]);
 
   // Fetch show details
