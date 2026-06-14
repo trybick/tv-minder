@@ -18,6 +18,7 @@ import { useNavigationConfig } from '~/hooks/useNavigationConfig';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch } from '~/store';
 import { setIsFeedbackModalOpen } from '~/store/rtk/slices/modals.slice';
+import { dayjs } from '~/utils/dayjs';
 
 export const Footer = () => {
   const dispatch = useAppDispatch();
@@ -159,7 +160,7 @@ export const Footer = () => {
           </Flex>
 
           <Text color="fg.muted" fontSize="xs" opacity={0.5}>
-            &copy; {new Date().getFullYear()} TV Minder
+            &copy; {dayjs().year()} TV Minder
           </Text>
         </Flex>
       </PageContainer>

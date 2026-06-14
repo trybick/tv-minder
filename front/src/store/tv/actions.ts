@@ -1,4 +1,5 @@
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
+import { dayjs } from '~/utils/dayjs';
 import { handleKyError } from '~/utils/handleKyError';
 
 import { type AppThunk } from './..';
@@ -260,7 +261,7 @@ const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
 const FOR_YOU_MIN_SOURCE_RATING = 8.2;
 
 function pickStableIndices(arrayLength: number, count: number): number[] {
-  const epoch = Math.floor(Date.now() / FIVE_HOURS_MS);
+  const epoch = Math.floor(dayjs().valueOf() / FIVE_HOURS_MS);
   const indices: number[] = [];
   for (let i = 0; i < count && i < arrayLength; i++) {
     let index = (epoch + i * 7) % arrayLength;

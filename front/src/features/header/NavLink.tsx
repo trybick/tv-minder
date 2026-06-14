@@ -5,14 +5,14 @@ import { useLocation } from 'wouter';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 
-interface Props {
+type Props = {
   linkTo: string;
   text: string;
   icon: IconType;
   onClose?: () => void;
   onClick?: () => void;
   iconOnly?: boolean;
-}
+};
 
 export const NavLink = ({
   linkTo,

@@ -9,9 +9,9 @@ import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice'
 import { LogoutButton } from './LogoutButton';
 import { NavLink } from './NavLink';
 
-interface Props {
+type Props = {
   onClose?: () => void;
-}
+};
 
 export const NavigationLinks = ({ onClose }: Props) => {
   const {

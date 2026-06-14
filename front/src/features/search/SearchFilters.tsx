@@ -17,6 +17,7 @@ import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 
 import { type DiscoverFilters } from '~/store/tv/types/transformed';
 import { trackEvent } from '~/utils/analytics';
+import { dayjs } from '~/utils/dayjs';
 
 const TV_GENRES = [
   { id: 10759, name: 'Action & Adventure' },
@@ -100,7 +101,7 @@ export const SearchFilters = ({
     setOpen(false);
   }, [onClear, reset]);
 
-  const currentYear = useMemo(() => new Date().getFullYear(), []);
+  const currentYear = useMemo(() => dayjs().year(), []);
 
   const yearOptions = useMemo(() => {
     const years: { value: string; label: string }[] = [

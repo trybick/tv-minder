@@ -9,9 +9,9 @@ import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 import { applyViewTransition } from '~/utils/viewTransition';
 
-interface Props {
+type Props = {
   onClose?: () => void;
-}
+};
 
 export const Logo = ({ onClose }: Props) => {
   const { isMobile } = useResponsiveLayout();
