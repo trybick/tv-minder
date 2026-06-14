@@ -4,7 +4,6 @@ import { TbFileSad } from 'react-icons/tb';
 
 interface Props {
   children: ReactNode;
-  fallback?: ReactNode;
 }
 
 interface State {

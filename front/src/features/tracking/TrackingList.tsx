@@ -64,6 +64,7 @@ export const TrackingList = () => {
         onValueChange={onTabChange}
         fitted={false}
         size={isMobile ? 'sm' : 'md'}
+        lazyMount
       >
         <Tabs.List
           mb="5"

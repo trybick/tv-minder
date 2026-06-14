@@ -52,13 +52,6 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               cacheName: 'tmdb-api-cache',
-              // plugins: [
-              //   {
-              //     cacheKeyWillBeUsed: async ({ request }) => {
-              //       return request.url;
-              //     },
-              //   },
-              // ],
               matchOptions: {
                 ignoreVary: true,
               },
