@@ -6,4 +6,9 @@ export const showTitleToId = {
   pokerface: 120998,
 };
 
+export const showNames = {
+  mobland: 'MobLand',
+  pokerface: 'Poker Face',
+} as const;
+
 export const trackResponse = Object.values(showTitleToId);

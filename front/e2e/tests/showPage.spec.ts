@@ -1,6 +1,6 @@
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
-import { showTitleToId } from '../mockData';
+import { showNames, showTitleToId } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Show Page', () => {
@@ -43,7 +43,9 @@ test.describe('Show Page', () => {
       await page.goto('/');
 
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
-      await expect(page.getByLabel(/search-result/).first()).toBeVisible();
+      await expect(
+        page.getByLabel(`show-card-${showNames.pokerface}`).first()
+      ).toBeVisible();
 
       await page
         .getByRole('link', { name: /poker face/i })
@@ -84,11 +86,13 @@ test.describe('Show Page', () => {
       await expect(page.getByText('MobLand').first()).toBeVisible({
         timeout: 10000,
       });
-      await page.getByLabel(`track-button-${showTitleToId.mobland}`).click();
+      await page.getByLabel(`Track ${showNames.mobland}`).click();
 
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
-      await expect(page.getByLabel(/search-result/)).toHaveCount(2);
-      await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
+      await expect(
+        page.getByLabel(`show-card-${showNames.pokerface}`)
+      ).toHaveCount(2);
+      await page.getByLabel(`Track ${showNames.pokerface}`).first().click();
 
       await page
         .getByRole('navigation')
@@ -141,7 +145,7 @@ test.describe('Show Page', () => {
     await page.goto(`/show/${showTitleToId.pokerface}`);
 
     const trackButton = page.getByLabel(
-      `track-button-${showTitleToId.pokerface}`
+      new RegExp(`^(Track|Untrack) ${showNames.pokerface}$`)
     );
 
     await expect(trackButton).toBeVisible();
@@ -169,7 +173,7 @@ test.describe('Show Page', () => {
     await expect(page).toHaveURL(`/show/${showTitleToId.mobland}`);
 
     const trackButton = page.getByLabel(
-      `track-button-${showTitleToId.mobland}`
+      new RegExp(`^(Track|Untrack) ${showNames.mobland}$`)
     );
     await expect(trackButton).toHaveText(/tracking/i);
 

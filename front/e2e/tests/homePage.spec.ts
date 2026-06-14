@@ -1,4 +1,5 @@
 import { expect, test } from '../config/base';
+import { showNames } from '../mockData';
 
 test.describe('Home Page', () => {
   test.describe('Search', () => {
@@ -75,7 +76,9 @@ test.describe('Home Page', () => {
 
       await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
 
-      await expect(page.getByLabel(/search-result/).first()).toBeVisible();
+      await expect(
+        page.getByLabel(`show-card-${showNames.pokerface}`).first()
+      ).toBeVisible();
       await expect(
         page.getByRole('button', { name: /track/i }).first()
       ).toBeVisible();

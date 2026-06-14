@@ -1,6 +1,6 @@
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
-import { showTitleToId } from '../mockData';
+import { showNames, showTitleToId } from '../mockData';
 import { mockRequest } from '../mockRequest';
 
 test.describe('Manage Page', () => {
@@ -85,10 +85,10 @@ test.describe('Manage Page', () => {
       body: { data: [showTitleToId.pokerface] },
     });
 
-    await page.getByLabel(`track-button-${showTitleToId.mobland}`).click();
-    await expect(
-      page.getByLabel(`track-button-${showTitleToId.mobland}`)
-    ).toHaveText(/track/i);
+    await page.getByLabel(`Untrack ${showNames.mobland}`).click();
+    await expect(page.getByLabel(`Track ${showNames.mobland}`)).toHaveText(
+      /track/i
+    );
 
     await page
       .getByRole('navigation')

@@ -1,6 +1,6 @@
 import { expect, test } from '../config/base';
 import { login } from '../helpers';
-import { showTitleToId } from '../mockData';
+import { showNames } from '../mockData';
 
 test.describe('Calendar Page', () => {
   test('should have correct page title', async ({ page }) => {
@@ -21,11 +21,13 @@ test.describe('Calendar Page', () => {
       timeout: 10000,
     });
 
-    await page.getByLabel(`track-button-${showTitleToId.mobland}`).click();
+    await page.getByLabel(`Track ${showNames.mobland}`).click();
 
     await page.getByPlaceholder(/search for tv shows/i).fill('poker face');
-    await expect(page.getByLabel(/search-result/)).toHaveCount(2);
-    await page.getByLabel(`track-button-${showTitleToId.pokerface}`).click();
+    await expect(
+      page.getByLabel(`show-card-${showNames.pokerface}`)
+    ).toHaveCount(2);
+    await page.getByLabel(`Track ${showNames.pokerface}`).first().click();
 
     await page
       .getByRole('navigation')
