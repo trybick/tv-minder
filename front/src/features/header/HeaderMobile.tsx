@@ -7,14 +7,14 @@ import {
   CommandPaletteButton,
   useCommandPalette,
 } from '~/features/commandPalette';
-import { useCollapsibleHeader } from '~/hooks/useCollapsableHeader';
+import { useCollapsibleHeader } from '~/hooks/useCollapsibleHeader';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
 import { HelpPopover } from './HelpPopover';
 import { LoginButton } from './LoginButton';
 import { Logo } from './Logo';
-import { NavigationLinks } from './NavLinksContainer';
+import { NavigationLinks } from './NavigationLinks';
 import { SignUpButton } from './SignUpButton';
 
 export const HeaderMobile = () => {

@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 
 import { Logo } from './Logo';
-import { NavigationLinks } from './NavLinksContainer';
+import { NavigationLinks } from './NavigationLinks';
 import { RightSectionDesktop } from './RightSectionDesktop';
 
 export const HeaderDesktop = () => {
