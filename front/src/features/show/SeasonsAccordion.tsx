@@ -1,4 +1,4 @@
-import { Accordion, Badge, Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -18,13 +18,6 @@ export const SeasonsAccordion = () => {
   const { seasonsWithEpisodes } = currentShowInfo || {};
   const hasEpisodes =
     currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;
-
-  const nonSpecialsSeasonIds =
-    seasonsWithEpisodes?.filter(s => !s.isSpecialsSeason).map(s => s.id) ?? [];
-  const latestSeasonId =
-    nonSpecialsSeasonIds.length > 1
-      ? nonSpecialsSeasonIds[nonSpecialsSeasonIds.length - 1]
-      : null;
 
   const createAccordionItems = () =>
     seasonsWithEpisodes?.map(
@@ -58,11 +51,6 @@ export const SeasonsAccordion = () => {
                   <Text display="inline" fontSize="md" color="fg.muted">
                     ({dayjs(airDate).year()})
                   </Text>
-                )}
-                {id === latestSeasonId && (
-                  <Badge colorPalette="cyan" size="sm" variant="subtle">
-                    Latest Season
-                  </Badge>
                 )}
               </Flex>
               <Text fontSize="sm" color="fg.muted">
