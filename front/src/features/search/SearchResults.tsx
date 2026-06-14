@@ -20,11 +20,10 @@ import { SearchResultCard } from './SearchResultCard';
 
 type Props = {
   shows: TmdbShowSummary[];
-  totalResults: number;
 };
 
-export const SearchResults = ({ shows, totalResults }: Props) => {
-  const totalMatchesText = `Showing ${totalResults} ${maybePluralize(totalResults, 'result')}`;
+export const SearchResults = ({ shows }: Props) => {
+  const totalMatchesText = `Showing ${shows.length} ${maybePluralize(shows.length, 'result')}`;
   const showDetails = useAppSelector(selectShowDetails);
   const searchShowDetails = useAppSelector(selectSearchShowDetails);
 

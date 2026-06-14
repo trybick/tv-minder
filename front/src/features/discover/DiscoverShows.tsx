@@ -30,13 +30,13 @@ import {
   selectForYouShowsForDisplay,
 } from '~/store/tv/selectors';
 
+import { DiscoverHeader } from './DiscoverHeader';
+import { LazyCarouselSection } from './LazyCarouselSection';
+import { WelcomeHeroStrip } from './WelcomeHeroStrip';
 import {
   discoverShowKeyExtractor,
   renderDiscoverShowItem,
 } from './discoverCarousel';
-import { DiscoverHeader } from './DiscoverHeader';
-import { LazyCarouselSection } from './LazyCarouselSection';
-import { WelcomeHeroStrip } from './WelcomeHeroStrip';
 
 type DiscoverSectionKey = DiscoverCarouselKey | 'forYou';
 
@@ -184,7 +184,6 @@ export const DiscoverShows = () => {
 
   return (
     <Box w="100%" pt={2} pb={8}>
-      {!isLoggedIn && <WelcomeHeroStrip />}
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
           <Box key={config.key} id={`discover-${config.key}`}>

@@ -1,10 +1,5 @@
-import { Flex, HStack, IconButton, Input, InputGroup } from '@chakra-ui/react';
-import {
-  type ChangeEvent,
-  type ReactNode,
-  type RefObject,
-  useEffect,
-} from 'react';
+import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
+import { type ChangeEvent, type RefObject, useEffect } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
@@ -14,7 +9,6 @@ type Props = {
   handleClearInput: () => void;
   inputRef: RefObject<HTMLInputElement | null>;
   inputValue: string;
-  filterSlot?: ReactNode;
 };
 
 export const SearchInput = ({
@@ -22,7 +16,6 @@ export const SearchInput = ({
   handleClearInput,
   inputRef,
   inputValue,
-  filterSlot,
 }: Props) => {
   const { isMobile } = useResponsiveLayout();
 
@@ -52,21 +45,18 @@ export const SearchInput = ({
       <InputGroup
         display="flex"
         endElement={
-          <HStack gap="0.5">
-            {inputValue && (
-              <IconButton
-                aria-label="Clear input"
-                onClick={handleClearInput}
-                size="sm"
-                variant="plain"
-                color="fg.muted"
-                _hover={{ color: 'fg' }}
-              >
-                <IoClose size="20px" />
-              </IconButton>
-            )}
-            {filterSlot}
-          </HStack>
+          inputValue ? (
+            <IconButton
+              aria-label="Clear input"
+              onClick={handleClearInput}
+              size="sm"
+              variant="plain"
+              color="fg.muted"
+              _hover={{ color: 'fg' }}
+            >
+              <IoClose size="20px" />
+            </IconButton>
+          ) : undefined
         }
         startElement={
           <IoSearch

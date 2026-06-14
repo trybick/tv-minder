@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   HStack,
-  IconButton,
   NativeSelect,
   Popover,
   Portal,
@@ -54,12 +53,14 @@ type Props = {
   onApply: (filters: DiscoverFilters) => void;
   onClear: () => void;
   activeFilterCount: number;
+  disabled?: boolean;
 };
 
 export const SearchFilters = ({
   onApply,
   onClear,
   activeFilterCount,
+  disabled = false,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const { getValues, handleSubmit, reset, setValue, watch } =
@@ -115,30 +116,32 @@ export const SearchFilters = ({
     <Popover.Root
       open={open}
       onOpenChange={e => setOpen(e.open)}
-      positioning={{ placement: 'bottom-end' }}
+      positioning={{ placement: 'bottom' }}
       lazyMount
       unmountOnExit
     >
       <Popover.Trigger asChild>
-        <IconButton
-          aria-label="Search filters"
-          variant="plain"
+        <Button
+          aria-label="Browse shows"
+          title={disabled ? 'Clear search to browse' : 'Browse shows'}
+          disabled={disabled}
+          variant="outline"
           size="sm"
           color="fg.muted"
-          _hover={{ color: 'fg' }}
-          position="relative"
+          borderColor="whiteAlpha.200"
+          borderRadius="full"
+          fontWeight="normal"
+          _hover={{ color: 'fg', borderColor: 'whiteAlpha.300' }}
           onClick={() =>
             trackEvent({ category: 'Search', action: 'Filter Button Clicked' })
           }
         >
-          <HiOutlineAdjustmentsHorizontal size="20px" />
+          <HiOutlineAdjustmentsHorizontal size="18px" />
+          Browse by genre, year & rating
           {activeFilterCount > 0 && (
             <Badge
               colorPalette="cyan"
               variant="solid"
-              position="absolute"
-              top="-1"
-              right="-1"
               borderRadius="full"
               minW="18px"
               h="18px"
@@ -150,7 +153,7 @@ export const SearchFilters = ({
               {activeFilterCount}
             </Badge>
           )}
-        </IconButton>
+        </Button>
       </Popover.Trigger>
       <Portal>
         <Popover.Positioner>
@@ -162,6 +165,15 @@ export const SearchFilters = ({
           >
             <Popover.Body p="5">
               <Stack as="form" gap="5" onSubmit={handleApply}>
+                <Text
+                  fontSize="sm"
+                  fontWeight="semibold"
+                  color="fg"
+                  letterSpacing="wide"
+                >
+                  Browse shows
+                </Text>
+
                 {/* Sort By */}
                 <Box>
                   <Text
@@ -352,7 +364,7 @@ export const SearchFilters = ({
                     Clear
                   </Button>
                   <Button size="sm" colorPalette="cyan" type="submit">
-                    Apply Filters
+                    Browse
                   </Button>
                 </HStack>
               </Stack>

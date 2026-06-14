@@ -1,17 +1,13 @@
-import { Box } from '@chakra-ui/react';
-import {
-  type ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Box, Flex } from '@chakra-ui/react';
+import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 
+import { WelcomeHeroStrip } from '~/features/discover/WelcomeHeroStrip';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
+import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getShowDetailsForSearchResults } from '~/store/tv/actions';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
@@ -25,74 +21,84 @@ import { applyViewTransition } from '~/utils/viewTransition';
 import { SearchContainer } from './SearchContainer';
 import { SearchFilters } from './SearchFilters';
 import { SearchInput } from './SearchInput';
-import { applyFiltersToResults, countActiveFilters } from './helpers';
+import { countActiveFilters } from './helpers';
 
 export const SearchPage = () => {
   const dispatch = useAppDispatch();
   const shouldResetSearchInput = useAppSelector(selectShouldResetSearchInput);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [isInputDirty, setIsInputDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [shows, setShows] = useState<TmdbShowSummary[]>([]);
-  const [totalResults, setTotalResults] = useState(0);
-
+  const [results, setResults] = useState<TmdbShowSummary[]>([]);
   const [activeFilters, setActiveFilters] = useState<DiscoverFilters | null>(
     null
   );
-  const [filteredShows, setFilteredShows] = useState<TmdbShowSummary[]>([]);
-  const [filteredTotalResults, setFilteredTotalResults] = useState(0);
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
 
   const activeFilterCount = activeFilters
     ? countActiveFilters(activeFilters)
     : 0;
 
-  const handleClearInput = useCallback(() => {
-    setInputValue('');
-    setIsInputDirty(false);
-    applyViewTransition(() => setShows([]));
-    inputRef.current?.focus();
-  }, []);
+  const executeQuery = async (
+    query: string,
+    filters: DiscoverFilters | null
+  ) => {
+    const trimmed = query.trim();
+    const hasFilters = !!filters && countActiveFilters(filters) > 0;
 
-  useEffect(() => {
-    if (shouldResetSearchInput) {
-      queueMicrotask(() => {
-        handleClearInput();
-        setActiveFilters(null);
-        setFilteredShows([]);
-        setFilteredTotalResults(0);
-        dispatch(setShouldResetSearchInput(false));
-      });
+    if (!trimmed && !hasFilters) {
+      applyViewTransition(() => setResults([]));
+      setIsLoading(false);
+      return;
     }
-  }, [shouldResetSearchInput, dispatch, handleClearInput]);
 
-  // ── Text search ──────────────────────────────────────────────
-  const handleSearch = useDebouncedFunction(async (query: string) => {
-    trackEvent({
-      category: 'Search',
-      action: 'Performed Search',
-      label: query,
-    });
-
+    setIsLoading(true);
     try {
-      const { results } = await searchShowsByQuery(query);
-      if (!results) {
-        return;
+      if (trimmed) {
+        trackEvent({
+          category: 'Search',
+          action: 'Performed Search',
+          label: trimmed,
+        });
+        const { results: searchResults } = await searchShowsByQuery(trimmed);
+        const found = searchResults ?? [];
+        setResults(found);
+        dispatch(getShowDetailsForSearchResults(found.map(s => s.id)));
+      } else {
+        const data = await tmdbApi.discoverWithFilters(filters!);
+        setResults(data.results);
+        dispatch(getShowDetailsForSearchResults(data.results.map(s => s.id)));
       }
-
-      setShows(results);
-      setTotalResults(results.length);
-      dispatch(getShowDetailsForSearchResults(results.map(s => s.id)));
     } catch (error) {
       handleKyError(error);
     } finally {
       setIsLoading(false);
     }
-  });
+  };
 
-  // ── Input change handler ────────────────────────────────────
+  const debouncedExecute = useDebouncedFunction(executeQuery);
+
+  const handleClearInput = () => {
+    setInputValue('');
+    setIsInputDirty(false);
+    executeQuery('', activeFilters);
+    inputRef.current?.focus();
+  };
+
+  useEffect(() => {
+    if (shouldResetSearchInput) {
+      queueMicrotask(() => {
+        setInputValue('');
+        setIsInputDirty(false);
+        setActiveFilters(null);
+        applyViewTransition(() => setResults([]));
+        dispatch(setShouldResetSearchInput(false));
+      });
+    }
+  }, [shouldResetSearchInput, dispatch]);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchValue = event.target.value;
     setInputValue(searchValue);
@@ -100,90 +106,47 @@ export const SearchPage = () => {
     if (searchValue?.length) {
       setIsLoading(true);
       setIsInputDirty(true);
-      handleSearch(searchValue);
+      debouncedExecute(searchValue, null);
     } else {
-      setIsLoading(false);
       setIsInputDirty(false);
-      applyViewTransition(() => setShows([]));
+      executeQuery('', activeFilters);
     }
   };
 
-  // ── Filter apply / clear ────────────────────────────────────
-  const handleApplyFilters = useCallback(
-    async (filters: DiscoverFilters) => {
-      setActiveFilters(filters);
+  const handleApplyFilters = (filters: DiscoverFilters) => {
+    setActiveFilters(filters);
+    executeQuery('', filters);
+  };
 
-      if (inputValue) {
-        // Text + filters must use /search/tv + client-side filters.
-        // TMDB /discover/tv ignores `query`.
-        setIsLoading(true);
-        try {
-          const { results } = await searchShowsByQuery(inputValue);
-          const finalResults = applyFiltersToResults(results, filters);
-          setShows(finalResults);
-          setTotalResults(finalResults.length);
-          dispatch(getShowDetailsForSearchResults(finalResults.map(s => s.id)));
-        } catch (error) {
-          handleKyError(error);
-        } finally {
-          setIsLoading(false);
-        }
-        return;
-      }
-
-      // No text → pure discover with filters
-      setIsFilterLoading(true);
-      try {
-        const data = await tmdbApi.discoverWithFilters(filters);
-        setFilteredShows(data.results);
-        setFilteredTotalResults(data.total_results);
-        dispatch(getShowDetailsForSearchResults(data.results.map(s => s.id)));
-      } catch (error) {
-        handleKyError(error);
-      } finally {
-        setIsFilterLoading(false);
-      }
-    },
-    [dispatch, inputValue]
-  );
-
-  const handleClearFilters = useCallback(() => {
+  const handleClearFilters = () => {
     setActiveFilters(null);
-    setFilteredShows([]);
-    setFilteredTotalResults(0);
-
-    // Re-run search without filters if there's text
-    if (inputValue) {
-      setIsLoading(true);
-      handleSearch(inputValue);
-    }
-  }, [inputValue, handleSearch]);
+    executeQuery(inputValue, null);
+  };
 
   return (
     <Box pt={{ base: 0, md: 5 }} pb="8">
       <title>Discover | TV Minder</title>
+
+      {!isLoggedIn && <WelcomeHeroStrip />}
       <SearchInput
         handleChange={handleChange}
         handleClearInput={handleClearInput}
         inputRef={inputRef}
         inputValue={inputValue}
-        filterSlot={
-          <SearchFilters
-            onApply={handleApplyFilters}
-            onClear={handleClearFilters}
-            activeFilterCount={activeFilterCount}
-          />
-        }
       />
+      <Flex justify="center" mb={{ base: 4, md: 6 }} px={{ base: 4, md: 6 }}>
+        <SearchFilters
+          onApply={handleApplyFilters}
+          onClear={handleClearFilters}
+          activeFilterCount={activeFilterCount}
+          disabled={!!inputValue}
+        />
+      </Flex>
       <SearchContainer
         isInputDirty={isInputDirty}
         isLoading={isLoading}
-        shows={shows}
-        totalResults={totalResults}
-        filteredShows={filteredShows}
-        filteredTotalResults={filteredTotalResults}
+        results={results}
         isFilterActive={activeFilterCount > 0}
-        isFilterLoading={isFilterLoading}
       />
     </Box>
   );
