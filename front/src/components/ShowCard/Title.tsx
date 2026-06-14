@@ -2,11 +2,10 @@ import { Box, Link, Text } from '@chakra-ui/react';
 import { type MouseEvent } from 'react';
 
 import { ROUTES } from '~/app/routes';
+import { useShowCardContext } from '~/components/ShowCard/context';
+import { usePreventClickOnDrag } from '~/components/ShowCard/usePreventClickOnDrag';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
-
-import { useShowCardContext } from './context';
-import { usePreventClickOnDrag } from './usePreventClickOnDrag';
 
 export const Title = () => {
   const { show } = useShowCardContext();

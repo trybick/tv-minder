@@ -1,7 +1,7 @@
 import { type ButtonProps } from '@chakra-ui/react';
 import { createContext, useContext } from 'react';
 
-import { type ShowItem } from './helpers';
+import { type ShowItem } from '~/components/ShowCard/helpers';
 
 type ShowCardContextValue = {
   show: ShowItem;

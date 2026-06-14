@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/react';
 import { HTTPError } from 'ky';
 
-import { getIsProduction } from './env';
+import { getIsProduction } from '~/utils/env';
 
 function sendToSentry(error: Error, context?: Record<string, unknown>) {
   if (!getIsProduction()) {

@@ -1,7 +1,7 @@
 import ReactGA from 'react-ga4';
 import type { UaEventOptions } from 'react-ga4/types/ga4';
 
-import { getIsProduction } from './env';
+import { getIsProduction } from '~/utils/env';
 
 export const initAnalytics = (id: string) => {
   if (getIsProduction()) {

@@ -1,12 +1,12 @@
-import { BottomSection } from './BottomSection';
-import { Grid } from './Grid';
-import { Image } from './Image';
-import { Overview } from './Overview';
-import { Root } from './Root';
-import { StatusBadge } from './StatusBadge';
-import { Title } from './Title';
-import { TrackButton } from './TrackButton';
-import { UntrackButton } from './UntrackButton';
+import { BottomSection } from '~/components/ShowCard/BottomSection';
+import { Grid } from '~/components/ShowCard/Grid';
+import { Image } from '~/components/ShowCard/Image';
+import { Overview } from '~/components/ShowCard/Overview';
+import { Root } from '~/components/ShowCard/Root';
+import { StatusBadge } from '~/components/ShowCard/StatusBadge';
+import { Title } from '~/components/ShowCard/Title';
+import { TrackButton } from '~/components/ShowCard/TrackButton';
+import { UntrackButton } from '~/components/ShowCard/UntrackButton';
 
 export const ShowCard = {
   Root,
@@ -25,6 +25,6 @@ export {
   mapTmdbShowSummary,
   type ShowItem,
   type StatusBadge,
-} from './helpers';
+} from '~/components/ShowCard/helpers';
 
-export { showElementsByBreakpoint } from './Grid';
+export { showElementsByBreakpoint } from '~/components/ShowCard/Grid';

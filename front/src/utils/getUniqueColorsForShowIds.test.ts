@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   colors as allColors,
   getUniqueColorsForShowIds,
-} from './getUniqueColorsForShowIds';
+} from '~/utils/getUniqueColorsForShowIds';
 
 describe('getUniqueColorsForShowIds', () => {
   it('should return unique colors for different show IDs', () => {

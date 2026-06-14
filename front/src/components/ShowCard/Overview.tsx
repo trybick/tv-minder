@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 
-import { useShowCardContext } from './context';
+import { useShowCardContext } from '~/components/ShowCard/context';
 
 type Props = {
   isHovered: boolean;

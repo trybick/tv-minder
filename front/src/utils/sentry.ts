@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react';
 
-import { getIsProduction } from './env';
+import { getIsProduction } from '~/utils/env';
 
 const dsn =
   'https://a573ad66c244456eb251808c6d79d851@o367043.ingest.sentry.io/6386089';

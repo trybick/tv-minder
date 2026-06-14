@@ -1,10 +1,9 @@
 import { type ButtonProps, Flex, type FlexProps } from '@chakra-ui/react';
 import { type PropsWithChildren, useMemo } from 'react';
 
+import { ShowCardProvider } from '~/components/ShowCard/context';
+import { type ShowItem } from '~/components/ShowCard/helpers';
 import { useCarouselContext } from '~/components/carouselContext';
-
-import { ShowCardProvider } from './context';
-import { type ShowItem } from './helpers';
 
 type Props = PropsWithChildren<
   FlexProps & {

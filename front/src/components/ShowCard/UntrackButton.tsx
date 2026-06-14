@@ -1,14 +1,13 @@
 import { Button, CloseButton, Dialog, Portal, Text } from '@chakra-ui/react';
 import { type MouseEvent, useState } from 'react';
 
+import { useShowCardContext } from '~/components/ShowCard/context';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { useUntrackShowMutation } from '~/store/rtk/api/track.api';
 import {
   selectIsLoggedIn,
   unregisteredUntrackShow,
 } from '~/store/rtk/slices/user.slice';
-
-import { useShowCardContext } from './context';
 
 export const UntrackButton = () => {
   const { show } = useShowCardContext();

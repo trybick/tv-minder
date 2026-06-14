@@ -45,7 +45,7 @@ export default [
     rules: {
       ...tsPlugin.configs.recommended.rules,
       '@typescript-eslint/ban-ts-ignore': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/camelcase': 'off',
@@ -127,7 +127,7 @@ export default [
           'newlines-between': 'always',
           pathGroups: [
             {
-              pattern: '~',
+              pattern: '~/',
               group: 'internal',
             },
           ],
@@ -148,6 +148,7 @@ export default [
           alias: {
             '~': './src/',
           },
+          aliasForSubpaths: true,
         },
       ],
     },

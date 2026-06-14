@@ -1,6 +1,5 @@
+import { useShowCardContext } from '~/components/ShowCard/context';
 import { TrackButton as BaseTrackButton } from '~/components/TrackButton';
-
-import { useShowCardContext } from './context';
 
 export const TrackButton = () => {
   const { show, trackButtonSize = 'md' } = useShowCardContext();
