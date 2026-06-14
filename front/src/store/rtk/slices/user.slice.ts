@@ -15,7 +15,6 @@ export type UserState = {
   isGoogleUser: boolean;
   isLoggedIn: boolean;
   unregisteredTrackedShows: number[];
-  token: string | null;
 };
 
 const initialState: UserState = {
@@ -23,7 +22,6 @@ const initialState: UserState = {
   isGoogleUser: false,
   isLoggedIn: false,
   unregisteredTrackedShows: [],
-  token: authStorage.getToken(),
 };
 
 const userSlice = createSlice({
@@ -36,7 +34,6 @@ const userSlice = createSlice({
       setAnalyticsUserId(null);
       state.isLoggedIn = false;
       state.email = '';
-      state.token = null;
       state.isGoogleUser = false;
     },
 
@@ -47,7 +44,6 @@ const userSlice = createSlice({
       setAnalyticsUserId(email);
       state.isLoggedIn = true;
       state.email = email;
-      state.token = token;
       state.isGoogleUser = isGoogleUser;
       state.unregisteredTrackedShows = [];
     },
@@ -70,7 +66,6 @@ const userSlice = createSlice({
     selectEmail: state => state.email,
     selectIsGoogleUser: state => state.isGoogleUser,
     selectIsLoggedIn: state => state.isLoggedIn,
-    selectToken: state => state.token,
     selectUnregisteredTrackedShows: state => state.unregisteredTrackedShows,
   },
 });
@@ -86,7 +81,6 @@ export const {
   selectEmail,
   selectIsGoogleUser,
   selectIsLoggedIn,
-  selectToken,
   selectUnregisteredTrackedShows,
 } = userSlice.selectors;
 
