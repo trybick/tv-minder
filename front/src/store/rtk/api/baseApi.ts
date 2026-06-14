@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { ENDPOINTS } from '~/app/endpoints';
-import type { RootState } from '~/store';
+import { type RootState } from '~/store';
 
 const USE_API_V2 = false;
 
@@ -22,7 +22,8 @@ export type ApiErrorResponse = {
 const rawBaseQuery = fetchBaseQuery({
   baseUrl,
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).user.token;
+    const state = getState() as RootState;
+    const token = state.user.token;
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }

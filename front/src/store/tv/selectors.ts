@@ -5,8 +5,8 @@ import {
   type ShowItem,
 } from '~/components/ShowCard/helpers';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
+import { type AppSelector, type RootState } from '~/store';
 
-import { type AppSelector, type AppState } from './..';
 import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
 import { type TmdbShowSummary } from './types/tmdbSchema';
 import {
@@ -16,19 +16,19 @@ import {
 } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
 
-export const selectShowDetails = (state: AppState) => state.tv.showDetails;
-export const selectSearchShowDetails = (state: AppState) =>
+export const selectShowDetails = (state: RootState) => state.tv.showDetails;
+export const selectSearchShowDetails = (state: RootState) =>
   state.tv.searchShowDetails;
-export const selectIsLoadingShowDetails = (state: AppState) =>
+export const selectIsLoadingShowDetails = (state: RootState) =>
   state.tv.isLoadingShowDetails;
-export const selectCalendarEpisodesForDisplay = (state: AppState) =>
+export const selectCalendarEpisodesForDisplay = (state: RootState) =>
   state.tv.calendarEpisodesForDisplay;
-export const selectIsLoadingCalendarEpisodes = (state: AppState) =>
+export const selectIsLoadingCalendarEpisodes = (state: RootState) =>
   state.tv.isLoadingCalendarEpisodes;
-export const selectDiscoverShows = (state: AppState) => state.tv.discoverShows;
-export const selectRecommendations = (state: AppState) =>
+export const selectDiscoverShows = (state: RootState) => state.tv.discoverShows;
+export const selectRecommendations = (state: RootState) =>
   state.tv.recommendations;
-export const selectForYouShows = (state: AppState) => state.tv.forYouShows;
+export const selectForYouShows = (state: RootState) => state.tv.forYouShows;
 
 const showDisplayCache = new WeakMap<TmdbShowWithSeasons, ShowForDisplay>();
 
@@ -147,7 +147,7 @@ export const selectForYouShowsForDisplay: AppSelector<DiscoverShow[]> =
     toDisplayFormat(forYouShows.slice(0, 29).filter(show => !!show.poster_path))
   );
 
-const selectCurrentShowId = (state: AppState) => state.tv.currentShowId;
+const selectCurrentShowId = (state: RootState) => state.tv.currentShowId;
 
 export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
   createSelector(

@@ -46,7 +46,7 @@ const recentShowsPersistConfig = {
   blacklist: [],
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   tv: tvReducer,
   searchInput: persistReducer(searchInputPersistConfig, searchInputReducer),

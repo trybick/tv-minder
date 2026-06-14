@@ -1,7 +1,7 @@
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
+import { type AppThunk } from '~/store';
 import { handleKyError } from '~/utils/handleKyError';
 
-import { type AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import {
   type TmdbSeason,
