@@ -16,7 +16,6 @@ import { SiAppletv, SiHbo, SiNetflix } from 'react-icons/si';
 import { TbBrandDisney } from 'react-icons/tb';
 
 import { Carousel } from '~/components/Carousel';
-import { type ShowItem } from '~/components/ShowCard';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { trackApi } from '~/store/rtk/api/track.api';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
@@ -31,8 +30,11 @@ import {
   selectForYouShowsForDisplay,
 } from '~/store/tv/selectors';
 
+import {
+  discoverShowKeyExtractor,
+  renderDiscoverShowItem,
+} from './discoverCarousel';
 import { DiscoverHeader } from './DiscoverHeader';
-import { DiscoverShowCard } from './DiscoverShowCard';
 import { LazyCarouselSection } from './LazyCarouselSection';
 import { WelcomeHeroStrip } from './WelcomeHeroStrip';
 
@@ -133,9 +135,6 @@ const BASE_CAROUSEL_CONFIGS: CarouselConfig[] = [
   },
 ];
 
-const keyExtractor = (show: ShowItem) => show.id;
-const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
-
 const EAGER_COUNT = 2;
 
 export const DiscoverShows = () => {
@@ -201,8 +200,8 @@ export const DiscoverShows = () => {
                   ? forYouShows
                   : discoverShows[config.key]
               }
-              keyExtractor={keyExtractor}
-              renderItem={renderItem}
+              keyExtractor={discoverShowKeyExtractor}
+              renderItem={renderDiscoverShowItem}
             />
           </Box>
         ) : (

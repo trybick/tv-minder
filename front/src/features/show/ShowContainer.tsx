@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid } from '@chakra-ui/react';
 import { useParams } from 'wouter';
 
 import { TrackButton } from '~/components/TrackButton';
@@ -10,11 +10,11 @@ import {
 } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
 
+import { ReviewsSection } from './ReviewsSection';
 import { SeasonsAccordion } from './SeasonsAccordion';
 import { ShowImage } from './ShowImage';
 import { VideoTrailerButton } from './VideoTrailerButton';
 import { ShowDetails } from './showDetails/ShowDetails';
-import { Reviews } from './showDetails/richContent/Reviews';
 
 export const ShowContainer = () => {
   const { isMobile } = useResponsiveLayout();
@@ -48,23 +48,7 @@ export const ShowContainer = () => {
         <ShowDetails />
 
         <Flex direction="column" gap={8}>
-          {!isLoading && (
-            <Box>
-              <Flex mb={5} direction="column" gap={1}>
-                <Heading
-                  as="h2"
-                  fontSize={{ base: 'xl', md: '2xl' }}
-                  letterSpacing="-0.02em"
-                >
-                  Reviews
-                </Heading>
-                <Text color="fg.muted" fontSize="sm">
-                  What viewers are saying about this show.
-                </Text>
-              </Flex>
-              <Reviews reviews={reviews} />
-            </Box>
-          )}
+          {!isLoading && <ReviewsSection reviews={reviews} />}
           <SeasonsAccordion />
         </Flex>
       </Flex>
@@ -88,23 +72,7 @@ export const ShowContainer = () => {
       <Flex direction="column" gap={8}>
         <ShowDetails />
 
-        {!isLoading && (
-          <Box>
-            <Flex mb={5} direction="column" gap={1}>
-              <Heading
-                as="h2"
-                fontSize={{ base: 'xl', md: '2xl' }}
-                letterSpacing="-0.02em"
-              >
-                Reviews
-              </Heading>
-              <Text color="fg.muted" fontSize="sm">
-                What viewers are saying about this show.
-              </Text>
-            </Flex>
-            <Reviews reviews={reviews} />
-          </Box>
-        )}
+        {!isLoading && <ReviewsSection reviews={reviews} />}
 
         <SeasonsAccordion />
       </Flex>

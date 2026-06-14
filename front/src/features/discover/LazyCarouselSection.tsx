@@ -4,12 +4,12 @@ import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
 import { useIsNearViewport } from '~/hooks/useIsNearViewport';
 
+import {
+  discoverShowKeyExtractor,
+  renderDiscoverShowItem,
+} from './discoverCarousel';
 import { DiscoverHeader } from './DiscoverHeader';
-import { DiscoverShowCard } from './DiscoverShowCard';
 import { type CarouselConfig } from './DiscoverShows';
-
-const keyExtractor = (show: ShowItem) => show.id;
-const renderItem = (show: ShowItem) => <DiscoverShowCard show={show} />;
 
 type Props = {
   config: CarouselConfig;
@@ -31,8 +31,8 @@ export const LazyCarouselSection = ({ config, items, index }: Props) => {
       {isNear ? (
         <Carousel
           items={items}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
+          keyExtractor={discoverShowKeyExtractor}
+          renderItem={renderDiscoverShowItem}
         />
       ) : (
         <Skeleton borderRadius="xl" h={{ base: '260px', md: '320px' }} />

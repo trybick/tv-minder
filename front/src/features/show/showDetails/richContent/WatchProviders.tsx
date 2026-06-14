@@ -1,17 +1,16 @@
 import {
   Box,
-  Button,
   EmptyState,
   Flex,
   Heading,
-  Icon,
   Link,
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
-import { LuChevronDown, LuTv } from 'react-icons/lu';
+import { LuTv } from 'react-icons/lu';
 
+import { ExpandCollapseButton } from '~/components/ExpandCollapseButton';
+import { useCollapsibleSection } from '~/hooks/useCollapsibleSection';
 import { type ShowWatchProviders } from '~/store/tv/types/transformed';
 
 import { ProviderChips } from './ProviderChips';
@@ -25,32 +24,19 @@ type Props = {
 
 export const WatchProviders = ({ showName, watchProviders }: Props) => {
   const tmdbWatchUrl = watchProviders?.link || 'https://www.themoviedb.org/';
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const [contentHeight, setContentHeight] = useState(0);
-  const [expanded, setExpanded] = useState(false);
-
-  useEffect(() => {
-    const contentElement = contentRef.current;
-
-    if (!watchProviders || !contentElement) {
-      queueMicrotask(() => {
-        setIsOverflowing(false);
-        setContentHeight(0);
-      });
-      return;
-    }
-
-    const check = () => {
-      const nextHeight = contentElement.scrollHeight;
-      setContentHeight(nextHeight);
-      setIsOverflowing(nextHeight > COLLAPSED_HEIGHT + 1);
-    };
-
-    const observer = new ResizeObserver(check);
-    observer.observe(contentElement);
-    return () => observer.disconnect();
-  }, [watchProviders]);
+  const {
+    contentRef,
+    expanded,
+    toggleExpanded,
+    isCollapsible,
+    maxHeight,
+    transition,
+  } = useCollapsibleSection({
+    collapsedHeight: COLLAPSED_HEIGHT,
+    isActive: !!watchProviders,
+    showToggle: 'overflow',
+    deps: [watchProviders],
+  });
 
   return (
     <Box
@@ -92,15 +78,11 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
       ) : (
         <Flex direction="column" flex="1">
           <Box
-            maxH={
-              isOverflowing
-                ? `${expanded ? contentHeight : COLLAPSED_HEIGHT}px`
-                : undefined
-            }
+            maxH={maxHeight}
             overflow="hidden"
             position="relative"
-            transition={isOverflowing ? 'max-height 0.24s ease' : undefined}
-            {...(!expanded && isOverflowing
+            transition={transition}
+            {...(!expanded && isCollapsible
               ? {
                   maskImage:
                     'linear-gradient(to bottom, black 70%, transparent 100%)',
@@ -181,25 +163,12 @@ export const WatchProviders = ({ showName, watchProviders }: Props) => {
             </Box>
           </Box>
 
-          {isOverflowing && (
-            <Button
-              variant="plain"
-              size="sm"
-              color="fg.muted"
-              w="100%"
-              mt={2}
-              _hover={{ color: 'fg' }}
-              onClick={() => setExpanded(prev => !prev)}
-            >
-              {expanded ? 'Show less' : 'Show more'}
-              <Icon
-                as={LuChevronDown}
-                boxSize="16px"
-                ml={1}
-                transition="transform 0.2s ease"
-                transform={expanded ? 'rotate(180deg)' : 'rotate(0deg)'}
-              />
-            </Button>
+          {isCollapsible && (
+            <ExpandCollapseButton
+              expanded={expanded}
+              onToggle={toggleExpanded}
+              collapsedLabel="Show more"
+            />
           )}
         </Flex>
       )}

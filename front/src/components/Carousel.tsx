@@ -10,6 +10,7 @@ import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
 import { trackEvent } from '~/utils/analytics';
 
+import { showElementsByBreakpoint } from './ShowCard/Grid';
 import { CarouselProvider, type CarouselSize } from './carouselContext';
 
 type Props<T> = {
@@ -34,7 +35,7 @@ export const DEFAULT_SLIDES_PER_PAGE = {
   md: 4,
   lg: 5,
   xl: 6,
-  '2xl': 7,
+  '2xl': showElementsByBreakpoint['2xl'],
 } as const;
 
 const INDICATOR_PLACEHOLDER_COUNT = 24;

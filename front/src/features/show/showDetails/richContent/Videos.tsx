@@ -6,20 +6,34 @@ import {
   EmptyState,
   Flex,
   Heading,
-  Icon,
   Portal,
   Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
-import { LuChevronDown, LuFilm } from 'react-icons/lu';
+import { useState } from 'react';
+import { LuFilm } from 'react-icons/lu';
 
+import { ExpandCollapseButton } from '~/components/ExpandCollapseButton';
 import { YouTubePlayer } from '~/components/YouTubePlayer';
+import { useCollapsibleSection } from '~/hooks/useCollapsibleSection';
 import { type ShowVideo } from '~/store/tv/types/transformed';
 
 const MAX_VISIBLE_VIDEOS = 3;
 const COLLAPSED_CONTENT_GAP = 4;
+
+const measureCollapsedVideoHeight = (contentElement: HTMLElement) => {
+  const collapsedChildren = Array.from(contentElement.children).slice(
+    0,
+    MAX_VISIBLE_VIDEOS
+  ) as HTMLButtonElement[];
+  const childHeights = collapsedChildren.map(child => child.offsetHeight);
+
+  return (
+    childHeights.reduce((sum, height) => sum + height, 0) +
+    (Math.max(collapsedChildren.length, 1) - 1) * COLLAPSED_CONTENT_GAP
+  );
+};
 
 type Props = {
   videos: ShowVideo[];
@@ -27,11 +41,21 @@ type Props = {
 
 export const Videos = ({ videos }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
-  const contentRef = useRef<HTMLDivElement>(null);
   const [selectedVideo, setSelectedVideo] = useState<ShowVideo | null>(null);
-  const [expanded, setExpanded] = useState(false);
-  const [contentHeight, setContentHeight] = useState(0);
-  const [collapsedHeight, setCollapsedHeight] = useState(0);
+  const hasMore = videos.length > MAX_VISIBLE_VIDEOS;
+  const {
+    contentRef,
+    expanded,
+    toggleExpanded,
+    isCollapsible,
+    maxHeight,
+    transition,
+  } = useCollapsibleSection({
+    collapsedHeight: measureCollapsedVideoHeight,
+    isActive: hasMore,
+    showToggle: hasMore,
+    deps: [hasMore, videos],
+  });
 
   const openVideo = (video: ShowVideo) => {
     setSelectedVideo(video);
@@ -42,41 +66,6 @@ export const Videos = ({ videos }: Props) => {
     onClose();
     setSelectedVideo(null);
   };
-
-  const hasMore = videos.length > MAX_VISIBLE_VIDEOS;
-
-  useEffect(() => {
-    const contentElement = contentRef.current;
-    if (!contentElement) {
-      return;
-    }
-
-    const measureHeights = () => {
-      const nextContentHeight = contentElement.scrollHeight;
-
-      if (!hasMore) {
-        setContentHeight(nextContentHeight);
-        setCollapsedHeight(nextContentHeight);
-        return;
-      }
-
-      const collapsedChildren = Array.from(contentElement.children).slice(
-        0,
-        MAX_VISIBLE_VIDEOS
-      ) as HTMLButtonElement[];
-      const childHeights = collapsedChildren.map(child => child.offsetHeight);
-      const nextCollapsedHeight =
-        childHeights.reduce((sum, h) => sum + h, 0) +
-        (Math.max(collapsedChildren.length, 1) - 1) * COLLAPSED_CONTENT_GAP;
-
-      setContentHeight(nextContentHeight);
-      setCollapsedHeight(nextCollapsedHeight);
-    };
-
-    const observer = new ResizeObserver(measureHeights);
-    observer.observe(contentElement);
-    return () => observer.disconnect();
-  }, [hasMore, videos]);
 
   return (
     <Box
@@ -122,12 +111,8 @@ export const Videos = ({ videos }: Props) => {
             direction="column"
             gap={1}
             overflow="hidden"
-            maxH={
-              hasMore && collapsedHeight
-                ? `${expanded ? contentHeight : collapsedHeight}px`
-                : undefined
-            }
-            transition={hasMore ? 'max-height 0.24s ease' : undefined}
+            maxH={maxHeight}
+            transition={transition}
           >
             {videos.map(video => (
               <Button
@@ -157,27 +142,12 @@ export const Videos = ({ videos }: Props) => {
             ))}
           </Flex>
 
-          {hasMore && (
-            <Button
-              variant="plain"
-              size="sm"
-              color="fg.muted"
-              w="100%"
-              mt={2}
-              _hover={{ color: 'fg' }}
-              onClick={() => setExpanded(prev => !prev)}
-            >
-              {expanded
-                ? 'Show less'
-                : `Show ${videos.length - MAX_VISIBLE_VIDEOS} more`}
-              <Icon
-                as={LuChevronDown}
-                boxSize="16px"
-                ml={1}
-                transition="transform 0.2s ease"
-                transform={expanded ? 'rotate(180deg)' : 'rotate(0deg)'}
-              />
-            </Button>
+          {isCollapsible && (
+            <ExpandCollapseButton
+              expanded={expanded}
+              onToggle={toggleExpanded}
+              collapsedLabel={`Show ${videos.length - MAX_VISIBLE_VIDEOS} more`}
+            />
           )}
 
           <Dialog.Root
