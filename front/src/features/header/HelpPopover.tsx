@@ -6,6 +6,7 @@ import {
   Portal,
   Separator,
   Text,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { type ReactNode } from 'react';
 import { FiCalendar, FiSearch } from 'react-icons/fi';
@@ -22,11 +23,13 @@ const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
 ];
 
 export const HelpPopover = () => {
+  const placement = useBreakpointValue({
+    base: 'bottom',
+    md: 'bottom-end',
+  } as const);
+
   return (
-    <Popover.Root
-      positioning={{ placement: 'bottom-end', gutter: 8 }}
-      lazyMount
-    >
+    <Popover.Root positioning={{ placement, gutter: 8 }} lazyMount>
       <Popover.Trigger asChild>
         <IconButton
           aria-label="How it works"
@@ -43,7 +46,7 @@ export const HelpPopover = () => {
             bg="gray.900"
             borderColor="whiteAlpha.200"
             boxShadow="xl"
-            w="330px"
+            w={{ base: 'calc(100vw - 2rem)', md: '330px' }}
           >
             <Popover.Body p={5}>
               <Heading
