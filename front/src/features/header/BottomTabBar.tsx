@@ -11,6 +11,8 @@ import { useAppDispatch } from '~/store';
 import { setShouldResetSearchInput } from '~/store/rtk/slices/searchInput.slice';
 
 export const bottomTabBarHeight = '56px';
+const bottomTabBarSafeArea = '20px';
+export const bottomTabBarTotalHeight = `calc(${bottomTabBarHeight} + ${bottomTabBarSafeArea})`;
 
 export const BottomTabBar = () => {
   const dispatch = useAppDispatch();
@@ -37,12 +39,12 @@ export const BottomTabBar = () => {
       right="0"
       zIndex="banner"
       flexShrink="0"
-      h={`calc(${bottomTabBarHeight} + env(safe-area-inset-bottom))`}
+      h={bottomTabBarTotalHeight}
+      pb={bottomTabBarSafeArea}
       bg="bg.muted/75"
       backdropFilter="blur(12px)"
       borderTopWidth="1px"
       borderColor="whiteAlpha.100"
-      pb="env(safe-area-inset-bottom)"
     >
       {visibleMainNavItems.map(tab => {
         const isActive = location === tab.route;

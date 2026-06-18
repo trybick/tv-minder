@@ -12,7 +12,7 @@ export const showElementsByBreakpoint = {
 export const showCardTemplateColumns = Object.fromEntries(
   Object.entries(showElementsByBreakpoint).map(([key, value]) => [
     key,
-    `repeat(${value}, 1fr)`,
+    `repeat(${value}, minmax(0, 1fr))`,
   ])
 );
 

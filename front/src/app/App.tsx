@@ -12,7 +12,7 @@ import { CommandPaletteProvider } from '~/features/commandPalette';
 import { Footer } from '~/features/footer/Footer';
 import {
   BottomTabBar,
-  bottomTabBarHeight,
+  bottomTabBarTotalHeight,
 } from '~/features/header/BottomTabBar';
 import { HeaderDesktop } from '~/features/header/HeaderDesktop';
 import { HeaderMobile } from '~/features/header/HeaderMobile';
@@ -59,11 +59,7 @@ export const App = () => {
         <Modals />
 
         <Box
-          pb={
-            isMobile
-              ? `calc(${bottomTabBarHeight} + env(safe-area-inset-bottom))`
-              : undefined
-          }
+          pb={isMobile ? bottomTabBarTotalHeight : undefined}
         >
           <Flex direction="column" minH="100vh" flex="1">
             {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
