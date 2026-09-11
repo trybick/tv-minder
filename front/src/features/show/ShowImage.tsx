@@ -12,7 +12,10 @@ import {
   selectIsLoadingShowDetails,
 } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
-import { getShowImageTransitionName } from '~/utils/viewTransition';
+import {
+  SHOW_IMAGE_TRANSITION_CLASS,
+  getShowImageTransitionName,
+} from '~/utils/viewTransition';
 
 export const ShowImage = () => {
   const { isMobile } = useResponsiveLayout();
@@ -55,6 +58,9 @@ export const ShowImage = () => {
               ? getShowImageTransitionName(transitionShowId)
               : undefined
           }
+          css={{
+            viewTransitionClass: SHOW_IMAGE_TRANSITION_CLASS,
+          }}
         />
       </AspectRatio>
     </DelayedSkeleton>

@@ -1,7 +1,7 @@
 import { flushSync } from 'react-dom';
 import { useLocation } from 'wouter';
 
-type ViewTransitionKind = 'route' | 'default';
+type ViewTransitionKind = 'route' | 'image' | 'default';
 
 type StartOptions = {
   kind?: ViewTransitionKind;
@@ -30,10 +30,10 @@ const startViewTransition = (callback: () => void, options?: StartOptions) => {
   }
 
   const kind: ViewTransitionKind = options?.kind ?? 'default';
-  if (kind === 'route') {
-    document.documentElement.dataset.viewTransitionKind = 'route';
-  } else {
+  if (kind === 'default') {
     delete document.documentElement.dataset.viewTransitionKind;
+  } else {
+    document.documentElement.dataset.viewTransitionKind = kind;
   }
 
   if (options?.skipImageTransition) {
@@ -61,6 +61,8 @@ const startViewTransition = (callback: () => void, options?: StartOptions) => {
   return transition;
 };
 
+export const SHOW_IMAGE_TRANSITION_CLASS = 'show-image';
+
 export const getShowImageTransitionName = (showId: number) => {
   return `show-image-${showId}`;
 };
@@ -74,7 +76,7 @@ export const useNavigateWithAnimation = () => {
 
   const navigateWithAnimation = (to: string, options?: NavigateOptions) => {
     startViewTransition(() => navigate(to, options), {
-      kind: options?.skipImageTransition ? 'route' : 'default',
+      kind: options?.skipImageTransition ? 'route' : 'image',
       skipImageTransition: options?.skipImageTransition,
     });
   };

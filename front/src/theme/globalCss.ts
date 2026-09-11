@@ -98,21 +98,35 @@ const viewTransitionStyles = {
     animationDuration: '0.25s',
     animationTimingFunction: 'ease-in-out',
   },
+  'html[data-view-transition-kind="image"]::view-transition-group(root)': {
+    animationName: 'none',
+    animationDuration: '1ms',
+  },
+  'html[data-view-transition-kind="image"]::view-transition-old(root)': {
+    animationName: 'none',
+    animationDuration: '1ms',
+    opacity: 0,
+    mixBlendMode: 'normal',
+  },
+  'html[data-view-transition-kind="image"]::view-transition-new(root)': {
+    animationName: 'none',
+    animationDuration: '1ms',
+    mixBlendMode: 'normal',
+  },
   // Specific styling for show image transitions
-  '::view-transition-group(show-image)': {
-    animationDuration: '0.3s',
-    animationTimingFunction: 'ease-in-out',
+  '::view-transition-group(*.show-image)': {
+    animationDuration: '0.25s',
+    animationTimingFunction: 'ease-out',
   },
-  '::view-transition-old(show-image)': {
-    animationDuration: '0.3s',
+  '::view-transition-old(*.show-image)': {
+    animationDuration: '0.25s',
     mixBlendMode: 'normal',
   },
-  '::view-transition-new(show-image)': {
-    animationDuration: '0.3s',
+  '::view-transition-new(*.show-image)': {
+    animationDuration: '0.25s',
     mixBlendMode: 'normal',
   },
-  // Prevent layout shift during transitions
-  '::view-transition-image-pair(show-image)': {
+  '::view-transition-image-pair(*.show-image)': {
     isolation: 'isolate',
   },
 };
