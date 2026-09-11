@@ -6,6 +6,7 @@ import { useShowCardContext } from '~/components/ShowCard/context';
 import { usePreventClickOnDrag } from '~/components/ShowCard/usePreventClickOnDrag';
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
+import { getShowImageTransitionName } from '~/utils/viewTransition';
 
 export const Image = ({ children }: PropsWithChildren) => {
   const { show } = useShowCardContext();
@@ -20,7 +21,7 @@ export const Image = ({ children }: PropsWithChildren) => {
   const addViewTransitionName = (e: MouseEvent<HTMLAnchorElement>) => {
     const img = e.currentTarget.querySelector('img');
     if (img) {
-      img.style.viewTransitionName = `show-image-${show.id}`;
+      img.style.viewTransitionName = getShowImageTransitionName(show.id);
     }
   };
 

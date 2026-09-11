@@ -1,4 +1,5 @@
 import { AspectRatio, Image } from '@chakra-ui/react';
+import { useParams } from 'wouter';
 import { useHistoryState } from 'wouter/use-browser-location';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
@@ -10,10 +11,14 @@ import {
   selectCurrentShowInfo,
   selectIsLoadingShowDetails,
 } from '~/store/tv/selectors';
+import { parseShowId } from '~/utils/parseShowId';
+import { getShowImageTransitionName } from '~/utils/viewTransition';
 
 export const ShowImage = () => {
   const { isMobile } = useResponsiveLayout();
   const historyState = useHistoryState<ShowNavigationState>();
+  const { showId } = useParams<{ showId: string }>();
+  const parsedShowId = parseShowId(showId);
 
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
@@ -30,6 +35,8 @@ export const ShowImage = () => {
     showDataFromHistory?.posterSource ||
     getImageUrl({ path: currentShowInfo?.posterPath });
 
+  const transitionShowId = parsedShowId ?? currentShowInfo?.id;
+
   return (
     <DelayedSkeleton
       isLoading={shouldShowSkeleton}
@@ -43,7 +50,11 @@ export const ShowImage = () => {
           onError={e => (e.currentTarget.src = placeholder)}
           src={posterSrc}
           objectFit="cover"
-          viewTransitionName={`show-image-${currentShowInfo?.id}`}
+          viewTransitionName={
+            transitionShowId
+              ? getShowImageTransitionName(transitionShowId)
+              : undefined
+          }
         />
       </AspectRatio>
     </DelayedSkeleton>

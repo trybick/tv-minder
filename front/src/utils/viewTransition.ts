@@ -61,6 +61,10 @@ const startViewTransition = (callback: () => void, options?: StartOptions) => {
   return transition;
 };
 
+export const getShowImageTransitionName = (showId: number) => {
+  return `show-image-${showId}`;
+};
+
 export const applyViewTransition = (callback: () => void) => {
   startViewTransition(callback);
 };
