@@ -1,5 +1,7 @@
 import { Box, Flex, Grid, Skeleton } from '@chakra-ui/react';
+import { useHistoryState } from 'wouter/use-browser-location';
 
+import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { useSkeletonDelay } from '~/hooks/useSkeletonDelay';
 import { useAppSelector } from '~/store';
 import {
@@ -16,6 +18,7 @@ import { Videos } from './richContent/Videos';
 import { WatchProviders } from './richContent/WatchProviders';
 
 export const ShowDetails = () => {
+  const historyState = useHistoryState<ShowNavigationState>();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
@@ -43,7 +46,7 @@ export const ShowDetails = () => {
       borderColor="whiteAlpha.100"
       bg="whiteAlpha.50"
     >
-      <TitleRow show={currentShowInfo} />
+      <TitleRow show={currentShowInfo} fallbackName={historyState?.name} />
       <RatingRow show={currentShowInfo} />
       <Genres show={currentShowInfo} />
       <Overview show={currentShowInfo} />

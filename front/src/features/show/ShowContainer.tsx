@@ -1,7 +1,9 @@
 import { Flex, Grid } from '@chakra-ui/react';
 import { useParams } from 'wouter';
+import { useHistoryState } from 'wouter/use-browser-location';
 
 import { TrackButton } from '~/components/TrackButton';
+import { type ShowNavigationState } from '~/hooks/useNavigateToShow';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
@@ -20,10 +22,12 @@ export const ShowContainer = () => {
   const { isMobile } = useResponsiveLayout();
   const { showId } = useParams<{ showId: string }>();
   const parsedShowId = parseShowId(showId);
+  const historyState = useHistoryState<ShowNavigationState>();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
 
-  const { reviews = [], name, videoTrailerKey } = currentShowInfo || {};
+  const { reviews = [], videoTrailerKey } = currentShowInfo || {};
+  const name = currentShowInfo?.name || historyState?.name || '';
 
   if (!parsedShowId) {
     return null;
@@ -39,7 +43,7 @@ export const ShowContainer = () => {
               showId={parsedShowId}
               size="lg"
               w="100%"
-              showName={name ?? ''}
+              showName={name}
             />
             <VideoTrailerButton videoId={videoTrailerKey} />
           </Flex>
@@ -65,7 +69,7 @@ export const ShowContainer = () => {
         alignSelf="start"
       >
         <ShowImage />
-        <TrackButton showId={parsedShowId} size="lg" showName={name ?? ''} />
+        <TrackButton showId={parsedShowId} size="lg" showName={name} />
         <VideoTrailerButton videoId={videoTrailerKey} />
       </Flex>
 

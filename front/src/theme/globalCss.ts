@@ -117,13 +117,18 @@ const viewTransitionStyles = {
   '::view-transition-group(*.show-image)': {
     animationDuration: '0.25s',
     animationTimingFunction: 'ease-out',
+    zIndex: 1,
   },
   '::view-transition-old(*.show-image)': {
-    animationDuration: '0.25s',
+    animationName: 'none',
+    height: '100%',
+    overflow: 'clip',
+    objectFit: 'cover',
     mixBlendMode: 'normal',
   },
   '::view-transition-new(*.show-image)': {
-    animationDuration: '0.25s',
+    animationName: 'none',
+    opacity: 0,
     mixBlendMode: 'normal',
   },
   '::view-transition-image-pair(*.show-image)': {

@@ -9,11 +9,14 @@ import { getStatusForDisplay } from './getStatusForDisplay';
 
 type Props = {
   show?: ShowForDisplay | null;
+  fallbackName?: string;
 };
 
-export const TitleRow = ({ show }: Props) => {
+export const TitleRow = ({ show, fallbackName }: Props) => {
   const isLoading = useAppSelector(selectIsLoadingShowDetails);
-  const { name, startYear, status } = show || {};
+  const { name: showName, startYear, status } = show || {};
+  const name = showName || fallbackName;
+  const isTitleLoading = isLoading && !name;
   const statusForDisplay = getStatusForDisplay(status);
 
   return (
@@ -25,9 +28,9 @@ export const TitleRow = ({ show }: Props) => {
       mb={3}
     >
       <DelayedSkeleton
-        isLoading={isLoading}
-        w={isLoading ? '280px' : 'auto'}
-        h={isLoading ? '36px' : 'auto'}
+        isLoading={isTitleLoading}
+        w={isTitleLoading ? '280px' : 'auto'}
+        h={isTitleLoading ? '36px' : 'auto'}
         flex="1 1 auto"
         minW={0}
       >

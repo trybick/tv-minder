@@ -29,6 +29,9 @@ export const SimilarShows = () => {
   }, [dispatch, showId]);
 
   if (!showItems) {
+    if (!showId) {
+      return null;
+    }
     return (
       <Box mt={12} pt={8} borderTop="1px solid" borderColor="whiteAlpha.100">
         <Skeleton height="24px" width="200px" mb={4} />
