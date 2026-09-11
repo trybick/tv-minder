@@ -1,19 +1,8 @@
-import {
-  Box,
-  Button,
-  CloseButton,
-  Dialog,
-  Field,
-  Flex,
-  Input,
-  Portal,
-} from '@chakra-ui/react';
+import { chakra, Dialog, Field, Flex, Portal, Stack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TiArrowBack } from 'react-icons/ti';
+import { LuArrowLeft } from 'react-icons/lu';
 
-import { InlineTextSeparator } from '~/components/InlineTextSeparator';
-import { PasswordInput } from '~/components/ui/password-input';
 import { showToast } from '~/components/ui/toaster';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
@@ -26,12 +15,20 @@ import {
 import {
   selectIsLoginModalOpen,
   setIsLoginModalOpen,
+  setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
 import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 import { GoogleLoginButton } from './GoogleLoginButton';
+import { AuthDialogContent } from './auth/AuthDialogContent';
+import { AuthDivider } from './auth/AuthDivider';
+import { AuthFormError } from './auth/AuthFormError';
+import { AuthInput, AuthPasswordInput } from './auth/AuthInputs';
+import { AuthSubmitButton } from './auth/AuthSubmitButton';
+import { AuthSwitchPrompt } from './auth/AuthSwitchPrompt';
+import { AuthTextButton } from './auth/AuthTextButton';
 
 type FormInputs = {
   email: string;
@@ -61,6 +58,32 @@ const FormModes = {
 
 type FormMode = (typeof FormModes)[keyof typeof FormModes];
 
+const formCopy: Record<
+  FormMode,
+  { title: string; description: string; submitLabel: string }
+> = {
+  [FormModes.Login]: {
+    title: 'Welcome back',
+    description: 'Log in to pick up where you left off.',
+    submitLabel: 'Login',
+  },
+  [FormModes.ForgotPassword]: {
+    title: 'Reset your password',
+    description: "Enter your email and we'll send you a one-time code.",
+    submitLabel: 'Send Code',
+  },
+  [FormModes.VerifyCode]: {
+    title: 'Check your inbox',
+    description: 'Enter the verification code we just emailed you.',
+    submitLabel: 'Verify',
+  },
+  [FormModes.ChangePassword]: {
+    title: 'Choose a new password',
+    description: 'Pick something secure that you will remember.',
+    submitLabel: 'Change Password',
+  },
+};
+
 export const LoginModal = () => {
   const { isMobile } = useResponsiveLayout();
   const dispatch = useAppDispatch();
@@ -89,6 +112,7 @@ export const LoginModal = () => {
     register,
     setError,
     setValue,
+    clearErrors,
     reset: resetForm,
   } = useForm<FormInputs>();
 
@@ -182,19 +206,34 @@ export const LoginModal = () => {
     }
   };
 
-  const getSubmitButtonText = () => {
-    let buttonText;
-    if (formMode === FormModes.Login) {
-      buttonText = 'Login';
-    } else if (formMode === FormModes.ForgotPassword) {
-      buttonText = 'Send Code';
-    } else if (formMode === FormModes.VerifyCode) {
-      buttonText = 'Verify';
-    } else if (formMode === FormModes.ChangePassword) {
-      buttonText = 'Change Password';
-    }
-    return buttonText;
+  const handleClickForgotPassword = () => {
+    trackEvent({
+      category: 'Auth',
+      action: 'Forgot Password Button Pressed',
+    });
+    setValue('email', '');
+    setValue('password', '');
+    clearErrors();
+    setFormMode(FormModes.ForgotPassword);
   };
+
+  const handleClickBackToLogin = () => {
+    setValue('email', '');
+    setValue('password', '');
+    setValue('oneTimeCode', '');
+    clearErrors();
+    setFormMode(FormModes.Login);
+  };
+
+  const handleClickSwitchToSignUp = () => {
+    dispatch(setIsLoginModalOpen(false));
+    dispatch(setIsSignUpModalOpen(true));
+  };
+
+  const isLoginMode = formMode === FormModes.Login;
+  const isEmailLocked =
+    formMode === FormModes.VerifyCode || formMode === FormModes.ChangePassword;
+  const { title, description, submitLabel } = formCopy[formMode];
 
   return (
     <Dialog.Root
@@ -206,145 +245,108 @@ export const LoginModal = () => {
       <Portal>
         <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
         <Dialog.Positioner>
-          <Dialog.Content bg="bg.muted">
-            <Dialog.Header>
-              <Dialog.Title>
-                {formMode === FormModes.Login ? 'Login' : 'Forgot Password'}
-              </Dialog.Title>
-            </Dialog.Header>
-
-            <Dialog.CloseTrigger asChild>
-              <CloseButton color="fg.muted" />
-            </Dialog.CloseTrigger>
-
-            {/* Since this component throws an error if it doesn't have the google
-            secret key, don't render it during playweright tests. This allows us
-            to run e2e tests for other users' PRs since forks don't have that key. */}
-            {formMode === FormModes.Login &&
-              import.meta.env.VITE_CI !== 'true' && <GoogleLoginButton />}
-
-            <Box as="form" onSubmit={onSubmit}>
-              <Dialog.Body pb={6}>
-                {formMode === FormModes.Login && (
-                  <InlineTextSeparator
-                    alignItems="center"
-                    fontSize="sm"
-                    my="6"
-                    textAlign="center"
-                  >
-                    OR
-                  </InlineTextSeparator>
+          <AuthDialogContent title={title} description={description}>
+            <chakra.form noValidate onSubmit={onSubmit}>
+              <Dialog.Body pt="4" pb="6">
+                {/* Since this component throws an error if it doesn't have the google
+                secret key, don't render it during playweright tests. This allows us
+                to run e2e tests for other users' PRs since forks don't have that key. */}
+                {isLoginMode && import.meta.env.VITE_CI !== 'true' && (
+                  <>
+                    <GoogleLoginButton />
+                    <AuthDivider>or continue with email</AuthDivider>
+                  </>
                 )}
 
-                <Field.Root invalid={!!errors?.email}>
-                  <Field.Label>Email</Field.Label>
-                  <Input
-                    borderColor="gray.500"
-                    disabled={
-                      formMode === FormModes.VerifyCode ||
-                      formMode === FormModes.ChangePassword
-                    }
-                    {...register('email', { ...formValidation.email })}
-                    autoFocus={!isMobile}
-                  />
-                  <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
-                </Field.Root>
-
-                {(formMode === FormModes.Login ||
-                  formMode === FormModes.ChangePassword) && (
-                  <Field.Root invalid={!!errors?.password} mt={4}>
-                    <Field.Label>
-                      {formMode === FormModes.ChangePassword && 'New'} Password
-                    </Field.Label>
-                    <PasswordInput
-                      borderColor="gray.500"
-                      {...register('password', {
-                        ...formValidation.password,
-                      })}
+                <Stack gap="4">
+                  <Field.Root invalid={!!errors?.email}>
+                    <Field.Label>Email</Field.Label>
+                    <AuthInput
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      disabled={isEmailLocked}
+                      {...register('email', { ...formValidation.email })}
+                      autoFocus={!isMobile}
                     />
-                    <Field.ErrorText>
-                      {errors?.password?.message}
-                    </Field.ErrorText>
+                    <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
                   </Field.Root>
-                )}
 
-                {formMode === FormModes.VerifyCode && (
-                  <Field.Root invalid={!!errors?.oneTimeCode} mt={4}>
-                    <Field.Label>Enter Verification Code</Field.Label>
-                    <Input
-                      {...register('oneTimeCode', {
-                        ...formValidation.oneTimeCode,
-                      })}
-                    />
-                    <Field.ErrorText>
-                      {errors?.oneTimeCode?.message}
-                    </Field.ErrorText>
-                  </Field.Root>
-                )}
+                  {(isLoginMode || formMode === FormModes.ChangePassword) && (
+                    <Field.Root invalid={!!errors?.password}>
+                      <Flex
+                        justifyContent="space-between"
+                        alignItems="center"
+                        width="full"
+                      >
+                        <Field.Label>
+                          {formMode === FormModes.ChangePassword && 'New '}
+                          Password
+                        </Field.Label>
+                        {isLoginMode && (
+                          <AuthTextButton
+                            fontWeight="normal"
+                            onClick={handleClickForgotPassword}
+                          >
+                            Forgot password?
+                          </AuthTextButton>
+                        )}
+                      </Flex>
+                      <AuthPasswordInput
+                        autoComplete={
+                          isLoginMode ? 'current-password' : 'new-password'
+                        }
+                        {...register('password', {
+                          ...formValidation.password,
+                        })}
+                      />
+                      <Field.ErrorText>
+                        {errors?.password?.message}
+                      </Field.ErrorText>
+                    </Field.Root>
+                  )}
 
-                <Field.Root invalid={!!errors?.root} mt={4}>
-                  <Field.ErrorText>{errors?.root?.message}</Field.ErrorText>
-                </Field.Root>
+                  {formMode === FormModes.VerifyCode && (
+                    <Field.Root invalid={!!errors?.oneTimeCode}>
+                      <Field.Label>Enter Verification Code</Field.Label>
+                      <AuthInput
+                        autoComplete="one-time-code"
+                        inputMode="numeric"
+                        letterSpacing="widest"
+                        {...register('oneTimeCode', {
+                          ...formValidation.oneTimeCode,
+                        })}
+                      />
+                      <Field.ErrorText>
+                        {errors?.oneTimeCode?.message}
+                      </Field.ErrorText>
+                    </Field.Root>
+                  )}
+                </Stack>
+
+                <AuthFormError message={errors?.root?.message} />
+
+                <AuthSubmitButton loading={isSubmitLoading}>
+                  {submitLabel}
+                </AuthSubmitButton>
               </Dialog.Body>
 
-              <Dialog.Footer as={Flex} flex={1} justifyContent="space-between">
-                <Box>
-                  {(formMode === FormModes.Login ||
-                    formMode === FormModes.ForgotPassword) && (
-                    <Button
-                      fontSize="sm"
-                      onClick={() => {
-                        if (formMode === FormModes.Login) {
-                          trackEvent({
-                            category: 'Auth',
-                            action: 'Forgot Password Button Pressed',
-                          });
-                        }
-                        setValue('email', '');
-                        setValue('password', '');
-                        setFormMode(
-                          formMode === FormModes.Login
-                            ? FormModes.ForgotPassword
-                            : FormModes.Login
-                        );
-                      }}
-                      px={0}
-                      variant="plain"
-                      color="fg.muted"
-                    >
-                      {formMode === FormModes.Login ? (
-                        'Forgot password'
-                      ) : (
-                        <>
-                          <Box as={TiArrowBack} />
-                          Back
-                        </>
-                      )}
-                    </Button>
-                  )}
-                </Box>
-
-                <Box>
-                  <Button
-                    color="fg.muted"
-                    variant="ghost"
-                    onClick={() => dispatch(setIsLoginModalOpen(false))}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    colorPalette="cyan"
-                    loading={isSubmitLoading}
-                    ml={3}
-                    type="submit"
-                    variant="solid"
-                  >
-                    {getSubmitButtonText()}
-                  </Button>
-                </Box>
+              <Dialog.Footer pt="0" pb="7" justifyContent="center">
+                {isLoginMode ? (
+                  <AuthSwitchPrompt
+                    prompt="New to TV Minder?"
+                    actionLabel="Create an account"
+                    onClick={handleClickSwitchToSignUp}
+                  />
+                ) : (
+                  <AuthTextButton onClick={handleClickBackToLogin}>
+                    <LuArrowLeft />
+                    Back to login
+                  </AuthTextButton>
+                )}
               </Dialog.Footer>
-            </Box>
-          </Dialog.Content>
+            </chakra.form>
+          </AuthDialogContent>
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>

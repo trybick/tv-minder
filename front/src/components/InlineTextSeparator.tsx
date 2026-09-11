@@ -5,7 +5,8 @@ export const InlineTextSeparator = chakra(Flex, {
     '&:before, &:after': {
       content: '""',
       flex: 1,
-      borderBottom: '1px solid grey',
+      borderBottom: '1px solid',
+      borderColor: 'whiteAlpha.200',
     },
     '&:before': {
       marginRight: '4',

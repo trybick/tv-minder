@@ -1,16 +1,7 @@
-import {
-  Box,
-  Button,
-  CloseButton,
-  Dialog,
-  Field,
-  Input,
-} from '@chakra-ui/react';
+import { chakra, Dialog, Field, Stack } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { InlineTextSeparator } from '~/components/InlineTextSeparator';
-import { PasswordInput } from '~/components/ui/password-input';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppDispatch, useAppSelector } from '~/store';
 import {
@@ -19,6 +10,7 @@ import {
 } from '~/store/rtk/api/auth.api';
 import {
   selectIsSignUpModalOpen,
+  setIsLoginModalOpen,
   setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
 import { selectUnregisteredTrackedShows } from '~/store/rtk/slices/user.slice';
@@ -28,6 +20,12 @@ import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 import { isFetchError } from '~/utils/isFetchError';
 
 import { GoogleLoginButton } from './GoogleLoginButton';
+import { AuthDialogContent } from './auth/AuthDialogContent';
+import { AuthDivider } from './auth/AuthDivider';
+import { AuthFormError } from './auth/AuthFormError';
+import { AuthInput, AuthPasswordInput } from './auth/AuthInputs';
+import { AuthSubmitButton } from './auth/AuthSubmitButton';
+import { AuthSwitchPrompt } from './auth/AuthSwitchPrompt';
 
 type FormInputs = {
   email: string;
@@ -111,6 +109,11 @@ export const SignUpModal = () => {
     }
   });
 
+  const handleClickSwitchToLogin = () => {
+    dispatch(setIsSignUpModalOpen(false));
+    dispatch(setIsLoginModalOpen(true));
+  };
+
   return (
     <Dialog.Root
       open={isOpen}
@@ -120,88 +123,74 @@ export const SignUpModal = () => {
     >
       <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
       <Dialog.Positioner>
-        <Dialog.Content bg="bg.muted">
-          <Dialog.Header>
-            <Dialog.Title>Sign Up</Dialog.Title>
-          </Dialog.Header>
+        <AuthDialogContent
+          title="Create your account"
+          description="Never miss an episode of the shows you love."
+        >
+          <chakra.form noValidate onSubmit={onSubmit}>
+            <Dialog.Body pt="4" pb="6">
+              {/* Since this component throws an error if it doesn't have the google
+              secret key, don't render it during playweright tests. This allows us
+              to run e2e tests for other users' PRs since forks don't have that key. */}
+              {import.meta.env.VITE_CI !== 'true' && (
+                <>
+                  <GoogleLoginButton />
+                  <AuthDivider>or sign up with email</AuthDivider>
+                </>
+              )}
 
-          <Dialog.CloseTrigger asChild>
-            <CloseButton color="fg.muted" />
-          </Dialog.CloseTrigger>
+              <Stack gap="4">
+                <Field.Root invalid={!!errors?.email}>
+                  <Field.Label>Email</Field.Label>
+                  <AuthInput
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    {...register('email', { ...formValidation.email })}
+                    autoFocus={!isMobile}
+                  />
+                  <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
+                </Field.Root>
 
-          {/* Since this component throws an error if it doesn't have the google
-            secret key, don't render it during playweright tests. This allows us
-            to run e2e tests for other users' PRs since forks don't have that key. */}
-          {import.meta.env.VITE_CI !== 'true' && <GoogleLoginButton />}
+                <Field.Root invalid={!!errors?.password}>
+                  <Field.Label>Password</Field.Label>
+                  <AuthPasswordInput
+                    autoComplete="new-password"
+                    {...register('password', { ...formValidation.password })}
+                  />
+                  <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
+                </Field.Root>
 
-          <Box as="form" onSubmit={onSubmit}>
-            <Dialog.Body pb={6}>
-              <InlineTextSeparator
-                alignItems="center"
-                fontSize="sm"
-                my="6"
-                textAlign="center"
-              >
-                OR
-              </InlineTextSeparator>
+                <Field.Root invalid={!!errors?.confirmPassword}>
+                  <Field.Label>Confirm Password</Field.Label>
+                  <AuthPasswordInput
+                    autoComplete="new-password"
+                    {...register('confirmPassword', {
+                      ...formValidation.confirmPassword,
+                    })}
+                  />
+                  <Field.ErrorText>
+                    {errors?.confirmPassword?.message}
+                  </Field.ErrorText>
+                </Field.Root>
+              </Stack>
 
-              <Field.Root invalid={!!errors?.email}>
-                <Field.Label>Email</Field.Label>
-                <Input
-                  borderColor="gray.500"
-                  {...register('email', { ...formValidation.email })}
-                  autoFocus={!isMobile}
-                />
-                <Field.ErrorText>{errors?.email?.message}</Field.ErrorText>
-              </Field.Root>
+              <AuthFormError message={errors?.root?.message} />
 
-              <Field.Root invalid={!!errors?.password} mt={4}>
-                <Field.Label>Password</Field.Label>
-                <PasswordInput
-                  borderColor="gray.500"
-                  {...register('password', { ...formValidation.password })}
-                />
-                <Field.ErrorText>{errors?.password?.message}</Field.ErrorText>
-              </Field.Root>
-
-              <Field.Root invalid={!!errors?.confirmPassword} mt={4}>
-                <Field.Label>Confirm Password</Field.Label>
-                <PasswordInput
-                  borderColor="gray.500"
-                  {...register('confirmPassword', {
-                    ...formValidation.confirmPassword,
-                  })}
-                />
-                <Field.ErrorText>
-                  {errors?.confirmPassword?.message}
-                </Field.ErrorText>
-              </Field.Root>
-
-              <Field.Root invalid={!!errors?.root} mt={4}>
-                <Field.ErrorText>{errors?.root?.message}</Field.ErrorText>
-              </Field.Root>
+              <AuthSubmitButton loading={isSubmitLoading}>
+                Sign Up
+              </AuthSubmitButton>
             </Dialog.Body>
 
-            <Dialog.Footer>
-              <Button
-                color="fg.muted"
-                mr={3}
-                variant="ghost"
-                onClick={() => dispatch(setIsSignUpModalOpen(false))}
-              >
-                Cancel
-              </Button>
-              <Button
-                colorPalette="cyan"
-                loading={isSubmitLoading}
-                type="submit"
-                variant="solid"
-              >
-                Sign Up
-              </Button>
+            <Dialog.Footer pt="0" pb="7" justifyContent="center">
+              <AuthSwitchPrompt
+                prompt="Already have an account?"
+                actionLabel="Log in"
+                onClick={handleClickSwitchToLogin}
+              />
             </Dialog.Footer>
-          </Box>
-        </Dialog.Content>
+          </chakra.form>
+        </AuthDialogContent>
       </Dialog.Positioner>
     </Dialog.Root>
   );

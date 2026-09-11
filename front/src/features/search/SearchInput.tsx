@@ -20,6 +20,12 @@ export const SearchInput = ({
   const { isMobile } = useResponsiveLayout();
 
   useEffect(() => {
+    if (!isMobile) {
+      inputRef.current?.focus();
+    }
+  }, [inputRef, isMobile]);
+
+  useEffect(() => {
     function clearOnEsc(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         handleClearInput();
@@ -76,7 +82,6 @@ export const SearchInput = ({
           ref={inputRef}
           value={inputValue}
           variant="outline"
-          autoFocus={!isMobile}
           bg="whiteAlpha.50"
           _hover={{ borderColor: 'whiteAlpha.300' }}
           _focus={{

@@ -1,5 +1,6 @@
-import { Button, Flex } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { useState } from 'react';
 
 import { showToast } from '~/components/ui/toaster';
 import {
@@ -12,7 +13,7 @@ import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
 
 const GoogleIcon = () => {
   return (
-    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
       <path
         fill="#EA4335"
         d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
@@ -37,6 +38,7 @@ export const GoogleLoginButton = () => {
   const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
   const [fetchGoogleUserInfo] = useLazyGetGoogleUserInfoQuery();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const onGoogleLoginError = () => {
     console.error('Google Login error');
@@ -60,6 +62,7 @@ export const GoogleLoginButton = () => {
   };
 
   const onGoogleLoginSuccess = async (response: TokenResponse) => {
+    setIsLoggingIn(true);
     try {
       const { email, googleId } = await getGoogleUserDetails(response);
       await register({
@@ -79,6 +82,8 @@ export const GoogleLoginButton = () => {
         description: 'Could not log in. Please try again.',
         type: 'error',
       });
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -88,28 +93,34 @@ export const GoogleLoginButton = () => {
   });
 
   return (
-    <Flex justifyContent="center" mt="2.5" px="6">
-      <Button
-        onClick={() => {
-          trackEvent({
-            category: 'Auth',
-            action: 'Google Login Button Pressed',
-          });
-          handleClickGoogleLogin();
-        }}
-        variant="outline"
-        size="lg"
-        width="full"
-        rounded="lg"
-        bg="bg"
-        borderColor="border"
-        fontWeight="medium"
-        gap="3"
-        _hover={{ bg: 'bg.subtle', shadow: 'sm' }}
-      >
-        <GoogleIcon />
-        Continue with Google
-      </Button>
-    </Flex>
+    <Button
+      onClick={() => {
+        trackEvent({
+          category: 'Auth',
+          action: 'Google Login Button Pressed',
+        });
+        handleClickGoogleLogin();
+      }}
+      variant="solid"
+      colorPalette="gray"
+      size="lg"
+      width="full"
+      rounded="lg"
+      loading={isLoggingIn}
+      loadingText="Signing in"
+      bg="white"
+      color="gray.900"
+      fontWeight="medium"
+      gap="3"
+      shadow="sm"
+      focusRingColor="cyan.500"
+      transitionProperty="background, box-shadow, transform"
+      transitionDuration="fast"
+      _hover={{ bg: 'gray.100', shadow: 'md' }}
+      _active={{ bg: 'gray.200', transform: 'translateY(1px)', shadow: 'xs' }}
+    >
+      <GoogleIcon />
+      Continue with Google
+    </Button>
   );
 };
