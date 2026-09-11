@@ -13,9 +13,14 @@ export const NoTrackedShowsBanner = () => {
       variant="subtle"
       display="flex"
       alignItems="center"
+      h={isMobile ? undefined : '36px'}
+      py={isMobile ? undefined : '0'}
+      px={isMobile ? undefined : '3'}
     >
       <Alert.Indicator />
-      <Alert.Title fontSize="sm">No new episodes this month</Alert.Title>
+      <Alert.Title fontSize="sm" lineHeight="1">
+        No new episodes this month
+      </Alert.Title>
     </Alert.Root>
   );
 };

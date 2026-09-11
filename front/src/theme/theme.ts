@@ -1,6 +1,21 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
+import {
+  alertAnatomy,
+  dialogAnatomy,
+  hoverCardAnatomy,
+  menuAnatomy,
+  popoverAnatomy,
+} from '@chakra-ui/react/anatomy';
 
 import { globalCss } from './globalCss';
+
+const floatingSurface = {
+  bg: 'bg.muted',
+  borderWidth: '1px',
+  borderColor: 'whiteAlpha.100',
+  rounded: 'xl',
+  shadow: '2xl',
+} as const;
 
 const customConfig = defineConfig({
   globalCss: {
@@ -12,17 +27,62 @@ const customConfig = defineConfig({
       backgroundColor: 'bg.muted',
       color: 'fg.muted',
     },
+    '::selection': {
+      backgroundColor: 'cyan.500/30',
+    },
+    '*': {
+      scrollbarWidth: 'thin',
+      scrollbarColor: 'var(--chakra-colors-white-alpha-300) transparent',
+    },
   },
 
   theme: {
     slotRecipes: {
       dialog: {
+        slots: dialogAnatomy.keys(),
         base: {
           backdrop: {
             zIndex: 'calc(var(--z-index) - 1)',
           },
           positioner: {
             zIndex: 'calc(var(--z-index) + 1)',
+          },
+          content: {
+            ...floatingSurface,
+            rounded: '2xl',
+          },
+          title: {
+            color: 'fg',
+            letterSpacing: 'tight',
+          },
+        },
+      },
+      menu: {
+        slots: menuAnatomy.keys(),
+        base: {
+          content: floatingSurface,
+        },
+      },
+      popover: {
+        slots: popoverAnatomy.keys(),
+        base: {
+          content: floatingSurface,
+        },
+      },
+      hoverCard: {
+        slots: hoverCardAnatomy.keys(),
+        base: {
+          content: {
+            rounded: 'xl',
+            shadow: '2xl',
+          },
+        },
+      },
+      alert: {
+        slots: alertAnatomy.keys(),
+        base: {
+          root: {
+            rounded: 'lg',
           },
         },
       },

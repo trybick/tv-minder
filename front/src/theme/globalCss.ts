@@ -47,10 +47,20 @@ const desktopCalendarStyles = {
   ':root': {
     '--fc-border-color': `${chakraVars.border} !important`,
     '--fc-page-bg-color': `${chakraVars.border} !important`,
+    '--fc-today-bg-color': `color-mix(in srgb, ${chakraVars.accent} 7%, transparent) !important`,
+    '--fc-neutral-bg-color': 'var(--chakra-colors-white-alpha-50) !important',
+  },
+  '.fc-theme-standard .fc-scrollgrid, .fc-theme-standard .fc-list': {
+    borderWidth: '0 !important',
   },
   // Header day labels (Sun, Mon, etc.)
   '.fc-col-header-cell-cushion': {
     color: `${chakraVars.textSubtle} !important`,
+    padding: '8px 4px !important',
+    fontSize: '12px',
+    fontWeight: '600',
+    letterSpacing: '0.04em',
+    textTransform: 'uppercase',
   },
   // Day numbers (1, 2, etc.)
   '.fc-daygrid-day-number': {

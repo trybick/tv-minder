@@ -9,13 +9,16 @@ export const LoginButton = () => {
 
   return (
     <Button
-      colorPalette="cyan"
-      ml="1"
+      colorPalette="gray"
+      color="fg.muted"
+      rounded="lg"
+      fontWeight="semibold"
       onClick={() => {
         trackEvent({ category: 'Auth', action: 'Login Header Button Pressed' });
         dispatch(setIsLoginModalOpen(true));
       }}
-      variant="surface"
+      variant="ghost"
+      _hover={{ bg: 'whiteAlpha.100', color: 'fg' }}
     >
       Login
     </Button>

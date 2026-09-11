@@ -10,6 +10,9 @@ export const SignUpButton = () => {
   return (
     <Button
       colorPalette="cyan"
+      rounded="lg"
+      fontWeight="semibold"
+      shadow="sm"
       onClick={() => {
         trackEvent({
           category: 'Auth',
@@ -18,6 +21,10 @@ export const SignUpButton = () => {
         dispatch(setIsSignUpModalOpen(true));
       }}
       variant="solid"
+      transitionProperty="background, box-shadow, transform"
+      transitionDuration="fast"
+      _hover={{ shadow: 'md' }}
+      _active={{ transform: 'translateY(1px)', shadow: 'xs' }}
     >
       Sign Up
     </Button>

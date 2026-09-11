@@ -13,8 +13,8 @@ import {
 } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
 import {
-  SHOW_IMAGE_TRANSITION_CLASS,
   getShowImageTransitionName,
+  SHOW_IMAGE_TRANSITION_CLASS,
 } from '~/utils/viewTransition';
 
 export const ShowImage = () => {

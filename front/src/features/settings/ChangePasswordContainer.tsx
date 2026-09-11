@@ -1,15 +1,8 @@
-import {
-  Box,
-  Button,
-  Field,
-  Heading,
-  Input,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Field, Heading, Stack, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 
 import { showToast } from '~/components/ui/toaster';
+import { AuthPasswordInput } from '~/features/header/auth/AuthInputs';
 import { useAppSelector } from '~/store';
 import { useChangePasswordMutation } from '~/store/rtk/api/auth.api';
 import { selectEmail, selectIsGoogleUser } from '~/store/rtk/slices/user.slice';
@@ -21,12 +14,6 @@ type FormInputs = {
   newPassword: string;
   newPasswordConfirmation: string;
 };
-
-const inputStyles = {
-  bg: 'blackAlpha.300',
-  borderColor: 'whiteAlpha.300',
-  _hover: { borderColor: 'whiteAlpha.400' },
-} as const;
 
 export const ChangePasswordContainer = () => {
   const email = useAppSelector(selectEmail);
@@ -94,39 +81,43 @@ export const ChangePasswordContainer = () => {
     <Box
       as="section"
       w="100%"
-      px={{ base: 4, md: 6 }}
-      py={{ base: 4, md: 5 }}
-      borderRadius={{ base: 'xl', md: '2xl' }}
+      px={{ base: 5, md: 7 }}
+      py={{ base: 5, md: 6 }}
+      rounded="2xl"
       borderWidth="1px"
       borderColor="whiteAlpha.100"
       bg="whiteAlpha.50"
     >
-      <Heading as="h2" fontSize="lg" fontWeight="700" color="fg">
-        Change Password
+      <Heading
+        as="h2"
+        fontSize="lg"
+        fontWeight="semibold"
+        letterSpacing="tight"
+        color="fg"
+      >
+        Change password
       </Heading>
-      {isGoogleUser && (
-        <Text color="fg.muted" fontSize="sm" mt={1}>
-          Not available when using a Google account
-        </Text>
-      )}
+      <Text color="fg.muted" fontSize="sm" mt={1}>
+        {isGoogleUser
+          ? 'Not available when using a Google account.'
+          : 'Choose something secure that you will remember.'}
+      </Text>
 
-      <Stack as="form" gap={4} mt={5} onSubmit={onSubmit}>
+      <Stack as="form" gap={4} mt={6} onSubmit={onSubmit}>
         <Field.Root disabled={isGoogleUser} invalid={!!errors?.oldPassword}>
-          <Field.Label>Current Password</Field.Label>
-          <Input
-            {...inputStyles}
+          <Field.Label>Current password</Field.Label>
+          <AuthPasswordInput
+            autoComplete="current-password"
             {...register('oldPassword', { ...formSchema.oldPassword })}
-            type="password"
           />
           <Field.ErrorText>{errors?.oldPassword?.message}</Field.ErrorText>
         </Field.Root>
 
         <Field.Root disabled={isGoogleUser} invalid={!!errors?.newPassword}>
-          <Field.Label>New Password</Field.Label>
-          <Input
-            {...inputStyles}
+          <Field.Label>New password</Field.Label>
+          <AuthPasswordInput
+            autoComplete="new-password"
             {...register('newPassword', { ...formSchema.newPassword })}
-            type="password"
           />
           <Field.ErrorText>{errors?.newPassword?.message}</Field.ErrorText>
         </Field.Root>
@@ -135,13 +126,12 @@ export const ChangePasswordContainer = () => {
           disabled={isGoogleUser}
           invalid={!!errors?.newPasswordConfirmation}
         >
-          <Field.Label>Confirm New Password</Field.Label>
-          <Input
-            {...inputStyles}
+          <Field.Label>Confirm new password</Field.Label>
+          <AuthPasswordInput
+            autoComplete="new-password"
             {...register('newPasswordConfirmation', {
               ...formSchema.newPasswordConfirmation,
             })}
-            type="password"
           />
           <Field.ErrorText>{formErrorForDisplay}</Field.ErrorText>
         </Field.Root>
@@ -150,9 +140,12 @@ export const ChangePasswordContainer = () => {
           colorPalette="cyan"
           disabled={isGoogleUser}
           loading={isLoading}
-          mt={1}
+          mt={2}
           type="submit"
-          width="100%"
+          size="lg"
+          width="full"
+          rounded="lg"
+          fontWeight="semibold"
         >
           Update Password
         </Button>

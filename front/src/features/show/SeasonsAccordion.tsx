@@ -76,7 +76,9 @@ export const SeasonsAccordion = () => {
         <Heading
           as="h2"
           fontSize={{ base: 'xl', md: '2xl' }}
-          letterSpacing="-0.02em"
+          fontWeight="semibold"
+          letterSpacing="tight"
+          color="fg"
         >
           Episodes
         </Heading>

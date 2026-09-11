@@ -17,17 +17,17 @@ export const RightSectionDesktop = () => {
   const { openPalette } = useCommandPalette();
 
   return (
-    <Flex alignItems="center" gap="2.5" justify="flex-end" flex="1">
+    <Flex alignItems="center" gap="2" justify="flex-end" flex="1">
       {isLoggedIn && <HelpPopover />}
       <CommandPaletteButton onClick={openPalette} />
 
       {isLoggedIn ? (
         <UserMenu />
       ) : (
-        <>
-          <SignUpButton />
+        <Flex alignItems="center" gap="1.5" ml="1">
           <LoginButton />
-        </>
+          <SignUpButton />
+        </Flex>
       )}
     </Flex>
   );

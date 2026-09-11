@@ -12,19 +12,24 @@ export const NoResultsFound = () => {
     >
       <Flex
         align="center"
-        bg="whiteAlpha.50"
-        border="1px solid"
-        borderColor="whiteAlpha.100"
-        borderRadius="full"
-        h="72px"
+        bg="cyan.500/15"
+        borderWidth="1px"
+        borderColor="cyan.400/20"
+        rounded="full"
+        boxSize="64px"
         justify="center"
-        w="72px"
       >
-        <Icon as={FiSearch} boxSize={7} color="fg.muted" opacity={0.5} />
+        <Icon as={FiSearch} boxSize={6} color="cyan.300" />
       </Flex>
 
       <Flex align="center" direction="column" gap={1.5}>
-        <Heading as="h2" fontSize="lg" color="fg">
+        <Heading
+          as="h2"
+          fontSize="xl"
+          fontWeight="semibold"
+          letterSpacing="tight"
+          color="fg"
+        >
           No results found
         </Heading>
 

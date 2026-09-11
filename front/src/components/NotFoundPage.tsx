@@ -26,16 +26,28 @@ export const NotFoundPage = () => {
           gap={6}
           textAlign="center"
         >
-          <Flex direction="column" gap={2}>
+          <Flex direction="column" align="center" gap={2}>
             <Heading
               as="h1"
-              fontSize={{ base: '2xl', md: '3xl' }}
-              fontWeight="800"
-              letterSpacing="-0.02em"
+              fontSize={{ base: '5xl', md: '6xl' }}
+              fontWeight="bold"
+              letterSpacing="tight"
+              lineHeight="1"
+              bgGradient="to-r"
+              gradientFrom="cyan.300"
+              gradientTo="cyan.500"
+              bgClip="text"
             >
               404
             </Heading>
-            <Heading as="h2" fontSize="lg" fontWeight="600">
+            <Heading
+              as="h2"
+              fontSize="xl"
+              fontWeight="semibold"
+              letterSpacing="tight"
+              color="fg"
+              mt={2}
+            >
               Page not found
             </Heading>
             <Text color="fg.muted" fontSize="sm" maxW="360px" lineHeight="1.6">
@@ -44,7 +56,14 @@ export const NotFoundPage = () => {
             </Text>
           </Flex>
 
-          <Button colorPalette="cyan" size="md" onClick={handleGoHome} px={6}>
+          <Button
+            colorPalette="cyan"
+            size="lg"
+            rounded="lg"
+            fontWeight="semibold"
+            onClick={handleGoHome}
+            px={8}
+          >
             <Icon as={FiHome} />
             Back to Home
           </Button>

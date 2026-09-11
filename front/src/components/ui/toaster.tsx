@@ -31,9 +31,15 @@ export const Toaster = () => {
     <Portal>
       <ChakraToaster insetInline={{ mdDown: '4' }} toaster={toaster}>
         {toast => (
-          <Toast.Root width={{ md: 'sm' }}>
+          <Toast.Root
+            width={{ md: 'sm' }}
+            rounded="xl"
+            borderWidth="1px"
+            borderColor="whiteAlpha.100"
+            shadow="2xl"
+          >
             {toast.type === 'loading' ? (
-              <Spinner color="blue.solid" size="sm" />
+              <Spinner color="cyan.solid" size="sm" />
             ) : (
               <Toast.Indicator alignSelf="center" />
             )}

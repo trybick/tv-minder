@@ -1,9 +1,12 @@
 import {
+  Alert,
   Button,
   CloseButton,
   Dialog,
   Field,
   Input,
+  type InputProps,
+  Stack,
   Textarea,
 } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
@@ -26,6 +29,15 @@ type FormValues = {
   feedback: string;
   email: string;
 };
+
+const feedbackInputStyles = {
+  size: 'lg',
+  rounded: 'lg',
+  bg: 'bg',
+  borderColor: 'whiteAlpha.300',
+  _hover: { borderColor: 'whiteAlpha.400' },
+  _placeholder: { color: 'fg.subtle' },
+} satisfies InputProps;
 
 export const FeedbackModal = () => {
   const dispatch = useAppDispatch();
@@ -106,60 +118,99 @@ export const FeedbackModal = () => {
     >
       <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
       <Dialog.Positioner>
-        <Dialog.Content bg="bg.muted">
-          <Dialog.Header>
-            <Dialog.Title>Share Feedback</Dialog.Title>
-            <Dialog.CloseTrigger asChild>
-              <CloseButton
-                color="fg.muted"
-                onClick={() => {
-                  resetForm();
-                  dispatch(setIsFeedbackModalOpen(false));
-                }}
-              />
-            </Dialog.CloseTrigger>
+        <Dialog.Content maxW="md">
+          <Dialog.Header
+            display="flex"
+            flexDirection="column"
+            gap="1"
+            pt="8"
+            pb="3"
+          >
+            <Dialog.Title
+              fontSize="2xl"
+              fontWeight="semibold"
+              lineHeight="shorter"
+            >
+              Share feedback
+            </Dialog.Title>
+            <Dialog.Description color="fg.muted" fontSize="sm">
+              Found a bug or have an idea? We read every message.
+            </Dialog.Description>
           </Dialog.Header>
 
-          <Dialog.Body>
-            <Field.Root>
-              <Field.Label>{"What's on your mind?"}</Field.Label>
-              <Textarea
-                h="150px"
-                mb={2}
-                {...registerFeedback}
-                ref={e => {
-                  feedbackRef(e);
-                  initialRef.current = e;
-                }}
-              />
-            </Field.Root>
+          <Dialog.CloseTrigger asChild top="4" right="4">
+            <CloseButton
+              color="fg.muted"
+              size="sm"
+              rounded="full"
+              onClick={() => {
+                resetForm();
+                dispatch(setIsFeedbackModalOpen(false));
+              }}
+            />
+          </Dialog.CloseTrigger>
 
-            <Field.Root mt={4} invalid={!!errors?.email}>
-              <Field.Label>Your email (optional)</Field.Label>
-              <Input
-                {...register('email', {
-                  validate: validateEmail,
-                })}
-              />
-              <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
-            </Field.Root>
+          <Dialog.Body pt="4" pb="6">
+            <Stack gap="4">
+              <Field.Root>
+                <Field.Label>{"What's on your mind?"}</Field.Label>
+                <Textarea
+                  {...feedbackInputStyles}
+                  h="150px"
+                  resize="none"
+                  placeholder="Tell us what you think..."
+                  {...registerFeedback}
+                  ref={e => {
+                    feedbackRef(e);
+                    initialRef.current = e;
+                  }}
+                />
+              </Field.Root>
 
-            <Field.Root invalid={!!errors?.root} mt={4}>
-              <Field.ErrorText ml={2}>{errors?.root?.message}</Field.ErrorText>
-            </Field.Root>
-          </Dialog.Body>
+              <Field.Root invalid={!!errors?.email}>
+                <Field.Label>Your email (optional)</Field.Label>
+                <Input
+                  {...feedbackInputStyles}
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  {...register('email', {
+                    validate: validateEmail,
+                  })}
+                />
+                <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
+              </Field.Root>
+            </Stack>
 
-          <Dialog.Footer>
+            {errors?.root?.message && (
+              <Alert.Root
+                status="error"
+                variant="subtle"
+                size="sm"
+                rounded="lg"
+                mt="4"
+              >
+                <Alert.Indicator />
+                <Alert.Title fontWeight="medium">
+                  {errors.root.message}
+                </Alert.Title>
+              </Alert.Root>
+            )}
+
             <Button
               colorPalette="cyan"
+              size="lg"
+              width="full"
+              rounded="lg"
+              mt="6"
+              fontWeight="semibold"
               disabled={!watch('feedback')}
               loading={isSubmitLoading}
-              mr={3}
               onClick={handleSubmit(onSubmit)}
             >
               Send
             </Button>
-          </Dialog.Footer>
+          </Dialog.Body>
         </Dialog.Content>
       </Dialog.Positioner>
     </Dialog.Root>

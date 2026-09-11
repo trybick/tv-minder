@@ -7,8 +7,8 @@ import { usePreventClickOnDrag } from '~/components/ShowCard/usePreventClickOnDr
 import { useImageUrl } from '~/hooks/useImageUrl';
 import { useNavigateToShow } from '~/hooks/useNavigateToShow';
 import {
-  SHOW_IMAGE_TRANSITION_CLASS,
   getShowImageTransitionName,
+  SHOW_IMAGE_TRANSITION_CLASS,
 } from '~/utils/viewTransition';
 
 export const Image = ({ children }: PropsWithChildren) => {
@@ -60,6 +60,8 @@ export const Image = ({ children }: PropsWithChildren) => {
         aspectRatio={2 / 3}
         objectFit="cover"
         w="100%"
+        transition="transform 0.35s ease-out"
+        _groupHover={{ transform: 'scale(1.04)' }}
         loading="lazy"
         onError={e => (e.currentTarget.src = placeholder)}
         src={posterSource}

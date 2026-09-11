@@ -1,14 +1,15 @@
-import { Box, Separator, Skeleton } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 
 import { Carousel } from '~/components/Carousel';
+import { SectionHeader } from '~/components/SectionHeader';
 import { type ShowItem } from '~/components/ShowCard';
 import { useIsNearViewport } from '~/hooks/useIsNearViewport';
 
-import { DiscoverHeader } from './DiscoverHeader';
 import { type CarouselConfig } from './DiscoverShows';
 import {
   discoverShowKeyExtractor,
   renderDiscoverShowItem,
+  SECTION_SPACING,
 } from './discoverCarousel';
 
 type Props = {
@@ -21,9 +22,12 @@ export const LazyCarouselSection = ({ config, items, index }: Props) => {
   const { ref, isNear } = useIsNearViewport();
 
   return (
-    <Box ref={ref} id={`discover-${config.key}`}>
-      {index > 0 && <Separator my={7} borderColor="whiteAlpha.200" />}
-      <DiscoverHeader
+    <Box
+      ref={ref}
+      id={`discover-${config.key}`}
+      mt={index > 0 ? SECTION_SPACING : 0}
+    >
+      <SectionHeader
         icon={config.icon}
         title={config.title}
         subtitle={config.subtitle}

@@ -35,26 +35,24 @@ export const HelpPopover = () => {
           aria-label="How it works"
           variant="ghost"
           size="md"
+          rounded="lg"
           color="fg.muted"
+          _hover={{ bg: 'whiteAlpha.100', color: 'fg' }}
         >
           <LuCircleHelp size={20} />
         </IconButton>
       </Popover.Trigger>
       <Portal>
         <Popover.Positioner>
-          <Popover.Content
-            bg="gray.900"
-            borderColor="whiteAlpha.200"
-            boxShadow="xl"
-            w={{ base: 'calc(100vw - 2rem)', md: '330px' }}
-          >
+          <Popover.Content w={{ base: 'calc(100vw - 2rem)', md: '330px' }}>
             <Popover.Body p={5}>
               <Heading
                 as="h4"
                 fontSize="md"
-                letterSpacing="-0.02em"
+                fontWeight="semibold"
+                letterSpacing="tight"
                 lineHeight="1.3"
-                color="cyan.500"
+                color="fg"
                 textAlign="center"
               >
                 Your personal TV calendar
@@ -63,7 +61,7 @@ export const HelpPopover = () => {
                 Track shows to get a schedule of all your upcoming episodes.
               </Text>
 
-              <Separator my={4} borderColor="whiteAlpha.200" />
+              <Separator my={4} borderColor="whiteAlpha.100" />
 
               <Text
                 color="fg.muted"

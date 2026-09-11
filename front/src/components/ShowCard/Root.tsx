@@ -43,16 +43,18 @@ export const Root = ({
         border="1px solid"
         borderColor="whiteAlpha.100"
         overflow="hidden"
-        transition="all 0.2s ease-out"
+        transition="border-color 0.2s ease-out, background 0.2s ease-out, box-shadow 0.2s ease-out"
         position="relative"
         bg="whiteAlpha.50"
         _hover={{
-          borderColor: 'whiteAlpha.400',
+          borderColor: 'whiteAlpha.300',
           bg: 'whiteAlpha.100',
+          shadow: 'lg',
         }}
         _focusWithin={{
-          borderColor: 'whiteAlpha.400',
+          borderColor: 'whiteAlpha.300',
           bg: 'whiteAlpha.100',
+          shadow: 'lg',
         }}
         onMouseEnter={() => onHoverChange?.(true)}
         onMouseLeave={() => onHoverChange?.(false)}

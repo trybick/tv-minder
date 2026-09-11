@@ -1,8 +1,15 @@
-import { Box, Button, Flex, Heading, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Group,
+  Heading,
+  IconButton,
+  Spinner,
+} from '@chakra-ui/react';
 import type FullCalendar from '@fullcalendar/react';
 import { type RefObject } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
-import { MdOutlineResetTv } from 'react-icons/md';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
@@ -65,8 +72,10 @@ export const CalendarHeader = ({
       gap={3}
     >
       <Heading
-        fontSize="2xl"
+        fontSize={{ base: 'xl', md: '2xl' }}
         fontWeight="semibold"
+        letterSpacing="tight"
+        color="fg"
         justifySelf="start"
         ml="0.5"
         display="flex"
@@ -74,10 +83,10 @@ export const CalendarHeader = ({
         gap={2}
       >
         {title}
-        {isMobile && isLoading && <Spinner size="sm" />}
+        {isMobile && isLoading && <Spinner size="sm" color="cyan.400" />}
       </Heading>
 
-      <Box>
+      <Box h="36px" display="flex" alignItems="center" justifyContent="center">
         {!isMobile && (
           <LoadingEpisodesBanner
             isLoading={isLoading}
@@ -86,39 +95,54 @@ export const CalendarHeader = ({
         )}
       </Box>
 
-      <Flex align="center" gap={5} justifySelf="end">
+      <Flex align="center" gap={2} justifySelf="end">
         <Button
           size="sm"
-          h="42px"
-          variant="surface"
-          colorPalette="cyan"
+          h="36px"
+          px={3.5}
+          variant="outline"
+          rounded="lg"
+          color="fg.muted"
+          borderColor="whiteAlpha.200"
+          fontWeight="medium"
           onClick={handleToday}
-          opacity={0.8}
+          _hover={{
+            bg: 'whiteAlpha.100',
+            borderColor: 'whiteAlpha.300',
+            color: 'fg',
+          }}
         >
-          <MdOutlineResetTv opacity={0.8} />
           today
         </Button>
 
-        <Flex gap={2}>
-          <Button
+        <Group attached>
+          <IconButton
+            aria-label="Previous month"
             size="sm"
-            h="42px"
-            variant="surface"
-            colorPalette="cyan"
+            h="36px"
+            variant="outline"
+            rounded="lg"
+            color="fg.muted"
+            borderColor="whiteAlpha.200"
             onClick={handlePrev}
+            _hover={{ bg: 'whiteAlpha.100', color: 'fg' }}
           >
-            <LuChevronLeft opacity={0.8} />
-          </Button>
-          <Button
+            <LuChevronLeft />
+          </IconButton>
+          <IconButton
+            aria-label="Next month"
             size="sm"
-            h="42px"
-            variant="surface"
-            colorPalette="cyan"
+            h="36px"
+            variant="outline"
+            rounded="lg"
+            color="fg.muted"
+            borderColor="whiteAlpha.200"
             onClick={handleNext}
+            _hover={{ bg: 'whiteAlpha.100', color: 'fg' }}
           >
-            <LuChevronRight opacity={0.8} />
-          </Button>
-        </Flex>
+            <LuChevronRight />
+          </IconButton>
+        </Group>
       </Flex>
     </Box>
   );

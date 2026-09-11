@@ -25,27 +25,36 @@ export const NoTrackedShowsMessage = () => {
     >
       <Image
         alt="TV remote on a couch"
-        borderRadius="xl"
+        rounded="2xl"
         h="240px"
         objectFit="cover"
         src={noShowsImage}
         w="100%"
         opacity={0.85}
+        borderWidth="1px"
+        borderColor="whiteAlpha.100"
+        shadow="lg"
       />
 
       <Flex
         align="center"
-        bg="cyan.500/10"
-        borderRadius="full"
-        h="56px"
+        bg="cyan.500/15"
+        borderWidth="1px"
+        borderColor="cyan.400/20"
+        rounded="full"
+        boxSize="56px"
         justify="center"
-        w="56px"
       >
-        <Icon as={FiHeart} boxSize={6} color="cyan.400" />
+        <Icon as={FiHeart} boxSize={6} color="cyan.300" />
       </Flex>
 
       <Flex align="center" direction="column" gap={1.5}>
-        <Text color="fg" fontSize="lg" fontWeight="600">
+        <Text
+          color="fg"
+          fontSize="xl"
+          fontWeight="semibold"
+          letterSpacing="tight"
+        >
           No tracked shows yet
         </Text>
         <Text
@@ -61,7 +70,14 @@ export const NoTrackedShowsMessage = () => {
       </Flex>
 
       <Link href={ROUTES.HOME} onClick={handleClickHome}>
-        <Button colorPalette="cyan" size="md" mt={1}>
+        <Button
+          colorPalette="cyan"
+          size="lg"
+          rounded="lg"
+          fontWeight="semibold"
+          px={8}
+          mt={1}
+        >
           <Icon as={FiCompass} />
           Discover Shows
         </Button>

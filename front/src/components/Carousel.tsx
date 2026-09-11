@@ -2,6 +2,7 @@ import {
   Carousel as ChakraCarousel,
   Flex,
   IconButton,
+  type IconButtonProps,
   Skeleton,
   useBreakpointValue,
 } from '@chakra-ui/react';
@@ -39,6 +40,20 @@ export const DEFAULT_SLIDES_PER_PAGE = {
 } as const;
 
 const INDICATOR_PLACEHOLDER_COUNT = 24;
+
+const arrowButtonStyles = {
+  borderRadius: 'full',
+  bg: 'gray.800',
+  color: 'whiteAlpha.900',
+  borderWidth: '1px',
+  borderColor: 'whiteAlpha.200',
+  boxShadow: 'lg',
+  transitionProperty: 'background, border-color, transform, box-shadow',
+  transitionDuration: 'fast',
+  _hover: { bg: 'gray.700', borderColor: 'whiteAlpha.300', shadow: 'xl' },
+  _active: { bg: 'gray.900' },
+  _disabled: { display: 'none' },
+} satisfies IconButtonProps;
 
 export const Carousel = <T,>({
   items,
@@ -135,15 +150,7 @@ export const Carousel = <T,>({
             transform="translate(-50%, -50%)"
             zIndex={1}
             size={buttonSize}
-            borderRadius="full"
-            bg="gray.700"
-            color="whiteAlpha.900"
-            borderWidth="1px"
-            borderColor="whiteAlpha.300"
-            boxShadow="md"
-            _hover={{ bg: 'gray.600' }}
-            _active={{ bg: 'gray.800' }}
-            _disabled={{ display: 'none' }}
+            {...arrowButtonStyles}
           >
             <HiChevronLeft size={iconSize} />
           </IconButton>
@@ -161,15 +168,7 @@ export const Carousel = <T,>({
             transform="translate(50%, -50%)"
             zIndex={1}
             size={buttonSize}
-            borderRadius="full"
-            bg="gray.700"
-            color="whiteAlpha.900"
-            borderWidth="1px"
-            borderColor="whiteAlpha.300"
-            boxShadow="md"
-            _hover={{ bg: 'gray.600' }}
-            _active={{ bg: 'gray.800' }}
-            _disabled={{ display: 'none' }}
+            {...arrowButtonStyles}
           >
             <HiChevronRight size={iconSize} />
           </IconButton>

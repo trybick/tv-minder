@@ -1,4 +1,4 @@
-import { Button, CloseButton, Dialog, Portal, Text } from '@chakra-ui/react';
+import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
 import { type MouseEvent, useState } from 'react';
 
 import { useShowCardContext } from '~/components/ShowCard/context';
@@ -45,9 +45,12 @@ export const UntrackButton = () => {
         size="xs"
         top="2"
         variant="plain"
-        color="fg.muted"
+        rounded="full"
+        color="whiteAlpha.800"
         bg="blackAlpha.600"
-        _hover={{ color: 'white', bg: 'blackAlpha.800' }}
+        backdropFilter="blur(8px)"
+        transition="background 150ms, color 150ms"
+        _hover={{ color: 'white', bg: 'red.600' }}
         zIndex="1"
       />
       <Portal>
@@ -60,30 +63,40 @@ export const UntrackButton = () => {
         >
           <Dialog.Backdrop />
           <Dialog.Positioner>
-            <Dialog.Content bg="bg.muted">
-              <Dialog.Header>
-                <Dialog.Title>Confirm Untrack</Dialog.Title>
-                <Dialog.CloseTrigger asChild>
-                  <CloseButton color="fg.muted" />
-                </Dialog.CloseTrigger>
+            <Dialog.Content>
+              <Dialog.Header
+                display="flex"
+                flexDirection="column"
+                gap="1"
+                pt="7"
+                pb="2"
+              >
+                <Dialog.Title fontSize="xl" fontWeight="semibold">
+                  Untrack {showName}?
+                </Dialog.Title>
+                <Dialog.Description color="fg.muted" fontSize="sm">
+                  Its episodes will no longer appear on your calendar.
+                </Dialog.Description>
               </Dialog.Header>
-              <Dialog.Body>
-                <Text color="fg.muted" fontSize="md">
-                  {`Are you sure you want to untrack ${showName}?`}
-                </Text>
-              </Dialog.Body>
-              <Dialog.Footer gap="4">
+              <Dialog.CloseTrigger asChild top="4" right="4">
+                <CloseButton color="fg.muted" size="sm" rounded="full" />
+              </Dialog.CloseTrigger>
+              <Dialog.Footer gap="2" pb="6">
                 <Button
                   variant="ghost"
+                  rounded="lg"
                   onClick={() => setIsConfirmOpen(false)}
                   color="fg.muted"
+                  _hover={{ bg: 'whiteAlpha.100', color: 'fg' }}
                 >
-                  Back
+                  Cancel
                 </Button>
                 <Button
                   colorPalette="red"
+                  rounded="lg"
+                  fontWeight="semibold"
                   onClick={onConfirmUntrack}
-                  variant="surface"
+                  variant="solid"
                 >
                   Untrack
                 </Button>

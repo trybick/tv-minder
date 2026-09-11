@@ -47,9 +47,15 @@ export const LoadingEpisodesBanner = ({
       size="sm"
       variant="subtle"
       w="fit-content"
+      h="36px"
+      py="0"
+      px="3"
+      alignItems="center"
     >
-      <Spinner size="sm" />
-      <Alert.Title fontSize="sm">Refreshing</Alert.Title>
+      <Spinner size="xs" />
+      <Alert.Title fontSize="sm" lineHeight="1">
+        Refreshing
+      </Alert.Title>
     </Alert.Root>
   );
 };

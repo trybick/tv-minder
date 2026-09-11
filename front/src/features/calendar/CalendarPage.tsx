@@ -191,7 +191,14 @@ export const CalendarPage = () => {
               title={calendarTitle}
               viewRange={viewRange}
             />
-            <Box ref={calendarWrapperRef}>
+            <Box
+              ref={calendarWrapperRef}
+              borderWidth="1px"
+              borderColor="whiteAlpha.200"
+              rounded="xl"
+              overflow="hidden"
+              bg="whiteAlpha.50"
+            >
               <FullCalendar
                 {...calendarProps}
                 key={dayjs().format('MM-DD-YYYY')}

@@ -26,8 +26,10 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         as="button"
         onClick={handleClick}
         p="2"
-        borderRadius="md"
-        _hover={{ bg: 'whiteAlpha.100' }}
+        borderRadius="lg"
+        color="fg.muted"
+        _hover={{ bg: 'whiteAlpha.100', color: 'fg' }}
+        transition="all 150ms"
         aria-label="Search"
       >
         <MdSearch size={22} />
@@ -49,7 +51,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         bg="whiteAlpha.50"
         border="1px solid"
         borderColor="whiteAlpha.200"
-        borderRadius="md"
+        borderRadius="lg"
         color="fg.muted"
         fontSize="sm"
         cursor="pointer"
@@ -57,7 +59,9 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
         _hover={{
           bg: 'whiteAlpha.100',
           borderColor: 'whiteAlpha.300',
+          color: 'fg',
         }}
+        _focusVisible={{ outline: 'none', borderColor: 'cyan.500' }}
       >
         <MdSearch size={16} />
         <Flex gap="0.5">
@@ -81,7 +85,7 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       bg="whiteAlpha.50"
       border="1px solid"
       borderColor="whiteAlpha.200"
-      borderRadius="md"
+      borderRadius="lg"
       color="fg.muted"
       fontSize="sm"
       cursor="pointer"
@@ -89,7 +93,9 @@ export const CommandPaletteButton = ({ onClick }: Props) => {
       _hover={{
         bg: 'whiteAlpha.100',
         borderColor: 'whiteAlpha.300',
+        color: 'fg',
       }}
+      _focusVisible={{ outline: 'none', borderColor: 'cyan.500' }}
       minW={{ base: '190px', xl: '220px', '2xl': '260px' }}
     >
       <MdSearch size={16} />

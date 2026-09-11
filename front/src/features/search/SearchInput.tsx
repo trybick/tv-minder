@@ -83,7 +83,10 @@ export const SearchInput = ({
           value={inputValue}
           variant="outline"
           bg="whiteAlpha.50"
-          _hover={{ borderColor: 'whiteAlpha.300' }}
+          shadow="sm"
+          transitionProperty="border-color, background, box-shadow"
+          transitionDuration="fast"
+          _hover={{ borderColor: 'whiteAlpha.300', bg: 'whiteAlpha.100' }}
           _focus={{
             borderColor: 'cyan.500/60',
             bg: 'whiteAlpha.100',

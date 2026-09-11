@@ -52,9 +52,10 @@ export const HeaderMobile = () => {
             cursor="pointer"
             onClick={toggleHeader}
             p="2"
-            borderRadius="md"
+            borderRadius="lg"
             color="cyan.400"
             _hover={{ bg: 'whiteAlpha.100' }}
+            _active={{ bg: 'whiteAlpha.200' }}
             transition="all 150ms"
           >
             <Icon as={isHeaderOpen ? FiX : FiMenu} boxSize={5} />
@@ -67,11 +68,12 @@ export const HeaderMobile = () => {
           position="absolute"
           left="0"
           right="0"
-          bg="bg"
+          bg="bg.muted"
           borderWidth="1px"
           borderColor="whiteAlpha.100"
           borderTopWidth="0"
-          shadow="xl"
+          roundedBottom="2xl"
+          shadow="2xl"
           zIndex="dropdown"
           px="5"
           py="4"
@@ -80,9 +82,9 @@ export const HeaderMobile = () => {
             <NavigationLinks onClose={closeHeader} />
 
             {!isLoggedIn ? (
-              <Flex alignItems="center" gap="3" mt={4} ml="auto">
-                <SignUpButton />
+              <Flex alignItems="center" gap="2" mt={4} ml="auto">
                 <LoginButton />
+                <SignUpButton />
               </Flex>
             ) : null}
           </Flex>

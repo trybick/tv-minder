@@ -32,10 +32,10 @@ export const Footer = () => {
   };
 
   return (
-    <Box mt="auto">
+    <Box mt="auto" bg="blackAlpha.300">
       <Separator borderColor="whiteAlpha.100" />
 
-      <PageContainer py={8}>
+      <PageContainer py={10}>
         <Flex
           align={{ base: 'center', md: 'flex-start' }}
           direction={{ base: 'column', md: 'row' }}
@@ -61,9 +61,9 @@ export const Footer = () => {
           {!isMobile && (
             <Flex direction="column" gap={2}>
               <Text
-                color="fg.muted"
+                color="fg.subtle"
                 fontSize="xs"
-                fontWeight="600"
+                fontWeight="semibold"
                 letterSpacing="wider"
                 mb={1}
                 textTransform="uppercase"
@@ -93,9 +93,9 @@ export const Footer = () => {
           >
             {!isMobile && (
               <Text
-                color="fg.muted"
+                color="fg.subtle"
                 fontSize="xs"
-                fontWeight="600"
+                fontWeight="semibold"
                 letterSpacing="wider"
                 mb={1}
                 textTransform="uppercase"

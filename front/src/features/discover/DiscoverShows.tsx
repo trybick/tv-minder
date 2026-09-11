@@ -1,4 +1,4 @@
-import { Box, Separator } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 import { type ReactNode, useEffect } from 'react';
 import { FaFighterJet } from 'react-icons/fa';
@@ -16,6 +16,7 @@ import { SiAppletv, SiHbo, SiNetflix } from 'react-icons/si';
 import { TbBrandDisney } from 'react-icons/tb';
 
 import { Carousel } from '~/components/Carousel';
+import { SectionHeader } from '~/components/SectionHeader';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { trackApi } from '~/store/rtk/api/track.api';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
@@ -30,11 +31,11 @@ import {
   selectForYouShowsForDisplay,
 } from '~/store/tv/selectors';
 
-import { DiscoverHeader } from './DiscoverHeader';
 import { LazyCarouselSection } from './LazyCarouselSection';
 import {
   discoverShowKeyExtractor,
   renderDiscoverShowItem,
+  SECTION_SPACING,
 } from './discoverCarousel';
 
 type DiscoverSectionKey = DiscoverCarouselKey | 'forYou';
@@ -198,9 +199,12 @@ export const DiscoverShows = () => {
     <Box w="100%" pt={2} pb={8}>
       {carouselConfigs.map((config, index) =>
         index < EAGER_COUNT ? (
-          <Box key={config.key} id={`discover-${config.key}`}>
-            {index > 0 && <Separator my={7} borderColor="whiteAlpha.200" />}
-            <DiscoverHeader
+          <Box
+            key={config.key}
+            id={`discover-${config.key}`}
+            mt={index > 0 ? SECTION_SPACING : 0}
+          >
+            <SectionHeader
               icon={config.icon}
               title={config.title}
               subtitle={config.subtitle}

@@ -1,80 +1,123 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import { type ReactNode } from 'react';
+import { Box, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { type IconType } from 'react-icons';
 import { FiCalendar, FiHeart, FiSearch } from 'react-icons/fi';
+import { LuChevronRight } from 'react-icons/lu';
 
-const HOW_IT_WORKS_STEPS: { icon: ReactNode; label: string }[] = [
-  { icon: <FiSearch />, label: 'Search shows' },
-  { icon: <FiHeart />, label: 'Click Track' },
-  { icon: <FiCalendar />, label: 'View calendar' },
+type Step = { icon: IconType; label: string };
+
+const HOW_IT_WORKS_STEPS: Step[] = [
+  { icon: FiSearch, label: 'Search shows' },
+  { icon: FiHeart, label: 'Track favorites' },
+  { icon: FiCalendar, label: 'See your calendar' },
 ];
 
 export const WelcomeHeroStrip = () => {
   return (
-    <Flex
-      direction="column"
-      mx="auto"
-      maxW="1500px"
-      px={{ base: 0, md: 6 }}
-      w={{ base: '95%', sm: 'sm', md: 'md', lg: 'lg' }}
+    <Box
+      position="relative"
+      textAlign="center"
+      pt={{ base: 8, md: 12 }}
+      pb={{ base: 2, md: 4 }}
+      px={4}
     >
       <Box
-        textAlign="center"
-        mb={6}
-        mt={2}
-        px={5}
-        py={4}
-        borderWidth="1px"
-        borderColor="whiteAlpha.200"
-        borderRadius="lg"
-        bg="whiteAlpha.50"
+        aria-hidden
+        position="absolute"
+        top="-160px"
+        left="50%"
+        transform="translateX(-50%)"
+        w={{ base: '480px', md: '820px' }}
+        h="360px"
+        bg="radial-gradient(closest-side, var(--chakra-colors-cyan-500), transparent)"
+        opacity={0.16}
+        pointerEvents="none"
+      />
+
+      <Flex
+        direction="column"
+        align="center"
+        gap={{ base: 3, md: 4 }}
         position="relative"
-        w="full"
+        maxW="640px"
+        mx="auto"
       >
         <Heading
           as="h1"
-          fontSize="md"
-          fontWeight="700"
-          letterSpacing="-0.02em"
-          lineHeight="1.3"
-          mb={1}
+          fontSize={{ base: '3xl', md: '4xl' }}
+          fontWeight="bold"
+          letterSpacing="tight"
+          lineHeight="shorter"
+          color="fg"
         >
           Your personal{' '}
-          <Box as="span" color="cyan.400">
+          <Box
+            as="span"
+            bgGradient="to-r"
+            gradientFrom="cyan.300"
+            gradientTo="cyan.500"
+            bgClip="text"
+          >
             TV episode calendar
           </Box>
         </Heading>
-        <Text color="fg.muted" fontSize="xs" mb={3} maxW="320px" mx="auto">
-          Track shows and get a personalized schedule of upcoming episodes
+
+        <Text
+          color="fg.muted"
+          fontSize={{ base: 'sm', md: 'md' }}
+          lineHeight="tall"
+          maxW="460px"
+        >
+          Track the shows you love and get a personalized schedule of every
+          upcoming episode.
         </Text>
-        <Flex justify="center" align="center" gap={1.5} flexWrap="wrap">
+
+        <Flex
+          align="center"
+          justify="center"
+          gap={{ base: 2, md: 1.5 }}
+          flexWrap="wrap"
+          mt={{ base: 1, md: 2 }}
+        >
           {HOW_IT_WORKS_STEPS.map((step, index) => (
             <Flex key={step.label} align="center" gap={1.5}>
               <Flex
                 align="center"
-                gap={1.5}
-                fontSize="xs"
-                fontWeight="600"
-                color="fg.muted"
+                gap={2}
+                px={3}
+                py={1.5}
+                rounded="full"
+                bg="whiteAlpha.50"
+                borderWidth="1px"
+                borderColor="whiteAlpha.100"
+                fontSize={{ base: 'xs', md: 'sm' }}
+                fontWeight="medium"
+                color="fg"
               >
-                <Box
-                  color="cyan.400"
-                  display="flex"
-                  alignItems="center"
-                  fontSize="sm"
+                <Flex
+                  align="center"
+                  justify="center"
+                  boxSize="22px"
+                  rounded="full"
+                  bg="cyan.500/15"
+                  color="cyan.300"
+                  flexShrink={0}
                 >
-                  {step.icon}
-                </Box>
+                  <Icon as={step.icon} boxSize="12px" />
+                </Flex>
                 {step.label}
               </Flex>
               {index < HOW_IT_WORKS_STEPS.length - 1 && (
-                <Text fontSize="xs" color="whiteAlpha.500">
-                  →
-                </Text>
+                <Icon
+                  as={LuChevronRight}
+                  boxSize={4}
+                  color="fg.subtle"
+                  display={{ base: 'none', md: 'block' }}
+                />
               )}
             </Flex>
           ))}
         </Flex>
-      </Box>
-    </Flex>
+      </Flex>
+    </Box>
   );
 };

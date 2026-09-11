@@ -37,6 +37,8 @@ export const TitleRow = ({ show, fallbackName }: Props) => {
         <Heading
           as="h1"
           fontSize={{ base: '2xl', md: '3xl' }}
+          letterSpacing="tight"
+          color="fg"
           wordBreak="break-word"
         >
           {name}{' '}
