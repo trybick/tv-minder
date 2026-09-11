@@ -44,17 +44,15 @@ export function handleKyError(error: unknown) {
       return;
     }
 
-    let errorType: string;
     if (error instanceof TypeError) {
-      errorType = 'network_failure'; // Failed to fetch, CORS, etc.
-    } else {
-      errorType = 'unknown';
+      console.error('network_failure error:', error.message);
+      return;
     }
 
-    console.error(`${errorType} error:`, error.message);
+    console.error('unknown error:', error.message);
 
     sendToSentry(error, {
-      type: errorType,
+      type: 'unknown',
       name: error.name,
       message: error.message,
     });
