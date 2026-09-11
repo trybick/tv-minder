@@ -15,6 +15,18 @@ const customConfig = defineConfig({
   },
 
   theme: {
+    slotRecipes: {
+      dialog: {
+        base: {
+          backdrop: {
+            zIndex: 'calc(var(--z-index) - 1)',
+          },
+          positioner: {
+            zIndex: 'calc(var(--z-index) + 1)',
+          },
+        },
+      },
+    },
     recipes: {
       heading: {
         base: {
