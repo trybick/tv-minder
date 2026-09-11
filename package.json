@@ -20,7 +20,5 @@
     "serve:prod": "npm run serve:prod --prefix api",
     "start": "npm start --prefix front",
     "start:local": "npm run start:local --prefix front"
-  },
-  "dependencies": {},
-  "devDependencies": {}
+  }
 }
