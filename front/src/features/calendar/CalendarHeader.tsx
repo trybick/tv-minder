@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Spinner } from '@chakra-ui/react';
 import type FullCalendar from '@fullcalendar/react';
 import { type RefObject } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
@@ -6,11 +6,7 @@ import { MdOutlineResetTv } from 'react-icons/md';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
-import { trackApi } from '~/store/rtk/api/track.api';
-import {
-  selectCalendarEpisodesForDisplay,
-  selectIsLoadingCalendarEpisodes,
-} from '~/store/tv/selectors';
+import { selectCalendarEpisodesForDisplay } from '~/store/tv/selectors';
 import { trackEvent } from '~/utils/analytics';
 import { dayjs } from '~/utils/dayjs';
 
@@ -18,23 +14,23 @@ import { LoadingEpisodesBanner } from './LoadingEpisodesBanner';
 
 type Props = {
   calendarRef: RefObject<FullCalendar | null>;
+  isLoading: boolean;
   title: string;
   viewRange: { start: Date; end: Date } | null;
 };
 
-export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
+export const CalendarHeader = ({
+  calendarRef,
+  isLoading,
+  title,
+  viewRange,
+}: Props) => {
   const { isMobile } = useResponsiveLayout();
 
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
-  const isLoadingCalendarEpisodes = useAppSelector(
-    selectIsLoadingCalendarEpisodes
-  );
-  const { isLoading: isLoadingTrackedShows } = useAppSelector(
-    trackApi.endpoints.getTrackedShows.select(undefined)
-  );
 
   const hasEpisodesInCurrentMonth =
-    !viewRange || isLoadingCalendarEpisodes || isLoadingTrackedShows
+    !viewRange || isLoading
       ? true
       : calendarEpisodes.some(episode =>
           dayjs(episode.date).isBetween(
@@ -73,14 +69,18 @@ export const CalendarHeader = ({ calendarRef, title, viewRange }: Props) => {
         fontWeight="semibold"
         justifySelf="start"
         ml="0.5"
+        display="flex"
+        alignItems="center"
+        gap={2}
       >
         {title}
+        {isMobile && isLoading && <Spinner size="sm" />}
       </Heading>
 
       <Box>
         {!isMobile && (
           <LoadingEpisodesBanner
-            isLoading={isLoadingCalendarEpisodes || isLoadingTrackedShows}
+            isLoading={isLoading}
             hasNoEpisodesThisMonth={!hasEpisodesInCurrentMonth}
           />
         )}

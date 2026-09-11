@@ -25,6 +25,8 @@ type State = {
   currentShowId: number | null;
   isLoadingShowDetails: boolean;
   calendarEpisodesForDisplay: CalendarEpisode[];
+  calendarEpisodesFetchedAt: number | null;
+  calendarEpisodesShowIdsKey: string;
   isLoadingCalendarEpisodes: boolean;
   discoverShows: DiscoverShowsState;
   recommendations: Record<number, TmdbShowSummary[]>;
@@ -53,7 +55,9 @@ const initialState: State = {
   currentShowId: null,
   isLoadingShowDetails: false,
   calendarEpisodesForDisplay: [],
-  isLoadingCalendarEpisodes: true,
+  calendarEpisodesFetchedAt: null,
+  calendarEpisodesShowIdsKey: '',
+  isLoadingCalendarEpisodes: false,
   discoverShows: emptyDiscoverShows,
   recommendations: {},
   forYouShows: [],
@@ -102,12 +106,11 @@ export const tvReducer: Reducer<State, Action> = (
       };
     }
     case SET_CURRENT_CALENDAR_EPISODES: {
-      if (state.calendarEpisodesForDisplay === action.payload) {
-        return state;
-      }
       return {
         ...state,
-        calendarEpisodesForDisplay: action.payload,
+        calendarEpisodesForDisplay: action.payload.episodes,
+        calendarEpisodesFetchedAt: Date.now(),
+        calendarEpisodesShowIdsKey: action.payload.showIdsKey,
         isLoadingCalendarEpisodes: false,
       };
     }

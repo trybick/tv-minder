@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text } from '@chakra-ui/react';
 import {
   type CalendarOptions,
   type DatesSetArg,
@@ -33,7 +33,6 @@ import { dayjs } from '~/utils/dayjs';
 
 import { CalendarEmptyState } from './CalendarEmptyState';
 import { CalendarHeader } from './CalendarHeader';
-import { CalendarSkeleton } from './CalendarSkeleton';
 import { DesktopCalendarEventPopover } from './DesktopCalendarEventPopover';
 import { NoTrackedShowsBanner } from './NoTrackedShowsBanner';
 
@@ -60,7 +59,9 @@ export const CalendarPage = () => {
   const calendarWrapperRef = useRef<HTMLDivElement>(null);
   const prevViewStartRef = useRef<Date | null>(null);
 
-  const [calendarTitle, setCalendarTitle] = useState('');
+  const [calendarTitle, setCalendarTitle] = useState(() =>
+    dayjs().format('MMMM')
+  );
   const [viewRange, setViewRange] = useState<{
     start: Date;
     end: Date;
@@ -78,7 +79,14 @@ export const CalendarPage = () => {
     isUninitialized: isTrackedShowsUninitialized,
   } = useAppSelector(trackApi.endpoints.getTrackedShows.select(undefined));
 
+  const isTrackedShowsPending =
+    isLoadingTrackedShows || (isLoggedIn && isTrackedShowsUninitialized);
+
   useEffect(() => {
+    if (isTrackedShowsPending || !trackedShowIds) {
+      return;
+    }
+
     const loadEpisodes = () => {
       if (document.visibilityState === 'visible') {
         dispatch(getEpisodesForCalendarAction());
@@ -88,7 +96,7 @@ export const CalendarPage = () => {
 
     window.addEventListener('visibilitychange', loadEpisodes);
     return () => window.removeEventListener('visibilitychange', loadEpisodes);
-  }, [dispatch, trackedShowIds]);
+  }, [dispatch, trackedShowIds, isTrackedShowsPending]);
 
   useEffect(() => {
     const changeView = (view: string) =>
@@ -138,6 +146,8 @@ export const CalendarPage = () => {
     prevViewStartRef.current = dateInfo.start;
   };
 
+  const isEventsLoading = isTrackedShowsPending || isLoadingCalendarEpisodes;
+
   const calendarProps: CalendarOptions & {
     ref: RefObject<FullCalendar>;
   } = {
@@ -157,16 +167,7 @@ export const CalendarPage = () => {
     // Format of the day titles in mobile view
     listDayFormat: { month: 'long', day: 'numeric' },
     listDaySideFormat: false,
-    noEventsContent: isLoadingCalendarEpisodes ? (
-      isMobile ? (
-        <Flex align="center" gap={2} justify="center" py={6}>
-          <Spinner size="sm" />
-          <Text fontSize="sm">Loading episodes</Text>
-        </Flex>
-      ) : null
-    ) : (
-      <NoTrackedShowsBanner />
-    ),
+    noEventsContent: isEventsLoading ? null : <NoTrackedShowsBanner />,
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     ref: calendarRef as RefObject<FullCalendar>,
     titleFormat: { month: 'long' },
@@ -175,26 +176,18 @@ export const CalendarPage = () => {
     datesSet: handleDatesSet,
   };
 
-  const isTrackedShowsPending =
-    isLoadingTrackedShows || (isLoggedIn && isTrackedShowsUninitialized);
-  const isInitialLoading = isTrackedShowsPending || isLoadingCalendarEpisodes;
-  const hasCachedCalendarData = calendarEpisodes.length > 0;
-  const hasTrackedShows = !isInitialLoading && !!trackedShows.length;
-  const shouldShowSkeleton = isInitialLoading && !hasCachedCalendarData;
-  const shouldShowCalendar =
-    hasTrackedShows || (hasCachedCalendarData && !!trackedShows.length);
+  const shouldShowCalendar = trackedShows.length > 0 || isTrackedShowsPending;
 
   return (
     <>
       <title>Calendar | TV Minder</title>
 
       <PageContainer mt="3.5" mb={5} py={{ md: '2.5' }}>
-        {shouldShowSkeleton ? (
-          <CalendarSkeleton />
-        ) : shouldShowCalendar ? (
+        {shouldShowCalendar ? (
           <>
             <CalendarHeader
               calendarRef={calendarRef}
+              isLoading={isEventsLoading}
               title={calendarTitle}
               viewRange={viewRange}
             />

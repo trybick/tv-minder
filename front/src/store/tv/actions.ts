@@ -42,20 +42,35 @@ export const setIsLoadingShowDetails = (isLoading: boolean) => ({
   payload: isLoading,
 });
 
+const CALENDAR_STALE_MS = 5 * 60 * 1000;
+
 export const getEpisodesForCalendarAction =
   (): AppThunk => async (dispatch, getState) => {
     const state = getState();
+    if (state.tv.isLoadingCalendarEpisodes) {
+      return;
+    }
+
+    const showIds = selectTrackedShows(state);
+    const showIdsKey = showIds.join(',');
+    const fetchedAt = state.tv.calendarEpisodesFetchedAt;
+    const isFresh =
+      fetchedAt != null &&
+      state.tv.calendarEpisodesShowIdsKey === showIdsKey &&
+      Date.now() - fetchedAt < CALENDAR_STALE_MS;
+
+    if (isFresh) {
+      return;
+    }
 
     dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: true });
 
     try {
-      const userTrackedShowsIds = selectTrackedShows(state);
-      const { fetchedEpisodeData } =
-        await getEpisodesForCalendar(userTrackedShowsIds);
+      const { fetchedEpisodeData } = await getEpisodesForCalendar(showIds);
 
       dispatch({
         type: SET_CURRENT_CALENDAR_EPISODES,
-        payload: fetchedEpisodeData,
+        payload: { episodes: fetchedEpisodeData, showIdsKey },
       });
     } catch (error) {
       handleKyError(error);
