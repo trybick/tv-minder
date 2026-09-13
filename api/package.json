@@ -21,16 +21,16 @@
     "utils": "dist/utils"
   },
   "dependencies": {
-    "@types/express": "^5.0.3",
+    "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.6",
     "bcryptjs": "^3.0.3",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.7.0",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "mailtrap": "^4.10.0",
-    "module-alias": "^2.2.3",
+    "module-alias": "^2.3.4",
     "mongoose": "^9.10.0",
     "typescript": "^6.0.3"
   },
@@ -39,8 +39,8 @@
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
     "eslint": "^10.10.0",
-    "nodemon": "^3.1.10",
-    "tsc-watch": "^7.1.1",
+    "nodemon": "^3.1.14",
+    "tsc-watch": "^7.2.1",
     "typescript-eslint": "^8.70.0"
   }
 }
