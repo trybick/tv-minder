@@ -6,6 +6,7 @@
     "lib": ["es2022"],
     "strict": true,
     "noImplicitAny": true,
+    "ignoreDeprecations": "6.0",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,

@@ -23,7 +23,7 @@
   "dependencies": {
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.1.0",
+    "@types/node": "^25.9.6",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.0",
     "express": "^5.2.1",
@@ -32,14 +32,15 @@
     "mailtrap": "^4.10.0",
     "module-alias": "^2.2.3",
     "mongoose": "^9.10.0",
-    "typescript": "^5.8.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.38.0",
-    "@typescript-eslint/parser": "^8.38.0",
-    "eslint": "^9.31.0",
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.70.0",
+    "@typescript-eslint/parser": "^8.70.0",
+    "eslint": "^10.10.0",
     "nodemon": "^3.1.10",
     "tsc-watch": "^7.1.1",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.70.0"
   }
 }

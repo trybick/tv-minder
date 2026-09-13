@@ -34,6 +34,6 @@ export const sendEmail = async ({
     logger.success('Email sent:', info);
   } catch (error) {
     logger.error('Mailtrap error:', error);
-    throw new Error('Failed to send email');
+    throw new Error('Failed to send email', { cause: error });
   }
 };
