@@ -62,7 +62,11 @@ export const CommandPaletteProvider = ({ children }: Props) => {
   return (
     <CommandPaletteContext.Provider value={contextValue}>
       {children}
-      <CommandPaletteDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+      <CommandPaletteDialog
+        key={isOpen ? 'open' : 'closed'}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </CommandPaletteContext.Provider>
   );
 };

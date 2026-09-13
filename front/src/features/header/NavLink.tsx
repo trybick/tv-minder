@@ -30,6 +30,7 @@ export const NavLink = ({
     e.preventDefault();
     onClose?.();
     onClick?.();
+    window.scrollTo(0, 0);
     navigate(linkTo);
   };
 

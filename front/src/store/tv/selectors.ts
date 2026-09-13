@@ -24,6 +24,8 @@ export const selectIsLoadingShowDetails = (state: RootState) =>
   state.tv.isLoadingShowDetails;
 export const selectCalendarEpisodesForDisplay = (state: RootState) =>
   state.tv.calendarEpisodesForDisplay;
+export const selectCalendarEpisodesShowIdsKey = (state: RootState) =>
+  state.tv.calendarEpisodesShowIdsKey;
 export const selectIsLoadingCalendarEpisodes = (state: RootState) =>
   state.tv.isLoadingCalendarEpisodes;
 export const selectDiscoverShows = (state: RootState) => state.tv.discoverShows;

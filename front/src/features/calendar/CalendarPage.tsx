@@ -26,6 +26,7 @@ import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getEpisodesForCalendarAction } from '~/store/tv/actions';
 import {
   selectCalendarEpisodesForDisplay,
+  selectCalendarEpisodesShowIdsKey,
   selectIsLoadingCalendarEpisodes,
 } from '~/store/tv/selectors';
 import { trackEvent } from '~/utils/analytics';
@@ -71,6 +72,9 @@ export const CalendarPage = () => {
   const trackedShows = useAppSelector(selectTrackedShows);
   const trackedShowIds = useAppSelector(selectTrackedShowIds);
   const calendarEpisodes = useAppSelector(selectCalendarEpisodesForDisplay);
+  const calendarEpisodesShowIdsKey = useAppSelector(
+    selectCalendarEpisodesShowIdsKey
+  );
   const isLoadingCalendarEpisodes = useAppSelector(
     selectIsLoadingCalendarEpisodes
   );
@@ -108,8 +112,11 @@ export const CalendarPage = () => {
     }
   }, [isMobile]);
 
+  const wasLoggedInRef = useRef(isLoggedIn);
   useEffect(() => {
-    if (isLoggedIn) {
+    const justLoggedIn = isLoggedIn && !wasLoggedInRef.current;
+    wasLoggedInRef.current = isLoggedIn;
+    if (justLoggedIn) {
       calendarRef.current?.getApi().today();
     }
   }, [isLoggedIn]);
@@ -146,7 +153,12 @@ export const CalendarPage = () => {
     prevViewStartRef.current = dateInfo.start;
   };
 
-  const isEventsLoading = isTrackedShowsPending || isLoadingCalendarEpisodes;
+  const isCalendarStaleForTrackedShows =
+    trackedShows.length > 0 && calendarEpisodesShowIdsKey !== trackedShowIds;
+  const isEventsLoading =
+    isTrackedShowsPending ||
+    isLoadingCalendarEpisodes ||
+    isCalendarStaleForTrackedShows;
 
   const calendarProps: CalendarOptions & {
     ref: RefObject<FullCalendar>;

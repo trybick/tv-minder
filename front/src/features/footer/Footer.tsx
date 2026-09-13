@@ -28,6 +28,7 @@ export const Footer = () => {
 
   const handleNavigate = (href: string) => (e: MouseEvent) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
     navigate(href);
   };
 

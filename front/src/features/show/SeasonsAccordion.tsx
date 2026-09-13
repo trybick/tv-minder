@@ -17,8 +17,7 @@ export const SeasonsAccordion = () => {
   const isLoadingDetails = useAppSelector(selectIsCurrentShowLoading);
   const hasRichContent = useAppSelector(selectHasRichShowContent);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
-  const isLoading =
-    isLoadingDetails || (!!currentShowInfo && !hasRichContent);
+  const isLoading = isLoadingDetails || (!!currentShowInfo && !hasRichContent);
   const { seasonsWithEpisodes } = currentShowInfo || {};
   const hasEpisodes =
     currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;

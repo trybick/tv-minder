@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary';
@@ -46,10 +46,6 @@ export const App = () => {
 
   useEffect(() => {
     trackPageview(location);
-  }, [location]);
-
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
   }, [location]);
 
   return (

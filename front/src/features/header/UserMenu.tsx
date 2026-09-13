@@ -55,7 +55,10 @@ export const UserMenu = () => {
                   <Menu.Item
                     cursor="pointer"
                     rounded="lg"
-                    onClick={() => navigate(ROUTES.SETTINGS)}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      navigate(ROUTES.SETTINGS);
+                    }}
                     value="settings"
                   >
                     <LuSettings />

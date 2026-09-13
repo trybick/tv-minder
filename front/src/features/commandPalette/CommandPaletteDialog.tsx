@@ -50,9 +50,10 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
   const { getImageUrl } = useImageUrl();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
-  const [tmdbResults, setTmdbResults] = useState<TmdbShowSummary[]>([]);
-  const [isSearchingTmdb, setIsSearchingTmdb] = useState(false);
+  const [tmdbSearch, setTmdbSearch] = useState<{
+    query: string;
+    results: TmdbShowSummary[];
+  }>({ query: '', results: [] });
   const searchTimeoutRef = useRef<number | null>(null);
 
   const trackedShowIds = useAppSelector(selectTrackedShows);
@@ -65,7 +66,15 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
   const filteredTrackedShows = trackedShows.filter(show =>
     show.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+  const query = searchTerm.trim();
+  const normalizedSearchTerm = query.toLowerCase();
+  const shouldSkipTmdbSearch =
+    query.length < 2 || filteredTrackedShows.length > 0;
+  const tmdbResults =
+    shouldSkipTmdbSearch || tmdbSearch.query !== query
+      ? []
+      : tmdbSearch.results;
+  const isSearchingTmdb = !shouldSkipTmdbSearch && tmdbSearch.query !== query;
   const firstSelectableValue = !normalizedSearchTerm
     ? recentShows[0]
       ? `recent-${recentShows[0].id}-${recentShows[0].name}`
@@ -78,22 +87,25 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
             page.label.toLowerCase().includes(normalizedSearchTerm)
           )?.label ?? '');
 
+  const [selectedValue, setSelectedValue] = useState(firstSelectableValue);
+  const [prevFirstSelectableValue, setPrevFirstSelectableValue] =
+    useState(firstSelectableValue);
+
+  if (isOpen && firstSelectableValue !== prevFirstSelectableValue) {
+    setPrevFirstSelectableValue(firstSelectableValue);
+    if (firstSelectableValue) {
+      setSelectedValue(firstSelectableValue);
+    }
+  }
+
   useEffect(() => {
     if (searchTimeoutRef.current) {
       window.clearTimeout(searchTimeoutRef.current);
     }
 
-    const query = searchTerm.trim();
-    const shouldSkipSearch =
-      query.length < 2 || filteredTrackedShows.length > 0;
-
-    if (shouldSkipSearch) {
-      setTmdbResults([]);
-      setIsSearchingTmdb(false);
+    if (shouldSkipTmdbSearch) {
       return;
     }
-
-    setIsSearchingTmdb(true);
 
     searchTimeoutRef.current = window.setTimeout(async () => {
       try {
@@ -103,11 +115,12 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
           label: query,
         });
         const results = await fetchResults(query);
-        setTmdbResults(filterOutTrackedShows(results, trackedIds));
+        setTmdbSearch({
+          query,
+          results: filterOutTrackedShows(results, trackedIds),
+        });
       } catch {
-        setTmdbResults([]);
-      } finally {
-        setIsSearchingTmdb(false);
+        setTmdbSearch({ query, results: [] });
       }
     }, 300);
 
@@ -116,25 +129,7 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
         window.clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [searchTerm, filteredTrackedShows.length, trackedIds]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setSearchTerm('');
-      setSelectedValue('');
-      setTmdbResults([]);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen || !firstSelectableValue) {
-      return;
-    }
-
-    setSelectedValue(prev =>
-      prev === firstSelectableValue ? prev : firstSelectableValue
-    );
-  }, [firstSelectableValue, isOpen]);
+  }, [query, shouldSkipTmdbSearch, trackedIds]);
 
   const handleNavigateToShow = (showId: number) => {
     setIsOpen(false);
@@ -143,6 +138,7 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
 
   const handleNavigateToPage = (route: string) => {
     setIsOpen(false);
+    window.scrollTo(0, 0);
     navigate(route);
   };
 

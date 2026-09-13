@@ -21,6 +21,7 @@ export const Logo = ({ onClose }: Props) => {
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onClose?.();
+    window.scrollTo(0, 0);
     if (location === ROUTES.HOME) {
       applyViewTransition(() => dispatch(setShouldResetSearchInput(true)));
     } else {
