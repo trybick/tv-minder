@@ -2,13 +2,7 @@ import ReactGA from 'react-ga4';
 
 import { getIsProduction } from '~/utils/env';
 
-type EventOptions = {
-  action: string;
-  category: string;
-  label?: string;
-  value?: number;
-  nonInteraction?: boolean;
-};
+type EventOptions = Exclude<Parameters<typeof ReactGA.event>[0], string>;
 
 export const initAnalytics = (id: string) => {
   if (getIsProduction()) {

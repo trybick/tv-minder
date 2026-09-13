@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import { HTTPError } from 'ky';
+import { HTTPError, isNetworkError } from 'ky';
 
 import { getIsProduction } from '~/utils/env';
 
@@ -34,7 +34,7 @@ export function handleKyError(error: unknown) {
       return;
     }
 
-    if (error instanceof TypeError) {
+    if (isNetworkError(error) || error instanceof TypeError) {
       console.error('network_failure error:', error.message);
       return;
     }
