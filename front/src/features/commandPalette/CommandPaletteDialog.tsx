@@ -164,7 +164,6 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
       <Box className="cmdk-wrapper">
         <Flex className="cmdk-input-wrapper">
           <Command.Input
-            type="search"
             {...passwordManagerIgnoreProps}
             value={searchTerm}
             onValueChange={setSearchTerm}

@@ -17,7 +17,10 @@ const endpointsWithErrorToasts = [
 errorHandlerMiddleware.startListening({
   matcher: isAnyOf(...endpointsWithErrorToasts),
   effect: action => {
-    // Ignore AbortErrors (expected during unmount, StrictMode, etc.)
+    if (!('meta' in action) || !('payload' in action)) {
+      return;
+    }
+
     const meta = action.meta as { aborted?: boolean } | undefined;
     if (meta?.aborted) {
       return;
