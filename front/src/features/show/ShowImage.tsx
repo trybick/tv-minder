@@ -9,7 +9,7 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingShowDetails,
+  selectIsCurrentShowLoading,
 } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
 import {
@@ -23,7 +23,7 @@ export const ShowImage = () => {
   const { showId } = useParams<{ showId: string }>();
   const parsedShowId = parseShowId(showId);
 
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
   const showDataFromHistory = historyState?.posterSource ? historyState : null;
 

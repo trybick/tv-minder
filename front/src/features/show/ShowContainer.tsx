@@ -8,7 +8,7 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingShowDetails,
+  selectHasRichShowContent,
 } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
 
@@ -24,7 +24,7 @@ export const ShowContainer = () => {
   const parsedShowId = parseShowId(showId);
   const historyState = useHistoryState<ShowNavigationState>();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const hasRichContent = useAppSelector(selectHasRichShowContent);
 
   const { reviews = [], videoTrailerKey } = currentShowInfo || {};
   const name = currentShowInfo?.name || historyState?.name || '';
@@ -52,7 +52,7 @@ export const ShowContainer = () => {
         <ShowDetails />
 
         <Flex direction="column" gap={8}>
-          {!isLoading && <ReviewsSection reviews={reviews} />}
+          {hasRichContent && <ReviewsSection reviews={reviews} />}
           <SeasonsAccordion />
         </Flex>
       </Flex>
@@ -76,7 +76,7 @@ export const ShowContainer = () => {
       <Flex direction="column" gap={8}>
         <ShowDetails />
 
-        {!isLoading && <ReviewsSection reviews={reviews} />}
+        {hasRichContent && <ReviewsSection reviews={reviews} />}
 
         <SeasonsAccordion />
       </Flex>

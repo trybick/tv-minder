@@ -3,7 +3,7 @@ import { Box, Flex, Tag } from '@chakra-ui/react';
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
+import { selectIsCurrentShowLoading } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 export const Genres = ({ show }: Props) => {
   const { isMobile } = useResponsiveLayout();
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
   const { genreNames } = show || {};
 
   if (!isLoading && !genreNames?.length) {

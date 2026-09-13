@@ -2,7 +2,7 @@ import { Box, Text } from '@chakra-ui/react';
 
 import { DelayedSkeletonText } from '~/components/DelayedSkeletonText';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
+import { selectIsCurrentShowLoading } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const Overview = ({ show }: Props) => {
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
   const { overview } = show || {};
 
   if (!isLoading && !overview) {

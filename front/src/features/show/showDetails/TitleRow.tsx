@@ -2,7 +2,7 @@ import { chakra, Flex, Heading, Status, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
+import { selectIsCurrentShowLoading } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
 
 import { getStatusForDisplay } from './getStatusForDisplay';
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const TitleRow = ({ show, fallbackName }: Props) => {
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
   const { name: showName, startYear, status } = show || {};
   const name = showName || fallbackName;
   const isTitleLoading = isLoading && !name;

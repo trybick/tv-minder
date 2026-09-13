@@ -5,7 +5,8 @@ import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingShowDetails,
+  selectHasRichShowContent,
+  selectIsCurrentShowLoading,
 } from '~/store/tv/selectors';
 import { dayjs } from '~/utils/dayjs';
 
@@ -13,8 +14,11 @@ import { EpisodesTable } from './EpisodesTable';
 
 export const SeasonsAccordion = () => {
   const { isMobile } = useResponsiveLayout();
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoadingDetails = useAppSelector(selectIsCurrentShowLoading);
+  const hasRichContent = useAppSelector(selectHasRichShowContent);
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
+  const isLoading =
+    isLoadingDetails || (!!currentShowInfo && !hasRichContent);
   const { seasonsWithEpisodes } = currentShowInfo || {};
   const hasEpisodes =
     currentShowInfo?.seasonsWithEpisodes?.[0]?.episodes?.length;

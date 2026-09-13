@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import { SKELETON_DELAY } from '~/utils/constants';
+import { isImageViewTransitionActive } from '~/utils/viewTransition';
 
 export const useSkeletonDelay = (isLoading: boolean): boolean => {
-  const [shouldShow, setShouldShow] = useState(false);
+  const skipDelay = isLoading && isImageViewTransitionActive();
+  const [shouldShow, setShouldShow] = useState(skipDelay);
 
   useEffect(() => {
     let timeoutId: number;
+
+    if (skipDelay) {
+      setShouldShow(true);
+      return;
+    }
 
     if (isLoading) {
       timeoutId = window.setTimeout(() => setShouldShow(true), SKELETON_DELAY);
@@ -15,7 +22,11 @@ export const useSkeletonDelay = (isLoading: boolean): boolean => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [isLoading]);
+  }, [isLoading, skipDelay]);
+
+  if (skipDelay) {
+    return true;
+  }
 
   return shouldShow;
 };

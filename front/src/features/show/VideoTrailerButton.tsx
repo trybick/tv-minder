@@ -10,7 +10,7 @@ import { AiFillYoutube } from 'react-icons/ai';
 
 import { YouTubePlayer } from '~/components/YouTubePlayer';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
+import { selectIsCurrentShowLoading } from '~/store/tv/selectors';
 
 type Props = {
   videoId: string | undefined;
@@ -18,7 +18,7 @@ type Props = {
 
 export const VideoTrailerButton = ({ videoId }: Props) => {
   const { open: isOpen, onOpen, onClose } = useDisclosure();
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
 
   if (isLoading || !videoId) {
     return null;

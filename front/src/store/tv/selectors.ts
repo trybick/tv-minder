@@ -15,6 +15,7 @@ import {
   type TmdbShowWithSeasons,
 } from './types/transformed';
 import { mapShowInfoForDisplay } from './utils/formatting';
+import { hasFetchedRichShowContent } from './utils/hasFetchedRichShowContent';
 
 export const selectShowDetails = (state: RootState) => state.tv.showDetails;
 export const selectSearchShowDetails = (state: RootState) =>
@@ -177,6 +178,23 @@ export const selectCurrentShowInfo: AppSelector<ShowForDisplay | null> =
       return currentShow?.id ? mapShowInfoForDisplayCached(currentShow) : null;
     }
   );
+
+export const selectHasRichShowContent: AppSelector<boolean> = createSelector(
+  selectShowDetails,
+  selectCurrentShowId,
+  (showDetails, currentShowId) => {
+    if (!currentShowId) {
+      return false;
+    }
+    return hasFetchedRichShowContent(showDetails[currentShowId]);
+  }
+);
+
+export const selectIsCurrentShowLoading: AppSelector<boolean> = createSelector(
+  selectIsLoadingShowDetails,
+  selectCurrentShowInfo,
+  (isLoading, currentShowInfo) => isLoading && !currentShowInfo
+);
 
 export const selectCurrentSimilarShowItems: AppSelector<
   ShowItem[] | undefined

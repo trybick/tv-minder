@@ -15,6 +15,7 @@ import {
   type TmdbShowWatchProviders,
 } from './types/tmdbSchema';
 import { type TmdbShowWithSeasons } from './types/transformed';
+import { hasFetchedRichShowContent } from './utils/hasFetchedRichShowContent';
 import { tmdbApi } from './utils/tmdbApi';
 
 export const SET_CURRENT_CALENDAR_EPISODES = 'SET_CURRENT_CALENDAR_EPISODES';
@@ -184,11 +185,7 @@ export const getShowDetailsWithSeasons =
   (showId: number): AppThunk =>
   async (dispatch, getState) => {
     const existing = getState().tv.showDetails[showId];
-    const hasRichContentData = !!(
-      existing?.showVideos ||
-      existing?.showReviews ||
-      existing?.showWatchProviders
-    );
+    const hasRichContentData = hasFetchedRichShowContent(existing);
 
     if (existing?.seasonsWithEpisodes && hasRichContentData) {
       dispatch(setIsLoadingShowDetails(false));

@@ -1,7 +1,7 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
 
 import { useAppSelector } from '~/store';
-import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
+import { selectIsCurrentShowLoading } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 
@@ -27,7 +27,7 @@ const getEmptyLastAiredText = (status?: ShowForDisplay['status']) => {
 };
 
 export const AirDates = ({ show }: Props) => {
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
   const { lastEpisodeAirDate, nextEpisodeAirDate, status } = show || {};
 
   if (isLoading) {

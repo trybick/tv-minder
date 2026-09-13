@@ -70,6 +70,10 @@ export const afterViewTransition = (callback: () => void) => {
   activeTransition.finished.finally(callback);
 };
 
+export const isImageViewTransitionActive = () => {
+  return document.documentElement.dataset.viewTransitionKind === 'image';
+};
+
 export const SHOW_IMAGE_TRANSITION_CLASS = 'show-image';
 
 export const getShowImageTransitionName = (showId: number) => {

@@ -6,7 +6,8 @@ import { useSkeletonDelay } from '~/hooks/useSkeletonDelay';
 import { useAppSelector } from '~/store';
 import {
   selectCurrentShowInfo,
-  selectIsLoadingShowDetails,
+  selectHasRichShowContent,
+  selectIsCurrentShowLoading,
 } from '~/store/tv/selectors';
 
 import { AirDates } from './AirDates';
@@ -17,14 +18,62 @@ import { TitleRow } from './TitleRow';
 import { Videos } from './richContent/Videos';
 import { WatchProviders } from './richContent/WatchProviders';
 
+const skeletonCardStyles = {
+  border: '1px solid',
+  borderColor: 'whiteAlpha.100',
+  borderRadius: 'xl',
+  bg: 'whiteAlpha.50',
+  minW: 0,
+} as const;
+
+const AirDateSkeleton = () => {
+  return (
+    <Box {...skeletonCardStyles} p={5}>
+      <Skeleton h="10px" w="80px" mb={4} />
+      <Skeleton h="26px" w="110px" mb={2} />
+      <Skeleton h="13px" w="70px" />
+    </Box>
+  );
+};
+
+const WatchProvidersSkeleton = () => {
+  return (
+    <Box {...skeletonCardStyles} p={4} minH={{ md: '240px' }}>
+      <Skeleton h="20px" w="130px" mb={4} />
+      <Skeleton h="11px" w="100px" mb={3} />
+      <Flex gap={2} flexWrap="wrap">
+        <Skeleton h="30px" w="88px" borderRadius="full" />
+        <Skeleton h="30px" w="72px" borderRadius="full" />
+        <Skeleton h="30px" w="96px" borderRadius="full" />
+      </Flex>
+    </Box>
+  );
+};
+
+const VideosSkeleton = () => {
+  return (
+    <Box {...skeletonCardStyles} p={4} minH={{ md: '240px' }}>
+      <Skeleton h="20px" w="70px" mb={4} />
+      <Flex direction="column" gap={1}>
+        <Skeleton h="36px" w="100%" borderRadius="md" />
+        <Skeleton h="36px" w="100%" borderRadius="md" />
+        <Skeleton h="36px" w="80%" borderRadius="md" />
+      </Flex>
+    </Box>
+  );
+};
+
 export const ShowDetails = () => {
   const historyState = useHistoryState<ShowNavigationState>();
   const currentShowInfo = useAppSelector(selectCurrentShowInfo);
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
+  const hasRichContent = useAppSelector(selectHasRichShowContent);
 
   const { videos = [], watchProviders, name } = currentShowInfo || {};
 
-  const shouldShowSkeleton = useSkeletonDelay(isLoading);
+  const isWaitingForRichContent = !!currentShowInfo && !hasRichContent;
+  const showRichSkeletons = isLoading || isWaitingForRichContent;
+  const shouldShowSkeleton = useSkeletonDelay(showRichSkeletons);
 
   const availableWatchProviders =
     watchProviders &&
@@ -51,73 +100,31 @@ export const ShowDetails = () => {
       <Genres show={currentShowInfo} />
       <Overview show={currentShowInfo} />
 
-      {isLoading ? (
+      {showRichSkeletons ? (
         <Grid
           templateColumns={{ base: '1fr', md: '1fr 1fr' }}
           gap={4}
           alignItems="start"
           visibility={shouldShowSkeleton ? 'visible' : 'hidden'}
         >
-          <Box
-            border="1px solid"
-            borderColor="whiteAlpha.100"
-            borderRadius="xl"
-            bg="whiteAlpha.50"
-            p={5}
-            minW={0}
-          >
-            <Skeleton h="10px" w="80px" mb={4} />
-            <Skeleton h="26px" w="110px" mb={2} />
-            <Skeleton h="13px" w="70px" />
-          </Box>
-
-          <Box
-            border="1px solid"
-            borderColor="whiteAlpha.100"
-            borderRadius="xl"
-            bg="whiteAlpha.50"
-            p={5}
-            minW={0}
-          >
-            <Skeleton h="10px" w="100px" mb={4} />
-            <Skeleton h="26px" w="140px" mb={2} />
-            <Skeleton h="13px" w="90px" />
-          </Box>
-
-          <Box
-            border="1px solid"
-            borderColor="whiteAlpha.100"
-            borderRadius="xl"
-            bg="whiteAlpha.50"
-            p={4}
-            minH={{ md: '240px' }}
-            minW={0}
-          >
-            <Skeleton h="20px" w="130px" mb={4} />
-            <Skeleton h="11px" w="100px" mb={3} />
-            <Flex gap={2} flexWrap="wrap">
-              <Skeleton h="30px" w="88px" borderRadius="full" />
-              <Skeleton h="30px" w="72px" borderRadius="full" />
-              <Skeleton h="30px" w="96px" borderRadius="full" />
-            </Flex>
-          </Box>
-
-          <Box
-            border="1px solid"
-            borderColor="whiteAlpha.100"
-            borderRadius="xl"
-            bg="whiteAlpha.50"
-            p={4}
-            minH={{ md: '240px' }}
-            minW={0}
-          >
-            <Skeleton h="20px" w="70px" mb={4} />
-            <Flex direction="column" gap={1}>
-              <Skeleton h="36px" w="100%" borderRadius="md" />
-              <Skeleton h="36px" w="100%" borderRadius="md" />
-              <Skeleton h="36px" w="80%" borderRadius="md" />
-            </Flex>
-          </Box>
+          {isWaitingForRichContent ? (
+            <>
+              <AirDates show={currentShowInfo} />
+              <Box minW={0}>
+                <WatchProvidersSkeleton />
+              </Box>
+              <Box minW={0}>
+                <VideosSkeleton />
+              </Box>
+            </>
+          ) : (
+            <>
+              <AirDateSkeleton />
+              <AirDateSkeleton />
+              <WatchProvidersSkeleton />
+              <VideosSkeleton />
+            </>
+          )}
         </Grid>
       ) : (
         <Grid

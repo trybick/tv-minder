@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { DelayedSkeleton } from '~/components/DelayedSkeleton';
 import { useAppSelector } from '~/store';
-import { selectIsLoadingShowDetails } from '~/store/tv/selectors';
+import { selectIsCurrentShowLoading } from '~/store/tv/selectors';
 import type { ShowForDisplay } from '~/store/tv/types/transformed';
 import { abbreviateNumber } from '~/utils/formatting';
 
@@ -64,7 +64,7 @@ const getPeopleWatchedDisplay = (voteCount?: ShowForDisplay['voteCount']) => {
 export const RatingRow = ({ show }: Props) => {
   const { voteAverage, voteCount } = show || {};
 
-  const isLoading = useAppSelector(selectIsLoadingShowDetails);
+  const isLoading = useAppSelector(selectIsCurrentShowLoading);
 
   const ratingDisplay = getRatingDisplay(voteAverage);
   const peopleWatchedDisplay = getPeopleWatchedDisplay(voteCount);
