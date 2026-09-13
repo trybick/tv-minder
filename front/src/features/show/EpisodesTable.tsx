@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { Badge, Flex, Icon, Table, Text } from '@chakra-ui/react';
 import {
   type ColumnDef,

@@ -88,14 +88,14 @@ const getLatestAiredSeasons = async (
         return null;
       }
 
-      let seasonNumbers: number[] = [];
-
       const lastSeasonNumberToAir = lastEpisodeToAir?.season_number ?? null;
       const nextSeasonNumberToAir = nextEpisodeToAir?.season_number ?? null;
       const isLastAndNextEpisodeInSameSeason =
         lastSeasonNumberToAir &&
         nextSeasonNumberToAir &&
         lastSeasonNumberToAir === nextSeasonNumberToAir;
+
+      let seasonNumbers: number[];
 
       if (lastAirDate && dayjs(lastAirDate).isBefore(sixMonthsAgo)) {
         seasonNumbers = nextSeasonNumberToAir ? [nextSeasonNumberToAir] : [];

@@ -4,9 +4,9 @@ import {
   mapTmdbShowSummary,
   type ShowItem,
 } from '~/components/ShowCard/helpers';
+import { type AppSelector, type RootState } from '~/store';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 
-import { type AppSelector, type RootState } from './..';
 import { DISCOVER_CAROUSEL_KEYS, type DiscoverCarouselKey } from './actions';
 import { type TmdbShowSummary } from './types/tmdbSchema';
 import {

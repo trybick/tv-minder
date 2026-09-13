@@ -8,31 +8,41 @@ export default defineConfig({
   server: { open: true, port: 4000 },
   build: {
     outDir: 'build',
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-chakra': [
-            '@chakra-ui/react',
-            '@emotion/react',
-            'next-themes',
+        codeSplitting: {
+          groups: [
+            {
+              name: 'vendor-react',
+              test: /node_modules\/(react|react-dom)\//,
+            },
+            {
+              name: 'vendor-chakra',
+              test: /node_modules\/(@chakra-ui\/react|@emotion\/react|next-themes)\//,
+            },
+            {
+              name: 'vendor-fullcalendar',
+              test: /node_modules\/@fullcalendar\//,
+            },
+            {
+              name: 'vendor-sentry',
+              test: /node_modules\/@sentry\//,
+            },
+            {
+              name: 'vendor-redux',
+              test: /node_modules\/(@reduxjs\/toolkit|react-redux|redux-persist)\//,
+            },
+            {
+              name: 'vendor-table',
+              test: /node_modules\/@tanstack\/react-table\//,
+            },
           ],
-          'vendor-fullcalendar': [
-            '@fullcalendar/core',
-            '@fullcalendar/daygrid',
-            '@fullcalendar/interaction',
-            '@fullcalendar/list',
-            '@fullcalendar/react',
-          ],
-          'vendor-sentry': ['@sentry/react'],
-          'vendor-redux': ['@reduxjs/toolkit', 'react-redux', 'redux-persist'],
-          'vendor-table': ['@tanstack/react-table'],
         },
       },
     },
   },
   resolve: {
-    alias: { '~': path.resolve(__dirname, 'src') },
+    alias: { '~': path.resolve(import.meta.dirname, 'src') },
   },
   plugins: [
     react(),

@@ -5,7 +5,6 @@ import tsParser from '@typescript-eslint/parser';
 import { globalIgnores } from 'eslint/config';
 import * as pluginImportX from 'eslint-plugin-import-x';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
-import reactPlugin from 'eslint-plugin-react';
 import * as reactHooksPlugin from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
@@ -63,11 +62,9 @@ export default [
     },
   },
 
-  // React config
   {
     files: ['**/*.{jsx,tsx}'],
     plugins: {
-      react: reactPlugin,
       'react-hooks': reactHooksPlugin,
     },
     languageOptions: {
@@ -77,20 +74,11 @@ export default [
         },
       },
     },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
     rules: {
-      ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react-hooks/incompatible-library': 'off',
-      'react/no-unstable-nested-components': 'warn',
     },
   },
 

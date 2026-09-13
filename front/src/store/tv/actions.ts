@@ -1,9 +1,9 @@
+import { type AppThunk } from '~/store';
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { dayjs } from '~/utils/dayjs';
 import { handleKyError } from '~/utils/handleKyError';
 import { afterViewTransition } from '~/utils/viewTransition';
 
-import { type AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
 import {
   type TmdbSeason,
