@@ -17,8 +17,8 @@ import { selectUnregisteredTrackedShows } from '~/store/rtk/slices/user.slice';
 import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
-import { releasePasswordManager } from '~/utils/passwordManagerIgnore';
 import { isFetchError } from '~/utils/isFetchError';
+import { releasePasswordManager } from '~/utils/passwordManagerIgnore';
 
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { AuthDialogContent } from './auth/AuthDialogContent';
@@ -128,10 +128,8 @@ export const SignUpModal = () => {
       lazyMount
       unmountOnExit
     >
-      {isOpen ? (
-        <>
-          <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
-          <Dialog.Positioner>
+      <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
+      <Dialog.Positioner>
         <AuthDialogContent
           title="Create your account"
           description="Never miss an episode of the shows you love."
@@ -200,9 +198,7 @@ export const SignUpModal = () => {
             </Dialog.Footer>
           </chakra.form>
         </AuthDialogContent>
-          </Dialog.Positioner>
-        </>
-      ) : null}
+      </Dialog.Positioner>
     </Dialog.Root>
   );
 };

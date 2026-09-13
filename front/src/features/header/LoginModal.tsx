@@ -249,10 +249,9 @@ export const LoginModal = () => {
       lazyMount
       unmountOnExit
     >
-      {isOpen ? (
-        <Portal>
-          <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
-          <Dialog.Positioner>
+      <Portal>
+        <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
+        <Dialog.Positioner>
           <AuthDialogContent title={title} description={description}>
             <chakra.form noValidate onSubmit={onSubmit}>
               <Dialog.Body pt="4" pb="6">
@@ -355,9 +354,8 @@ export const LoginModal = () => {
               </Dialog.Footer>
             </chakra.form>
           </AuthDialogContent>
-          </Dialog.Positioner>
-        </Portal>
-      ) : null}
+        </Dialog.Positioner>
+      </Portal>
     </Dialog.Root>
   );
 };
