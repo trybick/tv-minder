@@ -15,11 +15,12 @@ describe('getUniqueColorsForShowIds', () => {
   });
 
   it('should choose another color if initial color is already used', () => {
-    const mobland = 247718;
-    const lastofus = 100088;
-    const showIds = [mobland, lastofus];
+    const paletteSize = allColors.length;
+    const collidingIdA = paletteSize;
+    const collidingIdB = paletteSize * 2;
+    const showIds = [collidingIdA, collidingIdB];
 
-    expect(mobland % allColors.length).toBe(lastofus % allColors.length);
+    expect(collidingIdA % paletteSize).toBe(collidingIdB % paletteSize);
 
     const colors = getUniqueColorsForShowIds(showIds);
 
