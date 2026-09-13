@@ -1,6 +1,7 @@
 import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { dayjs } from '~/utils/dayjs';
 import { handleKyError } from '~/utils/handleKyError';
+import { afterViewTransition } from '~/utils/viewTransition';
 
 import { type AppThunk } from './..';
 import { getEpisodesForCalendar } from './services/getEpisodesForCalendar';
@@ -194,7 +195,9 @@ export const getShowDetailsWithSeasons =
       return;
     }
 
-    dispatch(setIsLoadingShowDetails(true));
+    if (!existing?.id) {
+      dispatch(setIsLoadingShowDetails(true));
+    }
 
     const watchRegion = getWatchRegion();
     let showData: TmdbShow;
@@ -234,18 +237,20 @@ export const getShowDetailsWithSeasons =
       }
     });
 
-    dispatch({
-      type: SAVE_SHOW_DETAILS_FOR_SHOW,
-      payload: {
-        [showId]: {
-          ...showData,
-          seasonsWithEpisodes,
-          showVideos,
-          showReviews,
-          showWatchProviders,
-          watchRegion,
+    afterViewTransition(() => {
+      dispatch({
+        type: SAVE_SHOW_DETAILS_FOR_SHOW,
+        payload: {
+          [showId]: {
+            ...showData,
+            seasonsWithEpisodes,
+            showVideos,
+            showReviews,
+            showWatchProviders,
+            watchRegion,
+          },
         },
-      },
+      });
     });
   };
 
@@ -259,15 +264,19 @@ export const getRecommendationsForSingleShow =
 
     try {
       const data = await tmdbApi.getRecommendations(showId);
-      dispatch({
-        type: SAVE_RECOMMENDATIONS,
-        payload: { showId, results: data.results },
+      afterViewTransition(() => {
+        dispatch({
+          type: SAVE_RECOMMENDATIONS,
+          payload: { showId, results: data.results },
+        });
       });
     } catch (error) {
       handleKyError(error);
-      dispatch({
-        type: SAVE_RECOMMENDATIONS,
-        payload: { showId, results: [] },
+      afterViewTransition(() => {
+        dispatch({
+          type: SAVE_RECOMMENDATIONS,
+          payload: { showId, results: [] },
+        });
       });
     }
   };

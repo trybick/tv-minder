@@ -19,10 +19,13 @@ export const useNavigateToShow = () => {
     e: MouseEvent<HTMLAnchorElement>,
     state: ShowNavigationState
   ) => {
-    // Preventing default prevents the link's href from being triggered
     e.preventDefault();
 
-    dispatch(setIsLoadingShowDetails(true));
+    dispatch((innerDispatch, getState) => {
+      if (!getState().tv.showDetails[state.showId]) {
+        innerDispatch(setIsLoadingShowDetails(true));
+      }
+    });
     navigate(`${ROUTES.SHOW}/${state.showId}`, { state });
   };
 

@@ -14,6 +14,7 @@ import {
 } from '~/store/tv/actions';
 import { selectCurrentShowInfo } from '~/store/tv/selectors';
 import { parseShowId } from '~/utils/parseShowId';
+import { afterViewTransition } from '~/utils/viewTransition';
 
 import { ShowContainer } from './ShowContainer';
 import { SimilarShows } from './SimilarShows';
@@ -50,7 +51,18 @@ export const ShowPage = () => {
       navigate(ROUTES.HOME);
       return;
     }
-    dispatch(getShowDetailsWithSeasons(parsedId));
+
+    const loadDetails = () => {
+      dispatch(getShowDetailsWithSeasons(parsedId));
+    };
+
+    dispatch((_, getState) => {
+      if (getState().tv.showDetails[parsedId]) {
+        afterViewTransition(loadDetails);
+        return;
+      }
+      loadDetails();
+    });
   }, [dispatch, showId, navigate]);
 
   useEffect(() => {

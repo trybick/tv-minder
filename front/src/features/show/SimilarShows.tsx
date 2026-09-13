@@ -3,12 +3,14 @@ import { useEffect } from 'react';
 
 import { Carousel } from '~/components/Carousel';
 import { type ShowItem } from '~/components/ShowCard';
+import { useSkeletonDelay } from '~/hooks/useSkeletonDelay';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { getRecommendationsForSingleShow } from '~/store/tv/actions';
 import {
   selectCurrentShowInfo,
   selectCurrentSimilarShowItems,
 } from '~/store/tv/selectors';
+import { afterViewTransition } from '~/utils/viewTransition';
 
 import { SimilarShowCard } from './SimilarShowCard';
 
@@ -21,15 +23,19 @@ export const SimilarShows = () => {
   const showItems = useAppSelector(selectCurrentSimilarShowItems);
 
   const showId = showInfo?.id;
+  const shouldShowSkeleton = useSkeletonDelay(!!showId && !showItems);
 
   useEffect(() => {
-    if (showId) {
-      dispatch(getRecommendationsForSingleShow(showId));
+    if (!showId) {
+      return;
     }
+    afterViewTransition(() => {
+      dispatch(getRecommendationsForSingleShow(showId));
+    });
   }, [dispatch, showId]);
 
   if (!showItems) {
-    if (!showId) {
+    if (!shouldShowSkeleton) {
       return null;
     }
     return (
