@@ -1,7 +1,14 @@
 import ReactGA from 'react-ga4';
-import type { UaEventOptions } from 'react-ga4/types/ga4';
 
 import { getIsProduction } from '~/utils/env';
+
+type EventOptions = {
+  action: string;
+  category: string;
+  label?: string;
+  value?: number;
+  nonInteraction?: boolean;
+};
 
 export const initAnalytics = (id: string) => {
   if (getIsProduction()) {
@@ -15,7 +22,7 @@ export const trackPageview = (path: string) => {
   }
 };
 
-export const trackEvent = (options: UaEventOptions) => {
+export const trackEvent = (options: EventOptions) => {
   if (getIsProduction()) {
     ReactGA.event(options);
   }

@@ -15,7 +15,7 @@ import { type DiscoverFilters } from '~/store/tv/types/transformed';
 import { dayjs } from '~/utils/dayjs';
 
 const api = ky.create({
-  prefixUrl: ENDPOINTS.THE_MOVIE_DB,
+  prefix: ENDPOINTS.THE_MOVIE_DB,
   searchParams: { api_key: import.meta.env.VITE_THE_MOVIE_DB_KEY },
 });
 

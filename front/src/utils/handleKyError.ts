@@ -23,22 +23,12 @@ export function handleKyError(error: unknown) {
     const { status } = error.response;
     const url = error.request.url;
     const shouldReportToSentry = status >= 500 || status === 429;
+    const responseBody = error.data;
 
-    error.response
-      .clone()
-      .json()
-      .then(responseBody => {
-        console.error('HTTP error:', status, url, responseBody);
-        if (shouldReportToSentry) {
-          sendToSentry(error, { status, url, responseBody });
-        }
-      })
-      .catch(() => {
-        console.error('HTTP error:', status, url);
-        if (shouldReportToSentry) {
-          sendToSentry(error, { status, url });
-        }
-      });
+    console.error('HTTP error:', status, url, responseBody);
+    if (shouldReportToSentry) {
+      sendToSentry(error, { status, url, responseBody });
+    }
   } else if (error instanceof Error) {
     if (error.name === 'AbortError' || error.name === 'TimeoutError') {
       return;
