@@ -1,16 +1,15 @@
-import nodemailer from 'nodemailer';
+import { MailtrapClient } from 'mailtrap';
 import env from 'config/env';
 import logger from 'utils/logger';
 
+const sender = {
+  email: 'hello@tv-minder.com',
+  name: 'TV Minder',
+};
+
 export const createEmailClient = () => {
-  return nodemailer.createTransport({
-    host: 'live.smtp.mailtrap.io',
-    port: 587,
-    secure: false,
-    auth: {
-      user: 'smtp@mailtrap.io',
-      pass: env.MAILTRAP_PASSWORD,
-    },
+  return new MailtrapClient({
+    token: env.MAILTRAP_PASSWORD,
   });
 };
 
@@ -25,22 +24,16 @@ export const sendEmail = async ({
 }): Promise<void> => {
   const client = createEmailClient();
 
-  const emailData = {
-    from: 'admin@tv-minder.com',
-    to,
-    subject,
-    text,
-  };
-
-  return new Promise((resolve, reject) => {
-    client.sendMail(emailData, (error, info) => {
-      if (error) {
-        logger.error('Nodemailer error:', error);
-        reject(new Error('Failed to send email'));
-      } else {
-        logger.success('Email sent:', info.response);
-        resolve();
-      }
+  try {
+    const info = await client.send({
+      from: sender,
+      to: [{ email: to }],
+      subject,
+      text,
     });
-  });
+    logger.success('Email sent:', info);
+  } catch (error) {
+    logger.error('Mailtrap error:', error);
+    throw new Error('Failed to send email');
+  }
 };
