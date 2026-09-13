@@ -4,6 +4,7 @@ import {
   setIsSignUpModalOpen,
 } from '~/store/rtk/slices/modals.slice';
 import { setIsLoggedIn } from '~/store/rtk/slices/user.slice';
+import { releasePasswordManagerBeforeClose } from '~/utils/passwordManagerIgnore';
 
 import { baseApi } from './baseApi';
 
@@ -61,6 +62,7 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
+          await releasePasswordManagerBeforeClose();
           dispatch(setIsLoginModalOpen(false));
           dispatch(setIsSignUpModalOpen(false));
           dispatch(

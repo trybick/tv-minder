@@ -17,6 +17,7 @@ import { selectUnregisteredTrackedShows } from '~/store/rtk/slices/user.slice';
 import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
+import { releasePasswordManager } from '~/utils/passwordManagerIgnore';
 import { isFetchError } from '~/utils/isFetchError';
 
 import { GoogleLoginButton } from './GoogleLoginButton';
@@ -110,6 +111,7 @@ export const SignUpModal = () => {
   });
 
   const handleClickSwitchToLogin = () => {
+    releasePasswordManager();
     dispatch(setIsSignUpModalOpen(false));
     dispatch(setIsLoginModalOpen(true));
   };
@@ -117,12 +119,19 @@ export const SignUpModal = () => {
   return (
     <Dialog.Root
       open={isOpen}
-      onOpenChange={e => dispatch(setIsSignUpModalOpen(e.open))}
+      onOpenChange={e => {
+        if (!e.open) {
+          releasePasswordManager();
+        }
+        dispatch(setIsSignUpModalOpen(e.open));
+      }}
       lazyMount
       unmountOnExit
     >
-      <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
-      <Dialog.Positioner>
+      {isOpen ? (
+        <>
+          <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
+          <Dialog.Positioner>
         <AuthDialogContent
           title="Create your account"
           description="Never miss an episode of the shows you love."
@@ -191,7 +200,9 @@ export const SignUpModal = () => {
             </Dialog.Footer>
           </chakra.form>
         </AuthDialogContent>
-      </Dialog.Positioner>
+          </Dialog.Positioner>
+        </>
+      ) : null}
     </Dialog.Root>
   );
 };

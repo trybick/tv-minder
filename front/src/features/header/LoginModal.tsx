@@ -20,6 +20,7 @@ import {
 import { trackEvent } from '~/utils/analytics';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
+import { releasePasswordManager } from '~/utils/passwordManagerIgnore';
 
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { AuthDialogContent } from './auth/AuthDialogContent';
@@ -226,6 +227,7 @@ export const LoginModal = () => {
   };
 
   const handleClickSwitchToSignUp = () => {
+    releasePasswordManager();
     dispatch(setIsLoginModalOpen(false));
     dispatch(setIsSignUpModalOpen(true));
   };
@@ -238,13 +240,19 @@ export const LoginModal = () => {
   return (
     <Dialog.Root
       open={isOpen}
-      onOpenChange={e => dispatch(setIsLoginModalOpen(e.open))}
+      onOpenChange={e => {
+        if (!e.open) {
+          releasePasswordManager();
+        }
+        dispatch(setIsLoginModalOpen(e.open));
+      }}
       lazyMount
       unmountOnExit
     >
-      <Portal>
-        <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
-        <Dialog.Positioner>
+      {isOpen ? (
+        <Portal>
+          <Dialog.Backdrop pointerEvents={isOpen ? 'auto' : 'none'} />
+          <Dialog.Positioner>
           <AuthDialogContent title={title} description={description}>
             <chakra.form noValidate onSubmit={onSubmit}>
               <Dialog.Body pt="4" pb="6">
@@ -347,8 +355,9 @@ export const LoginModal = () => {
               </Dialog.Footer>
             </chakra.form>
           </AuthDialogContent>
-        </Dialog.Positioner>
-      </Portal>
+          </Dialog.Positioner>
+        </Portal>
+      ) : null}
     </Dialog.Root>
   );
 };
