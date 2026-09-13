@@ -26,12 +26,12 @@
     "@types/node": "^24.1.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.0",
-    "express": "^5.1.0",
-    "express-rate-limit": "^8.0.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
     "jsonwebtoken": "^9.0.2",
     "mailtrap": "^4.10.0",
     "module-alias": "^2.2.3",
-    "mongoose": "^9.0.1",
+    "mongoose": "^9.10.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
