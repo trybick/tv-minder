@@ -74,11 +74,6 @@ export const getEpisodesForCalendarAction =
         type: SET_CURRENT_CALENDAR_EPISODES,
         payload: { episodes: fetchedEpisodeData, showIdsKey },
       });
-
-      const currentShowIdsKey = selectTrackedShows(getState()).join(',');
-      if (currentShowIdsKey !== showIdsKey) {
-        dispatch(getEpisodesForCalendarAction());
-      }
     } catch (error) {
       handleKyError(error);
       dispatch({ type: SET_IS_LOADING_CALENDAR_EPISODES, payload: false });
