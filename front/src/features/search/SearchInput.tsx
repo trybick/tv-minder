@@ -1,8 +1,14 @@
 import { Flex, IconButton, Input, InputGroup } from '@chakra-ui/react';
-import { type ChangeEvent, type RefObject, useEffect } from 'react';
+import {
+  type ChangeEvent,
+  type FormEvent,
+  type RefObject,
+  useEffect,
+} from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
 import { useResponsiveLayout } from '~/hooks/useResponsiveLayout';
+import { passwordManagerIgnoreProps } from '~/utils/passwordManagerIgnore';
 
 type Props = {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -37,8 +43,15 @@ export const SearchInput = ({
     };
   }, [handleClearInput]);
 
+  const handleSubmit = (event: FormEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <Flex
+      as="form"
+      role="search"
+      onSubmit={handleSubmit}
       direction="column"
       justify="center"
       mt={4}
@@ -73,6 +86,10 @@ export const SearchInput = ({
         }
       >
         <Input
+          type="search"
+          name="show-search"
+          aria-label="Search for TV shows"
+          {...passwordManagerIgnoreProps}
           borderColor="whiteAlpha.200"
           borderRadius="xl"
           fontSize="17px"
@@ -82,6 +99,11 @@ export const SearchInput = ({
           ref={inputRef}
           value={inputValue}
           variant="outline"
+          css={{
+            '&::-webkit-search-cancel-button, &::-webkit-search-decoration': {
+              WebkitAppearance: 'none',
+            },
+          }}
           bg="whiteAlpha.50"
           shadow="sm"
           transitionProperty="border-color, background, box-shadow"

@@ -18,6 +18,7 @@ import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import { type DiscoverFilters } from '~/store/tv/types/transformed';
 import { trackEvent } from '~/utils/analytics';
 import { dayjs } from '~/utils/dayjs';
+import { passwordManagerIgnoreProps } from '~/utils/passwordManagerIgnore';
 
 const TV_GENRES = [
   { id: 10759, name: 'Action & Adventure' },
@@ -185,6 +186,7 @@ export const SearchFilters = ({
                   </Text>
                   <NativeSelect.Root size="sm" variant="outline">
                     <NativeSelect.Field
+                      {...passwordManagerIgnoreProps}
                       value={sortBy}
                       onChange={e => {
                         setValue('sortBy', e.currentTarget.value, {
@@ -295,6 +297,7 @@ export const SearchFilters = ({
                   <HStack gap="3">
                     <NativeSelect.Root size="sm" flex="1">
                       <NativeSelect.Field
+                        {...passwordManagerIgnoreProps}
                         value={
                           firstAirDateGte ? firstAirDateGte.slice(0, 4) : ''
                         }
@@ -324,6 +327,7 @@ export const SearchFilters = ({
 
                     <NativeSelect.Root size="sm" flex="1">
                       <NativeSelect.Field
+                        {...passwordManagerIgnoreProps}
                         value={
                           firstAirDateLte ? firstAirDateLte.slice(0, 4) : ''
                         }

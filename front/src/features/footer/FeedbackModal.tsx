@@ -24,6 +24,7 @@ import {
 import { selectEmail } from '~/store/rtk/slices/user.slice';
 import { emailRegex } from '~/utils/constants';
 import { handleRtkQueryError } from '~/utils/handleRtkQueryError';
+import { passwordManagerIgnoreProps } from '~/utils/passwordManagerIgnore';
 
 type FormValues = {
   feedback: string;
@@ -156,6 +157,7 @@ export const FeedbackModal = () => {
                 <Field.Label>{"What's on your mind?"}</Field.Label>
                 <Textarea
                   {...feedbackInputStyles}
+                  {...passwordManagerIgnoreProps}
                   h="150px"
                   resize="none"
                   placeholder="Tell us what you think..."
@@ -171,8 +173,8 @@ export const FeedbackModal = () => {
                 <Field.Label>Your email (optional)</Field.Label>
                 <Input
                   {...feedbackInputStyles}
+                  {...passwordManagerIgnoreProps}
                   type="email"
-                  autoComplete="email"
                   placeholder="you@example.com"
                   {...register('email', {
                     validate: validateEmail,

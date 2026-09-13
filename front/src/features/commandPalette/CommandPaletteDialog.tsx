@@ -13,6 +13,7 @@ import { selectTrackedShows } from '~/store/rtk/slices/user.selectors';
 import { selectTrackedShowsDetails } from '~/store/tv/selectors';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
 import { trackEvent } from '~/utils/analytics';
+import { passwordManagerIgnoreProps } from '~/utils/passwordManagerIgnore';
 
 import './commandPalette.css';
 import { fetchResults, filterOutTrackedShows } from './searchHelpers';
@@ -163,6 +164,8 @@ export const CommandPaletteDialog = ({ isOpen, setIsOpen }: Props) => {
       <Box className="cmdk-wrapper">
         <Flex className="cmdk-input-wrapper">
           <Command.Input
+            type="search"
+            {...passwordManagerIgnoreProps}
             value={searchTerm}
             onValueChange={setSearchTerm}
             placeholder="Search shows, navigate pages..."

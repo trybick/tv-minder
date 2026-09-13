@@ -263,7 +263,7 @@ export const LoginModal = () => {
                     <Field.Label>Email</Field.Label>
                     <AuthInput
                       type="email"
-                      autoComplete="email"
+                      autoComplete={isLoginMode ? 'username' : 'email'}
                       placeholder="you@example.com"
                       disabled={isEmailLocked}
                       {...register('email', { ...formValidation.email })}

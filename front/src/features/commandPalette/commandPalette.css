@@ -57,6 +57,11 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+.cmdk-input[type='search']::-webkit-search-cancel-button,
+.cmdk-input[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
 .cmdk-close-button {
   display: flex;
   align-items: center;
