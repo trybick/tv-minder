@@ -7,7 +7,6 @@ import {
   selectShouldResetSearchInput,
   setShouldResetSearchInput,
 } from '~/store/rtk/slices/searchInput.slice';
-import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 import { getShowDetailsForSearchResults } from '~/store/tv/actions';
 import { searchShowsByQuery } from '~/store/tv/services/searchShowsByQuery';
 import { type TmdbShowSummary } from '~/store/tv/types/tmdbSchema';
@@ -25,7 +24,6 @@ import { countActiveFilters } from './helpers';
 export const SearchPage = () => {
   const dispatch = useAppDispatch();
   const shouldResetSearchInput = useAppSelector(selectShouldResetSearchInput);
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
@@ -40,8 +38,7 @@ export const SearchPage = () => {
     ? countActiveFilters(activeFilters)
     : 0;
 
-  const showWelcomeHero =
-    !isLoggedIn && !isInputDirty && activeFilterCount === 0;
+  const showWelcomeHero = !isInputDirty && activeFilterCount === 0;
 
   const executeQuery = async (
     query: string,
