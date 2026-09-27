@@ -11,7 +11,6 @@ import { useCollapsibleHeader } from '~/hooks/useCollapsibleHeader';
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import { HelpPopover } from './HelpPopover';
 import { LoginButton } from './LoginButton';
 import { Logo } from './Logo';
 import { NavigationLinks } from './NavigationLinks';
@@ -42,7 +41,6 @@ export const HeaderMobile = () => {
         <Logo onClose={closeHeader} />
 
         <Flex align="center" gap="0.5">
-          {isLoggedIn && <HelpPopover />}
           <CommandPaletteButton onClick={openPalette} />
 
           <Box

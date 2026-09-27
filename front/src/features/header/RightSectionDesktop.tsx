@@ -7,7 +7,6 @@ import {
 import { useAppSelector } from '~/store';
 import { selectIsLoggedIn } from '~/store/rtk/slices/user.slice';
 
-import { HelpPopover } from './HelpPopover';
 import { LoginButton } from './LoginButton';
 import { SignUpButton } from './SignUpButton';
 import { UserMenu } from './UserMenu';
@@ -18,7 +17,6 @@ export const RightSectionDesktop = () => {
 
   return (
     <Flex alignItems="center" gap="2" justify="flex-end" flex="1">
-      {isLoggedIn && <HelpPopover />}
       <CommandPaletteButton onClick={openPalette} />
 
       {isLoggedIn ? (
