@@ -28,6 +28,7 @@ export const initSentry = () => {
         'NetworkError',
         'Load failed',
         'Network request failed',
+        'Failed to register a ServiceWorker',
       ],
       beforeBreadcrumb(breadcrumb) {
         const url = breadcrumb.data?.url;
