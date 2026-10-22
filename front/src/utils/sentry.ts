@@ -29,6 +29,7 @@ export const initSentry = () => {
         'Load failed',
         'Network request failed',
         'Failed to register a ServiceWorker',
+        '429 Too Many Requests',
       ],
       beforeBreadcrumb(breadcrumb) {
         const url = breadcrumb.data?.url;

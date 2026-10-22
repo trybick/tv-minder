@@ -22,7 +22,7 @@ export function handleKyError(error: unknown) {
   if (error instanceof HTTPError) {
     const { status } = error.response;
     const url = error.request.url;
-    const shouldReportToSentry = status >= 500 || status === 429;
+    const shouldReportToSentry = status >= 500;
     const responseBody = error.data;
 
     console.error('HTTP error:', status, url, responseBody);
